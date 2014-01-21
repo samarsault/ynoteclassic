@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+    <YnoteTheme>
+            <Style Name="Comment" Color="" Font="Regular"/>
+            <Style Name="CommentTag" Color="" Font="Regular"/>
+            <Style Name="String" Color="" Font="Regular"/>
+            <Style Name="Number" Color="" Font="Regular"/>
+            <Style Name="Variable" Color="" Font="Regular"/>
+            <Style Name="Keyword" Color="" Font="Regular"/>
+            <Style Name="Keyword2" Color="" Font="Regular"/>
+            <Style Name="Keyword3" Color="" Font="Regular"/>
+            <Style Name="HtmlEntity" Color="" Font="Regular"/>
+            <Style Name="TagBracket" Color="" Font="Regular"/>
+            <Style Name="TagName" Color="" Font="Regular"/>
+            <Style Name="Types" Color="" Font="Regular"/>
+            <Style Name="Functions" Color="" Font="Regular"/>
+            <Style Name="ClassName" Color="" Font="Regular"/>
+            <Style Name="ClassName2" Color="" Font="Regular"/>
+            <Style Name="Char" Color="" Font="Regular"/>
+            <Style Name="Attribute" Color="" Font="Regular"/>
+            <Style Name="AttributeValue" Color="" Font="Regular"/>
+            <Style Name="CSSProperty" Color="" Font="Regular"/>
+            <Style Name="CSSSelector" Color="" Font="Regular"/>
+            <Style Name="Preprocessor" Color="" Font="Regular"/>
+            <Style Name="Statements" Color="" Font="Regular"/>
+          <!-- Other Environment Configurations -->
+            <Key Name="BackColor" Value=""/>
+            <Key Name="TextColor" Value=""/>
+            <Key Name="LineNumberColor" Value=""/>
+            <Key Name="LineNumberPaddingColor" Value=""/>
+            <Key Name="CaretColor" Value=""/>
+            <Key Name="CurrentLineColor" Value=""/>
+            <Key Name="FoldingIndicationColor" Value=""/>
+            <Key Name="SelectionColor" Value=""/>
+            <Key Name="BookmarkColor" Value=""/>
+            <Key Name="BracketStyle" Value=""/>
+            <Key Name="BracketStyle2" Value=""/>
+    </YnoteTheme>

@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A4735DD6-DA45-4967-84ED-BD7C7E67365A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>YnoteThemeGenerator</RootNamespace>
+    <AssemblyName>YnoteThemeGenerator</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Coloring\ColorBarStyle.cs" />
+    <Compile Include="Coloring\ColorCellBorderStyle.cs" />
+    <Compile Include="Coloring\ColorCollection.cs" />
+    <Compile Include="Coloring\ColorCollectionEventArgs.cs" />
+    <Compile Include="Coloring\ColorCollectionSortOrder.cs" />
+    <Compile Include="Coloring\ColorComparer.cs" />
+    <Compile Include="Coloring\ColorEditingMode.cs" />
+    <Compile Include="Coloring\ColorEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Coloring\ColorEditor.designer.cs">
+      <DependentUpon>ColorEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Coloring\ColorEditorManager.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Coloring\ColorGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Coloring\ColorGridSelectedCellStyle.cs" />
+    <Compile Include="Coloring\ColorHitTestInfo.cs" />
+    <Compile Include="Coloring\ColorPalette.cs" />
+    <Compile Include="Coloring\ColorPalettes.cs" />
+    <Compile Include="Coloring\ColorPickerDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Coloring\ColorPickerDialog.designer.cs">
+      <DependentUpon>ColorPickerDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Coloring\ColorSlider.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Coloring\ColorSliderNubStyle.cs" />
+    <Compile Include="Coloring\ColorSource.cs" />
+    <Compile Include="Coloring\ColorWheel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Coloring\GimpPaletteSerializer.cs" />
+    <Compile Include="Coloring\HslColor.cs" />
+    <Compile Include="Coloring\HsvColor.cs" />
+    <Compile Include="Coloring\HueColorSlider.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Coloring\IColorEditor.cs" />
+    <Compile Include="Coloring\IPaletteSerializer.cs" />
+    <Compile Include="Coloring\JascPaletteSerializer.cs" />
+    <Compile Include="Coloring\LightnessColorSlider.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Coloring\NativeMethods.cs" />
+    <Compile Include="Coloring\PaintNetPaletteSerializer.cs" />
+    <Compile Include="Coloring\PaletteSerializer.cs" />
+    <Compile Include="Coloring\RgbaChannel.cs" />
+    <Compile Include="Coloring\RgbaColorSlider.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Coloring\SaturationColorSlider.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Coloring\ScreenColorPicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="YnoteThemeReader.cs" />
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Coloring\ColorEditor.resx">
+      <DependentUpon>ColorEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Coloring\ColorPickerDialog.resx">
+      <DependentUpon>ColorPickerDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cellbackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eyedropper.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eyedropper.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\palette-load.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\palette-save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CaptionClose.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete_12x12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DownArrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DropDown.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\InsertTabControlHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\leftArrow.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\leftArrowDown.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\leftArrowHover.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LeftDownBlackGlass.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LeftDownKRBBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LeftDownOfficeBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LeftDownOfficeOlive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LeftDownOfficeSilver.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LeftHoverBlackGlass.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LeftHoverKRBBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LeftHoverOfficeBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LeftHoverOfficeOlive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LeftHoverOfficeSilver.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LeftNormalBlackGlass.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LeftNormalKRBBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LeftNormalOfficeBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LeftNormalOfficeOlive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LeftNormalOfficeSilver.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PushpinHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RightArrow.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RightArrowDown.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RightArrowHover.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RightDownBlackGlass.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RightDownKRBBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RightDownOfficeBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RightDownOfficeOlive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RightDownOfficeSilver.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RightHoverBlackGlass.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RightHoverKRBBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RightHoverOfficeBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RightHoverOfficeOlive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RightHoverOfficeSilver.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RightNormalBlackGlass.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RightNormalKRBBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RightNormalOfficeBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RightNormalOfficeOlive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RightNormalOfficeSilver.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TabClose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TabHover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TabPressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UpArrow.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
