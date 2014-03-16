@@ -33,22 +33,18 @@
             treeNode1});
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("General");
             System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("MISC");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("KeyBindings");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Text Editor", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Text Editor", new System.Windows.Forms.TreeNode[] {
             treeNode3,
-            treeNode4,
-            treeNode5});
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("File Extensions");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Files", new System.Windows.Forms.TreeNode[] {
-            treeNode7});
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("General Settings");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Plugin Manager");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Plugins", new System.Windows.Forms.TreeNode[] {
-            treeNode9,
+            treeNode4});
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("File Extensions");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Files", new System.Windows.Forms.TreeNode[] {
+            treeNode6});
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("General Settings");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Plugins", new System.Windows.Forms.TreeNode[] {
+            treeNode8});
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Manage");
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Data", new System.Windows.Forms.TreeNode[] {
             treeNode10});
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Manage");
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Data", new System.Windows.Forms.TreeNode[] {
-            treeNode12});
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -101,11 +97,9 @@
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.keybindingstab = new System.Windows.Forms.TabPage();
-            this.label7 = new System.Windows.Forms.Label();
-            this.linkLabel4 = new System.Windows.Forms.LinkLabel();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
+            this.tabsize = new System.Windows.Forms.NumericUpDown();
             this.tabcontrol.SuspendLayout();
             this.tabsettingpage.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -120,7 +114,7 @@
             this.Plugins.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.keybindingstab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tabsize)).BeginInit();
             this.SuspendLayout();
             // 
             // treeView1
@@ -128,7 +122,7 @@
             this.treeView1.BackColor = System.Drawing.SystemColors.Window;
             this.treeView1.FullRowSelect = true;
             this.treeView1.Indent = 27;
-            this.treeView1.Location = new System.Drawing.Point(5, 31);
+            this.treeView1.Location = new System.Drawing.Point(9, 36);
             this.treeView1.Name = "treeView1";
             treeNode1.Name = "TabsNode";
             treeNode1.Text = "Tabs";
@@ -138,33 +132,29 @@
             treeNode3.Text = "General";
             treeNode4.Name = "TextEditorEditing";
             treeNode4.Text = "MISC";
-            treeNode5.Name = "Node1";
-            treeNode5.Text = "KeyBindings";
-            treeNode6.Name = "TextEditorNode";
-            treeNode6.Text = "Text Editor";
-            treeNode7.Name = "FileExtensionsNode";
-            treeNode7.Text = "File Extensions";
-            treeNode8.Name = "Node21";
-            treeNode8.Text = "Files";
-            treeNode9.Name = "General";
-            treeNode9.Text = "General Settings";
-            treeNode10.Name = "PluginManagerNode";
-            treeNode10.Text = "Plugin Manager";
-            treeNode11.Name = "Node30";
-            treeNode11.Text = "Plugins";
-            treeNode12.Checked = true;
-            treeNode12.Name = "ClearDataNode";
-            treeNode12.Text = "Manage";
-            treeNode13.Name = "DataNode";
-            treeNode13.Text = "Data";
+            treeNode5.Name = "TextEditorNode";
+            treeNode5.Text = "Text Editor";
+            treeNode6.Name = "FileExtensionsNode";
+            treeNode6.Text = "File Extensions";
+            treeNode7.Name = "Node21";
+            treeNode7.Text = "Files";
+            treeNode8.Name = "General";
+            treeNode8.Text = "General Settings";
+            treeNode9.Name = "Node30";
+            treeNode9.Text = "Plugins";
+            treeNode10.Checked = true;
+            treeNode10.Name = "ClearDataNode";
+            treeNode10.Text = "Manage";
+            treeNode11.Name = "DataNode";
+            treeNode11.Text = "Data";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode2,
-            treeNode6,
-            treeNode8,
-            treeNode11,
-            treeNode13});
+            treeNode5,
+            treeNode7,
+            treeNode9,
+            treeNode11});
             this.treeView1.ShowLines = false;
-            this.treeView1.Size = new System.Drawing.Size(169, 318);
+            this.treeView1.Size = new System.Drawing.Size(169, 313);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
@@ -193,9 +183,9 @@
             this.label1.BackColor = System.Drawing.Color.DodgerBlue;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold);
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(1, 4);
+            this.label1.Location = new System.Drawing.Point(5, 4);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(173, 23);
+            this.label1.Size = new System.Drawing.Size(173, 29);
             this.label1.TabIndex = 4;
             this.label1.Text = "      Options";
             // 
@@ -207,12 +197,11 @@
             this.tabcontrol.Controls.Add(this.FileExtensionsPage);
             this.tabcontrol.Controls.Add(this.ClearPage);
             this.tabcontrol.Controls.Add(this.Plugins);
-            this.tabcontrol.Controls.Add(this.keybindingstab);
             this.tabcontrol.Location = new System.Drawing.Point(180, 4);
             this.tabcontrol.Multiline = true;
             this.tabcontrol.Name = "tabcontrol";
             this.tabcontrol.SelectedIndex = 0;
-            this.tabcontrol.Size = new System.Drawing.Size(448, 345);
+            this.tabcontrol.Size = new System.Drawing.Size(455, 345);
             this.tabcontrol.TabIndex = 1;
             // 
             // tabsettingpage
@@ -222,7 +211,7 @@
             this.tabsettingpage.Location = new System.Drawing.Point(4, 22);
             this.tabsettingpage.Name = "tabsettingpage";
             this.tabsettingpage.Padding = new System.Windows.Forms.Padding(3);
-            this.tabsettingpage.Size = new System.Drawing.Size(440, 319);
+            this.tabsettingpage.Size = new System.Drawing.Size(447, 319);
             this.tabsettingpage.TabIndex = 0;
             this.tabsettingpage.Text = "Tabs";
             // 
@@ -290,7 +279,7 @@
             this.GeneralPage.Location = new System.Drawing.Point(4, 22);
             this.GeneralPage.Name = "GeneralPage";
             this.GeneralPage.Padding = new System.Windows.Forms.Padding(3);
-            this.GeneralPage.Size = new System.Drawing.Size(440, 319);
+            this.GeneralPage.Size = new System.Drawing.Size(447, 319);
             this.GeneralPage.TabIndex = 2;
             this.GeneralPage.Text = "General";
             // 
@@ -459,21 +448,23 @@
             this.EditingPage.Location = new System.Drawing.Point(4, 22);
             this.EditingPage.Name = "EditingPage";
             this.EditingPage.Padding = new System.Windows.Forms.Padding(3);
-            this.EditingPage.Size = new System.Drawing.Size(440, 319);
+            this.EditingPage.Size = new System.Drawing.Size(447, 319);
             this.EditingPage.TabIndex = 3;
             this.EditingPage.Text = "Editing";
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.tabsize);
+            this.groupBox10.Controls.Add(this.label8);
             this.groupBox10.Controls.Add(this.label3);
             this.groupBox10.Controls.Add(this.tblineinterval);
             this.groupBox10.Controls.Add(this.tbpaddingwidth);
             this.groupBox10.Controls.Add(this.label17);
             this.groupBox10.Controls.Add(this.label14);
             this.groupBox10.Controls.Add(this.label16);
-            this.groupBox10.Location = new System.Drawing.Point(113, 67);
+            this.groupBox10.Location = new System.Drawing.Point(18, 22);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(209, 146);
+            this.groupBox10.Size = new System.Drawing.Size(398, 148);
             this.groupBox10.TabIndex = 10;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "General";
@@ -481,7 +472,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(139, 37);
+            this.label3.Location = new System.Drawing.Point(157, 45);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(33, 13);
             this.label3.TabIndex = 3;
@@ -490,7 +481,7 @@
             // tblineinterval
             // 
             this.tblineinterval.AllowSpace = false;
-            this.tblineinterval.Location = new System.Drawing.Point(66, 63);
+            this.tblineinterval.Location = new System.Drawing.Point(84, 75);
             this.tblineinterval.Name = "tblineinterval";
             this.tblineinterval.Size = new System.Drawing.Size(65, 20);
             this.tblineinterval.TabIndex = 2;
@@ -498,7 +489,7 @@
             // tbpaddingwidth
             // 
             this.tbpaddingwidth.AllowSpace = false;
-            this.tbpaddingwidth.Location = new System.Drawing.Point(95, 34);
+            this.tbpaddingwidth.Location = new System.Drawing.Point(113, 42);
             this.tbpaddingwidth.Name = "tbpaddingwidth";
             this.tbpaddingwidth.Size = new System.Drawing.Size(38, 20);
             this.tbpaddingwidth.TabIndex = 1;
@@ -506,7 +497,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(137, 66);
+            this.label17.Location = new System.Drawing.Point(155, 78);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(33, 13);
             this.label17.TabIndex = 2;
@@ -515,7 +506,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(9, 37);
+            this.label14.Location = new System.Drawing.Point(27, 45);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(86, 13);
             this.label14.TabIndex = 0;
@@ -524,7 +515,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(9, 70);
+            this.label16.Location = new System.Drawing.Point(27, 78);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(51, 13);
             this.label16.TabIndex = 0;
@@ -537,7 +528,7 @@
             this.FileExtensionsPage.Location = new System.Drawing.Point(4, 22);
             this.FileExtensionsPage.Name = "FileExtensionsPage";
             this.FileExtensionsPage.Padding = new System.Windows.Forms.Padding(3);
-            this.FileExtensionsPage.Size = new System.Drawing.Size(440, 319);
+            this.FileExtensionsPage.Size = new System.Drawing.Size(447, 319);
             this.FileExtensionsPage.TabIndex = 5;
             this.FileExtensionsPage.Text = "File Extensions";
             // 
@@ -606,7 +597,7 @@
             this.ClearPage.Location = new System.Drawing.Point(4, 22);
             this.ClearPage.Name = "ClearPage";
             this.ClearPage.Padding = new System.Windows.Forms.Padding(3);
-            this.ClearPage.Size = new System.Drawing.Size(440, 319);
+            this.ClearPage.Size = new System.Drawing.Size(447, 319);
             this.ClearPage.TabIndex = 7;
             this.ClearPage.Text = "Clear Data";
             // 
@@ -659,7 +650,7 @@
             this.Plugins.Location = new System.Drawing.Point(4, 22);
             this.Plugins.Name = "Plugins";
             this.Plugins.Padding = new System.Windows.Forms.Padding(3);
-            this.Plugins.Size = new System.Drawing.Size(440, 319);
+            this.Plugins.Size = new System.Drawing.Size(447, 319);
             this.Plugins.TabIndex = 8;
             this.Plugins.Text = "Plugins";
             // 
@@ -727,59 +718,30 @@
             this.checkBox5.Text = "Enable Plugin Loading";
             this.checkBox5.UseVisualStyleBackColor = true;
             // 
-            // keybindingstab
+            // panel1
             // 
-            this.keybindingstab.BackColor = System.Drawing.SystemColors.Control;
-            this.keybindingstab.Controls.Add(this.label7);
-            this.keybindingstab.Controls.Add(this.linkLabel4);
-            this.keybindingstab.Controls.Add(this.comboBox3);
-            this.keybindingstab.Controls.Add(this.label6);
-            this.keybindingstab.Location = new System.Drawing.Point(4, 22);
-            this.keybindingstab.Name = "keybindingstab";
-            this.keybindingstab.Padding = new System.Windows.Forms.Padding(3);
-            this.keybindingstab.Size = new System.Drawing.Size(440, 319);
-            this.keybindingstab.TabIndex = 9;
-            this.keybindingstab.Text = "keybindings";
+            this.panel1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel1.Location = new System.Drawing.Point(-2, 351);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(637, 36);
+            this.panel1.TabIndex = 5;
             // 
-            // label7
+            // label8
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(188, 117);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(23, 13);
-            this.label7.TabIndex = 3;
-            this.label7.Text = "OR";
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(231, 40);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(58, 13);
+            this.label8.TabIndex = 4;
+            this.label8.Text = "Tab Size : ";
             // 
-            // linkLabel4
+            // tabsize
             // 
-            this.linkLabel4.AutoSize = true;
-            this.linkLabel4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabel4.Location = new System.Drawing.Point(144, 159);
-            this.linkLabel4.Name = "linkLabel4";
-            this.linkLabel4.Size = new System.Drawing.Size(128, 17);
-            this.linkLabel4.TabIndex = 2;
-            this.linkLabel4.TabStop = true;
-            this.linkLabel4.Text = "Import Keymap File";
-            this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel4_LinkClicked);
-            // 
-            // comboBox3
-            // 
-            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(165, 73);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(217, 21);
-            this.comboBox3.TabIndex = 1;
-            this.comboBox3.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(50, 76);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(109, 13);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Switch KeyBindings : ";
+            this.tabsize.Location = new System.Drawing.Point(295, 38);
+            this.tabsize.Name = "tabsize";
+            this.tabsize.Size = new System.Drawing.Size(43, 20);
+            this.tabsize.TabIndex = 5;
+            this.tabsize.ValueChanged += new System.EventHandler(this.tabsize_ValueChanged);
             // 
             // Options
             // 
@@ -791,6 +753,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.tabcontrol);
             this.Controls.Add(this.treeView1);
+            this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Options";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -814,8 +777,7 @@
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.keybindingstab.ResumeLayout(false);
-            this.keybindingstab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tabsize)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -874,10 +836,8 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.CheckBox checkBox5;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TabPage keybindingstab;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.LinkLabel linkLabel4;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.NumericUpDown tabsize;
+        private System.Windows.Forms.Label label8;
     }
 }

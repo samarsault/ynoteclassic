@@ -1,31 +1,33 @@
-﻿using System;
+#region
+
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Snippets;
 using WeifenLuo.WinFormsUI.Docking;
+
+#endregion
 
 namespace SS.Ynote.Classic.UI
 {
     public partial class Editor : DockContent
     {
         /// <summary>
-        ///     Private _hyperlink
+        ///     Syntax Highligher
         /// </summary>
-        private readonly Style _hyperlink;
+        private readonly ISyntaxHighlighter Highlighter;
 
         /// <summary>
         ///     private var _invisiblecharstyle
         /// </summary>
-        private readonly Style _invisibleCharsStyle = new InvisibleCharsRenderer(Pens.Gray);
-
-        /// <summary>
-        ///     Syntax Highligher
-        /// </summary>
-        public ISyntaxHighlighter Highlighter;
+        private readonly Style _invisibleCharsStyle;
 
         /// <summary>
         ///     Default Constructor
@@ -35,15 +37,13 @@ namespace SS.Ynote.Classic.UI
             InitializeComponent();
             InitEvents();
             Highlighter = new SyntaxHighlighter();
+            _invisibleCharsStyle = new InvisibleCharsRenderer(Pens.Gray);
             YnoteThemeReader.ApplyTheme(SettingsBase.ThemeFile, Highlighter, codebox);
             InitSettings();
-            _hyperlink = new TextStyle(Brushes.Blue, null, FontStyle.Underline);
         }
 
-        private void BuildAutoComplete()
-        {
-            throw new NotImplementedException();
-        }
+        public AutocompleteMenu AutoCompleteMenu { get; private set; }
+
         /// <summary>
         ///     Get the TB
         /// </summary>
@@ -68,20 +68,31 @@ namespace SS.Ynote.Classic.UI
             codebox.LineInterval = SettingsBase.LineInterval;
             codebox.LeftPadding = SettingsBase.PaddingWidth;
             codebox.Zoom = SettingsBase.Zoom;
-            documentMap1.Enabled = SettingsBase.ShowDocumentMap;
-            documentMap1.Visible = SettingsBase.ShowDocumentMap;
+            codebox.HotkeysMapping = HotkeysMapping.Parse(File.ReadAllText(SettingsBase.SettingsDir + "User.ynotekeys"));
             if (!SettingsBase.ShowDocumentMap) return;
-            documentMap1.Target = codebox;
-            documentMap1.BackColor = codebox.BackColor;
-            documentMap1.ForeColor = codebox.SelectionColor;
+            var map = new DocumentMap
+            {
+                Dock = DockStyle.Right,
+                BackColor = codebox.BackColor,
+                ForeColor = codebox.SelectionColor,
+                Location = new Point(144, 0),
+                Name = "dM1",
+                ScrollbarVisible = false,
+                Size = new Size(140, 262),
+                TabIndex = 2,
+                Visible = true,
+                Target = codebox
+            };
+            Controls.Add(map);
         }
+
         /// <summary>
         ///     Changes Language
         /// </summary>
         /// <param name="lang"></param>
         public void ChangeLang(Language lang)
         {
-            Highlighter.HighlightSyntax(lang, codebox.Range);
+            Highlighter.HighlightSyntax(lang, new TextChangedEventArgs(codebox.Range));
             codebox.Language = lang;
         }
 
@@ -91,6 +102,47 @@ namespace SS.Ynote.Classic.UI
         private void InitEvents()
         {
             codebox.TextChangedDelayed += codebox_TextChangedDelayed;
+            codebox.DragDrop += codebox_DragDrop;
+            codebox.DragEnter += codebox_DragEnter;
+            codebox.LanguageChanged += (sender, args) => BuildAutoCompleteMenu();
+        }
+        private void BuildAutoCompleteMenu()
+        {
+            if(AutoCompleteMenu == null)
+                AutoCompleteMenu = new AutocompleteMenu(codebox) {AppearInterval = 50, AllowTabKey = true};
+            ICollection<AutocompleteItem> items =
+                YnoteSnippet.Read(codebox.Language)
+                    .Select(snippet => snippet.ToAutoCompleteItem())
+                    .Cast<AutocompleteItem>()
+                    .ToList();
+            //  foreach(var snippet in YnoteSnippet.Read(codebox.Language))
+            //      items.Add(snippet.ToAutoCompleteItem());
+            AutoCompleteMenu.Items.SetAutocompleteItems(items);
+        }
+
+        private void codebox_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+            else
+                e.Effect = DragDropEffects.None;
+        }
+
+        private void codebox_DragDrop(object sender, DragEventArgs e)
+        {
+            var fileList = (string[]) e.Data.GetData(DataFormats.FileDrop, false);
+            foreach (string file in fileList)
+                OpenFile(file);
+        }
+
+        private void OpenFile(string file)
+        {
+            var edit = new Editor {Name = file, Text = Path.GetFileName(file)};
+            edit.tb.Text = File.ReadAllText(file, Encoding.Default);
+            edit.tb.IsChanged = false;
+            edit.tb.ClearUndo();
+            edit.ChangeLang(FileExtensions.GetLanguage(FileExtensions.BuildDictionary(), Path.GetExtension(file)));
+            edit.Show(DockPanel, DockState.Document);
         }
 
         /// <summary>
@@ -99,38 +151,48 @@ namespace SS.Ynote.Classic.UI
         /// <param name="r"></param>
         private void DoFormatting(Range r)
         {
-            r.ClearStyle(_hyperlink);
-            if (SettingsBase.HiddenChars)
-            {
-                r.ClearStyle(_invisibleCharsStyle);
-                r.SetStyle(_invisibleCharsStyle, @".$|.\r\n|\s");
-            }
-            r.SetStyle(_hyperlink,
-                @"((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?)");
+            if (!SettingsBase.HiddenChars) return;
+            r.ClearStyle(_invisibleCharsStyle);
+            r.SetStyle(_invisibleCharsStyle, @".$|.\r\n|\s");
         }
 
         private void codebox_TextChangedDelayed(object sender, TextChangedEventArgs e)
         {
-            Highlighter.HighlightSyntax(codebox.Language, e.ChangedRange);
+            Highlighter.HighlightSyntax(codebox.Language, e);
             DoFormatting(e.ChangedRange);
+            if (codebox.IsChanged && !Text.Contains("*"))
+                Text += "*";
         }
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            if (!codebox.IsChanged) return;
-            var result = MessageBox.Show(string.Format("Save Changes To [{0}] ?", Text), "Save",
-                MessageBoxButtons.YesNoCancel);
-            switch (result)
+            if (codebox.IsChanged)
             {
-                case DialogResult.Yes:
-                    SaveFile();
-                    break;
-                case DialogResult.Cancel:
-                    e.Cancel = true;
-                    break;
-                case DialogResult.No:
-                    base.OnClosing(e);
-                    break;
+                var result = MessageBox.Show(string.Format("Save Changes To [{0}] ?", Text), "Save",
+                    MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                switch (result)
+                {
+                    case DialogResult.Yes:
+                        SaveFile();
+                        base.OnClosing(e);
+                        break;
+                    case DialogResult.Cancel:
+                        e.Cancel = true;
+                        break;
+                    case DialogResult.No:
+                        base.OnClosing(e);
+                        GC.Collect();
+                        break;
+                }
+            }
+            if (!e.Cancel)
+            {
+#if DEBUG
+                Debug.WriteLine(DockPanel.Documents.Any());
+#endif
+                if (DockPanel.Documents.Count() == 1)
+                    Application.Exit();
+                DockPanel = null;
             }
         }
 
@@ -184,12 +246,12 @@ namespace SS.Ynote.Classic.UI
 
         private void menuItem13_Click(object sender, EventArgs e)
         {
-            Process.Start(Name);
+            Process.Start(Path.GetDirectoryName(Name));
         }
 
         private void menuItem11_Click(object sender, EventArgs e)
         {
-            DockPanel dockPanel = DockPanel;
+            var dockPanel = DockPanel;
             if (dockPanel.DocumentStyle == DocumentStyle.SystemMdi)
             {
                 Form activeMdi = ActiveMdiChild;
@@ -211,7 +273,7 @@ namespace SS.Ynote.Classic.UI
 
         private void menuItem12_Click(object sender, EventArgs e)
         {
-            foreach (Editor doc in DockPanel.Documents)
+            foreach(Editor doc in DockPanel.Documents.ToList())
                 doc.Close();
         }
 

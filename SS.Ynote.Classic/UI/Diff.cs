@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -9,6 +11,8 @@ using FastColoredTextBoxNS;
 using SS.Ynote.Classic.UI.DiffMergeStuffs;
 using WeifenLuo.WinFormsUI.Docking;
 using Line = SS.Ynote.Classic.UI.DiffMergeStuffs.Line;
+
+#endregion
 
 namespace SS.Ynote.Classic.UI
 {
@@ -92,7 +96,7 @@ namespace SS.Ynote.Classic.UI
             _updating++;
         }
 
-        private void btCompare_Click(object sender, EventArgs e)
+        public void DoCompare()
         {
             fctb1.Clear();
             fctb2.Clear();
@@ -111,6 +115,11 @@ namespace SS.Ynote.Classic.UI
             EndUpdate();
 
             Cursor = Cursors.Default;
+        }
+
+        private void btCompare_Click(object sender, EventArgs e)
+        {
+            DoCompare();
         }
 
         private void Process(IEnumerable<Line> lines)
@@ -160,7 +169,7 @@ namespace SS.Ynote.Classic.UI
                 InitializeCompareFunc();
             }
 
-            public TimeSpan ElapsedTime { get; private set; }
+            private TimeSpan ElapsedTime { get; set; }
             public event EventHandler<DiffEventArgs<T>> LineUpdate;
 
             /// <summary>
@@ -478,6 +487,7 @@ namespace SS.Ynote.Classic.UI
 
                 return lines;
             }
+
             /// <summary>
             ///     Merge lines
             /// </summary>

@@ -84,7 +84,7 @@
             // pb
             // 
             this.pb.BackColor = System.Drawing.Color.Transparent;
-            this.pb.Image = global::SS.Ynote.Classic.Properties.Resources.Whack_Notepad_icon;
+            this.pb.Image = global::SS.Ynote.Classic.Properties.Resources.ynote_favicon.ToBitmap();
             this.pb.Location = new System.Drawing.Point(13, 79);
             this.pb.Name = "pb";
             this.pb.Size = new System.Drawing.Size(118, 121);

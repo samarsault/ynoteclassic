@@ -1,12 +1,18 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.RunScript;
+using WeifenLuo.WinFormsUI.Docking;
 using AutocompleteItem = AutocompleteMenuNS.AutocompleteItem;
 using SnippetAutocompleteItem = AutocompleteMenuNS.SnippetAutocompleteItem;
+
+#endregion
 
 namespace SS.Ynote.Classic.UI
 {
@@ -25,20 +31,18 @@ namespace SS.Ynote.Classic.UI
             LostFocus += (o, a) => Close();
         }
 
+        public ToolStripDropDownButton LangMenu { get; set; }
+
+        /// <summary>
+        ///     Get The Active Editor
+        /// </summary>
         private Editor ActiveEditor { get; set; }
 
         private void BuildAutoComplete()
         {
             var items = new List<AutocompleteItem>();
-            foreach (var lang in Enum.GetValues(typeof (Language)))
-                items.Add(new AutocompleteItem("SetSyntax:" + lang));
-            var ynotesnippet = new YnoteSnippet();
-            string str = string.Empty;
-            ynotesnippet.GenerateSnippetFileDictionary().TryGetValue(ActiveEditor.tb.Language, out str);
-            ynotesnippet.ReadSnippet(str);
-            foreach(var item in ynotesnippet.Items)
-                    items.Add(new AutocompleteItem("Snippet:"+item.Text){Tag = item});
-            items.AddRange(ynotesnippet.Items.Select(snippet => new AutocompleteItem("Snippet:" + snippet.Text) {Tag = snippet.Gen()}));
+            items.AddRange(from object lang in Enum.GetValues(typeof (Language))
+                select new AutocompleteItem("SetSyntax:" + lang));
             items.Add(new AutocompleteItem("File:New"));
             items.Add(new AutocompleteItem("File:Open"));
             items.Add(new AutocompleteItem("File:Save"));
@@ -46,6 +50,12 @@ namespace SS.Ynote.Classic.UI
             items.Add(new AutocompleteItem("File:Properties"));
             items.Add(new AutocompleteItem("File:Close"));
             items.Add(new AutocompleteItem("File:CloseAll"));
+            items.Add(new AutocompleteItem("Navigate:GoLeftBracket()"));
+            items.Add(new AutocompleteItem("Navigate:GoRightBracket()"));
+            items.Add(new AutocompleteItem("Navigate:GoLeftBracket[]"));
+            items.Add(new AutocompleteItem("Navigate:GoRightBracket[]"));
+            items.Add(new AutocompleteItem("Navigate:GoLeftBracket{}"));
+            items.Add(new AutocompleteItem("Navigate:GoRightBracket{}"));
             items.Add(new AutocompleteItem("Bookmarks:Manager"));
             items.Add(new AutocompleteItem("Bookmarks:Toggle"));
             items.Add(new AutocompleteItem("Bookmarks:Remove"));
@@ -68,12 +78,23 @@ namespace SS.Ynote.Classic.UI
             items.Add(new AutocompleteItem("Macros:Record"));
             items.Add(new AutocompleteItem("Macros:StopRecord"));
             items.Add(new AutocompleteItem("Macros:Run"));
+            items.Add(new AutocompleteItem("Macros:Clear"));
+            items.AddRange(
+                Directory.GetFiles(SettingsBase.SettingsDir + "Macros", "*.ymc")
+                    .Select(macro => new AutocompleteItem("Macro:" + Path.GetFileNameWithoutExtension(macro))));
+            items.AddRange(
+                Directory.GetFiles(SettingsBase.SettingsDir + "Scripts", "*.ys")
+                    .Select(script => new AutocompleteItem("Script:" + Path.GetFileNameWithoutExtension(script))));
+            items.AddRange(
+                RunConfiguration.GetConfigurations()
+                    .Select(config => new AutocompleteItem("Run:" + Path.GetFileNameWithoutExtension(config))));
             items.Add(new AutocompleteItem("Selection:Readonly"));
             items.Add(new AutocompleteItem("Selection:Writeable"));
-            items.Add(new AutocompleteItem("Macros:Clear"));
             items.Add(new AutocompleteItem("View:ZoomIn"));
             items.Add(new AutocompleteItem("View:ZoomOut"));
             items.Add(new SnippetAutocompleteItem("ProcStart:^"));
+            items.Add(new SnippetAutocompleteItem("Google:^"));
+            items.Add(new SnippetAutocompleteItem("Wikipedia:^"));
             items.Add(new AutocompleteItem("Console:Close"));
             completemenu.SetAutocompleteMenu(textBox1, completemenu);
             completemenu.SetAutocompleteItems(items);
@@ -112,7 +133,14 @@ namespace SS.Ynote.Classic.UI
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
+            {
                 RunCommand(Parse(textBox1.Text));
+            }
+            if (e.KeyCode == Keys.Escape)
+            {
+                completemenu.Items = null;
+                Close();
+            }
         }
 
         private void RunCommand(SCommand c)
@@ -120,7 +148,8 @@ namespace SS.Ynote.Classic.UI
             switch (c.Key)
             {
                 case "SetSyntax":
-                    SetSyntax(c.Value.ToEnum<Language>());
+                    ActiveEditor.ChangeLang(c.Value.ToEnum<Language>());
+                    if (LangMenu != null) LangMenu.Text = c.Value;
                     break;
                 case "File":
                     FileFunc(c.Value);
@@ -131,8 +160,11 @@ namespace SS.Ynote.Classic.UI
                 case "CodeFolding":
                     CodeFoldingFunc(c.Value);
                     break;
-                case "Snippet":
-                        ActiveEditor.tb.InsertText(c.Value);
+                case "Macro":
+                    RunMacro(c.Value);
+                    break;
+                case "Script":
+                    RunScript(c.Value);
                     break;
                 case "Indent":
                     IndentFunc(c.Value);
@@ -155,14 +187,81 @@ namespace SS.Ynote.Classic.UI
                 case "ProcStart":
                     Process.Start(c.Value);
                     break;
+                case "Google":
+                    Process.Start(string.Format("http://www.google.com/search?q={0}", c.Value));
+                    break;
+                case "Wikipedia":
+                    Process.Start(string.Format("http://wikipedia.org/w/index.php?search={0}", c.Value));
+                    break;
                 case "Selection":
                     SelectionFunc(c.Value);
                     break;
                 case "Console":
                     Close();
                     break;
+                case "Navigate":
+                    NavigateFunc(c.Value);
+                    break;
+                case "Run":
+                    ExecuteRunScript(c.Value);
+                    break;
             }
+            completemenu.Items = null;
             Close();
+        }
+
+        private void NavigateFunc(string val)
+        {
+            switch (val)
+            {
+                case "GoLeftBracket()":
+                    ActiveEditor.tb.GoLeftBracket('(', ')');
+                    break;
+                case "GoRightBracket()":
+                    ActiveEditor.tb.GoRightBracket('(', ')');
+                    break;
+                case "GoLeftBracket[]":
+                    ActiveEditor.tb.GoLeftBracket('[', ']');
+                    break;
+                case "GoRightBracket[]":
+                    ActiveEditor.tb.GoRightBracket('[', ']');
+                    break;
+                case "GoLeftBracket{}":
+                    ActiveEditor.tb.GoLeftBracket('{', '}');
+                    break;
+                case "GoRightBracket{}":
+                    ActiveEditor.tb.GoRightBracket('{', '}');
+                    break;
+            }
+        }
+
+        private void ExecuteRunScript(string value)
+        {
+            var item = RunConfiguration.ToRunConfig(SettingsBase.SettingsDir + "RunScripts" + value + ".run");
+            if (item == null) return;
+            if (ActiveEditor != null) item.ProcessConfiguration(ActiveEditor.Name);
+            var temp = Path.GetTempFileName() + ".bat";
+            File.WriteAllText(temp, item.ToBatch());
+#if DEBUG
+            Debug.WriteLine("$source = " + item.Arguments);
+#endif
+            var console = new Cmd("cmd.exe", "/k " + temp);
+            console.Show(_ynote.Panel, DockState.DockBottom);
+        }
+
+        private void RunMacro(string macro)
+        {
+            ActiveEditor.tb.MacrosManager.ExecuteMacros(string.Format(@"{0}Macros\{1}.ymc", SettingsBase.SettingsDir,
+                macro));
+            //ActiveEditor.tb.MacrosManager.Macros =
+            //    File.ReadAllText(Application.StartupPath + @"\User\Macros\" + macro + ".ymc");
+            //ActiveEditor.tb.MacrosManager.ExecuteMacros();
+        }
+
+        private void RunScript(string script)
+        {
+            //  ScriptingHelper.RunScript(Application.StartupPath + @"\User\Scripts\" + script + ".ys", _ynote);
+            YnoteScript.RunScript(_ynote, SettingsBase.SettingsDir + @"Scripts\" + script + ".ys");
         }
 
         private void SelectionFunc(string val)
@@ -250,9 +349,7 @@ namespace SS.Ynote.Classic.UI
                 string[] lines = fctb.SelectedText.Split(new[] {Environment.NewLine},
                     StringSplitOptions.RemoveEmptyEntries);
                 Array.Reverse(lines);
-                string formedtext = null;
-                foreach (string line in lines)
-                    formedtext += line + "\r\n";
+                string formedtext = lines.Aggregate<string, string>(null, (current, line) => current + (line + "\r\n"));
                 fctb.SelectedText = formedtext;
             }
         }
@@ -291,12 +388,6 @@ namespace SS.Ynote.Classic.UI
                 manager.StartPosition = FormStartPosition.CenterParent;
                 manager.ShowDialog(this);
             }
-        }
-
-        private void SetSyntax(Language Lang)
-        {
-            ActiveEditor.Highlighter.HighlightSyntax(Lang, ActiveEditor.tb.Range);
-            ActiveEditor.tb.Language = Lang;
         }
 
         private void FileFunc(string func)
@@ -339,4 +430,12 @@ namespace SS.Ynote.Classic.UI
         public string Key { get; set; }
         public string Value { get; set; }
     }
+
+    // notImplemented()
+    /* public interface ICommand
+    {
+        string Key { get; }
+        string[] Commands { get; }
+        void ProcessCommand(string val);
+    }*/
 }

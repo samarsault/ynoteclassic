@@ -1,131 +1,135 @@
-﻿using FastColoredTextBoxNS;
+﻿#region Using Directives
+
+using FastColoredTextBoxNS;
+
+#endregion
 
 public interface ISyntaxHighlighter
 {
     /// <summary>
     ///     String style
     /// </summary>
-    Style StringStyle { get; set; }
+    Style StringStyle { set; }
 
     /// <summary>
     ///     Comment style
     /// </summary>
-    Style CommentStyle { get; set; }
+    Style CommentStyle { set; }
 
     /// <summary>
     ///     Number style
     /// </summary>
-    Style NumberStyle { get; set; }
+    Style NumberStyle { set; }
 
     /// <summary>
     ///     C# attribute style
     /// </summary>
-    Style AttributeStyle { get; set; }
+    Style AttributeStyle { set; }
 
     /// <summary>
     ///     Class name style
     /// </summary>
-    Style ClassNameStyle { get; set; }
+    Style ClassNameStyle { set; }
 
     /// <summary>
     ///     Char Style
     /// </summary>
-    Style CharStyle { get; set; }
+    Style CharStyle { set; }
 
     /// <summary>
     ///     Keyword style
     /// </summary>
-    Style KeywordStyle { get; set; }
+    Style KeywordStyle { set; }
 
     /// <summary>
     ///     Style of tags in comments of C#
     /// </summary>
-    Style CommentTagStyle { get; set; }
+    Style CommentTagStyle { set; }
 
     /// <summary>
     ///     HTML attribute value style
     /// </summary>
-    Style AttributeValueStyle { get; set; }
+    Style AttributeValueStyle { set; }
 
     /// <summary>
     ///     HTML tag brackets style
     /// </summary>
-    Style TagBracketStyle { get; set; }
+    Style TagBracketStyle { set; }
 
     /// <summary>
     ///     HTML tag name style
     /// </summary>
-    Style TagNameStyle { get; set; }
+    Style TagNameStyle { set; }
 
     /// <summary>
     ///     HTML Entity style
     /// </summary>
-    Style HtmlEntityStyle { get; set; }
+    Style HtmlEntityStyle { set; }
 
     /// <summary>
     ///     Preprocessor Style
     /// </summary>
-    Style PreprocessorStyle { get; set; }
+    Style PreprocessorStyle { set; }
 
     /// <summary>
     ///     Variable style
     /// </summary>
-    Style VariableStyle { get; set; }
+    Style VariableStyle { set; }
 
     /// <summary>
     ///     Specific PHP keyword style
     /// </summary>
-    Style KeywordStyle2 { get; set; }
+    Style KeywordStyle2 { set; }
 
     /// <summary>
     ///     Specific PHP keyword style
     /// </summary>
-    Style KeywordStyle3 { get; set; }
+    Style KeywordStyle3 { set; }
 
     /// <summary>
     ///     SQL Statements style
     /// </summary>
-    Style StatementsStyle { get; set; }
+    Style StatementsStyle { set; }
 
     /// <summary>
     ///     SQL Functions style
     /// </summary>
-    Style FunctionsStyle { get; set; }
+    Style FunctionsStyle { set; }
 
     /// <summary>
     ///     SQL Types style
     /// </summary>
-    Style TypesStyle { get; set; }
+    Style TypesStyle { set; }
 
     /// <summary>
     ///     CSS Selector Style
     /// </summary>
-    Style CSSSelectorStyle { get; set; }
+    Style CSSSelectorStyle { set; }
 
     /// <summary>
     ///     CSS Property Style
     /// </summary>
-    Style CSSPropertyStyle { get; set; }
+    Style CSSPropertyStyle { set; }
 
     /// <summary>
     ///     CSS Property Value Style
     /// </summary>
-    Style CSSPropertyValueStyle { get; set; }
+    Style CSSPropertyValueStyle { set; }
 
     /// <summary>
     ///     Other Name Style
     /// </summary>
-    Style ClassNameStyle2 { get; set; }
+    Style ClassNameStyle2 { set; }
 
     /// <summary>
     ///     In Bracket Style
     /// </summary>
-    Style InBracketStyle { get; set; }
+    Style InBracketStyle { set; }
 
     /// <summary>
     ///     Highlight Syntax
     /// </summary>
     /// <param name="language"></param>
     /// <param name="range"></param>
-    void HighlightSyntax(Language language, Range range);
+    void HighlightSyntax(Language language, TextChangedEventArgs range);
 }

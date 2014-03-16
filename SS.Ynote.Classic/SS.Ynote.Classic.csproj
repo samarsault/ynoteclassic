@@ -39,6 +39,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -53,62 +54,93 @@
   <PropertyGroup>
     <StartupObject>SS.Ynote.Classic.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\ynote-favicon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="libutils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="CSScriptLibrary.v3.5, Version=3.7.1.0, Culture=neutral, PublicKeyToken=70fcc3d18c749033, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\libutils.dll</HintPath>
+      <HintPath>..\..\..\..\..\Downloads\cs-script\cs-script\Lib\Bin\NET 3.5\CSScriptLibrary.v3.5.dll</HintPath>
+    </Reference>
+    <Reference Include="libutils">
+      <HintPath>..\References\libutils.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition">
-      <HintPath>..\..\..\..\..\Downloads\Compressed\MEF2_Preview1\MEF2_Preview1\bin\net35\System.ComponentModel.Composition.dll</HintPath>
+      <HintPath>..\References\System.ComponentModel.Composition.dll</HintPath>
     </Reference>
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
-    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=3.0.0.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Downloads\Ynote Classic\dockpanelsuite-development_3.0\dockpanelsuite-development_3.0\bin\net20\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    <Reference Include="WeifenLuo.WinFormsUI.Docking">
+      <HintPath>..\References\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\FileProperties.cs" />
-    <Compile Include="Classes\Extensions.cs" />
-    <Compile Include="Classes\InvisibleCharStyle.cs" />
-    <Compile Include="Classes\YnoteSnippet.cs" />
-    <Compile Include="Plugins\DownloadItem.cs" />
-    <Compile Include="Plugins\PluginChannel.cs" />
-    <Compile Include="Plugins\PluginDownloader.cs">
+    <Compile Include="Features\Packages\Downloader.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Plugins\PluginDownloader.Designer.cs">
-      <DependentUpon>PluginDownloader.cs</DependentUpon>
+    <Compile Include="Features\Packages\Downloader.Designer.cs">
+      <DependentUpon>Downloader.cs</DependentUpon>
     </Compile>
-    <Compile Include="Plugins\PluginItem.cs" />
+    <Compile Include="Features\Packages\PluginChannel.cs" />
+    <Compile Include="Features\Packages\PluginInstaller.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Features\Packages\PluginInstaller.Designer.cs">
+      <DependentUpon>PluginInstaller.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Packages\PluginManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Features\Packages\PluginManager.Designer.cs">
+      <DependentUpon>PluginManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Packages\PluginPacker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Features\Packages\PluginPacker.Designer.cs">
+      <DependentUpon>PluginPacker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Packages\YnotePluginData.cs" />
+    <Compile Include="Features\Packages\ZipStorer.cs" />
+    <Compile Include="Features\Snippets\YnoteSnippet.cs" />
+    <Compile Include="Helpers\FileExtensions.cs" />
+    <Compile Include="Helpers\FileProperties.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
+    <Compile Include="Features\RunScript\RunScriptEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Features\RunScript\RunScriptEditor.Designer.cs">
+      <DependentUpon>RunScriptEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Syntax Highlighting\InvisibleCharStyle.cs" />
+    <Compile Include="Features\RunScript\RunConfigs.cs" />
+    <Compile Include="Features\YnoteScript\YnoteScript.cs" />
+    <Compile Include="Features\Packages\YnotePackage.cs" />
     <Compile Include="Interfaces\IProject.cs" />
-    <Compile Include="Plugins\YnotePlugin.cs" />
-    <Compile Include="Project\ProjectPanel.cs">
+    <Compile Include="Features\Project\ProjectPanel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Project\ProjectPanel.Designer.cs">
+    <Compile Include="Features\Project\ProjectPanel.Designer.cs">
       <DependentUpon>ProjectPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Project\ProjectUtils.cs">
+    <Compile Include="Features\Project\Wizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Project\ProjectUtils.Designer.cs">
-      <DependentUpon>ProjectUtils.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Project\Wizard.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Project\Wizard.Designer.cs">
+    <Compile Include="Features\Project\Wizard.Designer.cs">
       <DependentUpon>Wizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Project\YnoteProj.cs" />
-    <Compile Include="Classes\SettingsBase.cs" />
-    <Compile Include="Classes\SyntaxHighlighter.cs" />
-    <Compile Include="Classes\YnoteThemeReader.cs" />
+    <Compile Include="Features\Project\YnoteProj.cs" />
+    <Compile Include="Helpers\SettingsBase.cs" />
+    <Compile Include="Features\Syntax Highlighting\SyntaxHighlighter.cs" />
+    <Compile Include="Features\Syntax Highlighting\YnoteThemeReader.cs" />
     <Compile Include="Interfaces\Plugins.cs" />
     <Compile Include="Interfaces\ISyntaxHighlighter.cs" />
     <Compile Include="Interfaces\IYnote.cs" />
@@ -126,10 +158,10 @@
     <Compile Include="UI\BookmarksInfos.Designer.cs">
       <DependentUpon>BookmarksInfos.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Cmd.cs">
+    <Compile Include="Features\RunScript\Cmd.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Cmd.Designer.cs">
+    <Compile Include="Features\RunScript\Cmd.Designer.cs">
       <DependentUpon>Cmd.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\About.cs">
@@ -147,10 +179,10 @@
     <Compile Include="UI\Controls\GradientForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Controls\IncrementalSearcher.cs">
+    <Compile Include="Features\Search\IncrementalSearcher.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Controls\IncrementalSearcher.designer.cs">
+    <Compile Include="Features\Search\IncrementalSearcher.designer.cs">
       <DependentUpon>IncrementalSearcher.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Controls\NumericTextBox.cs">
@@ -177,10 +209,10 @@
     <Compile Include="UI\Editor.Designer.cs">
       <DependentUpon>Editor.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\FindInFiles.cs">
+    <Compile Include="Features\Search\FindInFiles.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\FindInFiles.designer.cs">
+    <Compile Include="Features\Search\FindInFiles.designer.cs">
       <DependentUpon>FindInFiles.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\UtilDialog.cs">
@@ -195,28 +227,31 @@
     <Compile Include="UI\Options.Designer.cs">
       <DependentUpon>Options.cs</DependentUpon>
     </Compile>
-    <Compile Include="Plugins\PluginManager.cs">
+    <Compile Include="Features\RunScript\RunDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Plugins\PluginManager.designer.cs">
+    <EmbeddedResource Include="Features\Packages\Downloader.resx">
+      <DependentUpon>Downloader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Features\Packages\PluginInstaller.resx">
+      <DependentUpon>PluginInstaller.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Features\Packages\PluginManager.resx">
       <DependentUpon>PluginManager.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\RunDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <EmbeddedResource Include="Plugins\PluginDownloader.resx">
-      <DependentUpon>PluginDownloader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Features\Packages\PluginPacker.resx">
+      <DependentUpon>PluginPacker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Features\RunScript\RunScriptEditor.resx">
+      <DependentUpon>RunScriptEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Project\ProjectPanel.resx">
+    <EmbeddedResource Include="Features\Project\ProjectPanel.resx">
       <DependentUpon>ProjectPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Project\ProjectUtils.resx">
-      <DependentUpon>ProjectUtils.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Project\Wizard.resx">
+    <EmbeddedResource Include="Features\Project\Wizard.resx">
       <DependentUpon>Wizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -232,7 +267,7 @@
     <EmbeddedResource Include="UI\BookmarksInfos.resx">
       <DependentUpon>BookmarksInfos.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Cmd.resx">
+    <EmbeddedResource Include="Features\RunScript\Cmd.resx">
       <DependentUpon>Cmd.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\About.resx">
@@ -241,7 +276,7 @@
     <EmbeddedResource Include="UI\Console.resx">
       <DependentUpon>Console.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Controls\IncrementalSearcher.resx">
+    <EmbeddedResource Include="Features\Search\IncrementalSearcher.resx">
       <DependentUpon>IncrementalSearcher.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SwitchFile.resx">
@@ -253,7 +288,7 @@
     <EmbeddedResource Include="UI\Editor.resx">
       <DependentUpon>Editor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\FindInFiles.resx">
+    <EmbeddedResource Include="Features\Search\FindInFiles.resx">
       <DependentUpon>FindInFiles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\UtilDialog.resx">
@@ -262,10 +297,7 @@
     <EmbeddedResource Include="UI\Options.resx">
       <DependentUpon>Options.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Plugins\PluginManager.resx">
-      <DependentUpon>PluginManager.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\RunDialog.resx">
+    <EmbeddedResource Include="Features\RunScript\RunDialog.resx">
       <DependentUpon>RunDialog.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
@@ -284,15 +316,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ynote.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\Downloads\Ynote Classic\FastColoredTextBox-master\FastColoredTextBox-master\FastColoredTextBox\FastColoredTextBox.csproj">
-      <Project>{6dd14a85-ccfc-4774-bd26-0f5772512319}</Project>
-      <Name>FastColoredTextBox</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
@@ -308,6 +331,21 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FastColoredTextBox-master\FastColoredTextBox\FastColoredTextBox.csproj">
+      <Project>{6dd14a85-ccfc-4774-bd26-0f5772512319}</Project>
+      <Name>FastColoredTextBox</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ynote-favicon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

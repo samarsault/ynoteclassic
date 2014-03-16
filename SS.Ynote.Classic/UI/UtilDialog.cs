@@ -1,13 +1,15 @@
+#region
+
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
+
+#endregion
 
 namespace SS.Ynote.Classic.UI
 {
     /// <summary>
-    /// Insert Type
+    ///     Insert Type
     /// </summary>
     public enum InsertType
     {
@@ -17,27 +19,35 @@ namespace SS.Ynote.Classic.UI
         Splitter,
         Width
     }
+
     /// <summary>
-    /// Utility Dialog
+    ///     Utility Dialog
     /// </summary>
     public partial class UtilDialog : Form
     {
-        readonly FastColoredTextBox fctb;
-        readonly InsertType it;
+        private readonly FastColoredTextBox _fctb;
+        private readonly InsertType _it;
+
         /// <summary>
-        /// Default Construtor
+        ///     Default Construtor
         /// </summary>
         /// <param name="tb"></param>
         /// <param name="t"></param>
         public UtilDialog(FastColoredTextBox tb, InsertType t)
         {
             InitializeComponent();
-            it = t;
-            fctb = tb;
+            _it = t;
+            _fctb = tb;
             Init(t);
         }
 
-        void Init(InsertType t)
+        public int Lines
+        {
+            get { return numericTextBox1.IntValue; }
+            set { numericTextBox1.Text = value.ToString(); }
+        }
+
+        private void Init(InsertType t)
         {
             if (t == InsertType.Line)
             {
@@ -71,7 +81,7 @@ namespace SS.Ynote.Classic.UI
                 label1.Text = "Seperator";
                 button1.Text = "Split";
                 numericTextBox1.Visible = false;
-                numericTextBox1.Text = fctb.PreferredLineWidth.ToString();
+                numericTextBox1.Text = _fctb.PreferredLineWidth.ToString();
                 textBox1.Visible = true;
                 textBox1.Focus();
             }
@@ -85,64 +95,61 @@ namespace SS.Ynote.Classic.UI
                 numericTextBox1.Focus();
             }
         }
-        public int Lines
-        {
-            get { return numericTextBox1.IntValue; }
-            set { numericTextBox1.Text = value.ToString(); }
-        }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            if (it == InsertType.Line)
+            if (_it == InsertType.Line)
             {
                 while (Lines > 0)
                 {
-                    fctb.InsertText(Environment.NewLine);
+                    _fctb.InsertText(Environment.NewLine);
                     Lines--;
                 }
             }
-            else if (it == InsertType.Column)
+            else if (_it == InsertType.Column)
             {
                 while (Lines > 0)
                 {
-                    fctb.InsertText(" ");
+                    _fctb.InsertText(" ");
                     Lines--;
                 }
             }
-            else if (it == InsertType.Macro)
+            else if (_it == InsertType.Macro)
             {
                 while (Lines > 0)
                 {
-                    fctb.MacrosManager.ExecuteMacros();
+                    _fctb.MacrosManager.ExecuteMacros();
                     Lines--;
                 }
             }
-            else if (it == InsertType.Splitter)
+            else if (_it == InsertType.Splitter)
             {
-                split(fctb.Selection.Start.iLine);
+                split(_fctb.Selection.Start.iLine);
             }
-            else if (it == InsertType.Width)
+            else if (_it == InsertType.Width)
             {
                 try
                 {
-                    fctb.PreferredLineWidth = numericTextBox1.IntValue;
+                    _fctb.PreferredLineWidth = numericTextBox1.IntValue;
                 }
                 catch
                 {
-                    
                 }
             }
             Close();
         }
-        void split(int iLine)
+
+        private void split(int iLine)
         {
-            fctb.Selection.Start = new Place(0, iLine);
-            fctb.Selection.Expand();
-                string[] words = fctb.SelectedText.Split(textBox1.Text.ToCharArray());
-                foreach (string word in words)
-                {
-                    fctb.InsertText(word + Environment.NewLine);
-                }
+            _fctb.Selection.Start = new Place(0, iLine);
+            _fctb.Selection.Expand();
+            string[] words = _fctb.SelectedText.Split(textBox1.Text.ToCharArray());
+            foreach (string word in words)
+            {
+                _fctb.InsertText(word + Environment.NewLine);
+            }
         }
+
         private void button2_Click(object sender, EventArgs e)
         {
             Close();

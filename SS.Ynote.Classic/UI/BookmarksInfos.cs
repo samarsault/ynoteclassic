@@ -1,24 +1,30 @@
-﻿using System;
-using FastColoredTextBoxNS;
+﻿#region
+
+using System;
 using System.Windows.Forms;
+using FastColoredTextBoxNS;
+
+#endregion
 
 namespace SS.Ynote.Classic.UI
 {
     public partial class BookmarksInfos : Form
     {
         private readonly FastColoredTextBox tb;
+
         public BookmarksInfos(FastColoredTextBox tb)
         {
             InitializeComponent();
             this.tb = tb;
             LoadBookmarks();
         }
-        void LoadBookmarks()
+
+        private void LoadBookmarks()
         {
             foreach (var bookmark in tb.Bookmarks)
             {
                 var iline = bookmark.LineIndex + 1;
-                var item = new ListViewItem(new[] { bookmark.Name, iline.ToString(), tb[bookmark.LineIndex].Text });
+                var item = new ListViewItem(new[] {bookmark.Name, iline.ToString(), tb[bookmark.LineIndex].Text});
                 item.Tag = bookmark;
                 lstbookmarks.Items.Add(item);
             }

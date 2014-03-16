@@ -1,8 +1,11 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
+#endregion
 
 namespace SS.Ynote.Classic.UI
 {
@@ -13,8 +16,9 @@ namespace SS.Ynote.Classic.UI
             InitializeComponent();
             LostFocus += About_LostFocus;
             if (File.Exists(Application.StartupPath + @"\License.txt"))
-                textBox1.Text =File.ReadAllText(Application.StartupPath + @"\License.txt");
+                textBox1.Text = File.ReadAllText(Application.StartupPath + @"\License.txt");
         }
+
         private void About_LostFocus(object sender, EventArgs e)
         {
             Close();
@@ -34,6 +38,5 @@ namespace SS.Ynote.Classic.UI
         {
             Process.Start("http://fb.com/sscorpscom");
         }
-
     }
 }

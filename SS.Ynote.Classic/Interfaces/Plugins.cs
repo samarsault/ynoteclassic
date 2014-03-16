@@ -1,57 +1,42 @@
-﻿using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
+﻿#region
+
+using System.Windows.Forms;
+
+#endregion
 
 /// <summary>
-/// Plugin Interface
+///     Plugin Interface
 /// </summary>
 public interface IPlugin
 {
     /// <summary>
-    /// Name
+    ///     Name
     /// </summary>
     string Name { get; }
+
     /// <summary>
-    /// Version
+    ///     Version
     /// </summary>
     double Version { get; }
+
     /// <summary>
-    /// Author of Plugin
+    ///     Author of Plugin
     /// </summary>
-    string Author { get; }
+    string Description { get; }
 }
+
 /// <summary>
-/// IYnote Plugin
+///     IYnote Plugin
 /// </summary>
 public interface IYnotePlugin : IPlugin
 {
     /// <summary>
-    /// Ynote Reference
+    ///     MenuItem , if any, else='null'
     /// </summary>
-    IYnote Ynote { get; set; }
-    /// <summary>
-    /// MenuItem , if any, else='null'
-    /// </summary>
-    MenuItem MenuItem { get; }
-    /// <summary>
-    /// Run Plugin()
-    /// </summary>
-    void Initialize();
-}
+    MenuItem MainMenuItem { get; }
 
-public interface IFileTypePlugin
-{
     /// <summary>
-    /// Open File
+    ///     Run Plugin()
     /// </summary>
-    /// <param name="file"></param>
-    /// <param name="panel"></param>
-    void Open(string file, DockPanel panel);
-    /// <summary>
-    /// Save File
-    /// </summary>
-    void Save();
-    /// <summary>
-    /// Supported Extensions for Opening Files
-    /// </summary>
-    string[] Extensions { get; }
+    void Initialize(IYnote ynote);
 }

@@ -1,10 +1,10 @@
 ﻿/// <summary>
-/// IProject Interface for Project Panel
+///     IProject Interface for Project Panel
 /// </summary>
-public interface IProject
+public interface IProjectPanel
 {
     /// <summary>
-    /// Open Project (filename.ynoteproj)
+    ///     Open Project (filename.ynoteproj)
     /// </summary>
     /// <param name="filename"></param>
     void OpenProject(string filename);

@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-    <YnoteSnippet>
-        <Snippet Type="Keyword" Value="public"/>
-        <Snippet Type="DotSnippet" Value="File.ReadAllText"/>
-    </YnoteSnippet>

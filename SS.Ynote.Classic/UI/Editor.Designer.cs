@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace SS.Ynote.Classic.UI
+﻿namespace SS.Ynote.Classic.UI
 {
     partial class Editor
     {
@@ -49,7 +47,6 @@ namespace SS.Ynote.Classic.UI
             this.menuItem11 = new System.Windows.Forms.MenuItem();
             this.menuItem12 = new System.Windows.Forms.MenuItem();
             this.menuItem13 = new System.Windows.Forms.MenuItem();
-            this.documentMap1 = new FastColoredTextBoxNS.DocumentMap();
             ((System.ComponentModel.ISupportInitialize)(this.codebox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -138,15 +135,17 @@ namespace SS.Ynote.Classic.UI
             this.codebox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.codebox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.codebox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.codebox.FindNextPattern = null;
             this.codebox.Hotkeys = resources.GetString("codebox.Hotkeys");
             this.codebox.IsReplaceMode = false;
+            this.codebox.Language = FastColoredTextBoxNS.Language.Text;
             this.codebox.LeftBracket = '(';
             this.codebox.Location = new System.Drawing.Point(0, 0);
             this.codebox.Name = "codebox";
             this.codebox.Paddings = new System.Windows.Forms.Padding(0);
             this.codebox.RightBracket = ')';
             this.codebox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.codebox.Size = new System.Drawing.Size(138, 262);
+            this.codebox.Size = new System.Drawing.Size(284, 262);
             this.codebox.TabIndex = 0;
             this.codebox.Zoom = 100;
             // 
@@ -182,25 +181,12 @@ namespace SS.Ynote.Classic.UI
             this.menuItem13.Text = "Open Containing Folder";
             this.menuItem13.Click += new System.EventHandler(this.menuItem13_Click);
             // 
-            // documentMap1
-            // 
-            this.documentMap1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.documentMap1.Enabled = false;
-            this.documentMap1.ForeColor = System.Drawing.Color.Maroon;
-            this.documentMap1.Location = new System.Drawing.Point(138, 0);
-            this.documentMap1.Name = "documentMap1";
-            this.documentMap1.ScrollbarVisible = false;
-            this.documentMap1.Size = new System.Drawing.Size(146, 262);
-            this.documentMap1.TabIndex = 2;
-            this.documentMap1.Target = null;
-            // 
             // Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
             this.Controls.Add(this.codebox);
-            this.Controls.Add(this.documentMap1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Editor";
@@ -229,7 +215,6 @@ namespace SS.Ynote.Classic.UI
         private System.Windows.Forms.MenuItem menuItem11;
         private System.Windows.Forms.MenuItem menuItem12;
         private System.Windows.Forms.MenuItem menuItem13;
-        private FastColoredTextBoxNS.DocumentMap documentMap1;
 
     }
 }

@@ -1,0 +1,9 @@
+1. Revise
+2. Optimize
+3. Publish
+
+TO Check
+
+1. Color Themes
+2. Snippets
+3. Plugin

@@ -1,4 +1,8 @@
-﻿namespace SS.Ynote.Classic
+﻿using System.Security;
+using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
+
+namespace SS.Ynote.Classic
 {
     partial class MainForm
     {
@@ -29,23 +33,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            WeifenLuo.WinFormsUI.Docking.DockPanelSkin dockPanelSkin1 = new WeifenLuo.WinFormsUI.Docking.DockPanelSkin();
-            WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin autoHideStripSkin1 = new WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin();
-            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient1 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient1 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.DockPaneStripSkin dockPaneStripSkin1 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripSkin();
-            WeifenLuo.WinFormsUI.Docking.DockPaneStripGradient dockPaneStripGradient1 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient2 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient2 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient3 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.DockPaneStripToolWindowGradient dockPaneStripToolWindowGradient1 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripToolWindowGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient4 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient5 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient3 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient6 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient7 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
             this.MenuStrip = new System.Windows.Forms.MainMenu(this.components);
-            this.menuItem1 = new System.Windows.Forms.MenuItem();
+            this.filemenu = new System.Windows.Forms.MenuItem();
             this.NewMenuItem = new System.Windows.Forms.MenuItem();
             this.OpenMenuItem = new System.Windows.Forms.MenuItem();
             this.miopenencoding = new System.Windows.Forms.MenuItem();
@@ -73,9 +62,8 @@
             this.menuItem28 = new System.Windows.Forms.MenuItem();
             this.htmlexport = new System.Windows.Forms.MenuItem();
             this.menuItem25 = new System.Windows.Forms.MenuItem();
-            this.menuItem26 = new System.Windows.Forms.MenuItem();
             this.ExitMenu = new System.Windows.Forms.MenuItem();
-            this.menuItem2 = new System.Windows.Forms.MenuItem();
+            this.editmenu = new System.Windows.Forms.MenuItem();
             this.UndoMenuItem = new System.Windows.Forms.MenuItem();
             this.RedoMenuItem = new System.Windows.Forms.MenuItem();
             this.menuItem10 = new System.Windows.Forms.MenuItem();
@@ -114,11 +102,21 @@
             this.menuItem93 = new System.Windows.Forms.MenuItem();
             this.menuItem27 = new System.Windows.Forms.MenuItem();
             this.menuItem84 = new System.Windows.Forms.MenuItem();
+            this.menuItem1 = new System.Windows.Forms.MenuItem();
             this.gotofirstlinemenu = new System.Windows.Forms.MenuItem();
             this.gotoendmenu = new System.Windows.Forms.MenuItem();
-            this.menuItem96 = new System.Windows.Forms.MenuItem();
+            this.menuItem117 = new System.Windows.Forms.MenuItem();
             this.navforwardmenu = new System.Windows.Forms.MenuItem();
             this.navbackwardmenu = new System.Windows.Forms.MenuItem();
+            this.menuItem2 = new System.Windows.Forms.MenuItem();
+            this.menuItem3 = new System.Windows.Forms.MenuItem();
+            this.menuItem4 = new System.Windows.Forms.MenuItem();
+            this.menuItem5 = new System.Windows.Forms.MenuItem();
+            this.menuItem26 = new System.Windows.Forms.MenuItem();
+            this.menuItem34 = new System.Windows.Forms.MenuItem();
+            this.menuItem103 = new System.Windows.Forms.MenuItem();
+            this.menuItem82 = new System.Windows.Forms.MenuItem();
+            this.menuItem101 = new System.Windows.Forms.MenuItem();
             this.menuItem81 = new System.Windows.Forms.MenuItem();
             this.movelineup = new System.Windows.Forms.MenuItem();
             this.movelinedown = new System.Windows.Forms.MenuItem();
@@ -126,8 +124,10 @@
             this.menuItem86 = new System.Windows.Forms.MenuItem();
             this.menuItem29 = new System.Windows.Forms.MenuItem();
             this.splitlinemenu = new System.Windows.Forms.MenuItem();
+            this.menuItem115 = new System.Windows.Forms.MenuItem();
             this.menuItem69 = new System.Windows.Forms.MenuItem();
             this.menuItem65 = new System.Windows.Forms.MenuItem();
+            this.menuItem96 = new System.Windows.Forms.MenuItem();
             this.menuItem90 = new System.Windows.Forms.MenuItem();
             this.removelinemenu = new System.Windows.Forms.MenuItem();
             this.removeemptylines = new System.Windows.Forms.MenuItem();
@@ -162,11 +162,12 @@
             this.menuItem38 = new System.Windows.Forms.MenuItem();
             this.menuItem88 = new System.Windows.Forms.MenuItem();
             this.menuItem98 = new System.Windows.Forms.MenuItem();
+            this.menuItem118 = new System.Windows.Forms.MenuItem();
+            this.menuItem119 = new System.Windows.Forms.MenuItem();
+            this.menuItem120 = new System.Windows.Forms.MenuItem();
             this.menuItem105 = new System.Windows.Forms.MenuItem();
             this.replacemode = new System.Windows.Forms.MenuItem();
-            this.settextreadonly = new System.Windows.Forms.MenuItem();
-            this.settextwriteable = new System.Windows.Forms.MenuItem();
-            this.menuItem3 = new System.Windows.Forms.MenuItem();
+            this.viewmenu = new System.Windows.Forms.MenuItem();
             this.statusbarmenuitem = new System.Windows.Forms.MenuItem();
             this.menuItem46 = new System.Windows.Forms.MenuItem();
             this.menuItem48 = new System.Windows.Forms.MenuItem();
@@ -177,6 +178,15 @@
             this.menuItem55 = new System.Windows.Forms.MenuItem();
             this.menuItem99 = new System.Windows.Forms.MenuItem();
             this.milanguage = new System.Windows.Forms.MenuItem();
+            this.menuItem106 = new System.Windows.Forms.MenuItem();
+            this.menuItem116 = new System.Windows.Forms.MenuItem();
+            this.menuItem104 = new System.Windows.Forms.MenuItem();
+            this.menuItem108 = new System.Windows.Forms.MenuItem();
+            this.menuItem111 = new System.Windows.Forms.MenuItem();
+            this.menuItem112 = new System.Windows.Forms.MenuItem();
+            this.menuItem113 = new System.Windows.Forms.MenuItem();
+            this.menuItem114 = new System.Windows.Forms.MenuItem();
+            this.menuItem107 = new System.Windows.Forms.MenuItem();
             this.menuItem109 = new System.Windows.Forms.MenuItem();
             this.menuItem6 = new System.Windows.Forms.MenuItem();
             this.wordwrapmenu = new System.Windows.Forms.MenuItem();
@@ -184,7 +194,7 @@
             this.menuItem95 = new System.Windows.Forms.MenuItem();
             this.menuItem97 = new System.Windows.Forms.MenuItem();
             this.menuItem57 = new System.Windows.Forms.MenuItem();
-            this.menuItem4 = new System.Windows.Forms.MenuItem();
+            this.toolsmenu = new System.Windows.Forms.MenuItem();
             this.menuItem72 = new System.Windows.Forms.MenuItem();
             this.CommandPrompt = new System.Windows.Forms.MenuItem();
             this.pluginmanagermenu = new System.Windows.Forms.MenuItem();
@@ -192,26 +202,27 @@
             this.menuItem102 = new System.Windows.Forms.MenuItem();
             this.menuItem30 = new System.Windows.Forms.MenuItem();
             this.menuItem31 = new System.Windows.Forms.MenuItem();
+            this.menuItem32 = new System.Windows.Forms.MenuItem();
+            this.menuItem45 = new System.Windows.Forms.MenuItem();
             this.CompareMenu = new System.Windows.Forms.MenuItem();
             this.menuItem66 = new System.Windows.Forms.MenuItem();
             this.colorschememenu = new System.Windows.Forms.MenuItem();
-            this.menuItem82 = new System.Windows.Forms.MenuItem();
             this.menuItem83 = new System.Windows.Forms.MenuItem();
             this.OptionsMenu = new System.Windows.Forms.MenuItem();
-            this.menuItem34 = new System.Windows.Forms.MenuItem();
+            this.macrosmenu = new System.Windows.Forms.MenuItem();
             this.menuItem35 = new System.Windows.Forms.MenuItem();
             this.menuItem39 = new System.Windows.Forms.MenuItem();
             this.menuItem41 = new System.Windows.Forms.MenuItem();
             this.menuItem42 = new System.Windows.Forms.MenuItem();
-            this.menuItem56 = new System.Windows.Forms.MenuItem();
-            this.mimacros = new System.Windows.Forms.MenuItem();
-            this.menuItem45 = new System.Windows.Forms.MenuItem();
-            this.menuItem32 = new System.Windows.Forms.MenuItem();
             this.menuItem43 = new System.Windows.Forms.MenuItem();
             this.menuItem63 = new System.Windows.Forms.MenuItem();
+            this.menuItem56 = new System.Windows.Forms.MenuItem();
+            this.mimacros = new System.Windows.Forms.MenuItem();
+            this.miscripts = new System.Windows.Forms.MenuItem();
             this.pluginsmenuitem = new System.Windows.Forms.MenuItem();
-            this.menuItem5 = new System.Windows.Forms.MenuItem();
+            this.helpmenu = new System.Windows.Forms.MenuItem();
             this.menuItem11 = new System.Windows.Forms.MenuItem();
+            this.menuItem121 = new System.Windows.Forms.MenuItem();
             this.menuItem62 = new System.Windows.Forms.MenuItem();
             this.menuItem60 = new System.Windows.Forms.MenuItem();
             this.menuItem59 = new System.Windows.Forms.MenuItem();
@@ -219,9 +230,12 @@
             this.menuItem12 = new System.Windows.Forms.MenuItem();
             this.aboutmenu = new System.Windows.Forms.MenuItem();
             this.status = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lb1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.infolabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.langmenu = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.zoom = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
@@ -231,26 +245,25 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.dock = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.incrementalSearcher1 = new SS.Ynote.Classic.IncrementalSearcher();
+            this.incrementalSearcher1 = new SS.Ynote.Classic.Features.Search.IncrementalSearcher();
             this.status.SuspendLayout();
             this.SuspendLayout();
             // 
             // MenuStrip
             // 
             this.MenuStrip.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem1,
-            this.menuItem2,
-            this.menuItem3,
-            this.menuItem4,
-            this.menuItem34,
+            this.filemenu,
+            this.editmenu,
+            this.viewmenu,
+            this.toolsmenu,
+            this.macrosmenu,
             this.pluginsmenuitem,
-            this.menuItem5});
+            this.helpmenu});
             // 
-            // menuItem1
+            // filemenu
             // 
-            this.menuItem1.Index = 0;
-            this.menuItem1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.filemenu.Index = 0;
+            this.filemenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.NewMenuItem,
             this.OpenMenuItem,
             this.miopenencoding,
@@ -273,9 +286,8 @@
             this.menuItem23,
             this.menuItem24,
             this.menuItem25,
-            this.menuItem26,
             this.ExitMenu});
-            this.menuItem1.Text = "File";
+            this.filemenu.Text = "File";
             // 
             // NewMenuItem
             // 
@@ -447,22 +459,16 @@
             this.menuItem25.Index = 21;
             this.menuItem25.Text = "-";
             // 
-            // menuItem26
-            // 
-            this.menuItem26.Index = 22;
-            this.menuItem26.Text = "Restart";
-            this.menuItem26.Click += new System.EventHandler(this.menuItem26_Click);
-            // 
             // ExitMenu
             // 
-            this.ExitMenu.Index = 23;
+            this.ExitMenu.Index = 22;
             this.ExitMenu.Text = "Exit";
             this.ExitMenu.Click += new System.EventHandler(this.ExitMenu_Click);
             // 
-            // menuItem2
+            // editmenu
             // 
-            this.menuItem2.Index = 1;
-            this.menuItem2.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.editmenu.Index = 1;
+            this.editmenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.UndoMenuItem,
             this.RedoMenuItem,
             this.menuItem10,
@@ -485,10 +491,8 @@
             this.menuItem64,
             this.menuItem89,
             this.menuItem105,
-            this.replacemode,
-            this.settextreadonly,
-            this.settextwriteable});
-            this.menuItem2.Text = "Edit";
+            this.replacemode});
+            this.editmenu.Text = "Edit";
             // 
             // UndoMenuItem
             // 
@@ -731,11 +735,21 @@
             this.menuItem93.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItem27,
             this.menuItem84,
+            this.menuItem1,
             this.gotofirstlinemenu,
             this.gotoendmenu,
-            this.menuItem96,
+            this.menuItem117,
             this.navforwardmenu,
-            this.navbackwardmenu});
+            this.navbackwardmenu,
+            this.menuItem2,
+            this.menuItem3,
+            this.menuItem4,
+            this.menuItem5,
+            this.menuItem26,
+            this.menuItem34,
+            this.menuItem103,
+            this.menuItem82,
+            this.menuItem101});
             this.menuItem93.Text = "Navigation";
             // 
             // menuItem27
@@ -752,34 +766,90 @@
             this.menuItem84.Text = "Switch File";
             this.menuItem84.Click += new System.EventHandler(this.menuItem84_Click);
             // 
+            // menuItem1
+            // 
+            this.menuItem1.Index = 2;
+            this.menuItem1.Text = "-";
+            // 
             // gotofirstlinemenu
             // 
-            this.gotofirstlinemenu.Index = 2;
+            this.gotofirstlinemenu.Index = 3;
             this.gotofirstlinemenu.Text = "Go to First Line";
             this.gotofirstlinemenu.Click += new System.EventHandler(this.gotofirstlinemenu_Click);
             // 
             // gotoendmenu
             // 
-            this.gotoendmenu.Index = 3;
+            this.gotoendmenu.Index = 4;
             this.gotoendmenu.Text = "Go to the End";
             this.gotoendmenu.Click += new System.EventHandler(this.gotoendmenu_Click);
             // 
-            // menuItem96
+            // menuItem117
             // 
-            this.menuItem96.Index = 4;
-            this.menuItem96.Text = "-";
+            this.menuItem117.Index = 5;
+            this.menuItem117.Text = "-";
             // 
             // navforwardmenu
             // 
-            this.navforwardmenu.Index = 5;
+            this.navforwardmenu.Index = 6;
             this.navforwardmenu.Text = "Navigate Forward";
             this.navforwardmenu.Click += new System.EventHandler(this.navforwardmenu_Click);
             // 
             // navbackwardmenu
             // 
-            this.navbackwardmenu.Index = 6;
+            this.navbackwardmenu.Index = 7;
             this.navbackwardmenu.Text = "Navigate Backward";
             this.navbackwardmenu.Click += new System.EventHandler(this.navbackwardmenu_Click);
+            // 
+            // menuItem2
+            // 
+            this.menuItem2.Index = 8;
+            this.menuItem2.Text = "-";
+            // 
+            // menuItem3
+            // 
+            this.menuItem3.Index = 9;
+            this.menuItem3.Text = "Go to Left Bracket (";
+            this.menuItem3.Click += new System.EventHandler(this.menuItem3_Click);
+            // 
+            // menuItem4
+            // 
+            this.menuItem4.Index = 10;
+            this.menuItem4.Text = "Go to Right Bracket )";
+            this.menuItem4.Click += new System.EventHandler(this.menuItem4_Click);
+            // 
+            // menuItem5
+            // 
+            this.menuItem5.Index = 11;
+            this.menuItem5.Text = "-";
+            // 
+            // menuItem26
+            // 
+            this.menuItem26.Index = 12;
+            this.menuItem26.Text = "Go to Left Bracket {";
+            this.menuItem26.Click += new System.EventHandler(this.menuItem26_Click);
+            // 
+            // menuItem34
+            // 
+            this.menuItem34.Index = 13;
+            this.menuItem34.Text = "Go to Left Bracket }";
+            this.menuItem34.Click += new System.EventHandler(this.menuItem34_Click);
+            // 
+            // menuItem103
+            // 
+            this.menuItem103.Index = 14;
+            this.menuItem103.Text = "-";
+            // 
+            // menuItem82
+            // 
+            this.menuItem82.Index = 15;
+            this.menuItem82.Text = "Go Left Bracket [";
+            this.menuItem82.Click += new System.EventHandler(this.menuItem82_Click);
+            // 
+            // menuItem101
+            // 
+            this.menuItem101.Index = 16;
+            this.menuItem101.Text = "Go Right Bracket ]";
+            this.menuItem101.Click += new System.EventHandler(this.menuItem101_Click);
             // 
             // menuItem81
             // 
@@ -791,8 +861,10 @@
             this.menuItem86,
             this.menuItem29,
             this.splitlinemenu,
+            this.menuItem115,
             this.menuItem69,
             this.menuItem65,
+            this.menuItem96,
             this.menuItem90,
             this.removelinemenu,
             this.removeemptylines});
@@ -836,32 +908,43 @@
             this.splitlinemenu.Text = "Split Line";
             this.splitlinemenu.Click += new System.EventHandler(this.splitlinemenu_Click);
             // 
+            // menuItem115
+            // 
+            this.menuItem115.Index = 6;
+            this.menuItem115.Text = "-";
+            // 
             // menuItem69
             // 
-            this.menuItem69.Index = 6;
-            this.menuItem69.Text = "Sort Lines";
+            this.menuItem69.Index = 7;
+            this.menuItem69.Text = "Sort Lines (Reverse)";
             this.menuItem69.Click += new System.EventHandler(this.menuItem69_Click);
             // 
             // menuItem65
             // 
-            this.menuItem65.Index = 7;
+            this.menuItem65.Index = 8;
             this.menuItem65.Text = "Sort Alphabetically";
             this.menuItem65.Click += new System.EventHandler(this.menuItem65_Click);
             // 
+            // menuItem96
+            // 
+            this.menuItem96.Index = 9;
+            this.menuItem96.Text = "Sort Lengthwise";
+            this.menuItem96.Click += new System.EventHandler(this.menuItem96_Click);
+            // 
             // menuItem90
             // 
-            this.menuItem90.Index = 8;
+            this.menuItem90.Index = 10;
             this.menuItem90.Text = "-";
             // 
             // removelinemenu
             // 
-            this.removelinemenu.Index = 9;
+            this.removelinemenu.Index = 11;
             this.removelinemenu.Text = "Remove Current Line";
             this.removelinemenu.Click += new System.EventHandler(this.removelinemenu_Click);
             // 
             // removeemptylines
             // 
-            this.removeemptylines.Index = 10;
+            this.removeemptylines.Index = 12;
             this.removeemptylines.Text = "Remove Empty Lines";
             this.removeemptylines.Click += new System.EventHandler(this.removeemptylines_Click);
             // 
@@ -1037,7 +1120,10 @@
             this.menuItem94,
             this.menuItem38,
             this.menuItem88,
-            this.menuItem98});
+            this.menuItem98,
+            this.menuItem118,
+            this.menuItem119,
+            this.menuItem120});
             this.menuItem89.Text = "Conversions";
             // 
             // menuItem91
@@ -1075,6 +1161,23 @@
             this.menuItem98.Text = "Tab To Spaces";
             this.menuItem98.Click += new System.EventHandler(this.menuItem98_Click);
             // 
+            // menuItem118
+            // 
+            this.menuItem118.Index = 6;
+            this.menuItem118.Text = "-";
+            // 
+            // menuItem119
+            // 
+            this.menuItem119.Index = 7;
+            this.menuItem119.Text = "Selection to Hex";
+            this.menuItem119.Click += new System.EventHandler(this.menuItem119_Click);
+            // 
+            // menuItem120
+            // 
+            this.menuItem120.Index = 8;
+            this.menuItem120.Text = "Selection to ASCII";
+            this.menuItem120.Click += new System.EventHandler(this.menuItem120_Click);
+            // 
             // menuItem105
             // 
             this.menuItem105.Index = 21;
@@ -1086,22 +1189,10 @@
             this.replacemode.Text = "Switch Editing Mode        [Ins]";
             this.replacemode.Click += new System.EventHandler(this.replacemode_Click);
             // 
-            // settextreadonly
+            // viewmenu
             // 
-            this.settextreadonly.Index = 23;
-            this.settextreadonly.Text = "Set Selected Text As Readonly";
-            this.settextreadonly.Click += new System.EventHandler(this.settextreadonly_Click);
-            // 
-            // settextwriteable
-            // 
-            this.settextwriteable.Index = 24;
-            this.settextwriteable.Text = "Set Selected Text As Writeable";
-            this.settextwriteable.Click += new System.EventHandler(this.settextwriteable_Click);
-            // 
-            // menuItem3
-            // 
-            this.menuItem3.Index = 2;
-            this.menuItem3.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.viewmenu.Index = 2;
+            this.viewmenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.statusbarmenuitem,
             this.menuItem46,
             this.menuItem48,
@@ -1109,6 +1200,9 @@
             this.menuItem55,
             this.menuItem99,
             this.milanguage,
+            this.menuItem106,
+            this.menuItem116,
+            this.menuItem104,
             this.menuItem109,
             this.menuItem6,
             this.wordwrapmenu,
@@ -1116,7 +1210,7 @@
             this.menuItem95,
             this.menuItem97,
             this.menuItem57});
-            this.menuItem3.Text = "View";
+            this.viewmenu.Text = "View";
             // 
             // statusbarmenuitem
             // 
@@ -1181,51 +1275,110 @@
             this.milanguage.Text = "Syntax Highlight";
             this.milanguage.Select += new System.EventHandler(this.milanguage_Select);
             // 
+            // menuItem106
+            // 
+            this.menuItem106.Index = 7;
+            this.menuItem106.Text = "Snippets";
+            this.menuItem106.Click += new System.EventHandler(this.menuItem106_Click);
+            // 
+            // menuItem116
+            // 
+            this.menuItem116.Index = 8;
+            this.menuItem116.Text = "-";
+            // 
+            // menuItem104
+            // 
+            this.menuItem104.Index = 9;
+            this.menuItem104.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuItem108,
+            this.menuItem111,
+            this.menuItem112,
+            this.menuItem113,
+            this.menuItem114,
+            this.menuItem107});
+            this.menuItem104.Text = "Mark Selection";
+            // 
+            // menuItem108
+            // 
+            this.menuItem108.Index = 0;
+            this.menuItem108.Text = "Using Red Style";
+            this.menuItem108.Click += new System.EventHandler(this.menuItem108_Click);
+            // 
+            // menuItem111
+            // 
+            this.menuItem111.Index = 1;
+            this.menuItem111.Text = "Using Blue Style";
+            this.menuItem111.Click += new System.EventHandler(this.menuItem111_Click);
+            // 
+            // menuItem112
+            // 
+            this.menuItem112.Index = 2;
+            this.menuItem112.Text = "Using Gray Style";
+            this.menuItem112.Click += new System.EventHandler(this.menuItem112_Click);
+            // 
+            // menuItem113
+            // 
+            this.menuItem113.Index = 3;
+            this.menuItem113.Text = "Using Green Style";
+            this.menuItem113.Click += new System.EventHandler(this.menuItem113_Click);
+            // 
+            // menuItem114
+            // 
+            this.menuItem114.Index = 4;
+            this.menuItem114.Text = "Using Yellow Style";
+            this.menuItem114.Click += new System.EventHandler(this.menuItem114_Click);
+            // 
+            // menuItem107
+            // 
+            this.menuItem107.Index = 5;
+            this.menuItem107.Text = "Clear Marked";
+            this.menuItem107.Click += new System.EventHandler(this.menuItem107_Click);
+            // 
             // menuItem109
             // 
-            this.menuItem109.Index = 7;
+            this.menuItem109.Index = 10;
             this.menuItem109.Text = "Hidden Characters";
             this.menuItem109.Click += new System.EventHandler(this.menuItem109_Click);
             // 
             // menuItem6
             // 
-            this.menuItem6.Index = 8;
+            this.menuItem6.Index = 11;
             this.menuItem6.Text = "Show Unsaved Changes";
             this.menuItem6.Click += new System.EventHandler(this.menuItem6_Click);
             // 
             // wordwrapmenu
             // 
-            this.wordwrapmenu.Index = 9;
+            this.wordwrapmenu.Index = 12;
             this.wordwrapmenu.Text = "Word Wrap";
             this.wordwrapmenu.Click += new System.EventHandler(this.wordwrapmenu_Click);
             // 
             // menuItem110
             // 
-            this.menuItem110.Index = 10;
+            this.menuItem110.Index = 13;
             this.menuItem110.Text = "-";
             // 
             // menuItem95
             // 
-            this.menuItem95.Index = 11;
+            this.menuItem95.Index = 14;
             this.menuItem95.Text = "Project Manager";
             this.menuItem95.Click += new System.EventHandler(this.menuItem95_Click);
             // 
             // menuItem97
             // 
-            this.menuItem97.Index = 12;
+            this.menuItem97.Index = 15;
             this.menuItem97.Text = "-";
             // 
             // menuItem57
             // 
-            this.menuItem57.Index = 13;
+            this.menuItem57.Index = 16;
             this.menuItem57.Shortcut = System.Windows.Forms.Shortcut.F7;
             this.menuItem57.Text = "Split";
             this.menuItem57.Click += new System.EventHandler(this.menuItem57_Click);
             // 
-            // menuItem4
+            // toolsmenu
             // 
-            this.menuItem4.Index = 3;
-            this.menuItem4.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.toolsmenu.Index = 3;
+            this.toolsmenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItem72,
             this.CommandPrompt,
             this.pluginmanagermenu,
@@ -1236,16 +1389,15 @@
             this.CompareMenu,
             this.menuItem66,
             this.colorschememenu,
-            this.menuItem82,
             this.menuItem83,
             this.OptionsMenu});
-            this.menuItem4.Text = "Tools";
+            this.toolsmenu.Text = "Tools";
             // 
             // menuItem72
             // 
             this.menuItem72.Index = 0;
             this.menuItem72.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftP;
-            this.menuItem72.Text = "Console";
+            this.menuItem72.Text = "Commander";
             this.menuItem72.Click += new System.EventHandler(this.menuItem72_Click);
             // 
             // CommandPrompt
@@ -1264,6 +1416,7 @@
             // 
             this.menuItem100.Index = 3;
             this.menuItem100.Text = "Keymap Editor";
+            this.menuItem100.Click += new System.EventHandler(this.menuItem100_Click);
             // 
             // menuItem102
             // 
@@ -1273,14 +1426,28 @@
             // menuItem30
             // 
             this.menuItem30.Index = 5;
-            this.menuItem30.Text = "Run File";
+            this.menuItem30.Text = "Execute File";
             this.menuItem30.Click += new System.EventHandler(this.menuItem30_Click);
             // 
             // menuItem31
             // 
             this.menuItem31.Index = 6;
-            this.menuItem31.Text = "Run File With Application";
-            this.menuItem31.Click += new System.EventHandler(this.menuItem31_Click);
+            this.menuItem31.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuItem32,
+            this.menuItem45});
+            this.menuItem31.Text = "Run Scripts";
+            // 
+            // menuItem32
+            // 
+            this.menuItem32.Index = 0;
+            this.menuItem32.Text = "Run";
+            this.menuItem32.Click += new System.EventHandler(this.menuItem32_Click);
+            // 
+            // menuItem45
+            // 
+            this.menuItem45.Index = 1;
+            this.menuItem45.Text = "Editor";
+            this.menuItem45.Click += new System.EventHandler(this.menuItem45_Click);
             // 
             // CompareMenu
             // 
@@ -1299,38 +1466,31 @@
             this.colorschememenu.Text = "Color Scheme";
             this.colorschememenu.Select += new System.EventHandler(this.colorschememenu_Select);
             // 
-            // menuItem82
-            // 
-            this.menuItem82.Index = 10;
-            this.menuItem82.Text = "Clear Recent Files";
-            this.menuItem82.Click += new System.EventHandler(this.menuItem82_Click);
-            // 
             // menuItem83
             // 
-            this.menuItem83.Index = 11;
+            this.menuItem83.Index = 10;
             this.menuItem83.Text = "-";
             // 
             // OptionsMenu
             // 
-            this.OptionsMenu.Index = 12;
+            this.OptionsMenu.Index = 11;
             this.OptionsMenu.Text = "Options";
             this.OptionsMenu.Click += new System.EventHandler(this.OptionsMenu_Click);
             // 
-            // menuItem34
+            // macrosmenu
             // 
-            this.menuItem34.Index = 4;
-            this.menuItem34.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.macrosmenu.Index = 4;
+            this.macrosmenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItem35,
             this.menuItem39,
             this.menuItem41,
             this.menuItem42,
+            this.menuItem43,
+            this.menuItem63,
             this.menuItem56,
             this.mimacros,
-            this.menuItem45,
-            this.menuItem32,
-            this.menuItem43,
-            this.menuItem63});
-            this.menuItem34.Text = "Macros";
+            this.miscripts});
+            this.macrosmenu.Text = "Macros";
             // 
             // menuItem35
             // 
@@ -1346,7 +1506,7 @@
             // menuItem41
             // 
             this.menuItem41.Index = 2;
-            this.menuItem41.Text = "Execute Recorded Macro";
+            this.menuItem41.Text = "Playback Macro";
             this.menuItem41.Click += new System.EventHandler(this.menuItem41_Click);
             // 
             // menuItem42
@@ -1355,39 +1515,34 @@
             this.menuItem42.Text = "Execute Macro Multiple Times";
             this.menuItem42.Click += new System.EventHandler(this.menuItem42_Click);
             // 
-            // menuItem56
-            // 
-            this.menuItem56.Index = 4;
-            this.menuItem56.Text = "-";
-            // 
-            // mimacros
-            // 
-            this.mimacros.Index = 5;
-            this.mimacros.Text = "Macros";
-            this.mimacros.Select += new System.EventHandler(this.menuItem38_Select);
-            // 
-            // menuItem45
-            // 
-            this.menuItem45.Index = 6;
-            this.menuItem45.Text = "-";
-            // 
-            // menuItem32
-            // 
-            this.menuItem32.Index = 7;
-            this.menuItem32.Text = "Import Macro";
-            this.menuItem32.Click += new System.EventHandler(this.menuItem32_Click);
-            // 
             // menuItem43
             // 
-            this.menuItem43.Index = 8;
-            this.menuItem43.Text = "Save Current Recorded Macro";
+            this.menuItem43.Index = 4;
+            this.menuItem43.Text = "Save Recorded Macro";
             this.menuItem43.Click += new System.EventHandler(this.menuItem43_Click);
             // 
             // menuItem63
             // 
-            this.menuItem63.Index = 9;
+            this.menuItem63.Index = 5;
             this.menuItem63.Text = "Clear Macro Data";
             this.menuItem63.Click += new System.EventHandler(this.menuItem63_Click);
+            // 
+            // menuItem56
+            // 
+            this.menuItem56.Index = 6;
+            this.menuItem56.Text = "-";
+            // 
+            // mimacros
+            // 
+            this.mimacros.Index = 7;
+            this.mimacros.Text = "Macros";
+            this.mimacros.Select += new System.EventHandler(this.menuItem38_Select);
+            // 
+            // miscripts
+            // 
+            this.miscripts.Index = 8;
+            this.miscripts.Text = "Scripts";
+            this.miscripts.Select += new System.EventHandler(this.miscripts_Select);
             // 
             // pluginsmenuitem
             // 
@@ -1395,55 +1550,62 @@
             this.pluginsmenuitem.Text = "Plugins";
             this.pluginsmenuitem.Visible = false;
             // 
-            // menuItem5
+            // helpmenu
             // 
-            this.menuItem5.Index = 6;
-            this.menuItem5.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.helpmenu.Index = 6;
+            this.helpmenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItem11,
+            this.menuItem121,
             this.menuItem62,
             this.menuItem60,
             this.menuItem59,
             this.menuItem61,
             this.menuItem12,
             this.aboutmenu});
-            this.menuItem5.Text = "Help";
+            this.helpmenu.Text = "Help";
             // 
             // menuItem11
             // 
             this.menuItem11.Index = 0;
             this.menuItem11.Shortcut = System.Windows.Forms.Shortcut.F1;
-            this.menuItem11.Text = "Help";
+            this.menuItem11.Text = "Wiki";
             this.menuItem11.Click += new System.EventHandler(this.menuItem11_Click);
+            // 
+            // menuItem121
+            // 
+            this.menuItem121.Index = 1;
+            this.menuItem121.Text = "Check For Updates";
+            this.menuItem121.Click += new System.EventHandler(this.menuItem121_Click);
             // 
             // menuItem62
             // 
-            this.menuItem62.Index = 1;
+            this.menuItem62.Index = 2;
             this.menuItem62.Text = "-";
             // 
             // menuItem60
             // 
-            this.menuItem60.Index = 2;
+            this.menuItem60.Index = 3;
             this.menuItem60.Text = "Resources";
             // 
             // menuItem59
             // 
-            this.menuItem59.Index = 3;
+            this.menuItem59.Index = 4;
             this.menuItem59.Text = "Plugin Central";
             // 
             // menuItem61
             // 
-            this.menuItem61.Index = 4;
+            this.menuItem61.Index = 5;
             this.menuItem61.Text = "Facebook";
             this.menuItem61.Click += new System.EventHandler(this.menuItem61_Click);
             // 
             // menuItem12
             // 
-            this.menuItem12.Index = 5;
+            this.menuItem12.Index = 6;
             this.menuItem12.Text = "-";
             // 
             // aboutmenu
             // 
-            this.aboutmenu.Index = 6;
+            this.aboutmenu.Index = 7;
             this.aboutmenu.Shortcut = System.Windows.Forms.Shortcut.ShiftF1;
             this.aboutmenu.Text = "About";
             this.aboutmenu.Click += new System.EventHandler(this.aboutmenu_Click);
@@ -1455,16 +1617,24 @@
             this.lb1,
             this.infolabel,
             this.toolStripStatusLabel1,
+            this.langmenu,
+            this.toolStripStatusLabel3,
             this.zoom});
-            this.status.Location = new System.Drawing.Point(0, 328);
+            this.status.Location = new System.Drawing.Point(0, 323);
             this.status.Name = "status";
-            this.status.Size = new System.Drawing.Size(738, 22);
+            this.status.Size = new System.Drawing.Size(748, 22);
             this.status.TabIndex = 3;
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(39, 17);
+            this.toolStripStatusLabel2.Text = "Ready";
             // 
             // lb1
             // 
             this.lb1.Name = "lb1";
-            this.lb1.Size = new System.Drawing.Size(316, 17);
+            this.lb1.Size = new System.Drawing.Size(200, 17);
             this.lb1.Spring = true;
             // 
             // infolabel
@@ -1476,8 +1646,25 @@
             // 
             this.toolStripStatusLabel1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(316, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(200, 17);
             this.toolStripStatusLabel1.Spring = true;
+            // 
+            // langmenu
+            // 
+            this.langmenu.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.langmenu.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.langmenu.Name = "langmenu";
+            this.langmenu.Size = new System.Drawing.Size(42, 20);
+            this.langmenu.Text = "Text";
+            this.langmenu.Click += new System.EventHandler(this.langmenu_Click);
+            this.langmenu.MouseEnter += new System.EventHandler(this.langmenu_MouseEnter);
+            // 
+            // toolStripStatusLabel3
+            // 
+            this.toolStripStatusLabel3.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(200, 17);
+            this.toolStripStatusLabel3.Spring = true;
             // 
             // zoom
             // 
@@ -1545,82 +1732,30 @@
             this.dock.DockBottomPortion = 0.4D;
             this.dock.Location = new System.Drawing.Point(0, 0);
             this.dock.Name = "dock";
-            this.dock.Size = new System.Drawing.Size(738, 289);
-            dockPanelGradient1.EndColor = System.Drawing.SystemColors.ControlLight;
-            dockPanelGradient1.StartColor = System.Drawing.SystemColors.ControlLight;
-            autoHideStripSkin1.DockStripGradient = dockPanelGradient1;
-            tabGradient1.EndColor = System.Drawing.SystemColors.Control;
-            tabGradient1.StartColor = System.Drawing.SystemColors.Control;
-            tabGradient1.TextColor = System.Drawing.SystemColors.ControlDarkDark;
-            autoHideStripSkin1.TabGradient = tabGradient1;
-            autoHideStripSkin1.TextFont = new System.Drawing.Font("Segoe UI", 9F);
-            dockPanelSkin1.AutoHideStripSkin = autoHideStripSkin1;
-            tabGradient2.EndColor = System.Drawing.SystemColors.ControlLightLight;
-            tabGradient2.StartColor = System.Drawing.SystemColors.ControlLightLight;
-            tabGradient2.TextColor = System.Drawing.SystemColors.ControlText;
-            dockPaneStripGradient1.ActiveTabGradient = tabGradient2;
-            dockPanelGradient2.EndColor = System.Drawing.SystemColors.Control;
-            dockPanelGradient2.StartColor = System.Drawing.SystemColors.Control;
-            dockPaneStripGradient1.DockStripGradient = dockPanelGradient2;
-            tabGradient3.EndColor = System.Drawing.SystemColors.ControlLight;
-            tabGradient3.StartColor = System.Drawing.SystemColors.ControlLight;
-            tabGradient3.TextColor = System.Drawing.SystemColors.ControlText;
-            dockPaneStripGradient1.InactiveTabGradient = tabGradient3;
-            dockPaneStripSkin1.DocumentGradient = dockPaneStripGradient1;
-            dockPaneStripSkin1.TextFont = new System.Drawing.Font("Segoe UI", 9F);
-            tabGradient4.EndColor = System.Drawing.SystemColors.ActiveCaption;
-            tabGradient4.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            tabGradient4.StartColor = System.Drawing.SystemColors.GradientActiveCaption;
-            tabGradient4.TextColor = System.Drawing.SystemColors.ActiveCaptionText;
-            dockPaneStripToolWindowGradient1.ActiveCaptionGradient = tabGradient4;
-            tabGradient5.EndColor = System.Drawing.SystemColors.Control;
-            tabGradient5.StartColor = System.Drawing.SystemColors.Control;
-            tabGradient5.TextColor = System.Drawing.SystemColors.ControlText;
-            dockPaneStripToolWindowGradient1.ActiveTabGradient = tabGradient5;
-            dockPanelGradient3.EndColor = System.Drawing.SystemColors.ControlLight;
-            dockPanelGradient3.StartColor = System.Drawing.SystemColors.ControlLight;
-            dockPaneStripToolWindowGradient1.DockStripGradient = dockPanelGradient3;
-            tabGradient6.EndColor = System.Drawing.SystemColors.InactiveCaption;
-            tabGradient6.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            tabGradient6.StartColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            tabGradient6.TextColor = System.Drawing.SystemColors.InactiveCaptionText;
-            dockPaneStripToolWindowGradient1.InactiveCaptionGradient = tabGradient6;
-            tabGradient7.EndColor = System.Drawing.Color.Transparent;
-            tabGradient7.StartColor = System.Drawing.Color.Transparent;
-            tabGradient7.TextColor = System.Drawing.SystemColors.ControlDarkDark;
-            dockPaneStripToolWindowGradient1.InactiveTabGradient = tabGradient7;
-            dockPaneStripSkin1.ToolWindowGradient = dockPaneStripToolWindowGradient1;
-            dockPanelSkin1.DockPaneStripSkin = dockPaneStripSkin1;
-            this.dock.Skin = dockPanelSkin1;
+            this.dock.Size = new System.Drawing.Size(748, 284);
             this.dock.TabIndex = 0;
-            // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(39, 17);
-            this.toolStripStatusLabel2.Text = "Ready";
+            this.dock.ActiveDocumentChanged += new System.EventHandler(this.dock_ActiveDocumentChanged);
             // 
             // incrementalSearcher1
             // 
             this.incrementalSearcher1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.incrementalSearcher1.Location = new System.Drawing.Point(0, 289);
+            this.incrementalSearcher1.Location = new System.Drawing.Point(0, 284);
             this.incrementalSearcher1.Name = "incrementalSearcher1";
-            this.incrementalSearcher1.Size = new System.Drawing.Size(738, 39);
-            this.incrementalSearcher1.TabIndex = 8;
+            this.incrementalSearcher1.Size = new System.Drawing.Size(748, 39);
+            this.incrementalSearcher1.TabIndex = 4;
             this.incrementalSearcher1.Visible = false;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(738, 350);
+            this.ClientSize = new System.Drawing.Size(748, 345);
             this.Controls.Add(this.dock);
             this.Controls.Add(this.incrementalSearcher1);
             this.Controls.Add(this.status);
             this.IsMdiContainer = true;
             this.Menu = this.MenuStrip;
             this.Name = "MainForm";
-            this.ShowIcon = false;
             this.Text = "Ynote Classic";
             this.status.ResumeLayout(false);
             this.status.PerformLayout();
@@ -1631,11 +1766,11 @@
         private System.Windows.Forms.MainMenu MenuStrip;
         #endregion
 
-        private System.Windows.Forms.MenuItem menuItem1;
-        private System.Windows.Forms.MenuItem menuItem2;
-        private System.Windows.Forms.MenuItem menuItem3;
-        private System.Windows.Forms.MenuItem menuItem4;
-        private System.Windows.Forms.MenuItem menuItem5;
+        private System.Windows.Forms.MenuItem filemenu;
+        private System.Windows.Forms.MenuItem editmenu;
+        private System.Windows.Forms.MenuItem viewmenu;
+        private System.Windows.Forms.MenuItem toolsmenu;
+        private System.Windows.Forms.MenuItem helpmenu;
         private System.Windows.Forms.MenuItem NewMenuItem;
         private System.Windows.Forms.MenuItem OpenMenuItem;
         private System.Windows.Forms.MenuItem UndoMenuItem;
@@ -1670,7 +1805,6 @@
         private System.Windows.Forms.MenuItem pngexport;
         private System.Windows.Forms.MenuItem htmlexport;
         private System.Windows.Forms.MenuItem menuItem25;
-        private System.Windows.Forms.MenuItem menuItem26;
         private System.Windows.Forms.MenuItem ExitMenu;
         private System.Windows.Forms.MenuItem selectallmenu;
         private System.Windows.Forms.MenuItem clearallmenu;
@@ -1732,7 +1866,6 @@
         private System.Windows.Forms.MenuItem menuItem93;
         private System.Windows.Forms.MenuItem gotofirstlinemenu;
         private System.Windows.Forms.MenuItem gotoendmenu;
-        private System.Windows.Forms.MenuItem menuItem96;
         private System.Windows.Forms.MenuItem navforwardmenu;
         private System.Windows.Forms.MenuItem navbackwardmenu;
         private System.Windows.Forms.MenuItem menuItem99;
@@ -1744,8 +1877,6 @@
         private System.Windows.Forms.MenuItem gotobookmark;
         private System.Windows.Forms.MenuItem navigatethroughbookmarks;
         private System.Windows.Forms.MenuItem menuItem105;
-        private System.Windows.Forms.MenuItem settextreadonly;
-        private System.Windows.Forms.MenuItem settextwriteable;
         private System.Windows.Forms.MenuItem menuItem109;
         private System.Windows.Forms.MenuItem wordwrapmenu;
         private System.Windows.Forms.MenuItem menuItem110;
@@ -1767,7 +1898,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.MenuItem milanguage;
-        private System.Windows.Forms.MenuItem menuItem34;
+        private System.Windows.Forms.MenuItem macrosmenu;
         private System.Windows.Forms.MenuItem menuItem35;
         private System.Windows.Forms.MenuItem menuItem39;
         private System.Windows.Forms.MenuItem menuItem41;
@@ -1777,7 +1908,6 @@
         private System.Windows.Forms.MenuItem menuItem63;
         private System.Windows.Forms.MenuItem menuItem30;
         private System.Windows.Forms.MenuItem menuItem31;
-        private System.Windows.Forms.MenuItem menuItem32;
         private System.Windows.Forms.MenuItem pluginsmenuitem;
         private System.Windows.Forms.MenuItem recentfilesmenu;
         private System.Windows.Forms.MenuItem reopenclosedtab;
@@ -1795,7 +1925,6 @@
         private System.Windows.Forms.MenuItem menuItem78;
         private System.Windows.Forms.MenuItem menuItem79;
         private System.Windows.Forms.MenuItem menuItem80;
-        private System.Windows.Forms.MenuItem menuItem82;
         private System.Windows.Forms.MenuItem menuItem83;
         private System.Windows.Forms.MenuItem menuItem77;
         private System.Windows.Forms.MenuItem menuItem84;
@@ -1811,14 +1940,44 @@
         private System.Windows.Forms.MenuItem menuItem95;
         private System.Windows.Forms.MenuItem menuItem97;
         private System.Windows.Forms.MenuItem mimacros;
-        private System.Windows.Forms.MenuItem menuItem45;
         private System.Windows.Forms.MenuItem menuItem38;
         private System.Windows.Forms.MenuItem menuItem88;
         private System.Windows.Forms.MenuItem menuItem98;
         private System.Windows.Forms.MenuItem menuItem100;
         private WeifenLuo.WinFormsUI.Docking.DockPanel dock;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
-        private IncrementalSearcher incrementalSearcher1;
+        private SS.Ynote.Classic.Features.Search.IncrementalSearcher incrementalSearcher1;
+        private System.Windows.Forms.MenuItem miscripts;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
+        private System.Windows.Forms.MenuItem menuItem32;
+        private System.Windows.Forms.MenuItem menuItem45;
+        private System.Windows.Forms.ToolStripDropDownButton langmenu;
+        private System.Windows.Forms.MenuItem menuItem1;
+        private System.Windows.Forms.MenuItem menuItem2;
+        private System.Windows.Forms.MenuItem menuItem3;
+        private System.Windows.Forms.MenuItem menuItem4;
+        private System.Windows.Forms.MenuItem menuItem5;
+        private System.Windows.Forms.MenuItem menuItem26;
+        private System.Windows.Forms.MenuItem menuItem34;
+        private System.Windows.Forms.MenuItem menuItem103;
+        private System.Windows.Forms.MenuItem menuItem82;
+        private System.Windows.Forms.MenuItem menuItem101;
+        private System.Windows.Forms.MenuItem menuItem104;
+        private System.Windows.Forms.MenuItem menuItem107;
+        private System.Windows.Forms.MenuItem menuItem108;
+        private System.Windows.Forms.MenuItem menuItem111;
+        private System.Windows.Forms.MenuItem menuItem112;
+        private System.Windows.Forms.MenuItem menuItem113;
+        private System.Windows.Forms.MenuItem menuItem114;
+        private System.Windows.Forms.MenuItem menuItem117;
+        private MenuItem menuItem96;
+        private MenuItem menuItem115;
+        private MenuItem menuItem106;
+        private MenuItem menuItem116;
+        private MenuItem menuItem118;
+        private MenuItem menuItem119;
+        private MenuItem menuItem120;
+        private MenuItem menuItem121;
     }
 }
 

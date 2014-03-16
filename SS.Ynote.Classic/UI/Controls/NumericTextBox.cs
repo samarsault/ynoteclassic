@@ -1,16 +1,24 @@
-﻿
+﻿#region
+
+using System;
+using System.Globalization;
+using System.Windows.Forms;
+
+#endregion
+
 namespace SS.Ynote.Classic
 {
+
     #region Using Directives
-    using System.Windows.Forms;
-    using System.Globalization;
-    using System;
+
     #endregion
 
     public class NumericTextBox : TextBox
     {
         #region Constants
-        private bool allowSpace = false;
+
+        private bool allowSpace;
+
         #endregion
 
         #region KeyPress
@@ -19,7 +27,7 @@ namespace SS.Ynote.Classic
         {
             base.OnKeyPress(e);
 
-            NumberFormatInfo numberFormatInfo = System.Globalization.CultureInfo.CurrentCulture.NumberFormat;
+            NumberFormatInfo numberFormatInfo = CultureInfo.CurrentCulture.NumberFormat;
             string decimalSeparator = numberFormatInfo.NumberDecimalSeparator;
             string groupSeparator = numberFormatInfo.NumberGroupSeparator;
             string negativeSign = numberFormatInfo.NegativeSign;
@@ -30,53 +38,42 @@ namespace SS.Ynote.Classic
             {
             }
             else if (keyInput.Equals(decimalSeparator) || keyInput.Equals(groupSeparator) ||
-             keyInput.Equals(negativeSign))
+                     keyInput.Equals(negativeSign))
             {
             }
             else if (e.KeyChar == '\b')
             {
             }
-            else if (this.allowSpace && e.KeyChar == ' ')
+            else if (allowSpace && e.KeyChar == ' ')
             {
-
             }
             else
             {
                 e.Handled = true;
             }
         }
+
         #endregion
 
         #region Properties
 
         public int IntValue
         {
-            get
-            {
-                return Int32.Parse(this.Text);
-            }
+            get { return Int32.Parse(Text); }
         }
 
         public decimal DecimalValue
         {
-            get
-            {
-                return Decimal.Parse(this.Text);
-            }
+            get { return Decimal.Parse(Text); }
         }
 
         public bool AllowSpace
         {
-            set
-            {
-                this.allowSpace = value;
-            }
+            set { allowSpace = value; }
 
-            get
-            {
-                return this.allowSpace;
-            }
+            get { return allowSpace; }
         }
+
         #endregion
     }
 }

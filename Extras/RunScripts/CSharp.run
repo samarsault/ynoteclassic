@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+    <YnoteRun>
+        <Config Name="Csharp" Process="%windir%\Microsoft.NET\Framework\v3.5\csc.exe" Args="$source" Directory=""/>
+    </YnoteRun>
