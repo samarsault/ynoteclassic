@@ -33,6 +33,21 @@ namespace SS.Ynote.Classic
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            WeifenLuo.WinFormsUI.Docking.DockPanelSkin dockPanelSkin2 = new WeifenLuo.WinFormsUI.Docking.DockPanelSkin();
+            WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin autoHideStripSkin2 = new WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin();
+            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient4 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient8 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.DockPaneStripSkin dockPaneStripSkin2 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripSkin();
+            WeifenLuo.WinFormsUI.Docking.DockPaneStripGradient dockPaneStripGradient2 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient9 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient5 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient10 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.DockPaneStripToolWindowGradient dockPaneStripToolWindowGradient2 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripToolWindowGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient11 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient12 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient6 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient13 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient14 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
             this.MenuStrip = new System.Windows.Forms.MainMenu(this.components);
             this.filemenu = new System.Windows.Forms.MenuItem();
             this.NewMenuItem = new System.Windows.Forms.MenuItem();
@@ -246,6 +261,10 @@ namespace SS.Ynote.Classic
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.dock = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.incrementalSearcher1 = new SS.Ynote.Classic.Features.Search.IncrementalSearcher();
+            this.menuItem122 = new System.Windows.Forms.MenuItem();
+            this.menuItem123 = new System.Windows.Forms.MenuItem();
+            this.menuItem124 = new System.Windows.Forms.MenuItem();
+            this.menuItem125 = new System.Windows.Forms.MenuItem();
             this.status.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -1384,6 +1403,7 @@ namespace SS.Ynote.Classic
             this.pluginmanagermenu,
             this.menuItem100,
             this.menuItem102,
+            this.menuItem122,
             this.menuItem30,
             this.menuItem31,
             this.CompareMenu,
@@ -1425,13 +1445,13 @@ namespace SS.Ynote.Classic
             // 
             // menuItem30
             // 
-            this.menuItem30.Index = 5;
+            this.menuItem30.Index = 6;
             this.menuItem30.Text = "Execute File";
             this.menuItem30.Click += new System.EventHandler(this.menuItem30_Click);
             // 
             // menuItem31
             // 
-            this.menuItem31.Index = 6;
+            this.menuItem31.Index = 7;
             this.menuItem31.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItem32,
             this.menuItem45});
@@ -1451,29 +1471,29 @@ namespace SS.Ynote.Classic
             // 
             // CompareMenu
             // 
-            this.CompareMenu.Index = 7;
+            this.CompareMenu.Index = 8;
             this.CompareMenu.Text = "Compare";
             this.CompareMenu.Click += new System.EventHandler(this.CompareMenu_Click);
             // 
             // menuItem66
             // 
-            this.menuItem66.Index = 8;
+            this.menuItem66.Index = 9;
             this.menuItem66.Text = "-";
             // 
             // colorschememenu
             // 
-            this.colorschememenu.Index = 9;
+            this.colorschememenu.Index = 10;
             this.colorschememenu.Text = "Color Scheme";
             this.colorschememenu.Select += new System.EventHandler(this.colorschememenu_Select);
             // 
             // menuItem83
             // 
-            this.menuItem83.Index = 10;
+            this.menuItem83.Index = 11;
             this.menuItem83.Text = "-";
             // 
             // OptionsMenu
             // 
-            this.OptionsMenu.Index = 11;
+            this.OptionsMenu.Index = 12;
             this.OptionsMenu.Text = "Options";
             this.OptionsMenu.Click += new System.EventHandler(this.OptionsMenu_Click);
             // 
@@ -1733,6 +1753,52 @@ namespace SS.Ynote.Classic
             this.dock.Location = new System.Drawing.Point(0, 0);
             this.dock.Name = "dock";
             this.dock.Size = new System.Drawing.Size(748, 284);
+            dockPanelGradient4.EndColor = System.Drawing.SystemColors.ControlLight;
+            dockPanelGradient4.StartColor = System.Drawing.SystemColors.ControlLight;
+            autoHideStripSkin2.DockStripGradient = dockPanelGradient4;
+            tabGradient8.EndColor = System.Drawing.SystemColors.Control;
+            tabGradient8.StartColor = System.Drawing.SystemColors.Control;
+            tabGradient8.TextColor = System.Drawing.SystemColors.ControlDarkDark;
+            autoHideStripSkin2.TabGradient = tabGradient8;
+            autoHideStripSkin2.TextFont = new System.Drawing.Font("Segoe UI", 9F);
+            dockPanelSkin2.AutoHideStripSkin = autoHideStripSkin2;
+            tabGradient9.EndColor = System.Drawing.SystemColors.ControlLightLight;
+            tabGradient9.StartColor = System.Drawing.SystemColors.ControlLightLight;
+            tabGradient9.TextColor = System.Drawing.SystemColors.ControlText;
+            dockPaneStripGradient2.ActiveTabGradient = tabGradient9;
+            dockPanelGradient5.EndColor = System.Drawing.SystemColors.Control;
+            dockPanelGradient5.StartColor = System.Drawing.SystemColors.Control;
+            dockPaneStripGradient2.DockStripGradient = dockPanelGradient5;
+            tabGradient10.EndColor = System.Drawing.SystemColors.ControlLight;
+            tabGradient10.StartColor = System.Drawing.SystemColors.ControlLight;
+            tabGradient10.TextColor = System.Drawing.SystemColors.ControlText;
+            dockPaneStripGradient2.InactiveTabGradient = tabGradient10;
+            dockPaneStripSkin2.DocumentGradient = dockPaneStripGradient2;
+            dockPaneStripSkin2.TextFont = new System.Drawing.Font("Segoe UI", 9F);
+            tabGradient11.EndColor = System.Drawing.SystemColors.ActiveCaption;
+            tabGradient11.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            tabGradient11.StartColor = System.Drawing.SystemColors.GradientActiveCaption;
+            tabGradient11.TextColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dockPaneStripToolWindowGradient2.ActiveCaptionGradient = tabGradient11;
+            tabGradient12.EndColor = System.Drawing.SystemColors.Control;
+            tabGradient12.StartColor = System.Drawing.SystemColors.Control;
+            tabGradient12.TextColor = System.Drawing.SystemColors.ControlText;
+            dockPaneStripToolWindowGradient2.ActiveTabGradient = tabGradient12;
+            dockPanelGradient6.EndColor = System.Drawing.SystemColors.ControlLight;
+            dockPanelGradient6.StartColor = System.Drawing.SystemColors.ControlLight;
+            dockPaneStripToolWindowGradient2.DockStripGradient = dockPanelGradient6;
+            tabGradient13.EndColor = System.Drawing.SystemColors.InactiveCaption;
+            tabGradient13.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            tabGradient13.StartColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            tabGradient13.TextColor = System.Drawing.SystemColors.InactiveCaptionText;
+            dockPaneStripToolWindowGradient2.InactiveCaptionGradient = tabGradient13;
+            tabGradient14.EndColor = System.Drawing.Color.Transparent;
+            tabGradient14.StartColor = System.Drawing.Color.Transparent;
+            tabGradient14.TextColor = System.Drawing.SystemColors.ControlDarkDark;
+            dockPaneStripToolWindowGradient2.InactiveTabGradient = tabGradient14;
+            dockPaneStripSkin2.ToolWindowGradient = dockPaneStripToolWindowGradient2;
+            dockPanelSkin2.DockPaneStripSkin = dockPaneStripSkin2;
+            this.dock.Skin = dockPanelSkin2;
             this.dock.TabIndex = 0;
             this.dock.ActiveDocumentChanged += new System.EventHandler(this.dock_ActiveDocumentChanged);
             // 
@@ -1744,6 +1810,33 @@ namespace SS.Ynote.Classic
             this.incrementalSearcher1.Size = new System.Drawing.Size(748, 39);
             this.incrementalSearcher1.TabIndex = 4;
             this.incrementalSearcher1.Visible = false;
+            // 
+            // menuItem122
+            // 
+            this.menuItem122.Index = 5;
+            this.menuItem122.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuItem123,
+            this.menuItem124,
+            this.menuItem125});
+            this.menuItem122.Text = "Search";
+            // 
+            // menuItem123
+            // 
+            this.menuItem123.Index = 0;
+            this.menuItem123.Text = "Google";
+            this.menuItem123.Click += new System.EventHandler(this.menuItem123_Click);
+            // 
+            // menuItem124
+            // 
+            this.menuItem124.Index = 1;
+            this.menuItem124.Text = "Bing";
+            this.menuItem124.Click += new System.EventHandler(this.menuItem124_Click);
+            // 
+            // menuItem125
+            // 
+            this.menuItem125.Index = 2;
+            this.menuItem125.Text = "Wikipedia";
+            this.menuItem125.Click += new System.EventHandler(this.menuItem125_Click);
             // 
             // MainForm
             // 
@@ -1978,6 +2071,10 @@ namespace SS.Ynote.Classic
         private MenuItem menuItem119;
         private MenuItem menuItem120;
         private MenuItem menuItem121;
+        private MenuItem menuItem122;
+        private MenuItem menuItem123;
+        private MenuItem menuItem124;
+        private MenuItem menuItem125;
     }
 }
 

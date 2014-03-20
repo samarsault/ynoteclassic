@@ -50,7 +50,6 @@ namespace SS.Ynote.Classic.Features.Project
                 Folder = txtfolder.Text,
                 ProjectName = txtprojname.Text,
                 ProjectFile = txtfilename.Text,
-                ProjectType = "Custom"
             };
             if (checkBox1.Checked)
                 proj.BuildFile = txtbuild.Text;

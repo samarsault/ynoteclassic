@@ -1,4 +1,6 @@
-﻿namespace SS.Ynote.Classic.Features.Project
+﻿using System.Security.AccessControl;
+
+namespace SS.Ynote.Classic.Features.Project
 {
     partial class ProjectPanel
     {
@@ -30,7 +32,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectPanel));
-            this.treeView1 = new NativeTreeView();
+            this.treeView1 = new System.Windows.Forms.TreeView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
@@ -67,7 +69,6 @@
             // treeView1
             // 
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.FullRowSelect = true;
             this.treeView1.ImageIndex = 0;
             this.treeView1.ImageList = this.imageList1;
             this.treeView1.LabelEdit = true;
@@ -78,6 +79,7 @@
             this.treeView1.Size = new System.Drawing.Size(267, 342);
             this.treeView1.TabIndex = 0;
             this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);
+            this.treeView1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseUp);
             // 
             // imageList1
             // 
@@ -256,7 +258,7 @@
             // menuItem4
             // 
             this.menuItem4.Index = 2;
-            this.menuItem4.Text = "Delete";
+            this.menuItem4.Text = "Remove";
             this.menuItem4.Click += new System.EventHandler(this.menuItem4_Click);
             // 
             // fileMenu
@@ -303,6 +305,7 @@
             | WeifenLuo.WinFormsUI.Docking.DockAreas.DockRight) 
             | WeifenLuo.WinFormsUI.Docking.DockAreas.DockTop) 
             | WeifenLuo.WinFormsUI.Docking.DockAreas.DockBottom)));
+            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "ProjectPanel";
             this.Text = "Project Manager";
@@ -315,7 +318,7 @@
 
         #endregion
 
-        private NativeTreeView treeView1;
+        private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
         private System.Windows.Forms.ToolStripMenuItem newProjectToolStripMenuItem;

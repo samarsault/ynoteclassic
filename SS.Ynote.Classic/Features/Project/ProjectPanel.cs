@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows.Forms;
 using SS.Ynote.Classic.Features.RunScript;
 using WeifenLuo.WinFormsUI.Docking;
@@ -30,12 +28,9 @@ namespace SS.Ynote.Classic.Features.Project
         public void OpenProject(string filename)
         {
             var project = YnoteProject.Read(filename);
-            var projectnode = new ExTreeNode(project.ProjectName, project.Folder, 2, 2, project, NodeType.Project)
-            {
-                ContextMenu = projMenu
-            };
+            var projectnode = new ExTreeNode(project.ProjectName, project.Folder, 2, 2, project, NodeType.Project);
             if (!Directory.Exists(project.Folder))
-                ListDirectory(projectnode, Path.GetDirectoryName(filename) + @"\" + project.Folder);
+                MessageBox.Show("Error : Can't find directory : " + project.Folder);
             else
                 ListDirectory(projectnode, project.Folder);
             treeView1.Nodes.Add(projectnode);
@@ -70,19 +65,16 @@ namespace SS.Ynote.Classic.Features.Project
         {
             treeView1.Nodes.Clear();
             var projects = _openprojects.ToArray();
-            _openprojects.Clear();
             foreach (var project in projects)
                 OpenProject(project.ProjectFile);
+            _openprojects.Clear();
         }
 
         private void ListDirectory(ExTreeNode iTreeNode, string path)
         {
             var stack = new Stack<TreeNode>();
             var rootDirectory = new DirectoryInfo(path);
-            var node = new ExTreeNode(rootDirectory.Name, path, 0, 0, rootDirectory, NodeType.Folder)
-            {
-                ContextMenu = folderMenu
-            };
+            var node = new ExTreeNode(rootDirectory.Name, path, 0, 0, rootDirectory, NodeType.Folder){IsMainListing =true};
 #if DEBUG
             Debug.WriteLine("value of node is : " + node.Text + " : " + node.Name);
             Debug.WriteLine(iTreeNode.Text + " : " + iTreeNode.Name);
@@ -97,7 +89,7 @@ namespace SS.Ynote.Classic.Features.Project
                 {
                     var directory = directoryInfo.GetDirectories()[i];
                     var childDirectoryNode = new ExTreeNode(directory.Name, directory.FullName, 0, 0, directory,
-                        NodeType.Folder) {ContextMenu = folderMenu};
+                        NodeType.Folder);
                     currentNode.Nodes.Add(childDirectoryNode);
                     stack.Push(childDirectoryNode);
 #if DEBUG
@@ -108,10 +100,7 @@ namespace SS.Ynote.Classic.Features.Project
                 {
                     var file = directoryInfo.GetFiles()[i];
                     if (Path.GetExtension(file.FullName) != ".ynoteproj")
-                        currentNode.Nodes.Add(new ExTreeNode(file.Name, file.FullName, 1, 1, null, NodeType.File)
-                        {
-                            ContextMenu = fileMenu
-                        });
+                        currentNode.Nodes.Add(new ExTreeNode(file.Name, file.FullName, 1, 1, null, NodeType.File));
                 }
             }
 
@@ -156,22 +145,18 @@ namespace SS.Ynote.Classic.Features.Project
 
         private void AddNewFolder()
         {
-            try
+            var path = treeView1.SelectedNode as ExTreeNode;
+            if (path.Type == NodeType.Folder)
             {
-                var path = treeView1.SelectedNode as ExTreeNode;
-                if (path.Type == NodeType.Folder)
-                {
-                    var node = new ExTreeNode("untitled", null, 0, 0, null, NodeType.Folder) {ContextMenu = folderMenu};
-                    treeView1.SelectedNode.Nodes.Add(node);
-                    node.BeginEdit();
-                    treeView1.AfterLabelEdit += (o, args) => Directory.CreateDirectory(path.Name + @"\" + node.Text);
-                    node.Name = path + @"\" + node.Text;
-                    //Directory.CreateDirectory(path + @"\" + utils.FileName);
-                }
+                var node = new ExTreeNode("untitled", null, 0, 0, null, NodeType.Folder);
+                treeView1.SelectedNode.Nodes.Add(node);
+                node.Toggle();
+                node.BeginEdit();
+                treeView1.AfterLabelEdit += (o, args) => Directory.CreateDirectory(path.Name + @"\" + node.Text);
+                node.Name = path + @"\" + node.Text;
+                //Directory.CreateDirectory(path + @"\" + utils.FileName);
             }
-            catch (Exception)
-            {
-            }
+            
         }
 
         private TreeNode FindRootNode(TreeNode treeNode)
@@ -188,23 +173,25 @@ namespace SS.Ynote.Classic.Features.Project
 
         private void AddNewFile()
         {
-            try
+            var path = treeView1.SelectedNode as ExTreeNode;
+            if (path.Type == NodeType.Folder)
             {
-                var path = treeView1.SelectedNode as ExTreeNode;
-                if (path.Type == NodeType.Folder)
-                {
-                    var node = new ExTreeNode("untitled.txt", "", 1, 1, null, NodeType.File) {ContextMenu = fileMenu};
-                    treeView1.SelectedNode.Nodes.Add(node);
-                    node.BeginEdit();
-                    treeView1.AfterLabelEdit += (o, args) => File.WriteAllText(path + @"\" + node.Text, "");
-                    node.Name = path + @"\" + node.Text;
-                    //Directory.CreateDirectory(path + @"\" + utils.FileName);
-                }
+                var node = new ExTreeNode("untitled.txt", "", 1, 1, null, NodeType.File);
+                treeView1.SelectedNode.Nodes.Add(node);
+                node.Toggle();
+                node.BeginEdit();
+                var pathToSave = path.Name + @"\" + node.Text;
+                treeView1.AfterLabelEdit += (o, args) => CreateNewFile(pathToSave,node);
+                node.Name = pathToSave;
             }
-            catch (Exception)
-            {
-                // pass;
-            }
+
+        }
+        void CreateNewFile(string pathToSave, ExTreeNode node)
+        {
+            if (treeView1.SelectedNode == null || string.IsNullOrEmpty(pathToSave))
+                return;
+            File.WriteAllText(pathToSave, "");
+            node.Name = pathToSave;
         }
 
         private void DeleteFile()
@@ -327,10 +314,7 @@ namespace SS.Ynote.Classic.Features.Project
             File.Copy(path, fileName);
             var parent = selected.Parent as ExTreeNode;
             if (parent != null && parent.Type == NodeType.Folder)
-                parent.Nodes.Add(new ExTreeNode(Path.GetFileName(fileName), fileName, 1, 1, null, NodeType.File)
-                {
-                    ContextMenu = fileMenu
-                });
+                parent.Nodes.Add(new ExTreeNode(Path.GetFileName(fileName), fileName, 1, 1, null, NodeType.File));
         }
 
         private void menuItem13_Click(object sender, EventArgs e)
@@ -353,10 +337,7 @@ namespace SS.Ynote.Classic.Features.Project
                 if (parent != null && parent.Type == NodeType.Folder)
                 {
                     File.Copy(fileName, parent.Name + Path.GetFileName(fileName));
-                    parent.Nodes.Add(new ExTreeNode(Path.GetFileName(fileName), fileName, 1, 1, null, NodeType.File)
-                    {
-                        ContextMenu = fileMenu
-                    });
+                    parent.Nodes.Add(new ExTreeNode(Path.GetFileName(fileName), fileName, 1, 1, null, NodeType.File));
                 }
             }
         }
@@ -368,7 +349,18 @@ namespace SS.Ynote.Classic.Features.Project
                 browser.ShowDialog();
                 var node = treeView1.SelectedNode as ExTreeNode;
                 if (node.Type == NodeType.Folder && browser.SelectedPath != null)
-                    CopyDirectory(browser.SelectedPath, node.Name + "\\" + Path.GetDirectoryName(browser.SelectedPath));
+                {
+                    CopyDirectory(browser.SelectedPath,
+                        node.Name + "\\" + Path.GetFileName(Path.GetDirectoryName(browser.SelectedPath)));
+                    ListDirectory(node, browser.SelectedPath);
+                   // var files = Directory.GetFiles(browser.SelectedPath);
+                   // var folderNode = new ExTreeNode(Path.GetFileName(browser.SelectedPath),
+                   //     browser.SelectedPath, 0, 0, null, NodeType.Folder);
+                   // foreach (var file in files)
+                   //     folderNode.Nodes.Add(new ExTreeNode(Path.GetFileName(file),
+                   //         file, 1, 1, null, NodeType.File));
+                   // node.Nodes.Add(folderNode);
+                }
             }
         }
 
@@ -380,7 +372,7 @@ namespace SS.Ynote.Classic.Features.Project
             }
             var dirInfo = new DirectoryInfo(strSource);
             var files = dirInfo.GetFiles();
-            foreach (FileInfo tempfile in files)
+            foreach (var tempfile in files)
             {
                 tempfile.CopyTo(Path.Combine(strDestination, tempfile.Name));
             }
@@ -392,8 +384,29 @@ namespace SS.Ynote.Classic.Features.Project
         private void menuItem11_Click(object sender, EventArgs e)
         {
             var node = treeView1.SelectedNode as ExTreeNode;
-            if (node != null) Directory.Delete(node.Name);
-            treeView1.Nodes.Remove(treeView1.SelectedNode);
+            var name = node.Name;
+            Directory.Delete(name, true);
+            RefreshProjects();
+        }
+
+        private void treeView1_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                // Select the clicked node
+                treeView1.SelectedNode = treeView1.GetNodeAt(e.X, e.Y);
+
+                if (treeView1.SelectedNode != null)
+                {
+                    var node = treeView1.SelectedNode as ExTreeNode;
+                    if(node.Type == NodeType.File)
+                     fileMenu.Show(treeView1, e.Location);
+                    else if(node.Type == NodeType.Folder)
+                        folderMenu.Show(treeView1, e.Location);
+                    else if(node.Type == NodeType.Project)
+                        projMenu.Show(treeView1, e.Location);
+                }
+            }
         }
     }
 
@@ -419,21 +432,11 @@ namespace SS.Ynote.Classic.Features.Project
             Type = nodeType;
             ImageIndex = imageIndex;
             SelectedImageIndex = selimageindex;
+            IsMainListing = false;
         }
 
-        public NodeType Type { get; set; }
+        public NodeType Type { get; private set; }
+        public bool IsMainListing { get; set; }
     }
-    public class NativeTreeView : TreeView
-    {
-        [DllImport("uxtheme.dll", CharSet = CharSet.Unicode)]
-        private extern static int SetWindowTheme(IntPtr hWnd, string pszSubAppName,
-                                                string pszSubIdList);
 
-        protected override void CreateHandle()
-        {
-            base.CreateHandle();
-
-            SetWindowTheme(this.Handle, "explorer", null);
-        }
-    }
 }

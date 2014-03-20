@@ -26,11 +26,6 @@ namespace SS.Ynote.Classic.Features.Project
         public string ProjectFile { get; set; }
 
         /// <summary>
-        ///     Project Type
-        /// </summary>
-        public string ProjectType { get; set; }
-
-        /// <summary>
         ///     Read Project File
         /// </summary>
         public static YnoteProject Read(string file)
@@ -45,7 +40,6 @@ namespace SS.Ynote.Classic.Features.Project
                         {
                             case "Project":
                                 proj.ProjectName = reader["Name"];
-                                proj.ProjectType = reader["Type"];
                                 break;
                             case "Folder":
                                 proj.Folder = reader["Include"];
@@ -72,7 +66,7 @@ namespace SS.Ynote.Classic.Features.Project
                 writer.WriteStartElement("YnoteProject");
                 writer.WriteStartElement("Project");
                 writer.WriteAttributeString("Name", ProjectName);
-                writer.WriteAttributeString("Type", ProjectType);
+                writer.WriteAttributeString("File", ProjectFile);
                 writer.WriteEndElement();
                 writer.WriteStartElement("Folder");
                 writer.WriteAttributeString("Include", Folder);

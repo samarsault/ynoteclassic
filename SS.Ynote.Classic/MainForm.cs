@@ -1694,7 +1694,28 @@ namespace SS.Ynote.Classic
                 MessageBox.Show("No updates are available till date\r\nPlease check later.");
             }
         }
+        private void menuItem123_Click(object sender, EventArgs e)
+        {
+            var console = new ConsoleUI(this) { StartPosition = FormStartPosition.CenterParent };
+            console.AddText("Google:");
+            console.Show(this);
+        }
+
+        private void menuItem124_Click(object sender, EventArgs e)
+        {
+            var console = new ConsoleUI(this) { StartPosition = FormStartPosition.CenterParent };
+            console.AddText("Bing:");
+            console.Show(this);
+        }
+
+        private void menuItem125_Click(object sender, EventArgs e)
+        {
+            var console = new ConsoleUI(this) { StartPosition = FormStartPosition.CenterParent };
+            console.AddText("Wikipedia:");
+            console.Show(this);
+        }
 
         #endregion
+
     }
 }

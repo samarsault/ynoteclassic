@@ -31,6 +31,10 @@ namespace SS.Ynote.Classic.UI
             LostFocus += (o, a) => Close();
         }
 
+        public void AddText(string text)
+        {
+            textBox1.Text = text;
+        }
         public ToolStripDropDownButton LangMenu { get; set; }
 
         /// <summary>
