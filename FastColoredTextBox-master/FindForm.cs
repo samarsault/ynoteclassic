@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
-using System.Collections.Generic;
 
 namespace FastColoredTextBoxNS
 {
@@ -15,6 +14,7 @@ namespace FastColoredTextBoxNS
         {
             InitializeComponent();
             this.tb = tb;
+            cmbFindIn.SelectedIndex = 0;
         }
 
         private void btClose_Click(object sender, EventArgs e)
@@ -24,9 +24,16 @@ namespace FastColoredTextBoxNS
 
         private void btFindNext_Click(object sender, EventArgs e)
         {
-            FindNext(tbFind.Text);
+            if(cmbFindIn.SelectedIndex == 0)
+                FindNext(tbFind.Text);
+            else
+                FindNextInSelection(tbFind.Text);
         }
 
+        /// <summary>
+        /// Find Next
+        /// </summary>
+        /// <param name="pattern"></param>
         public virtual void FindNext(string pattern)
         {
             try
@@ -52,7 +59,7 @@ namespace FastColoredTextBoxNS
                 else
                     range.End = startPlace;
                 //
-                foreach (var r in range.GetRangesByLines(pattern, opt))
+                foreach (var r in range.GetRanges(pattern, opt))
                 {
                     tb.Selection = r;
                     tb.DoSelectionVisible();
@@ -97,14 +104,14 @@ namespace FastColoredTextBoxNS
                 e.Cancel = true;
                 Hide();
             }
-            this.tb.Focus();
+            tb.Focus();
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == Keys.Escape)
             {
-                this.Close();
+                Close();
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
@@ -124,6 +131,52 @@ namespace FastColoredTextBoxNS
         private void cbMatchCase_CheckedChanged(object sender, EventArgs e)
         {
             ResetSerach();
+        }
+
+        private Range originalSelection;
+        private void FindNextInSelection(string pattern)
+        {
+            try
+            {
+                RegexOptions opt = cbMatchCase.Checked ? RegexOptions.None : RegexOptions.IgnoreCase;
+                if (!cbRegex.Checked)
+                    pattern = Regex.Escape(pattern);
+                if (cbWholeWord.Checked)
+                    pattern = "\\b" + pattern + "\\b";
+                //
+                var range = tb.Selection;
+                //
+                if (firstSearch)
+                {
+                    originalSelection = range;
+                    startPlace = range.Start;
+                    firstSearch = false;
+                }
+                else
+                {
+                    range.Start = range.End;
+                    range.End = range.Start >= startPlace ? new Place(tb.GetLineLength(tb.LinesCount - 1), tb.LinesCount - 1) : startPlace;
+                }
+                foreach (var r in range.GetRanges(pattern, opt))
+                {
+                    tb.Selection = r;
+                    tb.DoSelectionVisible();
+                    tb.Invalidate();
+                    return;
+                }
+                //
+                if (range.Start >= startPlace && startPlace > Place.Empty)
+                {
+                    tb.Selection = originalSelection;
+                    FindNext(pattern);
+                    return;
+                }
+                MessageBox.Show("Not found");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

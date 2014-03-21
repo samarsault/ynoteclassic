@@ -39,6 +39,7 @@ namespace SS.Ynote.Classic.UI
             Highlighter = new SyntaxHighlighter();
             _invisibleCharsStyle = new InvisibleCharsRenderer(Pens.Gray);
             YnoteThemeReader.ApplyTheme(SettingsBase.ThemeFile, Highlighter, codebox);
+
             InitSettings();
         }
 
@@ -52,8 +53,13 @@ namespace SS.Ynote.Classic.UI
             get { return codebox; }
         }
 
+        public bool IsSaved
+        {
+            get { return Name != "Editor"; }
+        }
         private void InitSettings()
         {
+            //TODO:Settings
             codebox.AllowDrop = true;
             codebox.TabLength = SettingsBase.TabSize;
             codebox.Font = new Font(SettingsBase.FontFamily, SettingsBase.FontSize);
@@ -105,11 +111,42 @@ namespace SS.Ynote.Classic.UI
             codebox.DragDrop += codebox_DragDrop;
             codebox.DragEnter += codebox_DragEnter;
             codebox.LanguageChanged += (sender, args) => BuildAutoCompleteMenu();
+            codebox.AutoIndentNeeded += codebox_AutoIndentNeeded;
+        }
+
+        void codebox_AutoIndentNeeded(object sender, AutoIndentEventArgs args)
+        {
+            // start of a tag
+            // the tag start line look as follows:
+            // TAGNAME VALUES* (ATTR-NAME=ATTR-VALUE)* {
+            // We want to shift the next line when the current line (afte trimming) ends with a { and doesn't start with a comment
+            // TODO: a line within a multi line comment will be a false positive
+            string trimmedLine = args.LineText.Trim();
+            if (!(trimmedLine.StartsWith(codebox.CommentPrefix))
+                && trimmedLine.EndsWith("{"))
+            {
+                // increase indent
+                args.ShiftNextLines = args.TabLength;
+                return;
+            }
+
+            if (!(trimmedLine.StartsWith(codebox.CommentPrefix))
+                && trimmedLine.EndsWith("}"))
+            {
+                // decrease indent
+                args.Shift = -args.TabLength;
+                args.ShiftNextLines = -args.TabLength;
+                return;
+            }
         }
         private void BuildAutoCompleteMenu()
         {
             if(AutoCompleteMenu == null)
-                AutoCompleteMenu = new AutocompleteMenu(codebox) {AppearInterval = 50, AllowTabKey = true};
+                AutoCompleteMenu = new AutocompleteMenu(codebox)
+                {
+                    AppearInterval = 50,
+                    AllowTabKey = true
+                };
             ICollection<AutocompleteItem> items =
                 YnoteSnippet.Read(codebox.Language)
                     .Select(snippet => snippet.ToAutoCompleteItem())
@@ -181,7 +218,6 @@ namespace SS.Ynote.Classic.UI
                         break;
                     case DialogResult.No:
                         base.OnClosing(e);
-                        GC.Collect();
                         break;
                 }
             }
@@ -198,13 +234,13 @@ namespace SS.Ynote.Classic.UI
 
         private void SaveFile()
         {
-            if (Name == "Editor")
+            if (!IsSaved)
             {
                 using (var dlg = new SaveFileDialog())
                 {
                     dlg.Filter = "All Files (*.*)|*.*";
-                    DialogResult result = dlg.ShowDialog();
-                    if (result == DialogResult.OK)
+                    var result = dlg.ShowDialog() == DialogResult.OK;
+                    if (result)
                         codebox.SaveToFile(dlg.FileName, Encoding.Default);
                 }
             }

@@ -211,7 +211,8 @@ namespace SS.Ynote.Classic.UI
                     break;
             }
             completemenu.Items = null;
-            Close();
+            if(!IsDisposed)
+                Close();
         }
 
         private void NavigateFunc(string val)
@@ -416,7 +417,7 @@ namespace SS.Ynote.Classic.UI
                 ActiveEditor.tb.Print(new PrintDialogSettings {ShowPrintPreviewDialog = true});
             else if (func == "Properties")
             {
-                if (ActiveEditor.Name != "Editor")
+                if (ActiveEditor.IsSaved)
                     NativeMethods.ShowFileProperties(ActiveEditor.Name);
                 else
                     MessageBox.Show("File is Not Saved!");

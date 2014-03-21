@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Windows.Forms;
 
 namespace FastColoredTextBoxNS
 {
-    [System.ComponentModel.ToolboxItem(false)]
+    [ToolboxItem(false)]
     public class UnfocusablePanel : UserControl
     {
         public Color BackColor2 { get; set; }

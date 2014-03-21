@@ -43,7 +43,7 @@ namespace SS.Ynote.Classic.UI
             if (txtdir.Text == "$docs")
             {
                 IList<string> Files =
-                    (from Editor doc in _ynote.Panel.Documents where doc.Name != "Editor" select doc.Name).ToList();
+                    (from Editor doc in _ynote.Panel.Documents where doc.IsSaved select doc.Name).ToList();
                 if(cbRegex.Checked)
                     FindInDocumentsWithRegex(Files, txtstring.Text);
                 else
@@ -66,7 +66,7 @@ namespace SS.Ynote.Classic.UI
             if (textBox1.Text == "$docs")
             {
                 IList<string> files =
-                    (from Editor doc in _ynote.Panel.Documents where doc.Name != "Editor" select doc.Name).ToList();
+                    (from Editor doc in _ynote.Panel.Documents where doc.IsSaved select doc.Name).ToList();
                 if(cbRegex.Checked)
                     ReplaceInDocumentsWithRegex(files, textBox3.Text, textBox4.Text);
                 else

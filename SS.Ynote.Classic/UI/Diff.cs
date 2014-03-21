@@ -103,8 +103,8 @@ namespace SS.Ynote.Classic.UI
 
             Cursor = Cursors.WaitCursor;
 
-            Lines source1 = Lines.Load(tbFirstFile.Text);
-            Lines source2 = Lines.Load(tbSecondFile.Text);
+            var source1 = Lines.Load(tbFirstFile.Text);
+            var source2 = Lines.Load(tbSecondFile.Text);
 
             source1.Merge(source2);
 

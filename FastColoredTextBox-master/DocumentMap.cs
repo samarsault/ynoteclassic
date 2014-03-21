@@ -136,7 +136,7 @@ namespace FastColoredTextBoxNS
             if (target == null)
                 return;
 
-            var zoom = this.Scale * 100 / target.Zoom;
+            var zoom = Scale * 100 / target.Zoom;
 
             if (zoom <= float.Epsilon)
                 return;
@@ -201,14 +201,14 @@ namespace FastColoredTextBoxNS
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
                 Scroll(e.Location);
             base.OnMouseDown(e);
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
                 Scroll(e.Location);
             base.OnMouseMove(e);
         }
@@ -218,7 +218,7 @@ namespace FastColoredTextBoxNS
             if (target == null)
                 return;
 
-            var zoom = this.Scale*100/target.Zoom;
+            var zoom = Scale*100/target.Zoom;
 
             if (zoom <= float.Epsilon)
                 return;

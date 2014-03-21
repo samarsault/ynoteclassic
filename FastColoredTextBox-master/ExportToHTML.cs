@@ -57,15 +57,14 @@ namespace FastColoredTextBoxNS
         
         public string GetHtml(Range r)
         {
-            this.tb = r.tb;
-            Dictionary<StyleIndex, object> styles = new Dictionary<StyleIndex, object>();
-            StringBuilder sb = new StringBuilder();
-            StringBuilder tempSB = new StringBuilder();
-            StyleIndex currentStyleId = StyleIndex.None;
+            tb = r.tb;
+            IDictionary<StyleIndex, object> styles = new Dictionary<StyleIndex, object>();
+            var sb = new StringBuilder();
+            var tempSB = new StringBuilder();
+            var currentStyleId = StyleIndex.None;
             r.Normalize();
             int currentLine = r.Start.iLine;
             styles[currentStyleId] = null;
-            //
             if (UseOriginalFont)
                 sb.AppendFormat("<font style=\"font-family: {0}, monospace; font-size: {1}pt; line-height: {2}px;\">",
                                                 r.tb.Font.Name, r.tb.Font.SizeInPoints, r.tb.CharHeight);
@@ -144,7 +143,7 @@ namespace FastColoredTextBoxNS
 
         private string GetCss(StyleIndex styleIndex)
         {
-            List<Style> styles = new List<Style>();
+            var styles = new List<Style>();
             //find text renderer
             TextStyle textStyle = null;
             int mask = 1;
@@ -188,6 +187,11 @@ namespace FastColoredTextBoxNS
             return result;
         }
 
+        /// <summary>
+        /// Gets Color as String
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
         public static string GetColorAsString(Color color)
         {
             if(color==Color.Transparent)

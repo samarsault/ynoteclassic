@@ -146,7 +146,7 @@ namespace SS.Ynote.Classic
         /// <summary>
         ///     Inside Bracket Style
         /// </summary>
-        public Style InBracketStyle { get; set; }
+        public Style InBracketStyle { private get; set; }
 
         #endregion
 
@@ -169,6 +169,9 @@ namespace SS.Ynote.Classic
                     break;
                 case Language.Antlr:
                     AntlrSyntaxHighlight(range);
+                    break;
+                case Language.ASP:
+                    HTMLSyntaxHighlight(range);
                     break;
                 case Language.Objective_C:
                     ObjCHighlight(range);
@@ -1298,7 +1301,7 @@ namespace SS.Ynote.Classic
             //keyword highlighting
             e.ChangedRange.SetStyle(KeywordStyle, _jScriptKeywordRegex);
             e.ChangedRange.SetStyle(KeywordStyle2, _jScriptKeywordRegex2);
-            e.ChangedRange.SetStyle(InBracketStyle, @"\[(.*?)\]");
+            e.ChangedRange.SetStyle(InBracketStyle, @"\((.*?)\)");
             e.ChangedRange.SetStyle(CharStyle, @"\;|\,|<|>|-|\$|=|\!|\.|\?|\*|\&|\#|\^");
             //clear folding markers
             e.ChangedRange.ClearFoldingMarkers();

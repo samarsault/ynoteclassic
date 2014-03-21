@@ -28,22 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Tabs");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Environment", new System.Windows.Forms.TreeNode[] {
+            this.treeNode1 = new System.Windows.Forms.TreeNode("Tabs");
+            this.treeNode2 = new System.Windows.Forms.TreeNode("Environment", new System.Windows.Forms.TreeNode[] {
             treeNode1});
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("General");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("MISC");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Text Editor", new System.Windows.Forms.TreeNode[] {
+            this.treeNode3 = new System.Windows.Forms.TreeNode("General");
+            this.treeNode4 = new System.Windows.Forms.TreeNode("MISC");
+            this.treeNode5 = new System.Windows.Forms.TreeNode("Text Editor", new System.Windows.Forms.TreeNode[] {
             treeNode3,
             treeNode4});
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("File Extensions");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Files", new System.Windows.Forms.TreeNode[] {
+            this.treeNode6 = new System.Windows.Forms.TreeNode("File Extensions");
+            this.treeNode7 = new System.Windows.Forms.TreeNode("Files", new System.Windows.Forms.TreeNode[] {
             treeNode6});
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("General Settings");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Plugins", new System.Windows.Forms.TreeNode[] {
+            this.treeNode8 = new System.Windows.Forms.TreeNode("General Settings");
+            this.treeNode9 = new System.Windows.Forms.TreeNode("Plugins", new System.Windows.Forms.TreeNode[] {
             treeNode8});
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Manage");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Data", new System.Windows.Forms.TreeNode[] {
+            this.treeNode10 = new System.Windows.Forms.TreeNode("Manage");
+            this.treeNode11 = new System.Windows.Forms.TreeNode("Data", new System.Windows.Forms.TreeNode[] {
             treeNode10});
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.button1 = new System.Windows.Forms.Button();
@@ -839,5 +839,16 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.NumericUpDown tabsize;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TreeNode treeNode1;
+        private System.Windows.Forms.TreeNode treeNode2;
+        private System.Windows.Forms.TreeNode treeNode3;
+        private System.Windows.Forms.TreeNode treeNode4;
+        private System.Windows.Forms.TreeNode treeNode5;
+        private System.Windows.Forms.TreeNode treeNode6;
+        private System.Windows.Forms.TreeNode treeNode7;
+        private System.Windows.Forms.TreeNode treeNode8;
+        private System.Windows.Forms.TreeNode treeNode9;
+        private System.Windows.Forms.TreeNode treeNode10;
+        private System.Windows.Forms.TreeNode treeNode11;
     }
 }

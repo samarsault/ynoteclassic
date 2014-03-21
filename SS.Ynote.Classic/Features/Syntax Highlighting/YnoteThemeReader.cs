@@ -193,7 +193,7 @@ namespace SS.Ynote.Classic
                 case "Statements":
                     sh.StatementsStyle = tcstyle;
                     break;
-                case "InBracketStyle":
+                case "InBracket":
                     sh.InBracketStyle = tcstyle;
                     break;
             }

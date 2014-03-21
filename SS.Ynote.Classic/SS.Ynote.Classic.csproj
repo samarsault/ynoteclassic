@@ -33,7 +33,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Binary-Complete Package\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -66,7 +66,7 @@
   <ItemGroup>
     <Reference Include="CSScriptLibrary.v3.5, Version=3.7.1.0, Culture=neutral, PublicKeyToken=70fcc3d18c749033, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Downloads\cs-script\cs-script\Lib\Bin\NET 3.5\CSScriptLibrary.v3.5.dll</HintPath>
+      <HintPath>..\Dependencies\CSScriptLibrary.v3.5.dll</HintPath>
     </Reference>
     <Reference Include="libutils">
       <HintPath>..\Dependencies\libutils.dll</HintPath>
@@ -75,6 +75,7 @@
     <Reference Include="System.ComponentModel.Composition">
       <HintPath>..\Dependencies\System.ComponentModel.Composition.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
@@ -108,6 +109,12 @@
     <Compile Include="Features\Packages\PluginPacker.Designer.cs">
       <DependentUpon>PluginPacker.cs</DependentUpon>
     </Compile>
+    <Compile Include="Features\Packages\InputUrl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Features\Packages\InputUrl.Designer.cs">
+      <DependentUpon>InputUrl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Features\Packages\YnotePluginData.cs" />
     <Compile Include="Features\Packages\ZipStorer.cs" />
     <Compile Include="Features\Snippets\YnoteSnippet.cs" />
@@ -120,7 +127,7 @@
     <Compile Include="Features\RunScript\RunScriptEditor.Designer.cs">
       <DependentUpon>RunScriptEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Features\Syntax Highlighting\InvisibleCharStyle.cs" />
+    <Compile Include="Helpers\InvisibleCharStyle.cs" />
     <Compile Include="Features\RunScript\RunConfigs.cs" />
     <Compile Include="Features\YnoteScript\YnoteScript.cs" />
     <Compile Include="Features\Packages\YnotePackage.cs" />
@@ -242,6 +249,9 @@
     <EmbeddedResource Include="Features\Packages\PluginPacker.resx">
       <DependentUpon>PluginPacker.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Features\Packages\InputUrl.resx">
+      <DependentUpon>InputUrl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Features\RunScript\RunScriptEditor.resx">
       <DependentUpon>RunScriptEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -333,12 +343,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FastColoredTextBox-master\FastColoredTextBox.csproj">
-      <Project>{6dd14a85-ccfc-4774-bd26-0f5772512319}</Project>
-      <Name>FastColoredTextBox</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\add.png" />
   </ItemGroup>
   <ItemGroup>
@@ -346,6 +350,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ynote-favicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FastColoredTextBox-master\FastColoredTextBox.csproj">
+      <Project>{6dd14a85-ccfc-4774-bd26-0f5772512319}</Project>
+      <Name>FastColoredTextBox</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -16,6 +16,9 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class HotkeysMapping : SortedDictionary<Keys, FCTBAction>
     {
+        /// <summary>
+        /// Initialize Default Items
+        /// </summary>
         public virtual void InitDefault()
         {
             this[KEYS.Control | KEYS.G] = FCTBAction.GoToDialog;
@@ -231,7 +234,7 @@ namespace FastColoredTextBoxNS
 
     internal class HotkeysEditor : UITypeEditor
     {
-        public override UITypeEditorEditStyle GetEditStyle(System.ComponentModel.ITypeDescriptorContext context)
+        public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
         {
             return UITypeEditorEditStyle.Modal;
         }

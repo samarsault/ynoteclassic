@@ -30,6 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.cbRegex = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.cmbsearchoptions = new System.Windows.Forms.ComboBox();
@@ -41,6 +42,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtstring = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -55,8 +57,6 @@
             this.lvresults = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.cbRegex = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -72,7 +72,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(718, 185);
+            this.tabControl1.Size = new System.Drawing.Size(699, 185);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -91,10 +91,21 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(710, 159);
+            this.tabPage1.Size = new System.Drawing.Size(691, 159);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Find In Files";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // cbRegex
+            // 
+            this.cbRegex.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbRegex.AutoSize = true;
+            this.cbRegex.Location = new System.Drawing.Point(583, 19);
+            this.cbRegex.Name = "cbRegex";
+            this.cbRegex.Size = new System.Drawing.Size(57, 17);
+            this.cbRegex.TabIndex = 12;
+            this.cbRegex.Text = "Regex";
+            this.cbRegex.UseVisualStyleBackColor = true;
             // 
             // label8
             // 
@@ -111,7 +122,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox5.Location = new System.Drawing.Point(91, 69);
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(580, 20);
+            this.textBox5.Size = new System.Drawing.Size(561, 20);
             this.textBox5.TabIndex = 10;
             this.textBox5.Text = "*.*";
             // 
@@ -123,7 +134,7 @@
             this.cmbsearchoptions.FormattingEnabled = true;
             this.cmbsearchoptions.Location = new System.Drawing.Point(91, 95);
             this.cmbsearchoptions.Name = "cmbsearchoptions";
-            this.cmbsearchoptions.Size = new System.Drawing.Size(580, 21);
+            this.cmbsearchoptions.Size = new System.Drawing.Size(561, 21);
             this.cmbsearchoptions.TabIndex = 9;
             // 
             // label4
@@ -138,7 +149,7 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(582, 122);
+            this.button2.Location = new System.Drawing.Point(563, 122);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(89, 29);
             this.button2.TabIndex = 5;
@@ -149,7 +160,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(644, 40);
+            this.button1.Location = new System.Drawing.Point(625, 40);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(27, 23);
             this.button1.TabIndex = 4;
@@ -163,7 +174,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtdir.Location = new System.Drawing.Point(91, 43);
             this.txtdir.Name = "txtdir";
-            this.txtdir.Size = new System.Drawing.Size(547, 20);
+            this.txtdir.Size = new System.Drawing.Size(528, 20);
             this.txtdir.TabIndex = 3;
             this.txtdir.Text = "$docs";
             // 
@@ -191,7 +202,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtstring.Location = new System.Drawing.Point(91, 17);
             this.txtstring.Name = "txtstring";
-            this.txtstring.Size = new System.Drawing.Size(505, 20);
+            this.txtstring.Size = new System.Drawing.Size(486, 20);
             this.txtstring.TabIndex = 0;
             // 
             // tabPage3
@@ -210,10 +221,21 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(710, 159);
+            this.tabPage3.Size = new System.Drawing.Size(691, 159);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Replace In Files";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(614, 19);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(57, 17);
+            this.checkBox1.TabIndex = 13;
+            this.checkBox1.Text = "Regex";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // label7
             // 
@@ -230,7 +252,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox4.Location = new System.Drawing.Point(105, 40);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(566, 20);
+            this.textBox4.Size = new System.Drawing.Size(547, 20);
             this.textBox4.TabIndex = 10;
             // 
             // comboBox1
@@ -241,7 +263,7 @@
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(91, 92);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(580, 21);
+            this.comboBox1.Size = new System.Drawing.Size(561, 21);
             this.comboBox1.TabIndex = 9;
             // 
             // label3
@@ -256,7 +278,7 @@
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(582, 119);
+            this.button3.Location = new System.Drawing.Point(563, 119);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(89, 23);
             this.button3.TabIndex = 5;
@@ -267,7 +289,7 @@
             // button4
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button4.Location = new System.Drawing.Point(675, 64);
+            this.button4.Location = new System.Drawing.Point(656, 64);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(27, 23);
             this.button4.TabIndex = 4;
@@ -280,7 +302,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.Location = new System.Drawing.Point(91, 66);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(580, 20);
+            this.textBox1.Size = new System.Drawing.Size(561, 20);
             this.textBox1.TabIndex = 3;
             this.textBox1.Text = "$docs";
             // 
@@ -308,7 +330,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox3.Location = new System.Drawing.Point(91, 17);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(517, 20);
+            this.textBox3.Size = new System.Drawing.Size(498, 20);
             this.textBox3.TabIndex = 0;
             // 
             // tabPage2
@@ -317,7 +339,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(710, 159);
+            this.tabPage2.Size = new System.Drawing.Size(691, 159);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Results";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -332,7 +354,7 @@
             this.lvresults.GridLines = true;
             this.lvresults.Location = new System.Drawing.Point(3, 3);
             this.lvresults.Name = "lvresults";
-            this.lvresults.Size = new System.Drawing.Size(704, 153);
+            this.lvresults.Size = new System.Drawing.Size(685, 153);
             this.lvresults.TabIndex = 0;
             this.lvresults.UseCompatibleStateImageBehavior = false;
             this.lvresults.View = System.Windows.Forms.View.Details;
@@ -348,35 +370,11 @@
             this.columnHeader2.Text = "Line";
             this.columnHeader2.Width = 71;
             // 
-            // cbRegex
-            // 
-            this.cbRegex.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbRegex.AutoSize = true;
-            this.cbRegex.Location = new System.Drawing.Point(627, 19);
-            this.cbRegex.Name = "cbRegex";
-            this.cbRegex.Size = new System.Drawing.Size(57, 17);
-            this.cbRegex.TabIndex = 12;
-            this.cbRegex.Text = "Regex";
-            this.cbRegex.UseVisualStyleBackColor = true;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(614, 19);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(57, 17);
-            this.checkBox1.TabIndex = 13;
-            this.checkBox1.Text = "Regex";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
             // FindInFiles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(718, 185);
+            this.ClientSize = new System.Drawing.Size(699, 185);
             this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "FindInFiles";

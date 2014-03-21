@@ -1,5 +1,6 @@
 #region
 
+using System.Windows.Forms;
 using SS.Ynote.Classic.UI;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -31,4 +32,9 @@ public interface IYnote
     ///     Create New Document
     /// </summary>
     void CreateNewDoc();
+
+    /// <summary>
+    ///     Gets the Main Menu
+    /// </summary>
+    MainMenu MainMenu { get; }
 }

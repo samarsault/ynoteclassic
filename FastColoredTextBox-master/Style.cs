@@ -108,52 +108,137 @@ namespace FastColoredTextBoxNS
         //public readonly Font Font;
         public StringFormat stringFormat;
 
+        public Color TabDrawColor { get; set; }
+
+        /// <summary>
+        /// Draw the \t (tab character) using a special character.
+        /// </summary>
+        public bool SpecialTabDraw { get; set; }
+
+        /// <summary>
+        /// When true the TAB character isn't drawn, but the required tab width is still skipped
+        /// </summary>
+        public bool HiddenTabCharacter { get; set; }
+
         public TextStyle(Brush foreBrush, Brush backgroundBrush, FontStyle fontStyle)
         {
             this.ForeBrush = foreBrush;
             this.BackgroundBrush = backgroundBrush;
             this.FontStyle = fontStyle;
+            this.TabDrawColor = Color.FromArgb(255, 0, 0, 255);
             stringFormat = new StringFormat(StringFormatFlags.MeasureTrailingSpaces);
         }
 
         public override void Draw(Graphics gr, Point position, Range range)
         {
+            int beforeRangeSize = -1; // cached value only used when this.SpecialTabDraw == true;
+            int backgroundWidth;
+            if (this.SpecialTabDraw)
+            {
+                var llll = range.tb[range.Start.iLine]; // text on the line
+                string beforeRangeText = llll.Text.Substring(0, range.Start.iChar); // all text before the range
+                string rangeText = range.Text; // text within the range
+
+                // Calculate where previous range ended
+                beforeRangeSize = TextSizeCalculator.TextWidth(beforeRangeText, range.tb.TabLength);
+                int rangeSize = TextSizeCalculator.TextWidth(beforeRangeSize, rangeText, range.tb.TabLength) - beforeRangeSize;
+
+                backgroundWidth = rangeSize * range.tb.CharWidth;
+            }
+            else
+            {
+                backgroundWidth = (range.End.iChar - range.Start.iChar) * range.tb.CharWidth;
+            }
             //draw background
             if (BackgroundBrush != null)
-                gr.FillRectangle(BackgroundBrush, position.X, position.Y, (range.End.iChar - range.Start.iChar) * range.tb.CharWidth, range.tb.CharHeight);
+                gr.FillRectangle(BackgroundBrush, position.X, position.Y, backgroundWidth, range.tb.CharHeight);
             //draw chars
-            using(var f = new Font(range.tb.Font, FontStyle))
+            using (var f = new Font(range.tb.Font, FontStyle))
             {
                 //Font fHalfSize = new Font(range.tb.Font.FontFamily, f.SizeInPoints/2, FontStyle);
                 Line line = range.tb[range.Start.iLine];
                 float dx = range.tb.CharWidth;
-                float y = position.Y + range.tb.LineInterval/2;
-                float x = position.X - range.tb.CharWidth/3;
+                float y = position.Y + range.tb.LineInterval / 2;
+                float x = position.X - range.tb.CharWidth / 3;
 
                 if (ForeBrush == null)
                     ForeBrush = new SolidBrush(range.tb.ForeColor);
 
                 //IME mode
                 if (range.tb.ImeAllowed)
-                for (int i = range.Start.iChar; i < range.End.iChar; i++)
-                {
-                    SizeF size = FastColoredTextBox.GetCharSize(f, line[i].c);
+                    for (int i = range.Start.iChar; i < range.End.iChar; i++)
+                    {
+                        SizeF size = FastColoredTextBox.GetCharSize(f, line[i].c);
 
-                    var gs = gr.Save();
-                    float k = size.Width > range.tb.CharWidth + 1 ? range.tb.CharWidth/size.Width : 1;
-                    gr.TranslateTransform(x, y + (1 - k)*range.tb.CharHeight/2);
-                    gr.ScaleTransform(k, (float) Math.Sqrt(k));
-                    gr.DrawString(line[i].c.ToString(), f, ForeBrush, 0, 0, stringFormat);
-                    gr.Restore(gs);
-                    x += dx;
-                }
+                        var gs = gr.Save();
+                        float k = size.Width > range.tb.CharWidth + 1 ? range.tb.CharWidth / size.Width : 1;
+                        gr.TranslateTransform(x, y + (1 - k) * range.tb.CharHeight / 2);
+                        gr.ScaleTransform(k, (float)Math.Sqrt(k));
+                        char c = line[i].c;
+                        if (this.SpecialTabDraw && c == '\t')
+                        {
+                            // draw the rightwards arrow character (http://www.fileformat.info/info/unicode/char/2192/index.htm)
+                            // TODO: Variable width tab
+                            gr.DrawString("\u2192", f, ForeBrush, x, y, stringFormat);
+                        }
+                        else
+                        {
+                            gr.DrawString(c.ToString(), f, ForeBrush, 0, 0, stringFormat);
+                        }
+
+                        gr.Restore(gs);
+                        x += dx;
+                    }
                 else
-                //classic mode 
-                for (int i = range.Start.iChar; i < range.End.iChar; i++)
                 {
-                    //draw char
-                    gr.DrawString(line[i].c.ToString(), f, ForeBrush, x, y, stringFormat);
-                    x += dx;
+                    //classic mode 
+                    if (this.SpecialTabDraw)
+                    {
+                        int currentSize = beforeRangeSize;
+                        for (int i = range.Start.iChar; i < range.End.iChar; i++)
+                        {
+                            //draw char
+                            char c = line[i].c;
+                            if (c == '\t')
+                            {
+                                int tabWidth = TextSizeCalculator.TabWidth(currentSize, range.tb.TabLength);
+                                // How do we print tabs?
+                                // draw the rightwards arrow character (http://www.fileformat.info/info/unicode/char/2192/index.htm)
+                                //gr.DrawString("\u2192", f, ForeBrush, x, y, stringFormat);
+                                // or draw an arrow via DrawLine?
+                                if (!this.HiddenTabCharacter)
+                                {
+                                    using (Pen pen = new Pen(this.TabDrawColor, range.tb.CharHeight / 10F))
+                                    {
+                                        pen.EndCap = LineCap.ArrowAnchor;
+                                        // add (range.tb.CharWidth/3) because the tab-arrow doesn't need spacing
+                                        gr.DrawLine(pen,
+                                                    x + range.tb.CharWidth / 3F,
+                                                    y + (range.tb.CharHeight / 2F),
+                                                    x + (tabWidth * dx) + range.tb.CharWidth / 3F,
+                                                    y + (range.tb.CharHeight / 2F));
+                                    }
+                                }
+                                x += tabWidth * dx; // tab has variable width
+                                currentSize += tabWidth;
+                            }
+                            else
+                            {
+                                currentSize++;
+                                gr.DrawString(c.ToString(), f, ForeBrush, x, y, stringFormat);
+                                x += dx;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int i = range.Start.iChar; i < range.End.iChar; i++)
+                        {
+                            //draw char
+                            gr.DrawString(line[i].c.ToString(), f, ForeBrush, x, y, stringFormat);
+                            x += dx;
+                        }
+                    }
                 }
             }
         }
@@ -161,10 +246,10 @@ namespace FastColoredTextBoxNS
         public override void Dispose()
         {
             base.Dispose();
-            
-            if(ForeBrush!=null)
+
+            if (ForeBrush != null)
                 ForeBrush.Dispose();
-            if(BackgroundBrush!=null)
+            if (BackgroundBrush != null)
                 BackgroundBrush.Dispose();
         }
 
@@ -174,7 +259,7 @@ namespace FastColoredTextBoxNS
 
             if (BackgroundBrush is SolidBrush)
             {
-                var s =  ExportToHTML.GetColorAsString((BackgroundBrush as SolidBrush).Color);
+                var s = ExportToHTML.GetColorAsString((BackgroundBrush as SolidBrush).Color);
                 if (s != "")
                     result += "background-color:" + s + ";";
             }
@@ -202,10 +287,10 @@ namespace FastColoredTextBoxNS
 
             if (BackgroundBrush is SolidBrush)
                 result.BackColor = (BackgroundBrush as SolidBrush).Color;
-            
+
             if (ForeBrush is SolidBrush)
                 result.ForeColor = (ForeBrush as SolidBrush).Color;
-            
+
             if ((FontStyle & FontStyle.Bold) != 0)
                 result.AdditionalTags += @"\b";
             if ((FontStyle & FontStyle.Italic) != 0)
@@ -224,7 +309,7 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class FoldedBlockStyle : TextStyle
     {
-        public FoldedBlockStyle(Brush foreBrush, Brush backgroundBrush, FontStyle fontStyle):
+        public FoldedBlockStyle(Brush foreBrush, Brush backgroundBrush, FontStyle fontStyle) :
             base(foreBrush, backgroundBrush, fontStyle)
         {
         }
@@ -236,7 +321,7 @@ namespace FastColoredTextBoxNS
                 base.Draw(gr, position, range);
 
                 int firstNonSpaceSymbolX = position.X;
-                
+
                 //find first non space symbol
                 for (int i = range.Start.iChar; i < range.End.iChar; i++)
                     if (range.tb[range.Start.iLine][i].c != ' ')
@@ -250,7 +335,7 @@ namespace FastColoredTextBoxNS
             else
             {
                 //draw '...'
-                using(Font f = new Font(range.tb.Font, FontStyle))
+                using (Font f = new Font(range.tb.Font, FontStyle))
                     gr.DrawString("...", f, ForeBrush, range.tb.LeftIndent, position.Y - 2);
                 //create marker
                 range.tb.AddVisualMarker(new FoldedAreaMarker(range.Start.iLine, new Rectangle(range.tb.LeftIndent + 2, position.Y, 2 * range.tb.CharHeight, range.tb.CharHeight)));
@@ -263,11 +348,17 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class SelectionStyle : Style
     {
-        public Brush BackgroundBrush{get;set;}
+        public Brush BackgroundBrush { get; set; }
+
+        /// <summary>
+        /// Draw the \t (tab character) using a special character.
+        /// </summary>
+        public bool SpecialTabDraw { get; set; }
 
         public override bool IsExportable
         {
-            get{return false;}  set{}
+            get { return false; }
+            set { }
         }
 
         public SelectionStyle(Brush backgroundBrush)
@@ -280,7 +371,27 @@ namespace FastColoredTextBoxNS
             //draw background
             if (BackgroundBrush != null)
             {
-                Rectangle rect = new Rectangle(position.X, position.Y, (range.End.iChar - range.Start.iChar) * range.tb.CharWidth, range.tb.CharHeight);
+                int backgroundWidth;
+                if (this.SpecialTabDraw)
+                {
+                    // TODO: Can range span multiple lines? I don't think so...
+                    var llll = range.tb[range.Start.iLine]; // text on the line
+                    string beforeRangeText = llll.Text.Substring(0, range.Start.iChar); // all text before the range
+                    string rangeText = range.Text; // text within the range
+
+                    // Calculate where previous range ended
+                    int beforeRangeSize = TextSizeCalculator.TextWidth(beforeRangeText, range.tb.TabLength);
+                    int rangeSize = TextSizeCalculator.TextWidth(beforeRangeSize, rangeText, range.tb.TabLength) -
+                                    beforeRangeSize;
+
+                    // position.X should be at the correct location
+                    backgroundWidth = rangeSize * range.tb.CharWidth;
+                }
+                else
+                {
+                    backgroundWidth = (range.End.iChar - range.Start.iChar) * range.tb.CharWidth;
+                }
+                Rectangle rect = new Rectangle(position.X, position.Y, backgroundWidth, range.tb.CharHeight);
                 if (rect.Width == 0)
                     return;
                 gr.FillRectangle(BackgroundBrush, rect);
@@ -302,7 +413,7 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class MarkerStyle : Style
     {
-        public Brush BackgroundBrush{get;set;}
+        public Brush BackgroundBrush { get; set; }
 
         public MarkerStyle(Brush backgroundBrush)
         {
@@ -366,7 +477,7 @@ namespace FastColoredTextBoxNS
             gr.FillPath(Brushes.White, GetRoundedRectangle(rect, 1));
             gr.DrawPath(borderPen, GetRoundedRectangle(rect, 1));
             //add visual marker for handle mouse events
-            AddVisualMarker(range.tb, new StyleVisualMarker(new Rectangle(p.X-range.tb.CharWidth, p.Y, range.tb.CharWidth, range.tb.CharHeight), this));
+            AddVisualMarker(range.tb, new StyleVisualMarker(new Rectangle(p.X - range.tb.CharWidth, p.Y, range.tb.CharWidth, range.tb.CharHeight), this));
         }
 
         public override void Dispose()

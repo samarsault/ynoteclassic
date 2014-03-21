@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -21,7 +22,7 @@ namespace FastColoredTextBoxNS
         public abstract bool Remove(Bookmark item);
         public abstract IEnumerator<Bookmark> GetEnumerator();
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
@@ -224,9 +225,9 @@ namespace FastColoredTextBoxNS
 
         public Bookmark(FastColoredTextBox tb, string name, int lineIndex)
         {
-            this.TB = tb;
-            this.Name = name;
-            this.LineIndex = lineIndex;
+            TB = tb;
+            Name = name;
+            LineIndex = lineIndex;
             Color = tb.BookmarkColor;
         }
 

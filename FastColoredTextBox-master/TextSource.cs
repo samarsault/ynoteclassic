@@ -88,7 +88,7 @@ namespace FastColoredTextBoxNS
 
         public TextSource(FastColoredTextBox currentTB)
         {
-            this.CurrentTB = currentTB;
+            CurrentTB = currentTB;
             linesAccessor = new LinesAccessor(this);
             Manager = new CommandManager(this);
 
@@ -133,7 +133,7 @@ namespace FastColoredTextBoxNS
             return lines.GetEnumerator();
         }
 
-        IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return (lines  as IEnumerator);
         }

@@ -1,6 +1,13 @@
-﻿namespace SS.Ynote.Classic.Features.Packages
+﻿//========================================
+//
+// YnotePackage.cs
+// Copyright (C) 2014 Samarjeet Singh
+//
+//=========================================
+
+namespace SS.Ynote.Classic.Features.Packages
 {
-    #region
+    #region Using Directives
 
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -87,7 +94,7 @@
                     {
                         zip.ExtractFile(entry, Application.StartupPath + @"\Plugins\" + data.PluginFile);
                     }
-                    var list = referenceList as string[] ?? referenceList.ToArray();
+                    var list = referenceList as string[] ?? referenceList;
                     var enumerable = referenceList as string[] ?? list.ToArray();
                     var entry1 = entry;
                     foreach (var reference in enumerable.Where(reference => entry1.FilenameInZip == reference))

@@ -1,4 +1,4 @@
-﻿#region
+﻿#region Using Directives
 
 using System;
 using System.Collections.Generic;
@@ -76,10 +76,10 @@ namespace SS.Ynote.Classic.Features.Packages
         #region Public fields
 
         /// <summary>True if UTF8 encoding for filename and comments, false if default (CP 437)</summary>
-        public bool EncodeUTF8 = false;
+        private const bool EncodeUtf8 = false;
 
         /// <summary>Force deflate algotithm even if it inflates the stored file. Off by default.</summary>
-        public bool ForceDeflating = false;
+        private const bool ForceDeflating = false;
 
         #endregion
 
@@ -240,7 +240,7 @@ namespace SS.Ynote.Classic.Features.Packages
             // Prepare the fileinfo
             ZipFileEntry zfe = new ZipFileEntry();
             zfe.Method = _method;
-            zfe.EncodeUTF8 = EncodeUTF8;
+            zfe.EncodeUTF8 = EncodeUtf8;
             zfe.FilenameInZip = NormalizedFilename(_filenameInZip);
             zfe.Comment = (_comment == null ? "" : _comment);
 
@@ -610,7 +610,7 @@ namespace SS.Ynote.Classic.Features.Packages
 
         private void WriteEndRecord(uint _size, uint _offset)
         {
-            Encoding encoder = EncodeUTF8 ? Encoding.UTF8 : DefaultEncoding;
+            Encoding encoder = EncodeUtf8 ? Encoding.UTF8 : DefaultEncoding;
             byte[] encodedComment = encoder.GetBytes(Comment);
 
             ZipFileStream.Write(new byte[] {80, 75, 5, 6, 0, 0, 0, 0}, 0, 8);

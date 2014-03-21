@@ -14,9 +14,6 @@ namespace SS.Ynote.Classic.Features.Packages
         {
             InitializeComponent();
             PopulatePluginList();
-            var t = new Timer {Interval = 100};
-            t.Tick += (sender, args) => PopulateOnlineList(t);
-            t.Start();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -29,17 +26,6 @@ namespace SS.Ynote.Classic.Features.Packages
             if (MainForm.Plugins == null) return;
             foreach (var plugin in MainForm.Plugins)
                 listView1.Items.Add(new ListViewItem(new[] {plugin.Name, plugin.Version.ToString(), plugin.Description}));
-        }
-
-        private void PopulateOnlineList(object sender)
-        {
-            //TODO:Update Online Package List to On Server Url
-            if (NetworkInterface.GetIsNetworkAvailable())
-                foreach (var package in PluginChannel.GetOnlinePackages(@"C:\Users\Lenovo\Desktop\Packages.xml"))
-                    lstonlinepacks.Items.Add(new ListViewItem(new[] {package.Name, package.Version, package.Description}, 0) {Tag = package});
-            if (sender.GetType() == typeof (Timer))
-                ((Timer) (sender)).Stop();
-            lbldownload.Hide();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -59,12 +45,14 @@ namespace SS.Ynote.Classic.Features.Packages
             var packager = new PluginPacker {StartPosition = FormStartPosition.CenterParent};
             packager.ShowDialog(this);
         }
+
         private void button4_Click(object sender, EventArgs e)
         {
-            foreach (ListViewItem item in lstonlinepacks.CheckedItems)
+            using (var inp = new InputUrl())
             {
-                var package = item.Tag as YnoteOnlinePackage;
-                if (package != null) package.DownloadPackage();
+                inp.ShowDialog(this);
+                if(inp.GeneratedPackage != null)
+                    inp.GeneratedPackage.DownloadPackage();
             }
         }
     }

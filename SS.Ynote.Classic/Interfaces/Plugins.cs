@@ -31,12 +31,7 @@ public interface IPlugin
 public interface IYnotePlugin : IPlugin
 {
     /// <summary>
-    ///     MenuItem , if any, else='null'
-    /// </summary>
-    MenuItem MainMenuItem { get; }
-
-    /// <summary>
-    ///     Run Plugin()
+    /// Run Plugin()
     /// </summary>
     void Initialize(IYnote ynote);
 }

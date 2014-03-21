@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Windows.Forms;
 
 namespace FastColoredTextBoxNS
 {
@@ -16,7 +17,7 @@ namespace FastColoredTextBoxNS
         List<int> sourceFileLinePositions = new List<int>();
         FileStream fs;
         Encoding fileEncoding;
-        System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+        Timer timer = new Timer();
 
         /// <summary>
         /// Occurs when need to display line in the textbox
@@ -258,7 +259,7 @@ namespace FastColoredTextBoxNS
             //binding to new file
             sourceFileLinePositions = newLinePos;
             fs = new FileStream(fileName, FileMode.Open);
-            this.fileEncoding = enc;
+            fileEncoding = enc;
         }
 
         private string ReadLine(StreamReader sr, int i)
@@ -392,9 +393,9 @@ namespace FastColoredTextBoxNS
 
         public LineNeededEventArgs(string sourceLineText, int displayedLineIndex)
         {
-            this.SourceLineText = sourceLineText;
-            this.DisplayedLineIndex = displayedLineIndex;
-            this.DisplayedLineText = sourceLineText;
+            SourceLineText = sourceLineText;
+            DisplayedLineIndex = displayedLineIndex;
+            DisplayedLineText = sourceLineText;
         }
     }
 
@@ -414,10 +415,10 @@ namespace FastColoredTextBoxNS
 
         public LinePushedEventArgs(string sourceLineText, int displayedLineIndex, string displayedLineText)
         {
-            this.SourceLineText = sourceLineText;
-            this.DisplayedLineIndex = displayedLineIndex;
-            this.DisplayedLineText = displayedLineText;
-            this.SavedText = displayedLineText;
+            SourceLineText = sourceLineText;
+            DisplayedLineIndex = displayedLineIndex;
+            DisplayedLineText = displayedLineText;
+            SavedText = displayedLineText;
         }
     }
 }

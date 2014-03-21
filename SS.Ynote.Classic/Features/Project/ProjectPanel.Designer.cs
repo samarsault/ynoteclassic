@@ -1,6 +1,4 @@
-﻿using System.Security.AccessControl;
-
-namespace SS.Ynote.Classic.Features.Project
+﻿namespace SS.Ynote.Classic.Features.Project
 {
     partial class ProjectPanel
     {
@@ -69,6 +67,7 @@ namespace SS.Ynote.Classic.Features.Project
             // treeView1
             // 
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView1.FullRowSelect = true;
             this.treeView1.ImageIndex = 0;
             this.treeView1.ImageList = this.imageList1;
             this.treeView1.LabelEdit = true;

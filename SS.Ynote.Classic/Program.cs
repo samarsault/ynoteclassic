@@ -4,6 +4,7 @@
 // The Ynote Classic Project
 //
 //=====================================
+
 using System;
 using System.Windows.Forms;
 

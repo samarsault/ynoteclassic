@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using SS.Ynote.Classic.Features.RunScript;
 using WeifenLuo.WinFormsUI.Docking;
@@ -24,7 +25,7 @@ namespace SS.Ynote.Classic.Features.Project
             _ynote = ynote;
             _openprojects = new List<YnoteProject>();
         }
-
+        
         public void OpenProject(string filename)
         {
             var project = YnoteProject.Read(filename);
@@ -69,16 +70,16 @@ namespace SS.Ynote.Classic.Features.Project
                 OpenProject(project.ProjectFile);
             _openprojects.Clear();
         }
-
-        private void ListDirectory(ExTreeNode iTreeNode, string path)
+        /// <summary>
+        /// List Directory
+        /// </summary>
+        /// <param name="iTreeNode"></param>
+        /// <param name="path"></param>
+        static void ListDirectory(ExTreeNode iTreeNode, string path)
         {
             var stack = new Stack<TreeNode>();
             var rootDirectory = new DirectoryInfo(path);
             var node = new ExTreeNode(rootDirectory.Name, path, 0, 0, rootDirectory, NodeType.Folder){IsMainListing =true};
-#if DEBUG
-            Debug.WriteLine("value of node is : " + node.Text + " : " + node.Name);
-            Debug.WriteLine(iTreeNode.Text + " : " + iTreeNode.Name);
-#endif
             stack.Push(node);
 
             while (stack.Count > 0)
@@ -92,9 +93,6 @@ namespace SS.Ynote.Classic.Features.Project
                         NodeType.Folder);
                     currentNode.Nodes.Add(childDirectoryNode);
                     stack.Push(childDirectoryNode);
-#if DEBUG
-                    Debug.WriteLine(childDirectoryNode.Text + " : " + childDirectoryNode.Name);
-#endif
                 }
                 for (int i = 0; i < directoryInfo.GetFiles().Length; i++)
                 {

@@ -19,20 +19,20 @@ namespace SS.Ynote.Classic.UI
         {
             InitializeComponent();
             ynote = note;
-            BuildAutoComplete(completemenu);
+            BuildAutoComplete();
         }
 
-        protected virtual void BuildAutoComplete(AutocompleteMenu menu)
+        void BuildAutoComplete()
         {
             var items = (from DockContent doc in ynote.Panel.Documents
                 where doc.GetType() == typeof (Editor)
                 select new AutocompleteItem(doc.Text)).ToList();
-            SetAutoComplete(items);
+            SetAutoComplete(items, completemenu,textBox1);
         }
 
-        private void SetAutoComplete(IEnumerable<AutocompleteItem> items)
+        static void SetAutoComplete(IEnumerable<AutocompleteItem> items, AutocompleteMenu completemenu, TextBox tb)
         {
-            completemenu.SetAutocompleteMenu(textBox1, completemenu);
+            completemenu.SetAutocompleteMenu(tb, completemenu);
             completemenu.SetAutocompleteItems(items);
         }
 
@@ -53,7 +53,8 @@ namespace SS.Ynote.Classic.UI
             if (e.KeyCode == Keys.Escape) Close();
             if (e.KeyCode != Keys.Enter) return;
             DoKeyDownFunction(textBox1.Text);
-            Close();
+            if(!IsDisposed)
+                Close();
         }
 
         protected override void OnShown(EventArgs e)

@@ -113,8 +113,8 @@ namespace FastColoredTextBoxNS
         /// <param name="file"/>
         public void ExecuteMacros(string file)
         {
-            this.isRecording = false;
-            this.ClearMacros();
+            isRecording = false;
+            ClearMacros();
             if (string.IsNullOrEmpty(file))
                 return;
             XmlDocument xmlDocument = new XmlDocument();
@@ -132,31 +132,31 @@ namespace FastColoredTextBoxNS
                     if (attributeNode1 != null)
                     {
                         if (attributeNode2 != null)
-                            this.AddCharToMacros((char)int.Parse(attributeNode1.Value), (Keys)keysConverter.ConvertFromString(attributeNode2.Value));
+                            AddCharToMacros((char)int.Parse(attributeNode1.Value), (Keys)keysConverter.ConvertFromString(attributeNode2.Value));
                         else
-                            this.AddCharToMacros((char)int.Parse(attributeNode1.Value), Keys.None);
+                            AddCharToMacros((char)int.Parse(attributeNode1.Value), Keys.None);
                     }
                     else if (attributeNode2 != null)
-                        this.AddKeyToMacros((Keys)keysConverter.ConvertFromString(attributeNode2.Value));
+                        AddKeyToMacros((Keys)keysConverter.ConvertFromString(attributeNode2.Value));
                 }
             }
             Thread.CurrentThread.CurrentUICulture = currentUiCulture;
-            this.UnderlayingControl.BeginUpdate();
-            this.UnderlayingControl.Selection.BeginUpdate();
-            this.UnderlayingControl.BeginAutoUndo();
-            foreach (object obj in this.macro)
+            UnderlayingControl.BeginUpdate();
+            UnderlayingControl.Selection.BeginUpdate();
+            UnderlayingControl.BeginAutoUndo();
+            foreach (object obj in macro)
             {
                 if (obj is Keys)
-                    this.UnderlayingControl.ProcessKey((Keys)obj);
+                    UnderlayingControl.ProcessKey((Keys)obj);
                 if (obj is KeyValuePair<char, Keys>)
                 {
                     var keyValuePair = (KeyValuePair<char, Keys>)obj;
-                    this.UnderlayingControl.ProcessKey(keyValuePair.Key, keyValuePair.Value);
+                    UnderlayingControl.ProcessKey(keyValuePair.Key, keyValuePair.Value);
                 }
             }
-            this.UnderlayingControl.EndAutoUndo();
-            this.UnderlayingControl.Selection.EndUpdate();
-            this.UnderlayingControl.EndUpdate();
+            UnderlayingControl.EndAutoUndo();
+            UnderlayingControl.Selection.EndUpdate();
+            UnderlayingControl.EndUpdate();
         }
 
         /// <summary>

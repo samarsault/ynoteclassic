@@ -38,7 +38,7 @@ namespace FastColoredTextBoxNS
 
         public string GetRtf(Range r)
         {
-            this.tb = r.tb;
+            tb = r.tb;
             var styles = new Dictionary<StyleIndex, object>();
             var sb = new StringBuilder();
             var tempSB = new StringBuilder();

@@ -16,7 +16,14 @@ namespace SS.Ynote.Classic.UI
         {
             InitializeComponent();
             treeView1.ExpandAll();
-            cmbwordwrapmode.DataSource = Enum.GetValues(typeof (WordWrapMode));
+            InitSettings();
+        }
+        /// <summary>
+        /// Initialize Settings
+        /// </summary>
+        void InitSettings()
+        {
+            cmbwordwrapmode.DataSource = Enum.GetValues(typeof(WordWrapMode));
             cbdockstyle.Text = SettingsBase.DocumentStyle.ToString();
             comboBox1.SelectedIndex = 0;
             comboBox2.Text = SettingsBase.BracketsStrategy.ToString();
@@ -32,7 +39,6 @@ namespace SS.Ynote.Classic.UI
             tblineinterval.Text = SettingsBase.LineInterval.ToString();
             tabsize.Value = SettingsBase.TabSize;
         }
-
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             switch (e.Node.Text)

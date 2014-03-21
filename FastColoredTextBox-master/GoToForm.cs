@@ -17,37 +17,37 @@ namespace FastColoredTextBoxNS
         {
             base.OnLoad(e);
 
-            this.tbLineNumber.Text = this.SelectedLineNumber.ToString();
+            tbLineNumber.Text = SelectedLineNumber.ToString();
 
-            this.label.Text = String.Format("Line number (1 - {0}):", this.TotalLineCount);
+            label.Text = String.Format("Line number (1 - {0}):", TotalLineCount);
         }
 
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
 
-            this.tbLineNumber.Focus();
+            tbLineNumber.Focus();
         }
 
         private void btnOk_Click(object sender, EventArgs e)
         {
             int enteredLine;
-            if (int.TryParse(this.tbLineNumber.Text, out enteredLine))
+            if (int.TryParse(tbLineNumber.Text, out enteredLine))
             {
-                enteredLine = Math.Min(enteredLine, this.TotalLineCount);
+                enteredLine = Math.Min(enteredLine, TotalLineCount);
                 enteredLine = Math.Max(1, enteredLine);
 
-                this.SelectedLineNumber = enteredLine;
+                SelectedLineNumber = enteredLine;
             }
 
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
+            DialogResult = DialogResult.Cancel;
+            Close();
          }
     }
 }

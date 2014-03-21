@@ -38,7 +38,6 @@ namespace SS.Ynote.Classic.Features.Search
         {
             try
             {
-                Tb.FindNextPattern = pattern;
                 tbFind.BackColor = Color.White;
                 var opt = cbMatchCase.Checked ? RegexOptions.None : RegexOptions.IgnoreCase;
                 if (!cbRegex.Checked)
@@ -129,6 +128,7 @@ namespace SS.Ynote.Classic.Features.Search
             Tb.Range.ClearStyle(_style);
             Visible = false;
         }
+
     }
 
     /// <summary>

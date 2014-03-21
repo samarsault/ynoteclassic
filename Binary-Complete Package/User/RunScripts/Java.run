@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+	<YnoteRun>
+		<Config Name="Java" Process="%jdk_home%\bin\javac" Arguments="$source" CmdDir=""/>
+	</YnoteRun>

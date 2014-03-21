@@ -135,7 +135,6 @@
             this.codebox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.codebox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.codebox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.codebox.FindNextPattern = null;
             this.codebox.Hotkeys = resources.GetString("codebox.Hotkeys");
             this.codebox.IsReplaceMode = false;
             this.codebox.Language = FastColoredTextBoxNS.Language.Text;

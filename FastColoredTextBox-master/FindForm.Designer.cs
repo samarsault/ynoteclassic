@@ -35,11 +35,13 @@
             this.cbMatchCase = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cbWholeWord = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cmbFindIn = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // btClose
             // 
-            this.btClose.Location = new System.Drawing.Point(273, 73);
+            this.btClose.Location = new System.Drawing.Point(273, 112);
             this.btClose.Name = "btClose";
             this.btClose.Size = new System.Drawing.Size(75, 23);
             this.btClose.TabIndex = 5;
@@ -49,7 +51,7 @@
             // 
             // btFindNext
             // 
-            this.btFindNext.Location = new System.Drawing.Point(192, 73);
+            this.btFindNext.Location = new System.Drawing.Point(192, 112);
             this.btFindNext.Name = "btFindNext";
             this.btFindNext.Size = new System.Drawing.Size(75, 23);
             this.btFindNext.TabIndex = 4;
@@ -108,11 +110,34 @@
             this.cbWholeWord.UseVisualStyleBackColor = true;
             this.cbWholeWord.CheckedChanged += new System.EventHandler(this.cbMatchCase_CheckedChanged);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(9, 80);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(48, 13);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Find In : ";
+            // 
+            // cmbFindIn
+            // 
+            this.cmbFindIn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFindIn.FormattingEnabled = true;
+            this.cmbFindIn.Items.AddRange(new object[] {
+            "Current Document",
+            "Current Selection"});
+            this.cmbFindIn.Location = new System.Drawing.Point(63, 77);
+            this.cmbFindIn.Name = "cmbFindIn";
+            this.cmbFindIn.Size = new System.Drawing.Size(285, 21);
+            this.cmbFindIn.TabIndex = 7;
+            // 
             // FindForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(360, 108);
+            this.ClientSize = new System.Drawing.Size(360, 147);
+            this.Controls.Add(this.cmbFindIn);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.cbWholeWord);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cbMatchCase);
@@ -142,5 +167,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox cbWholeWord;
         public System.Windows.Forms.TextBox tbFind;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox cmbFindIn;
     }
 }

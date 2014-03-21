@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System;
 using System.Text;
 using System.Drawing;
@@ -42,7 +43,7 @@ namespace FastColoredTextBoxNS
 
         internal Line(int uid)
         {
-            this.UniqueId = uid;
+            UniqueId = uid;
             chars = new List<Char>();
         }
 
@@ -171,9 +172,9 @@ namespace FastColoredTextBoxNS
             return chars.GetEnumerator();
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            return chars.GetEnumerator() as System.Collections.IEnumerator;
+            return chars.GetEnumerator() as IEnumerator;
         }
 
         public virtual void RemoveRange(int index, int count)

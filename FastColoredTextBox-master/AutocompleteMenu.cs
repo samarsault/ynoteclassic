@@ -103,7 +103,7 @@ namespace FastColoredTextBoxNS
         internal void CalcSize()
         {
             host.Size = listView.Size;
-            Size = new System.Drawing.Size(listView.Size.Width + 4, listView.Size.Height + 4);
+            Size = new Size(listView.Size.Width + 4, listView.Size.Height + 4);
         }
 
         public virtual void OnSelecting()
@@ -179,7 +179,7 @@ namespace FastColoredTextBoxNS
         }
     }
 
-    [System.ComponentModel.ToolboxItem(false)]
+    [ToolboxItem(false)]
     public class AutocompleteListView : UserControl
     {
         public event EventHandler FocussedItemIndexChanged;
@@ -193,7 +193,7 @@ namespace FastColoredTextBoxNS
         int oldItemCount = 0;
         FastColoredTextBox tb;
         internal ToolTip toolTip = new ToolTip();
-        System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+        Timer timer = new Timer();
 
         internal bool AllowTabKey { get; set; }
         public ImageList ImageList { get; set; }
@@ -267,9 +267,9 @@ namespace FastColoredTextBoxNS
 
             tb.Scroll += (o, e) => Menu.Close();
 
-            this.VisibleChanged += (o, e) =>
+            VisibleChanged += (o, e) =>
             {
-                if (this.Visible)
+                if (Visible)
                     DoSelectedVisible();
             };
         }
@@ -294,7 +294,7 @@ namespace FastColoredTextBoxNS
             DoAutocomplete(false);
         }
 
-        void ResetTimer(System.Windows.Forms.Timer timer)
+        void ResetTimer(Timer timer)
         {
             timer.Stop();
             timer.Start();
@@ -317,7 +317,7 @@ namespace FastColoredTextBoxNS
             FocussedItemIndex = 0;
             VerticalScroll.Value = 0;
             //get fragment around caret
-            Range fragment = tb.Selection.GetFragment(Menu.SearchPattern);
+            var fragment = tb.Selection.GetFragment(Menu.SearchPattern);
             string text = fragment.Text;
             //calc screen point for popup menu
             Point point = tb.PlaceToPoint(fragment.End);
@@ -487,7 +487,7 @@ namespace FastColoredTextBoxNS
         {
             base.OnMouseClick(e);
 
-            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
                 FocussedItemIndex = PointToItemIndex(e.Location);
                 DoSelectedVisible();
@@ -657,7 +657,7 @@ namespace FastColoredTextBoxNS
                 return;
             }
 
-            IWin32Window window = this.Parent ?? this;
+            IWin32Window window = Parent ?? this;
             Point location = new Point((window == this ? Width : Right) + 3, 0);
 
             if (string.IsNullOrEmpty(text))

@@ -57,6 +57,7 @@
             this.ClientSize = new System.Drawing.Size(408, 103);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.progressBar1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "PluginInstaller";
             this.ShowIcon = false;
             this.Text = "Plugin Installer";

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -24,9 +25,9 @@ namespace FastColoredTextBoxNS
             tb.VisibleRangeChanged += OnTextBoxVisibleRangeChanged;
         }
 
-        protected virtual void OnTextBoxKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        protected virtual void OnTextBoxKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == System.Windows.Forms.Keys.Escape && e.Modifiers == System.Windows.Forms.Keys.None)
+            if (e.KeyCode == Keys.Escape && e.Modifiers == Keys.None)
                 Clear();
         }
 
@@ -89,7 +90,7 @@ namespace FastColoredTextBoxNS
                 yield return item;
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
@@ -274,9 +275,9 @@ namespace FastColoredTextBoxNS
 
         private Hint(Range range, Control innerControl, string text, bool inline, bool dock)
         {
-            this.Range = range;
-            this.Inline = inline;
-            this.InnerControl = innerControl;
+            Range = range;
+            Inline = inline;
+            InnerControl = innerControl;
 
             Init();
 

@@ -74,6 +74,8 @@ namespace FastColoredTextBoxNS
                 case Language.HTML:
                     HTMLAutoIndentNeeded(sender, args);
                     break;
+                case Language.Xml:HTMLAutoIndentNeeded(sender, args);
+                    break;
                 case Language.SQL:
                     SQLAutoIndentNeeded(sender, args);
                     break;
@@ -83,7 +85,15 @@ namespace FastColoredTextBoxNS
                 case Language.Javascript:
                     CSharpAutoIndentNeeded(sender, args);
                     break; //JS like C#
-                default:
+                case Language.CPP:CSharpAutoIndentNeeded(sender, args);
+                    break;
+                case Language.Objective_C: CSharpAutoIndentNeeded(sender, args);
+                    break;
+                case Language.Actionscript: CSharpAutoIndentNeeded(sender, args);
+                    break;
+                case Language.Scala: CSharpAutoIndentNeeded(sender, args);
+                    break;
+                case Language.Java: CSharpAutoIndentNeeded(sender, args);
                     break;
             }
         }

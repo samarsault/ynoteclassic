@@ -35,7 +35,7 @@ namespace FastColoredTextBoxNS
             }
         }
 
-        public List<Range> FindAll(string pattern)
+        private List<Range> FindAll(string pattern)
         {
             RegexOptions opt = cbMatchCase.Checked ? RegexOptions.None : RegexOptions.IgnoreCase;
             if (!cbRegex.Checked)
@@ -43,12 +43,12 @@ namespace FastColoredTextBoxNS
             if (cbWholeWord.Checked)
                 pattern = "\\b" + pattern + "\\b";
             //
-            Range range = tb.Selection.Clone();
+            var range = tb.Selection.Clone();
             range.Normalize();
             range.Start = range.End;
             range.End = new Place(tb.GetLineLength(tb.LinesCount - 1), tb.LinesCount - 1);
             //
-            List<Range> list = new List<Range>();
+            var list = new List<Range>();
             foreach (var r in range.GetRangesByLines(pattern, opt))
                 list.Add(r);
 
@@ -106,7 +106,7 @@ namespace FastColoredTextBoxNS
         {
             if (keyData == Keys.Escape)
             {
-                this.Close();
+                Close();
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
@@ -119,7 +119,7 @@ namespace FastColoredTextBoxNS
                 e.Cancel = true;
                 Hide();
             }
-            this.tb.Focus();
+            tb.Focus();
         }
 
         private void btReplace_Click(object sender, EventArgs e)
