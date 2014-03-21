@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -108,55 +108,12 @@ namespace FastColoredTextBoxNS
         }
         /// <summary>
         /// Executes Macro from file
-        /// 
         /// </summary>
         /// <param name="file"/>
         public void ExecuteMacros(string file)
         {
-            isRecording = false;
-            ClearMacros();
-            if (string.IsNullOrEmpty(file))
-                return;
-            XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.LoadXml(file);
-            XmlNodeList xmlNodeList = xmlDocument.SelectNodes("./macros/item");
-            CultureInfo currentUiCulture = Thread.CurrentThread.CurrentUICulture;
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
-            KeysConverter keysConverter = new KeysConverter();
-            if (xmlNodeList != null)
-            {
-                foreach (XmlElement xmlElement in xmlNodeList)
-                {
-                    XmlAttribute attributeNode1 = xmlElement.GetAttributeNode("char");
-                    XmlAttribute attributeNode2 = xmlElement.GetAttributeNode("key");
-                    if (attributeNode1 != null)
-                    {
-                        if (attributeNode2 != null)
-                            AddCharToMacros((char)int.Parse(attributeNode1.Value), (Keys)keysConverter.ConvertFromString(attributeNode2.Value));
-                        else
-                            AddCharToMacros((char)int.Parse(attributeNode1.Value), Keys.None);
-                    }
-                    else if (attributeNode2 != null)
-                        AddKeyToMacros((Keys)keysConverter.ConvertFromString(attributeNode2.Value));
-                }
-            }
-            Thread.CurrentThread.CurrentUICulture = currentUiCulture;
-            UnderlayingControl.BeginUpdate();
-            UnderlayingControl.Selection.BeginUpdate();
-            UnderlayingControl.BeginAutoUndo();
-            foreach (object obj in macro)
-            {
-                if (obj is Keys)
-                    UnderlayingControl.ProcessKey((Keys)obj);
-                if (obj is KeyValuePair<char, Keys>)
-                {
-                    var keyValuePair = (KeyValuePair<char, Keys>)obj;
-                    UnderlayingControl.ProcessKey(keyValuePair.Key, keyValuePair.Value);
-                }
-            }
-            UnderlayingControl.EndAutoUndo();
-            UnderlayingControl.Selection.EndUpdate();
-            UnderlayingControl.EndUpdate();
+            Macros = File.ReadAllText(file);
+            ExecuteMacros();
         }
 
         /// <summary>

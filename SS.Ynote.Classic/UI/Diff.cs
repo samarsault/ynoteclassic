@@ -1,4 +1,4 @@
-﻿#region
+#region
 
 using System;
 using System.Collections.Generic;
@@ -435,7 +435,7 @@ namespace SS.Ynote.Classic.UI
         /// </summary>
         public class Lines : List<Line>, IEquatable<Lines>
         {
-            //эта строка нужна для хранения строк, вставленных в самом начале, до первой строки исходного файла
+            //??? ?????? ????? ??? ???????? ?????, ??????????? ? ????? ??????, ?? ?????? ?????? ????????? ?????
             private Line fictiveLine = new Line("===fictive line===") {state = DiffType.Deleted};
 
             public Lines()
@@ -475,11 +475,13 @@ namespace SS.Ynote.Classic.UI
                         return false;
                 return true;
             }
-
+            public static Lines Load(string fileName){
+                return Load(fileName, Encoding.Default);
+            }
             /// <summary>
             ///     Load from file
             /// </summary>
-            public static Lines Load(string fileName, Encoding enc = null)
+            public static Lines Load(string fileName, Encoding enc)
             {
                 var lines = new Lines();
                 foreach (string line in File.ReadAllLines(fileName, enc ?? Encoding.Default))
@@ -516,7 +518,7 @@ namespace SS.Ynote.Classic.UI
                             this[iLine - 1].subLines = new Lines();
                     }
                 };
-                //запускаем алгоритм нахождения максимальной подпоследовательности (LCS)
+                //????????? ???????? ?????????? ???????????? ????????????????????? (LCS)
                 diff.RunDiff();
             }
 
@@ -559,7 +561,7 @@ namespace SS.Ynote.Classic.UI
         }
 
         /// <summary>
-        ///     Строка, содержащая несколько конфликтных версий
+        ///     ??????, ?????????? ????????? ??????????? ??????
         /// </summary>
         public class ConflictedLine : Line
         {
