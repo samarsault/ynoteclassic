@@ -128,7 +128,6 @@ namespace SS.Ynote.Classic.Features.Search
             Tb.Range.ClearStyle(_style);
             Visible = false;
         }
-
     }
 
     /// <summary>

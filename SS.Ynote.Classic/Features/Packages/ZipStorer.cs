@@ -150,7 +150,7 @@ namespace SS.Ynote.Classic.Features.Packages
         /// <returns>A valid ZipStorer object</returns>
         public static ZipStorer Create(Stream _stream, string _comment)
         {
-            ZipStorer zip = new ZipStorer();
+            var zip = new ZipStorer();
             zip.Comment = _comment;
             zip.ZipFileStream = _stream;
             zip.Access = FileAccess.Write;
@@ -186,7 +186,7 @@ namespace SS.Ynote.Classic.Features.Packages
             if (!_stream.CanSeek && _access != FileAccess.Read)
                 throw new InvalidOperationException("Stream cannot seek");
 
-            ZipStorer zip = new ZipStorer();
+            var zip = new ZipStorer();
             //zip.FileName = _filename;
             zip.ZipFileStream = _stream;
             zip.Access = _access;
@@ -238,7 +238,7 @@ namespace SS.Ynote.Classic.Features.Packages
             }
 
             // Prepare the fileinfo
-            ZipFileEntry zfe = new ZipFileEntry();
+            var zfe = new ZipFileEntry();
             zfe.Method = _method;
             zfe.EncodeUTF8 = EncodeUtf8;
             zfe.FilenameInZip = NormalizedFilename(_filenameInZip);
@@ -270,7 +270,7 @@ namespace SS.Ynote.Classic.Features.Packages
         {
             if (Access != FileAccess.Read)
             {
-                uint centralOffset = (uint) ZipFileStream.Position;
+                var centralOffset = (uint) ZipFileStream.Position;
                 uint centralSize = 0;
 
                 if (CentralDirImage != null)
@@ -393,7 +393,7 @@ namespace SS.Ynote.Classic.Features.Packages
                 throw new InvalidOperationException("Stream cannot be written");
 
             // check signature
-            byte[] signature = new byte[4];
+            var signature = new byte[4];
             ZipFileStream.Seek(_zfe.HeaderOffset, SeekOrigin.Begin);
             ZipFileStream.Read(signature, 0, 4);
             if (BitConverter.ToUInt32(signature, 0) != 0x04034b50)
@@ -409,7 +409,7 @@ namespace SS.Ynote.Classic.Features.Packages
                 return false;
 
             // Buffered copy
-            byte[] buffer = new byte[16384];
+            var buffer = new byte[16384];
             ZipFileStream.Seek(_zfe.FileOffset, SeekOrigin.Begin);
             uint bytesPending = _zfe.FileSize;
             while (bytesPending > 0)
@@ -449,7 +449,7 @@ namespace SS.Ynote.Classic.Features.Packages
             {
                 ZipStorer tempZip = Create(tempZipName, string.Empty);
 
-                foreach (ZipFileEntry zfe in fullList)
+                foreach (var zfe in fullList)
                 {
                     if (!_zfes.Contains(zfe))
                     {
@@ -488,7 +488,7 @@ namespace SS.Ynote.Classic.Features.Packages
         // Calculate the file offset by reading the corresponding local header
         private uint GetFileOffset(uint _headerOffset)
         {
-            byte[] buffer = new byte[2];
+            var buffer = new byte[2];
 
             ZipFileStream.Seek(_headerOffset + 26, SeekOrigin.Begin);
             ZipFileStream.Read(buffer, 0, 2);
@@ -625,7 +625,7 @@ namespace SS.Ynote.Classic.Features.Packages
         // Copies all source file into storage file
         private void Store(ref ZipFileEntry _zfe, Stream _source)
         {
-            byte[] buffer = new byte[16384];
+            var buffer = new byte[16384];
             int bytesRead;
             uint totalRead = 0;
             Stream outStream;
@@ -754,7 +754,7 @@ namespace SS.Ynote.Classic.Features.Packages
             try
             {
                 ZipFileStream.Seek(-17, SeekOrigin.End);
-                BinaryReader br = new BinaryReader(ZipFileStream);
+                var br = new BinaryReader(ZipFileStream);
                 do
                 {
                     ZipFileStream.Seek(-5, SeekOrigin.Current);

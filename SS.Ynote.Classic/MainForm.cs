@@ -1,31 +1,30 @@
-﻿
-
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Windows.Forms;
+using System.Xml;
+using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Packages;
+using SS.Ynote.Classic.Features.Project;
+using SS.Ynote.Classic.Features.RunScript;
+using SS.Ynote.Classic.Properties;
+using SS.Ynote.Classic.UI;
+using WeifenLuo.WinFormsUI.Docking;
+using Timer = System.Windows.Forms.Timer;
 
 namespace SS.Ynote.Classic
 {
     #region Using Directives
 
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-    using System.ComponentModel.Composition.Hosting;
-    using System.Diagnostics;
-    using System.Drawing;
-    using System.IO;
-    using System.Linq;
-    using System.Text;
-    using System.Text.RegularExpressions;
-    using System.Threading;
-    using System.Windows.Forms;
-    using System.Xml;
-    using FastColoredTextBoxNS;
-    using Features.Packages;
-    using Features.Project;
-    using Features.RunScript;
-    using UI;
-    using WeifenLuo.WinFormsUI.Docking;
-    using Properties;
-    using Timer = System.Windows.Forms.Timer;
+    
 
     #endregion
 
@@ -58,12 +57,19 @@ namespace SS.Ynote.Classic
         /// <summary>
         ///     Panel
         /// </summary>
-        public DockPanel Panel { get { return dock; } }
+        public DockPanel Panel
+        {
+            get { return dock; }
+        }
 
         /// <summary>
-        ///  Main Menu
+        ///     Main Menu
         /// </summary>
-        public MainMenu MainMenu { get { return Menu; } }
+        public MainMenu MainMenu
+        {
+            get { return Menu; }
+        }
+
         #endregion
 
         #region Constructor
@@ -102,15 +108,10 @@ namespace SS.Ynote.Classic
             var stop = new Stopwatch();
             stop.Start();
 #endif
-           // OpenDefault(name);
+            // OpenDefault(name);
             OpenDefault(name);
 #if DEBUG
             Debug.WriteLine("Time taken to load Default : " + stop.ElapsedMilliseconds + "Millisecs");
-            stop.Stop();
-#endif
-            SaveRecentFile(name, recentfilesmenu);
-#if DEBUG
-            Debug.WriteLine("Total Time Taken to Save Recent File : " + stop.ElapsedMilliseconds + "Milliseconds.");
             stop.Stop();
 #endif
         }
@@ -287,7 +288,7 @@ namespace SS.Ynote.Classic
         private void BuildLangMenu()
         {
             var menus = Enum.GetValues(typeof (Language)).Cast<Language>();
-            foreach (MenuItem m in menus.Select(lang => new MenuItem {Text = lang.ToString()}))
+            foreach (var m in menus.Select(lang => new MenuItem {Text = lang.ToString()}))
             {
                 m.Click += LangMenuItemClicked;
                 milanguage.MenuItems.Add(m);
@@ -489,7 +490,6 @@ namespace SS.Ynote.Classic
 
         #endregion
 
-
         #region Overrides
 
         /// <summary>
@@ -517,7 +517,7 @@ namespace SS.Ynote.Classic
         #endregion
 
         #region Events
-        
+
         private void NewMenuItem_Click(object sender, EventArgs e)
         {
             CreateNewDoc();
@@ -529,14 +529,13 @@ namespace SS.Ynote.Classic
             {
                 dialog.ShowReadOnly = true;
                 dialog.Filter = "All Files (*.*)|*.*";
-                dialog.ShowDialog();
-                if (dialog.FileName != "")
-                {
-                    if (dialog.ReadOnlyChecked)
-                        OpenDefault(dialog.FileName, true);
-                    else
-                        OpenFile(dialog.FileName);
-                }
+                var res = dialog.ShowDialog() == DialogResult.OK;
+                if (!res) return;
+                if (dialog.ReadOnlyChecked)
+                    OpenDefault(dialog.FileName, true);
+                else
+                    OpenDefault(dialog.FileName);
+                SaveRecentFile(dialog.FileName, recentfilesmenu);
             }
         }
 
@@ -601,6 +600,7 @@ namespace SS.Ynote.Classic
         {
             if (ActiveEditor != null) ActiveEditor.tb.CommentSelected();
         }
+
         private void gotofirstlinemenu_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null) ActiveEditor.tb.GoHome();
@@ -624,11 +624,6 @@ namespace SS.Ynote.Classic
         private void selectallmenu_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null) ActiveEditor.tb.SelectAll();
-        }
-
-        private void clearallmenu_Click(object sender, EventArgs e)
-        {
-            if (ActiveEditor != null) ActiveEditor.tb.Clear();
         }
 
         private void foldallmenu_Click(object sender, EventArgs e)
@@ -755,16 +750,16 @@ namespace SS.Ynote.Classic
 
         private void commentmenu_Popup(object sender, EventArgs e)
         {
-             if (ActiveEditor != null && ActiveEditor.tb.Text.Contains(ActiveEditor.tb.CommentPrefix))
-             {
-                 commentline.Enabled = false;
-                 uncommentline.Enabled = true;
-             }
-             else
-             {
-                 commentline.Enabled = true;
-                 uncommentline.Enabled = false;
-             }
+            if (ActiveEditor != null && ActiveEditor.tb.Text.Contains(ActiveEditor.tb.CommentPrefix))
+            {
+                commentline.Enabled = false;
+                uncommentline.Enabled = true;
+            }
+            else
+            {
+                commentline.Enabled = true;
+                uncommentline.Enabled = false;
+            }
         }
 
         private void Addbookmarkmenu_Click(object sender, EventArgs e)
@@ -782,7 +777,7 @@ namespace SS.Ynote.Classic
             MessageBox.Show("Press Ctrl + Shift + N To Navigate through bookmarks");
         }
 
-        private void menuItem28_Click(object sender, EventArgs e)
+        private void rtfExport_Click(object sender, EventArgs e)
         {
             using (var rtfs = new SaveFileDialog())
             {
@@ -798,8 +793,8 @@ namespace SS.Ynote.Classic
             using (var htmls = new SaveFileDialog())
             {
                 htmls.FileName = "HTML Web Page (*.htm), (*.html)|*.htm|Shtml Page (*.shtml)|*.shtml";
-                htmls.ShowDialog();
-                if (htmls.FileName != "")
+                var result = htmls.ShowDialog() == DialogResult.OK;
+                if (result)
                     if (ActiveEditor != null) File.WriteAllText(htmls.FileName, ActiveEditor.tb.Html);
             }
         }
@@ -818,7 +813,7 @@ namespace SS.Ynote.Classic
             }
         }
 
-        private void menuItem33_Click(object sender, EventArgs e)
+        private void mifromdir_Click(object sender, EventArgs e)
         {
             using (var fb = new FolderBrowserDialog())
             {
@@ -842,7 +837,8 @@ namespace SS.Ynote.Classic
                 edit.Show(dock, DockState.Document);
             }
         }
-        private void menuItem15_Click(object sender, EventArgs e)
+
+        private void miproperties_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null && ActiveEditor.IsSaved)
                 NativeMethods.ShowFileProperties(ActiveEditor.Name);
@@ -850,7 +846,7 @@ namespace SS.Ynote.Classic
                 MessageBox.Show("File Not Saved!", "Ynote Classic");
         }
 
-        private void menuItem17_Click(object sender, EventArgs e)
+        private void midelete_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null && ActiveEditor.IsSaved)
             {
@@ -869,7 +865,7 @@ namespace SS.Ynote.Classic
             }
         }
 
-        private void menuItem16_Click(object sender, EventArgs e)
+        private void miopencontaining_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null && ActiveEditor.IsSaved)
             {
@@ -887,17 +883,17 @@ namespace SS.Ynote.Classic
             Application.Exit();
         }
 
-        private void menuItem49_Click(object sender, EventArgs e)
+        private void mizoomin_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null) ActiveEditor.tb.Zoom += 10;
         }
 
-        private void menuItem50_Click(object sender, EventArgs e)
+        private void mizoomout_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null) ActiveEditor.tb.Zoom -= 10;
         }
 
-        private void menuItem51_Click(object sender, EventArgs e)
+        private void mirestoredefault_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null) ActiveEditor.tb.Zoom = 100;
         }
@@ -910,31 +906,24 @@ namespace SS.Ynote.Classic
             splitedit.Show(ActiveEditor.Pane, DockAlignment.Bottom, 0.5);
         }
 
-        private void menuItem54_Click(object sender, EventArgs e)
+        private void mitransparent_Click(object sender, EventArgs e)
         {
-            if (menuItem54.Checked)
-            {
-                Opacity = 1.0;
-                menuItem54.Checked = false;
-            }
-            else
-            {
-                Opacity = 0.7;
-                menuItem54.Checked = true;
-            }
+            //TODO:Check if working
+            mitransparent.Checked = !mitransparent.Checked;
+            Opacity = mitransparent.Checked ? 1.0 : 0.7;
         }
 
-        private void menuItem55_Click(object sender, EventArgs e)
+        private void mifullscreen_Click(object sender, EventArgs e)
         {
-            if (menuItem55.Checked)
+            if (mifullscreen.Checked)
             {
-                menuItem55.Checked = false;
+                mifullscreen.Checked = false;
                 FormBorderStyle = FormBorderStyle.Sizable;
                 WindowState = FormWindowState.Normal;
             }
             else
             {
-                menuItem55.Checked = true;
+                mifullscreen.Checked = true;
                 FormBorderStyle = FormBorderStyle.None;
                 WindowState = FormWindowState.Maximized;
             }
@@ -962,12 +951,12 @@ namespace SS.Ynote.Classic
             }
         }
 
-        private void menuItem61_Click(object sender, EventArgs e)
+        private void mifb_Click(object sender, EventArgs e)
         {
             Process.Start("http://facebook.com/sscorpscom");
         }
 
-        private void menuItem11_Click(object sender, EventArgs e)
+        private void miwikimenu_Click(object sender, EventArgs e)
         {
             Process.Start("http://ynoteclassic.codeplex.com/wiki");
         }
@@ -977,7 +966,7 @@ namespace SS.Ynote.Classic
             try
             {
                 if (dock.ActiveDocument == null
-                    || dock.ActiveDocument.GetType() != typeof(Editor)) return;
+                    || dock.ActiveDocument.GetType() != typeof (Editor)) return;
                 int nCol = ActiveEditor.tb.Selection.Start.iChar + 1;
                 int line = ActiveEditor.tb.Selection.Start.iLine + 1;
                 infolabel.Text = string.Format(" Line : {0} Col : {1} Size : {2} Selected : {3}", line, nCol,
@@ -1014,12 +1003,12 @@ namespace SS.Ynote.Classic
             }
         }
 
-        private void menuItem7_Click(object sender, EventArgs e)
+        private void savemenu_Click(object sender, EventArgs e)
         {
             SaveEditor(ActiveEditor);
         }
 
-        private void menuItem8_Click(object sender, EventArgs e)
+        private void misaveas_Click(object sender, EventArgs e)
         {
             using (var sf = new SaveFileDialog())
             {
@@ -1035,7 +1024,7 @@ namespace SS.Ynote.Classic
             }
         }
 
-        private void menuItem21_Click(object sender, EventArgs e)
+        private void misaveall_Click(object sender, EventArgs e)
         {
             foreach (Editor doc in dock.Documents)
                 SaveEditor(doc);
@@ -1047,18 +1036,18 @@ namespace SS.Ynote.Classic
             optionsdialog.Show();
         }
 
-        private void menuItem35_Click(object sender, EventArgs e)
+        private void mimacrorecord_Click(object sender, EventArgs e)
         {
             ActiveEditor.tb.MacrosManager.IsRecording = !ActiveEditor.tb.MacrosManager.IsRecording;
         }
 
-        private void menuItem41_Click(object sender, EventArgs e)
+        private void miExecmacro_Click(object sender, EventArgs e)
         {
             if (ActiveEditor.tb.MacrosManager.Macros != null)
                 ActiveEditor.tb.MacrosManager.ExecuteMacros();
         }
 
-        private void menuItem43_Click(object sender, EventArgs e)
+        private void misavemacro_Click(object sender, EventArgs e)
         {
             using (var sf = new SaveFileDialog())
             {
@@ -1073,7 +1062,7 @@ namespace SS.Ynote.Classic
             }
         }
 
-        private void menuItem63_Click(object sender, EventArgs e)
+        private void miclearmacro_Click(object sender, EventArgs e)
         {
             ActiveEditor.tb.MacrosManager.ClearMacros();
         }
@@ -1109,20 +1098,24 @@ namespace SS.Ynote.Classic
             if (incrementalSearcher1.Visible) incrementalSearcher1.Exit();
             else
             {
-                if (ActiveEditor != null)
-                    incrementalSearcher1.Tb = ActiveEditor.tb;
+                if (ActiveEditor == null) return;
+                incrementalSearcher1.Tb = ActiveEditor.tb;
+                if (ActiveEditor.tb.SelectedText != null)
+                    incrementalSearcher1.tbFind.Text = ActiveEditor.tb.SelectedText;
                 incrementalSearcher1.Visible = true;
                 incrementalSearcher1.FocusTextBox();
             }
         }
 
-        private void menuItem13_Click(object sender, EventArgs e)
+        private void mirevert_Click(object sender, EventArgs e)
         {
-            if (ActiveEditor == null || ActiveEditor.IsSaved) return;
+            if (ActiveEditor == null || !ActiveEditor.IsSaved) return;
             ActiveEditor.tb.Text = File.ReadAllText(ActiveEditor.Name);
+            ActiveEditor.Text = Path.GetFileName(ActiveEditor.Name);
+            ActiveEditor.tb.IsChanged = false;
         }
 
-        private void menuItem18_Click(object sender, EventArgs e)
+        private void miprint_Click(object sender, EventArgs e)
         {
             ActiveEditor.tb.Print(new PrintDialogSettings {ShowPrintDialog = true});
         }
@@ -1133,7 +1126,7 @@ namespace SS.Ynote.Classic
             if (recentlyclosed != null) OpenFile(recentlyclosed);
         }
 
-        private void menuItem27_Click(object sender, EventArgs e)
+        private void migotoline_Click(object sender, EventArgs e)
         {
             ActiveEditor.tb.ShowGoToDialog();
         }
@@ -1220,7 +1213,7 @@ namespace SS.Ynote.Classic
             utilDialog.Show();
         }
 
-        private void menuItem42_Click(object sender, EventArgs e)
+        private void mimultimacro_Click(object sender, EventArgs e)
         {
             var macrodlg = new UtilDialog(ActiveEditor.tb, InsertType.Macro);
             macrodlg.Show();
@@ -1235,7 +1228,7 @@ namespace SS.Ynote.Classic
                 console.ShowDialog(this);
             }
         }
-    
+
 
         private void menuItem75_Click(object sender, EventArgs e)
         {
@@ -1318,7 +1311,7 @@ namespace SS.Ynote.Classic
             fileswitcher.ShowDialog(this);
         }
 
-        private void menuItem6_Click(object sender, EventArgs e)
+        private void mishowunsaved_Click(object sender, EventArgs e)
         {
             if (ActiveEditor.IsSaved)
             {
@@ -1335,12 +1328,12 @@ namespace SS.Ynote.Classic
             }
         }
 
-        private void menuItem85_Click(object sender, EventArgs e)
+        private void mifindNext_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Press F3 to Find Next");
         }
 
-        private void menuItem87_Click(object sender, EventArgs e)
+        private void mitrimpunctuation_Click(object sender, EventArgs e)
         {
             if (ActiveEditor.tb.SelectedText != "")
             {
@@ -1359,22 +1352,22 @@ namespace SS.Ynote.Classic
         }
 
 
-        private void menuItem109_Click(object sender, EventArgs e)
+        private void mihiddenchars_Click(object sender, EventArgs e)
         {
-            SettingsBase.HiddenChars = menuItem109.Checked; // If hiddenchars is checked
+            SettingsBase.HiddenChars = mihiddenchars.Checked; // If hiddenchars is checked
         }
 
-        private void menuItem91_Click(object sender, EventArgs e)
+        private void mitocrlf_Click(object sender, EventArgs e)
         {
             ActiveEditor.tb.Text = ActiveEditor.tb.Text.Replace(GetTextLineEnding(ActiveEditor.tb.Text), "\r\n");
         }
 
-        private void menuItem92_Click(object sender, EventArgs e)
+        private void mitocr_Click(object sender, EventArgs e)
         {
             ActiveEditor.tb.Text = ActiveEditor.tb.Text.Replace(GetTextLineEnding(ActiveEditor.tb.Text), "\r");
         }
 
-        private void menuItem94_Click(object sender, EventArgs e)
+        private void mitolf_Click(object sender, EventArgs e)
         {
             ActiveEditor.tb.Text = ActiveEditor.tb.Text.Replace(GetTextLineEnding(ActiveEditor.tb.Text), "\n");
         }
@@ -1423,7 +1416,7 @@ namespace SS.Ynote.Classic
             manager.Show(dock, DockState.DockLeft);
         }
 
-        private void menuItem38_Select(object sender, EventArgs e)
+        private void mimacros_Select(object sender, EventArgs e)
         {
             mimacros.MenuItems.Clear();
             foreach (string file in Directory.GetFiles(SettingsBase.SettingsDir + @"Macros\", "*.ymc"))
@@ -1441,7 +1434,7 @@ namespace SS.Ynote.Classic
             ActiveEditor.tb.MacrosManager.ExecuteMacros();*/
         }
 
-        private void menuItem88_Click(object sender, EventArgs e)
+        private void mispacestotab_Click(object sender, EventArgs e)
         {
             var length = ActiveEditor.tb.TabLength;
             string formed = string.Empty;
@@ -1452,7 +1445,7 @@ namespace SS.Ynote.Classic
             ActiveEditor.tb.SelectedText = ActiveEditor.tb.SelectedText.Replace(formed, "\t");
         }
 
-        private void menuItem98_Click(object sender, EventArgs e)
+        private void mitabtospaces_Click(object sender, EventArgs e)
         {
             var length = ActiveEditor.tb.TabLength;
             string formed = string.Empty;
@@ -1526,7 +1519,7 @@ namespace SS.Ynote.Classic
             }
         }
 
-        private void menuItem32_Click(object sender, EventArgs e)
+        private void mirun_Click(object sender, EventArgs e)
         {
             if (ActiveEditor == null) return;
             if (ActiveEditor.IsSaved)
@@ -1540,7 +1533,7 @@ namespace SS.Ynote.Classic
             }
         }
 
-        private void menuItem45_Click(object sender, EventArgs e)
+        private void miruneditor_Click(object sender, EventArgs e)
         {
             var editor = new RunScriptEditor {StartPosition = FormStartPosition.CenterParent};
             editor.ShowDialog(this);
@@ -1555,37 +1548,37 @@ namespace SS.Ynote.Classic
             }
         }
 
-        private void menuItem3_Click(object sender, EventArgs e)
+        private void migoleftbracket_Click(object sender, EventArgs e)
         {
             ActiveEditor.tb.GoLeftBracket('(', ')');
         }
 
-        private void menuItem4_Click(object sender, EventArgs e)
+        private void migorightbracket_Click(object sender, EventArgs e)
         {
             ActiveEditor.tb.GoRightBracket('(', ')');
         }
 
-        private void menuItem26_Click(object sender, EventArgs e)
+        private void migoleftbracket2_Click(object sender, EventArgs e)
         {
             ActiveEditor.tb.GoLeftBracket('{', '}');
         }
 
-        private void menuItem34_Click(object sender, EventArgs e)
+        private void migorightbracket2_Click(object sender, EventArgs e)
         {
             ActiveEditor.tb.GoRightBracket('{', '}');
         }
 
-        private void menuItem82_Click(object sender, EventArgs e)
+        private void migoleftbracket3_Click(object sender, EventArgs e)
         {
             ActiveEditor.tb.GoLeftBracket('[', ']');
         }
 
-        private void menuItem101_Click(object sender, EventArgs e)
+        private void migorightbracket3_Click(object sender, EventArgs e)
         {
             ActiveEditor.tb.GoRightBracket('[', ']');
         }
 
-        private void menuItem96_Click(object sender, EventArgs e)
+        private void misortlength_Click(object sender, EventArgs e)
         {
             if (ActiveEditor == null) return;
             var lines = ActiveEditor.tb.SelectedText.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
@@ -1594,7 +1587,7 @@ namespace SS.Ynote.Classic
                 (current, result) => current + (result + "\r\n"));
         }
 
-        private void menuItem108_Click(object sender, EventArgs e)
+        private void mimarkRed_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null)
                 ActiveEditor.tb.Selection.SetStyle(new TextStyle(null, new SolidBrush(Color.FromArgb(180, Color.Red)),
@@ -1602,46 +1595,46 @@ namespace SS.Ynote.Classic
         }
 
 
-        private void menuItem111_Click(object sender, EventArgs e)
+        private void mimarkblue_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null)
                 ActiveEditor.tb.Selection.SetStyle(new TextStyle(null, new SolidBrush(Color.FromArgb(180, Color.Blue)),
                     FontStyle.Regular));
         }
 
-        private void menuItem112_Click(object sender, EventArgs e)
+        private void mimarkgray_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null)
                 ActiveEditor.tb.Selection.SetStyle(new TextStyle(null,
                     new SolidBrush(Color.FromArgb(180, Color.Gainsboro)), FontStyle.Regular));
         }
 
-        private void menuItem113_Click(object sender, EventArgs e)
+        private void mimarkgreen_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null)
                 ActiveEditor.tb.Selection.SetStyle(new TextStyle(null, new SolidBrush(Color.FromArgb(180, Color.Green)),
                     FontStyle.Regular));
         }
 
-        private void menuItem114_Click(object sender, EventArgs e)
+        private void mimarkyellow_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null)
                 ActiveEditor.tb.Selection.SetStyle(new TextStyle(null, new SolidBrush(Color.FromArgb(180, Color.Yellow)),
                     FontStyle.Regular));
         }
 
-        private void menuItem107_Click(object sender, EventArgs e)
+        private void miclearMarked_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null) ActiveEditor.tb.Selection.ClearStyle(StyleIndex.All);
         }
 
-        private void menuItem106_Click(object sender, EventArgs e)
+        private void misnippets_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null && ActiveEditor.AutoCompleteMenu != null)
                 ActiveEditor.AutoCompleteMenu.Show(true);
         }
 
-        private void menuItem119_Click(object sender, EventArgs e)
+        private void miseltohex_Click(object sender, EventArgs e)
         {
             if (ActiveEditor == null) return;
             var selected = ActiveEditor.tb.SelectedText;
@@ -1649,7 +1642,7 @@ namespace SS.Ynote.Classic
             ActiveEditor.tb.SelectedText = BitConverter.ToString(bytes).Replace("-", "");
         }
 
-        private void menuItem120_Click(object sender, EventArgs e)
+        private void miseltoASCII_Click(object sender, EventArgs e)
         {
             byte[] asciiBytes = Encoding.ASCII.GetBytes(ActiveEditor.tb.SelectedText);
             var builder = new StringBuilder();
@@ -1658,7 +1651,7 @@ namespace SS.Ynote.Classic
             ActiveEditor.tb.SelectedText = builder.ToString();
         }
 
-        private void menuItem121_Click(object sender, EventArgs e)
+        private void miupdates_Click(object sender, EventArgs e)
         {
             if (CheckForUpdates())
             {
@@ -1672,30 +1665,30 @@ namespace SS.Ynote.Classic
                 MessageBox.Show("No updates are available till date\r\nPlease check later.");
             }
         }
-        private void menuItem123_Click(object sender, EventArgs e)
+
+        private void migoogle_Click(object sender, EventArgs e)
         {
-            var console = new ConsoleUI(this) { StartPosition = FormStartPosition.CenterParent };
+            var console = new ConsoleUI(this) {StartPosition = FormStartPosition.CenterParent};
             console.AddText("Google:");
-            console.Show(this);
+            console.ShowDialog(this);
         }
 
-        private void menuItem124_Click(object sender, EventArgs e)
+        private void mibing_Click(object sender, EventArgs e)
         {
-            var console = new ConsoleUI(this) { StartPosition = FormStartPosition.CenterParent };
+            var console = new ConsoleUI(this) {StartPosition = FormStartPosition.CenterParent};
             console.AddText("Bing:");
-            console.Show(this);
+            console.ShowDialog(this);
         }
 
-        private void menuItem125_Click(object sender, EventArgs e)
+        private void miwiki_Click(object sender, EventArgs e)
         {
-            var console = new ConsoleUI(this) { StartPosition = FormStartPosition.CenterParent };
+            var console = new ConsoleUI(this) {StartPosition = FormStartPosition.CenterParent};
             console.AddText("Wikipedia:");
-            console.Show(this);
+            console.ShowDialog(this);
         }
 
-        #endregion
-
-        private void menuItem72_Click(object sender, EventArgs e)
+        //menuItem72=e.Init;
+        private void micomparedocwith_Click(object sender, EventArgs e)
         {
             if (ActiveEditor == null) return;
             using (var ofd = new OpenFileDialog())
@@ -1710,5 +1703,32 @@ namespace SS.Ynote.Classic
             }
         }
 
+        private void micopyhtml_Click(object sender, EventArgs e)
+        {
+            if (ActiveEditor.tb.Html != null) Clipboard.SetText(ActiveEditor.tb.Html);
+        }
+
+        private void micopyrtf_Click(object sender, EventArgs e)
+        {
+            if (ActiveEditor != null) Clipboard.SetText(ActiveEditor.tb.Rtf);
+        }
+
+        private void minewscript_Click(object sender, EventArgs e)
+        {
+            int scriptnum = 1;
+            CreateNewDoc();
+            ActiveEditor.Text = "Script" + scriptnum;
+            ActiveEditor.tb.Text =
+                "using SS.Ynote.Classic;\r\n\r\nstatic void Run(IYnote ynote)\r\n{\r\n// your code\r\n}";
+            ActiveEditor.ChangeLang(Language.CSharp);
+            scriptnum++;
+        }
+
+        private void minewsnippet_Click(object sender, EventArgs e)
+        {
+            if (ActiveEditor != null)
+                OpenFile(string.Format(@"{0}Snippets\{1}.ynotesnippet", SettingsBase.SettingsDir, ActiveEditor.tb.Language));
+        }
+        #endregion
     }
 }

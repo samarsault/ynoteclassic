@@ -1,4 +1,4 @@
-﻿#region
+﻿#region Usings
 
 using System;
 using System.Collections.Generic;
@@ -20,6 +20,8 @@ namespace SS.Ynote.Classic.UI
     {
         private readonly IYnote _ynote;
 
+        private bool addedText;
+
         public ConsoleUI(IYnote host)
         {
             InitializeComponent();
@@ -31,16 +33,18 @@ namespace SS.Ynote.Classic.UI
             LostFocus += (o, a) => Close();
         }
 
-        public void AddText(string text)
-        {
-            textBox1.Text = text;
-        }
         public ToolStripDropDownButton LangMenu { get; set; }
 
         /// <summary>
         ///     Get The Active Editor
         /// </summary>
         private Editor ActiveEditor { get; set; }
+
+        public void AddText(string text)
+        {
+            textBox1.Text = text;
+            addedText = true;
+        }
 
         private void BuildAutoComplete()
         {
@@ -125,6 +129,7 @@ namespace SS.Ynote.Classic.UI
 
         protected override void OnShown(EventArgs e)
         {
+            if (addedText) return;
             completemenu.Show(textBox1, true);
             base.OnShown(e);
         }
@@ -211,7 +216,7 @@ namespace SS.Ynote.Classic.UI
                     break;
             }
             completemenu.Items = null;
-            if(!IsDisposed)
+            if (!IsDisposed)
                 Close();
         }
 
@@ -436,11 +441,22 @@ namespace SS.Ynote.Classic.UI
         public string Value { get; set; }
     }
 
-    // notImplemented()
-    /* public interface ICommand
+    /*
+     * version 2.8 , suppose
+    /// <summary>
+    /// ICommand
+    /// </summary>
+    public interface ICommand
     {
+        /// <summary>
+        /// Command Key eg : Macro
+        /// </summary>
         string Key { get; }
+        /// <summary>
+        /// Possible Commands
+        /// </summary>
         string[] Commands { get; }
         void ProcessCommand(string val);
-    }*/
+    }
+     */
 }

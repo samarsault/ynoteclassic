@@ -1,4 +1,0 @@
-<?xml version="1.0"?>
-	<YnoteRun>
-		<Config Name="Chrome" Process="chrome.exe" Args="$source" Directory=""/>
-	</YnoteRun>

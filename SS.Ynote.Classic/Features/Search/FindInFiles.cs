@@ -44,16 +44,16 @@ namespace SS.Ynote.Classic.UI
             {
                 IList<string> Files =
                     (from Editor doc in _ynote.Panel.Documents where doc.IsSaved select doc.Name).ToList();
-                if(cbRegex.Checked)
+                if (cbRegex.Checked)
                     FindInDocumentsWithRegex(Files, txtstring.Text);
                 else
                     FindInDocuments(Files, txtstring.Text);
             }
             else
             {
-                if(cbRegex.Checked)
-                    FindReferencesWithRegex(txtdir.Text, txtstring.Text,textBox5.Text,
-                        (SearchOption)cmbsearchoptions.SelectedItem);
+                if (cbRegex.Checked)
+                    FindReferencesWithRegex(txtdir.Text, txtstring.Text, textBox5.Text,
+                        (SearchOption) cmbsearchoptions.SelectedItem);
                 else
                     FindReferences(txtdir.Text, txtstring.Text, textBox5.Text,
                         (SearchOption) cmbsearchoptions.SelectedItem);
@@ -67,14 +67,14 @@ namespace SS.Ynote.Classic.UI
             {
                 IList<string> files =
                     (from Editor doc in _ynote.Panel.Documents where doc.IsSaved select doc.Name).ToList();
-                if(cbRegex.Checked)
+                if (cbRegex.Checked)
                     ReplaceInDocumentsWithRegex(files, textBox3.Text, textBox4.Text);
                 else
                     ReplaceInDocuments(files, textBox3.Text, textBox4.Text);
             }
             else
             {
-                if(cbRegex.Checked)
+                if (cbRegex.Checked)
                     ReplaceInDocumentsWithRegex(Directory.GetFiles(textBox1.Text, "*.*"), textBox3.Text, textBox4.Text);
                 else
                     ReplaceInDocuments(Directory.GetFiles(textBox1.Text, "*.*"), textBox3.Text, textBox4.Text);
@@ -143,6 +143,7 @@ namespace SS.Ynote.Classic.UI
                 }
             }
         }
+
         private void ReplaceInDocumentsWithRegex(IEnumerable<string> files, string searchstring, string replacestring)
         {
             //searchpattern = "*.*";
@@ -160,7 +161,8 @@ namespace SS.Ynote.Classic.UI
                         {
                             line = Regex.Replace(line, searchstring, replacestring);
                             lvresults.Items.Add(
-                                new ListViewItem(new[] { file, lineNumber.ToString(), FileExists(_ynote, file).ToString() }));
+                                new ListViewItem(new[]
+                                {file, lineNumber.ToString(), FileExists(_ynote, file).ToString()}));
                         }
 
                         lineNumber++;
@@ -206,6 +208,7 @@ namespace SS.Ynote.Classic.UI
                 }
             }
         }
+
         private void FindInDocumentsWithRegex(IEnumerable<string> files, string searchString)
         {
             foreach (string file in files)
@@ -219,7 +222,8 @@ namespace SS.Ynote.Classic.UI
                         if (Regex.IsMatch(line, searchString))
                         {
                             lvresults.Items.Add(
-                                new ListViewItem(new[] { file, lineNumber.ToString(), FileExists(_ynote, file).ToString() }));
+                                new ListViewItem(new[]
+                                {file, lineNumber.ToString(), FileExists(_ynote, file).ToString()}));
                         }
 
                         lineNumber++;
@@ -287,7 +291,8 @@ namespace SS.Ynote.Classic.UI
                             if (Regex.IsMatch(line, regex))
                             {
                                 lvresults.Items.Add(
-                                    new ListViewItem(new[] { file, lineNumber.ToString(), FileExists(_ynote, file).ToString() }));
+                                    new ListViewItem(new[]
+                                    {file, lineNumber.ToString(), FileExists(_ynote, file).ToString()}));
                             }
 
                             lineNumber++;

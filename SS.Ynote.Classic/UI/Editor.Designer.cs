@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Editor));
+            var resources = new System.ComponentModel.ComponentResourceManager(typeof(Editor));
             this.contextmenu = new System.Windows.Forms.ContextMenu();
             this.menuItem1 = new System.Windows.Forms.MenuItem();
             this.menuItem2 = new System.Windows.Forms.MenuItem();
@@ -137,14 +137,13 @@
             this.codebox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.codebox.Hotkeys = resources.GetString("codebox.Hotkeys");
             this.codebox.IsReplaceMode = false;
-            this.codebox.Language = FastColoredTextBoxNS.Language.Text;
             this.codebox.LeftBracket = '(';
-            this.codebox.Location = new System.Drawing.Point(0, 0);
+            this.codebox.Location = new System.Drawing.Point(0, 24);
             this.codebox.Name = "codebox";
             this.codebox.Paddings = new System.Windows.Forms.Padding(0);
             this.codebox.RightBracket = ')';
             this.codebox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.codebox.Size = new System.Drawing.Size(284, 262);
+            this.codebox.Size = new System.Drawing.Size(284, 238);
             this.codebox.TabIndex = 0;
             this.codebox.Zoom = 100;
             // 

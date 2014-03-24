@@ -15,7 +15,7 @@
   <Style
     Name="String"
     Color="#A52828"
-    Font="Regular" />
+    Font="Italic" />
   <Style
     Name="Number"
     Color="#FF00FE"
@@ -90,7 +90,7 @@
     Font="Regular" />
   <Style
     Name="CSSPropertyValue"
-    Color="#00000"
+    Color="#0000FF"
     Font="Regular"
   />
   <Style

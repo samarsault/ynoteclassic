@@ -1,8 +1,6 @@
 ﻿#region
 
-using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Xml;
 
 #endregion
 

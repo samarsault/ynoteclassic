@@ -4,6 +4,7 @@
         <Snippet>if(^){\r\n\r\n}</Snippet>
         <Snippet>if(^){\r\n\r\n}else{\r\n\r\n}</Snippet>
         <Snippet>for(int i=0;i &lt; ^;i++){\r\n\r\n}</Snippet>
+        <Snippet>foreach(var variable in ^)\r\n{\r\n\r\n}</Snippet>
         <Snippet>while(^)\r\n{\r\n;\r\n}</Snippet>
         <Snippet>switch(^)\r\n{\ncase : break;\r\n}</Snippet>
         <Snippet>public class ^\r\n{\r\n}</Snippet>

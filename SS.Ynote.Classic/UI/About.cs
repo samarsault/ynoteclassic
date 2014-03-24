@@ -9,19 +9,15 @@ using System.Windows.Forms;
 
 namespace SS.Ynote.Classic.UI
 {
-    public partial class About : BaseFormGradient
+    public partial class About : GradientForm
     {
         public About()
         {
             InitializeComponent();
-            LostFocus += About_LostFocus;
-            if (File.Exists(Application.StartupPath + @"\License.txt"))
-                textBox1.Text = File.ReadAllText(Application.StartupPath + @"\License.txt");
-        }
-
-        private void About_LostFocus(object sender, EventArgs e)
-        {
-            Close();
+            LostFocus += (sender, args) => Close();
+            string licensedir = Application.StartupPath + @"\License.txt";
+            if (File.Exists(licensedir))
+                textBox1.Text = File.ReadAllText(licensedir);
         }
 
         private void button1_Click(object sender, EventArgs e)

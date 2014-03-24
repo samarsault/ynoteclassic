@@ -39,6 +39,8 @@ namespace SS.Ynote.Classic.UI
             _it = t;
             _fctb = tb;
             Init(t);
+            textBox1.KeyDown += ProcessKeyDown;
+            numericTextBox1.KeyDown += ProcessKeyDown;
         }
 
         public int Lines
@@ -47,56 +49,66 @@ namespace SS.Ynote.Classic.UI
             set { numericTextBox1.Text = value.ToString(); }
         }
 
+        private void ProcessKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter &&
+                ((TextBox) (sender)).Text != null)
+                Process();
+        }
+
         private void Init(InsertType t)
         {
-            if (t == InsertType.Line)
+            switch (t)
             {
-                Text = "Insert Lines";
-                label1.Text = "Number of Lines To Insert :";
-                button1.Text = "Insert";
-                numericTextBox1.Visible = true;
-                textBox1.Visible = false;
-                numericTextBox1.Focus();
-            }
-            else if (t == InsertType.Column)
-            {
-                Text = "Insert Column";
-                label1.Text = "No. of Columns to Insert :";
-                button1.Text = "Insert";
-                numericTextBox1.Visible = true;
-                textBox1.Visible = false;
-                numericTextBox1.Focus();
-            }
-            else if (t == InsertType.Macro)
-            {
-                Text = "Run Macro Multiple Times";
-                label1.Text = "No. of Times to Run :";
-                button1.Text = "Run";
-                numericTextBox1.Visible = true;
-                textBox1.Visible = false;
-            }
-            else if (t == InsertType.Splitter)
-            {
-                Text = "Split Settings";
-                label1.Text = "Seperator";
-                button1.Text = "Split";
-                numericTextBox1.Visible = false;
-                numericTextBox1.Text = _fctb.PreferredLineWidth.ToString();
-                textBox1.Visible = true;
-                textBox1.Focus();
-            }
-            else if (t == InsertType.Width)
-            {
-                Text = "Line Width";
-                label1.Text = "Width :";
-                button1.Text = "Create";
-                numericTextBox1.Visible = true;
-                textBox1.Visible = false;
-                numericTextBox1.Focus();
+                case InsertType.Line:
+                    Text = "Insert Lines";
+                    label1.Text = "Number of Lines To Insert :";
+                    button1.Text = "Insert";
+                    numericTextBox1.Visible = true;
+                    textBox1.Visible = false;
+                    numericTextBox1.Focus();
+                    break;
+                case InsertType.Column:
+                    Text = "Insert Column";
+                    label1.Text = "No. of Columns to Insert :";
+                    button1.Text = "Insert";
+                    numericTextBox1.Visible = true;
+                    textBox1.Visible = false;
+                    numericTextBox1.Focus();
+                    break;
+                case InsertType.Macro:
+                    Text = "Run Macro Multiple Times";
+                    label1.Text = "No. of Times to Run :";
+                    button1.Text = "Run";
+                    numericTextBox1.Visible = true;
+                    textBox1.Visible = false;
+                    break;
+                case InsertType.Splitter:
+                    Text = "Split Settings";
+                    label1.Text = "Seperator";
+                    button1.Text = "Split";
+                    numericTextBox1.Visible = false;
+                    numericTextBox1.Text = _fctb.PreferredLineWidth.ToString();
+                    textBox1.Visible = true;
+                    textBox1.Focus();
+                    break;
+                case InsertType.Width:
+                    Text = "Line Width";
+                    label1.Text = "Width :";
+                    button1.Text = "Create";
+                    numericTextBox1.Visible = true;
+                    textBox1.Visible = false;
+                    numericTextBox1.Focus();
+                    break;
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
+        {
+            Process();
+        }
+
+        private void Process()
         {
             if (_it == InsertType.Line)
             {

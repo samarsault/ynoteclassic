@@ -1,4 +1,4 @@
-#region
+#region Using Directives
 
 using System.Windows.Forms;
 using SS.Ynote.Classic.UI;
@@ -17,6 +17,11 @@ public interface IYnote
     DockPanel Panel { get; }
 
     /// <summary>
+    ///     Gets the Main Menu
+    /// </summary>
+    MainMenu MainMenu { get; }
+
+    /// <summary>
     ///     Open File
     /// </summary>
     /// <param name="name"></param>
@@ -32,9 +37,4 @@ public interface IYnote
     ///     Create New Document
     /// </summary>
     void CreateNewDoc();
-
-    /// <summary>
-    ///     Gets the Main Menu
-    /// </summary>
-    MainMenu MainMenu { get; }
 }

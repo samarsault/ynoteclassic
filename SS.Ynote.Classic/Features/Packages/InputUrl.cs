@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace SS.Ynote.Classic.Features.Packages
 {
     public partial class InputUrl : Form
     {
-        public YnoteOnlinePackage GeneratedPackage { get; set; }
         public InputUrl()
         {
             InitializeComponent();
         }
+
+        public YnoteOnlinePackage GeneratedPackage { get; set; }
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -24,7 +19,7 @@ namespace SS.Ynote.Classic.Features.Packages
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var package = new YnoteOnlinePackage() {PackageUrl = textBox1.Text};
+            var package = new YnoteOnlinePackage {PackageUrl = textBox1.Text};
             GeneratedPackage = package;
             Close();
         }

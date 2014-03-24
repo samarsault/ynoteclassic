@@ -1,16 +1,12 @@
-﻿#region
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml;
 using FastColoredTextBoxNS;
-
-#endregion
 
 namespace SS.Ynote.Classic.Features.Snippets
 {
     public class YnoteSnippet
     {
-        public string Value { get; set; }
+        private string Value { get; set; }
 
         private static string GetSnippetFile(Language lang)
         {

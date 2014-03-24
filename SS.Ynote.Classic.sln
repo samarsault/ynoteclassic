@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{70188715-AD1F-41FD-852D-184B748A8A86}"
 	ProjectSection(SolutionItems) = preProject
-		Todo List.txt = Todo List.txt
+		SS.Ynote.Classic\Todo List.txt = SS.Ynote.Classic\Todo List.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SS.Ynote.Classic", "SS.Ynote.Classic\SS.Ynote.Classic.csproj", "{B141123B-C436-45C9-BEE2-B9FEE4352F8B}"

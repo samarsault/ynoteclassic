@@ -133,7 +133,7 @@ namespace FastColoredTextBoxNS
             ResetSerach();
         }
 
-        private Range originalSelection;
+        private Range _originalSelection;
         private void FindNextInSelection(string pattern)
         {
             try
@@ -148,7 +148,7 @@ namespace FastColoredTextBoxNS
                 //
                 if (firstSearch)
                 {
-                    originalSelection = range;
+                    _originalSelection = range;
                     startPlace = range.Start;
                     firstSearch = false;
                 }
@@ -167,8 +167,8 @@ namespace FastColoredTextBoxNS
                 //
                 if (range.Start >= startPlace && startPlace > Place.Empty)
                 {
-                    tb.Selection = originalSelection;
-                    FindNext(pattern);
+                    tb.Selection = _originalSelection;
+                    FindNextInSelection(pattern);
                     return;
                 }
                 MessageBox.Show("Not found");

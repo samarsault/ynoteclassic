@@ -1,7 +1,7 @@
-﻿using System.Windows.Forms;
-
-namespace SS.Ynote.Classic
+﻿namespace SS.Ynote.Classic
 {
+    using System.Windows.Forms;
+
     partial class MainForm
     {
         /// <summary>
@@ -31,240 +31,230 @@ namespace SS.Ynote.Classic
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            WeifenLuo.WinFormsUI.Docking.DockPanelSkin dockPanelSkin1 = new WeifenLuo.WinFormsUI.Docking.DockPanelSkin();
-            WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin autoHideStripSkin1 = new WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin();
-            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient1 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient1 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.DockPaneStripSkin dockPaneStripSkin1 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripSkin();
-            WeifenLuo.WinFormsUI.Docking.DockPaneStripGradient dockPaneStripGradient1 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient2 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient2 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient3 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.DockPaneStripToolWindowGradient dockPaneStripToolWindowGradient1 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripToolWindowGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient4 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient5 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient3 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient6 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient7 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
             this.MenuStrip = new System.Windows.Forms.MainMenu(this.components);
             this.filemenu = new System.Windows.Forms.MenuItem();
             this.NewMenuItem = new System.Windows.Forms.MenuItem();
             this.OpenMenuItem = new System.Windows.Forms.MenuItem();
             this.miopenencoding = new System.Windows.Forms.MenuItem();
-            this.menuItem13 = new System.Windows.Forms.MenuItem();
-            this.menuItem9 = new System.Windows.Forms.MenuItem();
+            this.revertMenu = new System.Windows.Forms.MenuItem();
+            this.seperator19 = new System.Windows.Forms.MenuItem();
             this.recentfilesmenu = new System.Windows.Forms.MenuItem();
             this.reopenclosedtab = new System.Windows.Forms.MenuItem();
-            this.menuItem68 = new System.Windows.Forms.MenuItem();
-            this.menuItem7 = new System.Windows.Forms.MenuItem();
+            this.seperator1 = new System.Windows.Forms.MenuItem();
+            this.savemenu = new System.Windows.Forms.MenuItem();
             this.misaveencoding = new System.Windows.Forms.MenuItem();
-            this.menuItem8 = new System.Windows.Forms.MenuItem();
-            this.menuItem21 = new System.Windows.Forms.MenuItem();
-            this.menuItem19 = new System.Windows.Forms.MenuItem();
-            this.menuItem15 = new System.Windows.Forms.MenuItem();
-            this.menuItem16 = new System.Windows.Forms.MenuItem();
-            this.menuItem17 = new System.Windows.Forms.MenuItem();
-            this.menuItem20 = new System.Windows.Forms.MenuItem();
-            this.menuItem18 = new System.Windows.Forms.MenuItem();
-            this.menuItem22 = new System.Windows.Forms.MenuItem();
-            this.menuItem23 = new System.Windows.Forms.MenuItem();
+            this.misaveas = new System.Windows.Forms.MenuItem();
+            this.misaveall = new System.Windows.Forms.MenuItem();
+            this.seperator20 = new System.Windows.Forms.MenuItem();
+            this.miproperties = new System.Windows.Forms.MenuItem();
+            this.miopencontaining = new System.Windows.Forms.MenuItem();
+            this.midelete = new System.Windows.Forms.MenuItem();
+            this.seperator21 = new System.Windows.Forms.MenuItem();
+            this.miprint = new System.Windows.Forms.MenuItem();
+            this.seperator22 = new System.Windows.Forms.MenuItem();
+            this.miimport = new System.Windows.Forms.MenuItem();
             this.fromrtf = new System.Windows.Forms.MenuItem();
-            this.menuItem33 = new System.Windows.Forms.MenuItem();
-            this.menuItem24 = new System.Windows.Forms.MenuItem();
+            this.mifromdir = new System.Windows.Forms.MenuItem();
+            this.miexport = new System.Windows.Forms.MenuItem();
             this.pngexport = new System.Windows.Forms.MenuItem();
-            this.menuItem28 = new System.Windows.Forms.MenuItem();
+            this.rtfExport = new System.Windows.Forms.MenuItem();
             this.htmlexport = new System.Windows.Forms.MenuItem();
-            this.menuItem25 = new System.Windows.Forms.MenuItem();
+            this.seperator25 = new System.Windows.Forms.MenuItem();
             this.ExitMenu = new System.Windows.Forms.MenuItem();
             this.editmenu = new System.Windows.Forms.MenuItem();
             this.UndoMenuItem = new System.Windows.Forms.MenuItem();
             this.RedoMenuItem = new System.Windows.Forms.MenuItem();
-            this.menuItem10 = new System.Windows.Forms.MenuItem();
+            this.seperator2 = new System.Windows.Forms.MenuItem();
             this.CutMenuItem = new System.Windows.Forms.MenuItem();
             this.CopyMenuItem = new System.Windows.Forms.MenuItem();
             this.PasteMenuItem = new System.Windows.Forms.MenuItem();
-            this.menuItem14 = new System.Windows.Forms.MenuItem();
+            this.seperator3 = new System.Windows.Forms.MenuItem();
+            this.micopyas = new System.Windows.Forms.MenuItem();
+            this.micopyhtml = new System.Windows.Forms.MenuItem();
+            this.micopyrtf = new System.Windows.Forms.MenuItem();
             this.selectallmenu = new System.Windows.Forms.MenuItem();
-            this.clearallmenu = new System.Windows.Forms.MenuItem();
-            this.menuItem36 = new System.Windows.Forms.MenuItem();
-            this.menuItem47 = new System.Windows.Forms.MenuItem();
-            this.menuItem71 = new System.Windows.Forms.MenuItem();
-            this.datetime = new System.Windows.Forms.MenuItem();
-            this.fileastext = new System.Windows.Forms.MenuItem();
-            this.menuItem53 = new System.Windows.Forms.MenuItem();
-            this.filenamemenuitem = new System.Windows.Forms.MenuItem();
-            this.fullfilenamemenuitem = new System.Windows.Forms.MenuItem();
-            this.menuItem52 = new System.Windows.Forms.MenuItem();
-            this.emptycolumns = new System.Windows.Forms.MenuItem();
-            this.emptylines = new System.Windows.Forms.MenuItem();
-            this.menuItem37 = new System.Windows.Forms.MenuItem();
+            this.seperator23 = new System.Windows.Forms.MenuItem();
+            this.miinsert = new System.Windows.Forms.MenuItem();
+            this.miinschars = new System.Windows.Forms.MenuItem();
+            this.midatetime = new System.Windows.Forms.MenuItem();
+            this.mifileastext = new System.Windows.Forms.MenuItem();
+            this.seperator53 = new System.Windows.Forms.MenuItem();
+            this.mifilename = new System.Windows.Forms.MenuItem();
+            this.mifullfilename = new System.Windows.Forms.MenuItem();
+            this.seperator52 = new System.Windows.Forms.MenuItem();
+            this.miemptycolumns = new System.Windows.Forms.MenuItem();
+            this.miemptylines = new System.Windows.Forms.MenuItem();
+            this.misearch = new System.Windows.Forms.MenuItem();
             this.findmenu = new System.Windows.Forms.MenuItem();
-            this.menuItem85 = new System.Windows.Forms.MenuItem();
+            this.mifindnext = new System.Windows.Forms.MenuItem();
             this.replacemenu = new System.Windows.Forms.MenuItem();
-            this.menuItem44 = new System.Windows.Forms.MenuItem();
-            this.incrementalsearchmenu = new System.Windows.Forms.MenuItem();
-            this.menuItem40 = new System.Windows.Forms.MenuItem();
+            this.seperator6 = new System.Windows.Forms.MenuItem();
+            this.miincrementalsearch = new System.Windows.Forms.MenuItem();
+            this.seperator9 = new System.Windows.Forms.MenuItem();
             this.findinfilesmenu = new System.Windows.Forms.MenuItem();
-            this.menuItem58 = new System.Windows.Forms.MenuItem();
+            this.miindent = new System.Windows.Forms.MenuItem();
             this.increaseindent = new System.Windows.Forms.MenuItem();
             this.decreaseindent = new System.Windows.Forms.MenuItem();
             this.doindent = new System.Windows.Forms.MenuItem();
             this.commentmenu = new System.Windows.Forms.MenuItem();
             this.commentline = new System.Windows.Forms.MenuItem();
             this.uncommentline = new System.Windows.Forms.MenuItem();
-            this.menuItem93 = new System.Windows.Forms.MenuItem();
-            this.menuItem27 = new System.Windows.Forms.MenuItem();
-            this.menuItem84 = new System.Windows.Forms.MenuItem();
-            this.menuItem1 = new System.Windows.Forms.MenuItem();
+            this.minav = new System.Windows.Forms.MenuItem();
+            this.migotol = new System.Windows.Forms.MenuItem();
+            this.miswitchfile = new System.Windows.Forms.MenuItem();
+            this.seperator18 = new System.Windows.Forms.MenuItem();
             this.gotofirstlinemenu = new System.Windows.Forms.MenuItem();
             this.gotoendmenu = new System.Windows.Forms.MenuItem();
-            this.menuItem117 = new System.Windows.Forms.MenuItem();
+            this.seperator17 = new System.Windows.Forms.MenuItem();
             this.navforwardmenu = new System.Windows.Forms.MenuItem();
             this.navbackwardmenu = new System.Windows.Forms.MenuItem();
-            this.menuItem2 = new System.Windows.Forms.MenuItem();
-            this.menuItem3 = new System.Windows.Forms.MenuItem();
-            this.menuItem4 = new System.Windows.Forms.MenuItem();
-            this.menuItem5 = new System.Windows.Forms.MenuItem();
-            this.menuItem26 = new System.Windows.Forms.MenuItem();
-            this.menuItem34 = new System.Windows.Forms.MenuItem();
-            this.menuItem103 = new System.Windows.Forms.MenuItem();
-            this.menuItem82 = new System.Windows.Forms.MenuItem();
-            this.menuItem101 = new System.Windows.Forms.MenuItem();
-            this.menuItem81 = new System.Windows.Forms.MenuItem();
+            this.seperator16 = new System.Windows.Forms.MenuItem();
+            this.migotoleftbracket = new System.Windows.Forms.MenuItem();
+            this.migotorightbracket = new System.Windows.Forms.MenuItem();
+            this.seperator15 = new System.Windows.Forms.MenuItem();
+            this.mileftbracket2 = new System.Windows.Forms.MenuItem();
+            this.migorightbracket2 = new System.Windows.Forms.MenuItem();
+            this.seperator14 = new System.Windows.Forms.MenuItem();
+            this.migoleftbracket3 = new System.Windows.Forms.MenuItem();
+            this.migorightbracket3 = new System.Windows.Forms.MenuItem();
+            this.miline = new System.Windows.Forms.MenuItem();
             this.movelineup = new System.Windows.Forms.MenuItem();
             this.movelinedown = new System.Windows.Forms.MenuItem();
             this.duplicatelinemenu = new System.Windows.Forms.MenuItem();
-            this.menuItem86 = new System.Windows.Forms.MenuItem();
-            this.menuItem29 = new System.Windows.Forms.MenuItem();
+            this.seperator4 = new System.Windows.Forms.MenuItem();
+            this.mijoinlines = new System.Windows.Forms.MenuItem();
             this.splitlinemenu = new System.Windows.Forms.MenuItem();
-            this.menuItem115 = new System.Windows.Forms.MenuItem();
-            this.menuItem69 = new System.Windows.Forms.MenuItem();
-            this.menuItem65 = new System.Windows.Forms.MenuItem();
-            this.menuItem96 = new System.Windows.Forms.MenuItem();
-            this.menuItem90 = new System.Windows.Forms.MenuItem();
-            this.removelinemenu = new System.Windows.Forms.MenuItem();
+            this.seperator28 = new System.Windows.Forms.MenuItem();
+            this.mireverselines = new System.Windows.Forms.MenuItem();
+            this.misortalphabet = new System.Windows.Forms.MenuItem();
+            this.misortlength = new System.Windows.Forms.MenuItem();
+            this.seperator90 = new System.Windows.Forms.MenuItem();
+            this.miremovecurrent = new System.Windows.Forms.MenuItem();
             this.removeemptylines = new System.Windows.Forms.MenuItem();
-            this.menuItem67 = new System.Windows.Forms.MenuItem();
+            this.mifolding = new System.Windows.Forms.MenuItem();
             this.foldallmenu = new System.Windows.Forms.MenuItem();
             this.unfoldmenu = new System.Windows.Forms.MenuItem();
-            this.menuItem70 = new System.Windows.Forms.MenuItem();
+            this.seperator70 = new System.Windows.Forms.MenuItem();
             this.foldselected = new System.Windows.Forms.MenuItem();
             this.unfoldselected = new System.Windows.Forms.MenuItem();
-            this.menuItem74 = new System.Windows.Forms.MenuItem();
-            this.menuItem75 = new System.Windows.Forms.MenuItem();
-            this.menuItem76 = new System.Windows.Forms.MenuItem();
-            this.menuItem87 = new System.Windows.Forms.MenuItem();
-            this.menuItem79 = new System.Windows.Forms.MenuItem();
-            this.menuItem78 = new System.Windows.Forms.MenuItem();
-            this.menuItem80 = new System.Windows.Forms.MenuItem();
-            this.menuItem77 = new System.Windows.Forms.MenuItem();
-            this.menuItem73 = new System.Windows.Forms.MenuItem();
+            this.miblankops = new System.Windows.Forms.MenuItem();
+            this.mitts = new System.Windows.Forms.MenuItem();
+            this.mitls = new System.Windows.Forms.MenuItem();
+            this.mitpunctuation = new System.Windows.Forms.MenuItem();
+            this.mittsandttl = new System.Windows.Forms.MenuItem();
+            this.mieoltospace = new System.Windows.Forms.MenuItem();
+            this.mispacetoeol = new System.Windows.Forms.MenuItem();
+            this.miremoveeol = new System.Windows.Forms.MenuItem();
+            this.micase = new System.Windows.Forms.MenuItem();
             this.caseuppermenu = new System.Windows.Forms.MenuItem();
             this.caselowermenu = new System.Windows.Forms.MenuItem();
             this.casetitlemenu = new System.Windows.Forms.MenuItem();
             this.swapcase = new System.Windows.Forms.MenuItem();
-            this.menuItem64 = new System.Windows.Forms.MenuItem();
+            this.mibookmarks = new System.Windows.Forms.MenuItem();
             this.Addbookmarkmenu = new System.Windows.Forms.MenuItem();
             this.removebookmarkmenu = new System.Windows.Forms.MenuItem();
             this.gotobookmark = new System.Windows.Forms.MenuItem();
             this.navigatethroughbookmarks = new System.Windows.Forms.MenuItem();
-            this.menuItem89 = new System.Windows.Forms.MenuItem();
-            this.menuItem91 = new System.Windows.Forms.MenuItem();
-            this.menuItem92 = new System.Windows.Forms.MenuItem();
-            this.menuItem94 = new System.Windows.Forms.MenuItem();
-            this.menuItem38 = new System.Windows.Forms.MenuItem();
-            this.menuItem88 = new System.Windows.Forms.MenuItem();
-            this.menuItem98 = new System.Windows.Forms.MenuItem();
-            this.menuItem118 = new System.Windows.Forms.MenuItem();
-            this.menuItem119 = new System.Windows.Forms.MenuItem();
-            this.menuItem120 = new System.Windows.Forms.MenuItem();
-            this.menuItem105 = new System.Windows.Forms.MenuItem();
+            this.miconversions = new System.Windows.Forms.MenuItem();
+            this.mitocrlf = new System.Windows.Forms.MenuItem();
+            this.mitocr = new System.Windows.Forms.MenuItem();
+            this.mitolf = new System.Windows.Forms.MenuItem();
+            this.seperator12 = new System.Windows.Forms.MenuItem();
+            this.mispacestotab = new System.Windows.Forms.MenuItem();
+            this.mitabtospaces = new System.Windows.Forms.MenuItem();
+            this.seperator11 = new System.Windows.Forms.MenuItem();
+            this.miselectiontohex = new System.Windows.Forms.MenuItem();
+            this.miselectiontoascii = new System.Windows.Forms.MenuItem();
+            this.seperator13 = new System.Windows.Forms.MenuItem();
             this.replacemode = new System.Windows.Forms.MenuItem();
             this.viewmenu = new System.Windows.Forms.MenuItem();
             this.statusbarmenuitem = new System.Windows.Forms.MenuItem();
-            this.menuItem46 = new System.Windows.Forms.MenuItem();
-            this.menuItem48 = new System.Windows.Forms.MenuItem();
-            this.menuItem49 = new System.Windows.Forms.MenuItem();
-            this.menuItem50 = new System.Windows.Forms.MenuItem();
-            this.menuItem51 = new System.Windows.Forms.MenuItem();
-            this.menuItem54 = new System.Windows.Forms.MenuItem();
-            this.menuItem55 = new System.Windows.Forms.MenuItem();
-            this.menuItem99 = new System.Windows.Forms.MenuItem();
+            this.seperator5 = new System.Windows.Forms.MenuItem();
+            this.mizoom = new System.Windows.Forms.MenuItem();
+            this.mizoomin = new System.Windows.Forms.MenuItem();
+            this.mizoomout = new System.Windows.Forms.MenuItem();
+            this.mirestorezoom = new System.Windows.Forms.MenuItem();
+            this.mitransparent = new System.Windows.Forms.MenuItem();
+            this.mifullscreen = new System.Windows.Forms.MenuItem();
+            this.seperator27 = new System.Windows.Forms.MenuItem();
             this.milanguage = new System.Windows.Forms.MenuItem();
-            this.menuItem106 = new System.Windows.Forms.MenuItem();
-            this.menuItem116 = new System.Windows.Forms.MenuItem();
-            this.menuItem104 = new System.Windows.Forms.MenuItem();
-            this.menuItem108 = new System.Windows.Forms.MenuItem();
-            this.menuItem111 = new System.Windows.Forms.MenuItem();
-            this.menuItem112 = new System.Windows.Forms.MenuItem();
-            this.menuItem113 = new System.Windows.Forms.MenuItem();
-            this.menuItem114 = new System.Windows.Forms.MenuItem();
-            this.menuItem107 = new System.Windows.Forms.MenuItem();
-            this.menuItem109 = new System.Windows.Forms.MenuItem();
-            this.menuItem6 = new System.Windows.Forms.MenuItem();
+            this.misnippets = new System.Windows.Forms.MenuItem();
+            this.seperator29 = new System.Windows.Forms.MenuItem();
+            this.mimarksel = new System.Windows.Forms.MenuItem();
+            this.miredmark = new System.Windows.Forms.MenuItem();
+            this.mibluemark = new System.Windows.Forms.MenuItem();
+            this.migraymark = new System.Windows.Forms.MenuItem();
+            this.migreenmark = new System.Windows.Forms.MenuItem();
+            this.mimarkyellow = new System.Windows.Forms.MenuItem();
+            this.miclearmarked = new System.Windows.Forms.MenuItem();
+            this.mihiddenchars = new System.Windows.Forms.MenuItem();
+            this.mishowunsaved = new System.Windows.Forms.MenuItem();
             this.wordwrapmenu = new System.Windows.Forms.MenuItem();
-            this.menuItem110 = new System.Windows.Forms.MenuItem();
-            this.menuItem95 = new System.Windows.Forms.MenuItem();
-            this.menuItem97 = new System.Windows.Forms.MenuItem();
-            this.menuItem57 = new System.Windows.Forms.MenuItem();
+            this.seperator24 = new System.Windows.Forms.MenuItem();
+            this.miprojectmanager = new System.Windows.Forms.MenuItem();
+            this.seperator26 = new System.Windows.Forms.MenuItem();
+            this.misplit = new System.Windows.Forms.MenuItem();
             this.toolsmenu = new System.Windows.Forms.MenuItem();
             this.commandermenu = new System.Windows.Forms.MenuItem();
             this.CommandPrompt = new System.Windows.Forms.MenuItem();
             this.pluginmanagermenu = new System.Windows.Forms.MenuItem();
-            this.menuItem100 = new System.Windows.Forms.MenuItem();
-            this.menuItem102 = new System.Windows.Forms.MenuItem();
-            this.menuItem122 = new System.Windows.Forms.MenuItem();
-            this.menuItem123 = new System.Windows.Forms.MenuItem();
-            this.menuItem124 = new System.Windows.Forms.MenuItem();
-            this.menuItem125 = new System.Windows.Forms.MenuItem();
-            this.menuItem30 = new System.Windows.Forms.MenuItem();
-            this.menuItem31 = new System.Windows.Forms.MenuItem();
-            this.menuItem32 = new System.Windows.Forms.MenuItem();
-            this.menuItem45 = new System.Windows.Forms.MenuItem();
-            this.menuItem126 = new System.Windows.Forms.MenuItem();
+            this.mikeymapeditor = new System.Windows.Forms.MenuItem();
+            this.seperator8 = new System.Windows.Forms.MenuItem();
+            this.miwebsearch = new System.Windows.Forms.MenuItem();
+            this.migoogle = new System.Windows.Forms.MenuItem();
+            this.mibing = new System.Windows.Forms.MenuItem();
+            this.miwiki = new System.Windows.Forms.MenuItem();
+            this.miexecfile = new System.Windows.Forms.MenuItem();
+            this.mirunscripts = new System.Windows.Forms.MenuItem();
+            this.mirun = new System.Windows.Forms.MenuItem();
+            this.mieditor = new System.Windows.Forms.MenuItem();
+            this.seperator7 = new System.Windows.Forms.MenuItem();
             this.CompareMenu = new System.Windows.Forms.MenuItem();
-            this.menuItem72 = new System.Windows.Forms.MenuItem();
-            this.menuItem66 = new System.Windows.Forms.MenuItem();
+            this.micomparewith = new System.Windows.Forms.MenuItem();
+            this.seperator66 = new System.Windows.Forms.MenuItem();
             this.colorschememenu = new System.Windows.Forms.MenuItem();
-            this.menuItem83 = new System.Windows.Forms.MenuItem();
+            this.seperator83 = new System.Windows.Forms.MenuItem();
             this.OptionsMenu = new System.Windows.Forms.MenuItem();
             this.macrosmenu = new System.Windows.Forms.MenuItem();
-            this.menuItem35 = new System.Windows.Forms.MenuItem();
-            this.menuItem39 = new System.Windows.Forms.MenuItem();
-            this.menuItem41 = new System.Windows.Forms.MenuItem();
-            this.menuItem42 = new System.Windows.Forms.MenuItem();
-            this.menuItem43 = new System.Windows.Forms.MenuItem();
-            this.menuItem63 = new System.Windows.Forms.MenuItem();
-            this.menuItem56 = new System.Windows.Forms.MenuItem();
+            this.mirecordmacro = new System.Windows.Forms.MenuItem();
+            this.seperator31 = new System.Windows.Forms.MenuItem();
+            this.miplaybackmacro = new System.Windows.Forms.MenuItem();
+            this.miexecmacromultiple = new System.Windows.Forms.MenuItem();
+            this.misaverecordedmacro = new System.Windows.Forms.MenuItem();
+            this.miclearmacrodata = new System.Windows.Forms.MenuItem();
+            this.seperator32 = new System.Windows.Forms.MenuItem();
             this.mimacros = new System.Windows.Forms.MenuItem();
             this.miscripts = new System.Windows.Forms.MenuItem();
             this.pluginsmenuitem = new System.Windows.Forms.MenuItem();
             this.helpmenu = new System.Windows.Forms.MenuItem();
-            this.menuItem11 = new System.Windows.Forms.MenuItem();
-            this.menuItem121 = new System.Windows.Forms.MenuItem();
-            this.menuItem62 = new System.Windows.Forms.MenuItem();
-            this.menuItem60 = new System.Windows.Forms.MenuItem();
-            this.menuItem59 = new System.Windows.Forms.MenuItem();
-            this.menuItem61 = new System.Windows.Forms.MenuItem();
-            this.menuItem12 = new System.Windows.Forms.MenuItem();
+            this.miwikimenu = new System.Windows.Forms.MenuItem();
+            this.miupdates = new System.Windows.Forms.MenuItem();
+            this.seperator62 = new System.Windows.Forms.MenuItem();
+            this.miresources = new System.Windows.Forms.MenuItem();
+            this.miplugincentral = new System.Windows.Forms.MenuItem();
+            this.mifb = new System.Windows.Forms.MenuItem();
+            this.seperator30 = new System.Windows.Forms.MenuItem();
             this.aboutmenu = new System.Windows.Forms.MenuItem();
             this.status = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lb1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.mistats = new System.Windows.Forms.ToolStripStatusLabel();
+            this.gapfiller2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.infolabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.gapfiller1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.langmenu = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.gapfiller3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.zoom = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.dock = new WeifenLuo.WinFormsUI.Docking.DockPanel();
+            this.mizoom500 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mizoom400 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mizoom300 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mizoom200 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mizoom150 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mizoom100 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mizoom50 = new System.Windows.Forms.ToolStripMenuItem();
             this.incrementalSearcher1 = new SS.Ynote.Classic.Features.Search.IncrementalSearcher();
+            this.dock = new WeifenLuo.WinFormsUI.Docking.DockPanel();
+            this.menuItem1 = new System.Windows.Forms.MenuItem();
+            this.minewsnippet = new System.Windows.Forms.MenuItem();
+            this.minewscript = new System.Windows.Forms.MenuItem();
             this.status.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -286,25 +276,25 @@ namespace SS.Ynote.Classic
             this.NewMenuItem,
             this.OpenMenuItem,
             this.miopenencoding,
-            this.menuItem13,
-            this.menuItem9,
+            this.revertMenu,
+            this.seperator19,
             this.recentfilesmenu,
             this.reopenclosedtab,
-            this.menuItem68,
-            this.menuItem7,
+            this.seperator1,
+            this.savemenu,
             this.misaveencoding,
-            this.menuItem8,
-            this.menuItem21,
-            this.menuItem19,
-            this.menuItem15,
-            this.menuItem16,
-            this.menuItem17,
-            this.menuItem20,
-            this.menuItem18,
-            this.menuItem22,
-            this.menuItem23,
-            this.menuItem24,
-            this.menuItem25,
+            this.misaveas,
+            this.misaveall,
+            this.seperator20,
+            this.miproperties,
+            this.miopencontaining,
+            this.midelete,
+            this.seperator21,
+            this.miprint,
+            this.seperator22,
+            this.miimport,
+            this.miexport,
+            this.seperator25,
             this.ExitMenu});
             this.filemenu.Text = "File";
             // 
@@ -328,17 +318,17 @@ namespace SS.Ynote.Classic
             this.miopenencoding.Text = "Open File With Encoding";
             this.miopenencoding.Select += new System.EventHandler(this.miopenencoding_Select);
             // 
-            // menuItem13
+            // revertMenu
             // 
-            this.menuItem13.Index = 3;
-            this.menuItem13.Shortcut = System.Windows.Forms.Shortcut.CtrlF5;
-            this.menuItem13.Text = "Revert";
-            this.menuItem13.Click += new System.EventHandler(this.menuItem13_Click);
+            this.revertMenu.Index = 3;
+            this.revertMenu.Shortcut = System.Windows.Forms.Shortcut.CtrlF5;
+            this.revertMenu.Text = "Revert";
+            this.revertMenu.Click += new System.EventHandler(this.mirevert_Click);
             // 
-            // menuItem9
+            // seperator19
             // 
-            this.menuItem9.Index = 4;
-            this.menuItem9.Text = "-";
+            this.seperator19.Index = 4;
+            this.seperator19.Text = "-";
             // 
             // recentfilesmenu
             // 
@@ -352,17 +342,17 @@ namespace SS.Ynote.Classic
             this.reopenclosedtab.Text = "Reopen Latest File";
             this.reopenclosedtab.Click += new System.EventHandler(this.reopenclosedtab_Click);
             // 
-            // menuItem68
+            // seperator1
             // 
-            this.menuItem68.Index = 7;
-            this.menuItem68.Text = "-";
+            this.seperator1.Index = 7;
+            this.seperator1.Text = "-";
             // 
-            // menuItem7
+            // savemenu
             // 
-            this.menuItem7.Index = 8;
-            this.menuItem7.Shortcut = System.Windows.Forms.Shortcut.CtrlS;
-            this.menuItem7.Text = "Save";
-            this.menuItem7.Click += new System.EventHandler(this.menuItem7_Click);
+            this.savemenu.Index = 8;
+            this.savemenu.Shortcut = System.Windows.Forms.Shortcut.CtrlS;
+            this.savemenu.Text = "Save";
+            this.savemenu.Click += new System.EventHandler(this.savemenu_Click);
             // 
             // misaveencoding
             // 
@@ -370,69 +360,69 @@ namespace SS.Ynote.Classic
             this.misaveencoding.Text = "Save File With Encoding";
             this.misaveencoding.Select += new System.EventHandler(this.misaveencoding_Select);
             // 
-            // menuItem8
+            // misaveas
             // 
-            this.menuItem8.Index = 10;
-            this.menuItem8.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftS;
-            this.menuItem8.Text = "Save As";
-            this.menuItem8.Click += new System.EventHandler(this.menuItem8_Click);
+            this.misaveas.Index = 10;
+            this.misaveas.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftS;
+            this.misaveas.Text = "Save As";
+            this.misaveas.Click += new System.EventHandler(this.misaveas_Click);
             // 
-            // menuItem21
+            // misaveall
             // 
-            this.menuItem21.Index = 11;
-            this.menuItem21.Text = "Save All";
-            this.menuItem21.Click += new System.EventHandler(this.menuItem21_Click);
+            this.misaveall.Index = 11;
+            this.misaveall.Text = "Save All";
+            this.misaveall.Click += new System.EventHandler(this.misaveall_Click);
             // 
-            // menuItem19
+            // seperator20
             // 
-            this.menuItem19.Index = 12;
-            this.menuItem19.Text = "-";
+            this.seperator20.Index = 12;
+            this.seperator20.Text = "-";
             // 
-            // menuItem15
+            // miproperties
             // 
-            this.menuItem15.Index = 13;
-            this.menuItem15.Shortcut = System.Windows.Forms.Shortcut.AltF1;
-            this.menuItem15.Text = "Properties";
-            this.menuItem15.Click += new System.EventHandler(this.menuItem15_Click);
+            this.miproperties.Index = 13;
+            this.miproperties.Shortcut = System.Windows.Forms.Shortcut.AltF1;
+            this.miproperties.Text = "Properties";
+            this.miproperties.Click += new System.EventHandler(this.miproperties_Click);
             // 
-            // menuItem16
+            // miopencontaining
             // 
-            this.menuItem16.Index = 14;
-            this.menuItem16.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftO;
-            this.menuItem16.Text = "Open Containing Folder";
-            this.menuItem16.Click += new System.EventHandler(this.menuItem16_Click);
+            this.miopencontaining.Index = 14;
+            this.miopencontaining.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftO;
+            this.miopencontaining.Text = "Open Containing Folder";
+            this.miopencontaining.Click += new System.EventHandler(this.miopencontaining_Click);
             // 
-            // menuItem17
+            // midelete
             // 
-            this.menuItem17.Index = 15;
-            this.menuItem17.Shortcut = System.Windows.Forms.Shortcut.AltBksp;
-            this.menuItem17.Text = "Move To Recycle Bin";
-            this.menuItem17.Click += new System.EventHandler(this.menuItem17_Click);
+            this.midelete.Index = 15;
+            this.midelete.Shortcut = System.Windows.Forms.Shortcut.AltBksp;
+            this.midelete.Text = "Move To Recycle Bin";
+            this.midelete.Click += new System.EventHandler(this.midelete_Click);
             // 
-            // menuItem20
+            // seperator21
             // 
-            this.menuItem20.Index = 16;
-            this.menuItem20.Text = "-";
+            this.seperator21.Index = 16;
+            this.seperator21.Text = "-";
             // 
-            // menuItem18
+            // miprint
             // 
-            this.menuItem18.Index = 17;
-            this.menuItem18.Shortcut = System.Windows.Forms.Shortcut.CtrlP;
-            this.menuItem18.Text = "Print";
-            this.menuItem18.Click += new System.EventHandler(this.menuItem18_Click);
+            this.miprint.Index = 17;
+            this.miprint.Shortcut = System.Windows.Forms.Shortcut.CtrlP;
+            this.miprint.Text = "Print";
+            this.miprint.Click += new System.EventHandler(this.miprint_Click);
             // 
-            // menuItem22
+            // seperator22
             // 
-            this.menuItem22.Index = 18;
-            this.menuItem22.Text = "-";
+            this.seperator22.Index = 18;
+            this.seperator22.Text = "-";
             // 
-            // menuItem23
+            // miimport
             // 
-            this.menuItem23.Index = 19;
-            this.menuItem23.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.miimport.Index = 19;
+            this.miimport.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.fromrtf,
-            this.menuItem33});
-            this.menuItem23.Text = "Import";
+            this.mifromdir});
+            this.miimport.Text = "Import";
             // 
             // fromrtf
             // 
@@ -440,20 +430,20 @@ namespace SS.Ynote.Classic
             this.fromrtf.Text = "From Rich Text";
             this.fromrtf.Click += new System.EventHandler(this.fromrtf_Click);
             // 
-            // menuItem33
+            // mifromdir
             // 
-            this.menuItem33.Index = 1;
-            this.menuItem33.Text = "Open Directory";
-            this.menuItem33.Click += new System.EventHandler(this.menuItem33_Click);
+            this.mifromdir.Index = 1;
+            this.mifromdir.Text = "Open Directory";
+            this.mifromdir.Click += new System.EventHandler(this.mifromdir_Click);
             // 
-            // menuItem24
+            // miexport
             // 
-            this.menuItem24.Index = 20;
-            this.menuItem24.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.miexport.Index = 20;
+            this.miexport.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.pngexport,
-            this.menuItem28,
+            this.rtfExport,
             this.htmlexport});
-            this.menuItem24.Text = "Export";
+            this.miexport.Text = "Export";
             // 
             // pngexport
             // 
@@ -461,11 +451,11 @@ namespace SS.Ynote.Classic
             this.pngexport.Text = "Image (PNG/JPG)";
             this.pngexport.Click += new System.EventHandler(this.pngexport_Click);
             // 
-            // menuItem28
+            // rtfExport
             // 
-            this.menuItem28.Index = 1;
-            this.menuItem28.Text = "RTF (Rich Text)";
-            this.menuItem28.Click += new System.EventHandler(this.menuItem28_Click);
+            this.rtfExport.Index = 1;
+            this.rtfExport.Text = "RTF (Rich Text)";
+            this.rtfExport.Click += new System.EventHandler(this.rtfExport_Click);
             // 
             // htmlexport
             // 
@@ -473,10 +463,10 @@ namespace SS.Ynote.Classic
             this.htmlexport.Text = "HTML (Web Page)";
             this.htmlexport.Click += new System.EventHandler(this.htmlexport_Click);
             // 
-            // menuItem25
+            // seperator25
             // 
-            this.menuItem25.Index = 21;
-            this.menuItem25.Text = "-";
+            this.seperator25.Index = 21;
+            this.seperator25.Text = "-";
             // 
             // ExitMenu
             // 
@@ -490,26 +480,26 @@ namespace SS.Ynote.Classic
             this.editmenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.UndoMenuItem,
             this.RedoMenuItem,
-            this.menuItem10,
+            this.seperator2,
             this.CutMenuItem,
             this.CopyMenuItem,
             this.PasteMenuItem,
-            this.menuItem14,
+            this.seperator3,
+            this.micopyas,
             this.selectallmenu,
-            this.clearallmenu,
-            this.menuItem36,
-            this.menuItem47,
-            this.menuItem37,
-            this.menuItem58,
+            this.seperator23,
+            this.miinsert,
+            this.misearch,
+            this.miindent,
             this.commentmenu,
-            this.menuItem93,
-            this.menuItem81,
-            this.menuItem67,
-            this.menuItem74,
-            this.menuItem73,
-            this.menuItem64,
-            this.menuItem89,
-            this.menuItem105,
+            this.minav,
+            this.miline,
+            this.mifolding,
+            this.miblankops,
+            this.micase,
+            this.mibookmarks,
+            this.miconversions,
+            this.seperator13,
             this.replacemode});
             this.editmenu.Text = "Edit";
             // 
@@ -525,10 +515,10 @@ namespace SS.Ynote.Classic
             this.RedoMenuItem.Text = "Redo";
             this.RedoMenuItem.Click += new System.EventHandler(this.RedoMenuItem_Click);
             // 
-            // menuItem10
+            // seperator2
             // 
-            this.menuItem10.Index = 2;
-            this.menuItem10.Text = "-";
+            this.seperator2.Index = 2;
+            this.seperator2.Text = "-";
             // 
             // CutMenuItem
             // 
@@ -548,107 +538,121 @@ namespace SS.Ynote.Classic
             this.PasteMenuItem.Text = "Paste";
             this.PasteMenuItem.Click += new System.EventHandler(this.PasteMenuItem_Click);
             // 
-            // menuItem14
+            // seperator3
             // 
-            this.menuItem14.Index = 6;
-            this.menuItem14.Text = "-";
+            this.seperator3.Index = 6;
+            this.seperator3.Text = "-";
+            // 
+            // micopyas
+            // 
+            this.micopyas.Index = 7;
+            this.micopyas.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.micopyhtml,
+            this.micopyrtf});
+            this.micopyas.Text = "Copy As";
+            // 
+            // micopyhtml
+            // 
+            this.micopyhtml.Index = 0;
+            this.micopyhtml.Text = "Html";
+            this.micopyhtml.Click += new System.EventHandler(this.micopyhtml_Click);
+            // 
+            // micopyrtf
+            // 
+            this.micopyrtf.Index = 1;
+            this.micopyrtf.Text = "Rich Text";
+            this.micopyrtf.Click += new System.EventHandler(this.micopyrtf_Click);
             // 
             // selectallmenu
             // 
-            this.selectallmenu.Index = 7;
+            this.selectallmenu.Index = 8;
             this.selectallmenu.Text = "Select All";
             this.selectallmenu.Click += new System.EventHandler(this.selectallmenu_Click);
             // 
-            // clearallmenu
+            // seperator23
             // 
-            this.clearallmenu.Index = 8;
-            this.clearallmenu.Text = "Clear All";
-            this.clearallmenu.Click += new System.EventHandler(this.clearallmenu_Click);
+            this.seperator23.Index = 9;
+            this.seperator23.Text = "-";
             // 
-            // menuItem36
+            // miinsert
             // 
-            this.menuItem36.Index = 9;
-            this.menuItem36.Text = "-";
+            this.miinsert.Index = 10;
+            this.miinsert.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.miinschars,
+            this.midatetime,
+            this.mifileastext,
+            this.seperator53,
+            this.mifilename,
+            this.mifullfilename,
+            this.seperator52,
+            this.miemptycolumns,
+            this.miemptylines});
+            this.miinsert.Text = "Insert";
             // 
-            // menuItem47
+            // miinschars
             // 
-            this.menuItem47.Index = 10;
-            this.menuItem47.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem71,
-            this.datetime,
-            this.fileastext,
-            this.menuItem53,
-            this.filenamemenuitem,
-            this.fullfilenamemenuitem,
-            this.menuItem52,
-            this.emptycolumns,
-            this.emptylines});
-            this.menuItem47.Text = "Insert";
+            this.miinschars.Index = 0;
+            this.miinschars.Text = "Characters";
+            this.miinschars.Click += new System.EventHandler(this.menuItem71_Click);
             // 
-            // menuItem71
+            // midatetime
             // 
-            this.menuItem71.Index = 0;
-            this.menuItem71.Text = "Characters";
-            this.menuItem71.Click += new System.EventHandler(this.menuItem71_Click);
+            this.midatetime.Index = 1;
+            this.midatetime.Text = "Date/Time";
+            this.midatetime.Click += new System.EventHandler(this.datetime_Click);
             // 
-            // datetime
+            // mifileastext
             // 
-            this.datetime.Index = 1;
-            this.datetime.Text = "Date/Time";
-            this.datetime.Click += new System.EventHandler(this.datetime_Click);
+            this.mifileastext.Index = 2;
+            this.mifileastext.Text = "File As Text";
+            this.mifileastext.Click += new System.EventHandler(this.fileastext_Click);
             // 
-            // fileastext
+            // seperator53
             // 
-            this.fileastext.Index = 2;
-            this.fileastext.Text = "File As Text";
-            this.fileastext.Click += new System.EventHandler(this.fileastext_Click);
+            this.seperator53.Index = 3;
+            this.seperator53.Text = "-";
             // 
-            // menuItem53
+            // mifilename
             // 
-            this.menuItem53.Index = 3;
-            this.menuItem53.Text = "-";
+            this.mifilename.Index = 4;
+            this.mifilename.Text = "Filename";
+            this.mifilename.Click += new System.EventHandler(this.filenamemenuitem_Click);
             // 
-            // filenamemenuitem
+            // mifullfilename
             // 
-            this.filenamemenuitem.Index = 4;
-            this.filenamemenuitem.Text = "Filename";
-            this.filenamemenuitem.Click += new System.EventHandler(this.filenamemenuitem_Click);
+            this.mifullfilename.Index = 5;
+            this.mifullfilename.Text = "Full File Name";
+            this.mifullfilename.Click += new System.EventHandler(this.fullfilenamemenuitem_Click);
             // 
-            // fullfilenamemenuitem
+            // seperator52
             // 
-            this.fullfilenamemenuitem.Index = 5;
-            this.fullfilenamemenuitem.Text = "Full File Name";
-            this.fullfilenamemenuitem.Click += new System.EventHandler(this.fullfilenamemenuitem_Click);
+            this.seperator52.Index = 6;
+            this.seperator52.Text = "-";
             // 
-            // menuItem52
+            // miemptycolumns
             // 
-            this.menuItem52.Index = 6;
-            this.menuItem52.Text = "-";
+            this.miemptycolumns.Index = 7;
+            this.miemptycolumns.Text = "Empty Columns";
+            this.miemptycolumns.Click += new System.EventHandler(this.emptycolumns_Click);
             // 
-            // emptycolumns
+            // miemptylines
             // 
-            this.emptycolumns.Index = 7;
-            this.emptycolumns.Text = "Empty Columns";
-            this.emptycolumns.Click += new System.EventHandler(this.emptycolumns_Click);
+            this.miemptylines.Index = 8;
+            this.miemptylines.Text = "Empty Lines";
+            this.miemptylines.Click += new System.EventHandler(this.emptylines_Click);
             // 
-            // emptylines
+            // misearch
             // 
-            this.emptylines.Index = 8;
-            this.emptylines.Text = "Empty Lines";
-            this.emptylines.Click += new System.EventHandler(this.emptylines_Click);
-            // 
-            // menuItem37
-            // 
-            this.menuItem37.Index = 11;
-            this.menuItem37.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.misearch.Index = 11;
+            this.misearch.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.findmenu,
-            this.menuItem85,
+            this.mifindnext,
             this.replacemenu,
-            this.menuItem44,
-            this.incrementalsearchmenu,
-            this.menuItem40,
+            this.seperator6,
+            this.miincrementalsearch,
+            this.seperator9,
             this.findinfilesmenu});
-            this.menuItem37.Text = "Search";
+            this.misearch.Text = "Search";
             // 
             // findmenu
             // 
@@ -657,11 +661,11 @@ namespace SS.Ynote.Classic
             this.findmenu.Text = "Find";
             this.findmenu.Click += new System.EventHandler(this.findmenu_Click);
             // 
-            // menuItem85
+            // mifindnext
             // 
-            this.menuItem85.Index = 1;
-            this.menuItem85.Text = "Find Next      [F3]";
-            this.menuItem85.Click += new System.EventHandler(this.menuItem85_Click);
+            this.mifindnext.Index = 1;
+            this.mifindnext.Text = "Find Next      [F3]";
+            this.mifindnext.Click += new System.EventHandler(this.mifindNext_Click);
             // 
             // replacemenu
             // 
@@ -670,22 +674,22 @@ namespace SS.Ynote.Classic
             this.replacemenu.Text = "Replace";
             this.replacemenu.Click += new System.EventHandler(this.replacemenu_Click);
             // 
-            // menuItem44
+            // seperator6
             // 
-            this.menuItem44.Index = 3;
-            this.menuItem44.Text = "-";
+            this.seperator6.Index = 3;
+            this.seperator6.Text = "-";
             // 
-            // incrementalsearchmenu
+            // miincrementalsearch
             // 
-            this.incrementalsearchmenu.Index = 4;
-            this.incrementalsearchmenu.Shortcut = System.Windows.Forms.Shortcut.CtrlI;
-            this.incrementalsearchmenu.Text = "Incremental Search";
-            this.incrementalsearchmenu.Click += new System.EventHandler(this.incrementalsearchmenu_Click);
+            this.miincrementalsearch.Index = 4;
+            this.miincrementalsearch.Shortcut = System.Windows.Forms.Shortcut.CtrlI;
+            this.miincrementalsearch.Text = "Incremental Search";
+            this.miincrementalsearch.Click += new System.EventHandler(this.incrementalsearchmenu_Click);
             // 
-            // menuItem40
+            // seperator9
             // 
-            this.menuItem40.Index = 5;
-            this.menuItem40.Text = "-";
+            this.seperator9.Index = 5;
+            this.seperator9.Text = "-";
             // 
             // findinfilesmenu
             // 
@@ -694,14 +698,14 @@ namespace SS.Ynote.Classic
             this.findinfilesmenu.Text = "Find In Files";
             this.findinfilesmenu.Click += new System.EventHandler(this.findinfilesmenu_Click);
             // 
-            // menuItem58
+            // miindent
             // 
-            this.menuItem58.Index = 12;
-            this.menuItem58.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.miindent.Index = 12;
+            this.miindent.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.increaseindent,
             this.decreaseindent,
             this.doindent});
-            this.menuItem58.Text = "Indent";
+            this.miindent.Text = "Indent";
             // 
             // increaseindent
             // 
@@ -742,47 +746,47 @@ namespace SS.Ynote.Classic
             this.uncommentline.Text = "Uncomment Selected";
             this.uncommentline.Click += new System.EventHandler(this.commentline_Click);
             // 
-            // menuItem93
+            // minav
             // 
-            this.menuItem93.Index = 14;
-            this.menuItem93.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem27,
-            this.menuItem84,
-            this.menuItem1,
+            this.minav.Index = 14;
+            this.minav.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.migotol,
+            this.miswitchfile,
+            this.seperator18,
             this.gotofirstlinemenu,
             this.gotoendmenu,
-            this.menuItem117,
+            this.seperator17,
             this.navforwardmenu,
             this.navbackwardmenu,
-            this.menuItem2,
-            this.menuItem3,
-            this.menuItem4,
-            this.menuItem5,
-            this.menuItem26,
-            this.menuItem34,
-            this.menuItem103,
-            this.menuItem82,
-            this.menuItem101});
-            this.menuItem93.Text = "Navigation";
+            this.seperator16,
+            this.migotoleftbracket,
+            this.migotorightbracket,
+            this.seperator15,
+            this.mileftbracket2,
+            this.migorightbracket2,
+            this.seperator14,
+            this.migoleftbracket3,
+            this.migorightbracket3});
+            this.minav.Text = "Navigation";
             // 
-            // menuItem27
+            // migotol
             // 
-            this.menuItem27.Index = 0;
-            this.menuItem27.Shortcut = System.Windows.Forms.Shortcut.CtrlG;
-            this.menuItem27.Text = "Go To Line";
-            this.menuItem27.Click += new System.EventHandler(this.menuItem27_Click);
+            this.migotol.Index = 0;
+            this.migotol.Shortcut = System.Windows.Forms.Shortcut.CtrlG;
+            this.migotol.Text = "Go To Line";
+            this.migotol.Click += new System.EventHandler(this.migotoline_Click);
             // 
-            // menuItem84
+            // miswitchfile
             // 
-            this.menuItem84.Index = 1;
-            this.menuItem84.Shortcut = System.Windows.Forms.Shortcut.CtrlT;
-            this.menuItem84.Text = "Switch File";
-            this.menuItem84.Click += new System.EventHandler(this.menuItem84_Click);
+            this.miswitchfile.Index = 1;
+            this.miswitchfile.Shortcut = System.Windows.Forms.Shortcut.CtrlT;
+            this.miswitchfile.Text = "Switch File";
+            this.miswitchfile.Click += new System.EventHandler(this.menuItem84_Click);
             // 
-            // menuItem1
+            // seperator18
             // 
-            this.menuItem1.Index = 2;
-            this.menuItem1.Text = "-";
+            this.seperator18.Index = 2;
+            this.seperator18.Text = "-";
             // 
             // gotofirstlinemenu
             // 
@@ -796,10 +800,10 @@ namespace SS.Ynote.Classic
             this.gotoendmenu.Text = "Go to the End";
             this.gotoendmenu.Click += new System.EventHandler(this.gotoendmenu_Click);
             // 
-            // menuItem117
+            // seperator17
             // 
-            this.menuItem117.Index = 5;
-            this.menuItem117.Text = "-";
+            this.seperator17.Index = 5;
+            this.seperator17.Text = "-";
             // 
             // navforwardmenu
             // 
@@ -813,75 +817,75 @@ namespace SS.Ynote.Classic
             this.navbackwardmenu.Text = "Navigate Backward";
             this.navbackwardmenu.Click += new System.EventHandler(this.navbackwardmenu_Click);
             // 
-            // menuItem2
+            // seperator16
             // 
-            this.menuItem2.Index = 8;
-            this.menuItem2.Text = "-";
+            this.seperator16.Index = 8;
+            this.seperator16.Text = "-";
             // 
-            // menuItem3
+            // migotoleftbracket
             // 
-            this.menuItem3.Index = 9;
-            this.menuItem3.Text = "Go to Left Bracket (";
-            this.menuItem3.Click += new System.EventHandler(this.menuItem3_Click);
+            this.migotoleftbracket.Index = 9;
+            this.migotoleftbracket.Text = "Go to Left Bracket (";
+            this.migotoleftbracket.Click += new System.EventHandler(this.migoleftbracket_Click);
             // 
-            // menuItem4
+            // migotorightbracket
             // 
-            this.menuItem4.Index = 10;
-            this.menuItem4.Text = "Go to Right Bracket )";
-            this.menuItem4.Click += new System.EventHandler(this.menuItem4_Click);
+            this.migotorightbracket.Index = 10;
+            this.migotorightbracket.Text = "Go to Right Bracket )";
+            this.migotorightbracket.Click += new System.EventHandler(this.migorightbracket_Click);
             // 
-            // menuItem5
+            // seperator15
             // 
-            this.menuItem5.Index = 11;
-            this.menuItem5.Text = "-";
+            this.seperator15.Index = 11;
+            this.seperator15.Text = "-";
             // 
-            // menuItem26
+            // mileftbracket2
             // 
-            this.menuItem26.Index = 12;
-            this.menuItem26.Text = "Go to Left Bracket {";
-            this.menuItem26.Click += new System.EventHandler(this.menuItem26_Click);
+            this.mileftbracket2.Index = 12;
+            this.mileftbracket2.Text = "Go to Left Bracket {";
+            this.mileftbracket2.Click += new System.EventHandler(this.migoleftbracket2_Click);
             // 
-            // menuItem34
+            // migorightbracket2
             // 
-            this.menuItem34.Index = 13;
-            this.menuItem34.Text = "Go to Left Bracket }";
-            this.menuItem34.Click += new System.EventHandler(this.menuItem34_Click);
+            this.migorightbracket2.Index = 13;
+            this.migorightbracket2.Text = "Go to Right Bracket }";
+            this.migorightbracket2.Click += new System.EventHandler(this.migorightbracket2_Click);
             // 
-            // menuItem103
+            // seperator14
             // 
-            this.menuItem103.Index = 14;
-            this.menuItem103.Text = "-";
+            this.seperator14.Index = 14;
+            this.seperator14.Text = "-";
             // 
-            // menuItem82
+            // migoleftbracket3
             // 
-            this.menuItem82.Index = 15;
-            this.menuItem82.Text = "Go Left Bracket [";
-            this.menuItem82.Click += new System.EventHandler(this.menuItem82_Click);
+            this.migoleftbracket3.Index = 15;
+            this.migoleftbracket3.Text = "Go Left Bracket [";
+            this.migoleftbracket3.Click += new System.EventHandler(this.migoleftbracket3_Click);
             // 
-            // menuItem101
+            // migorightbracket3
             // 
-            this.menuItem101.Index = 16;
-            this.menuItem101.Text = "Go Right Bracket ]";
-            this.menuItem101.Click += new System.EventHandler(this.menuItem101_Click);
+            this.migorightbracket3.Index = 16;
+            this.migorightbracket3.Text = "Go Right Bracket ]";
+            this.migorightbracket3.Click += new System.EventHandler(this.migorightbracket3_Click);
             // 
-            // menuItem81
+            // miline
             // 
-            this.menuItem81.Index = 15;
-            this.menuItem81.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.miline.Index = 15;
+            this.miline.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.movelineup,
             this.movelinedown,
             this.duplicatelinemenu,
-            this.menuItem86,
-            this.menuItem29,
+            this.seperator4,
+            this.mijoinlines,
             this.splitlinemenu,
-            this.menuItem115,
-            this.menuItem69,
-            this.menuItem65,
-            this.menuItem96,
-            this.menuItem90,
-            this.removelinemenu,
+            this.seperator28,
+            this.mireverselines,
+            this.misortalphabet,
+            this.misortlength,
+            this.seperator90,
+            this.miremovecurrent,
             this.removeemptylines});
-            this.menuItem81.Text = "Line";
+            this.miline.Text = "Line";
             // 
             // movelineup
             // 
@@ -903,17 +907,17 @@ namespace SS.Ynote.Classic
             this.duplicatelinemenu.Text = "Duplicate Line";
             this.duplicatelinemenu.Click += new System.EventHandler(this.duplicatelinemenu_Click);
             // 
-            // menuItem86
+            // seperator4
             // 
-            this.menuItem86.Index = 3;
-            this.menuItem86.Text = "-";
+            this.seperator4.Index = 3;
+            this.seperator4.Text = "-";
             // 
-            // menuItem29
+            // mijoinlines
             // 
-            this.menuItem29.Index = 4;
-            this.menuItem29.Shortcut = System.Windows.Forms.Shortcut.CtrlJ;
-            this.menuItem29.Text = "Join Lines";
-            this.menuItem29.Click += new System.EventHandler(this.menuItem29_Click);
+            this.mijoinlines.Index = 4;
+            this.mijoinlines.Shortcut = System.Windows.Forms.Shortcut.CtrlJ;
+            this.mijoinlines.Text = "Join Lines";
+            this.mijoinlines.Click += new System.EventHandler(this.menuItem29_Click);
             // 
             // splitlinemenu
             // 
@@ -921,39 +925,39 @@ namespace SS.Ynote.Classic
             this.splitlinemenu.Text = "Split Line";
             this.splitlinemenu.Click += new System.EventHandler(this.splitlinemenu_Click);
             // 
-            // menuItem115
+            // seperator28
             // 
-            this.menuItem115.Index = 6;
-            this.menuItem115.Text = "-";
+            this.seperator28.Index = 6;
+            this.seperator28.Text = "-";
             // 
-            // menuItem69
+            // mireverselines
             // 
-            this.menuItem69.Index = 7;
-            this.menuItem69.Text = "Sort Lines (Reverse)";
-            this.menuItem69.Click += new System.EventHandler(this.menuItem69_Click);
+            this.mireverselines.Index = 7;
+            this.mireverselines.Text = "Sort Lines (Reverse)";
+            this.mireverselines.Click += new System.EventHandler(this.menuItem69_Click);
             // 
-            // menuItem65
+            // misortalphabet
             // 
-            this.menuItem65.Index = 8;
-            this.menuItem65.Text = "Sort Alphabetically";
-            this.menuItem65.Click += new System.EventHandler(this.menuItem65_Click);
+            this.misortalphabet.Index = 8;
+            this.misortalphabet.Text = "Sort Alphabetically";
+            this.misortalphabet.Click += new System.EventHandler(this.menuItem65_Click);
             // 
-            // menuItem96
+            // misortlength
             // 
-            this.menuItem96.Index = 9;
-            this.menuItem96.Text = "Sort Lengthwise";
-            this.menuItem96.Click += new System.EventHandler(this.menuItem96_Click);
+            this.misortlength.Index = 9;
+            this.misortlength.Text = "Sort Lengthwise";
+            this.misortlength.Click += new System.EventHandler(this.misortlength_Click);
             // 
-            // menuItem90
+            // seperator90
             // 
-            this.menuItem90.Index = 10;
-            this.menuItem90.Text = "-";
+            this.seperator90.Index = 10;
+            this.seperator90.Text = "-";
             // 
-            // removelinemenu
+            // miremovecurrent
             // 
-            this.removelinemenu.Index = 11;
-            this.removelinemenu.Text = "Remove Current Line";
-            this.removelinemenu.Click += new System.EventHandler(this.removelinemenu_Click);
+            this.miremovecurrent.Index = 11;
+            this.miremovecurrent.Text = "Remove Current Line";
+            this.miremovecurrent.Click += new System.EventHandler(this.removelinemenu_Click);
             // 
             // removeemptylines
             // 
@@ -961,16 +965,16 @@ namespace SS.Ynote.Classic
             this.removeemptylines.Text = "Remove Empty Lines";
             this.removeemptylines.Click += new System.EventHandler(this.removeemptylines_Click);
             // 
-            // menuItem67
+            // mifolding
             // 
-            this.menuItem67.Index = 16;
-            this.menuItem67.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.mifolding.Index = 16;
+            this.mifolding.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.foldallmenu,
             this.unfoldmenu,
-            this.menuItem70,
+            this.seperator70,
             this.foldselected,
             this.unfoldselected});
-            this.menuItem67.Text = "Folding";
+            this.mifolding.Text = "Folding";
             // 
             // foldallmenu
             // 
@@ -984,10 +988,10 @@ namespace SS.Ynote.Classic
             this.unfoldmenu.Text = "Unfold All";
             this.unfoldmenu.Click += new System.EventHandler(this.unfoldmenu_Click);
             // 
-            // menuItem70
+            // seperator70
             // 
-            this.menuItem70.Index = 2;
-            this.menuItem70.Text = "-";
+            this.seperator70.Index = 2;
+            this.seperator70.Text = "-";
             // 
             // foldselected
             // 
@@ -1001,70 +1005,70 @@ namespace SS.Ynote.Classic
             this.unfoldselected.Text = "Unfold Selected";
             this.unfoldselected.Click += new System.EventHandler(this.unfoldselected_Click);
             // 
-            // menuItem74
+            // miblankops
             // 
-            this.menuItem74.Index = 17;
-            this.menuItem74.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem75,
-            this.menuItem76,
-            this.menuItem87,
-            this.menuItem79,
-            this.menuItem78,
-            this.menuItem80,
-            this.menuItem77});
-            this.menuItem74.Text = "Blank Operations";
+            this.miblankops.Index = 17;
+            this.miblankops.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.mitts,
+            this.mitls,
+            this.mitpunctuation,
+            this.mittsandttl,
+            this.mieoltospace,
+            this.mispacetoeol,
+            this.miremoveeol});
+            this.miblankops.Text = "Blank Operations";
             // 
-            // menuItem75
+            // mitts
             // 
-            this.menuItem75.Index = 0;
-            this.menuItem75.Text = "Trim Trailing Space";
-            this.menuItem75.Click += new System.EventHandler(this.menuItem75_Click);
+            this.mitts.Index = 0;
+            this.mitts.Text = "Trim Trailing Space";
+            this.mitts.Click += new System.EventHandler(this.menuItem75_Click);
             // 
-            // menuItem76
+            // mitls
             // 
-            this.menuItem76.Index = 1;
-            this.menuItem76.Text = "Trim Leading Space";
-            this.menuItem76.Click += new System.EventHandler(this.menuItem76_Click);
+            this.mitls.Index = 1;
+            this.mitls.Text = "Trim Leading Space";
+            this.mitls.Click += new System.EventHandler(this.menuItem76_Click);
             // 
-            // menuItem87
+            // mitpunctuation
             // 
-            this.menuItem87.Index = 2;
-            this.menuItem87.Text = "Trim Punctuations";
-            this.menuItem87.Click += new System.EventHandler(this.menuItem87_Click);
+            this.mitpunctuation.Index = 2;
+            this.mitpunctuation.Text = "Trim Punctuations";
+            this.mitpunctuation.Click += new System.EventHandler(this.mitrimpunctuation_Click);
             // 
-            // menuItem79
+            // mittsandttl
             // 
-            this.menuItem79.Index = 3;
-            this.menuItem79.Text = "Trim Trailing and Leading Space";
-            this.menuItem79.Click += new System.EventHandler(this.menuItem79_Click);
+            this.mittsandttl.Index = 3;
+            this.mittsandttl.Text = "Trim Trailing and Leading Space";
+            this.mittsandttl.Click += new System.EventHandler(this.menuItem79_Click);
             // 
-            // menuItem78
+            // mieoltospace
             // 
-            this.menuItem78.Index = 4;
-            this.menuItem78.Text = "EOL to Space";
-            this.menuItem78.Click += new System.EventHandler(this.menuItem78_Click);
+            this.mieoltospace.Index = 4;
+            this.mieoltospace.Text = "EOL to Space";
+            this.mieoltospace.Click += new System.EventHandler(this.menuItem78_Click);
             // 
-            // menuItem80
+            // mispacetoeol
             // 
-            this.menuItem80.Index = 5;
-            this.menuItem80.Text = "Space to EOL";
-            this.menuItem80.Click += new System.EventHandler(this.menuItem80_Click);
+            this.mispacetoeol.Index = 5;
+            this.mispacetoeol.Text = "Space to EOL";
+            this.mispacetoeol.Click += new System.EventHandler(this.menuItem80_Click);
             // 
-            // menuItem77
+            // miremoveeol
             // 
-            this.menuItem77.Index = 6;
-            this.menuItem77.Text = "Remove EOL";
-            this.menuItem77.Click += new System.EventHandler(this.menuItem77_Click);
+            this.miremoveeol.Index = 6;
+            this.miremoveeol.Text = "Remove EOL";
+            this.miremoveeol.Click += new System.EventHandler(this.menuItem77_Click);
             // 
-            // menuItem73
+            // micase
             // 
-            this.menuItem73.Index = 18;
-            this.menuItem73.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.micase.Index = 18;
+            this.micase.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.caseuppermenu,
             this.caselowermenu,
             this.casetitlemenu,
             this.swapcase});
-            this.menuItem73.Text = "Case";
+            this.micase.Text = "Case";
             // 
             // caseuppermenu
             // 
@@ -1090,15 +1094,15 @@ namespace SS.Ynote.Classic
             this.swapcase.Text = "Swap Case";
             this.swapcase.Click += new System.EventHandler(this.swapcase_Click);
             // 
-            // menuItem64
+            // mibookmarks
             // 
-            this.menuItem64.Index = 19;
-            this.menuItem64.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.mibookmarks.Index = 19;
+            this.mibookmarks.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.Addbookmarkmenu,
             this.removebookmarkmenu,
             this.gotobookmark,
             this.navigatethroughbookmarks});
-            this.menuItem64.Text = "Bookmarks";
+            this.mibookmarks.Text = "Bookmarks";
             // 
             // Addbookmarkmenu
             // 
@@ -1124,77 +1128,77 @@ namespace SS.Ynote.Classic
             this.navigatethroughbookmarks.Text = "Navigate Through Bookmarks";
             this.navigatethroughbookmarks.Click += new System.EventHandler(this.navigatethroughbookmarks_Click);
             // 
-            // menuItem89
+            // miconversions
             // 
-            this.menuItem89.Index = 20;
-            this.menuItem89.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem91,
-            this.menuItem92,
-            this.menuItem94,
-            this.menuItem38,
-            this.menuItem88,
-            this.menuItem98,
-            this.menuItem118,
-            this.menuItem119,
-            this.menuItem120});
-            this.menuItem89.Text = "Conversions";
+            this.miconversions.Index = 20;
+            this.miconversions.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.mitocrlf,
+            this.mitocr,
+            this.mitolf,
+            this.seperator12,
+            this.mispacestotab,
+            this.mitabtospaces,
+            this.seperator11,
+            this.miselectiontohex,
+            this.miselectiontoascii});
+            this.miconversions.Text = "Conversions";
             // 
-            // menuItem91
+            // mitocrlf
             // 
-            this.menuItem91.Index = 0;
-            this.menuItem91.Text = "To CRLF (Windows)";
-            this.menuItem91.Click += new System.EventHandler(this.menuItem91_Click);
+            this.mitocrlf.Index = 0;
+            this.mitocrlf.Text = "To CRLF (Windows)";
+            this.mitocrlf.Click += new System.EventHandler(this.mitocrlf_Click);
             // 
-            // menuItem92
+            // mitocr
             // 
-            this.menuItem92.Index = 1;
-            this.menuItem92.Text = "To CR (Mac)";
-            this.menuItem92.Click += new System.EventHandler(this.menuItem92_Click);
+            this.mitocr.Index = 1;
+            this.mitocr.Text = "To CR (Mac)";
+            this.mitocr.Click += new System.EventHandler(this.mitocr_Click);
             // 
-            // menuItem94
+            // mitolf
             // 
-            this.menuItem94.Index = 2;
-            this.menuItem94.Text = "To LF (Unix)";
-            this.menuItem94.Click += new System.EventHandler(this.menuItem94_Click);
+            this.mitolf.Index = 2;
+            this.mitolf.Text = "To LF (Unix)";
+            this.mitolf.Click += new System.EventHandler(this.mitolf_Click);
             // 
-            // menuItem38
+            // seperator12
             // 
-            this.menuItem38.Index = 3;
-            this.menuItem38.Text = "-";
+            this.seperator12.Index = 3;
+            this.seperator12.Text = "-";
             // 
-            // menuItem88
+            // mispacestotab
             // 
-            this.menuItem88.Index = 4;
-            this.menuItem88.Text = "Spaces To Tab";
-            this.menuItem88.Click += new System.EventHandler(this.menuItem88_Click);
+            this.mispacestotab.Index = 4;
+            this.mispacestotab.Text = "Spaces To Tab";
+            this.mispacestotab.Click += new System.EventHandler(this.mispacestotab_Click);
             // 
-            // menuItem98
+            // mitabtospaces
             // 
-            this.menuItem98.Index = 5;
-            this.menuItem98.Text = "Tab To Spaces";
-            this.menuItem98.Click += new System.EventHandler(this.menuItem98_Click);
+            this.mitabtospaces.Index = 5;
+            this.mitabtospaces.Text = "Tab To Spaces";
+            this.mitabtospaces.Click += new System.EventHandler(this.mitabtospaces_Click);
             // 
-            // menuItem118
+            // seperator11
             // 
-            this.menuItem118.Index = 6;
-            this.menuItem118.Text = "-";
+            this.seperator11.Index = 6;
+            this.seperator11.Text = "-";
             // 
-            // menuItem119
+            // miselectiontohex
             // 
-            this.menuItem119.Index = 7;
-            this.menuItem119.Text = "Selection to Hex";
-            this.menuItem119.Click += new System.EventHandler(this.menuItem119_Click);
+            this.miselectiontohex.Index = 7;
+            this.miselectiontohex.Text = "Selection to Hex";
+            this.miselectiontohex.Click += new System.EventHandler(this.miseltohex_Click);
             // 
-            // menuItem120
+            // miselectiontoascii
             // 
-            this.menuItem120.Index = 8;
-            this.menuItem120.Text = "Selection to ASCII";
-            this.menuItem120.Click += new System.EventHandler(this.menuItem120_Click);
+            this.miselectiontoascii.Index = 8;
+            this.miselectiontoascii.Text = "Selection to ASCII";
+            this.miselectiontoascii.Click += new System.EventHandler(this.miseltoASCII_Click);
             // 
-            // menuItem105
+            // seperator13
             // 
-            this.menuItem105.Index = 21;
-            this.menuItem105.Text = "-";
+            this.seperator13.Index = 21;
+            this.seperator13.Text = "-";
             // 
             // replacemode
             // 
@@ -1207,22 +1211,22 @@ namespace SS.Ynote.Classic
             this.viewmenu.Index = 2;
             this.viewmenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.statusbarmenuitem,
-            this.menuItem46,
-            this.menuItem48,
-            this.menuItem54,
-            this.menuItem55,
-            this.menuItem99,
+            this.seperator5,
+            this.mizoom,
+            this.mitransparent,
+            this.mifullscreen,
+            this.seperator27,
             this.milanguage,
-            this.menuItem106,
-            this.menuItem116,
-            this.menuItem104,
-            this.menuItem109,
-            this.menuItem6,
+            this.misnippets,
+            this.seperator29,
+            this.mimarksel,
+            this.mihiddenchars,
+            this.mishowunsaved,
             this.wordwrapmenu,
-            this.menuItem110,
-            this.menuItem95,
-            this.menuItem97,
-            this.menuItem57});
+            this.seperator24,
+            this.miprojectmanager,
+            this.seperator26,
+            this.misplit});
             this.viewmenu.Text = "View";
             // 
             // statusbarmenuitem
@@ -1232,55 +1236,55 @@ namespace SS.Ynote.Classic
             this.statusbarmenuitem.Text = "Status Bar";
             this.statusbarmenuitem.Click += new System.EventHandler(this.statusbarmenuitem_Click);
             // 
-            // menuItem46
+            // seperator5
             // 
-            this.menuItem46.Index = 1;
-            this.menuItem46.Text = "-";
+            this.seperator5.Index = 1;
+            this.seperator5.Text = "-";
             // 
-            // menuItem48
+            // mizoom
             // 
-            this.menuItem48.Index = 2;
-            this.menuItem48.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem49,
-            this.menuItem50,
-            this.menuItem51});
-            this.menuItem48.Text = "Zoom";
+            this.mizoom.Index = 2;
+            this.mizoom.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.mizoomin,
+            this.mizoomout,
+            this.mirestorezoom});
+            this.mizoom.Text = "Zoom";
             // 
-            // menuItem49
+            // mizoomin
             // 
-            this.menuItem49.Index = 0;
-            this.menuItem49.Text = "Zoom In";
-            this.menuItem49.Click += new System.EventHandler(this.menuItem49_Click);
+            this.mizoomin.Index = 0;
+            this.mizoomin.Text = "Zoom In";
+            this.mizoomin.Click += new System.EventHandler(this.mizoomin_Click);
             // 
-            // menuItem50
+            // mizoomout
             // 
-            this.menuItem50.Index = 1;
-            this.menuItem50.Text = "Zoom Out";
-            this.menuItem50.Click += new System.EventHandler(this.menuItem50_Click);
+            this.mizoomout.Index = 1;
+            this.mizoomout.Text = "Zoom Out";
+            this.mizoomout.Click += new System.EventHandler(this.mizoomout_Click);
             // 
-            // menuItem51
+            // mirestorezoom
             // 
-            this.menuItem51.Index = 2;
-            this.menuItem51.Text = "Restore Default";
-            this.menuItem51.Click += new System.EventHandler(this.menuItem51_Click);
+            this.mirestorezoom.Index = 2;
+            this.mirestorezoom.Text = "Restore Default";
+            this.mirestorezoom.Click += new System.EventHandler(this.mirestoredefault_Click);
             // 
-            // menuItem54
+            // mitransparent
             // 
-            this.menuItem54.Index = 3;
-            this.menuItem54.Text = "Transparent UI";
-            this.menuItem54.Click += new System.EventHandler(this.menuItem54_Click);
+            this.mitransparent.Index = 3;
+            this.mitransparent.Text = "Transparent UI";
+            this.mitransparent.Click += new System.EventHandler(this.mitransparent_Click);
             // 
-            // menuItem55
+            // mifullscreen
             // 
-            this.menuItem55.Index = 4;
-            this.menuItem55.Shortcut = System.Windows.Forms.Shortcut.F11;
-            this.menuItem55.Text = "Full Screen";
-            this.menuItem55.Click += new System.EventHandler(this.menuItem55_Click);
+            this.mifullscreen.Index = 4;
+            this.mifullscreen.Shortcut = System.Windows.Forms.Shortcut.F11;
+            this.mifullscreen.Text = "Full Screen";
+            this.mifullscreen.Click += new System.EventHandler(this.mifullscreen_Click);
             // 
-            // menuItem99
+            // seperator27
             // 
-            this.menuItem99.Index = 5;
-            this.menuItem99.Text = "-";
+            this.seperator27.Index = 5;
+            this.seperator27.Text = "-";
             // 
             // milanguage
             // 
@@ -1288,76 +1292,77 @@ namespace SS.Ynote.Classic
             this.milanguage.Text = "Syntax Highlight";
             this.milanguage.Select += new System.EventHandler(this.milanguage_Select);
             // 
-            // menuItem106
+            // misnippets
             // 
-            this.menuItem106.Index = 7;
-            this.menuItem106.Text = "Snippets";
-            this.menuItem106.Click += new System.EventHandler(this.menuItem106_Click);
+            this.misnippets.Index = 7;
+            this.misnippets.Shortcut = System.Windows.Forms.Shortcut.CtrlK;
+            this.misnippets.Text = "Snippets";
+            this.misnippets.Click += new System.EventHandler(this.misnippets_Click);
             // 
-            // menuItem116
+            // seperator29
             // 
-            this.menuItem116.Index = 8;
-            this.menuItem116.Text = "-";
+            this.seperator29.Index = 8;
+            this.seperator29.Text = "-";
             // 
-            // menuItem104
+            // mimarksel
             // 
-            this.menuItem104.Index = 9;
-            this.menuItem104.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem108,
-            this.menuItem111,
-            this.menuItem112,
-            this.menuItem113,
-            this.menuItem114,
-            this.menuItem107});
-            this.menuItem104.Text = "Mark Selection";
+            this.mimarksel.Index = 9;
+            this.mimarksel.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.miredmark,
+            this.mibluemark,
+            this.migraymark,
+            this.migreenmark,
+            this.mimarkyellow,
+            this.miclearmarked});
+            this.mimarksel.Text = "Mark Selection";
             // 
-            // menuItem108
+            // miredmark
             // 
-            this.menuItem108.Index = 0;
-            this.menuItem108.Text = "Using Red Style";
-            this.menuItem108.Click += new System.EventHandler(this.menuItem108_Click);
+            this.miredmark.Index = 0;
+            this.miredmark.Text = "Using Red Style";
+            this.miredmark.Click += new System.EventHandler(this.mimarkRed_Click);
             // 
-            // menuItem111
+            // mibluemark
             // 
-            this.menuItem111.Index = 1;
-            this.menuItem111.Text = "Using Blue Style";
-            this.menuItem111.Click += new System.EventHandler(this.menuItem111_Click);
+            this.mibluemark.Index = 1;
+            this.mibluemark.Text = "Using Blue Style";
+            this.mibluemark.Click += new System.EventHandler(this.mimarkblue_Click);
             // 
-            // menuItem112
+            // migraymark
             // 
-            this.menuItem112.Index = 2;
-            this.menuItem112.Text = "Using Gray Style";
-            this.menuItem112.Click += new System.EventHandler(this.menuItem112_Click);
+            this.migraymark.Index = 2;
+            this.migraymark.Text = "Using Gray Style";
+            this.migraymark.Click += new System.EventHandler(this.mimarkgray_Click);
             // 
-            // menuItem113
+            // migreenmark
             // 
-            this.menuItem113.Index = 3;
-            this.menuItem113.Text = "Using Green Style";
-            this.menuItem113.Click += new System.EventHandler(this.menuItem113_Click);
+            this.migreenmark.Index = 3;
+            this.migreenmark.Text = "Using Green Style";
+            this.migreenmark.Click += new System.EventHandler(this.mimarkgreen_Click);
             // 
-            // menuItem114
+            // mimarkyellow
             // 
-            this.menuItem114.Index = 4;
-            this.menuItem114.Text = "Using Yellow Style";
-            this.menuItem114.Click += new System.EventHandler(this.menuItem114_Click);
+            this.mimarkyellow.Index = 4;
+            this.mimarkyellow.Text = "Using Yellow Style";
+            this.mimarkyellow.Click += new System.EventHandler(this.mimarkyellow_Click);
             // 
-            // menuItem107
+            // miclearmarked
             // 
-            this.menuItem107.Index = 5;
-            this.menuItem107.Text = "Clear Marked";
-            this.menuItem107.Click += new System.EventHandler(this.menuItem107_Click);
+            this.miclearmarked.Index = 5;
+            this.miclearmarked.Text = "Clear Marked";
+            this.miclearmarked.Click += new System.EventHandler(this.miclearMarked_Click);
             // 
-            // menuItem109
+            // mihiddenchars
             // 
-            this.menuItem109.Index = 10;
-            this.menuItem109.Text = "Hidden Characters";
-            this.menuItem109.Click += new System.EventHandler(this.menuItem109_Click);
+            this.mihiddenchars.Index = 10;
+            this.mihiddenchars.Text = "Hidden Characters";
+            this.mihiddenchars.Click += new System.EventHandler(this.mihiddenchars_Click);
             // 
-            // menuItem6
+            // mishowunsaved
             // 
-            this.menuItem6.Index = 11;
-            this.menuItem6.Text = "Show Unsaved Changes";
-            this.menuItem6.Click += new System.EventHandler(this.menuItem6_Click);
+            this.mishowunsaved.Index = 11;
+            this.mishowunsaved.Text = "Show Unsaved Changes";
+            this.mishowunsaved.Click += new System.EventHandler(this.mishowunsaved_Click);
             // 
             // wordwrapmenu
             // 
@@ -1365,28 +1370,28 @@ namespace SS.Ynote.Classic
             this.wordwrapmenu.Text = "Word Wrap";
             this.wordwrapmenu.Click += new System.EventHandler(this.wordwrapmenu_Click);
             // 
-            // menuItem110
+            // seperator24
             // 
-            this.menuItem110.Index = 13;
-            this.menuItem110.Text = "-";
+            this.seperator24.Index = 13;
+            this.seperator24.Text = "-";
             // 
-            // menuItem95
+            // miprojectmanager
             // 
-            this.menuItem95.Index = 14;
-            this.menuItem95.Text = "Project Manager";
-            this.menuItem95.Click += new System.EventHandler(this.menuItem95_Click);
+            this.miprojectmanager.Index = 14;
+            this.miprojectmanager.Text = "Project Manager";
+            this.miprojectmanager.Click += new System.EventHandler(this.menuItem95_Click);
             // 
-            // menuItem97
+            // seperator26
             // 
-            this.menuItem97.Index = 15;
-            this.menuItem97.Text = "-";
+            this.seperator26.Index = 15;
+            this.seperator26.Text = "-";
             // 
-            // menuItem57
+            // misplit
             // 
-            this.menuItem57.Index = 16;
-            this.menuItem57.Shortcut = System.Windows.Forms.Shortcut.F7;
-            this.menuItem57.Text = "Split";
-            this.menuItem57.Click += new System.EventHandler(this.menuItem57_Click);
+            this.misplit.Index = 16;
+            this.misplit.Shortcut = System.Windows.Forms.Shortcut.F7;
+            this.misplit.Text = "Split";
+            this.misplit.Click += new System.EventHandler(this.menuItem57_Click);
             // 
             // toolsmenu
             // 
@@ -1395,17 +1400,18 @@ namespace SS.Ynote.Classic
             this.commandermenu,
             this.CommandPrompt,
             this.pluginmanagermenu,
-            this.menuItem100,
-            this.menuItem102,
-            this.menuItem122,
-            this.menuItem30,
-            this.menuItem31,
-            this.menuItem126,
+            this.mikeymapeditor,
+            this.seperator8,
+            this.miwebsearch,
+            this.miexecfile,
+            this.mirunscripts,
+            this.seperator7,
             this.CompareMenu,
-            this.menuItem72,
-            this.menuItem66,
+            this.micomparewith,
+            this.seperator66,
+            this.menuItem1,
             this.colorschememenu,
-            this.menuItem83,
+            this.seperator83,
             this.OptionsMenu});
             this.toolsmenu.Text = "Tools";
             // 
@@ -1428,74 +1434,74 @@ namespace SS.Ynote.Classic
             this.pluginmanagermenu.Text = "Plugin Manager";
             this.pluginmanagermenu.Click += new System.EventHandler(this.pluginmanagermenu_Click);
             // 
-            // menuItem100
+            // mikeymapeditor
             // 
-            this.menuItem100.Index = 3;
-            this.menuItem100.Text = "Keymap Editor";
-            this.menuItem100.Click += new System.EventHandler(this.menuItem100_Click);
+            this.mikeymapeditor.Index = 3;
+            this.mikeymapeditor.Text = "Keymap Editor";
+            this.mikeymapeditor.Click += new System.EventHandler(this.menuItem100_Click);
             // 
-            // menuItem102
+            // seperator8
             // 
-            this.menuItem102.Index = 4;
-            this.menuItem102.Text = "-";
+            this.seperator8.Index = 4;
+            this.seperator8.Text = "-";
             // 
-            // menuItem122
+            // miwebsearch
             // 
-            this.menuItem122.Index = 5;
-            this.menuItem122.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem123,
-            this.menuItem124,
-            this.menuItem125});
-            this.menuItem122.Text = "Web Search";
+            this.miwebsearch.Index = 5;
+            this.miwebsearch.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.migoogle,
+            this.mibing,
+            this.miwiki});
+            this.miwebsearch.Text = "Web Search";
             // 
-            // menuItem123
+            // migoogle
             // 
-            this.menuItem123.Index = 0;
-            this.menuItem123.Text = "Google";
-            this.menuItem123.Click += new System.EventHandler(this.menuItem123_Click);
+            this.migoogle.Index = 0;
+            this.migoogle.Text = "Google";
+            this.migoogle.Click += new System.EventHandler(this.migoogle_Click);
             // 
-            // menuItem124
+            // mibing
             // 
-            this.menuItem124.Index = 1;
-            this.menuItem124.Text = "Bing";
-            this.menuItem124.Click += new System.EventHandler(this.menuItem124_Click);
+            this.mibing.Index = 1;
+            this.mibing.Text = "Bing";
+            this.mibing.Click += new System.EventHandler(this.mibing_Click);
             // 
-            // menuItem125
+            // miwiki
             // 
-            this.menuItem125.Index = 2;
-            this.menuItem125.Text = "Wikipedia";
-            this.menuItem125.Click += new System.EventHandler(this.menuItem125_Click);
+            this.miwiki.Index = 2;
+            this.miwiki.Text = "Wikipedia";
+            this.miwiki.Click += new System.EventHandler(this.miwiki_Click);
             // 
-            // menuItem30
+            // miexecfile
             // 
-            this.menuItem30.Index = 6;
-            this.menuItem30.Text = "Execute File";
-            this.menuItem30.Click += new System.EventHandler(this.menuItem30_Click);
+            this.miexecfile.Index = 6;
+            this.miexecfile.Text = "Execute File";
+            this.miexecfile.Click += new System.EventHandler(this.menuItem30_Click);
             // 
-            // menuItem31
+            // mirunscripts
             // 
-            this.menuItem31.Index = 7;
-            this.menuItem31.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem32,
-            this.menuItem45});
-            this.menuItem31.Text = "Run Scripts";
+            this.mirunscripts.Index = 7;
+            this.mirunscripts.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.mirun,
+            this.mieditor});
+            this.mirunscripts.Text = "Run Scripts";
             // 
-            // menuItem32
+            // mirun
             // 
-            this.menuItem32.Index = 0;
-            this.menuItem32.Text = "Run";
-            this.menuItem32.Click += new System.EventHandler(this.menuItem32_Click);
+            this.mirun.Index = 0;
+            this.mirun.Text = "Run";
+            this.mirun.Click += new System.EventHandler(this.mirun_Click);
             // 
-            // menuItem45
+            // mieditor
             // 
-            this.menuItem45.Index = 1;
-            this.menuItem45.Text = "Editor";
-            this.menuItem45.Click += new System.EventHandler(this.menuItem45_Click);
+            this.mieditor.Index = 1;
+            this.mieditor.Text = "Editor";
+            this.mieditor.Click += new System.EventHandler(this.miruneditor_Click);
             // 
-            // menuItem126
+            // seperator7
             // 
-            this.menuItem126.Index = 8;
-            this.menuItem126.Text = "-";
+            this.seperator7.Index = 8;
+            this.seperator7.Text = "-";
             // 
             // CompareMenu
             // 
@@ -1503,31 +1509,31 @@ namespace SS.Ynote.Classic
             this.CompareMenu.Text = "Compare";
             this.CompareMenu.Click += new System.EventHandler(this.CompareMenu_Click);
             // 
-            // menuItem72
+            // micomparewith
             // 
-            this.menuItem72.Index = 10;
-            this.menuItem72.Text = "Compare Document With";
-            this.menuItem72.Click += new System.EventHandler(this.menuItem72_Click);
+            this.micomparewith.Index = 10;
+            this.micomparewith.Text = "Compare Document With";
+            this.micomparewith.Click += new System.EventHandler(this.micomparedocwith_Click);
             // 
-            // menuItem66
+            // seperator66
             // 
-            this.menuItem66.Index = 11;
-            this.menuItem66.Text = "-";
+            this.seperator66.Index = 11;
+            this.seperator66.Text = "-";
             // 
             // colorschememenu
             // 
-            this.colorschememenu.Index = 12;
+            this.colorschememenu.Index = 13;
             this.colorschememenu.Text = "Color Scheme";
             this.colorschememenu.Select += new System.EventHandler(this.colorschememenu_Select);
             // 
-            // menuItem83
+            // seperator83
             // 
-            this.menuItem83.Index = 13;
-            this.menuItem83.Text = "-";
+            this.seperator83.Index = 14;
+            this.seperator83.Text = "-";
             // 
             // OptionsMenu
             // 
-            this.OptionsMenu.Index = 14;
+            this.OptionsMenu.Index = 15;
             this.OptionsMenu.Text = "Options";
             this.OptionsMenu.Click += new System.EventHandler(this.OptionsMenu_Click);
             // 
@@ -1535,62 +1541,62 @@ namespace SS.Ynote.Classic
             // 
             this.macrosmenu.Index = 4;
             this.macrosmenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem35,
-            this.menuItem39,
-            this.menuItem41,
-            this.menuItem42,
-            this.menuItem43,
-            this.menuItem63,
-            this.menuItem56,
+            this.mirecordmacro,
+            this.seperator31,
+            this.miplaybackmacro,
+            this.miexecmacromultiple,
+            this.misaverecordedmacro,
+            this.miclearmacrodata,
+            this.seperator32,
             this.mimacros,
             this.miscripts});
             this.macrosmenu.Text = "Macros";
             // 
-            // menuItem35
+            // mirecordmacro
             // 
-            this.menuItem35.Index = 0;
-            this.menuItem35.Text = "Start / Stop Recording";
-            this.menuItem35.Click += new System.EventHandler(this.menuItem35_Click);
+            this.mirecordmacro.Index = 0;
+            this.mirecordmacro.Text = "Start / Stop Recording";
+            this.mirecordmacro.Click += new System.EventHandler(this.mimacrorecord_Click);
             // 
-            // menuItem39
+            // seperator31
             // 
-            this.menuItem39.Index = 1;
-            this.menuItem39.Text = "-";
+            this.seperator31.Index = 1;
+            this.seperator31.Text = "-";
             // 
-            // menuItem41
+            // miplaybackmacro
             // 
-            this.menuItem41.Index = 2;
-            this.menuItem41.Text = "Playback Macro";
-            this.menuItem41.Click += new System.EventHandler(this.menuItem41_Click);
+            this.miplaybackmacro.Index = 2;
+            this.miplaybackmacro.Text = "Playback Macro";
+            this.miplaybackmacro.Click += new System.EventHandler(this.miExecmacro_Click);
             // 
-            // menuItem42
+            // miexecmacromultiple
             // 
-            this.menuItem42.Index = 3;
-            this.menuItem42.Text = "Execute Macro Multiple Times";
-            this.menuItem42.Click += new System.EventHandler(this.menuItem42_Click);
+            this.miexecmacromultiple.Index = 3;
+            this.miexecmacromultiple.Text = "Execute Macro Multiple Times";
+            this.miexecmacromultiple.Click += new System.EventHandler(this.mimultimacro_Click);
             // 
-            // menuItem43
+            // misaverecordedmacro
             // 
-            this.menuItem43.Index = 4;
-            this.menuItem43.Text = "Save Recorded Macro";
-            this.menuItem43.Click += new System.EventHandler(this.menuItem43_Click);
+            this.misaverecordedmacro.Index = 4;
+            this.misaverecordedmacro.Text = "Save Recorded Macro";
+            this.misaverecordedmacro.Click += new System.EventHandler(this.misavemacro_Click);
             // 
-            // menuItem63
+            // miclearmacrodata
             // 
-            this.menuItem63.Index = 5;
-            this.menuItem63.Text = "Clear Macro Data";
-            this.menuItem63.Click += new System.EventHandler(this.menuItem63_Click);
+            this.miclearmacrodata.Index = 5;
+            this.miclearmacrodata.Text = "Clear Macro Data";
+            this.miclearmacrodata.Click += new System.EventHandler(this.miclearmacro_Click);
             // 
-            // menuItem56
+            // seperator32
             // 
-            this.menuItem56.Index = 6;
-            this.menuItem56.Text = "-";
+            this.seperator32.Index = 6;
+            this.seperator32.Text = "-";
             // 
             // mimacros
             // 
             this.mimacros.Index = 7;
             this.mimacros.Text = "Macros";
-            this.mimacros.Select += new System.EventHandler(this.menuItem38_Select);
+            this.mimacros.Select += new System.EventHandler(this.mimacros_Select);
             // 
             // miscripts
             // 
@@ -1608,54 +1614,54 @@ namespace SS.Ynote.Classic
             // 
             this.helpmenu.Index = 6;
             this.helpmenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem11,
-            this.menuItem121,
-            this.menuItem62,
-            this.menuItem60,
-            this.menuItem59,
-            this.menuItem61,
-            this.menuItem12,
+            this.miwikimenu,
+            this.miupdates,
+            this.seperator62,
+            this.miresources,
+            this.miplugincentral,
+            this.mifb,
+            this.seperator30,
             this.aboutmenu});
             this.helpmenu.Text = "Help";
             // 
-            // menuItem11
+            // miwikimenu
             // 
-            this.menuItem11.Index = 0;
-            this.menuItem11.Shortcut = System.Windows.Forms.Shortcut.F1;
-            this.menuItem11.Text = "Wiki";
-            this.menuItem11.Click += new System.EventHandler(this.menuItem11_Click);
+            this.miwikimenu.Index = 0;
+            this.miwikimenu.Shortcut = System.Windows.Forms.Shortcut.F1;
+            this.miwikimenu.Text = "Wiki";
+            this.miwikimenu.Click += new System.EventHandler(this.miwikimenu_Click);
             // 
-            // menuItem121
+            // miupdates
             // 
-            this.menuItem121.Index = 1;
-            this.menuItem121.Text = "Check For Updates";
-            this.menuItem121.Click += new System.EventHandler(this.menuItem121_Click);
+            this.miupdates.Index = 1;
+            this.miupdates.Text = "Check For Updates";
+            this.miupdates.Click += new System.EventHandler(this.miupdates_Click);
             // 
-            // menuItem62
+            // seperator62
             // 
-            this.menuItem62.Index = 2;
-            this.menuItem62.Text = "-";
+            this.seperator62.Index = 2;
+            this.seperator62.Text = "-";
             // 
-            // menuItem60
+            // miresources
             // 
-            this.menuItem60.Index = 3;
-            this.menuItem60.Text = "Resources";
+            this.miresources.Index = 3;
+            this.miresources.Text = "Resources";
             // 
-            // menuItem59
+            // miplugincentral
             // 
-            this.menuItem59.Index = 4;
-            this.menuItem59.Text = "Plugin Central";
+            this.miplugincentral.Index = 4;
+            this.miplugincentral.Text = "Plugin Central";
             // 
-            // menuItem61
+            // mifb
             // 
-            this.menuItem61.Index = 5;
-            this.menuItem61.Text = "Facebook";
-            this.menuItem61.Click += new System.EventHandler(this.menuItem61_Click);
+            this.mifb.Index = 5;
+            this.mifb.Text = "Facebook";
+            this.mifb.Click += new System.EventHandler(this.mifb_Click);
             // 
-            // menuItem12
+            // seperator30
             // 
-            this.menuItem12.Index = 6;
-            this.menuItem12.Text = "-";
+            this.seperator30.Index = 6;
+            this.seperator30.Text = "-";
             // 
             // aboutmenu
             // 
@@ -1667,41 +1673,41 @@ namespace SS.Ynote.Classic
             // status
             // 
             this.status.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel2,
-            this.lb1,
+            this.mistats,
+            this.gapfiller2,
             this.infolabel,
-            this.toolStripStatusLabel1,
+            this.gapfiller1,
             this.langmenu,
-            this.toolStripStatusLabel3,
+            this.gapfiller3,
             this.zoom});
             this.status.Location = new System.Drawing.Point(0, 326);
             this.status.Name = "status";
             this.status.Size = new System.Drawing.Size(748, 22);
             this.status.TabIndex = 3;
             // 
-            // toolStripStatusLabel2
+            // mistats
             // 
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(39, 17);
-            this.toolStripStatusLabel2.Text = "Ready";
+            this.mistats.Name = "mistats";
+            this.mistats.Size = new System.Drawing.Size(39, 17);
+            this.mistats.Text = "Ready";
             // 
-            // lb1
+            // gapfiller2
             // 
-            this.lb1.Name = "lb1";
-            this.lb1.Size = new System.Drawing.Size(200, 17);
-            this.lb1.Spring = true;
+            this.gapfiller2.Name = "gapfiller2";
+            this.gapfiller2.Size = new System.Drawing.Size(200, 17);
+            this.gapfiller2.Spring = true;
             // 
             // infolabel
             // 
             this.infolabel.Name = "infolabel";
             this.infolabel.Size = new System.Drawing.Size(0, 17);
             // 
-            // toolStripStatusLabel1
+            // gapfiller1
             // 
-            this.toolStripStatusLabel1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(200, 17);
-            this.toolStripStatusLabel1.Spring = true;
+            this.gapfiller1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.gapfiller1.Name = "gapfiller1";
+            this.gapfiller1.Size = new System.Drawing.Size(200, 17);
+            this.gapfiller1.Spring = true;
             // 
             // langmenu
             // 
@@ -1713,128 +1719,71 @@ namespace SS.Ynote.Classic
             this.langmenu.Click += new System.EventHandler(this.langmenu_Click);
             this.langmenu.MouseEnter += new System.EventHandler(this.langmenu_MouseEnter);
             // 
-            // toolStripStatusLabel3
+            // gapfiller3
             // 
-            this.toolStripStatusLabel3.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
-            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(200, 17);
-            this.toolStripStatusLabel3.Spring = true;
+            this.gapfiller3.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.gapfiller3.Name = "gapfiller3";
+            this.gapfiller3.Size = new System.Drawing.Size(200, 17);
+            this.gapfiller3.Spring = true;
             // 
             // zoom
             // 
             this.zoom.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.zoom.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem8,
-            this.toolStripMenuItem7,
-            this.toolStripMenuItem6,
-            this.toolStripMenuItem5,
-            this.toolStripMenuItem4,
-            this.toolStripMenuItem3,
-            this.toolStripMenuItem2});
+            this.mizoom500,
+            this.mizoom400,
+            this.mizoom300,
+            this.mizoom200,
+            this.mizoom150,
+            this.mizoom100,
+            this.mizoom50});
             this.zoom.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.zoom.Name = "zoom";
             this.zoom.Size = new System.Drawing.Size(52, 20);
             this.zoom.Text = "Zoom";
             this.zoom.DropDownItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.zoom_DropDownItemClicked);
             // 
-            // toolStripMenuItem8
+            // mizoom500
             // 
-            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(92, 22);
-            this.toolStripMenuItem8.Text = "500";
+            this.mizoom500.Name = "mizoom500";
+            this.mizoom500.Size = new System.Drawing.Size(92, 22);
+            this.mizoom500.Text = "500";
             // 
-            // toolStripMenuItem7
+            // mizoom400
             // 
-            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(92, 22);
-            this.toolStripMenuItem7.Text = "400";
+            this.mizoom400.Name = "mizoom400";
+            this.mizoom400.Size = new System.Drawing.Size(92, 22);
+            this.mizoom400.Text = "400";
             // 
-            // toolStripMenuItem6
+            // mizoom300
             // 
-            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(92, 22);
-            this.toolStripMenuItem6.Text = "300";
+            this.mizoom300.Name = "mizoom300";
+            this.mizoom300.Size = new System.Drawing.Size(92, 22);
+            this.mizoom300.Text = "300";
             // 
-            // toolStripMenuItem5
+            // mizoom200
             // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(92, 22);
-            this.toolStripMenuItem5.Text = "200";
+            this.mizoom200.Name = "mizoom200";
+            this.mizoom200.Size = new System.Drawing.Size(92, 22);
+            this.mizoom200.Text = "200";
             // 
-            // toolStripMenuItem4
+            // mizoom150
             // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(92, 22);
-            this.toolStripMenuItem4.Text = "150";
+            this.mizoom150.Name = "mizoom150";
+            this.mizoom150.Size = new System.Drawing.Size(92, 22);
+            this.mizoom150.Text = "150";
             // 
-            // toolStripMenuItem3
+            // mizoom100
             // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(92, 22);
-            this.toolStripMenuItem3.Text = "100";
+            this.mizoom100.Name = "mizoom100";
+            this.mizoom100.Size = new System.Drawing.Size(92, 22);
+            this.mizoom100.Text = "100";
             // 
-            // toolStripMenuItem2
+            // mizoom50
             // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(92, 22);
-            this.toolStripMenuItem2.Text = "50";
-            // 
-            // dock
-            // 
-            this.dock.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.dock.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dock.DockBottomPortion = 0.4D;
-            this.dock.Location = new System.Drawing.Point(0, 0);
-            this.dock.Name = "dock";
-            this.dock.Size = new System.Drawing.Size(748, 287);
-            dockPanelGradient1.EndColor = System.Drawing.SystemColors.ControlLight;
-            dockPanelGradient1.StartColor = System.Drawing.SystemColors.ControlLight;
-            autoHideStripSkin1.DockStripGradient = dockPanelGradient1;
-            tabGradient1.EndColor = System.Drawing.SystemColors.Control;
-            tabGradient1.StartColor = System.Drawing.SystemColors.Control;
-            tabGradient1.TextColor = System.Drawing.SystemColors.ControlDarkDark;
-            autoHideStripSkin1.TabGradient = tabGradient1;
-            autoHideStripSkin1.TextFont = new System.Drawing.Font("Segoe UI", 9F);
-            dockPanelSkin1.AutoHideStripSkin = autoHideStripSkin1;
-            tabGradient2.EndColor = System.Drawing.SystemColors.ControlLightLight;
-            tabGradient2.StartColor = System.Drawing.SystemColors.ControlLightLight;
-            tabGradient2.TextColor = System.Drawing.SystemColors.ControlText;
-            dockPaneStripGradient1.ActiveTabGradient = tabGradient2;
-            dockPanelGradient2.EndColor = System.Drawing.SystemColors.Control;
-            dockPanelGradient2.StartColor = System.Drawing.SystemColors.Control;
-            dockPaneStripGradient1.DockStripGradient = dockPanelGradient2;
-            tabGradient3.EndColor = System.Drawing.SystemColors.ControlLight;
-            tabGradient3.StartColor = System.Drawing.SystemColors.ControlLight;
-            tabGradient3.TextColor = System.Drawing.SystemColors.ControlText;
-            dockPaneStripGradient1.InactiveTabGradient = tabGradient3;
-            dockPaneStripSkin1.DocumentGradient = dockPaneStripGradient1;
-            dockPaneStripSkin1.TextFont = new System.Drawing.Font("Segoe UI", 9F);
-            tabGradient4.EndColor = System.Drawing.SystemColors.ActiveCaption;
-            tabGradient4.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            tabGradient4.StartColor = System.Drawing.SystemColors.GradientActiveCaption;
-            tabGradient4.TextColor = System.Drawing.SystemColors.ActiveCaptionText;
-            dockPaneStripToolWindowGradient1.ActiveCaptionGradient = tabGradient4;
-            tabGradient5.EndColor = System.Drawing.SystemColors.Control;
-            tabGradient5.StartColor = System.Drawing.SystemColors.Control;
-            tabGradient5.TextColor = System.Drawing.SystemColors.ControlText;
-            dockPaneStripToolWindowGradient1.ActiveTabGradient = tabGradient5;
-            dockPanelGradient3.EndColor = System.Drawing.SystemColors.ControlLight;
-            dockPanelGradient3.StartColor = System.Drawing.SystemColors.ControlLight;
-            dockPaneStripToolWindowGradient1.DockStripGradient = dockPanelGradient3;
-            tabGradient6.EndColor = System.Drawing.SystemColors.InactiveCaption;
-            tabGradient6.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            tabGradient6.StartColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            tabGradient6.TextColor = System.Drawing.SystemColors.InactiveCaptionText;
-            dockPaneStripToolWindowGradient1.InactiveCaptionGradient = tabGradient6;
-            tabGradient7.EndColor = System.Drawing.Color.Transparent;
-            tabGradient7.StartColor = System.Drawing.Color.Transparent;
-            tabGradient7.TextColor = System.Drawing.SystemColors.ControlDarkDark;
-            dockPaneStripToolWindowGradient1.InactiveTabGradient = tabGradient7;
-            dockPaneStripSkin1.ToolWindowGradient = dockPaneStripToolWindowGradient1;
-            dockPanelSkin1.DockPaneStripSkin = dockPaneStripSkin1;
-            this.dock.Skin = dockPanelSkin1;
-            this.dock.TabIndex = 0;
-            this.dock.ActiveDocumentChanged += new System.EventHandler(this.dock_ActiveDocumentChanged);
+            this.mizoom50.Name = "mizoom50";
+            this.mizoom50.Size = new System.Drawing.Size(92, 22);
+            this.mizoom50.Text = "50";
             // 
             // incrementalSearcher1
             // 
@@ -1844,6 +1793,36 @@ namespace SS.Ynote.Classic
             this.incrementalSearcher1.Size = new System.Drawing.Size(748, 39);
             this.incrementalSearcher1.TabIndex = 4;
             this.incrementalSearcher1.Visible = false;
+            // 
+            // dock
+            // 
+            this.dock.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.dock.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dock.DockBottomPortion = 0.4D;
+            this.dock.Location = new System.Drawing.Point(0, 0);
+            this.dock.Name = "dock";
+            this.dock.TabIndex = 0;
+            this.dock.ActiveDocumentChanged += new System.EventHandler(this.dock_ActiveDocumentChanged);
+            // 
+            // menuItem1
+            // 
+            this.menuItem1.Index = 12;
+            this.menuItem1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.minewsnippet,
+            this.minewscript});
+            this.menuItem1.Text = "Create New";
+            // 
+            // minewsnippet
+            // 
+            this.minewsnippet.Index = 0;
+            this.minewsnippet.Text = "Snippet";
+            this.minewsnippet.Click += new System.EventHandler(this.minewsnippet_Click);
+            // 
+            // minewscript
+            // 
+            this.minewscript.Index = 1;
+            this.minewscript.Text = "YnoteScript";
+            this.minewscript.Click += new System.EventHandler(this.minewscript_Click);
             // 
             // MainForm
             // 
@@ -1875,111 +1854,109 @@ namespace SS.Ynote.Classic
         private System.Windows.Forms.MenuItem OpenMenuItem;
         private System.Windows.Forms.MenuItem UndoMenuItem;
         private System.Windows.Forms.MenuItem RedoMenuItem;
-        private System.Windows.Forms.MenuItem menuItem10;
+        private System.Windows.Forms.MenuItem seperator2;
         private System.Windows.Forms.MenuItem CutMenuItem;
         private System.Windows.Forms.MenuItem CopyMenuItem;
         private System.Windows.Forms.MenuItem PasteMenuItem;
-        private System.Windows.Forms.MenuItem menuItem14;
         private System.Windows.Forms.MenuItem aboutmenu;
-        private System.Windows.Forms.MenuItem menuItem9;
-        private System.Windows.Forms.MenuItem menuItem7;
-        private System.Windows.Forms.MenuItem menuItem8;
+        private System.Windows.Forms.MenuItem seperator19;
+        private System.Windows.Forms.MenuItem savemenu;
+        private System.Windows.Forms.MenuItem misaveas;
         private System.Windows.Forms.MenuItem statusbarmenuitem;
         private System.Windows.Forms.StatusStrip status;
-        private System.Windows.Forms.MenuItem menuItem11;
-        private System.Windows.Forms.MenuItem menuItem12;
-        private System.Windows.Forms.MenuItem menuItem13;
-        private System.Windows.Forms.MenuItem menuItem19;
-        private System.Windows.Forms.MenuItem menuItem15;
-        private System.Windows.Forms.MenuItem menuItem16;
-        private System.Windows.Forms.MenuItem menuItem17;
-        private System.Windows.Forms.MenuItem menuItem20;
-        private System.Windows.Forms.MenuItem menuItem18;
-        private System.Windows.Forms.MenuItem menuItem21;
-        private System.Windows.Forms.MenuItem menuItem22;
-        private System.Windows.Forms.MenuItem menuItem23;
+        private System.Windows.Forms.MenuItem miwikimenu;
+        private System.Windows.Forms.MenuItem seperator30;
+        private System.Windows.Forms.MenuItem revertMenu;
+        private System.Windows.Forms.MenuItem seperator20;
+        private System.Windows.Forms.MenuItem miproperties;
+        private System.Windows.Forms.MenuItem miopencontaining;
+        private System.Windows.Forms.MenuItem midelete;
+        private System.Windows.Forms.MenuItem seperator21;
+        private System.Windows.Forms.MenuItem miprint;
+        private System.Windows.Forms.MenuItem misaveall;
+        private System.Windows.Forms.MenuItem seperator22;
+        private System.Windows.Forms.MenuItem miimport;
         private System.Windows.Forms.MenuItem fromrtf;
-        private System.Windows.Forms.MenuItem menuItem33;
-        private System.Windows.Forms.MenuItem menuItem24;
-        private System.Windows.Forms.MenuItem menuItem28;
+        private System.Windows.Forms.MenuItem mifromdir;
+        private System.Windows.Forms.MenuItem miexport;
+        private System.Windows.Forms.MenuItem rtfExport;
         private System.Windows.Forms.MenuItem pngexport;
         private System.Windows.Forms.MenuItem htmlexport;
-        private System.Windows.Forms.MenuItem menuItem25;
+        private System.Windows.Forms.MenuItem seperator25;
         private System.Windows.Forms.MenuItem ExitMenu;
         private System.Windows.Forms.MenuItem selectallmenu;
-        private System.Windows.Forms.MenuItem clearallmenu;
-        private System.Windows.Forms.MenuItem menuItem36;
-        private System.Windows.Forms.MenuItem menuItem37;
+        private System.Windows.Forms.MenuItem seperator23;
+        private System.Windows.Forms.MenuItem misearch;
         private System.Windows.Forms.MenuItem findmenu;
         private System.Windows.Forms.MenuItem replacemenu;
-        private System.Windows.Forms.MenuItem menuItem44;
-        private System.Windows.Forms.MenuItem incrementalsearchmenu;
-        private System.Windows.Forms.MenuItem menuItem40;
+        private System.Windows.Forms.MenuItem seperator6;
+        private System.Windows.Forms.MenuItem miincrementalsearch;
+        private System.Windows.Forms.MenuItem seperator9;
         private System.Windows.Forms.MenuItem findinfilesmenu;
-        private System.Windows.Forms.MenuItem menuItem47;
-        private System.Windows.Forms.MenuItem datetime;
-        private System.Windows.Forms.MenuItem fileastext;
-        private System.Windows.Forms.MenuItem menuItem53;
-        private System.Windows.Forms.MenuItem filenamemenuitem;
-        private System.Windows.Forms.MenuItem fullfilenamemenuitem;
-        private System.Windows.Forms.MenuItem menuItem52;
-        private System.Windows.Forms.MenuItem emptycolumns;
-        private System.Windows.Forms.MenuItem emptylines;
-        private System.Windows.Forms.MenuItem menuItem46;
-        private System.Windows.Forms.MenuItem menuItem48;
-        private System.Windows.Forms.MenuItem menuItem49;
-        private System.Windows.Forms.MenuItem menuItem50;
-        private System.Windows.Forms.MenuItem menuItem51;
-        private System.Windows.Forms.MenuItem menuItem54;
-        private System.Windows.Forms.MenuItem menuItem55;
-        private System.Windows.Forms.MenuItem menuItem57;
-        private System.Windows.Forms.MenuItem menuItem58;
+        private System.Windows.Forms.MenuItem miinsert;
+        private System.Windows.Forms.MenuItem midatetime;
+        private System.Windows.Forms.MenuItem mifileastext;
+        private System.Windows.Forms.MenuItem seperator53;
+        private System.Windows.Forms.MenuItem mifilename;
+        private System.Windows.Forms.MenuItem mifullfilename;
+        private System.Windows.Forms.MenuItem seperator52;
+        private System.Windows.Forms.MenuItem miemptycolumns;
+        private System.Windows.Forms.MenuItem miemptylines;
+        private System.Windows.Forms.MenuItem seperator5;
+        private System.Windows.Forms.MenuItem mizoom;
+        private System.Windows.Forms.MenuItem mizoomin;
+        private System.Windows.Forms.MenuItem mizoomout;
+        private System.Windows.Forms.MenuItem mirestorezoom;
+        private System.Windows.Forms.MenuItem mitransparent;
+        private System.Windows.Forms.MenuItem mifullscreen;
+        private System.Windows.Forms.MenuItem misplit;
+        private System.Windows.Forms.MenuItem miindent;
         private System.Windows.Forms.MenuItem increaseindent;
         private System.Windows.Forms.MenuItem decreaseindent;
         private System.Windows.Forms.MenuItem CommandPrompt;
         private System.Windows.Forms.MenuItem pluginmanagermenu;
-        private System.Windows.Forms.MenuItem menuItem66;
+        private System.Windows.Forms.MenuItem seperator66;
         private System.Windows.Forms.MenuItem OptionsMenu;
-        private System.Windows.Forms.MenuItem menuItem62;
-        private System.Windows.Forms.MenuItem menuItem60;
-        private System.Windows.Forms.MenuItem menuItem59;
-        private System.Windows.Forms.MenuItem menuItem61;
-        private System.Windows.Forms.MenuItem menuItem67;
+        private System.Windows.Forms.MenuItem seperator62;
+        private System.Windows.Forms.MenuItem miresources;
+        private System.Windows.Forms.MenuItem miplugincentral;
+        private System.Windows.Forms.MenuItem mifb;
+        private System.Windows.Forms.MenuItem mifolding;
         private System.Windows.Forms.MenuItem foldallmenu;
         private System.Windows.Forms.MenuItem unfoldmenu;
-        private System.Windows.Forms.MenuItem menuItem70;
+        private System.Windows.Forms.MenuItem seperator70;
         private System.Windows.Forms.MenuItem foldselected;
         private System.Windows.Forms.MenuItem unfoldselected;
-        private System.Windows.Forms.MenuItem menuItem73;
+        private System.Windows.Forms.MenuItem micase;
         private System.Windows.Forms.MenuItem caseuppermenu;
         private System.Windows.Forms.MenuItem caselowermenu;
         private System.Windows.Forms.MenuItem casetitlemenu;
-        private System.Windows.Forms.MenuItem menuItem81;
-        private System.Windows.Forms.MenuItem removelinemenu;
+        private System.Windows.Forms.MenuItem miline;
+        private System.Windows.Forms.MenuItem miremovecurrent;
         private System.Windows.Forms.MenuItem movelineup;
         private System.Windows.Forms.MenuItem movelinedown;
-        private System.Windows.Forms.MenuItem menuItem86;
+        private System.Windows.Forms.MenuItem seperator4;
         private System.Windows.Forms.MenuItem duplicatelinemenu;
         private System.Windows.Forms.MenuItem splitlinemenu;
-        private System.Windows.Forms.MenuItem menuItem90;
+        private System.Windows.Forms.MenuItem seperator90;
         private System.Windows.Forms.MenuItem removeemptylines;
-        private System.Windows.Forms.MenuItem menuItem93;
+        private System.Windows.Forms.MenuItem minav;
         private System.Windows.Forms.MenuItem gotofirstlinemenu;
         private System.Windows.Forms.MenuItem gotoendmenu;
         private System.Windows.Forms.MenuItem navforwardmenu;
         private System.Windows.Forms.MenuItem navbackwardmenu;
-        private System.Windows.Forms.MenuItem menuItem99;
-        private System.Windows.Forms.MenuItem menuItem102;
+        private System.Windows.Forms.MenuItem seperator27;
+        private System.Windows.Forms.MenuItem seperator8;
         private System.Windows.Forms.MenuItem CompareMenu;
-        private System.Windows.Forms.MenuItem menuItem64;
+        private System.Windows.Forms.MenuItem mibookmarks;
         private System.Windows.Forms.MenuItem Addbookmarkmenu;
         private System.Windows.Forms.MenuItem removebookmarkmenu;
         private System.Windows.Forms.MenuItem gotobookmark;
         private System.Windows.Forms.MenuItem navigatethroughbookmarks;
-        private System.Windows.Forms.MenuItem menuItem105;
-        private System.Windows.Forms.MenuItem menuItem109;
+        private System.Windows.Forms.MenuItem seperator13;
+        private System.Windows.Forms.MenuItem mihiddenchars;
         private System.Windows.Forms.MenuItem wordwrapmenu;
-        private System.Windows.Forms.MenuItem menuItem110;
+        private System.Windows.Forms.MenuItem seperator24;
         private System.Windows.Forms.MenuItem commentmenu;
         private System.Windows.Forms.MenuItem commentline;
         private System.Windows.Forms.MenuItem uncommentline;
@@ -1987,103 +1964,110 @@ namespace SS.Ynote.Classic
         private System.Windows.Forms.MenuItem replacemode;
         private System.Windows.Forms.MenuItem swapcase;
         private System.Windows.Forms.ToolStripStatusLabel infolabel;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel gapfiller1;
         private System.Windows.Forms.ToolStripDropDownButton zoom;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem8;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem7;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem mizoom500;
+        private System.Windows.Forms.ToolStripMenuItem mizoom400;
+        private System.Windows.Forms.ToolStripMenuItem mizoom300;
+        private System.Windows.Forms.ToolStripMenuItem mizoom200;
+        private System.Windows.Forms.ToolStripMenuItem mizoom150;
+        private System.Windows.Forms.ToolStripMenuItem mizoom100;
+        private System.Windows.Forms.ToolStripMenuItem mizoom50;
         private System.Windows.Forms.MenuItem milanguage;
         private System.Windows.Forms.MenuItem macrosmenu;
-        private System.Windows.Forms.MenuItem menuItem35;
-        private System.Windows.Forms.MenuItem menuItem39;
-        private System.Windows.Forms.MenuItem menuItem41;
-        private System.Windows.Forms.MenuItem menuItem42;
-        private System.Windows.Forms.MenuItem menuItem56;
-        private System.Windows.Forms.MenuItem menuItem43;
-        private System.Windows.Forms.MenuItem menuItem63;
-        private System.Windows.Forms.MenuItem menuItem30;
-        private System.Windows.Forms.MenuItem menuItem31;
+        private System.Windows.Forms.MenuItem mirecordmacro;
+        private System.Windows.Forms.MenuItem seperator31;
+        private System.Windows.Forms.MenuItem miplaybackmacro;
+        private System.Windows.Forms.MenuItem miexecmacromultiple;
+        private System.Windows.Forms.MenuItem seperator32;
+        private System.Windows.Forms.MenuItem misaverecordedmacro;
+        private System.Windows.Forms.MenuItem miclearmacrodata;
+        private System.Windows.Forms.MenuItem miexecfile;
+        private System.Windows.Forms.MenuItem mirunscripts;
         private System.Windows.Forms.MenuItem pluginsmenuitem;
         private System.Windows.Forms.MenuItem recentfilesmenu;
         private System.Windows.Forms.MenuItem reopenclosedtab;
-        private System.Windows.Forms.MenuItem menuItem68;
+        private System.Windows.Forms.MenuItem seperator1;
         private System.Windows.Forms.MenuItem colorschememenu;
-        private System.Windows.Forms.MenuItem menuItem27;
-        private System.Windows.Forms.MenuItem menuItem29;
-        private System.Windows.Forms.MenuItem menuItem65;
-        private System.Windows.Forms.MenuItem menuItem69;
-        private System.Windows.Forms.MenuItem menuItem71;
+        private System.Windows.Forms.MenuItem migotol;
+        private System.Windows.Forms.MenuItem mijoinlines;
+        private System.Windows.Forms.MenuItem misortalphabet;
+        private System.Windows.Forms.MenuItem mireverselines;
+        private System.Windows.Forms.MenuItem miinschars;
         private System.Windows.Forms.MenuItem commandermenu;
-        private System.Windows.Forms.MenuItem menuItem74;
-        private System.Windows.Forms.MenuItem menuItem75;
-        private System.Windows.Forms.MenuItem menuItem76;
-        private System.Windows.Forms.MenuItem menuItem78;
-        private System.Windows.Forms.MenuItem menuItem79;
-        private System.Windows.Forms.MenuItem menuItem80;
-        private System.Windows.Forms.MenuItem menuItem83;
-        private System.Windows.Forms.MenuItem menuItem77;
-        private System.Windows.Forms.MenuItem menuItem84;
-        private System.Windows.Forms.MenuItem menuItem6;
-        private System.Windows.Forms.MenuItem menuItem85;
-        private System.Windows.Forms.MenuItem menuItem87;
-        private System.Windows.Forms.MenuItem menuItem89;
-        private System.Windows.Forms.MenuItem menuItem91;
-        private System.Windows.Forms.MenuItem menuItem92;
-        private System.Windows.Forms.MenuItem menuItem94;
+        private System.Windows.Forms.MenuItem miblankops;
+        private System.Windows.Forms.MenuItem mitts;
+        private System.Windows.Forms.MenuItem mitls;
+        private System.Windows.Forms.MenuItem mieoltospace;
+        private System.Windows.Forms.MenuItem mittsandttl;
+        private System.Windows.Forms.MenuItem mispacetoeol;
+        private System.Windows.Forms.MenuItem seperator83;
+        private System.Windows.Forms.MenuItem miremoveeol;
+        private System.Windows.Forms.MenuItem miswitchfile;
+        private System.Windows.Forms.MenuItem mishowunsaved;
+        private System.Windows.Forms.MenuItem mifindnext;
+        private System.Windows.Forms.MenuItem mitpunctuation;
+        private System.Windows.Forms.MenuItem miconversions;
+        private System.Windows.Forms.MenuItem mitocrlf;
+        private System.Windows.Forms.MenuItem mitocr;
+        private System.Windows.Forms.MenuItem mitolf;
         private System.Windows.Forms.MenuItem miopenencoding;
         private System.Windows.Forms.MenuItem misaveencoding;
-        private System.Windows.Forms.MenuItem menuItem95;
-        private System.Windows.Forms.MenuItem menuItem97;
+        private System.Windows.Forms.MenuItem miprojectmanager;
+        private System.Windows.Forms.MenuItem seperator26;
         private System.Windows.Forms.MenuItem mimacros;
-        private System.Windows.Forms.MenuItem menuItem38;
-        private System.Windows.Forms.MenuItem menuItem88;
-        private System.Windows.Forms.MenuItem menuItem98;
-        private System.Windows.Forms.MenuItem menuItem100;
+        private System.Windows.Forms.MenuItem seperator12;
+        private System.Windows.Forms.MenuItem mispacestotab;
+        private System.Windows.Forms.MenuItem mitabtospaces;
+        private System.Windows.Forms.MenuItem mikeymapeditor;
         private WeifenLuo.WinFormsUI.Docking.DockPanel dock;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripStatusLabel mistats;
         private SS.Ynote.Classic.Features.Search.IncrementalSearcher incrementalSearcher1;
         private System.Windows.Forms.MenuItem miscripts;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
-        private System.Windows.Forms.MenuItem menuItem32;
-        private System.Windows.Forms.MenuItem menuItem45;
+        private System.Windows.Forms.ToolStripStatusLabel gapfiller3;
+        private System.Windows.Forms.MenuItem mirun;
+        private System.Windows.Forms.MenuItem mieditor;
         private System.Windows.Forms.ToolStripDropDownButton langmenu;
-        private System.Windows.Forms.MenuItem menuItem1;
-        private System.Windows.Forms.MenuItem menuItem2;
-        private System.Windows.Forms.MenuItem menuItem3;
-        private System.Windows.Forms.MenuItem menuItem4;
-        private System.Windows.Forms.MenuItem menuItem5;
-        private System.Windows.Forms.MenuItem menuItem26;
-        private System.Windows.Forms.MenuItem menuItem34;
-        private System.Windows.Forms.MenuItem menuItem103;
-        private System.Windows.Forms.MenuItem menuItem82;
-        private System.Windows.Forms.MenuItem menuItem101;
-        private System.Windows.Forms.MenuItem menuItem104;
-        private System.Windows.Forms.MenuItem menuItem107;
-        private System.Windows.Forms.MenuItem menuItem108;
-        private System.Windows.Forms.MenuItem menuItem111;
-        private System.Windows.Forms.MenuItem menuItem112;
-        private System.Windows.Forms.MenuItem menuItem113;
-        private System.Windows.Forms.MenuItem menuItem114;
-        private System.Windows.Forms.MenuItem menuItem117;
-        private MenuItem menuItem96;
-        private MenuItem menuItem115;
-        private MenuItem menuItem106;
-        private MenuItem menuItem116;
-        private MenuItem menuItem118;
-        private MenuItem menuItem119;
-        private MenuItem menuItem120;
-        private MenuItem menuItem121;
-        private MenuItem menuItem122;
-        private MenuItem menuItem123;
-        private MenuItem menuItem124;
-        private MenuItem menuItem125;
-        private ToolStripStatusLabel lb1;
-        private MenuItem menuItem126;
-        private MenuItem menuItem72;
+        private System.Windows.Forms.MenuItem seperator18;
+        private System.Windows.Forms.MenuItem seperator16;
+        private System.Windows.Forms.MenuItem migotoleftbracket;
+        private System.Windows.Forms.MenuItem migotorightbracket;
+        private System.Windows.Forms.MenuItem seperator15;
+        private System.Windows.Forms.MenuItem mileftbracket2;
+        private System.Windows.Forms.MenuItem migorightbracket2;
+        private System.Windows.Forms.MenuItem seperator14;
+        private System.Windows.Forms.MenuItem migoleftbracket3;
+        private System.Windows.Forms.MenuItem migorightbracket3;
+        private System.Windows.Forms.MenuItem mimarksel;
+        private System.Windows.Forms.MenuItem miclearmarked;
+        private System.Windows.Forms.MenuItem miredmark;
+        private System.Windows.Forms.MenuItem mibluemark;
+        private System.Windows.Forms.MenuItem migraymark;
+        private System.Windows.Forms.MenuItem migreenmark;
+        private System.Windows.Forms.MenuItem mimarkyellow;
+        private System.Windows.Forms.MenuItem seperator17;
+        private MenuItem misortlength;
+        private MenuItem seperator28;
+        private MenuItem misnippets;
+        private MenuItem seperator29;
+        private MenuItem seperator11;
+        private MenuItem miselectiontohex;
+        private MenuItem miselectiontoascii;
+        private MenuItem miupdates;
+        private MenuItem miwebsearch;
+        private MenuItem migoogle;
+        private MenuItem mibing;
+        private MenuItem miwiki;
+        private ToolStripStatusLabel gapfiller2;
+        private MenuItem seperator7;
+        private MenuItem micomparewith;
+        private MenuItem seperator3;
+        private MenuItem micopyas;
+        private MenuItem micopyhtml;
+        private MenuItem micopyrtf;
+        private MenuItem menuItem1;
+        private MenuItem minewsnippet;
+        private MenuItem minewscript;
     }
 }
 

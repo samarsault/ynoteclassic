@@ -1,4 +1,6 @@
-﻿namespace SS.Ynote.Classic.UI
+﻿using SS.Ynote.Classic.UI.Controls;
+
+namespace SS.Ynote.Classic.UI
 {
     partial class Options
     {
@@ -28,28 +30,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.treeNode1 = new System.Windows.Forms.TreeNode("Tabs");
-            this.treeNode2 = new System.Windows.Forms.TreeNode("Environment", new System.Windows.Forms.TreeNode[] {
-            treeNode1});
-            this.treeNode3 = new System.Windows.Forms.TreeNode("General");
-            this.treeNode4 = new System.Windows.Forms.TreeNode("MISC");
-            this.treeNode5 = new System.Windows.Forms.TreeNode("Text Editor", new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4});
-            this.treeNode6 = new System.Windows.Forms.TreeNode("File Extensions");
-            this.treeNode7 = new System.Windows.Forms.TreeNode("Files", new System.Windows.Forms.TreeNode[] {
-            treeNode6});
-            this.treeNode8 = new System.Windows.Forms.TreeNode("General Settings");
-            this.treeNode9 = new System.Windows.Forms.TreeNode("Plugins", new System.Windows.Forms.TreeNode[] {
-            treeNode8});
-            this.treeNode10 = new System.Windows.Forms.TreeNode("Manage");
-            this.treeNode11 = new System.Windows.Forms.TreeNode("Data", new System.Windows.Forms.TreeNode[] {
-            treeNode10});
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Tabs");
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Environment", new System.Windows.Forms.TreeNode[] {
+            treeNode12});
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("General");
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("MISC");
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Text Editor", new System.Windows.Forms.TreeNode[] {
+            treeNode14,
+            treeNode15});
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("File Extensions");
+            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Files", new System.Windows.Forms.TreeNode[] {
+            treeNode17});
+            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("General Settings");
+            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Plugins", new System.Windows.Forms.TreeNode[] {
+            treeNode19});
+            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("Manage");
+            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("Data", new System.Windows.Forms.TreeNode[] {
+            treeNode21});
             this.treeView1 = new System.Windows.Forms.TreeView();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnOk = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.tabcontrol = new WizardTabControl();
+            this.tabcontrol = new SS.Ynote.Classic.UI.Controls.WizardTabControl();
             this.tabsettingpage = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cbdockstyle = new System.Windows.Forms.ComboBox();
@@ -58,6 +60,7 @@
             this.tablocation = new System.Windows.Forms.ComboBox();
             this.GeneralPage = new System.Windows.Forms.TabPage();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.cbruler = new System.Windows.Forms.CheckBox();
             this.virtualspace = new System.Windows.Forms.CheckBox();
             this.highlightfoliding = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -72,9 +75,11 @@
             this.showfoldinglines = new System.Windows.Forms.CheckBox();
             this.EditingPage = new System.Windows.Forms.TabPage();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.tabsize = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.tblineinterval = new SS.Ynote.Classic.NumericTextBox();
-            this.tbpaddingwidth = new SS.Ynote.Classic.NumericTextBox();
+            this.tblineinterval = new SS.Ynote.Classic.UI.Controls.NumericTextBox();
+            this.tbpaddingwidth = new SS.Ynote.Classic.UI.Controls.NumericTextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
@@ -82,8 +87,8 @@
             this.groupBox16 = new System.Windows.Forms.GroupBox();
             this.linkLabel6 = new System.Windows.Forms.LinkLabel();
             this.label22 = new System.Windows.Forms.Label();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.lstlang = new System.Windows.Forms.ListBox();
+            this.lstextensions = new System.Windows.Forms.ListBox();
             this.label21 = new System.Windows.Forms.Label();
             this.ClearPage = new System.Windows.Forms.TabPage();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
@@ -98,8 +103,6 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label8 = new System.Windows.Forms.Label();
-            this.tabsize = new System.Windows.Forms.NumericUpDown();
             this.tabcontrol.SuspendLayout();
             this.tabsettingpage.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -107,6 +110,7 @@
             this.groupBox7.SuspendLayout();
             this.EditingPage.SuspendLayout();
             this.groupBox10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tabsize)).BeginInit();
             this.FileExtensionsPage.SuspendLayout();
             this.groupBox16.SuspendLayout();
             this.ClearPage.SuspendLayout();
@@ -114,7 +118,6 @@
             this.Plugins.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tabsize)).BeginInit();
             this.SuspendLayout();
             // 
             // treeView1
@@ -124,59 +127,59 @@
             this.treeView1.Indent = 27;
             this.treeView1.Location = new System.Drawing.Point(9, 36);
             this.treeView1.Name = "treeView1";
-            treeNode1.Name = "TabsNode";
-            treeNode1.Text = "Tabs";
-            treeNode2.Name = "EnvironmentNode";
-            treeNode2.Text = "Environment";
-            treeNode3.Name = "TextEditorGeneralNode";
-            treeNode3.Text = "General";
-            treeNode4.Name = "TextEditorEditing";
-            treeNode4.Text = "MISC";
-            treeNode5.Name = "TextEditorNode";
-            treeNode5.Text = "Text Editor";
-            treeNode6.Name = "FileExtensionsNode";
-            treeNode6.Text = "File Extensions";
-            treeNode7.Name = "Node21";
-            treeNode7.Text = "Files";
-            treeNode8.Name = "General";
-            treeNode8.Text = "General Settings";
-            treeNode9.Name = "Node30";
-            treeNode9.Text = "Plugins";
-            treeNode10.Checked = true;
-            treeNode10.Name = "ClearDataNode";
-            treeNode10.Text = "Manage";
-            treeNode11.Name = "DataNode";
-            treeNode11.Text = "Data";
+            treeNode12.Name = "TabsNode";
+            treeNode12.Text = "Tabs";
+            treeNode13.Name = "EnvironmentNode";
+            treeNode13.Text = "Environment";
+            treeNode14.Name = "TextEditorGeneralNode";
+            treeNode14.Text = "General";
+            treeNode15.Name = "TextEditorEditing";
+            treeNode15.Text = "MISC";
+            treeNode16.Name = "TextEditorNode";
+            treeNode16.Text = "Text Editor";
+            treeNode17.Name = "FileExtensionsNode";
+            treeNode17.Text = "File Extensions";
+            treeNode18.Name = "Node21";
+            treeNode18.Text = "Files";
+            treeNode19.Name = "General";
+            treeNode19.Text = "General Settings";
+            treeNode20.Name = "Node30";
+            treeNode20.Text = "Plugins";
+            treeNode21.Checked = true;
+            treeNode21.Name = "ClearDataNode";
+            treeNode21.Text = "Manage";
+            treeNode22.Name = "DataNode";
+            treeNode22.Text = "Data";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2,
-            treeNode5,
-            treeNode7,
-            treeNode9,
-            treeNode11});
+            treeNode13,
+            treeNode16,
+            treeNode18,
+            treeNode20,
+            treeNode22});
             this.treeView1.ShowLines = false;
             this.treeView1.Size = new System.Drawing.Size(169, 313);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
-            // button1
+            // btnOk
             // 
-            this.button1.Location = new System.Drawing.Point(458, 355);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(82, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "OK";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnOk.Location = new System.Drawing.Point(458, 355);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(82, 23);
+            this.btnOk.TabIndex = 2;
+            this.btnOk.Text = "OK";
+            this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
-            // button2
+            // btnCancel
             // 
-            this.button2.Location = new System.Drawing.Point(546, 355);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(82, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Cancel";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btnCancel.Location = new System.Drawing.Point(546, 355);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(82, 23);
+            this.btnCancel.TabIndex = 3;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // label1
             // 
@@ -285,6 +288,7 @@
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.cbruler);
             this.groupBox7.Controls.Add(this.virtualspace);
             this.groupBox7.Controls.Add(this.highlightfoliding);
             this.groupBox7.Controls.Add(this.checkBox1);
@@ -304,10 +308,21 @@
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Text Editor";
             // 
+            // cbruler
+            // 
+            this.cbruler.AutoSize = true;
+            this.cbruler.Location = new System.Drawing.Point(193, 32);
+            this.cbruler.Name = "cbruler";
+            this.cbruler.Size = new System.Drawing.Size(81, 17);
+            this.cbruler.TabIndex = 20;
+            this.cbruler.Text = "Show Ruler";
+            this.cbruler.UseVisualStyleBackColor = true;
+            this.cbruler.CheckedChanged += new System.EventHandler(this.cbruler_CheckedChanged);
+            // 
             // virtualspace
             // 
             this.virtualspace.AutoSize = true;
-            this.virtualspace.Location = new System.Drawing.Point(192, 55);
+            this.virtualspace.Location = new System.Drawing.Point(193, 78);
             this.virtualspace.Name = "virtualspace";
             this.virtualspace.Size = new System.Drawing.Size(125, 17);
             this.virtualspace.TabIndex = 19;
@@ -320,7 +335,7 @@
             this.highlightfoliding.AutoSize = true;
             this.highlightfoliding.Checked = true;
             this.highlightfoliding.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.highlightfoliding.Location = new System.Drawing.Point(192, 32);
+            this.highlightfoliding.Location = new System.Drawing.Point(193, 55);
             this.highlightfoliding.Name = "highlightfoliding";
             this.highlightfoliding.Size = new System.Drawing.Size(148, 17);
             this.highlightfoliding.TabIndex = 18;
@@ -368,11 +383,13 @@
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
-            "Strategy1"});
+            "Strategy1",
+            "Strategy2"});
             this.comboBox1.Location = new System.Drawing.Point(125, 180);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(216, 21);
             this.comboBox1.TabIndex = 14;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label10
             // 
@@ -469,6 +486,23 @@
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "General";
             // 
+            // tabsize
+            // 
+            this.tabsize.Location = new System.Drawing.Point(295, 38);
+            this.tabsize.Name = "tabsize";
+            this.tabsize.Size = new System.Drawing.Size(43, 20);
+            this.tabsize.TabIndex = 5;
+            this.tabsize.ValueChanged += new System.EventHandler(this.tabsize_ValueChanged);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(231, 40);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(58, 13);
+            this.label8.TabIndex = 4;
+            this.label8.Text = "Tab Size : ";
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -536,8 +570,8 @@
             // 
             this.groupBox16.Controls.Add(this.linkLabel6);
             this.groupBox16.Controls.Add(this.label22);
-            this.groupBox16.Controls.Add(this.listBox1);
-            this.groupBox16.Controls.Add(this.listBox2);
+            this.groupBox16.Controls.Add(this.lstlang);
+            this.groupBox16.Controls.Add(this.lstextensions);
             this.groupBox16.Controls.Add(this.label21);
             this.groupBox16.Location = new System.Drawing.Point(6, 6);
             this.groupBox16.Name = "groupBox16";
@@ -555,6 +589,7 @@
             this.linkLabel6.TabIndex = 4;
             this.linkLabel6.TabStop = true;
             this.linkLabel6.Text = "Edit Languages and their Extensions";
+            this.linkLabel6.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel6_LinkClicked);
             // 
             // label22
             // 
@@ -565,21 +600,21 @@
             this.label22.TabIndex = 3;
             this.label22.Text = "Extension";
             // 
-            // listBox1
+            // lstlang
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(18, 46);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(155, 199);
-            this.listBox1.TabIndex = 0;
+            this.lstlang.FormattingEnabled = true;
+            this.lstlang.Location = new System.Drawing.Point(18, 46);
+            this.lstlang.Name = "lstlang";
+            this.lstlang.Size = new System.Drawing.Size(155, 199);
+            this.lstlang.TabIndex = 0;
             // 
-            // listBox2
+            // lstextensions
             // 
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.Location = new System.Drawing.Point(243, 46);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(167, 199);
-            this.listBox2.TabIndex = 1;
+            this.lstextensions.FormattingEnabled = true;
+            this.lstextensions.Location = new System.Drawing.Point(243, 46);
+            this.lstextensions.Name = "lstextensions";
+            this.lstextensions.Size = new System.Drawing.Size(167, 199);
+            this.lstextensions.TabIndex = 1;
             // 
             // label21
             // 
@@ -726,31 +761,14 @@
             this.panel1.Size = new System.Drawing.Size(637, 36);
             this.panel1.TabIndex = 5;
             // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(231, 40);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(58, 13);
-            this.label8.TabIndex = 4;
-            this.label8.Text = "Tab Size : ";
-            // 
-            // tabsize
-            // 
-            this.tabsize.Location = new System.Drawing.Point(295, 38);
-            this.tabsize.Name = "tabsize";
-            this.tabsize.Size = new System.Drawing.Size(43, 20);
-            this.tabsize.TabIndex = 5;
-            this.tabsize.ValueChanged += new System.EventHandler(this.tabsize_ValueChanged);
-            // 
             // Options
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(635, 386);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnOk);
             this.Controls.Add(this.tabcontrol);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.panel1);
@@ -767,6 +785,7 @@
             this.EditingPage.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tabsize)).EndInit();
             this.FileExtensionsPage.ResumeLayout(false);
             this.groupBox16.ResumeLayout(false);
             this.groupBox16.PerformLayout();
@@ -777,7 +796,6 @@
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tabsize)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -791,8 +809,8 @@
         private System.Windows.Forms.TabPage EditingPage;
         private System.Windows.Forms.TabPage FileExtensionsPage;
         private System.Windows.Forms.TabPage ClearPage;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox tablocation;
         private System.Windows.Forms.Label label2;
@@ -811,8 +829,8 @@
         private System.Windows.Forms.GroupBox groupBox16;
         private System.Windows.Forms.LinkLabel linkLabel6;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.ListBox listBox2;
+        private System.Windows.Forms.ListBox lstlang;
+        private System.Windows.Forms.ListBox lstextensions;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.GroupBox groupBox14;
         private System.Windows.Forms.Button button5;
@@ -850,5 +868,6 @@
         private System.Windows.Forms.TreeNode treeNode9;
         private System.Windows.Forms.TreeNode treeNode10;
         private System.Windows.Forms.TreeNode treeNode11;
+        private System.Windows.Forms.CheckBox cbruler;
     }
 }

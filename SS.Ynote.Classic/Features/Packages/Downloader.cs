@@ -12,7 +12,7 @@ namespace SS.Ynote.Classic.Features.Packages
 {
     // TODO : Check if working
     /// <summary>
-    /// Plugin Downloader
+    ///     Plugin Downloader
     /// </summary>
     public partial class Downloader : Form
     {
@@ -35,6 +35,7 @@ namespace SS.Ynote.Classic.Features.Packages
             client.DownloadFileAsync(new Uri(_url), _downloadedto);
             ShowDialog();
         }
+
         private void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
             if (e.Cancelled) return;

@@ -1,11 +1,4 @@
-﻿//========================================
-//
-// YnotePackage.cs
-// Copyright (C) 2014 Samarjeet Singh
-//
-//=========================================
-
-namespace SS.Ynote.Classic.Features.Packages
+﻿namespace SS.Ynote.Classic.Features.Packages
 {
     #region Using Directives
 

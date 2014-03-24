@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using AutocompleteMenuNS;
+using FastColoredTextBoxNS;
 using WeifenLuo.WinFormsUI.Docking;
+using AutocompleteItem = AutocompleteMenuNS.AutocompleteItem;
+using AutocompleteMenu = AutocompleteMenuNS.AutocompleteMenu;
 
 #endregion
 
@@ -22,15 +24,16 @@ namespace SS.Ynote.Classic.UI
             BuildAutoComplete();
         }
 
-        void BuildAutoComplete()
+        private void BuildAutoComplete()
         {
             var items = (from DockContent doc in ynote.Panel.Documents
                 where doc.GetType() == typeof (Editor)
                 select new AutocompleteItem(doc.Text)).ToList();
-            SetAutoComplete(items, completemenu,textBox1);
+            SetAutoComplete(items, completemenu, textBox1);
         }
 
-        static void SetAutoComplete(IEnumerable<AutocompleteItem> items, AutocompleteMenu completemenu, TextBox tb)
+        private static void SetAutoComplete(IEnumerable<AutocompleteItem> items, AutocompleteMenu completemenu,
+            TextBox tb)
         {
             completemenu.SetAutocompleteMenu(tb, completemenu);
             completemenu.SetAutocompleteItems(items);
@@ -45,7 +48,10 @@ namespace SS.Ynote.Classic.UI
         {
             foreach (Editor edit in ynote.Panel.Documents)
                 if (edit.Text == text)
+                {
                     edit.Show(ynote.Panel);
+                    edit.tb.Selection.Start = new Place(0, 0); //TODO:Check
+                }
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
@@ -53,7 +59,7 @@ namespace SS.Ynote.Classic.UI
             if (e.KeyCode == Keys.Escape) Close();
             if (e.KeyCode != Keys.Enter) return;
             DoKeyDownFunction(textBox1.Text);
-            if(!IsDisposed)
+            if (!IsDisposed)
                 Close();
         }
 

@@ -1,12 +1,8 @@
-﻿#region
-
 using System;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using CSScriptLibrary;
-
-#endregion
 
 namespace SS.Ynote.Classic
 {
@@ -21,7 +17,7 @@ namespace SS.Ynote.Classic
             helper.Invoke("*.Run", ynote);
         }
 
-        static string[] GetReferences()
+        private static string[] GetReferences()
         {
             return new[]
             {
@@ -30,16 +26,20 @@ namespace SS.Ynote.Classic
                 Application.StartupPath + @"\WeifenLuo.WinFormsUI.Docking"
             };
         }
+
         public static void RunScript(IYnote ynote, string ysfile)
         {
             try
             {
-               // var Run =
-               //     new AsmHelper(CSScript.LoadMethod(File.ReadAllText(ysfile),));
-               // Run.Invoke("*.Run", ynote);
+                // var Run =
+                //     new AsmHelper(CSScript.LoadMethod(File.ReadAllText(ysfile),));
+                // Run.Invoke("*.Run", ynote);
                 CSScript.CacheEnabled = true;
                 CSScript.GlobalSettings.TargetFramework = "v3.5";
-                var helper = new AsmHelper(CSScript.LoadMethod(File.ReadAllText(ysfile),Assembly.GetExecutingAssembly().FullName, Application.StartupPath + @"\FastColoredTextBox.dll", Application.StartupPath + @"\WeifenLuo.WinFormsUI.Docking"));
+                var helper =
+                    new AsmHelper(CSScript.LoadMethod(File.ReadAllText(ysfile), Assembly.GetExecutingAssembly().FullName,
+                        Application.StartupPath + @"\FastColoredTextBox.dll",
+                        Application.StartupPath + @"\WeifenLuo.WinFormsUI.Docking"));
                 helper.Invoke("*.Run", ynote);
             }
             catch (Exception ex)

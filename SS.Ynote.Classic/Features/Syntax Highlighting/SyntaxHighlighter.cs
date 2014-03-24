@@ -143,11 +143,6 @@ namespace SS.Ynote.Classic
         /// </summary>
         public Style ClassNameStyle2 { private get; set; }
 
-        /// <summary>
-        ///     Inside Bracket Style
-        /// </summary>
-        public Style InBracketStyle { private get; set; }
-
         #endregion
 
         #region Public Methods
@@ -692,7 +687,7 @@ namespace SS.Ynote.Classic
                     fctb.Range.GetRanges(new Regex(@"<(?<range>/?\w+)\s[^>]*?[^/]>|<(?<range>/?\w+)\s*>",
                         RegexOptions.Singleline));
                 //extract opening and closing tags (exclude open-close tags: <TAG/>)
-                foreach (Range r in ranges)
+                foreach (var r in ranges)
                 {
                     string tagName = r.Text;
                     int iLine = r.Start.iLine;
@@ -848,7 +843,7 @@ namespace SS.Ynote.Classic
             e.ChangedRange.SetStyle(NumberStyle, "\b\\d+[\\.]?\\d*([eE]\\-?\\d+)?[lLdDfF]?\b|\b0x[a-fA-F\\d]+\b");
             e.ChangedRange.SetStyle(CharStyle, @"\*|\,|\:,\?|\@|\!");
             e.ChangedRange.ClearFoldingMarkers();
-            foreach (Range r in e.ChangedRange.GetRangesByLines(@"^\[\w+\]$", RegexOptions.None))
+            foreach (var r in e.ChangedRange.GetRangesByLines(@"^\[\w+\]$", RegexOptions.None))
             {
                 if (r.Start.iLine > 0) r.tb[r.Start.iLine - 1].FoldingEndMarker = "section";
                 r.tb[r.Start.iLine].FoldingStartMarker = "section";
@@ -997,7 +992,7 @@ namespace SS.Ynote.Classic
             e.ChangedRange.SetStyle(KeywordStyle2,
                 @"\b(bless|close|closedir|die|eval|exit|grep|map|open|opendir|print|return|splice|split|sysopen|warn|do|each|values|BEGIN|CORE|DESTROY|END|STDERR|STDIN|STDOUT|abs|accept|alarm|and|atan2|bind|binmode|caller|chdir|chmod|chomp|chop|chown|chr|chroot|cmp|connect|cos|crypt|dbmclose|dbmopen|default|defined|delete|dump|endgrent|endhostent|endnetent|endprotoent|endpwent|endservent|eof|eq|exec|exists|exp|fcntl|fileno|flock|fork|formline|ge|getc|getgrent|getgrgid|getgrnam|gethostbyad|gethostbyna|gethostent|getlogin|getnetbyadd|getnetbynam|getnetent|getpeername|getpgrp|getppid|getpriority|getprotobyn|getprotobyn|getprotoent|getpwent|getpwnam|getpwuid|getservbyna|getservbypo|getservent|getsockname|getsockopt|glob|gmtime|gt|hex|import|index|int|ioctl|join|keys|kill|lc|lcfirst|le|length|link|listen|localtime|log|lstat|lt|m|mkdir|msgctl|msgget|msgrcv|msgsnd|ne|new|ne|not|oct|or|ord|pack|pipe|pop|pos|printf|q|qq|quotemeta|qw|qx|rand|read|readdir|readlink|readpipe|recv|ref|rename|reset|reverse|rewinddir|rindex|rmdir|s|seek|seekdir|select|semctl|semget|semop|send|setgrent|sethostent|setnetent|setpgrp|setpriority|setprotoent|setpwent|setservent|setsockopt|shift|shmctl|shmget|shmread|shmwrite|shutdown|sin|sleep|socket|socketpair|sort|split|sprintf|sqrt|srand|stat|study|substr|switch|symlink|syscall|sysread|system|system|syswrite|tell|telldir|time|times|tr|truncate|uc|ucfirst|umask|undef|unlink|unpack|unshift|untie|utime|vec|wait|waitpid|wantarray|write|x|xor|y)\b");
             e.ChangedRange.SetStyle(KeywordStyle3,
-                @"\b(\-a|\-e|\-b|\-c|\-d|\-k|\-f|\-g|\-l|\-m|\-o|\-p|\-r|\-s|\-t|\-u|\-w|\-x|\-z)\b",
+                @"\b(\-a|\-e|\-b|\-c|\-d|\-k|\-f|\-g|\-l|\-m|\-OpenFile|\-p|\-r|\-s|\-t|\-u|\-w|\-x|\-z)\b",
                 RegexOptions.IgnoreCase);
             e.ChangedRange.SetStyle(NumberStyle, @"\b\d+[\.]?\d*\b", RegexCompiledOption);
             e.ChangedRange.ClearFoldingMarkers();
@@ -1100,7 +1095,7 @@ namespace SS.Ynote.Classic
         private void HighlightPHPHtml(TextChangedEventArgs e)
         {
             HTMLSyntaxHighlight(e);
-            foreach (Range r in e.ChangedRange.tb.GetRanges(@"(<\?.*?.*?\?>)", RegexOptions.Singleline))
+            foreach (var r in e.ChangedRange.tb.GetRanges(@"(<\?.*?.*?\?>)", RegexOptions.Singleline))
             {
                 //remove HTML highlighting from this fragment
                 r.ClearStyle(StyleIndex.All);
@@ -1112,14 +1107,14 @@ namespace SS.Ynote.Classic
         private void HighlightHtmlJSCSS(TextChangedEventArgs e)
         {
             HTMLSyntaxHighlight(e);
-            foreach (Range r in e.ChangedRange.tb.GetRanges(@"(<script.*?>.*?</script>)", RegexOptions.Singleline))
+            foreach (var r in e.ChangedRange.tb.GetRanges(@"(<script.*?>.*?</script>)", RegexOptions.Singleline))
             {
                 //remove HTML highlighting from this fragment
                 r.ClearStyle(CommentStyle, AttributeStyle, AttributeValueStyle, HtmlEntityStyle);
                 //do Jscript highlighting
                 JScriptSyntaxHighlight(new TextChangedEventArgs(r));
             }
-            foreach (Range r in e.ChangedRange.tb.GetRanges(@"(<style.*?>.*?</style>)", RegexOptions.Singleline))
+            foreach (var r in e.ChangedRange.tb.GetRanges(@"(<style.*?>.*?</style>)", RegexOptions.Singleline))
             {
                 //remove HTML highlighting from this fragment
                 r.ClearStyle(CommentStyle, AttributeStyle, AttributeValueStyle, HtmlEntityStyle);
@@ -1175,7 +1170,8 @@ namespace SS.Ynote.Classic
                 new Regex(
                     @"\b(abstract|as|base|using|break|case|catch|char|checked|class|const|continue|decimal|default|delegate|do|else|enum|event|explicit|extern|finally|fixed|float|for|foreach|goto|if|implicit|in|interface|internal|is|this|lock|long|namespace|new|null|object|operator|out|override|params|private|protected|public|readonly|ref|return|sbyte|sealed|short|sizeof|stackalloc|static|struct|switch|throw|try|typeof|unchecked|unsafe|virtual|volatile|while|add|alias|ascending|descending|dynamic|from|get|global|group|into|join|let|orderby|partial|remove|select|set|value|var|where|yield)\b|#region\b|#endregion\b",
                     RegexCompiledOption);
-            _cSharpKeywordRegex2 = new Regex(@"\b(void|bool|string|int|double|float|byte|uint|ushort|ulong|true|false)\b");
+            _cSharpKeywordRegex2 =
+                new Regex(@"\b(void|bool|string|int|double|float|byte|uint|ushort|ulong|true|false)\b");
             _csharpFunctionRegex = new Regex(@"\b(void|int|bool|string|uint|ushort|ulong|byte)\s+(?<range>\w+?)\b");
         }
 
@@ -1264,7 +1260,7 @@ namespace SS.Ynote.Classic
                     RegexCompiledOption);
             _jScriptKeywordRegex2 =
                 new Regex(
-                @"\b(Array|Boolean|Date|Math|Object|String|eval|isFinite|isNaN|parseInt|parseFloat|this|document|NaN|navigator|prototype|true|false)\b");
+                    @"\b(Array|Boolean|Date|Math|Object|String|eval|isFinite|isNaN|parseInt|parseFloat|this|document|NaN|navigator|prototype|true|false)\b");
             _jScriptFunctionRegex = new Regex(@"\b(function)\s+(?<range>\w+?)\b");
             _jScriptFunctionRegex2 = new Regex(@"\b(var)\s+(?<range>\w+?)\b");
         }
@@ -1301,7 +1297,6 @@ namespace SS.Ynote.Classic
             //keyword highlighting
             e.ChangedRange.SetStyle(KeywordStyle, _jScriptKeywordRegex);
             e.ChangedRange.SetStyle(KeywordStyle2, _jScriptKeywordRegex2);
-            e.ChangedRange.SetStyle(InBracketStyle, @"\((.*?)\)");
             e.ChangedRange.SetStyle(CharStyle, @"\;|\,|<|>|-|\$|=|\!|\.|\?|\*|\&|\#|\^");
             //clear folding markers
             e.ChangedRange.ClearFoldingMarkers();

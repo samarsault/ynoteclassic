@@ -1,6 +1,6 @@
 ﻿#region
 
-using System.Windows.Forms;
+
 
 #endregion
 
@@ -31,7 +31,7 @@ public interface IPlugin
 public interface IYnotePlugin : IPlugin
 {
     /// <summary>
-    /// Run Plugin()
+    ///     Run Plugin()
     /// </summary>
     void Initialize(IYnote ynote);
 }

@@ -57,6 +57,7 @@ namespace SS.Ynote.Classic.UI
         {
             get { return Name != "Editor"; }
         }
+
         private void InitSettings()
         {
             //TODO:Settings
@@ -75,21 +76,34 @@ namespace SS.Ynote.Classic.UI
             codebox.LeftPadding = SettingsBase.PaddingWidth;
             codebox.Zoom = SettingsBase.Zoom;
             codebox.HotkeysMapping = HotkeysMapping.Parse(File.ReadAllText(SettingsBase.SettingsDir + "User.ynotekeys"));
-            if (!SettingsBase.ShowDocumentMap) return;
-            var map = new DocumentMap
+            if (SettingsBase.ShowDocumentMap)
             {
-                Dock = DockStyle.Right,
-                BackColor = codebox.BackColor,
-                ForeColor = codebox.SelectionColor,
-                Location = new Point(144, 0),
-                Name = "dM1",
-                ScrollbarVisible = false,
-                Size = new Size(140, 262),
-                TabIndex = 2,
-                Visible = true,
+                var map = new DocumentMap
+                {
+                    Dock = DockStyle.Right,
+                    BackColor = codebox.BackColor,
+                    ForeColor = codebox.SelectionColor,
+                    Location = new Point(144, 0),
+                    Name = "dM1",
+                    ScrollbarVisible = false,
+                    Size = new Size(140, 262),
+                    TabIndex = 2,
+                    Visible = true,
+                    Target = codebox
+                };
+                Controls.Add(map);
+            }
+            if (!SettingsBase.ShowRuler) return;
+            var ruler = new Ruler
+            {
+                Dock = DockStyle.Top,
+                Location = new Point(0, 0),
+                Name = "ruler",
+                Size = new Size(284, 24),
+                TabIndex = 1,
                 Target = codebox
             };
-            Controls.Add(map);
+            Controls.Add(ruler);
         }
 
         /// <summary>
@@ -109,12 +123,14 @@ namespace SS.Ynote.Classic.UI
         {
             codebox.TextChangedDelayed += codebox_TextChangedDelayed;
             codebox.DragDrop += codebox_DragDrop;
-            codebox.DragEnter += codebox_DragEnter;
+            codebox.DragEnter +=
+                (sender, e) =>
+                    e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
             codebox.LanguageChanged += (sender, args) => BuildAutoCompleteMenu();
             codebox.AutoIndentNeeded += codebox_AutoIndentNeeded;
         }
 
-        void codebox_AutoIndentNeeded(object sender, AutoIndentEventArgs args)
+        private void codebox_AutoIndentNeeded(object sender, AutoIndentEventArgs args)
         {
             // start of a tag
             // the tag start line look as follows:
@@ -136,12 +152,12 @@ namespace SS.Ynote.Classic.UI
                 // decrease indent
                 args.Shift = -args.TabLength;
                 args.ShiftNextLines = -args.TabLength;
-                return;
             }
         }
+
         private void BuildAutoCompleteMenu()
         {
-            if(AutoCompleteMenu == null)
+            if (AutoCompleteMenu == null)
                 AutoCompleteMenu = new AutocompleteMenu(codebox)
                 {
                     AppearInterval = 50,
@@ -155,14 +171,6 @@ namespace SS.Ynote.Classic.UI
             //  foreach(var snippet in YnoteSnippet.Read(codebox.Language))
             //      items.Add(snippet.ToAutoCompleteItem());
             AutoCompleteMenu.Items.SetAutocompleteItems(items);
-        }
-
-        private void codebox_DragEnter(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-                e.Effect = DragDropEffects.Copy;
-            else
-                e.Effect = DragDropEffects.None;
         }
 
         private void codebox_DragDrop(object sender, DragEventArgs e)
@@ -291,7 +299,7 @@ namespace SS.Ynote.Classic.UI
             if (dockPanel.DocumentStyle == DocumentStyle.SystemMdi)
             {
                 Form activeMdi = ActiveMdiChild;
-                foreach (Form form in MdiChildren.Where(form => form != activeMdi))
+                foreach (var form in MdiChildren.Where(form => form != activeMdi))
                 {
                     form.Close();
                 }
@@ -309,7 +317,7 @@ namespace SS.Ynote.Classic.UI
 
         private void menuItem12_Click(object sender, EventArgs e)
         {
-            foreach(Editor doc in DockPanel.Documents.ToList())
+            foreach (Editor doc in DockPanel.Documents.ToList())
                 doc.Close();
         }
 

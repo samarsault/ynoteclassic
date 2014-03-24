@@ -124,7 +124,7 @@ namespace SS.Ynote.Classic.UI
 
         private void Process(IEnumerable<Line> lines)
         {
-            foreach (Line line in lines)
+            foreach (var line in lines)
             {
                 switch (line.state)
                 {
@@ -475,9 +475,12 @@ namespace SS.Ynote.Classic.UI
                         return false;
                 return true;
             }
-            public static Lines Load(string fileName){
+
+            public static Lines Load(string fileName)
+            {
                 return Load(fileName, Encoding.Default);
             }
+
             /// <summary>
             ///     Load from file
             /// </summary>
@@ -528,7 +531,7 @@ namespace SS.Ynote.Classic.UI
             public Lines Clone()
             {
                 var result = new Lines(Count);
-                foreach (Line line in this)
+                foreach (var line in this)
                     result.Add(new Line(line.line));
 
                 return result;

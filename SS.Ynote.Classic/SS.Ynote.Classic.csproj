@@ -75,7 +75,6 @@
     <Reference Include="System.ComponentModel.Composition">
       <HintPath>..\Dependencies\System.ComponentModel.Composition.dll</HintPath>
     </Reference>
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
@@ -117,6 +116,13 @@
     </Compile>
     <Compile Include="Features\Packages\YnotePluginData.cs" />
     <Compile Include="Features\Packages\ZipStorer.cs" />
+    <Compile Include="Features\Project\Common.cs" />
+    <Compile Include="Features\Project\ProjectUtils.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Features\Project\ProjectUtils.Designer.cs">
+      <DependentUpon>ProjectUtils.cs</DependentUpon>
+    </Compile>
     <Compile Include="Features\Snippets\YnoteSnippet.cs" />
     <Compile Include="Helpers\FileExtensions.cs" />
     <Compile Include="Helpers\FileProperties.cs" />
@@ -251,6 +257,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Features\Packages\InputUrl.resx">
       <DependentUpon>InputUrl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Features\Project\ProjectUtils.resx">
+      <DependentUpon>ProjectUtils.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Features\RunScript\RunScriptEditor.resx">
       <DependentUpon>RunScriptEditor.cs</DependentUpon>

@@ -14,9 +14,9 @@ using WeifenLuo.WinFormsUI.Docking;
 public static class SettingsBase
 {
     /// <summary>
-    /// Settings Directory
-    /// If Portable then same ,
-    /// else = Environment.SpecialFolder.ApplicationData  + "\Ynote Classic\"
+    ///     Settings Directory
+    ///     If Portable then same ,
+    ///     else = Environment.SpecialFolder.ApplicationData  + "\Ynote Classic\"
     /// </summary>
     public static readonly string SettingsDir = Application.StartupPath + @"\User\";
 
@@ -59,6 +59,11 @@ public static class SettingsBase
     ///     Show Document Map
     /// </summary>
     public static bool ShowDocumentMap { get; set; }
+
+    /// <summary>
+    ///     Show Ruler
+    /// </summary>
+    public static bool ShowRuler { get; set; }
 
     /// <summary>
     ///     Whether to Show Line Numbers
@@ -142,6 +147,7 @@ public static class SettingsBase
             FoldingStrategy = source.Configs["Ynote"].Get("FoldingStrategy").ToEnum<FindEndOfFoldingBlockStrategy>();
             ShowCaret = source.Configs["Ynote"].GetBoolean("ShowCaret");
             ShowDocumentMap = source.Configs["Ynote"].GetBoolean("ShowDocumentMap");
+            ShowRuler = source.Configs["Ynote"].GetBoolean("ShowRuler");
             ShowFoldingLines = source.Configs["Ynote"].GetBoolean("ShowFoldingLines");
             ShowLineNumbers = source.Configs["Ynote"].GetBoolean("ShowLineNumbers");
             EnableVirtualSpace = source.Configs["Ynote"].GetBoolean("EnableVirtualSpace");
@@ -178,6 +184,7 @@ public static class SettingsBase
         source.Configs["Ynote"].Set("FoldingStrategy", FoldingStrategy);
         source.Configs["Ynote"].Set("ShowCaret", ShowCaret);
         source.Configs["Ynote"].Set("ShowDocumentMap", ShowDocumentMap);
+        source.Configs["Ynote"].Set("ShowRuler", ShowRuler);
         source.Configs["Ynote"].Set("ShowFoldingLines", ShowFoldingLines);
         source.Configs["Ynote"].Set("ShowLineNumbers", ShowLineNumbers);
         source.Configs["Ynote"].Set("EnableVirtualSpace", EnableVirtualSpace);
@@ -210,6 +217,7 @@ public static class SettingsBase
         source.Configs["Ynote"].Set("FoldingStrategy", FindEndOfFoldingBlockStrategy.Strategy1);
         config.Set("ShowCaret", true);
         config.Set("ShowDocumentMap", true);
+        config.Set("ShowRuler", false);
         config.Set("ShowFoldingLines", true);
         config.Set("ShowLineNumbers", true);
         config.Set("ShowChangedLine", false);

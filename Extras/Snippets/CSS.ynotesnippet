@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-    <YnoteSnippet>
-        <Snippet >body\r\n{\r\n^\r\n}</Snippet>
-        <Snippet >^\r\n{\r\n\r\n}</Snippet>
-        <Snippet >.^\r\n{\r\n\r\n}</Snippet>
-    </YnoteSnippet>

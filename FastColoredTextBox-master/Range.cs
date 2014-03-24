@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
@@ -209,7 +208,7 @@ namespace FastColoredTextBoxNS
                 int toChar = ToX;
                 if (fromLine < 0) return null;
                 //
-                StringBuilder sb = new StringBuilder();
+                var sb = new StringBuilder();
                 for (int y = fromLine; y <= toLine; y++)
                 {
                     int fromX = y == fromLine ? fromChar : 0;

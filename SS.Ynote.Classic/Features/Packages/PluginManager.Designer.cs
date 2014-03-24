@@ -43,9 +43,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(221, 10);
+            this.button1.Location = new System.Drawing.Point(220, 5);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(169, 23);
+            this.button1.Size = new System.Drawing.Size(169, 32);
             this.button1.TabIndex = 7;
             this.button1.Text = "Install Package from File";
             this.button1.UseVisualStyleBackColor = true;
@@ -53,9 +53,9 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(405, 10);
+            this.button3.Location = new System.Drawing.Point(405, 5);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(103, 23);
+            this.button3.Size = new System.Drawing.Size(103, 32);
             this.button3.TabIndex = 9;
             this.button3.Text = "Package Plugin";
             this.button3.UseVisualStyleBackColor = true;
@@ -63,9 +63,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(530, 10);
+            this.button2.Location = new System.Drawing.Point(530, 7);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(103, 23);
+            this.button2.Size = new System.Drawing.Size(103, 28);
             this.button2.TabIndex = 8;
             this.button2.Text = "Close";
             this.button2.UseVisualStyleBackColor = true;
@@ -73,6 +73,7 @@
             // 
             // panel1
             // 
+            this.panel1.BackColor = System.Drawing.SystemColors.ControlLight;
             this.panel1.Controls.Add(this.button4);
             this.panel1.Controls.Add(this.button3);
             this.panel1.Controls.Add(this.button1);
@@ -85,9 +86,9 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(35, 10);
+            this.button4.Location = new System.Drawing.Point(35, 5);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(169, 23);
+            this.button4.Size = new System.Drawing.Size(169, 32);
             this.button4.TabIndex = 10;
             this.button4.Text = "Install Package from Url";
             this.button4.UseVisualStyleBackColor = true;

@@ -6,33 +6,36 @@ using System.Windows.Forms;
 
 #endregion
 
-public class WizardTabControl : TabControl
+namespace SS.Ynote.Classic.UI.Controls
 {
-    private bool _tabsVisible;
-
-    [DefaultValue(false)]
-    public bool TabsVisible
+    public class WizardTabControl : TabControl
     {
-        get { return _tabsVisible; }
-        set
-        {
-            if (_tabsVisible == value) return;
-            _tabsVisible = value;
-            RecreateHandle();
-        }
-    }
+        private bool _tabsVisible;
 
-    protected override void WndProc(ref Message m)
-    {
-        // Hide tabs by trapping the TCM_ADJUSTRECT message
-        if (m.Msg == 0x1328)
+        [DefaultValue(false)]
+        public bool TabsVisible
         {
-            if (!_tabsVisible && !DesignMode)
+            get { return _tabsVisible; }
+            set
             {
-                m.Result = (IntPtr) 1;
-                return;
+                if (_tabsVisible == value) return;
+                _tabsVisible = value;
+                RecreateHandle();
             }
         }
-        base.WndProc(ref m);
+
+        protected override void WndProc(ref Message m)
+        {
+            // Hide tabs by trapping the TCM_ADJUSTRECT message
+            if (m.Msg == 0x1328)
+            {
+                if (!_tabsVisible && !DesignMode)
+                {
+                    m.Result = (IntPtr) 1;
+                    return;
+                }
+            }
+            base.WndProc(ref m);
+        }
     }
 }

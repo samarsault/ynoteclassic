@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 #endregion
 
-namespace SS.Ynote.Classic
+namespace SS.Ynote.Classic.UI.Controls
 {
 
     #region Using Directives
@@ -27,7 +27,7 @@ namespace SS.Ynote.Classic
         {
             base.OnKeyPress(e);
 
-            NumberFormatInfo numberFormatInfo = CultureInfo.CurrentCulture.NumberFormat;
+            var numberFormatInfo = CultureInfo.CurrentCulture.NumberFormat;
             string decimalSeparator = numberFormatInfo.NumberDecimalSeparator;
             string groupSeparator = numberFormatInfo.NumberGroupSeparator;
             string negativeSign = numberFormatInfo.NegativeSign;

@@ -7,7 +7,7 @@ namespace FastColoredTextBoxNS
 {
     public partial class ReplaceForm : Form
     {
-        FastColoredTextBox tb;
+        readonly FastColoredTextBox tb;
         bool firstSearch = true;
         Place startPlace;
 
@@ -15,6 +15,7 @@ namespace FastColoredTextBoxNS
         {
             InitializeComponent();
             this.tb = tb;
+            cmbScope.SelectedIndex = 0;
         }
 
         private void btClose_Click(object sender, EventArgs e)
@@ -26,8 +27,15 @@ namespace FastColoredTextBoxNS
         {
             try
             {
-                if (!Find(tbFind.Text))
-                    MessageBox.Show("Not found");
+                if (cmbScope.SelectedIndex == 0)
+                {
+                    if (!Find(tbFind.Text))
+                        MessageBox.Show("Not found");
+                }
+                else if (cmbScope.SelectedIndex == 1)
+                {
+                    FindNextInSelection(tbFind.Text);
+                }
             }
             catch (Exception ex)
             {
@@ -35,6 +43,26 @@ namespace FastColoredTextBoxNS
             }
         }
 
+        private List<Range> FindAllInSelection(string pattern)
+        {
+            var opt = cbMatchCase.Checked ? RegexOptions.None : RegexOptions.IgnoreCase;
+            if (!cbRegex.Checked)
+                pattern = Regex.Escape(pattern);
+            if (cbWholeWord.Checked)
+                pattern = "\\b" + pattern + "\\b";
+            var range = tb.Selection;
+            range.Normalize();
+            range.Start = range.End;
+            range.End = new Place(tb.GetLineLength(tb.LinesCount - 1), tb.LinesCount - 1);
+            //
+            var list = new List<Range>();
+            foreach (var r in range.GetRanges(pattern, opt))
+            {
+                list.Add(r);
+                MessageBox.Show("Added : " + r.Text);
+            }
+            return list;
+        } 
         private List<Range> FindAll(string pattern)
         {
             RegexOptions opt = cbMatchCase.Checked ? RegexOptions.None : RegexOptions.IgnoreCase;
@@ -55,7 +83,7 @@ namespace FastColoredTextBoxNS
             return list;
         }
 
-        public bool Find(string pattern)
+        private bool Find(string pattern)
         {
             RegexOptions opt = cbMatchCase.Checked ? RegexOptions.None : RegexOptions.IgnoreCase;
             if (!cbRegex.Checked)
@@ -137,7 +165,46 @@ namespace FastColoredTextBoxNS
             }
         }
 
+        void ReplaceAllInSelection()
+        {
+            try
+            {
+                //search
+                var ranges = FindAllInSelection(tbFind.Text);
+                //check readonly
+                var ro = false;
+                foreach (var r in ranges)
+                    if (r.ReadOnly)
+                    {
+                        ro = true;
+                        break;
+                    }
+                //replace
+                if (!ro)
+                    if (ranges.Count > 0)
+                    {
+                        tb.TextSource.Manager.ExecuteCommand(new ReplaceTextCommand(tb.TextSource, ranges, tbReplace.Text));
+                        tb.Selection.Start = new Place(0, 0);
+                    }
+                //
+                tb.Invalidate();
+                MessageBox.Show(ranges.Count + " occurrence(s) replaced");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            tb.Selection.EndUpdate();
+        }
         private void btReplaceAll_Click(object sender, EventArgs e)
+        {
+            if(cmbScope.SelectedIndex == 0)
+                ReplaceAll();
+            else if(cmbScope.SelectedIndex == 1)
+                ReplaceAllInSelection();
+        }
+
+        private void ReplaceAll()
         {
             try
             {
@@ -155,11 +222,11 @@ namespace FastColoredTextBoxNS
                     }
                 //replace
                 if (!ro)
-                if (ranges.Count > 0)
-                {
-                    tb.TextSource.Manager.ExecuteCommand(new ReplaceTextCommand(tb.TextSource, ranges, tbReplace.Text));
-                    tb.Selection.Start = new Place(0, 0);
-                }
+                    if (ranges.Count > 0)
+                    {
+                        tb.TextSource.Manager.ExecuteCommand(new ReplaceTextCommand(tb.TextSource, ranges, tbReplace.Text));
+                        tb.Selection.Start = new Place(0, 0);
+                    }
                 //
                 tb.Invalidate();
                 MessageBox.Show(ranges.Count + " occurrence(s) replaced");
@@ -171,6 +238,55 @@ namespace FastColoredTextBoxNS
             tb.Selection.EndUpdate();
         }
 
+        private Range _originalSelection;
+        /// <summary>
+        /// FindNext In Selection
+        /// </summary>
+        /// <param name="pattern"></param>
+        private void FindNextInSelection(string pattern)
+        {
+            try
+            {
+                RegexOptions opt = cbMatchCase.Checked ? RegexOptions.None : RegexOptions.IgnoreCase;
+                if (!cbRegex.Checked)
+                    pattern = Regex.Escape(pattern);
+                if (cbWholeWord.Checked)
+                    pattern = "\\b" + pattern + "\\b";
+                //
+                var range = tb.Selection;
+                //
+                if (firstSearch)
+                {
+                    _originalSelection = range;
+                    startPlace = range.Start;
+                    firstSearch = false;
+                }
+                else
+                {
+                    range.Start = range.End;
+                    range.End = range.Start >= startPlace ? new Place(tb.GetLineLength(tb.LinesCount - 1), tb.LinesCount - 1) : startPlace;
+                }
+                foreach (var r in range.GetRanges(pattern, opt))
+                {
+                    tb.Selection = r;
+                    tb.DoSelectionVisible();
+                    tb.Invalidate();
+                    return;
+                }
+                //
+                if (range.Start >= startPlace && startPlace > Place.Empty)
+                {
+                    tb.Selection = _originalSelection;
+                    FindNextInSelection(pattern);
+                    return;
+                }
+                MessageBox.Show("Not found");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         protected override void OnActivated(EventArgs e)
         {
             tbFind.Focus();

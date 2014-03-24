@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace SS.Ynote.Classic.UI
 {
-    public class BaseFormGradient : Form
+    public class GradientForm : Form
     {
         #region Private Variables
 
@@ -64,7 +64,7 @@ namespace SS.Ynote.Classic.UI
 
         #region Constructors, Destructors
 
-        protected BaseFormGradient()
+        protected GradientForm()
         {
             InitializeComponent();
 
@@ -119,23 +119,20 @@ namespace SS.Ynote.Classic.UI
 
         #region Overriden Methods
 
-        protected override void OnPaintBackground(PaintEventArgs pevent)
+        protected override void OnPaintBackground(PaintEventArgs e)
         {
-            // Getting the graphics object
-            Graphics g = pevent.Graphics;
-
             // Creating the rectangle for the gradient
-            Rectangle rBackground = new Rectangle(0, 0, Width, Height);
+            var rect = new Rectangle(0, 0, Width, Height);
 
             // Creating the lineargradient
-            LinearGradientBrush bBackground
-                = new LinearGradientBrush(rBackground, _color1, _color2, _colorAngle);
+            var lgbrush
+                = new LinearGradientBrush(rect, _color1, _color2, _colorAngle);
 
             // Draw the gradient onto the form
-            g.FillRectangle(bBackground, rBackground);
+            e.Graphics.FillRectangle(lgbrush, rect);
 
             // Disposing of the resources held by the brush
-            bBackground.Dispose();
+            lgbrush.Dispose();
         }
 
         #endregion

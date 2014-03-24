@@ -1,11 +1,10 @@
-﻿#region
-
-using System.Xml;
-
-#endregion
+﻿using System.Xml;
 
 namespace SS.Ynote.Classic.Features.Project
 {
+    /// <summary>
+    ///     Structure of a .ynoteproj file
+    /// </summary>
     public class YnoteProject
     {
         public string BuildFile { get; set; }
@@ -40,6 +39,7 @@ namespace SS.Ynote.Classic.Features.Project
                         {
                             case "Project":
                                 proj.ProjectName = reader["Name"];
+                                proj.ProjectFile = reader["File"];
                                 break;
                             case "Folder":
                                 proj.Folder = reader["Include"];

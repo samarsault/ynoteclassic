@@ -1,7 +1,6 @@
 ﻿#region
 
 using System;
-using System.Net.NetworkInformation;
 using System.Windows.Forms;
 
 #endregion
@@ -51,7 +50,7 @@ namespace SS.Ynote.Classic.Features.Packages
             using (var inp = new InputUrl())
             {
                 inp.ShowDialog(this);
-                if(inp.GeneratedPackage != null)
+                if (inp.GeneratedPackage != null)
                     inp.GeneratedPackage.DownloadPackage();
             }
         }

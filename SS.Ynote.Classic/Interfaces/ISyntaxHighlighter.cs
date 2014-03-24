@@ -120,12 +120,6 @@ public interface ISyntaxHighlighter
     ///     Other Name Style
     /// </summary>
     Style ClassNameStyle2 { set; }
-
-    /// <summary>
-    ///     In Bracket Style
-    /// </summary>
-    Style InBracketStyle { set; }
-
     /// <summary>
     ///     Highlight Syntax
     /// </summary>

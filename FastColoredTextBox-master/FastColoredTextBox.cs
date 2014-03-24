@@ -1526,9 +1526,7 @@ namespace FastColoredTextBoxNS
             {
                 if (scrollBars)
                     return base.AutoScrollMinSize;
-                else
-                    //return new Size(HorizontalScroll.Maximum, VerticalScroll.Maximum);
-                    return localAutoScrollMinSize;
+                return localAutoScrollMinSize;
             }
         }
 
@@ -2141,8 +2139,7 @@ namespace FastColoredTextBoxNS
                 Navigate(iLine);
                 return true;
             }
-            else
-                return false;
+            return false;
         }
 
         /// <summary>
@@ -2164,8 +2161,7 @@ namespace FastColoredTextBoxNS
                 Navigate(iLine);
                 return true;
             }
-            else
-                return false;
+            return false;
         }
 
         /// <summary>
@@ -3964,7 +3960,7 @@ namespace FastColoredTextBoxNS
                 nearestBookmark.DoVisible();
                 return true;
             }
-            else if (minBookmark != null)
+            if (minBookmark != null)
             {
                 minBookmark.DoVisible();
                 return true;
@@ -4003,7 +3999,7 @@ namespace FastColoredTextBoxNS
                 nearestBookmark.DoVisible();
                 return true;
             }
-            else if (maxBookmark != null)
+            if (maxBookmark != null)
             {
                 maxBookmark.DoVisible();
                 return true;
@@ -4201,8 +4197,7 @@ namespace FastColoredTextBoxNS
 
             if (Focused)
                 return ProcessKey(charCode, lastModifiers) || base.ProcessMnemonic(charCode);
-            else
-                return false;
+            return false;
         }
 
         const int WM_CHAR = 0x102;
@@ -4226,21 +4221,27 @@ namespace FastColoredTextBoxNS
                 Selection.GoLeft();
                 return true;
             }
-            else if (c == '[' && Selection.CharAfterStart == '\n')
+            if (c == '[' && Selection.CharAfterStart == '\n')
             {
                 InsertText("[]");
                 Selection.GoLeft();
                 return true;
             }
-            else if (c == '"' && !MacrosManager.IsRecording)
+            if (c == '"' && !MacrosManager.IsRecording)
             {
                 InsertText("\"\"");
                 Selection.GoLeft();
                 return true;
             }
-            else if (c == '\'' && !MacrosManager.IsRecording)
+            if (c == '\'' && !MacrosManager.IsRecording)
             {
                 InsertText("\'\'");
+                Selection.GoLeft();
+                return true;
+            }
+            if (c == ':' && Language == Language.CSS)
+            {
+                InsertText(":;");
                 Selection.GoLeft();
                 return true;
             }
@@ -5933,8 +5934,7 @@ namespace FastColoredTextBoxNS
 
             if (lines.Count > 0)
                 return new Place(lines[lines.Count - 1].Count, lines.Count - 1);
-            else
-                return new Place(0, 0);
+            return new Place(0, 0);
             //throw new ArgumentOutOfRangeException("Position out of range");
         }
 
@@ -5961,9 +5961,7 @@ namespace FastColoredTextBoxNS
             y += iWordWrapIndex*CharHeight;
 
             string offsetChars = lines[place.iLine].Text.Substring(0, place.iChar);
-            int offset = TextSizeCalculator.TextWidth(offsetChars, TabLength);
-            int x = (offset - LineInfos[place.iLine].GetWordWrapStringStartPosition(iWordWrapIndex)) * CharWidth;
-            //int x = (place.iChar - LineInfos[place.iLine].GetWordWrapStringStartPosition(iWordWrapIndex))*CharWidth;
+            int x = (place.iChar - LineInfos[place.iLine].GetWordWrapStringStartPosition(iWordWrapIndex))*CharWidth;
 
             if(iWordWrapIndex > 0 )
                 x += LineInfos[place.iLine].wordWrapIndent * CharWidth;
@@ -6349,8 +6347,7 @@ namespace FastColoredTextBoxNS
 
             if (LineInfos[iLine].VisibleState != VisibleState.Visible)
                 return old;
-            else
-                return iLine;
+            return iLine;
         }
 
 
@@ -6363,8 +6360,7 @@ namespace FastColoredTextBoxNS
 
             if (LineInfos[iLine].VisibleState != VisibleState.Visible)
                 return old;
-            else
-                return iLine;
+            return iLine;
         }
 
         private VisualMarker FindVisualMarkerForPoint(Point p)
@@ -7841,8 +7837,7 @@ window.status = ""#print"";
             {
                 if (x.startY == -10)
                     return -y.startY.CompareTo(Y);
-                else
-                    return x.startY.CompareTo(Y);
+                return x.startY.CompareTo(Y);
             }
 
             #endregion

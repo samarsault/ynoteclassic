@@ -1,9 +1,9 @@
-1. Revise
+1. Revise, Check for Bugs
 2. Optimize
 3. Publish
-
+Add New->Snippet, New->Plugin, New->Script, New->Theme
 TO Check
 
 1. Color Themes
 2. Snippets
-3. Plugin
+3. Plugins
