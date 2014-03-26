@@ -1,16 +1,17 @@
-#region
-
+//===============================
+// Ynote Theme Reader
+// Desc -> Reads a .ynotetheme file and applies it to a Code Edit Control.
+// The Ynote Classic Project
+//===============================
 using System;
 using System.Drawing;
 using System.Xml;
 using FastColoredTextBoxNS;
 
-#endregion
-
-namespace SS.Ynote.Classic
+namespace SS.Ynote.Classic.Features.Syntax
 {
     /// <summary>
-    ///     Ynote Theme File Reader
+    /// Ynote Theme File Reader
     /// </summary>
     public static class YnoteThemeReader
     {
@@ -45,37 +46,7 @@ namespace SS.Ynote.Classic
             }
         }
 
-        /*     static IEnumerable<Style> GetStyles(ISyntaxHighlighter h)
-        {
-            var lst = new List<Style>
-            {
-                h.CommentStyle,
-                h.CommentTagStyle,
-                h.FunctionsStyle,
-                h.CharStyle,
-                h.ClassNameStyle,
-                h.ClassNameStyle2,
-                h.KeywordStyle,
-                h.KeywordStyle2,
-                h.KeywordStyle3,
-                h.TypesStyle,
-                h.CSSPropertyStyle,
-                h.CSSSelectorStyle,
-                h.AttributeStyle,
-                h.AttributeValueStyle,
-                h.HtmlEntityStyle,
-                h.TagBracketStyle,
-                h.TagNameStyle,
-                h.VariableStyle,
-                h.PreprocessorStyle,
-                h.StringStyle,
-                h.NumberStyle
-            };
-            return lst;
-        }
-        */
-
-        private static void KeyInit(FastColoredTextBox tb, string name, string value)
+        static void KeyInit(FastColoredTextBox tb, string name, string value)
         {
             var keyval = GetColorFromHexVal(value);
             switch (name)
@@ -119,7 +90,7 @@ namespace SS.Ynote.Classic
             }
         }
 
-        private static void StyleInit(string name, FontStyle style, Color color, ISyntaxHighlighter sh)
+        static void StyleInit(string name, FontStyle style, Color color, ISyntaxHighlighter sh)
         {
             var tcstyle = new TextColorStyle(new SolidBrush(color), style);
             switch (name)

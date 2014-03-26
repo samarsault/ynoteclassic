@@ -53,7 +53,7 @@ namespace FastColoredTextBoxNS
         /// <summary>
         /// Current focused FastColoredTextBox
         /// </summary>
-        public FastColoredTextBox CurrentTB {
+        public FastColoredTextBox CurrentTb {
             get { return currentTB; }
             set {
                 if (currentTB == value)
@@ -85,17 +85,17 @@ namespace FastColoredTextBoxNS
         /// This style is using when no one other TextStyle is not defined in Char.style
         /// </summary>
         public TextStyle DefaultStyle { get; set; }
-
-        public TextSource(FastColoredTextBox currentTB)
+        /// <summary>
+        /// TextSource
+        /// </summary>
+        /// <param name="currentTb"></param>
+        public TextSource(FastColoredTextBox currentTb)
         {
-            CurrentTB = currentTB;
+            CurrentTb = currentTb;
             linesAccessor = new LinesAccessor(this);
             Manager = new CommandManager(this);
 
-            if (Enum.GetUnderlyingType(typeof(StyleIndex)) == typeof(UInt32))
-                Styles = new Style[32];
-            else
-                Styles = new Style[16];
+            Styles = Enum.GetUnderlyingType(typeof(StyleIndex)) == typeof(UInt32) ? new Style[32] : new Style[16];
 
             InitDefaultStyle();
         }
@@ -135,7 +135,7 @@ namespace FastColoredTextBoxNS
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return (lines  as IEnumerator);
+            return (lines as IEnumerator);
         }
 
         public virtual int BinarySearch(Line item, IComparer<Line> comparer)
@@ -294,14 +294,12 @@ namespace FastColoredTextBoxNS
 
         public virtual void OnTextChanging(ref string text)
         {
-            if (TextChanging != null)
-            {
-                var args = new TextChangingEventArgs() { InsertingText = text };
-                TextChanging(this, args);
-                text = args.InsertingText;
-                if (args.Cancel)
-                    text = string.Empty;
-            };
+            if (TextChanging == null) return;
+            var args = new TextChangingEventArgs() { InsertingText = text };
+            TextChanging(this, args);
+            text = args.InsertingText;
+            if (args.Cancel)
+                text = string.Empty;
         }
 
         public virtual int GetLineLength(int i)
@@ -321,7 +319,7 @@ namespace FastColoredTextBoxNS
 
         public virtual void Dispose()
         {
-            ;
+            
         }
 
         public virtual void SaveToFile(string fileName, Encoding enc)

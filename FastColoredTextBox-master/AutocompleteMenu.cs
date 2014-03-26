@@ -14,7 +14,7 @@ namespace FastColoredTextBoxNS
     [Browsable(false)]
     public class AutocompleteMenu : ToolStripDropDown
     {
-        AutocompleteListView listView;
+        readonly AutocompleteListView listView;
         public ToolStripControlHost host;
         public Range Fragment { get; internal set; }
 
@@ -84,7 +84,7 @@ namespace FastColoredTextBoxNS
             CalcSize();
             base.Items.Add(host);
             listView.Parent = this;
-            SearchPattern = @"[\w\.]";
+            SearchPattern = @"[\w\.]|[<\.]|[#\.]";
             MinFragmentLength = 2;
         }
 
@@ -106,15 +106,26 @@ namespace FastColoredTextBoxNS
             Size = new Size(listView.Size.Width + 4, listView.Size.Height + 4);
         }
 
+/*
+        /// <summary>
+        /// 
+        /// </summary>
         public virtual void OnSelecting()
         {
             listView.OnSelecting();
         }
+*/
 
+/*
+        /// <summary>
+        /// Select Next
+        /// </summary>
+        /// <param name="shift"></param>
         public void SelectNext(int shift)
         {
             listView.SelectNext(shift);
         }
+*/
 
         internal void OnSelecting(SelectingEventArgs args)
         {
@@ -186,14 +197,14 @@ namespace FastColoredTextBoxNS
 
         internal List<AutocompleteItem> visibleItems;
         IEnumerable<AutocompleteItem> sourceItems = new List<AutocompleteItem>();
-        int focussedItemIndex = 0;
-        int hoveredItemIndex = -1;
-        int itemHeight;
+        int focussedItemIndex;
+        private const int hoveredItemIndex = -1;
+        readonly int itemHeight;
         AutocompleteMenu Menu { get { return Parent as AutocompleteMenu; } }
-        int oldItemCount = 0;
-        FastColoredTextBox tb;
+        int oldItemCount;
+        readonly FastColoredTextBox tb;
         internal ToolTip toolTip = new ToolTip();
-        Timer timer = new Timer();
+        readonly Timer timer = new Timer();
 
         internal bool AllowTabKey { get; set; }
         public ImageList ImageList { get; set; }
@@ -240,16 +251,16 @@ namespace FastColoredTextBoxNS
             MaximumSize = new Size(Size.Width, 180);
             toolTip.ShowAlways = false;
             AppearInterval = 500;
-            timer.Tick += new EventHandler(timer_Tick);
+            timer.Tick += timer_Tick;
             SelectedColor = Color.Orange;
             HoveredColor = Color.Red;
             ToolTipDuration = 3000;
 
             this.tb = tb;
 
-            tb.KeyDown += new KeyEventHandler(tb_KeyDown);
-            tb.SelectionChanged += new EventHandler(tb_SelectionChanged);
-            tb.KeyPressed += new KeyPressEventHandler(tb_KeyPressed);
+            tb.KeyDown += tb_KeyDown;
+            tb.SelectionChanged += tb_SelectionChanged;
+            tb.KeyPressed += tb_KeyPressed;
 
             Form form = tb.FindForm();
             if (form != null)
@@ -355,7 +366,7 @@ namespace FastColoredTextBoxNS
             {
                 if (!Menu.Visible)
                 {
-                    CancelEventArgs args = new CancelEventArgs();
+                    var args = new CancelEventArgs();
                     Menu.OnOpening(args);
                     if(!args.Cancel)
                         Menu.Show(tb, point);
@@ -658,7 +669,7 @@ namespace FastColoredTextBoxNS
             }
 
             IWin32Window window = Parent ?? this;
-            Point location = new Point((window == this ? Width : Right) + 3, 0);
+            var location = new Point((window == this ? Width : Right) + 3, 0);
 
             if (string.IsNullOrEmpty(text))
             {

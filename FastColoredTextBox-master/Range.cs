@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
@@ -111,7 +112,7 @@ namespace FastColoredTextBoxNS
             if (ColumnSelectionMode)
                 return GetIntersectionWith_ColumnSelectionMode(range);
 
-            Range r1 = this.Clone();
+            Range r1 = Clone();
             Range r2 = range.Clone();
             r1.Normalize();
             r2.Normalize();
@@ -129,7 +130,7 @@ namespace FastColoredTextBoxNS
         /// <returns></returns>
         public Range GetUnionWith(Range range)
         {
-            Range r1 = this.Clone();
+            Range r1 = Clone();
             Range r2 = range.Clone();
             r1.Normalize();
             r2.Normalize();
@@ -817,7 +818,7 @@ namespace FastColoredTextBoxNS
             //
             foreach (Match m in regex.Matches(text))
             {
-                Range r = new Range(this.tb);
+                Range r = new Range(tb);
                 //try get 'range' group, otherwise use group 0
                 Group group = m.Groups["range"];
                 if (!group.Success)
@@ -913,7 +914,7 @@ namespace FastColoredTextBoxNS
             //
             foreach (Match m in regex.Matches(text))
             {
-                Range r = new Range(this.tb);
+                Range r = new Range(tb);
                 //try get 'range' group, otherwise use group 0
                 Group group = m.Groups["range"];
                 if (!group.Success)
@@ -934,7 +935,7 @@ namespace FastColoredTextBoxNS
             {
                 ClearStyle(tb.GetStyleIndexMask(styles));
             }
-            catch { ;}
+            catch { }
         }
 
         /// <summary>
@@ -1068,7 +1069,7 @@ namespace FastColoredTextBoxNS
             }
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return (this as IEnumerable<Place>).GetEnumerator();
         }
@@ -1121,7 +1122,7 @@ namespace FastColoredTextBoxNS
         /// <returns>Range of found fragment</returns>
         public Range GetFragment(Style style, bool allowLineBreaks)
         {
-            var mask = tb.GetStyleIndexMask(new Style[] { style });
+            var mask = tb.GetStyleIndexMask(new[] { style });
             //
             Range r = new Range(tb);
             r.Start = Start;
@@ -1207,7 +1208,7 @@ namespace FastColoredTextBoxNS
                 return;
             }
 
-            Range range = this.Clone();//for OnSelectionChanged disable
+            Range range = Clone();//for OnSelectionChanged disable
             bool wasSpace = false;
             while (IsSpaceChar(range.CharBeforeStart))
             {
@@ -1222,8 +1223,8 @@ namespace FastColoredTextBoxNS
             }
             if (!wasIdentifier && (!wasSpace || range.CharBeforeStart != '\n'))
                 range.GoLeft(shift);
-            this.Start = range.Start;
-            this.End = range.End;
+            Start = range.Start;
+            End = range.End;
 
             if (tb.LineInfos[Start.iLine].VisibleState != VisibleState.Visible)
                 GoRight(shift);
@@ -1239,7 +1240,7 @@ namespace FastColoredTextBoxNS
                 return;
             }
 
-            Range range = this.Clone();//for OnSelectionChanged disable
+            Range range = Clone();//for OnSelectionChanged disable
             bool wasSpace = false;
             while (IsSpaceChar(range.CharAfterStart))
             {
@@ -1254,8 +1255,8 @@ namespace FastColoredTextBoxNS
             }
             if (!wasIdentifier && (!wasSpace || range.CharAfterStart != '\n'))
                 range.GoRight(shift);
-            this.Start = range.Start;
-            this.End = range.End;
+            Start = range.Start;
+            End = range.End;
 
             if (tb.LineInfos[Start.iLine].VisibleState != VisibleState.Visible)
                 GoLeft(shift);

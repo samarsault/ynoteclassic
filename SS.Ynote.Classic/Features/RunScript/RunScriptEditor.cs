@@ -35,16 +35,17 @@ namespace SS.Ynote.Classic.Features.RunScript
             try
             {
                 var selectedconfig = e.Node.Tag as RunConfiguration;
-                if (selectedconfig != null)
-                    tbName.Text = selectedconfig.Name;
+                if (selectedconfig == null) return;
+                tbName.Text = selectedconfig.Name;
                 tbName.Text = e.Node.Text;
                 tbArgs.Text = selectedconfig.Arguments;
                 tbCmdDir.Text = selectedconfig.CmdDir;
                 tbProcess.Text = selectedconfig.Process;
             }
-            catch (Exception)
+            catch(Exception ex)
             {
-                //throw;
+                MessageBox.Show("There was an error processing your request\r\nReport : " + ex, "Ynote Classic",
+                    MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
 
@@ -53,9 +54,7 @@ namespace SS.Ynote.Classic.Features.RunScript
             var sNode = configTree.SelectedNode.Tag as RunConfiguration;
             if (sNode != null) sNode.EditConfig(tbProcess.Text, tbArgs.Text, tbCmdDir.Text, tbName.Text);
             else
-            {
-                MessageBox.Show("Error Processing Request : Nothing Selected", "Ynote Classic");
-            }
+                MessageBox.Show("Error Processing Request : Nothing Selected", "Ynote Classic", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
@@ -71,8 +70,7 @@ namespace SS.Ynote.Classic.Features.RunScript
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            var nd = new TreeNode("untitled");
-            nd.Tag = new RunConfiguration();
+            var nd = new TreeNode("untitled") {Tag = new RunConfiguration()};
             configTree.Nodes[0].Nodes.Add(nd);
             nd.BeginEdit();
             configTree.SelectedNode = nd;

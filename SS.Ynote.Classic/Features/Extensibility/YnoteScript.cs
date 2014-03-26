@@ -4,19 +4,10 @@ using System.Reflection;
 using System.Windows.Forms;
 using CSScriptLibrary;
 
-namespace SS.Ynote.Classic
+namespace SS.Ynote.Classic.Features.Extensibility
 {
     public static class YnoteScript
     {
-        private static void Run(IYnote ynote, string code)
-        {
-            var helper =
-                new AsmHelper(CSScript.LoadMethod(code, Assembly.GetExecutingAssembly().FullName,
-                    Application.StartupPath + @"\FastColoredTextBox.dll",
-                    Application.StartupPath + @"\WeifenLuo.WinFormsUI.Docking"));
-            helper.Invoke("*.Run", ynote);
-        }
-
         private static string[] GetReferences()
         {
             return new[]
@@ -37,9 +28,7 @@ namespace SS.Ynote.Classic
                 CSScript.CacheEnabled = true;
                 CSScript.GlobalSettings.TargetFramework = "v3.5";
                 var helper =
-                    new AsmHelper(CSScript.LoadMethod(File.ReadAllText(ysfile), Assembly.GetExecutingAssembly().FullName,
-                        Application.StartupPath + @"\FastColoredTextBox.dll",
-                        Application.StartupPath + @"\WeifenLuo.WinFormsUI.Docking"));
+                    new AsmHelper(CSScript.LoadMethod(File.ReadAllText(ysfile), GetReferences()));
                 helper.Invoke("*.Run", ynote);
             }
             catch (Exception ex)

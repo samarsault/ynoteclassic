@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Drawing.Printing;
 
 namespace FastColoredTextBoxNS
 {
@@ -12,12 +11,14 @@ namespace FastColoredTextBoxNS
         public string Text;
         public int ImageIndex = -1;
         public object Tag;
-        string toolTipTitle;
         string toolTipText;
         string menuText;
-        public AutocompleteMenu Parent { get; internal set; }
+        public AutocompleteMenu Parent { private get; set; }
         
 
+        /// <summary>
+        /// 
+        /// </summary>
         public AutocompleteItem()
         {
         }
@@ -42,7 +43,7 @@ namespace FastColoredTextBoxNS
         public AutocompleteItem(string text, int imageIndex, string menuText, string toolTipTitle, string toolTipText)
             : this(text, imageIndex, menuText)
         {
-            this.toolTipTitle = toolTipTitle;
+            ToolTipTitle = toolTipTitle;
             this.toolTipText = toolTipText;
         }
 
@@ -79,33 +80,28 @@ namespace FastColoredTextBoxNS
         /// </summary>
         public virtual void OnSelected(AutocompleteMenu popupMenu, SelectedEventArgs e)
         {
-            ;
         }
 
         /// <summary>
         /// Title for tooltip.
         /// </summary>
         /// <remarks>Return null for disable tooltip for this item</remarks>
-        public virtual string ToolTipTitle
-        {
-            get { return toolTipTitle; }
-            set { toolTipTitle = value; }
-        }
+        public string ToolTipTitle { get; protected set; }
 
         /// <summary>
         /// Tooltip text.
         /// </summary>
         /// <remarks>For display tooltip text, ToolTipTitle must be not null</remarks>
-        public virtual string ToolTipText 
+        public string ToolTipText 
         {
             get{ return toolTipText; }
-            set { toolTipText = value; }
+            protected set { toolTipText = value; }
         }
 
         /// <summary>
         /// Menu text. This text is displayed in the drop-down menu.
         /// </summary>
-        public virtual string MenuText
+        public string MenuText
         {
             get { return menuText; }
             set { menuText = value; }
@@ -114,10 +110,10 @@ namespace FastColoredTextBoxNS
         /// <summary>
         /// Fore color of text of item
         /// </summary>
-        public virtual Color ForeColor
+        public Color ForeColor
         {
             get { return Color.Transparent; }
-            set { throw new NotImplementedException("Override this property to change color"); }
+           // set { throw new NotImplementedException("Override this property to change color"); }
         }
 
         /// <summary>
@@ -126,7 +122,7 @@ namespace FastColoredTextBoxNS
         public virtual Color BackColor
         {
             get { return Color.Transparent; }
-            set { throw new NotImplementedException("Override this property to change color"); }
+           // set { throw new NotImplementedException("Override this property to change color"); }
         }
     }
 
@@ -217,7 +213,7 @@ namespace FastColoredTextBoxNS
     public class MethodAutocompleteItem : AutocompleteItem
     {
         string firstPart;
-        string lowercaseText;
+        readonly string lowercaseText;
 
         public MethodAutocompleteItem(string text)
             : base(text)

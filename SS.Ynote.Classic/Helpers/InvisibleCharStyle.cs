@@ -1,9 +1,5 @@
-﻿#region Using Directives
-
-using System.Drawing;
+﻿using System.Drawing;
 using FastColoredTextBoxNS;
-
-#endregion
 
 namespace SS.Ynote.Classic
 {

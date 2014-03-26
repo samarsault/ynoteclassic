@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
@@ -10,7 +8,7 @@ namespace FastColoredTextBoxNS
 {
     public partial class HotkeysEditorForm : Form
     {
-        BindingList<HotkeyWrapper> wrappers = new BindingList<HotkeyWrapper>();
+        readonly BindingList<HotkeyWrapper> wrappers = new BindingList<HotkeyWrapper>();
 
         public HotkeysEditorForm(HotkeysMapping hotkeys)
         {
@@ -28,7 +26,7 @@ namespace FastColoredTextBoxNS
             return res;
         }
 
-        private void BuildWrappers(HotkeysMapping hotkeys)
+        private void BuildWrappers(SortedDictionary<Keys, FCTBAction> hotkeys)
         {
             var keys = new List<Keys>(hotkeys.Keys);
             keys.Sort(CompereKeys);
@@ -60,7 +58,7 @@ namespace FastColoredTextBoxNS
         {
             var cell = (dgv[0, e.RowIndex] as DataGridViewComboBoxCell);
             if(cell.Items.Count == 0)
-            foreach(var item in new string[]{"", "Ctrl", "Ctrl + Shift", "Ctrl + Alt", "Shift", "Shift + Alt", "Alt", "Ctrl + Shift + Alt"})
+            foreach(var item in new[]{"", "Ctrl", "Ctrl + Shift", "Ctrl + Alt", "Shift", "Shift + Alt", "Alt", "Ctrl + Shift + Alt"})
                 cell.Items.Add(item);
 
             cell = (dgv[1, e.RowIndex] as DataGridViewComboBoxCell);

@@ -11,7 +11,7 @@ namespace SS.Ynote.Classic.Features.Packages
         /// <summary>
         ///     Manifest File
         /// </summary>
-        public string ManifestFile { get; set; }
+        public string ManifestFile { private get; set; }
 
         /// <summary>
         ///     Plugin File

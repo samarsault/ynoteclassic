@@ -202,7 +202,6 @@
             this.seperator8 = new System.Windows.Forms.MenuItem();
             this.miwebsearch = new System.Windows.Forms.MenuItem();
             this.migoogle = new System.Windows.Forms.MenuItem();
-            this.mibing = new System.Windows.Forms.MenuItem();
             this.miwiki = new System.Windows.Forms.MenuItem();
             this.miexecfile = new System.Windows.Forms.MenuItem();
             this.mirunscripts = new System.Windows.Forms.MenuItem();
@@ -212,6 +211,9 @@
             this.CompareMenu = new System.Windows.Forms.MenuItem();
             this.micomparewith = new System.Windows.Forms.MenuItem();
             this.seperator66 = new System.Windows.Forms.MenuItem();
+            this.menuItem1 = new System.Windows.Forms.MenuItem();
+            this.minewsnippet = new System.Windows.Forms.MenuItem();
+            this.minewscript = new System.Windows.Forms.MenuItem();
             this.colorschememenu = new System.Windows.Forms.MenuItem();
             this.seperator83 = new System.Windows.Forms.MenuItem();
             this.OptionsMenu = new System.Windows.Forms.MenuItem();
@@ -250,11 +252,8 @@
             this.mizoom150 = new System.Windows.Forms.ToolStripMenuItem();
             this.mizoom100 = new System.Windows.Forms.ToolStripMenuItem();
             this.mizoom50 = new System.Windows.Forms.ToolStripMenuItem();
-            this.incrementalSearcher1 = new SS.Ynote.Classic.Features.Search.IncrementalSearcher();
             this.dock = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-            this.menuItem1 = new System.Windows.Forms.MenuItem();
-            this.minewsnippet = new System.Windows.Forms.MenuItem();
-            this.minewscript = new System.Windows.Forms.MenuItem();
+            this.incrementalSearcher1 = new SS.Ynote.Classic.Features.Search.IncrementalSearcher();
             this.status.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -334,6 +333,7 @@
             // 
             this.recentfilesmenu.Index = 5;
             this.recentfilesmenu.Text = "Recent Files";
+            this.recentfilesmenu.Select += new System.EventHandler(this.recentfilesmenu_Select);
             // 
             // reopenclosedtab
             // 
@@ -1450,7 +1450,6 @@
             this.miwebsearch.Index = 5;
             this.miwebsearch.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.migoogle,
-            this.mibing,
             this.miwiki});
             this.miwebsearch.Text = "Web Search";
             // 
@@ -1460,15 +1459,9 @@
             this.migoogle.Text = "Google";
             this.migoogle.Click += new System.EventHandler(this.migoogle_Click);
             // 
-            // mibing
-            // 
-            this.mibing.Index = 1;
-            this.mibing.Text = "Bing";
-            this.mibing.Click += new System.EventHandler(this.mibing_Click);
-            // 
             // miwiki
             // 
-            this.miwiki.Index = 2;
+            this.miwiki.Index = 1;
             this.miwiki.Text = "Wikipedia";
             this.miwiki.Click += new System.EventHandler(this.miwiki_Click);
             // 
@@ -1519,6 +1512,26 @@
             // 
             this.seperator66.Index = 11;
             this.seperator66.Text = "-";
+            // 
+            // menuItem1
+            // 
+            this.menuItem1.Index = 12;
+            this.menuItem1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.minewsnippet,
+            this.minewscript});
+            this.menuItem1.Text = "Create New";
+            // 
+            // minewsnippet
+            // 
+            this.minewsnippet.Index = 0;
+            this.minewsnippet.Text = "Snippet";
+            this.minewsnippet.Click += new System.EventHandler(this.minewsnippet_Click);
+            // 
+            // minewscript
+            // 
+            this.minewscript.Index = 1;
+            this.minewscript.Text = "YnoteScript";
+            this.minewscript.Click += new System.EventHandler(this.minewscript_Click);
             // 
             // colorschememenu
             // 
@@ -1680,9 +1693,9 @@
             this.langmenu,
             this.gapfiller3,
             this.zoom});
-            this.status.Location = new System.Drawing.Point(0, 326);
+            this.status.Location = new System.Drawing.Point(0, 338);
             this.status.Name = "status";
-            this.status.Size = new System.Drawing.Size(748, 22);
+            this.status.Size = new System.Drawing.Size(767, 22);
             this.status.TabIndex = 3;
             // 
             // mistats
@@ -1694,7 +1707,7 @@
             // gapfiller2
             // 
             this.gapfiller2.Name = "gapfiller2";
-            this.gapfiller2.Size = new System.Drawing.Size(200, 17);
+            this.gapfiller2.Size = new System.Drawing.Size(206, 17);
             this.gapfiller2.Spring = true;
             // 
             // infolabel
@@ -1706,7 +1719,7 @@
             // 
             this.gapfiller1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.gapfiller1.Name = "gapfiller1";
-            this.gapfiller1.Size = new System.Drawing.Size(200, 17);
+            this.gapfiller1.Size = new System.Drawing.Size(206, 17);
             this.gapfiller1.Spring = true;
             // 
             // langmenu
@@ -1723,7 +1736,7 @@
             // 
             this.gapfiller3.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
             this.gapfiller3.Name = "gapfiller3";
-            this.gapfiller3.Size = new System.Drawing.Size(200, 17);
+            this.gapfiller3.Size = new System.Drawing.Size(206, 17);
             this.gapfiller3.Spring = true;
             // 
             // zoom
@@ -1785,15 +1798,6 @@
             this.mizoom50.Size = new System.Drawing.Size(92, 22);
             this.mizoom50.Text = "50";
             // 
-            // incrementalSearcher1
-            // 
-            this.incrementalSearcher1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.incrementalSearcher1.Location = new System.Drawing.Point(0, 287);
-            this.incrementalSearcher1.Name = "incrementalSearcher1";
-            this.incrementalSearcher1.Size = new System.Drawing.Size(748, 39);
-            this.incrementalSearcher1.TabIndex = 4;
-            this.incrementalSearcher1.Visible = false;
-            // 
             // dock
             // 
             this.dock.BackColor = System.Drawing.SystemColors.AppWorkspace;
@@ -1801,34 +1805,24 @@
             this.dock.DockBottomPortion = 0.4D;
             this.dock.Location = new System.Drawing.Point(0, 0);
             this.dock.Name = "dock";
+            this.dock.Size = new System.Drawing.Size(767, 299);
             this.dock.TabIndex = 0;
             this.dock.ActiveDocumentChanged += new System.EventHandler(this.dock_ActiveDocumentChanged);
             // 
-            // menuItem1
+            // incrementalSearcher1
             // 
-            this.menuItem1.Index = 12;
-            this.menuItem1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.minewsnippet,
-            this.minewscript});
-            this.menuItem1.Text = "Create New";
-            // 
-            // minewsnippet
-            // 
-            this.minewsnippet.Index = 0;
-            this.minewsnippet.Text = "Snippet";
-            this.minewsnippet.Click += new System.EventHandler(this.minewsnippet_Click);
-            // 
-            // minewscript
-            // 
-            this.minewscript.Index = 1;
-            this.minewscript.Text = "YnoteScript";
-            this.minewscript.Click += new System.EventHandler(this.minewscript_Click);
+            this.incrementalSearcher1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.incrementalSearcher1.Location = new System.Drawing.Point(0, 299);
+            this.incrementalSearcher1.Name = "incrementalSearcher1";
+            this.incrementalSearcher1.Size = new System.Drawing.Size(767, 39);
+            this.incrementalSearcher1.TabIndex = 4;
+            this.incrementalSearcher1.Visible = false;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(748, 348);
+            this.ClientSize = new System.Drawing.Size(767, 360);
             this.Controls.Add(this.dock);
             this.Controls.Add(this.incrementalSearcher1);
             this.Controls.Add(this.status);
@@ -2056,7 +2050,6 @@
         private MenuItem miupdates;
         private MenuItem miwebsearch;
         private MenuItem migoogle;
-        private MenuItem mibing;
         private MenuItem miwiki;
         private ToolStripStatusLabel gapfiller2;
         private MenuItem seperator7;

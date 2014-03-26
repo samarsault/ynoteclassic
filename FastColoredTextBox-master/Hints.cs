@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Text;
 using System.Windows.Forms;
 
 namespace FastColoredTextBoxNS
@@ -14,8 +12,8 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class Hints : ICollection<Hint>, IDisposable
     {
-        FastColoredTextBox tb;
-        List<Hint> items = new List<Hint>();
+        readonly FastColoredTextBox tb;
+        readonly List<Hint> items = new List<Hint>();
 
         public Hints(FastColoredTextBox tb)
         {

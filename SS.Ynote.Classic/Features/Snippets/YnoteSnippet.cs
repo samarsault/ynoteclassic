@@ -22,7 +22,7 @@ namespace SS.Ynote.Classic.Features.Snippets
         //  <YnoteSnippets Language="C#">
         //      <Snippet>for(int i=0;i < ^;i++)</Snippet>
         //  </YnoteSnippets>
-        public static IEnumerable<YnoteSnippet> Read(string file)
+        static IEnumerable<YnoteSnippet> Read(string file)
         {
             IList<YnoteSnippet> lst = new List<YnoteSnippet>();
             using (var reader = XmlReader.Create(file))

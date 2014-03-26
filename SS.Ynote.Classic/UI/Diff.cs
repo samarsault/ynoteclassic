@@ -1,23 +1,23 @@
-#region
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Syntax;
 using SS.Ynote.Classic.UI.DiffMergeStuffs;
 using WeifenLuo.WinFormsUI.Docking;
 using Line = SS.Ynote.Classic.UI.DiffMergeStuffs.Line;
-
-#endregion
+using SyntaxHighlighter = SS.Ynote.Classic.Features.Syntax.SyntaxHighlighter;
 
 namespace SS.Ynote.Classic.UI
 {
     public partial class Diff : DockContent
     {
+        private readonly SyntaxHighlighter Highlighter;
         private readonly Style greenStyle;
         private readonly Style redStyle;
         private int _updating;
@@ -27,8 +27,10 @@ namespace SS.Ynote.Classic.UI
             InitializeComponent();
             greenStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(50, Color.Lime)));
             redStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(50, Color.Red)));
+            Highlighter = new SyntaxHighlighter();
+            YnoteThemeReader.ApplyTheme(Application.StartupPath + @"\Themes\Default.ynotetheme", Highlighter, fctb1);
+            YnoteThemeReader.ApplyTheme(Application.StartupPath + @"\Themes\Default.ynotetheme", Highlighter, fctb2);
         }
-
         public Diff(string firstfile, string secondfile)
         {
             InitializeComponent();
@@ -36,6 +38,9 @@ namespace SS.Ynote.Classic.UI
             redStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(50, Color.Red)));
             tbFirstFile.Text = firstfile;
             tbSecondFile.Text = secondfile;
+            Highlighter = new SyntaxHighlighter();
+            YnoteThemeReader.ApplyTheme(Application.StartupPath + @"\Themes\Default.ynotetheme", Highlighter, fctb1);
+            YnoteThemeReader.ApplyTheme(Application.StartupPath + @"\Themes\Default.ynotetheme", Highlighter, fctb2);
         }
 
         private void btSecond_Click(object sender, EventArgs e)
@@ -55,13 +60,14 @@ namespace SS.Ynote.Classic.UI
             if (_updating > 0)
                 return;
 
-            int vPos = (sender as FastColoredTextBox).VerticalScroll.Value;
-            int curLine = (sender as FastColoredTextBox).Selection.Start.iLine;
+            var fastColoredTextBox = sender as FastColoredTextBox;
+            if (fastColoredTextBox != null)
+            {
+                int vPos = fastColoredTextBox.VerticalScroll.Value;
+                int curLine = fastColoredTextBox.Selection.Start.iLine;
 
-            if (sender == fctb2)
-                UpdateScroll(fctb1, vPos, curLine);
-            else
-                UpdateScroll(fctb2, vPos, curLine);
+                UpdateScroll(sender == fctb2 ? fctb1 : fctb2, vPos, curLine);
+            }
 
             fctb1.Refresh();
             fctb2.Refresh();
@@ -100,9 +106,10 @@ namespace SS.Ynote.Classic.UI
         {
             fctb1.Clear();
             fctb2.Clear();
-
+            var dictionary = FileExtensions.BuildDictionary();
+            Highlighter.HighlightSyntax(FileExtensions.GetLanguage(dictionary, Path.GetExtension(tbFirstFile.Text)).Language, new TextChangedEventArgs(fctb1.Range));
+            Highlighter.HighlightSyntax(FileExtensions.GetLanguage(dictionary, Path.GetExtension(tbSecondFile.Text)).Language, new TextChangedEventArgs(fctb2.Range));
             Cursor = Cursors.WaitCursor;
-
             var source1 = Lines.Load(tbFirstFile.Text);
             var source2 = Lines.Load(tbSecondFile.Text);
 
@@ -374,11 +381,11 @@ namespace SS.Ynote.Classic.UI
                 RightIndex = rightIndex;
             }
 
-            public DiffType DiffType { get; set; }
+            public DiffType DiffType { get; private set; }
 
             public T LineValue { get; private set; }
-            public int LeftIndex { get; private set; }
-            public int RightIndex { get; private set; }
+            private int LeftIndex { get; set; }
+            private int RightIndex { get; set; }
         }
 
         /// <summary>
@@ -438,17 +445,17 @@ namespace SS.Ynote.Classic.UI
             //??? ?????? ????? ??? ???????? ?????, ??????????? ? ????? ??????, ?? ?????? ?????? ????????? ?????
             private Line fictiveLine = new Line("===fictive line===") {state = DiffType.Deleted};
 
-            public Lines()
+            private Lines()
             {
             }
 
 
-            public Lines(int capacity)
+            private Lines(int capacity)
                 : base(capacity)
             {
             }
 
-            public Line this[int i]
+            private Line this[int i]
             {
                 get
                 {
@@ -484,11 +491,10 @@ namespace SS.Ynote.Classic.UI
             /// <summary>
             ///     Load from file
             /// </summary>
-            public static Lines Load(string fileName, Encoding enc)
+            private static Lines Load(string fileName, Encoding enc)
             {
                 var lines = new Lines();
-                foreach (string line in File.ReadAllLines(fileName, enc ?? Encoding.Default))
-                    lines.Add(new Line(line));
+                lines.AddRange(File.ReadAllLines(fileName, enc ?? Encoding.Default).Select(line => new Line(line)));
 
                 return lines;
             }
@@ -531,8 +537,7 @@ namespace SS.Ynote.Classic.UI
             public Lines Clone()
             {
                 var result = new Lines(Count);
-                foreach (var line in this)
-                    result.Add(new Line(line.line));
+                result.AddRange(this.Select(line => new Line(line.line)));
 
                 return result;
             }
@@ -540,7 +545,7 @@ namespace SS.Ynote.Classic.UI
             /// <summary>
             ///     Transform tree to list
             /// </summary>
-            public Lines Expand()
+            private IEnumerable<Line> Expand()
             {
                 return Expand(-1, Count - 1);
             }
@@ -548,7 +553,7 @@ namespace SS.Ynote.Classic.UI
             /// <summary>
             ///     Transform tree to list
             /// </summary>
-            public Lines Expand(int from, int to)
+            private IEnumerable<Line> Expand(int from, int to)
             {
                 var result = new Lines();
                 for (int i = from; i <= to; i++)
@@ -563,6 +568,7 @@ namespace SS.Ynote.Classic.UI
             }
         }
 
+/*
         /// <summary>
         ///     ??????, ?????????? ????????? ??????????? ??????
         /// </summary>
@@ -578,6 +584,7 @@ namespace SS.Ynote.Classic.UI
                 this.version2 = version2;
             }
         }
+*/
     }
 
     #endregion

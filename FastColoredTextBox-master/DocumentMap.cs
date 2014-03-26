@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Drawing.Drawing2D;
-using System.Text;
 using System.Windows.Forms;
 
 namespace FastColoredTextBoxNS
@@ -93,16 +90,16 @@ namespace FastColoredTextBoxNS
 
         protected virtual void UnSubscribe(FastColoredTextBox target)
         {
-            target.Scroll -= new ScrollEventHandler(Target_Scroll);
-            target.SelectionChangedDelayed -= new EventHandler(Target_SelectionChanged);
-            target.VisibleRangeChanged -= new EventHandler(Target_VisibleRangeChanged);
+            target.Scroll -= Target_Scroll;
+            target.SelectionChangedDelayed -= Target_SelectionChanged;
+            target.VisibleRangeChanged -= Target_VisibleRangeChanged;
         }
 
         protected virtual void Subscribe(FastColoredTextBox target)
         {
-            target.Scroll += new ScrollEventHandler(Target_Scroll);
-            target.SelectionChangedDelayed += new EventHandler(Target_SelectionChanged);
-            target.VisibleRangeChanged += new EventHandler(Target_VisibleRangeChanged);
+            target.Scroll += Target_Scroll;
+            target.SelectionChangedDelayed += Target_SelectionChanged;
+            target.VisibleRangeChanged += Target_VisibleRangeChanged;
         }
 
         protected virtual void Target_VisibleRangeChanged(object sender, EventArgs e)

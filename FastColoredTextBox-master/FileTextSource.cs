@@ -17,7 +17,7 @@ namespace FastColoredTextBoxNS
         List<int> sourceFileLinePositions = new List<int>();
         FileStream fs;
         Encoding fileEncoding;
-        Timer timer = new Timer();
+        readonly Timer timer = new Timer();
 
         /// <summary>
         /// Occurs when need to display line in the textbox
@@ -33,7 +33,7 @@ namespace FastColoredTextBoxNS
             : base(currentTB)
         {
             timer.Interval = 10000;
-            timer.Tick += new EventHandler(timer_Tick);
+            timer.Tick += timer_Tick;
             timer.Enabled = true;
         }
 
@@ -53,14 +53,14 @@ namespace FastColoredTextBoxNS
         private void UnloadUnusedLines()
         {
             const int margin = 2000;
-            var iStartVisibleLine = CurrentTB.VisibleRange.Start.iLine;
-            var iFinishVisibleLine = CurrentTB.VisibleRange.End.iLine;
+            var iStartVisibleLine = CurrentTb.VisibleRange.Start.iLine;
+            var iFinishVisibleLine = CurrentTb.VisibleRange.End.iLine;
 
             int count = 0;
             for (int i = 0; i < Count; i++)
-                if (base.lines[i] != null && !base.lines[i].IsChanged && Math.Abs(i - iFinishVisibleLine) > margin)
+                if (lines[i] != null && !base.lines[i].IsChanged && Math.Abs(i - iFinishVisibleLine) > margin)
                 {
-                    base.lines[i] = null;
+                    lines[i] = null;
                     count++;
                 }
             #if debug
@@ -113,12 +113,12 @@ namespace FastColoredTextBoxNS
 
             OnLineInserted(0, Count);
             //load first lines for calc width of the text
-            var linesCount = Math.Min(lines.Count, CurrentTB.ClientRectangle.Height/CurrentTB.CharHeight);
+            var linesCount = Math.Min(lines.Count, CurrentTb.ClientRectangle.Height/CurrentTb.CharHeight);
             for (int i = 0; i < linesCount; i++)
                 LoadLineFromSourceFile(i);
             //
             NeedRecalc(new TextChangedEventArgs(0, linesCount - 1));
-            if (CurrentTB.WordWrap)
+            if (CurrentTb.WordWrap)
                 OnRecalcWordWrap(new TextChangedEventArgs(0, linesCount - 1));
         }
 
@@ -142,7 +142,7 @@ namespace FastColoredTextBoxNS
             return 0;
         }
 
-        private static Encoding DefineEncoding(Encoding enc, FileStream fs)
+        private static Encoding DefineEncoding(Encoding enc, Stream fs)
         {
             int bytesPerSignature = 0;
             byte[] signature = new byte[4];
@@ -204,9 +204,9 @@ namespace FastColoredTextBoxNS
             var dir = Path.GetDirectoryName(fileName);
             var tempFileName = Path.Combine(dir, Path.GetFileNameWithoutExtension(fileName) + ".tmp");
 
-            StreamReader sr = new StreamReader(fs, fileEncoding);
-            using (FileStream tempFs = new FileStream(tempFileName, FileMode.Create))
-            using (StreamWriter sw = new StreamWriter(tempFs, enc))
+            var sr = new StreamReader(fs, fileEncoding);
+            using (var tempFs = new FileStream(tempFileName, FileMode.Create))
+            using (var sw = new StreamWriter(tempFs, enc))
             {
                 sw.Flush();
 
@@ -219,10 +219,7 @@ namespace FastColoredTextBoxNS
 
                     bool lineIsChanged = lines[i] != null && lines[i].IsChanged;
 
-                    if (lineIsChanged)
-                        line = lines[i].Text;
-                    else
-                        line = sourceLine;
+                    line = lineIsChanged ? lines[i].Text : sourceLine;
 
                     //call event handler
                     if (LinePushed != null)
@@ -264,13 +261,12 @@ namespace FastColoredTextBoxNS
 
         private string ReadLine(StreamReader sr, int i)
         {
-            string line;
             var filePos = sourceFileLinePositions[i];
             if (filePos < 0)
                 return "";
             fs.Seek(filePos, SeekOrigin.Begin);
             sr.DiscardBufferedData();
-            line = sr.ReadLine();
+            string line = sr.ReadLine();
             return line;
         }
 
@@ -322,7 +318,7 @@ namespace FastColoredTextBoxNS
                 line.Add(new Char(c));
             base.lines[i] = line;
 
-            if (CurrentTB.WordWrap)
+            if (CurrentTb.WordWrap)
                 OnRecalcWordWrap(new TextChangedEventArgs(i, i));
         }
 

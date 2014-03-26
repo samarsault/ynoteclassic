@@ -10,7 +10,7 @@ namespace SS.Ynote.Classic.Features.Packages
             InitializeComponent();
         }
 
-        public YnoteOnlinePackage GeneratedPackage { get; set; }
+        public YnoteOnlinePackage GeneratedPackage { get; private set; }
 
         private void button2_Click(object sender, EventArgs e)
         {

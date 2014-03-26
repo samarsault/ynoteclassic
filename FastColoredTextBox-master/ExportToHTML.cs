@@ -10,7 +10,7 @@ namespace FastColoredTextBoxNS
     /// <remarks>At this time only TextStyle renderer is supported. Other styles is not exported.</remarks>
     public class ExportToHTML
     {
-        public string LineNumbersCSS = "<style type=\"text/css\"> .lineNumber{font-family : monospace; font-size : small; font-style : normal; font-weight : normal; color : Teal; background-color : ThreedFace;} </style>";
+         const string LineNumbersCSS = "<style type=\"text/css\"> .lineNumber{font-family : monospace; font-size : small; font-style : normal; font-weight : normal; color : Teal; background-color : ThreedFace;} </style>";
 
         /// <summary>
         /// Use nbsp; instead space
@@ -169,15 +169,7 @@ namespace FastColoredTextBoxNS
             //add TextStyle css
             string result = "";
             
-            if (!hasTextStyle)
-            {
-                //draw by default renderer
-                result = tb.DefaultStyle.GetCSS();
-            }
-            else
-            {
-                result = textStyle.GetCSS();
-            }
+            result = !hasTextStyle ? tb.DefaultStyle.GetCSS() : textStyle.GetCSS();
             //add no TextStyle css
             foreach(var style in styles)
 //            if (style != textStyle)
@@ -199,7 +191,7 @@ namespace FastColoredTextBoxNS
             return string.Format("#{0:x2}{1:x2}{2:x2}", color.R, color.G, color.B);
         }
 
-        string GetStyleName(StyleIndex styleIndex)
+        static string GetStyleName(StyleIndex styleIndex)
         {
             return styleIndex.ToString().Replace(" ", "").Replace(",", "");
         }

@@ -30,7 +30,7 @@ namespace SS.Ynote.Classic.UI
 
         #region Public Properties
 
-        public Color Color1
+        protected Color Color1
         {
             get { return _color1; }
             set

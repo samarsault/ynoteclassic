@@ -14,7 +14,7 @@ namespace FastColoredTextBoxNS
         /// <summary>
         /// This style is exported to outer formats (HTML for example)
         /// </summary>
-        public virtual bool IsExportable { get; set; }
+        public virtual bool IsExportable { get; protected set; }
         /// <summary>
         /// Occurs when user click on StyleVisualMarker joined to this style 
         /// </summary>
@@ -23,7 +23,7 @@ namespace FastColoredTextBoxNS
         /// <summary>
         /// Constructor
         /// </summary>
-        public Style()
+        protected Style()
         {
             IsExportable = true;
         }
@@ -110,9 +110,9 @@ namespace FastColoredTextBoxNS
 
         public TextStyle(Brush foreBrush, Brush backgroundBrush, FontStyle fontStyle)
         {
-            this.ForeBrush = foreBrush;
-            this.BackgroundBrush = backgroundBrush;
-            this.FontStyle = fontStyle;
+            ForeBrush = foreBrush;
+            BackgroundBrush = backgroundBrush;
+            FontStyle = fontStyle;
             stringFormat = new StringFormat(StringFormatFlags.MeasureTrailingSpaces);
         }
 
@@ -268,12 +268,12 @@ namespace FastColoredTextBoxNS
         public override bool IsExportable
         {
             get { return false; }
-            set { }
+            //set { }
         }
 
         public SelectionStyle(Brush backgroundBrush)
         {
-            this.BackgroundBrush = backgroundBrush;
+            BackgroundBrush = backgroundBrush;
         }
 
         public override void Draw(Graphics gr, Point position, Range range)
@@ -303,11 +303,15 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class MarkerStyle : Style
     {
-        public Brush BackgroundBrush { get; set; }
+        private Brush BackgroundBrush { get; set; }
 
+        /// <summary>
+        /// Marker Style
+        /// </summary>
+        /// <param name="backgroundBrush"></param>
         public MarkerStyle(Brush backgroundBrush)
         {
-            this.BackgroundBrush = backgroundBrush;
+            BackgroundBrush = backgroundBrush;
             IsExportable = true;
         }
 

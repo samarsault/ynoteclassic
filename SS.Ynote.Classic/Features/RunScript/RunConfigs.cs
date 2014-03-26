@@ -15,7 +15,7 @@ namespace SS.Ynote.Classic
         public string Name { get; private set; }
         public string Process { get; private set; }
         public string Arguments { get; private set; }
-        public string CmdDir { get; set; }
+        public string CmdDir { get; private set; }
 
         public static IEnumerable<string> GetConfigurations()
         {

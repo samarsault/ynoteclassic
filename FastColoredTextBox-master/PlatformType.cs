@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Runtime.InteropServices;
 
 namespace FastColoredTextBoxNS
@@ -15,17 +13,17 @@ namespace FastColoredTextBoxNS
         [StructLayout(LayoutKind.Sequential)]
         struct SYSTEM_INFO
         {
-            public ushort wProcessorArchitecture;
-            public ushort wReserved;
-            public uint dwPageSize;
-            public IntPtr lpMinimumApplicationAddress;
-            public IntPtr lpMaximumApplicationAddress;
-            public UIntPtr dwActiveProcessorMask;
-            public uint dwNumberOfProcessors;
-            public uint dwProcessorType;
-            public uint dwAllocationGranularity;
-            public ushort wProcessorLevel;
-            public ushort wProcessorRevision;
+            public readonly ushort wProcessorArchitecture;
+            public readonly ushort wReserved;
+            public readonly uint dwPageSize;
+            public readonly IntPtr lpMinimumApplicationAddress;
+            public readonly IntPtr lpMaximumApplicationAddress;
+            public readonly UIntPtr dwActiveProcessorMask;
+            public readonly uint dwNumberOfProcessors;
+            public readonly uint dwProcessorType;
+            public readonly uint dwAllocationGranularity;
+            public readonly ushort wProcessorLevel;
+            public readonly ushort wProcessorRevision;
         };
 
         [DllImport("kernel32.dll")]

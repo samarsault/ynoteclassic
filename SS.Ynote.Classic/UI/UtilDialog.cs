@@ -43,7 +43,7 @@ namespace SS.Ynote.Classic.UI
             numericTextBox1.KeyDown += ProcessKeyDown;
         }
 
-        public int Lines
+        private int Lines
         {
             get { return numericTextBox1.IntValue; }
             set { numericTextBox1.Text = value.ToString(); }

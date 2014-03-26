@@ -12,13 +12,16 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Extensibility;
 using SS.Ynote.Classic.Features.Packages;
 using SS.Ynote.Classic.Features.Project;
 using SS.Ynote.Classic.Features.RunScript;
+using SS.Ynote.Classic.Features.Syntax;
 using SS.Ynote.Classic.Properties;
 using SS.Ynote.Classic.UI;
 using WeifenLuo.WinFormsUI.Docking;
 using Timer = System.Windows.Forms.Timer;
+using SyntaxHighlighter = SS.Ynote.Classic.Features.Syntax.SyntaxHighlighter;
 
 namespace SS.Ynote.Classic
 {
@@ -31,7 +34,9 @@ namespace SS.Ynote.Classic
     public partial class MainForm : Form, IYnote
     {
         #region Private Fields
-
+#if DEBUG
+        private readonly Stopwatch watch;
+#endif
         /// <summary>
         ///     _mru list
         /// </summary>
@@ -80,12 +85,16 @@ namespace SS.Ynote.Classic
         /// <param name="filename"></param>
         public MainForm(string filename)
         {
+#if DEBUG
+            watch = new Stopwatch();
+            watch.Start();
+#endif
             InitializeComponent();
             Icon = Resources.ynote_favicon;
+            _mru = new Queue<string>();
             SettingsBase.LoadSettings();
             LoadPlugins();
             dock.Theme = new VS2012LightTheme();
-            _mru = new Queue<string>();
             InitSettings();
             InitTimer();
             if (filename == null)
@@ -170,7 +179,17 @@ namespace SS.Ynote.Classic
                 edit.Name = name;
                 edit.tb.IsChanged = false;
                 edit.tb.ClearUndo();
-                edit.ChangeLang(FileExtensions.GetLanguage(FileExtensions.BuildDictionary(), Path.GetExtension(name)));
+                var lang = FileExtensions.GetLanguage(FileExtensions.BuildDictionary(), Path.GetExtension(name));
+                if (lang.IsBase)
+                {
+                    edit.Highlighter.HighlightSyntax(lang.SyntaxBase, new TextChangedEventArgs(edit.tb.Range));
+                    edit.Syntax = lang.SyntaxBase;
+                }
+                else
+                {
+                    edit.Highlighter.HighlightSyntax(lang.Language, new TextChangedEventArgs(edit.tb.Range));
+                    edit.tb.Language = lang.Language;
+                }
                 edit.Show(dock, DockState.Document);
             }
         }
@@ -235,7 +254,6 @@ namespace SS.Ynote.Classic
             {
                 var fileRecent = new MenuItem(item); //create new menu for each item in list
                 fileRecent.Click += (sender, args) => OpenFile(((MenuItem) (sender)).Text);
-                ;
                 recent.MenuItems.Add(fileRecent); //add the menu to "recent" menu
             }
             //writing menu list to file
@@ -261,9 +279,9 @@ namespace SS.Ynote.Classic
                     _mru.Enqueue(line); //insert to list
                 listToRead.Close(); //close the stream
             }
-            catch (Exception)
+            catch
             {
-                //throw;
+                ;
             }
         }
 
@@ -288,11 +306,15 @@ namespace SS.Ynote.Classic
         private void BuildLangMenu()
         {
             var menus = Enum.GetValues(typeof (Language)).Cast<Language>();
-            foreach (var m in menus.Select(lang => new MenuItem {Text = lang.ToString()}))
+            
+            foreach (var m in menus.Select(lang => new MenuItem(lang.ToString())))
             {
                 m.Click += LangMenuItemClicked;
                 milanguage.MenuItems.Add(m);
             }
+            foreach (var item in SyntaxHighlighter.LoadedSyntaxes)
+                milanguage.MenuItems.Add(new MenuItem(Path.GetFileNameWithoutExtension(item.SysPath),
+                    LangMenuItemClicked){Tag = item});
             milanguage.GetMenuByName("Text").Checked = true;
         }
 
@@ -309,11 +331,21 @@ namespace SS.Ynote.Classic
             foreach (MenuItem t in item.Parent.MenuItems)
                 t.Checked = false;
             item.Checked = true;
-            if (ActiveEditor != null)
+            if (ActiveEditor == null) return;
+            if (item.Tag == null)
             {
-                ActiveEditor.ChangeLang(item.Text.ToEnum<Language>());
-                langmenu.Text = item.Text;
+                var lang = item.Text.ToEnum<Language>();
+                ActiveEditor.Highlighter.HighlightSyntax(lang, new TextChangedEventArgs(ActiveEditor.tb.Range));
+                ActiveEditor.tb.Language = lang;
+                ActiveEditor.Syntax = null;
             }
+            else
+            {
+                var syntax = item.Tag as SyntaxBase;
+                ActiveEditor.Highlighter.HighlightSyntax(syntax, new TextChangedEventArgs(ActiveEditor.tb.Range));
+                ActiveEditor.Syntax = syntax;
+            }
+            langmenu.Text = item.Text;
         }
 
         /// <summary>
@@ -326,13 +358,9 @@ namespace SS.Ynote.Classic
             foreach (char t in value)
             {
                 if (char.IsPunctuation(t))
-                {
                     removeFromStart++;
-                }
                 else
-                {
                     break;
-                }
             }
 
             // Count end punctuation.
@@ -372,7 +400,7 @@ namespace SS.Ynote.Classic
         /// <returns></returns>
         private static string GetTextLineEnding(string text)
         {
-            string ending = string.Empty;
+            string ending = null;
             if (text.Contains("\r"))
                 ending = "\r";
             if (text.Contains("\n"))
@@ -416,7 +444,8 @@ namespace SS.Ynote.Classic
             if (!SettingsBase.ShowMenuBar) Menu = null;
             dock.DocumentStyle = SettingsBase.DocumentStyle;
             dock.DocumentTabStripLocation = SettingsBase.TabLocation;
-            status.Visible = SettingsBase.ShowStatusBar;
+            status.Visible = statusbarmenuitem.Checked = SettingsBase.ShowStatusBar;
+            mihiddenchars.Checked = SettingsBase.HiddenChars;
         }
 
         /// <summary>
@@ -498,20 +527,11 @@ namespace SS.Ynote.Classic
         /// <param name="e"></param>
         protected override void OnLoad(EventArgs e)
         {
-            LoadRecentList();
-            foreach (string r in _mru)
-                AddRecentFile(r);
             base.OnLoad(e);
-        }
-
-        /// <summary>
-        ///     OnClosed Method
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnClosed(EventArgs e)
-        {
-            SettingsBase.SaveConfiguration();
-            base.OnClosed(e);
+#if DEBUG
+            watch.Stop();
+            Debug.WriteLine(watch.ElapsedMilliseconds + "Miliseconds to Load");
+#endif
         }
 
         #endregion
@@ -1131,16 +1151,15 @@ namespace SS.Ynote.Classic
             ActiveEditor.tb.ShowGoToDialog();
         }
 
-        private void menuitem_Click(object sender, EventArgs e)
+        private void colorschemeitem_Click(object sender, EventArgs e)
         {
             var m = sender as MenuItem;
             foreach (MenuItem item in colorschememenu.MenuItems)
                 item.Checked = false;
-            if (m != null)
-            {
-                m.Checked = true;
-                SettingsBase.ThemeFile = m.Name;
-            }
+            if (m == null) return;
+            m.Checked = true;
+            SettingsBase.ThemeFile = m.Name;
+            SettingsBase.SaveConfiguration();
         }
 
         private void colorschememenu_Select(object sender, EventArgs e)
@@ -1149,7 +1168,7 @@ namespace SS.Ynote.Classic
             foreach (string file in Directory.GetFiles(Application.StartupPath + "\\Themes"))
             {
                 var menuitem = new MenuItem {Text = Path.GetFileNameWithoutExtension(file), Name = file};
-                menuitem.Click += menuitem_Click;
+                menuitem.Click += colorschemeitem_Click;
                 colorschememenu.MenuItems.Add(menuitem);
             }
         }
@@ -1161,13 +1180,18 @@ namespace SS.Ynote.Classic
 
         private void milanguage_Select(object sender, EventArgs e)
         {
-            if (milanguage != null && milanguage.MenuItems.Count == 0)
-            {
-                BuildLangMenu();
-                foreach (MenuItem menu in milanguage.MenuItems)
-                    menu.Checked = false;
-                if (ActiveEditor != null) milanguage.GetMenuByName(ActiveEditor.tb.Language.ToString()).Checked = true;
-            }
+            if (milanguage == null || milanguage.MenuItems.Count != 0) return;
+            // Build the Language Menu
+            BuildLangMenu();
+            // 
+            foreach (MenuItem menu in milanguage.MenuItems)
+                menu.Checked = false;
+            if (ActiveEditor == null) return;
+            if (ActiveEditor.Syntax == null)
+                milanguage.GetMenuByName(ActiveEditor.tb.Language.ToString()).Checked = true;
+            else
+                milanguage.GetMenuByName(Path.GetFileNameWithoutExtension(ActiveEditor.Syntax.SysPath)).Checked
+                    = true;
         }
 
         private void menuItem65_Click(object sender, EventArgs e)
@@ -1354,6 +1378,7 @@ namespace SS.Ynote.Classic
 
         private void mihiddenchars_Click(object sender, EventArgs e)
         {
+            mihiddenchars.Checked = !mihiddenchars.Checked;
             SettingsBase.HiddenChars = mihiddenchars.Checked; // If hiddenchars is checked
         }
 
@@ -1419,11 +1444,15 @@ namespace SS.Ynote.Classic
         private void mimacros_Select(object sender, EventArgs e)
         {
             mimacros.MenuItems.Clear();
+            int mnum = 0;
             foreach (string file in Directory.GetFiles(SettingsBase.SettingsDir + @"Macros\", "*.ymc"))
-                mimacros.MenuItems.Add(new MenuItem(Path.GetFileNameWithoutExtension(file), macroitem_click)
-                {
-                    Name = file
-                });
+            {
+                var item = new MenuItem(Path.GetFileNameWithoutExtension(file), macroitem_click) {Name = file};
+                if (mnum < 10)
+                    item.Shortcut = ("Alt" + mnum).ToEnum<Shortcut>();
+                mnum++;
+                mimacros.MenuItems.Add(item);
+            }
         }
 
         private void macroitem_click(object sender, EventArgs e)
@@ -1459,11 +1488,15 @@ namespace SS.Ynote.Classic
         private void miscripts_Select(object sender, EventArgs e)
         {
             if (miscripts.MenuItems.Count != 0) return;
-            foreach (var file in Directory.GetFiles(SettingsBase.SettingsDir + @"Scripts\"))
-                miscripts.MenuItems.Add(new MenuItem(Path.GetFileNameWithoutExtension(file), scriptitem_clicked)
-                {
-                    Name = file
-                });
+            int si = 0;
+            foreach (var file in Directory.GetFiles(SettingsBase.SettingsDir + @"Scripts\", "*.ys"))
+            {
+                var item = new MenuItem(Path.GetFileNameWithoutExtension(file), scriptitem_clicked) {Name = file};
+                if (si < 10)
+                    item.Shortcut = ("Ctrl" + si).ToEnum<Shortcut>();
+                si++;
+                miscripts.MenuItems.Add(item);
+            }
         }
 
         private void scriptitem_clicked(object sender, EventArgs e)
@@ -1498,25 +1531,39 @@ namespace SS.Ynote.Classic
 
         private void langmenu_MouseEnter(object sender, EventArgs e)
         {
-            var menus = Enum.GetValues(typeof (Language)).Cast<Language>();
-            foreach (var m in menus.Select(lang => new ToolStripMenuItem {Text = lang.ToString()}))
+            if (langmenu.DropDownItems.Count != 0) return;
+            var menus = Enum.GetValues(typeof(Language)).Cast<Language>();
+
+            foreach (var m in menus.Select(lang => new ToolStripMenuItem(lang.ToString())))
             {
-                m.Click += langmenuitem_click;
+                m.Click += langitem_Click;
                 langmenu.DropDownItems.Add(m);
             }
+            foreach (var item in SyntaxHighlighter.LoadedSyntaxes)
+                langmenu.DropDownItems.Add(new ToolStripMenuItem(Path.GetFileNameWithoutExtension(item.SysPath), null, langitem_Click)
+                {
+                    Tag = item
+                });
         }
 
-        private void langmenuitem_click(object sender, EventArgs e)
+        private void langitem_Click(object sender, EventArgs e)
         {
             var item = sender as ToolStripMenuItem;
-            foreach (ToolStripMenuItem ditem in langmenu.DropDownItems)
-                ditem.Checked = false;
-            if (item != null)
+            if (item.Tag == null)
             {
-                item.Checked = true;
-                langmenu.Text = item.Text;
-                if (ActiveEditor != null) ActiveEditor.ChangeLang(item.Text.ToEnum<Language>());
+                var lang = item.Text.ToEnum<Language>();
+                ActiveEditor.tb.Language = lang;
+                ActiveEditor.Highlighter.HighlightSyntax(ActiveEditor.tb.Language,
+                    new TextChangedEventArgs(ActiveEditor.tb.Range));
+                ActiveEditor.Syntax = null;
             }
+            else
+            {
+                var synbase = item.Tag as SyntaxBase;
+                ActiveEditor.Syntax = synbase;
+                ActiveEditor.Highlighter.HighlightSyntax(synbase, new TextChangedEventArgs(ActiveEditor.tb.Range));
+            }
+            langmenu.Text = item.Text;
         }
 
         private void mirun_Click(object sender, EventArgs e)
@@ -1541,11 +1588,9 @@ namespace SS.Ynote.Classic
 
         private void dock_ActiveDocumentChanged(object sender, EventArgs e)
         {
-            if (ActiveEditor != null)
-            {
-                langmenu.Text = ActiveEditor.tb.Language.ToString();
-                if (incrementalSearcher1.Visible) incrementalSearcher1.Tb = ActiveEditor.tb;
-            }
+            if (ActiveEditor == null) return;
+            if (incrementalSearcher1.Visible) incrementalSearcher1.Tb = ActiveEditor.tb;
+            langmenu.Text = ActiveEditor.Syntax == null ? ActiveEditor.tb.Language.ToString() : Path.GetFileNameWithoutExtension(ActiveEditor.Syntax.SysPath);
         }
 
         private void migoleftbracket_Click(object sender, EventArgs e)
@@ -1673,13 +1718,6 @@ namespace SS.Ynote.Classic
             console.ShowDialog(this);
         }
 
-        private void mibing_Click(object sender, EventArgs e)
-        {
-            var console = new ConsoleUI(this) {StartPosition = FormStartPosition.CenterParent};
-            console.AddText("Bing:");
-            console.ShowDialog(this);
-        }
-
         private void miwiki_Click(object sender, EventArgs e)
         {
             var console = new ConsoleUI(this) {StartPosition = FormStartPosition.CenterParent};
@@ -1720,7 +1758,8 @@ namespace SS.Ynote.Classic
             ActiveEditor.Text = "Script" + scriptnum;
             ActiveEditor.tb.Text =
                 "using SS.Ynote.Classic;\r\n\r\nstatic void Run(IYnote ynote)\r\n{\r\n// your code\r\n}";
-            ActiveEditor.ChangeLang(Language.CSharp);
+            ActiveEditor.Highlighter.HighlightSyntax(Language.CSharp, new TextChangedEventArgs(ActiveEditor.tb.Range));
+            ActiveEditor.tb.Language = Language.CSharp;
             scriptnum++;
         }
 
@@ -1728,6 +1767,13 @@ namespace SS.Ynote.Classic
         {
             if (ActiveEditor != null)
                 OpenFile(string.Format(@"{0}Snippets\{1}.ynotesnippet", SettingsBase.SettingsDir, ActiveEditor.tb.Language));
+        }
+        private void recentfilesmenu_Select(object sender, EventArgs e)
+        {
+            if (recentfilesmenu.MenuItems.Count != 0) return;
+            LoadRecentList();
+            foreach (string r in _mru)
+                AddRecentFile(r);
         }
         #endregion
     }

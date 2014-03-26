@@ -1,15 +1,22 @@
-#region
+//========================================
+//
+// Ynote Classic Syntax Highlighter
+// Copyright (C) 2014 Samarjeet Singh
+//
+//========================================
 
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
+using System.Xml;
 using FastColoredTextBoxNS;
+using System.Windows.Forms;
 
-#endregion
-
-namespace SS.Ynote.Classic
+namespace SS.Ynote.Classic.Features.Syntax
 {
     /// <summary>
-    ///     Predifined Syntax Highlighter
+    ///  Predifined Syntax Highlighter
     /// </summary>
     public sealed class SyntaxHighlighter : ISyntaxHighlighter
     {
@@ -31,122 +38,144 @@ namespace SS.Ynote.Classic
         /// <summary>
         ///     String style
         /// </summary>
-        public Style StringStyle { private get; set; }
+        public Style StringStyle { get; set; }
 
         /// <summary>
         ///     Comment style
         /// </summary>
-        public Style CommentStyle { private get; set; }
+        public Style CommentStyle { get; set; }
 
         /// <summary>
         ///     Number style
         /// </summary>
-        public Style NumberStyle { private get; set; }
+        public Style NumberStyle { get; set; }
 
         /// <summary>
         ///     C# attribute style
         /// </summary>
-        public Style AttributeStyle { private get; set; }
+        public Style AttributeStyle { get; set; }
 
         /// <summary>
         ///     Class name style
         /// </summary>
-        public Style ClassNameStyle { private get; set; }
+        public Style ClassNameStyle { get; set; }
 
         /// <summary>
         ///     Char Style
         /// </summary>
-        public Style CharStyle { private get; set; }
+        public Style CharStyle { get; set; }
 
         /// <summary>
         ///     Keyword style
         /// </summary>
-        public Style KeywordStyle { private get; set; }
+        public Style KeywordStyle { get; set; }
 
         /// <summary>
         ///     Style of tags in comments of C#
         /// </summary>
-        public Style CommentTagStyle { private get; set; }
+        public Style CommentTagStyle { get; set; }
 
         /// <summary>
         ///     HTML attribute value style
         /// </summary>
-        public Style AttributeValueStyle { private get; set; }
+        public Style AttributeValueStyle { get; set; }
 
         /// <summary>
         ///     HTML tag brackets style
         /// </summary>
-        public Style TagBracketStyle { private get; set; }
+        public Style TagBracketStyle { get; set; }
 
         /// <summary>
         ///     HTML tag name style
         /// </summary>
-        public Style TagNameStyle { private get; set; }
+        public Style TagNameStyle { get; set; }
 
         /// <summary>
         ///     HTML Entity style
         /// </summary>
-        public Style HtmlEntityStyle { private get; set; }
+        public Style HtmlEntityStyle { get; set; }
 
         /// <summary>
         ///     Preprocessor Style
         /// </summary>
-        public Style PreprocessorStyle { private get; set; }
+        public Style PreprocessorStyle { get; set; }
 
         /// <summary>
         ///     Variable style
         /// </summary>
-        public Style VariableStyle { private get; set; }
+        public Style VariableStyle { get; set; }
 
         /// <summary>
         ///     Specific PHP keyword style
         /// </summary>
-        public Style KeywordStyle2 { private get; set; }
+        public Style KeywordStyle2 { get; set; }
 
         /// <summary>
         ///     Specific PHP keyword style
         /// </summary>
-        public Style KeywordStyle3 { private get; set; }
+        public Style KeywordStyle3 { get; set; }
 
         /// <summary>
         ///     SQL Statements style
         /// </summary>
-        public Style StatementsStyle { private get; set; }
+        public Style StatementsStyle { get; set; }
 
         /// <summary>
         ///     SQL Functions style
         /// </summary>
-        public Style FunctionsStyle { private get; set; }
+        public Style FunctionsStyle { get; set; }
 
         /// <summary>
         ///     SQL Types style
         /// </summary>
-        public Style TypesStyle { private get; set; }
+        public Style TypesStyle { get; set; }
 
         /// <summary>
         ///     CSS Selector Style
         /// </summary>
-        public Style CSSSelectorStyle { private get; set; }
+        public Style CSSSelectorStyle { get; set; }
 
         /// <summary>
         ///     CSS Property Style
         /// </summary>
-        public Style CSSPropertyStyle { private get; set; }
+        public Style CSSPropertyStyle { get; set; }
 
         /// <summary>
         ///     CSS Property Value Style
         /// </summary>
-        public Style CSSPropertyValueStyle { private get; set; }
+        public Style CSSPropertyValueStyle { get; set; }
 
         /// <summary>
         ///     Python/Ruby Class Name Style
         /// </summary>
-        public Style ClassNameStyle2 { private get; set; }
+        public Style ClassNameStyle2 { get; set; }
 
         #endregion
 
         #region Public Methods
-
+        /// <summary>
+        /// Highlight Syntax using SyntaxBase
+        /// </summary>
+        /// <param name="syntax"></param>
+        /// <param name="e"></param>
+        public void HighlightSyntax(SyntaxBase syntax, TextChangedEventArgs e)
+        {
+            e.ChangedRange.tb.Language = Language.Text;
+            e.ChangedRange.tb.LeftBracket = syntax.LeftBracket;
+            e.ChangedRange.tb.RightBracket = syntax.RightBracket;
+            e.ChangedRange.tb.LeftBracket2 = syntax.LeftBracket2;
+            e.ChangedRange.tb.RightBracket2 = syntax.RightBracket2;
+            e.ChangedRange.tb.CommentPrefix = syntax.CommentPrefix;
+            foreach (var rule in syntax.Rules)
+            {
+                e.ChangedRange.ClearStyle(rule.Type);
+                e.ChangedRange.SetStyle(rule.Type, rule.Regex, rule.Options);
+            }
+            e.ChangedRange.ClearFoldingMarkers();
+            foreach(var folding in syntax.FoldingRules)
+                e.ChangedRange.SetFoldingMarkers(folding.FoldingStartMarker, folding.FoldingEndMarker, folding.Options);
+        
+        }
         /// <summary>
         ///     Highlight Syntax
         /// </summary>
@@ -181,7 +210,7 @@ namespace SS.Ynote.Classic
                     CppSyntaxHighlight(range);
                     break;
                 case Language.CSS:
-                    CSSHighlight(range);
+                    CssHighlight(range);
                     break;
                 case Language.CSharp:
                     CSharpSyntaxHighlight(range);
@@ -261,6 +290,162 @@ namespace SS.Ynote.Classic
             }
         }
 
+        #endregion
+
+        #region From File
+        /// <summary>
+        /// File Extension Details
+        /// </summary>
+        public static readonly IList<SyntaxBase> LoadedSyntaxes = new List<SyntaxBase>();
+
+        public void LoadAllSyntaxes()
+        {
+            foreach (var file in Directory.GetFiles(string.Format("{0}\\Syntaxes\\", Application.StartupPath),"*.xml"))
+                LoadedSyntaxes.Add(GenerateBase(file));
+        }
+        /// <summary>
+        /// Generates a SyntaxBase
+        /// </summary>
+        /// <param name="descFile"></param>
+        /// <returns></returns>
+        private SyntaxBase GenerateBase(string descFile)
+        {
+            var synbase = new SyntaxBase {SysPath = descFile};
+            using (var reader = XmlReader.Create(descFile))
+            {
+                while (reader.Read())
+                    if (reader.IsStartElement())
+                    {
+                        switch (reader.Name)
+                        {
+                            case "Rule":
+                            {
+                                var type = reader["Type"];
+                                var options = reader["Options"];
+                                var regex = reader["Regex"];
+                                synbase.Rules.Add(InitRule(type, regex, options));
+                                if (reader.Read())
+                                    synbase.Rules.Add(InitRule(type, regex, options));
+                            }
+                                break;
+                            case "Folding":
+                                var start = reader["Start"];
+                                var end = reader["End"];
+                                var foldOptions = reader["Options"];
+                                synbase.FoldingRules.Add(InitFoldingRule(start, end, foldOptions));
+                                if (reader.Read())
+                                    synbase.FoldingRules.Add(InitFoldingRule(start, end, foldOptions));
+                                break;
+                            case "Brackets":
+                                synbase.LeftBracket = reader["Left"][0];
+                                synbase.RightBracket = reader["Right"][0];
+                                if (reader["Left2"] != null)
+                                {
+                                    synbase.LeftBracket2 = reader["Left2"][0];
+                                    synbase.RightBracket2 = reader["Right2"][0];
+                                }
+                                break;
+                            case "Language":
+                                synbase.CommentPrefix = reader["CommentPrefix"];
+                                synbase.Extensions = reader["Extensions"].Split('|');
+                                break;
+                        }
+                    }
+                }
+            return synbase;
+        }
+
+        static FoldingRule InitFoldingRule(string start, string end, string options)
+        {
+            var rule = new FoldingRule
+            {
+                FoldingStartMarker = start, 
+                FoldingEndMarker = end
+            };
+            if (options == null)
+                rule.Options = RegexOptions.None;
+            else
+                rule.Options = (RegexOptions) Enum.Parse(typeof (RegexOptions), options);
+            return rule;
+        }
+         SyntaxRule InitRule(string type, string regex, string options)
+        {
+            var rule = new SyntaxRule { Type = GetStyleFromName(type), Regex = regex };
+            if (options == null)
+                rule.Options = RegexOptions.None;
+            else
+                rule.Options = (RegexOptions)Enum.Parse(typeof(RegexOptions), options);
+            return rule;
+        }
+        Style GetStyleFromName(string name)
+        {
+            switch (name)
+            {
+                case "Comment":
+                    return CommentStyle;
+                case "CommentTag":
+                    return CommentTagStyle;
+                case "String":
+                    return StringStyle;
+                case "Number":
+                    return NumberStyle;
+                case "Variable":
+                    return VariableStyle;
+
+                case "Keyword":
+                    return KeywordStyle;
+
+                case "Keyword2":
+                    return KeywordStyle2;
+
+                case "Keyword3":
+                    return KeywordStyle3;
+
+                case "HtmlEntity":
+                    return HtmlEntityStyle;
+                case "TagBracket":
+                    return TagBracketStyle;
+                case "TagName":
+                    return TagNameStyle;
+                case "Types":
+                    return TypesStyle;
+
+                case "Functions":
+                    return FunctionsStyle;
+
+                case "ClassName":
+                    return ClassNameStyle;
+
+                case "ClassName2":
+                    return ClassNameStyle2;
+
+                case "Char":
+                    return CharStyle;
+
+                case "Attribute":
+                    return AttributeStyle;
+
+                case "AttributeValue":
+                    return AttributeValueStyle;
+
+                case "CSSProperty":
+                    return CSSPropertyStyle;
+
+                case "CSSSelector":
+                    return CSSSelectorStyle;
+
+                case "CSSPropertyValue":
+                    return CSSPropertyValueStyle;
+
+                case "Preprocessor":
+                    return PreprocessorStyle;
+
+                case "Statements":
+                    return StatementsStyle;
+
+            }
+            return null;
+        }
         #endregion
 
         #region Private Methods
@@ -409,7 +594,7 @@ namespace SS.Ynote.Classic
         ///     Highlight CSS Syntax
         /// </summary>
         /// <param name="e"></param>
-        private void CSSHighlight(TextChangedEventArgs e)
+        private void CssHighlight(TextChangedEventArgs e)
         {
             e.ChangedRange.tb.CommentPrefix = "/*";
             e.ChangedRange.ClearStyle(StringStyle, CSSPropertyStyle, CSSSelectorStyle, CSSPropertyValueStyle,
@@ -516,7 +701,7 @@ namespace SS.Ynote.Classic
         /// <summary>
         ///     QBasic Syntax Highlight
         /// </summary>
-        /// <param name="r"></param>
+        /// <param name="e"></param>
         private void QBHighlight(TextChangedEventArgs e)
         {
             e.ChangedRange.tb.LeftBracket = '(';
@@ -589,7 +774,7 @@ namespace SS.Ynote.Classic
         /// <summary>
         ///     C++ Syntax Highlight
         /// </summary>
-        /// <param name="r"></param>
+        /// <param name="e"></param>
         private void CppSyntaxHighlight(TextChangedEventArgs e)
         {
             e.ChangedRange.tb.CommentPrefix = "//";
@@ -681,7 +866,7 @@ namespace SS.Ynote.Classic
             {
                 fctb.Range.ClearFoldingMarkers();
                 //
-                var stack = new Stack<Tag>();
+                var stack = new Stack<XmlTag>();
                 int id = 0;
                 var ranges =
                     fctb.Range.GetRanges(new Regex(@"<(?<range>/?\w+)\s[^>]*?[^/]>|<(?<range>/?\w+)\s*>",
@@ -695,7 +880,7 @@ namespace SS.Ynote.Classic
                     if (tagName[0] != '/')
                     {
                         // ...push into stack
-                        var tag = new Tag {Name = tagName, Id = id++, StartLine = r.Start.iLine};
+                        var tag = new XmlTag {Name = tagName, Id = id++, StartLine = r.Start.iLine};
                         stack.Push(tag);
                         // if this line has no markers - set marker
                         if (string.IsNullOrEmpty(fctb[iLine].FoldingStartMarker))
@@ -704,7 +889,7 @@ namespace SS.Ynote.Classic
                     else
                     {
                         //if it is closing tag - pop from stack
-                        Tag tag = stack.Pop();
+                        var tag = stack.Pop();
                         //compare line number
                         if (iLine == tag.StartLine)
                         {
@@ -824,7 +1009,7 @@ namespace SS.Ynote.Classic
             e.ChangedRange.SetStyle(CommentStyle, @"(\(\*.*?\*\))|(\(\*.*)");
             e.ChangedRange.SetStyle(StringStyle, @"""""|@""""|''|@"".*?""|(?<!@)(?<range>"".*?[^\\]"")|'.*?[^\\]'");
             e.ChangedRange.SetStyle(KeywordStyle,
-                @"\b(and|as|begin|do|done|val|stdin|downto|else|mutable|yield||end|exception|for|fun|function|in|if|let|match|module|not|open|of|prefix|raise|rec|struct|then|to|try|type|while|with|override|int|float|ushort|uint|long|byte|sbyte|bool|string|char)\b");
+                @"\b(and|as|begin|do|done|val|stdin|downto|else|mutable|yield|end|exception|for|fun|function|in|if|let|match|module|not|open|of|prefix|raise|rec|struct|then|to|try|type|while|with|override|int|float|ushort|uint|long|byte|sbyte|bool|string|char)\b");
             e.ChangedRange.SetStyle(KeywordStyle2, @"\b(true|false)\b");
             e.ChangedRange.SetStyle(NumberStyle, @"\b\\d+[\\.]?\\d*([eE]\\-?\\d+)?[lLdDfF]?\b|\b0x[a-fA-F\\d]+\b");
         }
@@ -971,7 +1156,7 @@ namespace SS.Ynote.Classic
         /// <summary>
         ///     Perl Syntax Highlight
         /// </summary>
-        /// <param name="r"></param>
+        /// <param name="e"></param>
         private void PerlSyntaxHighlight(TextChangedEventArgs e)
         {
             e.ChangedRange.tb.CommentPrefix = "#";
@@ -1119,7 +1304,7 @@ namespace SS.Ynote.Classic
                 //remove HTML highlighting from this fragment
                 r.ClearStyle(CommentStyle, AttributeStyle, AttributeValueStyle, HtmlEntityStyle);
                 //do CSS highlighting
-                CSSHighlight(new TextChangedEventArgs(r));
+                CssHighlight(new TextChangedEventArgs(r));
             }
         }
 
@@ -1367,7 +1552,7 @@ namespace SS.Ynote.Classic
         /// <summary>
         ///     Highlights VB code
         /// </summary>
-        /// <param name="range"></param>
+        /// <param name="e"></param>
         private void VBSyntaxHighlight(TextChangedEventArgs e)
         {
             e.ChangedRange.tb.CommentPrefix = "'";
@@ -1440,7 +1625,7 @@ namespace SS.Ynote.Classic
         /// <summary>
         ///     Highlights SQL code
         /// </summary>
-        /// <param name="range"></param>
+        /// <param name="e"></param>
         private void SqlSyntaxHighlight(TextChangedEventArgs e)
         {
             e.ChangedRange.tb.CommentPrefix = "--";
@@ -1485,7 +1670,7 @@ namespace SS.Ynote.Classic
         /// <summary>
         ///     D Syntax Highlight
         /// </summary>
-        /// <param name="r"></param>
+        /// <param name="e"></param>
         private void DSyntaxHighlight(TextChangedEventArgs e)
         {
             e.ChangedRange.tb.CommentPrefix = "//";
@@ -1720,7 +1905,7 @@ namespace SS.Ynote.Classic
                 @"\b(and|begin|case|cond|define|delay|do|else|if|lambda|let|letrec|or|quasiquote|quote|set!|unquote|unquote-splicing|apply|map|for-each|force|call-with-current-continuation)\b",
                 RegexOptions.IgnoreCase);
             e.ChangedRange.SetStyle(KeywordStyle2,
-                @"\b(not|boolean||eqv|eq|equal|pair|null|list|symbol|number|complex|real|rational|integer|exact|inexact|zero|positive|negative|odd|even|char|char-alphabetic|char-numeric|char-whitespace|char-upper-case|char-lower-case|string|vector|procedure|input-port|output-port|eof-object|char-ready)\b",
+                @"\b(not|boolean|eqv|eq|equal|pair|null|list|symbol|number|complex|real|rational|integer|exact|inexact|zero|positive|negative|odd|even|char|char-alphabetic|char-numeric|char-whitespace|char-upper-case|char-lower-case|string|vector|procedure|input-port|output-port|eof-object|char-ready)\b",
                 RegexOptions.IgnoreCase);
             e.ChangedRange.SetStyle(KeywordStyle3,
                 @"\b(abs|quotient|remainder|modulo|gcd|lcm|numerator|denominator|floor|ceiling|truncate|round|rationalize|exp|log|sin|cos|tan|asin|acos|atan|sqrt|expt|make-rectangular|make-polar|real-part|imag-part|magnitude|angle|call-with-input-file|call-with-output-file|current-input-port|current-output-port|with-input-from-file|with-output-to-file|open-input-file|open-output-file|close-input-port|close-output-port|read|read-char|peek-char|write|display|newline|write-char|load|transcript-on|transcript-of)\b",
@@ -1819,7 +2004,7 @@ namespace SS.Ynote.Classic
         #endregion
     }
 
-    public class Tag
+    public class XmlTag
     {
         public int Id;
         public string Name;

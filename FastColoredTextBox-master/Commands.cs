@@ -34,18 +34,18 @@ namespace FastColoredTextBoxNS
                 case '\n': MergeLines(sel.Start.iLine, ts); break;
                 case '\r': break;
                 case '\b':
-                    ts.CurrentTB.Selection.Start = lastSel.Start;
+                    ts.CurrentTb.Selection.Start = lastSel.Start;
                     char cc = '\x0';
                     if (deletedChar != '\x0')
                     {
-                        ts.CurrentTB.ExpandBlock(ts.CurrentTB.Selection.Start.iLine);
+                        ts.CurrentTb.ExpandBlock(ts.CurrentTb.Selection.Start.iLine);
                         InsertChar(deletedChar, ref cc, ts);
                     }
                     break;
                 default:
-                    ts.CurrentTB.ExpandBlock(sel.Start.iLine);
+                    ts.CurrentTb.ExpandBlock(sel.Start.iLine);
                     ts[sel.Start.iLine].RemoveAt(sel.Start.iChar);
-                    ts.CurrentTB.Selection.Start = sel.Start;
+                    ts.CurrentTb.Selection.Start = sel.Start;
                     break;
             }
 
@@ -59,7 +59,7 @@ namespace FastColoredTextBoxNS
         /// </summary>
         public override void Execute()
         {
-            ts.CurrentTB.ExpandBlock(ts.CurrentTB.Selection.Start.iLine);
+            ts.CurrentTb.ExpandBlock(ts.CurrentTb.Selection.Start.iLine);
             string s = c.ToString();
             ts.OnTextChanging(ref s);
             if (s.Length == 1)
@@ -73,18 +73,18 @@ namespace FastColoredTextBoxNS
                 InsertLine(ts);
             InsertChar(c, ref deletedChar, ts);
 
-            ts.NeedRecalc(new TextSource.TextChangedEventArgs(ts.CurrentTB.Selection.Start.iLine, ts.CurrentTB.Selection.Start.iLine));
+            ts.NeedRecalc(new TextSource.TextChangedEventArgs(ts.CurrentTb.Selection.Start.iLine, ts.CurrentTb.Selection.Start.iLine));
             base.Execute();
         }
 
         internal static void InsertChar(char c, ref char deletedChar, TextSource ts)
         {
-            var tb = ts.CurrentTB;
+            var tb = ts.CurrentTb;
 
             switch (c)
             {
                 case '\n':
-                    if (!ts.CurrentTB.allowInsertRemoveLines)
+                    if (!ts.CurrentTb.allowInsertRemoveLines)
                         throw new ArgumentOutOfRangeException("Cant insert this char in ColumnRange mode");
                     if (ts.Count == 0)
                         InsertLine(ts);
@@ -96,7 +96,7 @@ namespace FastColoredTextBoxNS
                         return;
                     if (tb.Selection.Start.iChar == 0)
                     {
-                        if (!ts.CurrentTB.allowInsertRemoveLines)
+                        if (!ts.CurrentTb.allowInsertRemoveLines)
                             throw new ArgumentOutOfRangeException("Cant insert this char in ColumnRange mode");
                         if (tb.LineInfos[tb.Selection.Start.iLine - 1].VisibleState != VisibleState.Visible)
                             tb.ExpandBlock(tb.Selection.Start.iLine - 1);
@@ -129,7 +129,7 @@ namespace FastColoredTextBoxNS
 
         internal static void InsertLine(TextSource ts)
         {
-            var tb = ts.CurrentTB;
+            var tb = ts.CurrentTb;
 
             if (!tb.Multiline && tb.LinesCount > 0)
                 return;
@@ -148,7 +148,7 @@ namespace FastColoredTextBoxNS
         /// </summary>
         internal static void MergeLines(int i, TextSource ts)
         {
-            var tb = ts.CurrentTB;
+            var tb = ts.CurrentTb;
 
             if (i + 1 >= ts.Count)
                 return;
@@ -210,8 +210,8 @@ namespace FastColoredTextBoxNS
         /// </summary>
         public override void Undo()
         {
-            ts.CurrentTB.Selection.Start = sel.Start;
-            ts.CurrentTB.Selection.End = lastSel.Start;
+            ts.CurrentTb.Selection.Start = sel.Start;
+            ts.CurrentTb.Selection.End = lastSel.Start;
             ts.OnTextChanging();
             ClearSelectedCommand.ClearSelected(ts);
             base.Undo();
@@ -229,7 +229,7 @@ namespace FastColoredTextBoxNS
 
         internal static void InsertText(string insertedText, TextSource ts)
         {
-            var tb = ts.CurrentTB;
+            var tb = ts.CurrentTb;
             try
             {
                 tb.Selection.BeginUpdate();
@@ -259,8 +259,8 @@ namespace FastColoredTextBoxNS
     public class ReplaceTextCommand : UndoableCommand
     {
         string insertedText;
-        List<Range> ranges;
-        List<string> prevText = new List<string>();
+        readonly List<Range> ranges;
+        readonly List<string> prevText = new List<string>();
 
         /// <summary>
         /// Constructor
@@ -281,7 +281,7 @@ namespace FastColoredTextBoxNS
             //
             this.ranges = ranges;
             this.insertedText = insertedText;
-            lastSel = sel = new RangeInfo(ts.CurrentTB.Selection);
+            lastSel = sel = new RangeInfo(ts.CurrentTb.Selection);
         }
 
         /// <summary>
@@ -289,7 +289,7 @@ namespace FastColoredTextBoxNS
         /// </summary>
         public override void Undo()
         {
-            var tb = ts.CurrentTB;
+            var tb = ts.CurrentTb;
 
             ts.OnTextChanging();
             tb.BeginUpdate();
@@ -317,7 +317,7 @@ namespace FastColoredTextBoxNS
         /// </summary>
         public override void Execute()
         {
-            var tb = ts.CurrentTB;
+            var tb = ts.CurrentTb;
             prevText.Clear();
 
             ts.OnTextChanging(ref insertedText);
@@ -349,7 +349,7 @@ namespace FastColoredTextBoxNS
 
         internal static void ClearSelected(TextSource ts)
         {
-            var tb = ts.CurrentTB;
+            var tb = ts.CurrentTb;
 
             tb.Selection.Normalize();
 
@@ -394,12 +394,12 @@ namespace FastColoredTextBoxNS
         /// </summary>
         public override void Undo()
         {
-            ts.CurrentTB.Selection.Start = new Place(sel.FromX, Math.Min(sel.Start.iLine, sel.End.iLine));
+            ts.CurrentTb.Selection.Start = new Place(sel.FromX, Math.Min(sel.Start.iLine, sel.End.iLine));
             ts.OnTextChanging();
             InsertTextCommand.InsertText(deletedText, ts);
             ts.OnTextChanged(sel.Start.iLine, sel.End.iLine);
-            ts.CurrentTB.Selection.Start = sel.Start;
-            ts.CurrentTB.Selection.End = sel.End;
+            ts.CurrentTb.Selection.Start = sel.Start;
+            ts.CurrentTb.Selection.End = sel.End;
         }
 
         /// <summary>
@@ -407,7 +407,7 @@ namespace FastColoredTextBoxNS
         /// </summary>
         public override void Execute()
         {
-            var tb = ts.CurrentTB;
+            var tb = ts.CurrentTb;
 
             string temp = null;
             ts.OnTextChanging(ref temp);
@@ -422,7 +422,7 @@ namespace FastColoredTextBoxNS
 
         internal static void ClearSelected(TextSource ts)
         {
-            var tb = ts.CurrentTB;
+            var tb = ts.CurrentTb;
 
             Place start = tb.Selection.Start;
             Place end = tb.Selection.End;
@@ -458,8 +458,8 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class ReplaceMultipleTextCommand : UndoableCommand
     {
-        List<ReplaceRange> ranges;
-        List<string> prevText = new List<string>();
+        readonly List<ReplaceRange> ranges;
+        readonly List<string> prevText = new List<string>();
 
         public class ReplaceRange
         {
@@ -484,7 +484,7 @@ namespace FastColoredTextBoxNS
             });
             //
             this.ranges = ranges;
-            lastSel = sel = new RangeInfo(ts.CurrentTB.Selection);
+            lastSel = sel = new RangeInfo(ts.CurrentTb.Selection);
         }
 
         /// <summary>
@@ -492,7 +492,7 @@ namespace FastColoredTextBoxNS
         /// </summary>
         public override void Undo()
         {
-            var tb = ts.CurrentTB;
+            var tb = ts.CurrentTb;
 
             ts.OnTextChanging();
 
@@ -517,7 +517,7 @@ namespace FastColoredTextBoxNS
         /// </summary>
         public override void Execute()
         {
-            var tb = ts.CurrentTB;
+            var tb = ts.CurrentTb;
             prevText.Clear();
 
             ts.OnTextChanging();
@@ -549,8 +549,8 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class RemoveLinesCommand : UndoableCommand
     {
-        List<int> iLines;
-        List<string> prevText = new List<string>();
+        readonly List<int> iLines;
+        readonly List<string> prevText = new List<string>();
 
         /// <summary>
         /// Constructor
@@ -565,7 +565,7 @@ namespace FastColoredTextBoxNS
             iLines.Sort();
             //
             this.iLines = iLines;
-            lastSel = sel = new RangeInfo(ts.CurrentTB.Selection);
+            lastSel = sel = new RangeInfo(ts.CurrentTb.Selection);
         }
 
         /// <summary>
@@ -573,7 +573,7 @@ namespace FastColoredTextBoxNS
         /// </summary>
         public override void Undo()
         {
-            var tb = ts.CurrentTB;
+            var tb = ts.CurrentTb;
 
             ts.OnTextChanging();
 
@@ -583,10 +583,7 @@ namespace FastColoredTextBoxNS
             {
                 var iLine = iLines[i];
 
-                if (iLine < ts.Count)
-                    tb.Selection.Start = new Place(0, iLine);
-                else
-                    tb.Selection.Start = new Place(ts[ts.Count - 1].Count, ts.Count - 1);
+                tb.Selection.Start = iLine < ts.Count ? new Place(0, iLine) : new Place(ts[ts.Count - 1].Count, ts.Count - 1);
 
                 InsertCharCommand.InsertLine(ts);
                 tb.Selection.Start = new Place(0, iLine);
@@ -611,7 +608,7 @@ namespace FastColoredTextBoxNS
         /// </summary>
         public override void Execute()
         {
-            var tb = ts.CurrentTB;
+            var tb = ts.CurrentTb;
             prevText.Clear();
 
             ts.OnTextChanging();
@@ -643,15 +640,15 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class MultiRangeCommand : UndoableCommand
     {
-        private UndoableCommand cmd;
-        private Range range;
-        private List<UndoableCommand> commandsByRanges = new List<UndoableCommand>();
+        private readonly UndoableCommand cmd;
+        private readonly Range range;
+        private readonly List<UndoableCommand> commandsByRanges = new List<UndoableCommand>();
 
         public MultiRangeCommand(UndoableCommand command)
             : base(command.ts)
         {
-            this.cmd = command;
-            range = ts.CurrentTB.Selection.Clone();
+            cmd = command;
+            range = ts.CurrentTb.Selection.Clone();
         }
 
         public override void Execute()
@@ -661,10 +658,10 @@ namespace FastColoredTextBoxNS
             var iChar = -1;
             var iStartLine = prevSelection.Start.iLine;
             var iEndLine = prevSelection.End.iLine;
-            ts.CurrentTB.Selection.ColumnSelectionMode = false;
-            ts.CurrentTB.Selection.BeginUpdate();
-            ts.CurrentTB.BeginUpdate();
-            ts.CurrentTB.allowInsertRemoveLines = false;
+            ts.CurrentTb.Selection.ColumnSelectionMode = false;
+            ts.CurrentTb.Selection.BeginUpdate();
+            ts.CurrentTb.BeginUpdate();
+            ts.CurrentTb.allowInsertRemoveLines = false;
             try
             {
                 if (cmd is InsertTextCommand)
@@ -680,17 +677,17 @@ namespace FastColoredTextBoxNS
             }
             finally
             {
-                ts.CurrentTB.allowInsertRemoveLines = true;
-                ts.CurrentTB.EndUpdate();
+                ts.CurrentTb.allowInsertRemoveLines = true;
+                ts.CurrentTb.EndUpdate();
 
-                ts.CurrentTB.Selection = range;
+                ts.CurrentTb.Selection = range;
                 if (iChar >= 0)
                 {
-                    ts.CurrentTB.Selection.Start = new Place(iChar, iStartLine);
-                    ts.CurrentTB.Selection.End = new Place(iChar, iEndLine);
+                    ts.CurrentTb.Selection.Start = new Place(iChar, iStartLine);
+                    ts.CurrentTb.Selection.End = new Place(iChar, iEndLine);
                 }
-                ts.CurrentTB.Selection.ColumnSelectionMode = true;
-                ts.CurrentTB.Selection.EndUpdate();
+                ts.CurrentTb.Selection.ColumnSelectionMode = true;
+                ts.CurrentTb.Selection.EndUpdate();
             }
         }
 
@@ -700,7 +697,7 @@ namespace FastColoredTextBoxNS
             var iLine = 0;
             foreach (var r in range.GetSubRanges(true))
             {
-                var line = ts.CurrentTB[r.Start.iLine];
+                var line = ts.CurrentTb[r.Start.iLine];
                 var lineIsEmpty = r.End < r.Start && line.StartSpacesCount == line.Count;
                 if (!lineIsEmpty)
                 {
@@ -711,11 +708,11 @@ namespace FastColoredTextBoxNS
                         insertedText = new string(' ', r.Start.iChar - r.End.iChar) + insertedText;
                         r.Start = r.End;
                     }
-                    ts.CurrentTB.Selection = r;
+                    ts.CurrentTb.Selection = r;
                     var c = new InsertTextCommand(ts, insertedText);
                     c.Execute();
-                    if (ts.CurrentTB.Selection.End.iChar > iChar)
-                        iChar = ts.CurrentTB.Selection.End.iChar;
+                    if (ts.CurrentTb.Selection.End.iChar > iChar)
+                        iChar = ts.CurrentTb.Selection.End.iChar;
                     commandsByRanges.Add(c);
                 }
                 iLine++;
@@ -726,19 +723,19 @@ namespace FastColoredTextBoxNS
         {
             foreach (var r in range.GetSubRanges(false))
             {
-                ts.CurrentTB.Selection = r;
+                ts.CurrentTb.Selection = r;
                 var c = cmd.Clone();
                 c.Execute();
-                if (ts.CurrentTB.Selection.End.iChar > iChar)
-                    iChar = ts.CurrentTB.Selection.End.iChar;
+                if (ts.CurrentTb.Selection.End.iChar > iChar)
+                    iChar = ts.CurrentTb.Selection.End.iChar;
                 commandsByRanges.Add(c);
             }
         }
 
         public override void Undo()
         {
-            ts.CurrentTB.BeginUpdate();
-            ts.CurrentTB.Selection.BeginUpdate();
+            ts.CurrentTb.BeginUpdate();
+            ts.CurrentTb.Selection.BeginUpdate();
             try
             {
                 for (int i = commandsByRanges.Count - 1; i >= 0; i--)
@@ -746,13 +743,13 @@ namespace FastColoredTextBoxNS
             }
             finally
             {
-                ts.CurrentTB.Selection.EndUpdate();
-                ts.CurrentTB.EndUpdate();
+                ts.CurrentTb.Selection.EndUpdate();
+                ts.CurrentTb.EndUpdate();
             }
-            ts.CurrentTB.Selection = range.Clone();
-            ts.CurrentTB.OnTextChanged(range);
-            ts.CurrentTB.OnSelectionChanged();
-            ts.CurrentTB.Selection.ColumnSelectionMode = true;
+            ts.CurrentTb.Selection = range.Clone();
+            ts.CurrentTb.OnTextChanged(range);
+            ts.CurrentTb.OnSelectionChanged();
+            ts.CurrentTb.Selection.ColumnSelectionMode = true;
         }
 
         public override UndoableCommand Clone()
@@ -774,7 +771,7 @@ namespace FastColoredTextBoxNS
         public override void Execute()
         {
             //remember selection
-            lastSel = new RangeInfo(ts.CurrentTB.Selection);
+            lastSel = new RangeInfo(ts.CurrentTb.Selection);
         }
 
         protected override void OnTextChanged(bool invert)
@@ -784,14 +781,14 @@ namespace FastColoredTextBoxNS
         public override void Undo()
         {
             //restore selection
-            ts.CurrentTB.Selection = new Range(ts.CurrentTB, lastSel.Start, lastSel.End);
+            ts.CurrentTb.Selection = new Range(ts.CurrentTb, lastSel.Start, lastSel.End);
         }
 
         public override UndoableCommand Clone()
         {
             var result = new SelectCommand(ts);
             if (lastSel != null)
-                result.lastSel = new RangeInfo(new Range(ts.CurrentTB, lastSel.Start, lastSel.End));
+                result.lastSel = new RangeInfo(new Range(ts.CurrentTb, lastSel.Start, lastSel.End));
             return result;
         }
     }

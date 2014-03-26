@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,24 +9,19 @@ using System.Text;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
 using SS.Ynote.Classic.Features.Snippets;
+using SS.Ynote.Classic.Features.Syntax;
 using WeifenLuo.WinFormsUI.Docking;
-
-#endregion
+using SyntaxHighlighter = SS.Ynote.Classic.Features.Syntax.SyntaxHighlighter;
 
 namespace SS.Ynote.Classic.UI
 {
     public partial class Editor : DockContent
     {
+        public SyntaxBase Syntax;
         /// <summary>
         ///     Syntax Highligher
         /// </summary>
-        private readonly ISyntaxHighlighter Highlighter;
-
-        /// <summary>
-        ///     private var _invisiblecharstyle
-        /// </summary>
-        private readonly Style _invisibleCharsStyle;
-
+        public readonly ISyntaxHighlighter Highlighter;
         /// <summary>
         ///     Default Constructor
         /// </summary>
@@ -37,10 +30,10 @@ namespace SS.Ynote.Classic.UI
             InitializeComponent();
             InitEvents();
             Highlighter = new SyntaxHighlighter();
-            _invisibleCharsStyle = new InvisibleCharsRenderer(Pens.Gray);
             YnoteThemeReader.ApplyTheme(SettingsBase.ThemeFile, Highlighter, codebox);
-
             InitSettings();
+            if (SyntaxHighlighter.LoadedSyntaxes.Count != 0) return;
+            Highlighter.LoadAllSyntaxes();
         }
 
         public AutocompleteMenu AutoCompleteMenu { get; private set; }
@@ -104,16 +97,6 @@ namespace SS.Ynote.Classic.UI
                 Target = codebox
             };
             Controls.Add(ruler);
-        }
-
-        /// <summary>
-        ///     Changes Language
-        /// </summary>
-        /// <param name="lang"></param>
-        public void ChangeLang(Language lang)
-        {
-            Highlighter.HighlightSyntax(lang, new TextChangedEventArgs(codebox.Range));
-            codebox.Language = lang;
         }
 
         /// <summary>
@@ -186,10 +169,22 @@ namespace SS.Ynote.Classic.UI
             edit.tb.Text = File.ReadAllText(file, Encoding.Default);
             edit.tb.IsChanged = false;
             edit.tb.ClearUndo();
-            edit.ChangeLang(FileExtensions.GetLanguage(FileExtensions.BuildDictionary(), Path.GetExtension(file)));
+            //edit.ChangeLang(FileExtensions.GetLanguage(FileExtensions.BuildDictionary(), Path.GetExtension(file)));
+            var lang = FileExtensions.GetLanguage(FileExtensions.BuildDictionary(), Path.GetExtension(file));
+            if (lang.IsBase)
+            {
+                edit.Highlighter.HighlightSyntax(lang.SyntaxBase, new TextChangedEventArgs(edit.tb.Range));
+                edit.Syntax = lang.SyntaxBase;
+            }
+            else
+            {
+                edit.Highlighter.HighlightSyntax(lang.Language, new TextChangedEventArgs(edit.tb.Range));
+                edit.tb.Language = lang.Language;
+            }
             edit.Show(DockPanel, DockState.Document);
         }
 
+        private Style invisibleCharsStyle;
         /// <summary>
         ///     Do MISC Formatting
         /// </summary>
@@ -197,13 +192,18 @@ namespace SS.Ynote.Classic.UI
         private void DoFormatting(Range r)
         {
             if (!SettingsBase.HiddenChars) return;
-            r.ClearStyle(_invisibleCharsStyle);
-            r.SetStyle(_invisibleCharsStyle, @".$|.\r\n|\s");
+            if(invisibleCharsStyle == null)
+                invisibleCharsStyle = new InvisibleCharsRenderer(Pens.Gray);
+            r.ClearStyle(invisibleCharsStyle);
+            r.SetStyle(invisibleCharsStyle, @".$|.\r\n|\s");
         }
 
         private void codebox_TextChangedDelayed(object sender, TextChangedEventArgs e)
         {
-            Highlighter.HighlightSyntax(codebox.Language, e);
+            if(Syntax == null)
+                Highlighter.HighlightSyntax(codebox.Language, e);
+            else
+                Highlighter.HighlightSyntax(Syntax, e);
             DoFormatting(e.ChangedRange);
             if (codebox.IsChanged && !Text.Contains("*"))
                 Text += "*";
@@ -258,32 +258,32 @@ namespace SS.Ynote.Classic.UI
             }
         }
 
-        private void menuItem1_Click(object sender, EventArgs e)
+        private void cutemenu_Click(object sender, EventArgs e)
         {
             codebox.Cut();
         }
 
-        private void menuItem2_Click(object sender, EventArgs e)
+        private void copymenu_Click(object sender, EventArgs e)
         {
             codebox.Copy();
         }
 
-        private void menuItem3_Click(object sender, EventArgs e)
+        private void pastemenu_Click(object sender, EventArgs e)
         {
             codebox.Paste();
         }
 
-        private void menuItem5_Click(object sender, EventArgs e)
+        private void undomenu_Click(object sender, EventArgs e)
         {
             codebox.Undo();
         }
 
-        private void menuItem6_Click(object sender, EventArgs e)
+        private void redomenu_Click(object sender, EventArgs e)
         {
             codebox.Redo();
         }
 
-        private void menuItem8_Click(object sender, EventArgs e)
+        private void selectallmenu_Click(object sender, EventArgs e)
         {
             codebox.SelectAll();
         }

@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Linq;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
 
@@ -21,11 +22,21 @@ namespace SS.Ynote.Classic.UI
 
         private void LoadBookmarks()
         {
-            foreach (var bookmark in tb.Bookmarks)
+           // Updated using Linq
+           // foreach (var bookmark in tb.Bookmarks)
+           // {
+           //     var iline = bookmark.LineIndex + 1;
+           //     var item = new ListViewItem(new[] { bookmark.Name, iline.ToString(), tb[bookmark.LineIndex].Text })
+           //     {
+           //         Tag = bookmark
+           //     };
+           //     lstbookmarks.Items.Add(item);
+           // }
+            foreach (var item in from bookmark in tb.Bookmarks let iline = bookmark.LineIndex + 1 select new ListViewItem(new[] {bookmark.Name, iline.ToString(), tb[bookmark.LineIndex].Text})
             {
-                var iline = bookmark.LineIndex + 1;
-                var item = new ListViewItem(new[] {bookmark.Name, iline.ToString(), tb[bookmark.LineIndex].Text});
-                item.Tag = bookmark;
+                Tag = bookmark
+            })
+            {
                 lstbookmarks.Items.Add(item);
             }
         }

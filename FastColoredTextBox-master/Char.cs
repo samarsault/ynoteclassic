@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FastColoredTextBoxNS
+﻿namespace FastColoredTextBoxNS
 {
     /// <summary>
     /// Char and style

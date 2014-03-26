@@ -11,7 +11,7 @@ namespace SS.Ynote.Classic.Features.Packages
         /// <summary>
         ///     Package Url
         /// </summary>
-        public string PackageUrl { get; set; }
+        public string PackageUrl { private get; set; }
 
         /// <summary>
         ///     Downloads the Package

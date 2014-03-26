@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+    <YnoteSyntax>
+        <Language CommentPrefix="//" Extensions=".xhtml"/>
+        <Brackets Left="(" Right=")"/>
+        <Rule Type="Comment" Options="Multiline" Regex="//.*$"></Rule>
+        <Rule Type="String" Options="Multiline" Regex="&quot;&quot;|''|&quot;.*?[^\\]&quot;|'.*?[^\\]'"></Rule>
+        <Rule Type="Keyword" Regex="\b(class|for|foreach|var|using|static|if|else|return)\b"></Rule>
+        <Rule Type="Keyword2" Regex="\b(void|true|false|int|byte|string|ushort|char|null|IYnote)\b"></Rule>
+        <Rule Type="Keyword3" Regex="\b(Panel|Editor|)\b"></Rule>
+        <Folding Start="{" End="}" Options="None"></Folding>
+    </YnoteSyntax>

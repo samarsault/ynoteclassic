@@ -148,12 +148,9 @@ namespace SS.Ynote.Classic.Features.Packages
         /// <param name="_stream"></param>
         /// <param name="_comment"></param>
         /// <returns>A valid ZipStorer object</returns>
-        public static ZipStorer Create(Stream _stream, string _comment)
+        private static ZipStorer Create(Stream _stream, string _comment)
         {
-            var zip = new ZipStorer();
-            zip.Comment = _comment;
-            zip.ZipFileStream = _stream;
-            zip.Access = FileAccess.Write;
+            var zip = new ZipStorer {Comment = _comment, ZipFileStream = _stream, Access = FileAccess.Write};
 
             return zip;
         }
@@ -181,15 +178,13 @@ namespace SS.Ynote.Classic.Features.Packages
         /// <param name="_stream">Already opened stream with zip contents</param>
         /// <param name="_access">File access mode for stream operations</param>
         /// <returns>A valid ZipStorer object</returns>
-        public static ZipStorer Open(Stream _stream, FileAccess _access)
+        private static ZipStorer Open(Stream _stream, FileAccess _access)
         {
             if (!_stream.CanSeek && _access != FileAccess.Read)
                 throw new InvalidOperationException("Stream cannot seek");
 
-            var zip = new ZipStorer();
+            var zip = new ZipStorer {ZipFileStream = _stream, Access = _access};
             //zip.FileName = _filename;
-            zip.ZipFileStream = _stream;
-            zip.Access = _access;
 
             if (zip.ReadFileInfo())
                 return zip;
@@ -222,7 +217,7 @@ namespace SS.Ynote.Classic.Features.Packages
         /// <param name="_source">Stream object containing the data to store in Zip</param>
         /// <param name="_modTime">Modification time of the data to store</param>
         /// <param name="_comment">Comment for stored file</param>
-        public void AddStream(Compression _method, string _filenameInZip, Stream _source, DateTime _modTime,
+        private void AddStream(Compression _method, string _filenameInZip, Stream _source, DateTime _modTime,
             string _comment)
         {
             if (Access == FileAccess.Read)
@@ -238,16 +233,18 @@ namespace SS.Ynote.Classic.Features.Packages
             }
 
             // Prepare the fileinfo
-            var zfe = new ZipFileEntry();
-            zfe.Method = _method;
-            zfe.EncodeUTF8 = EncodeUtf8;
-            zfe.FilenameInZip = NormalizedFilename(_filenameInZip);
-            zfe.Comment = (_comment == null ? "" : _comment);
+            var zfe = new ZipFileEntry
+            {
+                Method = _method,
+                EncodeUTF8 = EncodeUtf8,
+                FilenameInZip = NormalizedFilename(_filenameInZip),
+                Comment = (_comment ?? ""),
+                Crc32 = 0,
+                HeaderOffset = (uint) ZipFileStream.Position,
+                ModifyTime = _modTime
+            };
 
             // Even though we write the header now, it will have to be rewritten, since we don't know compressed size or crc.
-            zfe.Crc32 = 0; // to be updated later
-            zfe.HeaderOffset = (uint) ZipFileStream.Position; // offset within file of the start of this local record
-            zfe.ModifyTime = _modTime;
 
             // Write local header
             WriteLocalHeader(ref zfe);
@@ -266,7 +263,7 @@ namespace SS.Ynote.Classic.Features.Packages
         ///     Updates central directory (if pertinent) and close the Zip storage
         /// </summary>
         /// <remarks>This is a required step, unless automatic dispose is used</remarks>
-        public void Close()
+        private void Close()
         {
             if (Access != FileAccess.Read)
             {
@@ -276,10 +273,10 @@ namespace SS.Ynote.Classic.Features.Packages
                 if (CentralDirImage != null)
                     ZipFileStream.Write(CentralDirImage, 0, CentralDirImage.Length);
 
-                for (int i = 0; i < Files.Count; i++)
+                foreach (ZipFileEntry entry in Files)
                 {
                     long pos = ZipFileStream.Position;
-                    WriteCentralDirRecord(Files[i]);
+                    WriteCentralDirRecord(entry);
                     centralSize += (uint) (ZipFileStream.Position - pos);
                 }
 
@@ -387,7 +384,7 @@ namespace SS.Ynote.Classic.Features.Packages
         /// <param name="_stream">Stream to store the uncompressed data</param>
         /// <returns>True if success, false if not.</returns>
         /// <remarks>Unique compression methods are Store and Deflate</remarks>
-        public bool ExtractFile(ZipFileEntry _zfe, Stream _stream)
+        private bool ExtractFile(ZipFileEntry _zfe, Stream _stream)
         {
             if (!_stream.CanWrite)
                 throw new InvalidOperationException("Stream cannot be written");
@@ -610,7 +607,8 @@ namespace SS.Ynote.Classic.Features.Packages
 
         private void WriteEndRecord(uint _size, uint _offset)
         {
-            Encoding encoder = EncodeUtf8 ? Encoding.UTF8 : DefaultEncoding;
+            //Encoding encoder = EncodeUtf8 ? Encoding.UTF8 : DefaultEncoding;
+            Encoding encoder = DefaultEncoding;
             byte[] encodedComment = encoder.GetBytes(Comment);
 
             ZipFileStream.Write(new byte[] {80, 75, 5, 6, 0, 0, 0, 0}, 0, 8);
@@ -628,15 +626,11 @@ namespace SS.Ynote.Classic.Features.Packages
             var buffer = new byte[16384];
             int bytesRead;
             uint totalRead = 0;
-            Stream outStream;
 
             long posStart = ZipFileStream.Position;
             long sourceStart = _source.Position;
 
-            if (_zfe.Method == Compression.Store)
-                outStream = ZipFileStream;
-            else
-                outStream = new DeflateStream(ZipFileStream, CompressionMode.Compress, true);
+            var outStream = _zfe.Method == Compression.Store ? ZipFileStream : new DeflateStream(ZipFileStream, CompressionMode.Compress, true);
 
             _zfe.Crc32 = 0 ^ 0xffffffff;
 

@@ -1,16 +1,13 @@
-﻿#region Using Directives
-
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using FastColoredTextBoxNS;
 using Nini.Config;
-
-#endregion
+using SS.Ynote.Classic.Features.Syntax;
+using SyntaxHighlighter = SS.Ynote.Classic.Features.Syntax.SyntaxHighlighter;
 
 internal static class FileExtensions
 {
-    public static IDictionary<string[], Language> BuildDictionary()
+    internal static IDictionary<string[], Language> BuildDictionary()
     {
         var dic = new Dictionary<string[], Language>();
         IConfigSource source = new IniConfigSource(SettingsBase.SettingsDir + @"Extensions.ini");
@@ -51,21 +48,47 @@ internal static class FileExtensions
         return dic;
     }
 
-    public static Language GetLanguage(IDictionary<string[], Language> dic, string extension)
+    internal static SyntaxDesc GetLanguage(IDictionary<string[], Language> dic, string extension)
     {
-        string[] reqKey = default(string[]);
-        foreach (var key in dic.Keys)
-            if (key.Contains(extension))
-                reqKey = key;
-        try
+        var desc = new SyntaxDesc();
+        var reqKey = default(string[]);
+        foreach (var key in dic.Keys.Where(key => key.Contains(extension)))
+            reqKey = key;
+        if (reqKey != null)
         {
             Language lang;
-            dic.TryGetValue(reqKey, out lang);
-            return lang;
+            if (dic.TryGetValue(reqKey, out lang))
+                desc.Language = lang;
+            else
+            {
+                foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes)
+                    if (syntax.Extensions.Contains(extension))
+                    {
+                        desc.IsBase = true;
+                        desc.SyntaxBase = syntax;
+                    }
+                    else
+                    {
+                        desc.Language = Language.Text;
+                    }
+            }
         }
-        catch (Exception)
-        {
-            return Language.Text;
-        }
+        return desc;
     }
+}
+
+public class SyntaxDesc
+{
+    /// <summary>
+    /// Is a Syntax Base
+    /// </summary>
+    public bool IsBase;
+    /// <summary>
+    /// if IsBase = false Value of Language
+    /// </summary>
+    public Language Language;
+    /// <summary>
+    /// Syntax Base
+    /// </summary>
+    public SyntaxBase SyntaxBase;
 }

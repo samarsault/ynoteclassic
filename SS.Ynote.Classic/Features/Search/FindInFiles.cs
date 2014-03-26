@@ -85,6 +85,7 @@ namespace SS.Ynote.Classic.UI
             tabControl1.SelectedIndex = 2;
         }
 
+/*
         private static void ReplaceInFiles(ICollection<string> output, string path, string searchstring,
             string replacestring, string searchpattern, SearchOption option)
         {
@@ -116,6 +117,7 @@ namespace SS.Ynote.Classic.UI
                 }
             }
         }
+*/
 
         private void ReplaceInDocuments(IEnumerable<string> files, string searchstring, string replacestring)
         {
@@ -235,7 +237,6 @@ namespace SS.Ynote.Classic.UI
         /// <summary>
         ///     Finds References in Directory
         /// </summary>
-        /// <param name="output"></param>
         /// <param name="searchPath"></param>
         /// <param name="searchString"></param>
         /// <param name="searchpattern"></param>

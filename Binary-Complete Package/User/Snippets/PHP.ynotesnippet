@@ -4,6 +4,7 @@
         <Snippet >include "^";</Snippet>
         <Snippet >\$this-&gt;^;</Snippet>
         <Snippet >if(^){\r\n\r\n}</Snippet>
+        <Snippet >for($int=0;$int &lt; ^;$int++){\r\n\r\n}</Snippet>
         <Snippet >else if(^){\r\n\r\n}</Snippet>
         <Snippet >function ^(){\r\n\r\n}</Snippet>
         <Snippet >class ^{\r\nfunction __construct($arg){\r\n// construct($arg);\r\n}\r\n}</Snippet>

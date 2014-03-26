@@ -1,18 +1,15 @@
-﻿#region Usings
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Extensibility;
 using SS.Ynote.Classic.Features.RunScript;
 using WeifenLuo.WinFormsUI.Docking;
 using AutocompleteItem = AutocompleteMenuNS.AutocompleteItem;
-using SnippetAutocompleteItem = AutocompleteMenuNS.SnippetAutocompleteItem;
-
-#endregion
+using SyntaxHighlighter = SS.Ynote.Classic.Features.Syntax.SyntaxHighlighter;
 
 namespace SS.Ynote.Classic.UI
 {
@@ -28,12 +25,12 @@ namespace SS.Ynote.Classic.UI
             completemenu.AllowsTabKey = true;
             ActiveEditor = host.Panel.ActiveDocument as Editor;
             BuildAutoComplete();
-            textBox1.Focus();
+            tbcommand.Focus();
             _ynote = host;
             LostFocus += (o, a) => Close();
         }
 
-        public ToolStripDropDownButton LangMenu { get; set; }
+        public ToolStripDropDownButton LangMenu { private get; set; }
 
         /// <summary>
         ///     Get The Active Editor
@@ -42,7 +39,8 @@ namespace SS.Ynote.Classic.UI
 
         public void AddText(string text)
         {
-            textBox1.Text = text;
+            tbcommand.Text = text;
+            tbcommand.Focus();
             addedText = true;
         }
 
@@ -51,6 +49,7 @@ namespace SS.Ynote.Classic.UI
             var items = new List<AutocompleteItem>();
             items.AddRange(from object lang in Enum.GetValues(typeof (Language))
                 select new AutocompleteItem("SetSyntax:" + lang));
+            items.AddRange(from item in SyntaxHighlighter.LoadedSyntaxes where item != null select new AutocompleteItem("SetSyntaxFile:" + Path.GetFileNameWithoutExtension(item.SysPath)));
             items.Add(new AutocompleteItem("File:New"));
             items.Add(new AutocompleteItem("File:Open"));
             items.Add(new AutocompleteItem("File:Save"));
@@ -100,11 +99,11 @@ namespace SS.Ynote.Classic.UI
             items.Add(new AutocompleteItem("Selection:Writeable"));
             items.Add(new AutocompleteItem("View:ZoomIn"));
             items.Add(new AutocompleteItem("View:ZoomOut"));
-            items.Add(new SnippetAutocompleteItem("ProcStart:^"));
-            items.Add(new SnippetAutocompleteItem("Google:^"));
-            items.Add(new SnippetAutocompleteItem("Wikipedia:^"));
+            items.Add(new AutocompleteItem("ProcStart:^"));
+            items.Add(new AutocompleteItem("Google:"));
+            items.Add(new AutocompleteItem("Wikipedia:"));
             items.Add(new AutocompleteItem("Console:Close"));
-            completemenu.SetAutocompleteMenu(textBox1, completemenu);
+            completemenu.SetAutocompleteMenu(tbcommand, completemenu);
             completemenu.SetAutocompleteItems(items);
         }
 
@@ -130,20 +129,20 @@ namespace SS.Ynote.Classic.UI
         protected override void OnShown(EventArgs e)
         {
             if (addedText) return;
-            completemenu.Show(textBox1, true);
+            completemenu.Show(tbcommand, true);
             base.OnShown(e);
         }
 
         private void textBox1_Click(object sender, EventArgs e)
         {
-            completemenu.Show(textBox1, true);
+            completemenu.Show(tbcommand, true);
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                RunCommand(Parse(textBox1.Text));
+                RunCommand(Parse(tbcommand.Text));
             }
             if (e.KeyCode == Keys.Escape)
             {
@@ -157,8 +156,20 @@ namespace SS.Ynote.Classic.UI
             switch (c.Key)
             {
                 case "SetSyntax":
-                    ActiveEditor.ChangeLang(c.Value.ToEnum<Language>());
+                    ActiveEditor.Highlighter.HighlightSyntax(c.Value.ToEnum<Language>(), new TextChangedEventArgs(ActiveEditor.tb.Range));
+                    ActiveEditor.tb.Language = c.Value.ToEnum<Language>();
+                    ActiveEditor.Syntax = null;
                     if (LangMenu != null) LangMenu.Text = c.Value;
+                    break;
+                case "SetSyntaxFile":
+                    foreach(var syntax in SyntaxHighlighter.LoadedSyntaxes)
+                        if (syntax.SysPath ==
+                            string.Format("{0}\\Syntaxes\\{1}.xml", Application.StartupPath, c.Value))
+                        {
+                            ActiveEditor.Highlighter.HighlightSyntax(syntax, new TextChangedEventArgs(ActiveEditor.tb.Range));
+                            ActiveEditor.Syntax = syntax;
+                            if (LangMenu != null) LangMenu.Text = c.Value;
+                        }
                     break;
                 case "File":
                     FileFunc(c.Value);
@@ -394,8 +405,7 @@ namespace SS.Ynote.Classic.UI
                 ActiveEditor.tb.Bookmarks.Clear();
             else if (func == "Manager")
             {
-                var manager = new BookmarksInfos(ActiveEditor.tb);
-                manager.StartPosition = FormStartPosition.CenterParent;
+                var manager = new BookmarksInfos(ActiveEditor.tb) {StartPosition = FormStartPosition.CenterParent};
                 manager.ShowDialog(this);
             }
         }

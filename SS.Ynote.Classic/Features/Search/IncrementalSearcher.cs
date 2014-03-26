@@ -2,7 +2,6 @@
 
 using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
@@ -55,10 +54,7 @@ namespace SS.Ynote.Classic.Features.Search
                 }
                 //
                 range.Start = range.End;
-                if (range.Start >= _startPlace)
-                    range.End = new Place(Tb.GetLineLength(Tb.LinesCount - 1), Tb.LinesCount - 1);
-                else
-                    range.End = _startPlace;
+                range.End = range.Start >= _startPlace ? new Place(Tb.GetLineLength(Tb.LinesCount - 1), Tb.LinesCount - 1) : _startPlace;
                 //
                 foreach (var r in range.GetRanges(pattern, opt))
                 {
@@ -130,12 +126,13 @@ namespace SS.Ynote.Classic.Features.Search
         }
     }
 
+/*
     /// <summary>
     ///     This style will drawing ellipse around of the word
     /// </summary>
     internal class HighlightMatchStyle : Style
     {
-        internal Color PenColor { get; set; }
+        private Color PenColor { get; set; }
 
         public override void Draw(Graphics gr, Point position, Range range)
         {
@@ -151,4 +148,5 @@ namespace SS.Ynote.Classic.Features.Search
             gr.DrawPath(new Pen(PenColor), path);
         }
     }
+*/
 }

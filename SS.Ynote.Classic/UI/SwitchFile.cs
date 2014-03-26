@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using FastColoredTextBoxNS;
 using WeifenLuo.WinFormsUI.Docking;
 using AutocompleteItem = AutocompleteMenuNS.AutocompleteItem;
 using AutocompleteMenu = AutocompleteMenuNS.AutocompleteMenu;
@@ -33,7 +32,7 @@ namespace SS.Ynote.Classic.UI
         }
 
         private static void SetAutoComplete(IEnumerable<AutocompleteItem> items, AutocompleteMenu completemenu,
-            TextBox tb)
+            Control tb)
         {
             completemenu.SetAutocompleteMenu(tb, completemenu);
             completemenu.SetAutocompleteItems(items);
@@ -46,12 +45,12 @@ namespace SS.Ynote.Classic.UI
 
         private void DoKeyDownFunction(string text)
         {
-            foreach (Editor edit in ynote.Panel.Documents)
-                if (edit.Text == text)
-                {
-                    edit.Show(ynote.Panel);
-                    edit.tb.Selection.Start = new Place(0, 0); //TODO:Check
-                }
+            // updated : using LINQ
+            foreach (Editor edit in ynote.Panel.Documents.Cast<Editor>().Where(edit => edit.Text == text))
+                edit.Show(ynote.Panel, DockState.Document);
+           // foreach (Editor edit in ynote.Panel.Documents)
+           //     if (edit.Text == text)
+           //         edit.Show(ynote.Panel, DockState.Document);
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)

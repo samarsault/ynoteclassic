@@ -30,27 +30,28 @@ namespace SS.Ynote.Classic.UI
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Tabs");
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Environment", new System.Windows.Forms.TreeNode[] {
-            treeNode12});
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("General");
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("MISC");
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Text Editor", new System.Windows.Forms.TreeNode[] {
-            treeNode14,
-            treeNode15});
-            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("File Extensions");
-            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Files", new System.Windows.Forms.TreeNode[] {
-            treeNode17});
-            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("General Settings");
-            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Plugins", new System.Windows.Forms.TreeNode[] {
-            treeNode19});
-            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("Manage");
-            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("Data", new System.Windows.Forms.TreeNode[] {
-            treeNode21});
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Tabs");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Environment", new System.Windows.Forms.TreeNode[] {
+            treeNode1});
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("General");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("MISC");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Text Editor", new System.Windows.Forms.TreeNode[] {
+            treeNode3,
+            treeNode4});
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("File Extensions");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Files", new System.Windows.Forms.TreeNode[] {
+            treeNode6});
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("General Settings");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Plugins", new System.Windows.Forms.TreeNode[] {
+            treeNode8});
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Manage");
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Data", new System.Windows.Forms.TreeNode[] {
+            treeNode10});
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.tabcontrol = new SS.Ynote.Classic.UI.Controls.WizardTabControl();
             this.tabsettingpage = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -102,7 +103,6 @@ namespace SS.Ynote.Classic.UI
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.tabcontrol.SuspendLayout();
             this.tabsettingpage.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -127,35 +127,35 @@ namespace SS.Ynote.Classic.UI
             this.treeView1.Indent = 27;
             this.treeView1.Location = new System.Drawing.Point(9, 36);
             this.treeView1.Name = "treeView1";
-            treeNode12.Name = "TabsNode";
-            treeNode12.Text = "Tabs";
-            treeNode13.Name = "EnvironmentNode";
-            treeNode13.Text = "Environment";
-            treeNode14.Name = "TextEditorGeneralNode";
-            treeNode14.Text = "General";
-            treeNode15.Name = "TextEditorEditing";
-            treeNode15.Text = "MISC";
-            treeNode16.Name = "TextEditorNode";
-            treeNode16.Text = "Text Editor";
-            treeNode17.Name = "FileExtensionsNode";
-            treeNode17.Text = "File Extensions";
-            treeNode18.Name = "Node21";
-            treeNode18.Text = "Files";
-            treeNode19.Name = "General";
-            treeNode19.Text = "General Settings";
-            treeNode20.Name = "Node30";
-            treeNode20.Text = "Plugins";
-            treeNode21.Checked = true;
-            treeNode21.Name = "ClearDataNode";
-            treeNode21.Text = "Manage";
-            treeNode22.Name = "DataNode";
-            treeNode22.Text = "Data";
+            treeNode1.Name = "TabsNode";
+            treeNode1.Text = "Tabs";
+            treeNode2.Name = "EnvironmentNode";
+            treeNode2.Text = "Environment";
+            treeNode3.Name = "TextEditorGeneralNode";
+            treeNode3.Text = "General";
+            treeNode4.Name = "TextEditorEditing";
+            treeNode4.Text = "MISC";
+            treeNode5.Name = "TextEditorNode";
+            treeNode5.Text = "Text Editor";
+            treeNode6.Name = "FileExtensionsNode";
+            treeNode6.Text = "File Extensions";
+            treeNode7.Name = "Node21";
+            treeNode7.Text = "Files";
+            treeNode8.Name = "General";
+            treeNode8.Text = "General Settings";
+            treeNode9.Name = "Node30";
+            treeNode9.Text = "Plugins";
+            treeNode10.Checked = true;
+            treeNode10.Name = "ClearDataNode";
+            treeNode10.Text = "Manage";
+            treeNode11.Name = "DataNode";
+            treeNode11.Text = "Data";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode13,
-            treeNode16,
-            treeNode18,
-            treeNode20,
-            treeNode22});
+            treeNode2,
+            treeNode5,
+            treeNode7,
+            treeNode9,
+            treeNode11});
             this.treeView1.ShowLines = false;
             this.treeView1.Size = new System.Drawing.Size(169, 313);
             this.treeView1.TabIndex = 0;
@@ -191,6 +191,14 @@ namespace SS.Ynote.Classic.UI
             this.label1.Size = new System.Drawing.Size(173, 29);
             this.label1.TabIndex = 4;
             this.label1.Text = "      Options";
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel1.Location = new System.Drawing.Point(-2, 351);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(637, 36);
+            this.panel1.TabIndex = 5;
             // 
             // tabcontrol
             // 
@@ -479,7 +487,7 @@ namespace SS.Ynote.Classic.UI
             this.groupBox10.Controls.Add(this.label17);
             this.groupBox10.Controls.Add(this.label14);
             this.groupBox10.Controls.Add(this.label16);
-            this.groupBox10.Location = new System.Drawing.Point(18, 22);
+            this.groupBox10.Location = new System.Drawing.Point(15, 10);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(398, 148);
             this.groupBox10.TabIndex = 10;
@@ -492,7 +500,6 @@ namespace SS.Ynote.Classic.UI
             this.tabsize.Name = "tabsize";
             this.tabsize.Size = new System.Drawing.Size(43, 20);
             this.tabsize.TabIndex = 5;
-            this.tabsize.ValueChanged += new System.EventHandler(this.tabsize_ValueChanged);
             // 
             // label8
             // 
@@ -752,14 +759,6 @@ namespace SS.Ynote.Classic.UI
             this.checkBox5.TabIndex = 0;
             this.checkBox5.Text = "Enable Plugin Loading";
             this.checkBox5.UseVisualStyleBackColor = true;
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.panel1.Location = new System.Drawing.Point(-2, 351);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(637, 36);
-            this.panel1.TabIndex = 5;
             // 
             // Options
             // 

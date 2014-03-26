@@ -71,16 +71,15 @@ namespace SS.Ynote.Classic.UI
                     break;
             }
         }
-
         private void tablocation_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
                 SettingsBase.TabLocation = tablocation.Text.ToEnum<DocumentTabStripLocation>();
             }
-            catch (Exception)
+            catch
             {
-                // throw;
+                ;
             }
         }
 
@@ -90,8 +89,9 @@ namespace SS.Ynote.Classic.UI
             {
                 SettingsBase.DocumentStyle = cbdockstyle.Text.ToEnum<DocumentStyle>();
             }
-            catch (Exception)
+            catch
             {
+                ;
             }
         }
 
@@ -131,9 +131,9 @@ namespace SS.Ynote.Classic.UI
             {
                 SettingsBase.WordWrapMode = cmbwordwrapmode.Text.ToEnum<WordWrapMode>();
             }
-            catch (Exception)
+            catch
             {
-                //throw;
+                ;
             }
         }
 
@@ -148,13 +148,17 @@ namespace SS.Ynote.Classic.UI
             {
                 SettingsBase.BracketsStrategy = comboBox2.Text.ToEnum<BracketsHighlightStrategy>();
             }
-            catch (Exception)
+            catch
             {
+                ;
             }
         }
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            SettingsBase.PaddingWidth = tbpaddingwidth.IntValue;
+            SettingsBase.LineInterval = tblineinterval.IntValue;
+            SettingsBase.TabSize = Convert.ToInt32(tabsize.Value);
             SettingsBase.SaveConfiguration();
             Close();
         }
@@ -170,9 +174,9 @@ namespace SS.Ynote.Classic.UI
             {
                 Directory.Delete(Environment.SpecialFolder.ApplicationData + @"\Ynote Classic\");
             }
-            catch (Exception)
+            catch
             {
-                // move();
+                ;
             }
         }
 
@@ -181,11 +185,6 @@ namespace SS.Ynote.Classic.UI
         {
             File.WriteAllText(string.Empty, SettingsBase.SettingsDir + "Settings.ini");
             SettingsBase.RestoreDefault(SettingsBase.SettingsDir + "Settings.ini");
-        }
-
-        private void tabsize_ValueChanged(object sender, EventArgs e)
-        {
-            SettingsBase.TabSize = Convert.ToInt32(tabsize.Value);
         }
 
         private void cbruler_CheckedChanged(object sender, EventArgs e)
