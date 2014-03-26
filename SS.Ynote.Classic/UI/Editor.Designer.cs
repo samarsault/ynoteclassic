@@ -29,100 +29,99 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            var resources = new System.ComponentModel.ComponentResourceManager(typeof(Editor));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Editor));
             this.contextmenu = new System.Windows.Forms.ContextMenu();
-            this.menuItem1 = new System.Windows.Forms.MenuItem();
-            this.menuItem2 = new System.Windows.Forms.MenuItem();
-            this.menuItem3 = new System.Windows.Forms.MenuItem();
+            this.cutmenu = new System.Windows.Forms.MenuItem();
+            this.copymenu = new System.Windows.Forms.MenuItem();
+            this.pastemenu = new System.Windows.Forms.MenuItem();
             this.menuItem4 = new System.Windows.Forms.MenuItem();
-            this.menuItem5 = new System.Windows.Forms.MenuItem();
-            this.menuItem6 = new System.Windows.Forms.MenuItem();
+            this.undomenu = new System.Windows.Forms.MenuItem();
+            this.redomenu = new System.Windows.Forms.MenuItem();
             this.menuItem7 = new System.Windows.Forms.MenuItem();
-            this.menuItem8 = new System.Windows.Forms.MenuItem();
-            this.menuItem10 = new System.Windows.Forms.MenuItem();
-            this.menuItem9 = new System.Windows.Forms.MenuItem();
+            this.selectallmenu = new System.Windows.Forms.MenuItem();
+            this.foldselectedmenu = new System.Windows.Forms.MenuItem();
+            this.closemenu = new System.Windows.Forms.MenuItem();
             this.codebox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.tabcontext = new System.Windows.Forms.ContextMenu();
-            this.menuItem20 = new System.Windows.Forms.MenuItem();
-            this.menuItem11 = new System.Windows.Forms.MenuItem();
-            this.menuItem12 = new System.Windows.Forms.MenuItem();
-            this.menuItem13 = new System.Windows.Forms.MenuItem();
-            ((System.ComponentModel.ISupportInitialize)(this.codebox)).BeginInit();
+            this.miclose = new System.Windows.Forms.MenuItem();
+            this.micloseallbutthis = new System.Windows.Forms.MenuItem();
+            this.micloseall = new System.Windows.Forms.MenuItem();
+            this.miopencontaining = new System.Windows.Forms.MenuItem();
             this.SuspendLayout();
             // 
             // contextmenu
             // 
             this.contextmenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem1,
-            this.menuItem2,
-            this.menuItem3,
+            this.cutmenu,
+            this.copymenu,
+            this.pastemenu,
             this.menuItem4,
-            this.menuItem5,
-            this.menuItem6,
+            this.undomenu,
+            this.redomenu,
             this.menuItem7,
-            this.menuItem8,
-            this.menuItem10,
-            this.menuItem9});
+            this.selectallmenu,
+            this.foldselectedmenu,
+            this.closemenu});
             // 
-            // menuItem1
+            // cutmenu
             // 
-            this.menuItem1.Index = 0;
-            this.menuItem1.Text = "Cut";
-            this.menuItem1.Click += new System.EventHandler(this.menuItem1_Click);
+            this.cutmenu.Index = 0;
+            this.cutmenu.Text = "Cut";
+            this.cutmenu.Click += new System.EventHandler(this.cutemenu_Click);
             // 
-            // menuItem2
+            // copymenu
             // 
-            this.menuItem2.Index = 1;
-            this.menuItem2.Text = "Copy";
-            this.menuItem2.Click += new System.EventHandler(this.menuItem2_Click);
+            this.copymenu.Index = 1;
+            this.copymenu.Text = "Copy";
+            this.copymenu.Click += new System.EventHandler(this.copymenu_Click);
             // 
-            // menuItem3
+            // pastemenu
             // 
-            this.menuItem3.Index = 2;
-            this.menuItem3.Text = "Paste";
-            this.menuItem3.Click += new System.EventHandler(this.menuItem3_Click);
+            this.pastemenu.Index = 2;
+            this.pastemenu.Text = "Paste";
+            this.pastemenu.Click += new System.EventHandler(this.pastemenu_Click);
             // 
             // menuItem4
             // 
             this.menuItem4.Index = 3;
             this.menuItem4.Text = "-";
             // 
-            // menuItem5
+            // undomenu
             // 
-            this.menuItem5.Index = 4;
-            this.menuItem5.Text = "Undo";
-            this.menuItem5.Click += new System.EventHandler(this.menuItem5_Click);
+            this.undomenu.Index = 4;
+            this.undomenu.Text = "Undo";
+            this.undomenu.Click += new System.EventHandler(this.undomenu_Click);
             // 
-            // menuItem6
+            // redomenu
             // 
-            this.menuItem6.Index = 5;
-            this.menuItem6.Text = "Redo";
-            this.menuItem6.Click += new System.EventHandler(this.menuItem6_Click);
+            this.redomenu.Index = 5;
+            this.redomenu.Text = "Redo";
+            this.redomenu.Click += new System.EventHandler(this.redomenu_Click);
             // 
             // menuItem7
             // 
             this.menuItem7.Index = 6;
             this.menuItem7.Text = "-";
             // 
-            // menuItem8
+            // selectallmenu
             // 
-            this.menuItem8.Index = 7;
-            this.menuItem8.Text = "Select All";
-            this.menuItem8.Click += new System.EventHandler(this.menuItem8_Click);
+            this.selectallmenu.Index = 7;
+            this.selectallmenu.Text = "Select All";
+            this.selectallmenu.Click += new System.EventHandler(this.selectallmenu_Click);
             // 
-            // menuItem10
+            // foldselectedmenu
             // 
-            this.menuItem10.Index = 8;
-            this.menuItem10.Shortcut = System.Windows.Forms.Shortcut.F4;
-            this.menuItem10.Text = "Fold Selected";
-            this.menuItem10.Click += new System.EventHandler(this.menuItem10_Click);
+            this.foldselectedmenu.Index = 8;
+            this.foldselectedmenu.Shortcut = System.Windows.Forms.Shortcut.F4;
+            this.foldselectedmenu.Text = "Fold Selected";
+            this.foldselectedmenu.Click += new System.EventHandler(this.menuItem10_Click);
             // 
-            // menuItem9
+            // closemenu
             // 
-            this.menuItem9.Index = 9;
-            this.menuItem9.Shortcut = System.Windows.Forms.Shortcut.CtrlW;
-            this.menuItem9.Text = "Close";
-            this.menuItem9.Click += new System.EventHandler(this.menuItem9_Click);
+            this.closemenu.Index = 9;
+            this.closemenu.Shortcut = System.Windows.Forms.Shortcut.CtrlW;
+            this.closemenu.Text = "Close";
+            this.closemenu.Click += new System.EventHandler(this.menuItem9_Click);
             // 
             // codebox
             // 
@@ -133,51 +132,51 @@
             this.codebox.CharWidth = 8;
             this.codebox.ContextMenu = this.contextmenu;
             this.codebox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.codebox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.codebox.DisabledColor = System.Drawing.Color.FromArgb(100, 100,100,180);
             this.codebox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.codebox.Hotkeys = resources.GetString("codebox.Hotkeys");
             this.codebox.IsReplaceMode = false;
             this.codebox.LeftBracket = '(';
-            this.codebox.Location = new System.Drawing.Point(0, 24);
+            this.codebox.Location = new System.Drawing.Point(0, 0);
             this.codebox.Name = "codebox";
             this.codebox.Paddings = new System.Windows.Forms.Padding(0);
             this.codebox.RightBracket = ')';
-            this.codebox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.codebox.Size = new System.Drawing.Size(284, 238);
+            this.codebox.SelectionColor = System.Drawing.Color.FromArgb(60,0,0,255);
+            this.codebox.Size = new System.Drawing.Size(284, 262);
             this.codebox.TabIndex = 0;
             this.codebox.Zoom = 100;
             // 
             // tabcontext
             // 
             this.tabcontext.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.menuItem20,
-            this.menuItem11,
-            this.menuItem12,
-            this.menuItem13});
+            this.miclose,
+            this.micloseallbutthis,
+            this.micloseall,
+            this.miopencontaining});
             // 
-            // menuItem20
+            // miclose
             // 
-            this.menuItem20.Index = 0;
-            this.menuItem20.Text = "Close";
-            this.menuItem20.Click += new System.EventHandler(this.menuItem9_Click);
+            this.miclose.Index = 0;
+            this.miclose.Text = "Close";
+            this.miclose.Click += new System.EventHandler(this.menuItem9_Click);
             // 
-            // menuItem11
+            // micloseallbutthis
             // 
-            this.menuItem11.Index = 1;
-            this.menuItem11.Text = "Close All But This";
-            this.menuItem11.Click += new System.EventHandler(this.menuItem11_Click);
+            this.micloseallbutthis.Index = 1;
+            this.micloseallbutthis.Text = "Close All But This";
+            this.micloseallbutthis.Click += new System.EventHandler(this.menuItem11_Click);
             // 
-            // menuItem12
+            // micloseall
             // 
-            this.menuItem12.Index = 2;
-            this.menuItem12.Text = "Close All";
-            this.menuItem12.Click += new System.EventHandler(this.menuItem12_Click);
+            this.micloseall.Index = 2;
+            this.micloseall.Text = "Close All";
+            this.micloseall.Click += new System.EventHandler(this.menuItem12_Click);
             // 
-            // menuItem13
+            // miopencontaining
             // 
-            this.menuItem13.Index = 3;
-            this.menuItem13.Text = "Open Containing Folder";
-            this.menuItem13.Click += new System.EventHandler(this.menuItem13_Click);
+            this.miopencontaining.Index = 3;
+            this.miopencontaining.Text = "Open Containing Folder";
+            this.miopencontaining.Click += new System.EventHandler(this.menuItem13_Click);
             // 
             // Editor
             // 
@@ -190,7 +189,6 @@
             this.Name = "Editor";
             this.TabPageContextMenu = this.tabcontext;
             this.Text = "Editor";
-            ((System.ComponentModel.ISupportInitialize)(this.codebox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -198,21 +196,21 @@
         private System.Windows.Forms.ContextMenu contextmenu;
         #endregion
 
-        private System.Windows.Forms.MenuItem menuItem1;
-        private System.Windows.Forms.MenuItem menuItem2;
-        private System.Windows.Forms.MenuItem menuItem3;
+        private System.Windows.Forms.MenuItem cutmenu;
+        private System.Windows.Forms.MenuItem copymenu;
+        private System.Windows.Forms.MenuItem pastemenu;
         private System.Windows.Forms.MenuItem menuItem4;
-        private System.Windows.Forms.MenuItem menuItem5;
-        private System.Windows.Forms.MenuItem menuItem6;
+        private System.Windows.Forms.MenuItem undomenu;
+        private System.Windows.Forms.MenuItem redomenu;
         private System.Windows.Forms.MenuItem menuItem7;
-        private System.Windows.Forms.MenuItem menuItem8;
-        private System.Windows.Forms.MenuItem menuItem10;
-        private System.Windows.Forms.MenuItem menuItem9;
+        private System.Windows.Forms.MenuItem selectallmenu;
+        private System.Windows.Forms.MenuItem foldselectedmenu;
+        private System.Windows.Forms.MenuItem closemenu;
         private System.Windows.Forms.ContextMenu tabcontext;
-        private System.Windows.Forms.MenuItem menuItem20;
-        private System.Windows.Forms.MenuItem menuItem11;
-        private System.Windows.Forms.MenuItem menuItem12;
-        private System.Windows.Forms.MenuItem menuItem13;
+        private System.Windows.Forms.MenuItem miclose;
+        private System.Windows.Forms.MenuItem micloseallbutthis;
+        private System.Windows.Forms.MenuItem micloseall;
+        private System.Windows.Forms.MenuItem miopencontaining;
 
     }
 }
