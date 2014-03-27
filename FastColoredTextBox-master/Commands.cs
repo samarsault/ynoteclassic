@@ -10,7 +10,7 @@ namespace FastColoredTextBoxNS
     public class InsertCharCommand : UndoableCommand
     {
         internal char c;
-        char deletedChar = '\x0';
+        private char deletedChar = '\x0';
 
         /// <summary>
         /// Constructor
@@ -42,6 +42,7 @@ namespace FastColoredTextBoxNS
                         InsertChar(deletedChar, ref cc, ts);
                     }
                     break;
+
                 default:
                     ts.CurrentTb.ExpandBlock(sel.Start.iLine);
                     ts[sel.Start.iLine].RemoveAt(sel.Start.iChar);
@@ -68,7 +69,6 @@ namespace FastColoredTextBoxNS
             if (String.IsNullOrEmpty(s))
                 throw new ArgumentOutOfRangeException();
 
-
             if (ts.Count == 0)
                 InsertLine(ts);
             InsertChar(c, ref deletedChar, ts);
@@ -90,6 +90,7 @@ namespace FastColoredTextBoxNS
                         InsertLine(ts);
                     InsertLine(ts);
                     break;
+
                 case '\r': break;
                 case '\b'://backspace
                     if (tb.Selection.Start.iChar == 0 && tb.Selection.Start.iLine == 0)
@@ -110,6 +111,7 @@ namespace FastColoredTextBoxNS
                         tb.Selection.Start = new Place(tb.Selection.Start.iChar - 1, tb.Selection.Start.iLine);
                     }
                     break;
+
                 case '\t':
                     int spaceCountNextTabStop = tb.TabLength - (tb.Selection.Start.iChar % tb.TabLength);
                     if (spaceCountNextTabStop == 0)
@@ -120,6 +122,7 @@ namespace FastColoredTextBoxNS
 
                     tb.Selection.Start = new Place(tb.Selection.Start.iChar + spaceCountNextTabStop, tb.Selection.Start.iLine);
                     break;
+
                 default:
                     ts[tb.Selection.Start.iLine].Insert(tb.Selection.Start.iChar, new Char(c));
                     tb.Selection.Start = new Place(tb.Selection.Start.iChar + 1, tb.Selection.Start.iLine);
@@ -258,9 +261,9 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class ReplaceTextCommand : UndoableCommand
     {
-        string insertedText;
-        readonly List<Range> ranges;
-        readonly List<string> prevText = new List<string>();
+        private string insertedText;
+        private readonly List<Range> ranges;
+        private readonly List<string> prevText = new List<string>();
 
         /// <summary>
         /// Constructor
@@ -378,7 +381,7 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class ClearSelectedCommand : UndoableCommand
     {
-        string deletedText;
+        private string deletedText;
 
         /// <summary>
         /// Construstor
@@ -458,12 +461,13 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class ReplaceMultipleTextCommand : UndoableCommand
     {
-        readonly List<ReplaceRange> ranges;
-        readonly List<string> prevText = new List<string>();
+        private readonly List<ReplaceRange> ranges;
+        private readonly List<string> prevText = new List<string>();
 
         public class ReplaceRange
         {
             public Range ReplacedRange { get; set; }
+
             public String ReplaceText { get; set; }
         }
 
@@ -549,8 +553,8 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class RemoveLinesCommand : UndoableCommand
     {
-        readonly List<int> iLines;
-        readonly List<string> prevText = new List<string>();
+        private readonly List<int> iLines;
+        private readonly List<string> prevText = new List<string>();
 
         /// <summary>
         /// Constructor

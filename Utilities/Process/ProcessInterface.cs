@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Text;
-using System.Diagnostics;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
+using System.Text;
 
 namespace ConsoleControlAPI
 {
@@ -41,7 +41,7 @@ namespace ConsoleControlAPI
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.ComponentModel.ProgressChangedEventArgs"/> instance containing the event data.</param>
-        void outputWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void outputWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             //  We must be passed a string in the user state.
             if (e.UserState is string)
@@ -56,7 +56,7 @@ namespace ConsoleControlAPI
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.ComponentModel.DoWorkEventArgs"/> instance containing the event data.</param>
-        void outputWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void outputWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             while (outputWorker.CancellationPending == false)
             {
@@ -80,7 +80,7 @@ namespace ConsoleControlAPI
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.ComponentModel.ProgressChangedEventArgs"/> instance containing the event data.</param>
-        void errorWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void errorWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             //  The userstate must be a string.
             if (e.UserState is string)
@@ -95,7 +95,7 @@ namespace ConsoleControlAPI
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.ComponentModel.DoWorkEventArgs"/> instance containing the event data.</param>
-        void errorWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void errorWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             while (errorWorker.CancellationPending == false)
             {
@@ -185,7 +185,7 @@ namespace ConsoleControlAPI
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        void currentProcess_Exited(object sender, EventArgs e)
+        private void currentProcess_Exited(object sender, EventArgs e)
         {
             //  Fire process exited.
             FireProcessExitEvent(process.ExitCode);
@@ -266,27 +266,27 @@ namespace ConsoleControlAPI
         /// The current process.
         /// </summary>
         private Process process;
-        
+
         /// <summary>
         /// The input writer.
         /// </summary>
         private StreamWriter inputWriter;
-        
+
         /// <summary>
         /// The output reader.
         /// </summary>
         private TextReader outputReader;
-        
+
         /// <summary>
         /// The error reader.
         /// </summary>
         private TextReader errorReader;
-        
+
         /// <summary>
         /// The output worker.
         /// </summary>
         private BackgroundWorker outputWorker = new BackgroundWorker();
-        
+
         /// <summary>
         /// The error worker.
         /// </summary>
@@ -301,7 +301,7 @@ namespace ConsoleControlAPI
         /// Arguments sent to the current process.
         /// </summary>
         private string processArguments;
-        
+
         /// <summary>
         /// Occurs when process output is produced.
         /// </summary>
@@ -321,7 +321,7 @@ namespace ConsoleControlAPI
         /// Occurs when the process ends.
         /// </summary>
         public event ProcessEventHanlder OnProcessExit;
-        
+
         /// <summary>
         /// Gets a value indicating whether this instance is process running.
         /// </summary>

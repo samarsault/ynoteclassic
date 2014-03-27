@@ -26,8 +26,8 @@ namespace SS.Ynote.Classic.UI
         private void BuildAutoComplete()
         {
             var items = (from DockContent doc in ynote.Panel.Documents
-                where doc.GetType() == typeof (Editor)
-                select new AutocompleteItem(doc.Text)).ToList();
+                         where doc.GetType() == typeof(Editor)
+                         select new AutocompleteItem(doc.Text)).ToList();
             SetAutoComplete(items, completemenu, textBox1);
         }
 
@@ -48,9 +48,9 @@ namespace SS.Ynote.Classic.UI
             // updated : using LINQ
             foreach (Editor edit in ynote.Panel.Documents.Cast<Editor>().Where(edit => edit.Text == text))
                 edit.Show(ynote.Panel, DockState.Document);
-           // foreach (Editor edit in ynote.Panel.Documents)
-           //     if (edit.Text == text)
-           //         edit.Show(ynote.Panel, DockState.Document);
+            // foreach (Editor edit in ynote.Panel.Documents)
+            //     if (edit.Text == text)
+            //         edit.Show(ynote.Panel, DockState.Document);
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)

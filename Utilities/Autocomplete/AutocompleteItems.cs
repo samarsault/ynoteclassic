@@ -8,8 +8,8 @@ namespace AutocompleteMenuNS
     /// </summary>
     public class MethodAutocompleteItem : AutocompleteItem
     {
-        string firstPart;
-        string lowercaseText;
+        private string firstPart;
+        private string lowercaseText;
 
         public MethodAutocompleteItem(string text)
             : base(text)
@@ -105,13 +105,13 @@ namespace AutocompleteMenuNS
             : base(text)
         {
             this.ignoreCase = ignoreCase;
-            if(ignoreCase)
+            if (ignoreCase)
                 lowercaseText = text.ToLower();
         }
 
         public override CompareResult Compare(string fragmentText)
         {
-            if(ignoreCase)
+            if (ignoreCase)
             {
                 if (lowercaseText.Contains(fragmentText.ToLower()))
                     return CompareResult.Visible;
@@ -132,7 +132,9 @@ namespace AutocompleteMenuNS
     public class MulticolumnAutocompleteItem : SubstringAutocompleteItem
     {
         public bool CompareBySubstring { get; set; }
+
         public string[] MenuTextByColumns { get; set; }
+
         public int[] ColumnWidth { get; set; }
 
         public MulticolumnAutocompleteItem(string[] menuTextByColumns, string insertingText, bool compareBySubstring = true, bool ignoreCase = true)
@@ -147,11 +149,12 @@ namespace AutocompleteMenuNS
             if (CompareBySubstring)
                 return base.Compare(fragmentText);
 
-            if(ignoreCase)
+            if (ignoreCase)
             {
                 if (Text.StartsWith(fragmentText, StringComparison.InvariantCultureIgnoreCase))
                     return CompareResult.VisibleAndSelected;
-            }else
+            }
+            else
                 if (Text.StartsWith(fragmentText))
                     return CompareResult.VisibleAndSelected;
 
@@ -164,10 +167,10 @@ namespace AutocompleteMenuNS
                 throw new Exception("ColumnWidth.Length != MenuTextByColumns.Length");
 
             int[] columnWidth = ColumnWidth;
-            if(columnWidth == null)
+            if (columnWidth == null)
             {
                 columnWidth = new int[MenuTextByColumns.Length];
-                float step = e.TextRect.Width/MenuTextByColumns.Length;
+                float step = e.TextRect.Width / MenuTextByColumns.Length;
                 for (int i = 0; i < MenuTextByColumns.Length; i++)
                     columnWidth[i] = (int)step;
             }
@@ -178,7 +181,7 @@ namespace AutocompleteMenuNS
             float x = e.TextRect.X;
             e.StringFormat.FormatFlags = e.StringFormat.FormatFlags | StringFormatFlags.NoWrap;
 
-            for (int i=0;i<MenuTextByColumns.Length;i++)
+            for (int i = 0; i < MenuTextByColumns.Length; i++)
             {
                 var width = columnWidth[i];
                 var rect = new RectangleF(x, e.TextRect.Top, width, e.TextRect.Height);

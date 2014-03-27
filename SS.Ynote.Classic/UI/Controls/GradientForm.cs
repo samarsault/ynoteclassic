@@ -96,9 +96,9 @@ namespace SS.Ynote.Classic.UI
         /// </summary>
         private void InitializeComponent()
         {
-            // 
+            //
             // BaseFormGradient
-            // 
+            //
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.ClientSize = new System.Drawing.Size(432, 198);
             this.Name = "BaseFormGradient";

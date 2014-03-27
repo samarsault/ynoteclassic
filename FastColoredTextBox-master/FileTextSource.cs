@@ -2,8 +2,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 
 namespace FastColoredTextBoxNS
@@ -14,10 +14,10 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class FileTextSource : TextSource, IDisposable
     {
-        List<int> sourceFileLinePositions = new List<int>();
-        FileStream fs;
-        Encoding fileEncoding;
-        readonly Timer timer = new Timer();
+        private List<int> sourceFileLinePositions = new List<int>();
+        private FileStream fs;
+        private Encoding fileEncoding;
+        private readonly Timer timer = new Timer();
 
         /// <summary>
         /// Occurs when need to display line in the textbox
@@ -37,7 +37,7 @@ namespace FastColoredTextBoxNS
             timer.Enabled = true;
         }
 
-        void timer_Tick(object sender, EventArgs e)
+        private void timer_Tick(object sender, EventArgs e)
         {
             timer.Enabled = false;
             try
@@ -63,9 +63,9 @@ namespace FastColoredTextBoxNS
                     lines[i] = null;
                     count++;
                 }
-            #if debug
+#if debug
             Console.WriteLine("UnloadUnusedLines: " + count);
-            #endif
+#endif
         }
 
         public void OpenFile(string fileName, Encoding enc)
@@ -85,7 +85,7 @@ namespace FastColoredTextBoxNS
             sourceFileLinePositions.Add((int)fs.Position);
             base.lines.Add(null);
             //other lines
-            while(fs.Position < length)
+            while (fs.Position < length)
             {
                 var b = fs.ReadByte();
                 if (b == 10)// char \n
@@ -101,19 +101,17 @@ namespace FastColoredTextBoxNS
             base.lines.TrimExcess();
             base.lines.RemoveRange(c, temp.Length);
 
-
             int[] temp2 = new int[100];
             c = base.lines.Count;
             sourceFileLinePositions.AddRange(temp2);
             sourceFileLinePositions.TrimExcess();
             sourceFileLinePositions.RemoveRange(c, temp.Length);
-            
 
             fileEncoding = enc;
 
             OnLineInserted(0, Count);
             //load first lines for calc width of the text
-            var linesCount = Math.Min(lines.Count, CurrentTb.ClientRectangle.Height/CurrentTb.CharHeight);
+            var linesCount = Math.Min(lines.Count, CurrentTb.ClientRectangle.Height / CurrentTb.CharHeight);
             for (int i = 0; i < linesCount; i++)
                 LoadLineFromSourceFile(i);
             //
@@ -153,29 +151,29 @@ namespace FastColoredTextBoxNS
                 bytesPerSignature = 4;
             }
             else
-            if (signature[0] == 0x00 && signature[1] == 0x00 && signature[2] == 0xFE && signature[3] == 0xFF)
-            {
-                enc = new UTF32Encoding(true, true);//UTF32 BE
-                bytesPerSignature = 4;
-            }
-            else
-            if (signature[0] == 0xEF && signature[1] == 0xBB && signature[2] == 0xBF)
-            {
-                enc = Encoding.UTF8;//UTF8
-                bytesPerSignature = 3;
-            }
-            else
-            if (signature[0] == 0xFE && signature[1] == 0xFF)
-            {
-                enc = Encoding.BigEndianUnicode;//UTF16 BE
-                bytesPerSignature = 2;
-            }
-            else
-            if (signature[0] == 0xFF && signature[1] == 0xFE)
-            {
-                enc = Encoding.Unicode;//UTF16 LE
-                bytesPerSignature = 2;
-            }
+                if (signature[0] == 0x00 && signature[1] == 0x00 && signature[2] == 0xFE && signature[3] == 0xFF)
+                {
+                    enc = new UTF32Encoding(true, true);//UTF32 BE
+                    bytesPerSignature = 4;
+                }
+                else
+                    if (signature[0] == 0xEF && signature[1] == 0xBB && signature[2] == 0xBF)
+                    {
+                        enc = Encoding.UTF8;//UTF8
+                        bytesPerSignature = 3;
+                    }
+                    else
+                        if (signature[0] == 0xFE && signature[1] == 0xFF)
+                        {
+                            enc = Encoding.BigEndianUnicode;//UTF16 BE
+                            bytesPerSignature = 2;
+                        }
+                        else
+                            if (signature[0] == 0xFF && signature[1] == 0xFE)
+                            {
+                                enc = Encoding.Unicode;//UTF16 LE
+                                bytesPerSignature = 2;
+                            }
 
             fs.Seek(bytesPerSignature, SeekOrigin.Begin);
 
@@ -184,7 +182,7 @@ namespace FastColoredTextBoxNS
 
         public void CloseFile()
         {
-            if(fs!=null)
+            if (fs != null)
                 try
                 {
                     fs.Dispose();
@@ -227,7 +225,7 @@ namespace FastColoredTextBoxNS
                         var args = new LinePushedEventArgs(sourceLine, i, lineIsChanged ? line : null);
                         LinePushed(this, args);
 
-                        if(args.SavedText != null)
+                        if (args.SavedText != null)
                             line = args.SavedText;
                     }
 
@@ -273,13 +271,13 @@ namespace FastColoredTextBoxNS
         public override void ClearIsChanged()
         {
             foreach (var line in lines)
-                if(line!=null)
+                if (line != null)
                     line.IsChanged = false;
         }
 
         public override Line this[int i]
         {
-            get 
+            get
             {
                 if (base.lines[i] != null)
                     return lines[i];
@@ -305,7 +303,7 @@ namespace FastColoredTextBoxNS
                 s = "";
 
             //call event handler
-            if(LineNeeded!=null)
+            if (LineNeeded != null)
             {
                 var args = new LineNeededEventArgs(s, i);
                 LineNeeded(this, args);
@@ -381,7 +379,9 @@ namespace FastColoredTextBoxNS
     public class LineNeededEventArgs : EventArgs
     {
         public string SourceLineText { get; private set; }
+
         public int DisplayedLineIndex { get; private set; }
+
         /// <summary>
         /// This text will be displayed in textbox
         /// </summary>
@@ -398,12 +398,15 @@ namespace FastColoredTextBoxNS
     public class LinePushedEventArgs : EventArgs
     {
         public string SourceLineText { get; private set; }
+
         public int DisplayedLineIndex { get; private set; }
+
         /// <summary>
         /// This property contains only changed text.
         /// If text of line is not changed, this property contains null.
         /// </summary>
         public string DisplayedLineText { get; private set; }
+
         /// <summary>
         /// This text will be saved in the file
         /// </summary>

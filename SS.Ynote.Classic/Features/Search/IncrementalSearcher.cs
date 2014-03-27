@@ -1,10 +1,10 @@
 #region
 
+using FastColoredTextBoxNS;
 using System;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using FastColoredTextBoxNS;
 
 #endregion
 
@@ -23,7 +23,6 @@ namespace SS.Ynote.Classic.Features.Search
             _style = new TextStyle(Brushes.Red, Brushes.Yellow, FontStyle.Regular);
             tbFind.Focus();
         }
-
 
         private void tbFind_KeyDown(object sender, KeyEventArgs e)
         {
@@ -126,27 +125,27 @@ namespace SS.Ynote.Classic.Features.Search
         }
     }
 
-/*
-    /// <summary>
-    ///     This style will drawing ellipse around of the word
-    /// </summary>
-    internal class HighlightMatchStyle : Style
-    {
-        private Color PenColor { get; set; }
-
-        public override void Draw(Graphics gr, Point position, Range range)
+    /*
+        /// <summary>
+        ///     This style will drawing ellipse around of the word
+        /// </summary>
+        internal class HighlightMatchStyle : Style
         {
-            //get size of rectangle
-            Size size = GetSizeOfRange(range);
-            //create rectangle
-            var rect = new Rectangle(position, size);
-            //inflate it
-            rect.Inflate(2, 2);
-            //get rounded rectangle
-            GraphicsPath path = GetRoundedRectangle(rect, 7);
-            //draw rounded rectangle
-            gr.DrawPath(new Pen(PenColor), path);
+            private Color PenColor { get; set; }
+
+            public override void Draw(Graphics gr, Point position, Range range)
+            {
+                //get size of rectangle
+                Size size = GetSizeOfRange(range);
+                //create rectangle
+                var rect = new Rectangle(position, size);
+                //inflate it
+                rect.Inflate(2, 2);
+                //get rounded rectangle
+                GraphicsPath path = GetRoundedRectangle(rect, 7);
+                //draw rounded rectangle
+                gr.DrawPath(new Pen(PenColor), path);
+            }
         }
-    }
-*/
+    */
 }

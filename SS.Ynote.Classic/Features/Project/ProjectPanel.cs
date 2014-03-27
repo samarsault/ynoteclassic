@@ -1,15 +1,15 @@
 #region Using Directives
 
+using SS.Ynote.Classic.Features.RunScript;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using SS.Ynote.Classic.Features.RunScript;
 using WeifenLuo.WinFormsUI.Docking;
 
-#endregion
+#endregion Using Directives
 
 namespace SS.Ynote.Classic.Features.Project
 {
@@ -27,7 +27,7 @@ namespace SS.Ynote.Classic.Features.Project
         /// </summary>
         private readonly IYnote _ynote;
 
-        #endregion
+        #endregion Private Variables
 
         #region Constructor
 
@@ -42,7 +42,7 @@ namespace SS.Ynote.Classic.Features.Project
             _openprojects = new List<YnoteProject>();
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Methods
 
@@ -79,7 +79,7 @@ namespace SS.Ynote.Classic.Features.Project
             while (stack.Count > 0)
             {
                 var currentNode = stack.Pop();
-                var directoryInfo = (DirectoryInfo) currentNode.Tag;
+                var directoryInfo = (DirectoryInfo)currentNode.Tag;
                 for (int i = 0; i < directoryInfo.GetDirectories().Length; i++)
                 {
                     var directory = directoryInfo.GetDirectories()[i];
@@ -276,7 +276,7 @@ namespace SS.Ynote.Classic.Features.Project
             _openprojects.Clear();
         }
 
-        #endregion
+        #endregion Methods
 
         #region Events
 
@@ -302,10 +302,9 @@ namespace SS.Ynote.Classic.Features.Project
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var rootnode = FindRootNode(projtree.SelectedNode);
-            _openprojects.Remove((YnoteProject) (rootnode.Tag));
+            _openprojects.Remove((YnoteProject)(rootnode.Tag));
             RefreshProjects();
         }
-
 
         private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
@@ -329,14 +328,13 @@ namespace SS.Ynote.Classic.Features.Project
 
         private void build_click(object sender, EventArgs e)
         {
-            var buildfile = ((ToolStripMenuItem) (sender)).Name;
+            var buildfile = ((ToolStripMenuItem)(sender)).Name;
 #if DEBUG
             Debug.WriteLine("Project RunScript : " + buildfile);
 #endif
             var console = new Cmd("cmd.exe", "/k " + buildfile);
             console.Show(DockPanel, DockState.DockBottom);
         }
-
 
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -497,6 +495,6 @@ namespace SS.Ynote.Classic.Features.Project
             }
         }
 
-        #endregion
+        #endregion Events
     }
 }

@@ -6,11 +6,14 @@ namespace AutocompleteMenuNS
     internal class AutocompleteMenuHost : ToolStripDropDown
     {
         private IAutocompleteListView listView;
+
         public ToolStripControlHost Host { get; set; }
 
-        public IAutocompleteListView ListView { 
+        public IAutocompleteListView ListView
+        {
             get { return listView; }
-            set {
+            set
+            {
                 if (value == null)
                     listView = new AutocompleteListView();
                 else
@@ -36,6 +39,7 @@ namespace AutocompleteMenuNS
                 (ListView as Control).Parent = this;
             }
         }
+
         public readonly AutocompleteMenu Menu;
 
         public AutocompleteMenuHost(AutocompleteMenu menu)

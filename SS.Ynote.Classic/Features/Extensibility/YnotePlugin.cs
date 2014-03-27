@@ -1,6 +1,4 @@
-﻿
-
-/// <summary>
+﻿/// <summary>
 /// IYnote Plugin
 /// </summary>
 public interface IYnotePlugin : IPlugin

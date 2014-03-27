@@ -1,8 +1,8 @@
 #region
 
+using FastColoredTextBoxNS;
 using System;
 using System.Windows.Forms;
-using FastColoredTextBoxNS;
 
 #endregion
 
@@ -52,7 +52,7 @@ namespace SS.Ynote.Classic.UI
         private void ProcessKeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter &&
-                ((TextBox) (sender)).Text != null)
+                ((TextBox)(sender)).Text != null)
                 Process();
         }
 
@@ -68,6 +68,7 @@ namespace SS.Ynote.Classic.UI
                     textBox1.Visible = false;
                     numericTextBox1.Focus();
                     break;
+
                 case InsertType.Column:
                     Text = "Insert Column";
                     label1.Text = "No. of Columns to Insert :";
@@ -76,6 +77,7 @@ namespace SS.Ynote.Classic.UI
                     textBox1.Visible = false;
                     numericTextBox1.Focus();
                     break;
+
                 case InsertType.Macro:
                     Text = "Run Macro Multiple Times";
                     label1.Text = "No. of Times to Run :";
@@ -83,6 +85,7 @@ namespace SS.Ynote.Classic.UI
                     numericTextBox1.Visible = true;
                     textBox1.Visible = false;
                     break;
+
                 case InsertType.Splitter:
                     Text = "Split Settings";
                     label1.Text = "Seperator";
@@ -92,6 +95,7 @@ namespace SS.Ynote.Classic.UI
                     textBox1.Visible = true;
                     textBox1.Focus();
                     break;
+
                 case InsertType.Width:
                     Text = "Line Width";
                     label1.Text = "Width :";

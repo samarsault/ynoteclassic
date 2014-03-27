@@ -1,12 +1,12 @@
 ﻿#region
 
+using FastColoredTextBoxNS;
+using Nini.Config;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-using FastColoredTextBoxNS;
-using Nini.Config;
 using WeifenLuo.WinFormsUI.Docking;
 
 #endregion
@@ -28,7 +28,7 @@ namespace SS.Ynote.Classic.UI
         /// </summary>
         private void InitSettings()
         {
-            cmbwordwrapmode.DataSource = Enum.GetValues(typeof (WordWrapMode));
+            cmbwordwrapmode.DataSource = Enum.GetValues(typeof(WordWrapMode));
             cbdockstyle.Text = SettingsBase.DocumentStyle.ToString();
             comboBox2.Text = SettingsBase.BracketsStrategy.ToString();
             cmbwordwrapmode.Text = SettingsBase.WordWrapMode.ToString();
@@ -54,23 +54,29 @@ namespace SS.Ynote.Classic.UI
                 case "Tabs":
                     tabcontrol.SelectTab(tabsettingpage);
                     break;
+
                 case "General":
                     tabcontrol.SelectTab(GeneralPage);
                     break;
+
                 case "MISC":
                     tabcontrol.SelectTab(EditingPage);
                     break;
+
                 case "File Extensions":
                     tabcontrol.SelectTab(FileExtensionsPage);
                     break;
+
                 case "Manage":
                     tabcontrol.SelectTab(ClearPage);
                     break;
+
                 case "General Settings":
                     tabcontrol.SelectTab(Plugins);
                     break;
             }
         }
+
         private void tablocation_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -180,7 +186,6 @@ namespace SS.Ynote.Classic.UI
             }
         }
 
-
         private void button6_Click(object sender, EventArgs e)
         {
             File.WriteAllText(string.Empty, SettingsBase.SettingsDir + "Settings.ini");
@@ -240,7 +245,7 @@ namespace SS.Ynote.Classic.UI
 
         private void BuildLangList()
         {
-            foreach (var language in Enum.GetValues(typeof (Language)))
+            foreach (var language in Enum.GetValues(typeof(Language)))
                 lstlang.Items.Add(language);
             lstlang.SelectedIndexChanged += lstlang_SelectedIndexChanged;
         }

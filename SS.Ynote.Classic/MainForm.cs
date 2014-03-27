@@ -1,4 +1,12 @@
-﻿using System;
+﻿using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Extensibility;
+using SS.Ynote.Classic.Features.Packages;
+using SS.Ynote.Classic.Features.Project;
+using SS.Ynote.Classic.Features.RunScript;
+using SS.Ynote.Classic.Features.Syntax;
+using SS.Ynote.Classic.Properties;
+using SS.Ynote.Classic.UI;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
@@ -11,32 +19,24 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
-using FastColoredTextBoxNS;
-using SS.Ynote.Classic.Features.Extensibility;
-using SS.Ynote.Classic.Features.Packages;
-using SS.Ynote.Classic.Features.Project;
-using SS.Ynote.Classic.Features.RunScript;
-using SS.Ynote.Classic.Features.Syntax;
-using SS.Ynote.Classic.Properties;
-using SS.Ynote.Classic.UI;
 using WeifenLuo.WinFormsUI.Docking;
-using Timer = System.Windows.Forms.Timer;
 using SyntaxHighlighter = SS.Ynote.Classic.Features.Syntax.SyntaxHighlighter;
+using Timer = System.Windows.Forms.Timer;
 
 namespace SS.Ynote.Classic
 {
     #region Using Directives
 
-    
-
-    #endregion
+    #endregion Using Directives
 
     public partial class MainForm : Form, IYnote
     {
         #region Private Fields
+
 #if DEBUG
         private readonly Stopwatch watch;
 #endif
+
         /// <summary>
         ///     _mru list
         /// </summary>
@@ -47,7 +47,7 @@ namespace SS.Ynote.Classic
         /// </summary>
         private int _num;
 
-        #endregion
+        #endregion Private Fields
 
         #region Properties
 
@@ -75,7 +75,7 @@ namespace SS.Ynote.Classic
             get { return Menu; }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Constructor
 
@@ -103,7 +103,7 @@ namespace SS.Ynote.Classic
                 OpenFile(filename);
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Methods
 
@@ -141,7 +141,7 @@ namespace SS.Ynote.Classic
             sp.Start();
 #endif
             _num++;
-            var edit = new Editor {Text = "untitled" + _num};
+            var edit = new Editor { Text = "untitled" + _num };
             edit.Show(dock, DockState.Document);
 #if DEBUG
             sp.Stop();
@@ -231,7 +231,7 @@ namespace SS.Ynote.Classic
             }
         }
 
-        #endregion
+        #endregion Methods
 
         #region Recent File Handlers
 
@@ -253,7 +253,7 @@ namespace SS.Ynote.Classic
             foreach (string item in _mru)
             {
                 var fileRecent = new MenuItem(item); //create new menu for each item in list
-                fileRecent.Click += (sender, args) => OpenFile(((MenuItem) (sender)).Text);
+                fileRecent.Click += (sender, args) => OpenFile(((MenuItem)(sender)).Text);
                 recent.MenuItems.Add(fileRecent); //add the menu to "recent" menu
             }
             //writing menu list to file
@@ -292,11 +292,11 @@ namespace SS.Ynote.Classic
         private void AddRecentFile(string name)
         {
             var fileRecent = new MenuItem(name); //create new menu for each item in list
-            fileRecent.Click += (sender, args) => OpenFile(((MenuItem) (sender)).Text);
+            fileRecent.Click += (sender, args) => OpenFile(((MenuItem)(sender)).Text);
             recentfilesmenu.MenuItems.Add(fileRecent); //add the menu to "recent" menu
         }
 
-        #endregion
+        #endregion Recent File Handlers
 
         #region Language Menu/Encoding Menu Builder
 
@@ -305,8 +305,8 @@ namespace SS.Ynote.Classic
         /// </summary>
         private void BuildLangMenu()
         {
-            var menus = Enum.GetValues(typeof (Language)).Cast<Language>();
-            
+            var menus = Enum.GetValues(typeof(Language)).Cast<Language>();
+
             foreach (var m in menus.Select(lang => new MenuItem(lang.ToString())))
             {
                 m.Click += LangMenuItemClicked;
@@ -314,7 +314,7 @@ namespace SS.Ynote.Classic
             }
             foreach (var item in SyntaxHighlighter.LoadedSyntaxes)
                 milanguage.MenuItems.Add(new MenuItem(Path.GetFileNameWithoutExtension(item.SysPath),
-                    LangMenuItemClicked){Tag = item});
+                    LangMenuItemClicked) { Tag = item });
             milanguage.GetMenuByName("Text").Checked = true;
         }
 
@@ -419,11 +419,11 @@ namespace SS.Ynote.Classic
         {
             return
                 Encoding.GetEncodings()
-                    .Select(info => new MenuItem(info.DisplayName, handler) {Tag = info.Name})
+                    .Select(info => new MenuItem(info.DisplayName, handler) { Tag = info.Name })
                     .ToArray();
         }
 
-        #endregion
+        #endregion Language Menu/Encoding Menu Builder
 
         #region MISC
 
@@ -453,7 +453,7 @@ namespace SS.Ynote.Classic
         /// </summary>
         private void InitTimer()
         {
-            var infotimer = new Timer {Interval = 100};
+            var infotimer = new Timer { Interval = 100 };
             infotimer.Tick += infotimer_Tick;
             infotimer.Start();
         }
@@ -467,8 +467,8 @@ namespace SS.Ynote.Classic
         {
             // Use LINQ to sort the array received and return a copy.
             var sorted = from s in e
-                orderby s.Length ascending
-                select s;
+                         orderby s.Length ascending
+                         select s;
             return sorted;
         }
 
@@ -488,7 +488,7 @@ namespace SS.Ynote.Classic
             }
         }
 
-        #endregion
+        #endregion MISC
 
         #region Plugins
 
@@ -517,7 +517,7 @@ namespace SS.Ynote.Classic
             }
         }
 
-        #endregion
+        #endregion Plugins
 
         #region Overrides
 
@@ -534,7 +534,7 @@ namespace SS.Ynote.Classic
 #endif
         }
 
-        #endregion
+        #endregion Overrides
 
         #region Events
 
@@ -589,7 +589,6 @@ namespace SS.Ynote.Classic
             var cmd = new Cmd("cmd.exe", null);
             cmd.Show(dock, DockState.DockBottom);
         }
-
 
         private void findmenu_Click(object sender, EventArgs e)
         {
@@ -846,7 +845,7 @@ namespace SS.Ynote.Classic
 
         private void fromrtf_Click(object sender, EventArgs e)
         {
-            using (var o = new OpenFileDialog {Filter = "RTF Files (*.rtf)|*.rtf"})
+            using (var o = new OpenFileDialog { Filter = "RTF Files (*.rtf)|*.rtf" })
             {
                 o.ShowDialog();
                 if (o.FileName == "") return;
@@ -920,7 +919,7 @@ namespace SS.Ynote.Classic
 
         private void menuItem57_Click(object sender, EventArgs e)
         {
-            var splitedit = new Editor {Name = ActiveEditor.Name, Text = "[Split] " + ActiveEditor.Text};
+            var splitedit = new Editor { Name = ActiveEditor.Name, Text = "[Split] " + ActiveEditor.Text };
             splitedit.tb.SourceTextBox = ActiveEditor.tb;
             splitedit.tb.ReadOnly = true;
             splitedit.Show(ActiveEditor.Pane, DockAlignment.Bottom, 0.5);
@@ -986,7 +985,7 @@ namespace SS.Ynote.Classic
             try
             {
                 if (dock.ActiveDocument == null
-                    || dock.ActiveDocument.GetType() != typeof (Editor)) return;
+                    || dock.ActiveDocument.GetType() != typeof(Editor)) return;
                 int nCol = ActiveEditor.tb.Selection.Start.iChar + 1;
                 int line = ActiveEditor.tb.Selection.Start.iLine + 1;
                 infolabel.Text = string.Format(" Line : {0} Col : {1} Size : {2} Selected : {3}", line, nCol,
@@ -1017,7 +1016,7 @@ namespace SS.Ynote.Classic
 
         private void pluginmanagermenu_Click(object sender, EventArgs e)
         {
-            using (var manager = new PluginManager {StartPosition = FormStartPosition.CenterParent})
+            using (var manager = new PluginManager { StartPosition = FormStartPosition.CenterParent })
             {
                 manager.ShowDialog(this);
             }
@@ -1137,7 +1136,7 @@ namespace SS.Ynote.Classic
 
         private void miprint_Click(object sender, EventArgs e)
         {
-            ActiveEditor.tb.Print(new PrintDialogSettings {ShowPrintDialog = true});
+            ActiveEditor.tb.Print(new PrintDialogSettings { ShowPrintDialog = true });
         }
 
         private void reopenclosedtab_Click(object sender, EventArgs e)
@@ -1167,7 +1166,7 @@ namespace SS.Ynote.Classic
             if (colorschememenu.MenuItems.Count != 0) return;
             foreach (string file in Directory.GetFiles(Application.StartupPath + "\\Themes"))
             {
-                var menuitem = new MenuItem {Text = Path.GetFileNameWithoutExtension(file), Name = file};
+                var menuitem = new MenuItem { Text = Path.GetFileNameWithoutExtension(file), Name = file };
                 menuitem.Click += colorschemeitem_Click;
                 colorschememenu.MenuItems.Add(menuitem);
             }
@@ -1183,7 +1182,7 @@ namespace SS.Ynote.Classic
             if (milanguage == null || milanguage.MenuItems.Count != 0) return;
             // Build the Language Menu
             BuildLangMenu();
-            // 
+            //
             foreach (MenuItem menu in milanguage.MenuItems)
                 menu.Checked = false;
             if (ActiveEditor == null) return;
@@ -1197,7 +1196,7 @@ namespace SS.Ynote.Classic
         private void menuItem65_Click(object sender, EventArgs e)
         {
             var fctb = ActiveEditor.tb;
-            var lines = fctb.SelectedText.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
+            var lines = fctb.SelectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             Array.Sort(lines);
             var formedtext = lines.Aggregate<string, string>(null, (current, str) => current + (str + "\r\n"));
             fctb.SelectedText = formedtext;
@@ -1210,7 +1209,7 @@ namespace SS.Ynote.Classic
 
         private void gotobookmark_Click(object sender, EventArgs e)
         {
-            var bookmarksmanager = new BookmarksInfos(ActiveEditor.tb) {StartPosition = FormStartPosition.CenterScreen};
+            var bookmarksmanager = new BookmarksInfos(ActiveEditor.tb) { StartPosition = FormStartPosition.CenterScreen };
             bookmarksmanager.Show();
         }
 
@@ -1253,13 +1252,12 @@ namespace SS.Ynote.Classic
             }
         }
 
-
         private void menuItem75_Click(object sender, EventArgs e)
         {
             if (ActiveEditor.tb.SelectedText != "")
             {
                 string trimmed = "";
-                string[] lines = ActiveEditor.tb.SelectedText.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
+                string[] lines = ActiveEditor.tb.SelectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                 trimmed = lines.Length != 1
                     ? lines.Aggregate(trimmed, (current, line) => current + (line.TrimEnd() + Environment.NewLine))
                     : ActiveEditor.tb.SelectedText.TrimEnd();
@@ -1276,7 +1274,7 @@ namespace SS.Ynote.Classic
             if (ActiveEditor.tb.SelectedText != "")
             {
                 string trimmed = "";
-                string[] lines = ActiveEditor.tb.SelectedText.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
+                string[] lines = ActiveEditor.tb.SelectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                 trimmed = lines.Length != 1
                     ? lines.Aggregate(trimmed, (current, line) => current + (line.TrimStart() + Environment.NewLine))
                     : ActiveEditor.tb.SelectedText.TrimStart();
@@ -1293,7 +1291,7 @@ namespace SS.Ynote.Classic
             if (ActiveEditor.tb.SelectedText != "")
             {
                 string trimmed = "";
-                string[] lines = ActiveEditor.tb.SelectedText.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
+                string[] lines = ActiveEditor.tb.SelectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                 trimmed = lines.Length != 1
                     ? lines.Aggregate(trimmed, (current, line) => current + (line.Trim() + Environment.NewLine))
                     : ActiveEditor.tb.SelectedText.Trim();
@@ -1331,7 +1329,7 @@ namespace SS.Ynote.Classic
 
         private void menuItem84_Click(object sender, EventArgs e)
         {
-            var fileswitcher = new SwitchFile(this) {StartPosition = FormStartPosition.CenterParent};
+            var fileswitcher = new SwitchFile(this) { StartPosition = FormStartPosition.CenterParent };
             fileswitcher.ShowDialog(this);
         }
 
@@ -1362,7 +1360,7 @@ namespace SS.Ynote.Classic
             if (ActiveEditor.tb.SelectedText != "")
             {
                 string trimmed = "";
-                string[] lines = ActiveEditor.tb.SelectedText.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
+                string[] lines = ActiveEditor.tb.SelectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                 trimmed = lines.Length != 1
                     ? lines.Aggregate(trimmed,
                         (current, line) => current + (TrimPunctuation(line) + Environment.NewLine))
@@ -1374,7 +1372,6 @@ namespace SS.Ynote.Classic
                 MessageBox.Show("Noting Selected to Perform Function", "Ynote Classic");
             }
         }
-
 
         private void mihiddenchars_Click(object sender, EventArgs e)
         {
@@ -1447,7 +1444,7 @@ namespace SS.Ynote.Classic
             int mnum = 0;
             foreach (string file in Directory.GetFiles(SettingsBase.SettingsDir + @"Macros\", "*.ymc"))
             {
-                var item = new MenuItem(Path.GetFileNameWithoutExtension(file), macroitem_click) {Name = file};
+                var item = new MenuItem(Path.GetFileNameWithoutExtension(file), macroitem_click) { Name = file };
                 if (mnum < 10)
                     item.Shortcut = ("Alt" + mnum).ToEnum<Shortcut>();
                 mnum++;
@@ -1491,7 +1488,7 @@ namespace SS.Ynote.Classic
             int si = 0;
             foreach (var file in Directory.GetFiles(SettingsBase.SettingsDir + @"Scripts\", "*.ys"))
             {
-                var item = new MenuItem(Path.GetFileNameWithoutExtension(file), scriptitem_clicked) {Name = file};
+                var item = new MenuItem(Path.GetFileNameWithoutExtension(file), scriptitem_clicked) { Name = file };
                 if (si < 10)
                     item.Shortcut = ("Ctrl" + si).ToEnum<Shortcut>();
                 si++;
@@ -1582,7 +1579,7 @@ namespace SS.Ynote.Classic
 
         private void miruneditor_Click(object sender, EventArgs e)
         {
-            var editor = new RunScriptEditor {StartPosition = FormStartPosition.CenterParent};
+            var editor = new RunScriptEditor { StartPosition = FormStartPosition.CenterParent };
             editor.ShowDialog(this);
         }
 
@@ -1626,7 +1623,7 @@ namespace SS.Ynote.Classic
         private void misortlength_Click(object sender, EventArgs e)
         {
             if (ActiveEditor == null) return;
-            var lines = ActiveEditor.tb.SelectedText.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
+            var lines = ActiveEditor.tb.SelectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             var results = SortByLength(lines);
             ActiveEditor.tb.SelectedText = results.Aggregate<string, string>(null,
                 (current, result) => current + (result + "\r\n"));
@@ -1638,7 +1635,6 @@ namespace SS.Ynote.Classic
                 ActiveEditor.tb.Selection.SetStyle(new TextStyle(null, new SolidBrush(Color.FromArgb(180, Color.Red)),
                     FontStyle.Regular));
         }
-
 
         private void mimarkblue_Click(object sender, EventArgs e)
         {
@@ -1713,14 +1709,14 @@ namespace SS.Ynote.Classic
 
         private void migoogle_Click(object sender, EventArgs e)
         {
-            var console = new ConsoleUI(this) {StartPosition = FormStartPosition.CenterParent};
+            var console = new ConsoleUI(this) { StartPosition = FormStartPosition.CenterParent };
             console.AddText("Google:");
             console.ShowDialog(this);
         }
 
         private void miwiki_Click(object sender, EventArgs e)
         {
-            var console = new ConsoleUI(this) {StartPosition = FormStartPosition.CenterParent};
+            var console = new ConsoleUI(this) { StartPosition = FormStartPosition.CenterParent };
             console.AddText("Wikipedia:");
             console.ShowDialog(this);
         }
@@ -1768,6 +1764,7 @@ namespace SS.Ynote.Classic
             if (ActiveEditor != null)
                 OpenFile(string.Format(@"{0}Snippets\{1}.ynotesnippet", SettingsBase.SettingsDir, ActiveEditor.tb.Language));
         }
+
         private void recentfilesmenu_Select(object sender, EventArgs e)
         {
             if (recentfilesmenu.MenuItems.Count != 0) return;
@@ -1775,6 +1772,7 @@ namespace SS.Ynote.Classic
             foreach (string r in _mru)
                 AddRecentFile(r);
         }
-        #endregion
+
+        #endregion Events
     }
 }

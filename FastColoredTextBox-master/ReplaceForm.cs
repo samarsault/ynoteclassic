@@ -1,15 +1,15 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Text.RegularExpressions;
+using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace FastColoredTextBoxNS
 {
     public partial class ReplaceForm : Form
     {
-        readonly FastColoredTextBox tb;
-        bool firstSearch = true;
-        Place startPlace;
+        private readonly FastColoredTextBox tb;
+        private bool firstSearch = true;
+        private Place startPlace;
 
         public ReplaceForm(FastColoredTextBox tb)
         {
@@ -59,7 +59,8 @@ namespace FastColoredTextBoxNS
             foreach (var r in range.GetRanges(pattern, opt))
                 list.Add(r);
             return list;
-        } 
+        }
+
         private List<Range> FindAll(string pattern)
         {
             RegexOptions opt = cbMatchCase.Checked ? RegexOptions.None : RegexOptions.IgnoreCase;
@@ -74,7 +75,7 @@ namespace FastColoredTextBoxNS
             range.End = new Place(tb.GetLineLength(tb.LinesCount - 1), tb.LinesCount - 1);
             //
             var list = new List<Range>();
-            foreach (var r in range.GetRangesByLines(pattern, opt))
+            foreach (var r in range.GetRanges(pattern, opt))
                 list.Add(r);
 
             return list;
@@ -100,7 +101,7 @@ namespace FastColoredTextBoxNS
             range.Start = range.End;
             range.End = range.Start >= startPlace ? new Place(tb.GetLineLength(tb.LinesCount - 1), tb.LinesCount - 1) : startPlace;
             //
-            foreach (var r in range.GetRangesByLines(pattern, opt))
+            foreach (var r in range.GetRanges(pattern, opt))
             {
                 tb.Selection.Start = r.Start;
                 tb.Selection.End = r.End;
@@ -149,8 +150,8 @@ namespace FastColoredTextBoxNS
             try
             {
                 if (tb.SelectionLength != 0)
-                if (!tb.Selection.ReadOnly)
-                    tb.InsertText(tbReplace.Text);
+                    if (!tb.Selection.ReadOnly)
+                        tb.InsertText(tbReplace.Text);
                 btFindNext_Click(sender, null);
             }
             catch (Exception ex)
@@ -159,7 +160,7 @@ namespace FastColoredTextBoxNS
             }
         }
 
-        void ReplaceAllInSelection()
+        private void ReplaceAllInSelection()
         {
             try
             {
@@ -190,11 +191,12 @@ namespace FastColoredTextBoxNS
             }
             tb.Selection.EndUpdate();
         }
+
         private void btReplaceAll_Click(object sender, EventArgs e)
         {
-            if(cmbScope.SelectedIndex == 0)
+            if (cmbScope.SelectedIndex == 0)
                 ReplaceAll();
-            else if(cmbScope.SelectedIndex == 1)
+            else if (cmbScope.SelectedIndex == 1)
                 ReplaceAllInSelection();
         }
 
@@ -233,6 +235,7 @@ namespace FastColoredTextBoxNS
         }
 
         private Range _originalSelection;
+
         /// <summary>
         /// FindNext In Selection
         /// </summary>
@@ -281,13 +284,14 @@ namespace FastColoredTextBoxNS
                 MessageBox.Show(ex.Message);
             }
         }
+
         protected override void OnActivated(EventArgs e)
         {
             tbFind.Focus();
             ResetSerach();
         }
 
-        void ResetSerach()
+        private void ResetSerach()
         {
             firstSearch = true;
         }

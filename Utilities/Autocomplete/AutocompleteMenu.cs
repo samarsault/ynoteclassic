@@ -8,15 +8,15 @@
 //
 //  Email: pavel_torgashov@mail.ru.
 //
-//  Copyright (C) Pavel Torgashov, 2012. 
+//  Copyright (C) Pavel Torgashov, 2012.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using System.Collections;
 
 namespace AutocompleteMenuNS
 {
@@ -25,6 +25,7 @@ namespace AutocompleteMenuNS
     {
         private static readonly Dictionary<Control, AutocompleteMenu> AutocompleteMenuByControls =
             new Dictionary<Control, AutocompleteMenu>();
+
         private static readonly Dictionary<Control, ITextBoxWrapper> WrapperByControls =
             new Dictionary<Control, ITextBoxWrapper>();
 
@@ -32,8 +33,10 @@ namespace AutocompleteMenuNS
         private readonly Timer timer = new Timer();
 
         private IEnumerable<AutocompleteItem> sourceItems = new List<AutocompleteItem>();
+
         [Browsable(false)]
-        public IList<AutocompleteItem> VisibleItems { get { return Host.ListView.VisibleItems; } private set { Host.ListView.VisibleItems = value;} }
+        public IList<AutocompleteItem> VisibleItems { get { return Host.ListView.VisibleItems; } private set { Host.ListView.VisibleItems = value; } }
+
         private Size maximumSize;
 
         /// <summary>
@@ -73,12 +76,12 @@ namespace AutocompleteMenuNS
             base.Dispose(disposing);
         }
 
-        void ListView_ItemSelected(object sender, EventArgs e)
+        private void ListView_ItemSelected(object sender, EventArgs e)
         {
             OnSelecting();
         }
 
-        void ListView_ItemHovered(object sender, HoveredEventArgs e)
+        private void ListView_ItemHovered(object sender, HoveredEventArgs e)
         {
             OnHovered(e);
         }
@@ -90,8 +93,10 @@ namespace AutocompleteMenuNS
         }
 
         [Browsable(false)]
-        public int SelectedItemIndex { get { return Host.ListView.SelectedItemIndex; }
-            internal set { Host.ListView.SelectedItemIndex = value; } 
+        public int SelectedItemIndex
+        {
+            get { return Host.ListView.SelectedItemIndex; }
+            internal set { Host.ListView.SelectedItemIndex = value; }
         }
 
         internal AutocompleteMenuHost Host { get; set; }
@@ -111,7 +116,7 @@ namespace AutocompleteMenuNS
                 args.Wrapper = TextBoxWrapper.Create(args.TargetControl);
         }
 
-        ITextBoxWrapper CreateWrapper(Control control)
+        private ITextBoxWrapper CreateWrapper(Control control)
         {
             if (WrapperByControls.ContainsKey(control))
                 return WrapperByControls[control];
@@ -131,7 +136,8 @@ namespace AutocompleteMenuNS
         public ITextBoxWrapper TargetControlWrapper
         {
             get { return targetControlWrapper; }
-            set { 
+            set
+            {
                 targetControlWrapper = value;
                 if (value != null && !WrapperByControls.ContainsKey(value.TargetControl))
                 {
@@ -146,9 +152,11 @@ namespace AutocompleteMenuNS
         /// </summary>
         [DefaultValue(typeof(Size), "180, 200")]
         [Description("Maximum size of popup menu")]
-        public Size MaximumSize { 
+        public Size MaximumSize
+        {
             get { return maximumSize; }
-            set { 
+            set
+            {
                 maximumSize = value;
                 (Host.ListView as Control).MaximumSize = maximumSize;
                 (Host.ListView as Control).Size = maximumSize;
@@ -172,13 +180,15 @@ namespace AutocompleteMenuNS
         [Description("Left padding of text")]
         public int LeftPadding
         {
-            get {
+            get
+            {
                 if (Host.ListView is AutocompleteListView)
                     return (Host.ListView as AutocompleteListView).LeftPadding;
                 else
                     return 0;
             }
-            set {
+            set
+            {
                 if (Host.ListView is AutocompleteListView)
                     (Host.ListView as AutocompleteListView).LeftPadding = value;
             }
@@ -203,7 +213,8 @@ namespace AutocompleteMenuNS
         /// </summary>
         [DefaultValue(typeof(RightToLeft), "No")]
         [Description("Indicates whether the component should draw right-to-left for RTL languages.")]
-        public RightToLeft RightToLeft {
+        public RightToLeft RightToLeft
+        {
             get { return Host.RightToLeft; }
             set { Host.RightToLeft = value; }
         }
@@ -211,7 +222,8 @@ namespace AutocompleteMenuNS
         /// <summary>
         /// Image list
         /// </summary>
-        public ImageList ImageList { 
+        public ImageList ImageList
+        {
             get { return Host.ListView.ImageList; }
             set { Host.ListView.ImageList = value; }
         }
@@ -320,10 +332,10 @@ namespace AutocompleteMenuNS
                             return false;
             //we are main autocomplete menu on form ...
             //check extendee as TextBox
-            if (!(extendee is Control)) 
+            if (!(extendee is Control))
                 return false;
             var temp = TextBoxWrapper.Create(extendee as Control);
-            return temp!=null; 
+            return temp != null;
         }
 
         public void SetAutocompleteMenu(Control control, AutocompleteMenu menu)
@@ -358,7 +370,7 @@ namespace AutocompleteMenuNS
             }
         }
 
-        #endregion
+        #endregion IExtenderProvider Members
 
         /// <summary>
         /// User selects item
@@ -386,13 +398,13 @@ namespace AutocompleteMenuNS
         private void timer_Tick(object sender, EventArgs e)
         {
             timer.Stop();
-            if(TargetControlWrapper!=null)
+            if (TargetControlWrapper != null)
                 ShowAutocomplete(false);
         }
 
         private Form myForm;
 
-        void SubscribeForm(ITextBoxWrapper wrapper)
+        private void SubscribeForm(ITextBoxWrapper wrapper)
         {
             if (wrapper == null) return;
             var form = wrapper.TargetControl.FindForm();
@@ -412,7 +424,7 @@ namespace AutocompleteMenuNS
             form.LostFocus += new EventHandler(form_LocationChanged);
         }
 
-        void UnsubscribeForm(ITextBoxWrapper wrapper)
+        private void UnsubscribeForm(ITextBoxWrapper wrapper)
         {
             if (wrapper == null) return;
             var form = wrapper.TargetControl.FindForm();
@@ -439,7 +451,7 @@ namespace AutocompleteMenuNS
             Close();
         }
 
-        ITextBoxWrapper FindWrapper(Control sender)
+        private ITextBoxWrapper FindWrapper(Control sender)
         {
             while (sender != null)
             {
@@ -482,12 +494,12 @@ namespace AutocompleteMenuNS
             ResetTimer();
         }
 
-        void ResetTimer()
+        private void ResetTimer()
         {
             ResetTimer(-1);
         }
 
-        void ResetTimer(int interval)
+        private void ResetTimer(int interval)
         {
             if (interval <= 0)
                 timer.Interval = AppearInterval;
@@ -515,7 +527,7 @@ namespace AutocompleteMenuNS
                 return null;
         }
 
-        bool forcedOpened = false;
+        private bool forcedOpened = false;
 
         internal void ShowAutocomplete(bool forced)
         {
@@ -576,7 +588,7 @@ namespace AutocompleteMenuNS
                     Host.Show(TargetControlWrapper.TargetControl, point);
                     if (CaptureFocus)
                     {
-                        (Host.ListView  as Control).Focus();
+                        (Host.ListView as Control).Focus();
                         //ProcessKey((char) Keys.Down, Keys.None);
                     }
                 }
@@ -596,24 +608,23 @@ namespace AutocompleteMenuNS
             string text = fragment.Text;
             //
             if (sourceItems != null)
-            if (forced || (text.Length >= MinFragmentLength /* && tb.Selection.Start == tb.Selection.End*/))
-            {
-                Fragment = fragment;
-                //build popup menu
-                foreach (AutocompleteItem item in sourceItems)
+                if (forced || (text.Length >= MinFragmentLength /* && tb.Selection.Start == tb.Selection.End*/))
                 {
-                    item.Parent = this;
-                    CompareResult res = item.Compare(text);
-                    if (res != CompareResult.Hidden)
-                        visibleItems.Add(item);
-                    if (res == CompareResult.VisibleAndSelected && !foundSelected)
+                    Fragment = fragment;
+                    //build popup menu
+                    foreach (AutocompleteItem item in sourceItems)
                     {
-                        foundSelected = true;
-                        selectedIndex = visibleItems.Count - 1;
+                        item.Parent = this;
+                        CompareResult res = item.Compare(text);
+                        if (res != CompareResult.Hidden)
+                            visibleItems.Add(item);
+                        if (res == CompareResult.VisibleAndSelected && !foundSelected)
+                        {
+                            foundSelected = true;
+                            selectedIndex = visibleItems.Count - 1;
+                        }
                     }
                 }
-
-            }
 
             VisibleItems = visibleItems;
 
@@ -785,32 +796,39 @@ namespace AutocompleteMenuNS
         {
             var page = Host.Height / (Font.Height + 4);
             if (keyModifiers == Keys.None)
-                switch ((Keys) c)
+                switch ((Keys)c)
                 {
                     case Keys.Down:
                         SelectNext(+1);
                         return true;
+
                     case Keys.PageDown:
                         SelectNext(+page);
                         return true;
+
                     case Keys.Up:
                         SelectNext(-1);
                         return true;
+
                     case Keys.PageUp:
                         SelectNext(-page);
                         return true;
+
                     case Keys.Enter:
                         OnSelecting();
                         return true;
+
                     case Keys.Tab:
                         if (!AllowsTabKey)
                             break;
                         OnSelecting();
                         return true;
+
                     case Keys.Left:
                     case Keys.Right:
                         Close();
                         return false;
+
                     case Keys.Escape:
                         Close();
                         return true;

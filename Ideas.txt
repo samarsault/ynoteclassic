@@ -1,3 +1,0 @@
-Color Picker inside AutoCompleteMenu -> using YnoteScript
-Session Retrieving
-Spell Check

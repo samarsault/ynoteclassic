@@ -1,7 +1,7 @@
-﻿using System.Drawing;
-using System;
-using System.Drawing.Drawing2D;
+﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace FastColoredTextBoxNS
 {
@@ -15,8 +15,9 @@ namespace FastColoredTextBoxNS
         /// This style is exported to outer formats (HTML for example)
         /// </summary>
         public virtual bool IsExportable { get; protected set; }
+
         /// <summary>
-        /// Occurs when user click on StyleVisualMarker joined to this style 
+        /// Occurs when user click on StyleVisualMarker joined to this style
         /// </summary>
         public event EventHandler<VisualMarkerEventArgs> VisualMarkerClick;
 
@@ -37,7 +38,7 @@ namespace FastColoredTextBoxNS
         public abstract void Draw(Graphics gr, Point position, Range range);
 
         /// <summary>
-        /// Occurs when user click on StyleVisualMarker joined to this style 
+        /// Occurs when user click on StyleVisualMarker joined to this style
         /// </summary>
         public virtual void OnVisualMarkerClick(FastColoredTextBox tb, VisualMarkerEventArgs args)
         {
@@ -103,8 +104,11 @@ namespace FastColoredTextBoxNS
     public class TextStyle : Style
     {
         public Brush ForeBrush { get; set; }
+
         public Brush BackgroundBrush { get; set; }
+
         public FontStyle FontStyle { get; set; }
+
         //public readonly Font Font;
         public StringFormat stringFormat;
 
@@ -148,7 +152,7 @@ namespace FastColoredTextBoxNS
                         x += dx;
                     }
                 else
-                    //classic mode 
+                    //classic mode
                     for (int i = range.Start.iChar; i < range.End.iChar; i++)
                     {
                         //draw char

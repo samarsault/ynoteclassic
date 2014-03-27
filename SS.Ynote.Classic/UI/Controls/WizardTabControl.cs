@@ -31,7 +31,7 @@ namespace SS.Ynote.Classic.UI.Controls
             {
                 if (!_tabsVisible && !DesignMode)
                 {
-                    m.Result = (IntPtr) 1;
+                    m.Result = (IntPtr)1;
                     return;
                 }
             }

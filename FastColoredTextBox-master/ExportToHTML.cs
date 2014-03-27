@@ -1,6 +1,6 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Collections.Generic;
+using System.Text;
 
 namespace FastColoredTextBoxNS
 {
@@ -10,34 +10,39 @@ namespace FastColoredTextBoxNS
     /// <remarks>At this time only TextStyle renderer is supported. Other styles is not exported.</remarks>
     public class ExportToHTML
     {
-         const string LineNumbersCSS = "<style type=\"text/css\"> .lineNumber{font-family : monospace; font-size : small; font-style : normal; font-weight : normal; color : Teal; background-color : ThreedFace;} </style>";
+        private const string LineNumbersCSS = "<style type=\"text/css\"> .lineNumber{font-family : monospace; font-size : small; font-style : normal; font-weight : normal; color : Teal; background-color : ThreedFace;} </style>";
 
         /// <summary>
         /// Use nbsp; instead space
         /// </summary>
         public bool UseNbsp { get; set; }
+
         /// <summary>
         /// Use nbsp; instead space in beginning of line
         /// </summary>
         public bool UseForwardNbsp { get; set; }
+
         /// <summary>
         /// Use original font
         /// </summary>
         public bool UseOriginalFont { get; set; }
+
         /// <summary>
         /// Use style tag instead style attribute
         /// </summary>
         public bool UseStyleTag { get; set; }
+
         /// <summary>
         /// Use 'br' tag instead of '\n'
         /// </summary>
         public bool UseBr { get; set; }
+
         /// <summary>
         /// Includes line numbers
         /// </summary>
         public bool IncludeLineNumbers { get; set; }
 
-        FastColoredTextBox tb;
+        private FastColoredTextBox tb;
 
         public ExportToHTML()
         {
@@ -54,7 +59,7 @@ namespace FastColoredTextBoxNS
             sel.SelectAll();
             return GetHtml(sel);
         }
-        
+
         public string GetHtml(Range r)
         {
             tb = r.tb;
@@ -103,15 +108,19 @@ namespace FastColoredTextBoxNS
 
                         tempSB.Append("&nbsp;");
                         break;
+
                     case '<':
                         tempSB.Append("&lt;");
                         break;
+
                     case '>':
                         tempSB.Append("&gt;");
                         break;
+
                     case '&':
                         tempSB.Append("&amp;");
                         break;
+
                     default:
                         hasNonSpace = true;
                         tempSB.Append(c.c);
@@ -151,30 +160,30 @@ namespace FastColoredTextBoxNS
             for (int i = 0; i < tb.Styles.Length; i++)
             {
                 if (tb.Styles[i] != null && ((int)styleIndex & mask) != 0)
-                if (tb.Styles[i].IsExportable)
-                {
-                    var style = tb.Styles[i];
-                    styles.Add(style);
+                    if (tb.Styles[i].IsExportable)
+                    {
+                        var style = tb.Styles[i];
+                        styles.Add(style);
 
-                    bool isTextStyle = style is TextStyle;
-                    if (isTextStyle)
-                        if (!hasTextStyle || tb.AllowSeveralTextStyleDrawing)
-                        {
-                            hasTextStyle = true;
-                            textStyle = style as TextStyle;
-                        }
-                }
+                        bool isTextStyle = style is TextStyle;
+                        if (isTextStyle)
+                            if (!hasTextStyle || tb.AllowSeveralTextStyleDrawing)
+                            {
+                                hasTextStyle = true;
+                                textStyle = style as TextStyle;
+                            }
+                    }
                 mask = mask << 1;
             }
             //add TextStyle css
             string result = "";
-            
+
             result = !hasTextStyle ? tb.DefaultStyle.GetCSS() : textStyle.GetCSS();
             //add no TextStyle css
-            foreach(var style in styles)
-//            if (style != textStyle)
-            if(!(style is TextStyle))
-                result += style.GetCSS();
+            foreach (var style in styles)
+                //            if (style != textStyle)
+                if (!(style is TextStyle))
+                    result += style.GetCSS();
 
             return result;
         }
@@ -186,12 +195,12 @@ namespace FastColoredTextBoxNS
         /// <returns></returns>
         public static string GetColorAsString(Color color)
         {
-            if(color==Color.Transparent)
+            if (color == Color.Transparent)
                 return "";
             return string.Format("#{0:x2}{1:x2}{2:x2}", color.R, color.G, color.B);
         }
 
-        static string GetStyleName(StyleIndex styleIndex)
+        private static string GetStyleName(StyleIndex styleIndex)
         {
             return styleIndex.ToString().Replace(" ", "").Replace(",", "");
         }
@@ -206,7 +215,7 @@ namespace FastColoredTextBoxNS
             else
             {
                 string css = GetCss(currentStyle);
-                if(css!="")
+                if (css != "")
                     sb.AppendFormat("<font style=\"{0}\">", css);
                 sb.Append(tempSB.ToString());
                 if (css != "")

@@ -41,9 +41,11 @@ namespace SS.Ynote.Classic.Features.Project
                                 proj.ProjectName = reader["Name"];
                                 proj.ProjectFile = reader["File"];
                                 break;
+
                             case "Folder":
                                 proj.Folder = reader["Include"];
                                 break;
+
                             case "Build":
                                 proj.BuildFile = reader["File"];
                                 break;
@@ -59,7 +61,7 @@ namespace SS.Ynote.Classic.Features.Project
         /// <param name="outfile"></param>
         public void MakeProjectFile(string outfile)
         {
-            var xmlWriterSettings = new XmlWriterSettings {NewLineOnAttributes = true, Indent = true};
+            var xmlWriterSettings = new XmlWriterSettings { NewLineOnAttributes = true, Indent = true };
             using (var writer = XmlWriter.Create(outfile, xmlWriterSettings))
             {
                 writer.WriteStartDocument();

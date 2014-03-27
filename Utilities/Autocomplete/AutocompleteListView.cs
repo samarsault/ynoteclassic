@@ -24,7 +24,6 @@ namespace AutocompleteMenuNS
         /// </summary>
         public event EventHandler ItemSelected;
 
-
         /// <summary>
         /// Occurs when current hovered item is changing
         /// </summary>
@@ -51,13 +50,13 @@ namespace AutocompleteMenuNS
             base.Dispose(disposing);
         }
 
-
         private int itemHeight;
 
         public int ItemHeight
         {
             get { return itemHeight; }
-            set { 
+            set
+            {
                 itemHeight = value;
                 VerticalScroll.SmallChange = value;
                 oldItemCount = -1;
@@ -127,21 +126,20 @@ namespace AutocompleteMenuNS
             if (oldItemCount == VisibleItems.Count)
                 return;
 
-            int needHeight = ItemHeight*VisibleItems.Count + 1;
+            int needHeight = ItemHeight * VisibleItems.Count + 1;
             Height = Math.Min(needHeight, MaximumSize.Height);
             AutoScrollMinSize = new Size(0, needHeight);
             oldItemCount = VisibleItems.Count;
         }
 
-
         private void ScrollToSelected()
         {
-            int y = SelectedItemIndex*ItemHeight - VerticalScroll.Value;
+            int y = SelectedItemIndex * ItemHeight - VerticalScroll.Value;
             if (y < 0)
-                VerticalScroll.Value = SelectedItemIndex*ItemHeight;
+                VerticalScroll.Value = SelectedItemIndex * ItemHeight;
             if (y > ClientSize.Height - ItemHeight)
                 VerticalScroll.Value = Math.Min(VerticalScroll.Maximum,
-                                                SelectedItemIndex*ItemHeight - ClientSize.Height + ItemHeight);
+                                                SelectedItemIndex * ItemHeight - ClientSize.Height + ItemHeight);
             //some magic for update scrolls
             AutoScrollMinSize -= new Size(1, 0);
             AutoScrollMinSize += new Size(1, 0);
@@ -157,15 +155,15 @@ namespace AutocompleteMenuNS
         {
             bool rtl = RightToLeft == RightToLeft.Yes;
             AdjustScroll();
-            int startI = VerticalScroll.Value/ItemHeight - 1;
-            int finishI = (VerticalScroll.Value + ClientSize.Height)/ItemHeight + 1;
+            int startI = VerticalScroll.Value / ItemHeight - 1;
+            int finishI = (VerticalScroll.Value + ClientSize.Height) / ItemHeight + 1;
             startI = Math.Max(startI, 0);
             finishI = Math.Min(finishI, VisibleItems.Count);
             int y = 0;
 
             for (int i = startI; i < finishI; i++)
             {
-                y = i*ItemHeight - VerticalScroll.Value;
+                y = i * ItemHeight - VerticalScroll.Value;
 
                 if (ImageList != null && VisibleItems[i].ImageIndex >= 0)
                     if (rtl)
@@ -236,17 +234,16 @@ namespace AutocompleteMenuNS
                 ItemSelected(this, EventArgs.Empty);
         }
 
-
         private int PointToItemIndex(Point p)
         {
-            return (p.Y + VerticalScroll.Value)/ItemHeight;
+            return (p.Y + VerticalScroll.Value) / ItemHeight;
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             var host = Parent as AutocompleteMenuHost;
             if (host != null)
-                if (host.Menu.ProcessKey((char) keyData, Keys.None))
+                if (host.Menu.ProcessKey((char)keyData, Keys.None))
                     return true;
 
             return base.ProcessCmdKey(ref msg, keyData);

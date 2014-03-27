@@ -1,8 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System;
-using System.Text;
 using System.Drawing;
+using System.Text;
 
 namespace FastColoredTextBoxNS
 {
@@ -14,24 +14,30 @@ namespace FastColoredTextBoxNS
         protected List<Char> chars;
 
         public string FoldingStartMarker { get; set; }
+
         public string FoldingEndMarker { get; set; }
+
         /// <summary>
         /// Text of line was changed
         /// </summary>
         public bool IsChanged { get; set; }
+
         /// <summary>
         /// Time of last visit of caret in this line
         /// </summary>
         /// <remarks>This property can be used for forward/backward navigating</remarks>
         public DateTime LastVisit { get; set; }
+
         /// <summary>
         /// Background brush.
         /// </summary>
-        public Brush BackgroundBrush { get; set;}
+        public Brush BackgroundBrush { get; set; }
+
         /// <summary>
         /// Unique ID
         /// </summary>
         public int UniqueId { get; private set; }
+
         /// <summary>
         /// Count of needed start spaces for AutoIndent
         /// </summary>
@@ -46,7 +52,6 @@ namespace FastColoredTextBoxNS
             UniqueId = uid;
             chars = new List<Char>();
         }
-
 
         /// <summary>
         /// Clears style of chars, delete folding markers
@@ -68,9 +73,10 @@ namespace FastColoredTextBoxNS
         /// </summary>
         public virtual string Text
         {
-            get{
+            get
+            {
                 StringBuilder sb = new StringBuilder(Count);
-                foreach(Char c in this)
+                foreach (Char c in this)
                     sb.Append(c.c);
                 return sb.ToString();
             }
@@ -159,7 +165,7 @@ namespace FastColoredTextBoxNS
 
         public bool IsReadOnly
         {
-            get {  return false; }
+            get { return false; }
         }
 
         public bool Remove(Char item)
@@ -194,14 +200,19 @@ namespace FastColoredTextBoxNS
             chars.AddRange(collection);
         }
     }
+
     public struct LineInfo
     {
-        List<int> cutOffPositions;
+        private List<int> cutOffPositions;
+
         //Y coordinate of line on screen
         internal int startY;
+
         internal int bottomPadding;
+
         //indent of secondary wordwrap strings (in chars)
         internal int wordWrapIndent;
+
         /// <summary>
         /// Visible state
         /// </summary>
@@ -215,6 +226,7 @@ namespace FastColoredTextBoxNS
             bottomPadding = 0;
             wordWrapIndent = 0;
         }
+
         /// <summary>
         /// Positions for wordwrap cutoffs
         /// </summary>
@@ -238,10 +250,11 @@ namespace FastColoredTextBoxNS
                 switch (VisibleState)
                 {
                     case VisibleState.Visible:
-                         if (cutOffPositions == null)
+                        if (cutOffPositions == null)
                             return 1;
-                         else
+                        else
                             return cutOffPositions.Count + 1;
+
                     case VisibleState.Hidden: return 0;
                     case VisibleState.StartOfHiddenBlock: return 1;
                 }
@@ -275,7 +288,7 @@ namespace FastColoredTextBoxNS
         }
     }
 
-    public enum VisibleState: byte
+    public enum VisibleState : byte
     {
         Visible, StartOfHiddenBlock, Hidden
     }

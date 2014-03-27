@@ -3,84 +3,92 @@ using System.Collections;
 
 namespace Nini.Util
 {
-	/// <include file='OrderedListEnumerator.xml' path='//Class[@name="OrderedListEnumerator"]/docs/*' />
-	public class OrderedListEnumerator : IDictionaryEnumerator
-	{
-		#region Private variables
-		int index = -1;
-		ArrayList list;
-		#endregion
+    /// <include file='OrderedListEnumerator.xml' path='//Class[@name="OrderedListEnumerator"]/docs/*' />
+    public class OrderedListEnumerator : IDictionaryEnumerator
+    {
+        #region Private variables
 
-		#region Constructors
-		/// <summary>
-		/// Instantiates an ordered list enumerator with an ArrayList.
-		/// </summary>
-		internal OrderedListEnumerator (ArrayList arrayList)
-		{
-			list = arrayList;
-		}
-		#endregion
+        private int index = -1;
+        private ArrayList list;
 
-		#region Public properties
-		/// <include file='OrderedListEnumerator.xml' path='//Property[@name="Current"]/docs/*' />
-		object IEnumerator.Current 
-		{
-			get 
-			{
-				if (index < 0 || index >= list.Count)
-					throw new InvalidOperationException ();
+        #endregion Private variables
 
-				return list[index];
-			}
-		}
-		
-		/// <include file='OrderedListEnumerator.xml' path='//Property[@name="CurrentStrong"]/docs/*' />
-		public DictionaryEntry Current 
-		{
-			get 
-			{
-				if (index < 0 || index >= list.Count)
-					throw new InvalidOperationException ();
+        #region Constructors
 
-				return (DictionaryEntry)list[index];
-			}
-		}
+        /// <summary>
+        /// Instantiates an ordered list enumerator with an ArrayList.
+        /// </summary>
+        internal OrderedListEnumerator(ArrayList arrayList)
+        {
+            list = arrayList;
+        }
 
-		/// <include file='OrderedListEnumerator.xml' path='//Property[@name="Entry"]/docs/*' />
-		public DictionaryEntry Entry 
-		{
-			get { return (DictionaryEntry) Current; }
-		}
+        #endregion Constructors
 
-		/// <include file='OrderedListEnumerator.xml' path='//Property[@name="Key"]/docs/*' />
-		public object Key 
-		{
-			get { return Entry.Key; }
-		}
+        #region Public properties
 
-		/// <include file='OrderedListEnumerator.xml' path='//Property[@name="Value"]/docs/*' />
-		public object Value 
-		{
-			get { return Entry.Value; }
-		}
-		#endregion
+        /// <include file='OrderedListEnumerator.xml' path='//Property[@name="Current"]/docs/*' />
+        object IEnumerator.Current
+        {
+            get
+            {
+                if (index < 0 || index >= list.Count)
+                    throw new InvalidOperationException();
 
-		#region Public methods
-		/// <include file='OrderedListEnumerator.xml' path='//Method[@name="MoveNext"]/docs/*' />
-		public bool MoveNext ()
-		{
-			index++;
-			if (index >= list.Count)
-				return false;
+                return list[index];
+            }
+        }
 
-			return true;
-		}
+        /// <include file='OrderedListEnumerator.xml' path='//Property[@name="CurrentStrong"]/docs/*' />
+        public DictionaryEntry Current
+        {
+            get
+            {
+                if (index < 0 || index >= list.Count)
+                    throw new InvalidOperationException();
 
-		/// <include file='OrderedListEnumerator.xml' path='//Method[@name="Reset"]/docs/*' />
-		public void Reset ()
-		{
-			index = -1;
-		}
-		#endregion
-	}
+                return (DictionaryEntry)list[index];
+            }
+        }
+
+        /// <include file='OrderedListEnumerator.xml' path='//Property[@name="Entry"]/docs/*' />
+        public DictionaryEntry Entry
+        {
+            get { return (DictionaryEntry)Current; }
+        }
+
+        /// <include file='OrderedListEnumerator.xml' path='//Property[@name="Key"]/docs/*' />
+        public object Key
+        {
+            get { return Entry.Key; }
+        }
+
+        /// <include file='OrderedListEnumerator.xml' path='//Property[@name="Value"]/docs/*' />
+        public object Value
+        {
+            get { return Entry.Value; }
+        }
+
+        #endregion Public properties
+
+        #region Public methods
+
+        /// <include file='OrderedListEnumerator.xml' path='//Method[@name="MoveNext"]/docs/*' />
+        public bool MoveNext()
+        {
+            index++;
+            if (index >= list.Count)
+                return false;
+
+            return true;
+        }
+
+        /// <include file='OrderedListEnumerator.xml' path='//Method[@name="Reset"]/docs/*' />
+        public void Reset()
+        {
+            index = -1;
+        }
+
+        #endregion Public methods
+    }
 }

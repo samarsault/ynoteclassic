@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using FastColoredTextBoxNS;
+using System.Collections.Generic;
 using System.Xml;
-using FastColoredTextBoxNS;
 
 namespace SS.Ynote.Classic.Features.Snippets
 {
@@ -22,7 +22,7 @@ namespace SS.Ynote.Classic.Features.Snippets
         //  <YnoteSnippets Language="C#">
         //      <Snippet>for(int i=0;i < ^;i++)</Snippet>
         //  </YnoteSnippets>
-        static IEnumerable<YnoteSnippet> Read(string file)
+        private static IEnumerable<YnoteSnippet> Read(string file)
         {
             IList<YnoteSnippet> lst = new List<YnoteSnippet>();
             using (var reader = XmlReader.Create(file))

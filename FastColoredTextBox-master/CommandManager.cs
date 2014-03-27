@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 
 namespace FastColoredTextBoxNS
 {
     public class CommandManager
     {
-        readonly int maxHistoryLength = 200;
-        readonly LimitedStack<UndoableCommand> history;
-        readonly Stack<UndoableCommand> redoStack = new Stack<UndoableCommand>();
-        public TextSource TextSource{ get; private set; }
+        private readonly int maxHistoryLength = 200;
+        private readonly LimitedStack<UndoableCommand> history;
+        private readonly Stack<UndoableCommand> redoStack = new Stack<UndoableCommand>();
+
+        public TextSource TextSource { get; private set; }
 
         public CommandManager(TextSource ts)
         {
@@ -23,10 +24,9 @@ namespace FastColoredTextBoxNS
 
             //multirange ?
             if (cmd.ts.CurrentTb.Selection.ColumnSelectionMode)
-            if (cmd is UndoableCommand)
-                //make wrapper
-                cmd = new MultiRangeCommand((UndoableCommand)cmd);
-
+                if (cmd is UndoableCommand)
+                    //make wrapper
+                    cmd = new MultiRangeCommand((UndoableCommand)cmd);
 
             if (cmd is UndoableCommand)
             {
@@ -80,7 +80,7 @@ namespace FastColoredTextBoxNS
             TextSource.CurrentTb.OnUndoRedoStateChanged();
         }
 
-        int disabledCommands = 0;
+        private int disabledCommands = 0;
 
         private void EndDisableCommands()
         {
@@ -92,7 +92,7 @@ namespace FastColoredTextBoxNS
             disabledCommands++;
         }
 
-        int autoUndoCommands = 0;
+        private int autoUndoCommands = 0;
 
         public void EndAutoUndoCommands()
         {
@@ -142,8 +142,8 @@ namespace FastColoredTextBoxNS
             TextSource.CurrentTb.OnUndoRedoStateChanged();
         }
 
-        public bool UndoEnabled 
-        { 
+        public bool UndoEnabled
+        {
             get
             {
                 return history.Count > 0;
@@ -162,12 +162,14 @@ namespace FastColoredTextBoxNS
     public abstract class Command
     {
         internal TextSource ts;
+
         public abstract void Execute();
     }
 
     internal class RangeInfo
     {
         public Place Start { get; set; }
+
         public Place End { get; set; }
 
         public RangeInfo(Range r)

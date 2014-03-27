@@ -11,13 +11,13 @@ namespace FastColoredTextBoxNS
         public string Text;
         public int ImageIndex = -1;
         public object Tag;
-        string toolTipText;
-        string menuText;
+        private string toolTipText;
+        private string menuText;
+
         public AutocompleteMenu Parent { private get; set; }
-        
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public AutocompleteItem()
         {
@@ -92,9 +92,9 @@ namespace FastColoredTextBoxNS
         /// Tooltip text.
         /// </summary>
         /// <remarks>For display tooltip text, ToolTipTitle must be not null</remarks>
-        public string ToolTipText 
+        public string ToolTipText
         {
-            get{ return toolTipText; }
+            get { return toolTipText; }
             protected set { toolTipText = value; }
         }
 
@@ -113,7 +113,7 @@ namespace FastColoredTextBoxNS
         public Color ForeColor
         {
             get { return Color.Transparent; }
-           // set { throw new NotImplementedException("Override this property to change color"); }
+            // set { throw new NotImplementedException("Override this property to change color"); }
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace FastColoredTextBoxNS
         public virtual Color BackColor
         {
             get { return Color.Transparent; }
-           // set { throw new NotImplementedException("Override this property to change color"); }
+            // set { throw new NotImplementedException("Override this property to change color"); }
         }
     }
 
@@ -132,10 +132,12 @@ namespace FastColoredTextBoxNS
         /// Item do not appears
         /// </summary>
         Hidden,
+
         /// <summary>
         /// Item appears
         /// </summary>
         Visible,
+
         /// <summary>
         /// Item appears and will selected
         /// </summary>
@@ -212,8 +214,8 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class MethodAutocompleteItem : AutocompleteItem
     {
-        string firstPart;
-        readonly string lowercaseText;
+        private string firstPart;
+        private readonly string lowercaseText;
 
         public MethodAutocompleteItem(string text)
             : base(text)
@@ -229,10 +231,10 @@ namespace FastColoredTextBoxNS
             string lastPart = fragmentText.Substring(i + 1);
             firstPart = fragmentText.Substring(0, i);
 
-            if(lastPart=="") return CompareResult.Visible;
-            if(Text.StartsWith(lastPart, StringComparison.InvariantCultureIgnoreCase))
+            if (lastPart == "") return CompareResult.Visible;
+            if (Text.StartsWith(lastPart, StringComparison.InvariantCultureIgnoreCase))
                 return CompareResult.VisibleAndSelected;
-            if(lowercaseText.Contains(lastPart.ToLower()))
+            if (lowercaseText.Contains(lastPart.ToLower()))
                 return CompareResult.Visible;
 
             return CompareResult.Hidden;
@@ -250,8 +252,9 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class SuggestItem : AutocompleteItem
     {
-        public SuggestItem(string text, int imageIndex):base(text, imageIndex)
-        {   
+        public SuggestItem(string text, int imageIndex)
+            : base(text, imageIndex)
+        {
         }
 
         public override CompareResult Compare(string fragmentText)

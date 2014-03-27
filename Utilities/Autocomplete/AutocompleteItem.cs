@@ -9,9 +9,9 @@ namespace AutocompleteMenuNS
     public class AutocompleteItem
     {
         public object Tag;
-        string toolTipTitle;
-        string toolTipText;
-        string menuText;
+        private string toolTipTitle;
+        private string toolTipText;
+        private string menuText;
 
         /// <summary>
         /// Parent AutocompleteMenu
@@ -26,7 +26,7 @@ namespace AutocompleteMenuNS
         /// <summary>
         /// Image index for this item
         /// </summary>
-        public int ImageIndex{get; set; }
+        public int ImageIndex { get; set; }
 
         /// <summary>
         /// Title for tooltip.
@@ -57,13 +57,13 @@ namespace AutocompleteMenuNS
             set { menuText = value; }
         }
 
-
         public AutocompleteItem()
         {
             ImageIndex = -1;
         }
 
-        public AutocompleteItem(string text):this()
+        public AutocompleteItem(string text)
+            : this()
         {
             Text = text;
         }
@@ -134,10 +134,12 @@ namespace AutocompleteMenuNS
         /// Item do not appears
         /// </summary>
         Hidden,
+
         /// <summary>
         /// Item appears
         /// </summary>
         Visible,
+
         /// <summary>
         /// Item appears and will selected
         /// </summary>

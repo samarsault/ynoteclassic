@@ -22,7 +22,7 @@ namespace FastColoredTextBoxNS
         }
     }
 
-    public class CollapseFoldingMarker: VisualMarker
+    public class CollapseFoldingMarker : VisualMarker
     {
         public readonly int iLine;
 
@@ -79,7 +79,7 @@ namespace FastColoredTextBoxNS
 
     public class StyleVisualMarker : VisualMarker
     {
-        public Style Style{get;private set;}
+        public Style Style { get; private set; }
 
         public StyleVisualMarker(Rectangle rectangle, Style style)
             : base(rectangle)
@@ -91,6 +91,7 @@ namespace FastColoredTextBoxNS
     public class VisualMarkerEventArgs : MouseEventArgs
     {
         public Style Style { get; private set; }
+
         public StyleVisualMarker Marker { get; private set; }
 
         public VisualMarkerEventArgs(Style style, StyleVisualMarker marker, MouseEventArgs args)

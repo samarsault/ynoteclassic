@@ -18,7 +18,7 @@ namespace SS.Ynote.Classic.Features.Packages
         /// </summary>
         public void DownloadPackage()
         {
-            var downloader = new Downloader(PackageUrl) {StartPosition = FormStartPosition.CenterParent};
+            var downloader = new Downloader(PackageUrl) { StartPosition = FormStartPosition.CenterParent };
             downloader.DownloadPlugin();
         }
     }

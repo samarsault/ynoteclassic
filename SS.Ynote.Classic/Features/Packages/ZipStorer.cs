@@ -6,7 +6,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 
-#endregion
+#endregion Using Directives
 
 namespace SS.Ynote.Classic.Features.Packages
 {
@@ -81,28 +81,36 @@ namespace SS.Ynote.Classic.Features.Packages
         /// <summary>Force deflate algotithm even if it inflates the stored file. Off by default.</summary>
         private const bool ForceDeflating = false;
 
-        #endregion
+        #endregion Public fields
 
         #region Private fields
 
         // List of files to store
         private static readonly UInt32[] CrcTable;
+
         // Default filename encoder
         private static readonly Encoding DefaultEncoding = Encoding.GetEncoding(437);
+
         private readonly List<ZipFileEntry> Files = new List<ZipFileEntry>();
         private FileAccess Access;
+
         // Filename of storage file
         // Central dir image
         private byte[] CentralDirImage;
+
         private string Comment = "";
+
         // Existing files in zip
         private ushort ExistingFiles;
+
         private string FileName;
+
         // Stream object of storage file
         private Stream ZipFileStream;
+
         // File access for Open method
 
-        #endregion
+        #endregion Private fields
 
         #region Public methods
 
@@ -113,7 +121,7 @@ namespace SS.Ynote.Classic.Features.Packages
             CrcTable = new UInt32[256];
             for (int i = 0; i < CrcTable.Length; i++)
             {
-                var c = (UInt32) i;
+                var c = (UInt32)i;
                 for (int j = 0; j < 8; j++)
                 {
                     if ((c & 1) != 0)
@@ -150,7 +158,7 @@ namespace SS.Ynote.Classic.Features.Packages
         /// <returns>A valid ZipStorer object</returns>
         private static ZipStorer Create(Stream _stream, string _comment)
         {
-            var zip = new ZipStorer {Comment = _comment, ZipFileStream = _stream, Access = FileAccess.Write};
+            var zip = new ZipStorer { Comment = _comment, ZipFileStream = _stream, Access = FileAccess.Write };
 
             return zip;
         }
@@ -183,7 +191,7 @@ namespace SS.Ynote.Classic.Features.Packages
             if (!_stream.CanSeek && _access != FileAccess.Read)
                 throw new InvalidOperationException("Stream cannot seek");
 
-            var zip = new ZipStorer {ZipFileStream = _stream, Access = _access};
+            var zip = new ZipStorer { ZipFileStream = _stream, Access = _access };
             //zip.FileName = _filename;
 
             if (zip.ReadFileInfo())
@@ -240,7 +248,7 @@ namespace SS.Ynote.Classic.Features.Packages
                 FilenameInZip = NormalizedFilename(_filenameInZip),
                 Comment = (_comment ?? ""),
                 Crc32 = 0,
-                HeaderOffset = (uint) ZipFileStream.Position,
+                HeaderOffset = (uint)ZipFileStream.Position,
                 ModifyTime = _modTime
             };
 
@@ -248,7 +256,7 @@ namespace SS.Ynote.Classic.Features.Packages
 
             // Write local header
             WriteLocalHeader(ref zfe);
-            zfe.FileOffset = (uint) ZipFileStream.Position;
+            zfe.FileOffset = (uint)ZipFileStream.Position;
 
             // Write file to zip (store)
             Store(ref zfe, _source);
@@ -267,7 +275,7 @@ namespace SS.Ynote.Classic.Features.Packages
         {
             if (Access != FileAccess.Read)
             {
-                var centralOffset = (uint) ZipFileStream.Position;
+                var centralOffset = (uint)ZipFileStream.Position;
                 uint centralSize = 0;
 
                 if (CentralDirImage != null)
@@ -277,11 +285,11 @@ namespace SS.Ynote.Classic.Features.Packages
                 {
                     long pos = ZipFileStream.Position;
                     WriteCentralDirRecord(entry);
-                    centralSize += (uint) (ZipFileStream.Position - pos);
+                    centralSize += (uint)(ZipFileStream.Position - pos);
                 }
 
                 if (CentralDirImage != null)
-                    WriteEndRecord(centralSize + (uint) CentralDirImage.Length, centralOffset);
+                    WriteEndRecord(centralSize + (uint)CentralDirImage.Length, centralOffset);
                 else
                     WriteEndRecord(centralSize, centralOffset);
             }
@@ -305,7 +313,7 @@ namespace SS.Ynote.Classic.Features.Packages
 
             IList<ZipFileEntry> result = new List<ZipFileEntry>();
 
-            for (int pointer = 0; pointer < CentralDirImage.Length;)
+            for (int pointer = 0; pointer < CentralDirImage.Length; )
             {
                 uint signature = BitConverter.ToUInt32(CentralDirImage, pointer);
                 if (signature != 0x02014b50)
@@ -321,13 +329,13 @@ namespace SS.Ynote.Classic.Features.Packages
                 var extraSize = BitConverter.ToUInt16(CentralDirImage, pointer + 30);
                 var commentSize = BitConverter.ToUInt16(CentralDirImage, pointer + 32);
                 var headerOffset = BitConverter.ToUInt32(CentralDirImage, pointer + 42);
-                var headerSize = (uint) (46 + filenameSize + extraSize + commentSize);
+                var headerSize = (uint)(46 + filenameSize + extraSize + commentSize);
 
                 Encoding encoder = encodeUTF8 ? Encoding.UTF8 : DefaultEncoding;
 
                 var zfe = new ZipFileEntry
                 {
-                    Method = (Compression) method,
+                    Method = (Compression)method,
                     FilenameInZip = encoder.GetString(CentralDirImage, pointer + 46, filenameSize),
                     FileOffset = GetFileOffset(headerOffset),
                     FileSize = fileSize,
@@ -411,9 +419,9 @@ namespace SS.Ynote.Classic.Features.Packages
             uint bytesPending = _zfe.FileSize;
             while (bytesPending > 0)
             {
-                int bytesRead = inStream.Read(buffer, 0, (int) Math.Min(bytesPending, buffer.Length));
+                int bytesRead = inStream.Read(buffer, 0, (int)Math.Min(bytesPending, buffer.Length));
                 _stream.Write(buffer, 0, bytesRead);
-                bytesPending -= (uint) bytesRead;
+                bytesPending -= (uint)bytesRead;
             }
             _stream.Flush();
 
@@ -433,7 +441,6 @@ namespace SS.Ynote.Classic.Features.Packages
         {
             if (!(_zip.ZipFileStream is FileStream))
                 throw new InvalidOperationException("RemoveEntries is allowed just over streams of type FileStream");
-
 
             //Get full list of entries
             IEnumerable<ZipFileEntry> fullList = _zip.ReadCentralDir();
@@ -478,7 +485,7 @@ namespace SS.Ynote.Classic.Features.Packages
             return true;
         }
 
-        #endregion
+        #endregion Public methods
 
         #region Private methods
 
@@ -493,7 +500,7 @@ namespace SS.Ynote.Classic.Features.Packages
             ZipFileStream.Read(buffer, 0, 2);
             ushort extraSize = BitConverter.ToUInt16(buffer, 0);
 
-            return (uint) (30 + filenameSize + extraSize + _headerOffset);
+            return (uint)(30 + filenameSize + extraSize + _headerOffset);
         }
 
         /* Local file header:
@@ -519,19 +526,19 @@ namespace SS.Ynote.Classic.Features.Packages
             var encoder = _zfe.EncodeUTF8 ? Encoding.UTF8 : DefaultEncoding;
             byte[] encodedFilename = encoder.GetBytes(_zfe.FilenameInZip);
 
-            ZipFileStream.Write(new byte[] {80, 75, 3, 4, 20, 0}, 0, 6); // No extra header
-            ZipFileStream.Write(BitConverter.GetBytes((ushort) (_zfe.EncodeUTF8 ? 0x0800 : 0)), 0, 2);
-            // filename and comment encoding 
-            ZipFileStream.Write(BitConverter.GetBytes((ushort) _zfe.Method), 0, 2); // zipping method
+            ZipFileStream.Write(new byte[] { 80, 75, 3, 4, 20, 0 }, 0, 6); // No extra header
+            ZipFileStream.Write(BitConverter.GetBytes((ushort)(_zfe.EncodeUTF8 ? 0x0800 : 0)), 0, 2);
+            // filename and comment encoding
+            ZipFileStream.Write(BitConverter.GetBytes((ushort)_zfe.Method), 0, 2); // zipping method
             ZipFileStream.Write(BitConverter.GetBytes(DateTimeToDosTime(_zfe.ModifyTime)), 0, 4);
             // zipping date and time
-            ZipFileStream.Write(new byte[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0, 12);
+            ZipFileStream.Write(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, 0, 12);
             // unused CRC, un/compressed size, updated later
-            ZipFileStream.Write(BitConverter.GetBytes((ushort) encodedFilename.Length), 0, 2); // filename length
-            ZipFileStream.Write(BitConverter.GetBytes((ushort) 0), 0, 2); // extra length
+            ZipFileStream.Write(BitConverter.GetBytes((ushort)encodedFilename.Length), 0, 2); // filename length
+            ZipFileStream.Write(BitConverter.GetBytes((ushort)0), 0, 2); // extra length
 
             ZipFileStream.Write(encodedFilename, 0, encodedFilename.Length);
-            _zfe.HeaderSize = (uint) (ZipFileStream.Position - pos);
+            _zfe.HeaderSize = (uint)(ZipFileStream.Position - pos);
         }
 
         /* Central directory's File header:
@@ -564,23 +571,23 @@ namespace SS.Ynote.Classic.Features.Packages
             byte[] encodedFilename = encoder.GetBytes(_zfe.FilenameInZip);
             byte[] encodedComment = encoder.GetBytes(_zfe.Comment);
 
-            ZipFileStream.Write(new byte[] {80, 75, 1, 2, 23, 0xB, 20, 0}, 0, 8);
-            ZipFileStream.Write(BitConverter.GetBytes((ushort) (_zfe.EncodeUTF8 ? 0x0800 : 0)), 0, 2);
-            // filename and comment encoding 
-            ZipFileStream.Write(BitConverter.GetBytes((ushort) _zfe.Method), 0, 2); // zipping method
+            ZipFileStream.Write(new byte[] { 80, 75, 1, 2, 23, 0xB, 20, 0 }, 0, 8);
+            ZipFileStream.Write(BitConverter.GetBytes((ushort)(_zfe.EncodeUTF8 ? 0x0800 : 0)), 0, 2);
+            // filename and comment encoding
+            ZipFileStream.Write(BitConverter.GetBytes((ushort)_zfe.Method), 0, 2); // zipping method
             ZipFileStream.Write(BitConverter.GetBytes(DateTimeToDosTime(_zfe.ModifyTime)), 0, 4);
             // zipping date and time
             ZipFileStream.Write(BitConverter.GetBytes(_zfe.Crc32), 0, 4); // file CRC
             ZipFileStream.Write(BitConverter.GetBytes(_zfe.CompressedSize), 0, 4); // compressed file size
             ZipFileStream.Write(BitConverter.GetBytes(_zfe.FileSize), 0, 4); // uncompressed file size
-            ZipFileStream.Write(BitConverter.GetBytes((ushort) encodedFilename.Length), 0, 2); // Filename in zip
-            ZipFileStream.Write(BitConverter.GetBytes((ushort) 0), 0, 2); // extra length
-            ZipFileStream.Write(BitConverter.GetBytes((ushort) encodedComment.Length), 0, 2);
+            ZipFileStream.Write(BitConverter.GetBytes((ushort)encodedFilename.Length), 0, 2); // Filename in zip
+            ZipFileStream.Write(BitConverter.GetBytes((ushort)0), 0, 2); // extra length
+            ZipFileStream.Write(BitConverter.GetBytes((ushort)encodedComment.Length), 0, 2);
 
-            ZipFileStream.Write(BitConverter.GetBytes((ushort) 0), 0, 2); // disk=0
-            ZipFileStream.Write(BitConverter.GetBytes((ushort) 0), 0, 2); // file type: binary
-            ZipFileStream.Write(BitConverter.GetBytes((ushort) 0), 0, 2); // Internal file attributes
-            ZipFileStream.Write(BitConverter.GetBytes((ushort) 0x8100), 0, 2);
+            ZipFileStream.Write(BitConverter.GetBytes((ushort)0), 0, 2); // disk=0
+            ZipFileStream.Write(BitConverter.GetBytes((ushort)0), 0, 2); // file type: binary
+            ZipFileStream.Write(BitConverter.GetBytes((ushort)0), 0, 2); // Internal file attributes
+            ZipFileStream.Write(BitConverter.GetBytes((ushort)0x8100), 0, 2);
             // External file attributes (normal/readable)
             ZipFileStream.Write(BitConverter.GetBytes(_zfe.HeaderOffset), 0, 4); // Offset of header
 
@@ -611,12 +618,12 @@ namespace SS.Ynote.Classic.Features.Packages
             Encoding encoder = DefaultEncoding;
             byte[] encodedComment = encoder.GetBytes(Comment);
 
-            ZipFileStream.Write(new byte[] {80, 75, 5, 6, 0, 0, 0, 0}, 0, 8);
-            ZipFileStream.Write(BitConverter.GetBytes((ushort) Files.Count + ExistingFiles), 0, 2);
-            ZipFileStream.Write(BitConverter.GetBytes((ushort) Files.Count + ExistingFiles), 0, 2);
+            ZipFileStream.Write(new byte[] { 80, 75, 5, 6, 0, 0, 0, 0 }, 0, 8);
+            ZipFileStream.Write(BitConverter.GetBytes((ushort)Files.Count + ExistingFiles), 0, 2);
+            ZipFileStream.Write(BitConverter.GetBytes((ushort)Files.Count + ExistingFiles), 0, 2);
             ZipFileStream.Write(BitConverter.GetBytes(_size), 0, 4);
             ZipFileStream.Write(BitConverter.GetBytes(_offset), 0, 4);
-            ZipFileStream.Write(BitConverter.GetBytes((ushort) encodedComment.Length), 0, 2);
+            ZipFileStream.Write(BitConverter.GetBytes((ushort)encodedComment.Length), 0, 2);
             ZipFileStream.Write(encodedComment, 0, encodedComment.Length);
         }
 
@@ -637,7 +644,7 @@ namespace SS.Ynote.Classic.Features.Packages
             do
             {
                 bytesRead = _source.Read(buffer, 0, buffer.Length);
-                totalRead += (uint) bytesRead;
+                totalRead += (uint)bytesRead;
                 if (bytesRead > 0)
                 {
                     outStream.Write(buffer, 0, bytesRead);
@@ -655,7 +662,7 @@ namespace SS.Ynote.Classic.Features.Packages
 
             _zfe.Crc32 ^= 0xffffffff;
             _zfe.FileSize = totalRead;
-            _zfe.CompressedSize = (uint) (ZipFileStream.Position - posStart);
+            _zfe.CompressedSize = (uint)(ZipFileStream.Position - posStart);
 
             // Verify for real compression
             if (_zfe.Method == Compression.Deflate && !ForceDeflating && _source.CanSeek &&
@@ -671,36 +678,36 @@ namespace SS.Ynote.Classic.Features.Packages
         }
 
         /* DOS Date and time:
-            MS-DOS date. The date is a packed value with the following format. Bits Description 
-                0-4 Day of the month (1–31) 
-                5-8 Month (1 = January, 2 = February, and so on) 
-                9-15 Year offset from 1980 (add 1980 to get actual year) 
-            MS-DOS time. The time is a packed value with the following format. Bits Description 
-                0-4 Second divided by 2 
-                5-10 Minute (0–59) 
-                11-15 Hour (0–23 on a 24-hour clock) 
+            MS-DOS date. The date is a packed value with the following format. Bits Description
+                0-4 Day of the month (1–31)
+                5-8 Month (1 = January, 2 = February, and so on)
+                9-15 Year offset from 1980 (add 1980 to get actual year)
+            MS-DOS time. The time is a packed value with the following format. Bits Description
+                0-4 Second divided by 2
+                5-10 Minute (0–59)
+                11-15 Hour (0–23 on a 24-hour clock)
         */
 
         private uint DateTimeToDosTime(DateTime _dt)
         {
-            return (uint) (
-                (_dt.Second/2) | (_dt.Minute << 5) | (_dt.Hour << 11) |
+            return (uint)(
+                (_dt.Second / 2) | (_dt.Minute << 5) | (_dt.Hour << 11) |
                 (_dt.Day << 16) | (_dt.Month << 21) | ((_dt.Year - 1980) << 25));
         }
 
         private DateTime DosTimeToDateTime(uint _dt)
         {
             return new DateTime(
-                (int) (_dt >> 25) + 1980,
-                (int) (_dt >> 21) & 15,
-                (int) (_dt >> 16) & 31,
-                (int) (_dt >> 11) & 31,
-                (int) (_dt >> 5) & 63,
-                (int) (_dt & 31)*2);
+                (int)(_dt >> 25) + 1980,
+                (int)(_dt >> 21) & 15,
+                (int)(_dt >> 16) & 31,
+                (int)(_dt >> 11) & 31,
+                (int)(_dt >> 5) & 63,
+                (int)(_dt & 31) * 2);
         }
 
         /* CRC32 algorithm
-          The 'magic number' for the CRC is 0xdebb20e3.  
+          The 'magic number' for the CRC is 0xdebb20e3.
           The proper CRC pre and post conditioning
           is used, meaning that the CRC register is
           pre-conditioned with all ones (a starting value
@@ -717,7 +724,7 @@ namespace SS.Ynote.Classic.Features.Packages
             long lastPos = ZipFileStream.Position; // remember position
 
             ZipFileStream.Position = _zfe.HeaderOffset + 8;
-            ZipFileStream.Write(BitConverter.GetBytes((ushort) _zfe.Method), 0, 2); // zipping method
+            ZipFileStream.Write(BitConverter.GetBytes((ushort)_zfe.Method), 0, 2); // zipping method
 
             ZipFileStream.Position = _zfe.HeaderOffset + 14;
             ZipFileStream.Write(BitConverter.GetBytes(_zfe.Crc32), 0, 4); // Update CRC
@@ -785,7 +792,7 @@ namespace SS.Ynote.Classic.Features.Packages
             return false;
         }
 
-        #endregion
+        #endregion Private methods
 
         #region IDisposable Members
 
@@ -797,6 +804,6 @@ namespace SS.Ynote.Classic.Features.Packages
             Close();
         }
 
-        #endregion
+        #endregion IDisposable Members
     }
 }

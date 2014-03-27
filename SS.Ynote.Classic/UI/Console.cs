@@ -1,12 +1,12 @@
+using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Extensibility;
+using SS.Ynote.Classic.Features.RunScript;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using FastColoredTextBoxNS;
-using SS.Ynote.Classic.Features.Extensibility;
-using SS.Ynote.Classic.Features.RunScript;
 using WeifenLuo.WinFormsUI.Docking;
 using AutocompleteItem = AutocompleteMenuNS.AutocompleteItem;
 using SyntaxHighlighter = SS.Ynote.Classic.Features.Syntax.SyntaxHighlighter;
@@ -47,8 +47,8 @@ namespace SS.Ynote.Classic.UI
         private void BuildAutoComplete()
         {
             var items = new List<AutocompleteItem>();
-            items.AddRange(from object lang in Enum.GetValues(typeof (Language))
-                select new AutocompleteItem("SetSyntax:" + lang));
+            items.AddRange(from object lang in Enum.GetValues(typeof(Language))
+                           select new AutocompleteItem("SetSyntax:" + lang));
             items.AddRange(from item in SyntaxHighlighter.LoadedSyntaxes where item != null select new AutocompleteItem("SetSyntaxFile:" + Path.GetFileNameWithoutExtension(item.SysPath)));
             items.Add(new AutocompleteItem("File:New"));
             items.Add(new AutocompleteItem("File:Open"));
@@ -161,8 +161,9 @@ namespace SS.Ynote.Classic.UI
                     ActiveEditor.Syntax = null;
                     if (LangMenu != null) LangMenu.Text = c.Value;
                     break;
+
                 case "SetSyntaxFile":
-                    foreach(var syntax in SyntaxHighlighter.LoadedSyntaxes)
+                    foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes)
                         if (syntax.SysPath ==
                             string.Format("{0}\\Syntaxes\\{1}.xml", Application.StartupPath, c.Value))
                         {
@@ -171,57 +172,75 @@ namespace SS.Ynote.Classic.UI
                             if (LangMenu != null) LangMenu.Text = c.Value;
                         }
                     break;
+
                 case "File":
                     FileFunc(c.Value);
                     break;
+
                 case "Bookmarks":
                     BookmarkFunc(c.Value);
                     break;
+
                 case "CodeFolding":
                     CodeFoldingFunc(c.Value);
                     break;
+
                 case "Macro":
                     RunMacro(c.Value);
                     break;
+
                 case "Script":
                     RunScript(c.Value);
                     break;
+
                 case "Indent":
                     IndentFunc(c.Value);
                     break;
+
                 case "Line":
                     LineFunc(c.Value);
                     break;
+
                 case "Export":
                     Export(c.Value);
                     break;
+
                 case "Comment":
                     CommentFunc(c.Value);
                     break;
+
                 case "Macros":
                     MacroFunc(c.Value);
                     break;
+
                 case "View":
                     Viewfunc(c.Value);
                     break;
+
                 case "ProcStart":
                     Process.Start(c.Value);
                     break;
+
                 case "Google":
                     Process.Start(string.Format("http://www.google.com/search?q={0}", c.Value));
                     break;
+
                 case "Wikipedia":
                     Process.Start(string.Format("http://wikipedia.org/w/index.php?search={0}", c.Value));
                     break;
+
                 case "Selection":
                     SelectionFunc(c.Value);
                     break;
+
                 case "Console":
                     Close();
                     break;
+
                 case "Navigate":
                     NavigateFunc(c.Value);
                     break;
+
                 case "Run":
                     ExecuteRunScript(c.Value);
                     break;
@@ -238,18 +257,23 @@ namespace SS.Ynote.Classic.UI
                 case "GoLeftBracket()":
                     ActiveEditor.tb.GoLeftBracket('(', ')');
                     break;
+
                 case "GoRightBracket()":
                     ActiveEditor.tb.GoRightBracket('(', ')');
                     break;
+
                 case "GoLeftBracket[]":
                     ActiveEditor.tb.GoLeftBracket('[', ']');
                     break;
+
                 case "GoRightBracket[]":
                     ActiveEditor.tb.GoRightBracket('[', ']');
                     break;
+
                 case "GoLeftBracket{}":
                     ActiveEditor.tb.GoLeftBracket('{', '}');
                     break;
+
                 case "GoRightBracket{}":
                     ActiveEditor.tb.GoRightBracket('{', '}');
                     break;
@@ -356,7 +380,7 @@ namespace SS.Ynote.Classic.UI
             }
             else if (str == "Join")
             {
-                string[] lines = ActiveEditor.tb.SelectedText.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
+                string[] lines = ActiveEditor.tb.SelectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                 ActiveEditor.tb.SelectedText = string.Join(" ", lines);
             }
             else if (str == "Sort")
@@ -367,7 +391,7 @@ namespace SS.Ynote.Classic.UI
                     MessageBox.Show("No Text/Lines is/are Selected to Reverse");
                     return;
                 }
-                string[] lines = fctb.SelectedText.Split(new[] {Environment.NewLine},
+                string[] lines = fctb.SelectedText.Split(new[] { Environment.NewLine },
                     StringSplitOptions.RemoveEmptyEntries);
                 Array.Reverse(lines);
                 string formedtext = lines.Aggregate<string, string>(null, (current, line) => current + (line + "\r\n"));
@@ -405,7 +429,7 @@ namespace SS.Ynote.Classic.UI
                 ActiveEditor.tb.Bookmarks.Clear();
             else if (func == "Manager")
             {
-                var manager = new BookmarksInfos(ActiveEditor.tb) {StartPosition = FormStartPosition.CenterParent};
+                var manager = new BookmarksInfos(ActiveEditor.tb) { StartPosition = FormStartPosition.CenterParent };
                 manager.ShowDialog(this);
             }
         }
@@ -429,7 +453,7 @@ namespace SS.Ynote.Classic.UI
             else if (func == "Save")
                 _ynote.SaveEditor(ActiveEditor);
             else if (func == "Print")
-                ActiveEditor.tb.Print(new PrintDialogSettings {ShowPrintPreviewDialog = true});
+                ActiveEditor.tb.Print(new PrintDialogSettings { ShowPrintPreviewDialog = true });
             else if (func == "Properties")
             {
                 if (ActiveEditor.IsSaved)
@@ -448,6 +472,7 @@ namespace SS.Ynote.Classic.UI
     public class SCommand
     {
         public string Key { get; set; }
+
         public string Value { get; set; }
     }
 

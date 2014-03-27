@@ -23,7 +23,7 @@ namespace SS.Ynote.Classic.Features.RunScript
             foreach (var file in RunConfiguration.GetConfigurations())
             {
                 var config = RunConfiguration.ToRunConfig(file);
-                var tn = new TreeNode(config.Name) {Tag = config};
+                var tn = new TreeNode(config.Name) { Tag = config };
                 node.Nodes.Add(tn);
             }
             configTree.Nodes.Add(node);
@@ -42,7 +42,7 @@ namespace SS.Ynote.Classic.Features.RunScript
                 tbCmdDir.Text = selectedconfig.CmdDir;
                 tbProcess.Text = selectedconfig.Process;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("There was an error processing your request\r\nReport : " + ex, "Ynote Classic",
                     MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -70,7 +70,7 @@ namespace SS.Ynote.Classic.Features.RunScript
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            var nd = new TreeNode("untitled") {Tag = new RunConfiguration()};
+            var nd = new TreeNode("untitled") { Tag = new RunConfiguration() };
             configTree.Nodes[0].Nodes.Add(nd);
             nd.BeginEdit();
             configTree.SelectedNode = nd;

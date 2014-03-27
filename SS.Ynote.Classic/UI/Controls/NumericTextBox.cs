@@ -8,7 +8,6 @@ using System.Windows.Forms;
 
 namespace SS.Ynote.Classic.UI.Controls
 {
-
     #region Using Directives
 
     #endregion

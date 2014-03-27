@@ -1,21 +1,22 @@
-Ynote Classic
+Ynote Classic 
 ============
 
-Ynote Classic is a free (as in "free speech" and also as in "free beer") text and source code editor which makes editing a more easier and comfortable task with it's powerful editing operations, syntax highlighting, code folding, indentation, autocompletion and plugins.
+Ynote Classic Ynote Classic is an easy to use, open and versatile Text and Source Code Editor. It can deal with a variety of tasks ranging from writing to programming. It makes editing a more easier and comfortable task with it's powerful editing operations, syntax highlighting, code folding, indentation, autocompletion and plugins.
 
 Features
 ----
   - Multi-Level Undo/Redo
-  - Syntax Highlighting, Code Folding, Auto-Indentation, Auto-Completion
-  - Powerful Search and Replace using regular expressions and wildcards
-  - WordWrap and many common editing functions
+  - Syntax Highlighting, Code Folding, Auto-Indent, Auto-Completion
+  - Powerful Search and Replace using Regular Expressions in document, files and selection.
+  - Powerful Project Management
+  - Diff Utility
   - WYSWYIG Printing
   - MDI and SDI
-  - Plugins, Macros, Color Schemes and much more.
+  - Plugins, Macros, Color Schemes, Syntax Files, Scripts and much more.
 
 Version
 ----
- 2.7 Currently under development
+ 2.7 Alpha 1
 
 License
 ----

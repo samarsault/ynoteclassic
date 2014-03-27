@@ -1,3 +1,6 @@
+using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Syntax;
+using SS.Ynote.Classic.UI.DiffMergeStuffs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,9 +9,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using FastColoredTextBoxNS;
-using SS.Ynote.Classic.Features.Syntax;
-using SS.Ynote.Classic.UI.DiffMergeStuffs;
 using WeifenLuo.WinFormsUI.Docking;
 using Line = SS.Ynote.Classic.UI.DiffMergeStuffs.Line;
 using SyntaxHighlighter = SS.Ynote.Classic.Features.Syntax.SyntaxHighlighter;
@@ -31,6 +31,7 @@ namespace SS.Ynote.Classic.UI
             YnoteThemeReader.ApplyTheme(Application.StartupPath + @"\Themes\Default.ynotetheme", Highlighter, fctb1);
             YnoteThemeReader.ApplyTheme(Application.StartupPath + @"\Themes\Default.ynotetheme", Highlighter, fctb2);
         }
+
         public Diff(string firstfile, string secondfile)
         {
             InitializeComponent();
@@ -139,10 +140,12 @@ namespace SS.Ynote.Classic.UI
                         fctb1.AppendText(line.line + Environment.NewLine);
                         fctb2.AppendText(line.line + Environment.NewLine);
                         break;
+
                     case DiffType.Inserted:
                         fctb1.AppendText(Environment.NewLine);
                         fctb2.AppendText(line.line + Environment.NewLine, greenStyle);
                         break;
+
                     case DiffType.Deleted:
                         fctb1.AppendText(line.line + Environment.NewLine, redStyle);
                         fctb2.AppendText(Environment.NewLine);
@@ -177,6 +180,7 @@ namespace SS.Ynote.Classic.UI
             }
 
             private TimeSpan ElapsedTime { get; set; }
+
             public event EventHandler<DiffEventArgs<T>> LineUpdate;
 
             /// <summary>
@@ -299,7 +303,7 @@ namespace SS.Ynote.Classic.UI
                 for (int i = 1; i <= _left.Count - totalSkip; i++)
                 {
                     // Simple optimization to avoid this calculation
-                    // inside the outer loop (may have got JIT optimized 
+                    // inside the outer loop (may have got JIT optimized
                     // but my tests showed a minor improvement in speed)
                     int leftIndex = _preSkip + i - 1;
 
@@ -334,7 +338,7 @@ namespace SS.Ynote.Classic.UI
             private void InitializeCompareFunc()
             {
                 // Special case for String types
-                if (typeof (T) == typeof (String))
+                if (typeof(T) == typeof(String))
                 {
                     _compareFunc = StringCompare;
                 }
@@ -384,7 +388,9 @@ namespace SS.Ynote.Classic.UI
             public DiffType DiffType { get; private set; }
 
             public T LineValue { get; private set; }
+
             private int LeftIndex { get; set; }
+
             private int RightIndex { get; set; }
         }
 
@@ -418,7 +424,7 @@ namespace SS.Ynote.Classic.UI
             /// </summary>
             public override bool Equals(object obj)
             {
-                return Equals(line, ((Line) obj).line);
+                return Equals(line, ((Line)obj).line);
             }
 
             public static bool operator ==(Line line1, Line line2)
@@ -443,12 +449,11 @@ namespace SS.Ynote.Classic.UI
         public class Lines : List<Line>, IEquatable<Lines>
         {
             //??? ?????? ????? ??? ???????? ?????, ??????????? ? ????? ??????, ?? ?????? ?????? ????????? ?????
-            private Line fictiveLine = new Line("===fictive line===") {state = DiffType.Deleted};
+            private Line fictiveLine = new Line("===fictive line===") { state = DiffType.Deleted };
 
             private Lines()
             {
             }
-
 
             private Lines(int capacity)
                 : base(capacity)
@@ -568,24 +573,24 @@ namespace SS.Ynote.Classic.UI
             }
         }
 
-/*
-        /// <summary>
-        ///     ??????, ?????????? ????????? ??????????? ??????
-        /// </summary>
-        public class ConflictedLine : Line
-        {
-            public readonly Lines version1;
-            public readonly Lines version2;
+        /*
+                /// <summary>
+                ///     ??????, ?????????? ????????? ??????????? ??????
+                /// </summary>
+                public class ConflictedLine : Line
+                {
+                    public readonly Lines version1;
+                    public readonly Lines version2;
 
-            public ConflictedLine(Lines version1, Lines version2)
-                : base("?")
-            {
-                this.version1 = version1;
-                this.version2 = version2;
-            }
-        }
-*/
+                    public ConflictedLine(Lines version1, Lines version2)
+                        : base("?")
+                    {
+                        this.version1 = version1;
+                        this.version2 = version2;
+                    }
+                }
+        */
     }
 
-    #endregion
+    #endregion Merge stuffs
 }

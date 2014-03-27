@@ -19,7 +19,7 @@ namespace SS.Ynote.Classic.Features.Packages
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var package = new YnoteOnlinePackage {PackageUrl = textBox1.Text};
+            var package = new YnoteOnlinePackage { PackageUrl = textBox1.Text };
             GeneratedPackage = package;
             Close();
         }

@@ -8,7 +8,7 @@ namespace FastColoredTextBoxNS
 {
     public partial class HotkeysEditorForm : Form
     {
-        readonly BindingList<HotkeyWrapper> wrappers = new BindingList<HotkeyWrapper>();
+        private readonly BindingList<HotkeyWrapper> wrappers = new BindingList<HotkeyWrapper>();
 
         public HotkeysEditorForm(HotkeysMapping hotkeys)
         {
@@ -17,7 +17,7 @@ namespace FastColoredTextBoxNS
             dgv.DataSource = wrappers;
         }
 
-        int CompereKeys(Keys key1, Keys key2)
+        private int CompereKeys(Keys key1, Keys key2)
         {
             var res = ((int)key1 & 0xff).CompareTo((int)key2 & 0xff);
             if (res == 0)
@@ -57,19 +57,19 @@ namespace FastColoredTextBoxNS
         private void dgv_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             var cell = (dgv[0, e.RowIndex] as DataGridViewComboBoxCell);
-            if(cell.Items.Count == 0)
-            foreach(var item in new[]{"", "Ctrl", "Ctrl + Shift", "Ctrl + Alt", "Shift", "Shift + Alt", "Alt", "Ctrl + Shift + Alt"})
-                cell.Items.Add(item);
+            if (cell.Items.Count == 0)
+                foreach (var item in new[] { "", "Ctrl", "Ctrl + Shift", "Ctrl + Alt", "Shift", "Shift + Alt", "Alt", "Ctrl + Shift + Alt" })
+                    cell.Items.Add(item);
 
             cell = (dgv[1, e.RowIndex] as DataGridViewComboBoxCell);
             if (cell.Items.Count == 0)
-            foreach (var item in Enum.GetValues(typeof(Keys)))
-                cell.Items.Add(item);
+                foreach (var item in Enum.GetValues(typeof(Keys)))
+                    cell.Items.Add(item);
 
             cell = (dgv[2, e.RowIndex] as DataGridViewComboBoxCell);
             if (cell.Items.Count == 0)
-            foreach (var item in Enum.GetValues(typeof(FCTBAction)))
-                cell.Items.Add(item);
+                foreach (var item in Enum.GetValues(typeof(FCTBAction)))
+                    cell.Items.Add(item);
         }
 
         private void btResore_Click(object sender, EventArgs e)
@@ -87,7 +87,7 @@ namespace FastColoredTextBoxNS
 
         private void HotkeysEditorForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(DialogResult == DialogResult.OK)
+            if (DialogResult == DialogResult.OK)
             {
                 var actions = GetUnAssignedActions();
                 if (!string.IsNullOrEmpty(actions))
@@ -107,12 +107,12 @@ namespace FastColoredTextBoxNS
                 dic[w.Action] = w.Action;
 
             foreach (var item in Enum.GetValues(typeof(FCTBAction)))
-            if ((FCTBAction)item != FCTBAction.None)
-            if(!((FCTBAction)item).ToString().StartsWith("CustomAction"))
-            {
-                if(!dic.ContainsKey((FCTBAction)item))
-                    sb.Append(item+", ");
-            }
+                if ((FCTBAction)item != FCTBAction.None)
+                    if (!((FCTBAction)item).ToString().StartsWith("CustomAction"))
+                    {
+                        if (!dic.ContainsKey((FCTBAction)item))
+                            sb.Append(item + ", ");
+                    }
 
             return sb.ToString().TrimEnd(' ', ',');
         }
@@ -141,10 +141,10 @@ namespace FastColoredTextBoxNS
             return res;
         }
 
-        bool Ctrl;
-        bool Shift;
-        bool Alt;
-        
+        private bool Ctrl;
+        private bool Shift;
+        private bool Alt;
+
         public string Modifiers
         {
             get
@@ -172,6 +172,7 @@ namespace FastColoredTextBoxNS
         }
 
         public Keys Key { get; set; }
+
         public FCTBAction Action { get; set; }
     }
 }

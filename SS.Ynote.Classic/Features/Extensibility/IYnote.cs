@@ -1,10 +1,10 @@
 #region Using Directives
 
-using System.Windows.Forms;
 using SS.Ynote.Classic.UI;
+using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-#endregion
+#endregion Using Directives
 
 /// <summary>
 ///     IYnote Interface

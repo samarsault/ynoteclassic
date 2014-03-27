@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Text;
 
 namespace FastColoredTextBoxNS
 {
@@ -11,64 +11,77 @@ namespace FastColoredTextBoxNS
     /// This class contains the source text (chars and styles).
     /// It stores a text lines, the manager of commands, undo/redo stack, styles.
     /// </summary>
-    public class TextSource: IList<Line>, IDisposable
+    public class TextSource : IList<Line>, IDisposable
     {
         readonly protected List<Line> lines = new List<Line>();
         protected LinesAccessor linesAccessor;
-        int lastLineUniqueId;
+        private int lastLineUniqueId;
+
         public CommandManager Manager { get; protected set; }
-        FastColoredTextBox currentTB;
+
+        private FastColoredTextBox currentTB;
+
         /// <summary>
         /// Styles
         /// </summary>
         public readonly Style[] Styles;
+
         /// <summary>
         /// Occurs when line was inserted/added
         /// </summary>
         public event EventHandler<LineInsertedEventArgs> LineInserted;
+
         /// <summary>
         /// Occurs when line was removed
         /// </summary>
         public event EventHandler<LineRemovedEventArgs> LineRemoved;
+
         /// <summary>
         /// Occurs when text was changed
         /// </summary>
         public event EventHandler<TextChangedEventArgs> TextChanged;
+
         /// <summary>
         /// Occurs when recalc is needed
         /// </summary>
         public event EventHandler<TextChangedEventArgs> RecalcNeeded;
+
         /// <summary>
         /// Occurs when recalc wordwrap is needed
         /// </summary>
         public event EventHandler<TextChangedEventArgs> RecalcWordWrap;
+
         /// <summary>
         /// Occurs before text changing
         /// </summary>
         public event EventHandler<TextChangingEventArgs> TextChanging;
+
         /// <summary>
         /// Occurs after CurrentTB was changed
         /// </summary>
         public event EventHandler CurrentTBChanged;
+
         /// <summary>
         /// Current focused FastColoredTextBox
         /// </summary>
-        public FastColoredTextBox CurrentTb {
+        public FastColoredTextBox CurrentTb
+        {
             get { return currentTB; }
-            set {
+            set
+            {
                 if (currentTB == value)
                     return;
                 currentTB = value;
-                OnCurrentTBChanged(); 
+                OnCurrentTBChanged();
             }
         }
 
         public virtual void ClearIsChanged()
         {
-            foreach(var line in lines)
+            foreach (var line in lines)
                 line.IsChanged = false;
         }
-        
+
         public virtual Line CreateLine()
         {
             return new Line(GenerateUniqueLineId());
@@ -85,6 +98,7 @@ namespace FastColoredTextBoxNS
         /// This style is using when no one other TextStyle is not defined in Char.style
         /// </summary>
         public TextStyle DefaultStyle { get; set; }
+
         /// <summary>
         /// TextSource
         /// </summary>
@@ -107,10 +121,12 @@ namespace FastColoredTextBoxNS
 
         public virtual Line this[int i]
         {
-            get{
+            get
+            {
                 return lines[i];
             }
-            set {
+            set
+            {
                 throw new NotImplementedException();
             }
         }
@@ -199,7 +215,7 @@ namespace FastColoredTextBoxNS
         public virtual void OnTextChanged(int fromLine, int toLine)
         {
             if (TextChanged != null)
-                TextChanged(this, new TextChangedEventArgs(Math.Min(fromLine, toLine), Math.Max(fromLine, toLine) ));
+                TextChanged(this, new TextChangedEventArgs(Math.Min(fromLine, toLine), Math.Max(fromLine, toLine)));
         }
 
         public class TextChangedEventArgs : EventArgs
@@ -319,17 +335,16 @@ namespace FastColoredTextBoxNS
 
         public virtual void Dispose()
         {
-            
         }
 
         public virtual void SaveToFile(string fileName, Encoding enc)
         {
             using (StreamWriter sw = new StreamWriter(fileName, false, enc))
             {
-                for (int i = 0; i < Count - 1;i++ )
+                for (int i = 0; i < Count - 1; i++)
                     sw.WriteLine(lines[i].Text);
 
-                sw.Write(lines[Count-1].Text);
+                sw.Write(lines[Count - 1].Text);
             }
         }
     }

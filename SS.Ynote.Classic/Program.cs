@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace SS.Ynote.Classic
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
         /// The main entry point for the application.

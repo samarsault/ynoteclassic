@@ -6,13 +6,14 @@ namespace FastColoredTextBoxNS
     public partial class GoToForm : Form
     {
         public int SelectedLineNumber { get; set; }
+
         public int TotalLineCount { get; set; }
 
         public GoToForm()
         {
             InitializeComponent();
         }
-        
+
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
@@ -48,6 +49,6 @@ namespace FastColoredTextBoxNS
         {
             DialogResult = DialogResult.Cancel;
             Close();
-         }
+        }
     }
 }

@@ -24,7 +24,7 @@ namespace FastColoredTextBoxNS
         /// <summary>
         /// Allows to user to record macros
         /// </summary>
-        public bool AllowMacroRecordingByUser { get;set; }
+        public bool AllowMacroRecordingByUser { get; set; }
 
         private bool isRecording;
 
@@ -63,7 +63,6 @@ namespace FastColoredTextBoxNS
                     var p = (KeyValuePair<char, Keys>)item;
                     UnderlayingControl.ProcessKey(p.Key, p.Value);
                 }
-                
             }
             UnderlayingControl.EndAutoUndo();
             UnderlayingControl.Selection.EndUpdate();
@@ -94,7 +93,6 @@ namespace FastColoredTextBoxNS
             macro.Clear();
         }
 
-
         internal void ProcessKey(Keys keyData)
         {
             if (IsRecording)
@@ -106,6 +104,7 @@ namespace FastColoredTextBoxNS
             if (IsRecording)
                 AddCharToMacros(c, modifiers);
         }
+
         /// <summary>
         /// Executes Macro from file
         /// </summary>
@@ -119,7 +118,7 @@ namespace FastColoredTextBoxNS
         /// <summary>
         /// Returns True if last macro is empty
         /// </summary>
-        public bool MacroIsEmpty { get { return macro.Count == 0; }}
+        public bool MacroIsEmpty { get { return macro.Count == 0; } }
 
         /// <summary>
         /// Macros as string.
@@ -153,7 +152,7 @@ namespace FastColoredTextBoxNS
                 return sb.ToString();
             }
 
-            set 
+            set
             {
                 isRecording = false;
                 ClearMacros();
@@ -169,21 +168,22 @@ namespace FastColoredTextBoxNS
                 Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
                 var kc = new KeysConverter();
 
-                if(list != null)
-                foreach (XmlElement node in list)
-                {
-                    var ca = node.GetAttributeNode("char");
-                    var ka = node.GetAttributeNode("key");
-                    if (ca != null)
+                if (list != null)
+                    foreach (XmlElement node in list)
                     {
-                        if(ka!=null)
-                            AddCharToMacros((char)int.Parse(ca.Value), (Keys)kc.ConvertFromString(ka.Value));
+                        var ca = node.GetAttributeNode("char");
+                        var ka = node.GetAttributeNode("key");
+                        if (ca != null)
+                        {
+                            if (ka != null)
+                                AddCharToMacros((char)int.Parse(ca.Value), (Keys)kc.ConvertFromString(ka.Value));
+                            else
+                                AddCharToMacros((char)int.Parse(ca.Value), Keys.None);
+                        }
                         else
-                            AddCharToMacros((char)int.Parse(ca.Value), Keys.None);
-                    }else
-                    if(ka!=null)
-                            AddKeyToMacros((Keys)kc.ConvertFromString(ka.Value));
-                }
+                            if (ka != null)
+                                AddKeyToMacros((Keys)kc.ConvertFromString(ka.Value));
+                    }
 
                 Thread.CurrentThread.CurrentUICulture = cult;
             }

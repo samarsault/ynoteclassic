@@ -2,14 +2,14 @@
 {
     #region Using Directives
 
+    using Nini.Config;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
-    using Nini.Config;
 
-    #endregion
+    #endregion Using Directives
 
     #region Package Maker
 
@@ -64,7 +64,7 @@
         }
     }
 
-    #endregion
+    #endregion Package Maker
 
     #region Package Loader
 
@@ -128,5 +128,5 @@
         }
     }
 
-    #endregion
+    #endregion Package Loader
 }

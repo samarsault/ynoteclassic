@@ -7,9 +7,9 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class LimitedStack<T>
     {
-        T[] items;
-        int count;
-        int start;
+        private T[] items;
+        private int count;
+        private int start;
 
         /// <summary>
         /// Max stack length
@@ -55,7 +55,7 @@ namespace FastColoredTextBoxNS
             return item;
         }
 
-        int LastIndex
+        private int LastIndex
         {
             get { return (start + count - 1) % items.Length; }
         }

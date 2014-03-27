@@ -5,13 +5,13 @@ namespace FastColoredTextBoxNS
 {
     public static class PlatformType
     {
-        const ushort PROCESSOR_ARCHITECTURE_INTEL = 0;
-        const ushort PROCESSOR_ARCHITECTURE_IA64 = 6;
-        const ushort PROCESSOR_ARCHITECTURE_AMD64 = 9;
-        const ushort PROCESSOR_ARCHITECTURE_UNKNOWN = 0xFFFF;
+        private const ushort PROCESSOR_ARCHITECTURE_INTEL = 0;
+        private const ushort PROCESSOR_ARCHITECTURE_IA64 = 6;
+        private const ushort PROCESSOR_ARCHITECTURE_AMD64 = 9;
+        private const ushort PROCESSOR_ARCHITECTURE_UNKNOWN = 0xFFFF;
 
         [StructLayout(LayoutKind.Sequential)]
-        struct SYSTEM_INFO
+        private struct SYSTEM_INFO
         {
             public readonly ushort wProcessorArchitecture;
             public readonly ushort wReserved;
@@ -27,10 +27,10 @@ namespace FastColoredTextBoxNS
         };
 
         [DllImport("kernel32.dll")]
-        static extern void GetNativeSystemInfo(ref SYSTEM_INFO lpSystemInfo);
+        private static extern void GetNativeSystemInfo(ref SYSTEM_INFO lpSystemInfo);
 
         [DllImport("kernel32.dll")]
-        static extern void GetSystemInfo(ref SYSTEM_INFO lpSystemInfo);
+        private static extern void GetSystemInfo(ref SYSTEM_INFO lpSystemInfo);
 
         public static Platform GetOperationSystemPlatform()
         {
@@ -69,5 +69,4 @@ namespace FastColoredTextBoxNS
         X64,
         Unknown
     }
-
 }

@@ -40,7 +40,7 @@ namespace SS.Ynote.Classic.Features.Packages
         {
             if (e.Cancelled) return;
             Close();
-            var package = new PluginInstaller(_downloadedto) {StartPosition = FormStartPosition.CenterParent};
+            var package = new PluginInstaller(_downloadedto) { StartPosition = FormStartPosition.CenterParent };
             package.ShowDialog(this);
         }
 

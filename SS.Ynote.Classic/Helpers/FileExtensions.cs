@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using FastColoredTextBoxNS;
+﻿using FastColoredTextBoxNS;
 using Nini.Config;
 using SS.Ynote.Classic.Features.Syntax;
+using System.Collections.Generic;
+using System.Linq;
 using SyntaxHighlighter = SS.Ynote.Classic.Features.Syntax.SyntaxHighlighter;
 
 internal static class FileExtensions
@@ -83,10 +83,12 @@ public class SyntaxDesc
     /// Is a Syntax Base
     /// </summary>
     public bool IsBase;
+
     /// <summary>
     /// if IsBase = false Value of Language
     /// </summary>
     public Language Language;
+
     /// <summary>
     /// Syntax Base
     /// </summary>

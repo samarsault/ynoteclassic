@@ -20,8 +20,8 @@ namespace SS.Ynote.Classic.UI
         public FindInFiles(IYnote ynote)
         {
             InitializeComponent();
-            cmbsearchoptions.DataSource = Enum.GetValues(typeof (SearchOption));
-            comboBox1.DataSource = Enum.GetValues(typeof (SearchOption));
+            cmbsearchoptions.DataSource = Enum.GetValues(typeof(SearchOption));
+            comboBox1.DataSource = Enum.GetValues(typeof(SearchOption));
             cmbsearchoptions.SelectedIndex = 1;
             comboBox1.SelectedIndex = 1;
             _ynote = ynote;
@@ -53,10 +53,10 @@ namespace SS.Ynote.Classic.UI
             {
                 if (cbRegex.Checked)
                     FindReferencesWithRegex(txtdir.Text, txtstring.Text, textBox5.Text,
-                        (SearchOption) cmbsearchoptions.SelectedItem);
+                        (SearchOption)cmbsearchoptions.SelectedItem);
                 else
                     FindReferences(txtdir.Text, txtstring.Text, textBox5.Text,
-                        (SearchOption) cmbsearchoptions.SelectedItem);
+                        (SearchOption)cmbsearchoptions.SelectedItem);
             }
             tabControl1.SelectedIndex = 2;
         }
@@ -85,39 +85,39 @@ namespace SS.Ynote.Classic.UI
             tabControl1.SelectedIndex = 2;
         }
 
-/*
-        private static void ReplaceInFiles(ICollection<string> output, string path, string searchstring,
-            string replacestring, string searchpattern, SearchOption option)
-        {
-            if (Directory.Exists(path))
-            {
-                //searchpattern = "*.*";
-                string[] files = Directory.GetFiles(path, searchpattern, option);
-
-                string line = string.Empty;
-
-                // Loop through all the files in the specified directory & in all sub-directories
-                foreach (string file in files)
+        /*
+                private static void ReplaceInFiles(ICollection<string> output, string path, string searchstring,
+                    string replacestring, string searchpattern, SearchOption option)
                 {
-                    using (var reader = new StreamReader(file))
+                    if (Directory.Exists(path))
                     {
-                        int lineNumber = 1;
-                        while ((line = reader.ReadLine()) != null)
-                        {
-                            if (line.Contains(searchstring, StringComparison.OrdinalIgnoreCase))
-                            {
-                                line = line.Replace(searchstring, replacestring);
-                                output.Add(string.Format("{0}: Line : {1} : Replaced {2} with {3}", file, lineNumber,
-                                    searchstring, replacestring));
-                            }
+                        //searchpattern = "*.*";
+                        string[] files = Directory.GetFiles(path, searchpattern, option);
 
-                            lineNumber++;
+                        string line = string.Empty;
+
+                        // Loop through all the files in the specified directory & in all sub-directories
+                        foreach (string file in files)
+                        {
+                            using (var reader = new StreamReader(file))
+                            {
+                                int lineNumber = 1;
+                                while ((line = reader.ReadLine()) != null)
+                                {
+                                    if (line.Contains(searchstring, StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        line = line.Replace(searchstring, replacestring);
+                                        output.Add(string.Format("{0}: Line : {1} : Replaced {2} with {3}", file, lineNumber,
+                                            searchstring, replacestring));
+                                    }
+
+                                    lineNumber++;
+                                }
+                            }
                         }
                     }
                 }
-            }
-        }
-*/
+        */
 
         private void ReplaceInDocuments(IEnumerable<string> files, string searchstring, string replacestring)
         {
@@ -136,8 +136,7 @@ namespace SS.Ynote.Classic.UI
                         {
                             line = line.Replace(searchstring, replacestring);
                             lvresults.Items.Add(
-                                new ListViewItem(new[]
-                                {file, lineNumber.ToString(), FileExists(_ynote, file).ToString()}));
+                                new ListViewItem(new[] { file, lineNumber.ToString(), FileExists(_ynote, file).ToString() }));
                         }
 
                         lineNumber++;
@@ -163,8 +162,7 @@ namespace SS.Ynote.Classic.UI
                         {
                             line = Regex.Replace(line, searchstring, replacestring);
                             lvresults.Items.Add(
-                                new ListViewItem(new[]
-                                {file, lineNumber.ToString(), FileExists(_ynote, file).ToString()}));
+                                new ListViewItem(new[] { file, lineNumber.ToString(), FileExists(_ynote, file).ToString() }));
                         }
 
                         lineNumber++;
@@ -201,8 +199,7 @@ namespace SS.Ynote.Classic.UI
                         if (line.Contains(searchString, StringComparison.OrdinalIgnoreCase))
                         {
                             lvresults.Items.Add(
-                                new ListViewItem(new[]
-                                {file, lineNumber.ToString(), FileExists(_ynote, file).ToString()}));
+                                new ListViewItem(new[] { file, lineNumber.ToString(), FileExists(_ynote, file).ToString() }));
                         }
 
                         lineNumber++;
@@ -224,8 +221,7 @@ namespace SS.Ynote.Classic.UI
                         if (Regex.IsMatch(line, searchString))
                         {
                             lvresults.Items.Add(
-                                new ListViewItem(new[]
-                                {file, lineNumber.ToString(), FileExists(_ynote, file).ToString()}));
+                                new ListViewItem(new[] { file, lineNumber.ToString(), FileExists(_ynote, file).ToString() }));
                         }
 
                         lineNumber++;
@@ -261,8 +257,7 @@ namespace SS.Ynote.Classic.UI
                             if (line.Contains(searchString, StringComparison.OrdinalIgnoreCase))
                             {
                                 lvresults.Items.Add(
-                                    new ListViewItem(new[]
-                                    {file, lineNumber.ToString(), FileExists(_ynote, file).ToString()}));
+                                    new ListViewItem(new[] { file, lineNumber.ToString(), FileExists(_ynote, file).ToString() }));
                             }
 
                             lineNumber++;
@@ -292,8 +287,7 @@ namespace SS.Ynote.Classic.UI
                             if (Regex.IsMatch(line, regex))
                             {
                                 lvresults.Items.Add(
-                                    new ListViewItem(new[]
-                                    {file, lineNumber.ToString(), FileExists(_ynote, file).ToString()}));
+                                    new ListViewItem(new[] { file, lineNumber.ToString(), FileExists(_ynote, file).ToString() }));
                             }
 
                             lineNumber++;
@@ -308,7 +302,7 @@ namespace SS.Ynote.Classic.UI
             if (lvresults.SelectedItems[0].SubItems[2].Text == "False")
             {
                 _ynote.OpenFile(lvresults.SelectedItems[0].SubItems[0].Text);
-                var editor = (Editor) (_ynote.Panel.ActiveDocument);
+                var editor = (Editor)(_ynote.Panel.ActiveDocument);
                 editor.tb.Navigate(Convert.ToInt32(lvresults.SelectedItems[0].SubItems[1].Text) - 1);
             }
             else
@@ -324,11 +318,10 @@ namespace SS.Ynote.Classic.UI
 
         /*   static void AddFileNamesToList(string sourceDir, ICollectionList<string> allFiles)
         {
-
             var fileEntries = Directory.GetFiles(sourceDir);
             allFiles.AddRange(fileEntries);
 
-            //Recursion    
+            //Recursion
             string[] subdirectoryEntries = Directory.GetDirectories(sourceDir);
             foreach (string item in subdirectoryEntries)
             {
@@ -338,7 +331,6 @@ namespace SS.Ynote.Classic.UI
                     AddFileNamesToList(item, allFiles);
                 }
             }
-
         }*/
     }
 }

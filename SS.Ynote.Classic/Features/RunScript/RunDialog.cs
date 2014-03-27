@@ -1,11 +1,11 @@
 #region
 
+using SS.Ynote.Classic.Features.RunScript;
 using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using SS.Ynote.Classic.Features.RunScript;
 using WeifenLuo.WinFormsUI.Docking;
 
 #endregion
@@ -33,18 +33,18 @@ namespace SS.Ynote.Classic
             button1 = new Button();
             groupBox1.SuspendLayout();
             SuspendLayout();
-            // 
+            //
             // _label1
-            // 
+            //
             _label1.AutoSize = true;
             _label1.Location = new Point(22, 38);
             _label1.Name = "_label1";
             _label1.Size = new Size(43, 13);
             _label1.TabIndex = 1;
             _label1.Text = "Script : ";
-            // 
+            //
             // groupBox1
-            // 
+            //
             groupBox1.Controls.Add(pgname);
             groupBox1.Controls.Add(_label1);
             groupBox1.Location = new Point(12, 12);
@@ -53,9 +53,9 @@ namespace SS.Ynote.Classic
             groupBox1.TabIndex = 3;
             groupBox1.TabStop = false;
             groupBox1.Text = "Run";
-            // 
+            //
             // pgname
-            // 
+            //
             pgname.AutoCompleteMode = AutoCompleteMode.Suggest;
             pgname.AutoCompleteSource = AutoCompleteSource.ListItems;
             pgname.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -64,9 +64,9 @@ namespace SS.Ynote.Classic
             pgname.Name = "pgname";
             pgname.Size = new Size(248, 21);
             pgname.TabIndex = 3;
-            // 
+            //
             // button2
-            // 
+            //
             button2.Location = new Point(67, 118);
             button2.Name = "button2";
             button2.Size = new Size(82, 22);
@@ -74,9 +74,9 @@ namespace SS.Ynote.Classic
             button2.Text = "Run";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
-            // 
+            //
             // button3
-            // 
+            //
             button3.Location = new Point(257, 117);
             button3.Name = "button3";
             button3.Size = new Size(82, 22);
@@ -84,9 +84,9 @@ namespace SS.Ynote.Classic
             button3.Text = "Cancel";
             button3.UseVisualStyleBackColor = true;
             button3.Click += button3_Click;
-            // 
+            //
             // button1
-            // 
+            //
             button1.Location = new Point(155, 117);
             button1.Name = "button1";
             button1.Size = new Size(96, 23);
@@ -94,9 +94,9 @@ namespace SS.Ynote.Classic
             button1.Text = "Editor";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click_1;
-            // 
+            //
             // RunDialog
-            // 
+            //
             ClientSize = new Size(363, 170);
             Controls.Add(button1);
             Controls.Add(button3);
@@ -152,7 +152,7 @@ namespace SS.Ynote.Classic
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            var form = new RunScriptEditor {StartPosition = FormStartPosition.CenterScreen};
+            var form = new RunScriptEditor { StartPosition = FormStartPosition.CenterScreen };
             form.ShowDialog();
             Close();
         }

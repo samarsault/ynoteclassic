@@ -88,20 +88,6 @@
     <Compile Include="Process\ProcessEventArgs.cs" />
     <Compile Include="Process\ProcessInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Spelling\Hunspell.cs" />
-    <Compile Include="Spelling\Hyphen.cs" />
-    <Compile Include="Spelling\HyphenResult.cs" />
-    <Compile Include="Spelling\LanguageConfig.cs" />
-    <Compile Include="Spelling\Marshalling.cs" />
-    <Compile Include="Spelling\MyThes.cs" />
-    <Compile Include="Spelling\Resources.Designer.cs" />
-    <Compile Include="Spelling\SpellEngine.cs" />
-    <Compile Include="Spelling\SpellFactory.cs" />
-    <Compile Include="Spelling\Thesaures\Thes.cs" />
-    <Compile Include="Spelling\Thesaures\WordMeaning.cs" />
-    <Compile Include="Spelling\Thesaures\WordMeaningInternal.cs" />
-    <Compile Include="Spelling\ThesMeaning.cs" />
-    <Compile Include="Spelling\ThesResult.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -111,7 +97,6 @@
     <EmbeddedResource Include="Process\Control\ConsoleControl.resx">
       <DependentUpon>ConsoleControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Spelling\Resources.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

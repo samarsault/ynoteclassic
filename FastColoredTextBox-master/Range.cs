@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Collections.Generic;
 
 namespace FastColoredTextBoxNS
 {
@@ -11,15 +11,15 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class Range : IEnumerable<Place>
     {
-        Place start;
-        Place end;
+        private Place start;
+        private Place end;
         public readonly FastColoredTextBox tb;
-        int preferedPos = -1;
-        int updating = 0;
+        private int preferedPos = -1;
+        private int updating = 0;
 
-        string cachedText;
-        List<Place> cachedCharIndexToPlace;
-        int cachedTextVersion = -1;
+        private string cachedText;
+        private List<Place> cachedCharIndexToPlace;
+        private int cachedTextVersion = -1;
 
         /// <summary>
         /// Constructor
@@ -192,7 +192,7 @@ namespace FastColoredTextBoxNS
         /// <summary>
         /// Text of range
         /// </summary>
-        /// <remarks>This property has not 'set' accessor because undo/redo stack works only with 
+        /// <remarks>This property has not 'set' accessor because undo/redo stack works only with
         /// FastColoredTextBox.Selection range. So, if you want to set text, you need to use FastColoredTextBox.Selection
         /// and FastColoredTextBox.InsertText() mehtod.
         /// </remarks>
@@ -499,7 +499,6 @@ namespace FastColoredTextBoxNS
             OnSelectionChanged();
         }
 
-
         internal void GoPageUp(bool shift)
         {
             ColumnSelectionMode = false;
@@ -536,6 +535,7 @@ namespace FastColoredTextBoxNS
 
             OnSelectionChanged();
         }
+
         internal void GoDown(bool shift)
         {
             ColumnSelectionMode = false;
@@ -684,7 +684,6 @@ namespace FastColoredTextBoxNS
             SetStyle(layer, regex);
         }
 
-
         /// <summary>
         /// Set style for given regex pattern
         /// </summary>
@@ -792,6 +791,7 @@ namespace FastColoredTextBoxNS
 
             tb.Invalidate();
         }
+
         /// <summary>
         /// Finds ranges for given regex pattern
         /// </summary>
@@ -981,7 +981,7 @@ namespace FastColoredTextBoxNS
             tb.Invalidate();
         }
 
-        void OnSelectionChanged()
+        private void OnSelectionChanged()
         {
             //clear cache
             cachedTextVersion = -1;
@@ -1188,12 +1188,12 @@ namespace FastColoredTextBoxNS
             return new Range(tb, startFragment, endFragment);
         }
 
-        bool IsIdentifierChar(char c)
+        private bool IsIdentifierChar(char c)
         {
             return char.IsLetterOrDigit(c) || c == '_';
         }
 
-        bool IsSpaceChar(char c)
+        private bool IsSpaceChar(char c)
         {
             return c == ' ' || c == '\t';
         }
@@ -1546,7 +1546,7 @@ namespace FastColoredTextBoxNS
                 End = new Place(End.iChar - 1, End.iLine);
         }
 
-        #endregion
+        #endregion ColumnSelectionMode
     }
 
     public struct RangeRect

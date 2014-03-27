@@ -35,23 +35,35 @@ namespace SS.Ynote.Classic
             public int cbSize;
             public uint fMask;
             private readonly IntPtr hwnd;
-            [MarshalAs(UnmanagedType.LPTStr)] public string lpVerb;
-            [MarshalAs(UnmanagedType.LPTStr)] public string lpFile;
-            [MarshalAs(UnmanagedType.LPTStr)] private readonly string lpParameters;
-            [MarshalAs(UnmanagedType.LPTStr)] private readonly string lpDirectory;
+
+            [MarshalAs(UnmanagedType.LPTStr)]
+            public string lpVerb;
+
+            [MarshalAs(UnmanagedType.LPTStr)]
+            public string lpFile;
+
+            [MarshalAs(UnmanagedType.LPTStr)]
+            private readonly string lpParameters;
+
+            [MarshalAs(UnmanagedType.LPTStr)]
+            private readonly string lpDirectory;
+
             public int nShow;
             private readonly IntPtr hInstApp;
             private readonly IntPtr lpIDList;
-            [MarshalAs(UnmanagedType.LPTStr)] private readonly string lpClass;
+
+            [MarshalAs(UnmanagedType.LPTStr)]
+            private readonly string lpClass;
+
             private readonly IntPtr hkeyClass;
             private readonly uint dwHotKey;
             private readonly IntPtr hIcon;
             private readonly IntPtr hProcess;
         }
 
-        #endregion
+        #endregion File Properties
 
-       /* #region Monospaced Font list
+        /* #region Monospaced Font list
 
         public const Int32 LF_FACESIZE = 32;
         public const Int32 LF_FULLFACESIZE = 64;
@@ -114,7 +126,7 @@ namespace SS.Ynote.Classic
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
             public string elfStyle;
 
-            public override string 
+            public override string
         * ()
             {
                 return elfFullName;

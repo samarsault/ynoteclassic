@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace FastColoredTextBoxNS
 {
     public partial class FindForm : Form
     {
-        bool firstSearch = true;
-        Place startPlace;
-        readonly FastColoredTextBox tb;
+        private bool firstSearch = true;
+        private Place startPlace;
+        private readonly FastColoredTextBox tb;
 
         public FindForm(FastColoredTextBox tb)
         {
@@ -24,7 +24,7 @@ namespace FastColoredTextBoxNS
 
         private void btFindNext_Click(object sender, EventArgs e)
         {
-            if(cmbFindIn.SelectedIndex == 0)
+            if (cmbFindIn.SelectedIndex == 0)
                 FindNext(tbFind.Text);
             else
                 FindNextInSelection(tbFind.Text);
@@ -120,7 +120,7 @@ namespace FastColoredTextBoxNS
             ResetSerach();
         }
 
-        void ResetSerach()
+        private void ResetSerach()
         {
             firstSearch = true;
         }
@@ -131,6 +131,7 @@ namespace FastColoredTextBoxNS
         }
 
         private Range _originalSelection;
+
         private void FindNextInSelection(string pattern)
         {
             try

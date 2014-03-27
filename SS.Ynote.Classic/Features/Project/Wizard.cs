@@ -19,7 +19,7 @@ namespace SS.Ynote.Classic.Features.Project
 
         private void button3_Click(object sender, EventArgs e)
         {
-            var dialog = new SaveFileDialog {Filter = "Ynote Project Files (*.ynoteproj)|*.ynoteproj"};
+            var dialog = new SaveFileDialog { Filter = "Ynote Project Files (*.ynoteproj)|*.ynoteproj" };
             dialog.ShowDialog();
             if (dialog.FileName == "") return;
             txtfilename.Text = dialog.FileName;

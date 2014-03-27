@@ -1,3 +1,6 @@
+using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Snippets;
+using SS.Ynote.Classic.Features.Syntax;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,9 +10,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using FastColoredTextBoxNS;
-using SS.Ynote.Classic.Features.Snippets;
-using SS.Ynote.Classic.Features.Syntax;
 using WeifenLuo.WinFormsUI.Docking;
 using SyntaxHighlighter = SS.Ynote.Classic.Features.Syntax.SyntaxHighlighter;
 
@@ -18,10 +18,12 @@ namespace SS.Ynote.Classic.UI
     public partial class Editor : DockContent
     {
         public SyntaxBase Syntax;
+
         /// <summary>
         ///     Syntax Highligher
         /// </summary>
         public readonly ISyntaxHighlighter Highlighter;
+
         /// <summary>
         ///     Default Constructor
         /// </summary>
@@ -158,14 +160,14 @@ namespace SS.Ynote.Classic.UI
 
         private void codebox_DragDrop(object sender, DragEventArgs e)
         {
-            var fileList = (string[]) e.Data.GetData(DataFormats.FileDrop, false);
+            var fileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             foreach (string file in fileList)
                 OpenFile(file);
         }
 
         private void OpenFile(string file)
         {
-            var edit = new Editor {Name = file, Text = Path.GetFileName(file)};
+            var edit = new Editor { Name = file, Text = Path.GetFileName(file) };
             edit.tb.Text = File.ReadAllText(file, Encoding.Default);
             edit.tb.IsChanged = false;
             edit.tb.ClearUndo();
@@ -185,6 +187,7 @@ namespace SS.Ynote.Classic.UI
         }
 
         private Style invisibleCharsStyle;
+
         /// <summary>
         ///     Do MISC Formatting
         /// </summary>
@@ -192,7 +195,7 @@ namespace SS.Ynote.Classic.UI
         private void DoFormatting(Range r)
         {
             if (!SettingsBase.HiddenChars) return;
-            if(invisibleCharsStyle == null)
+            if (invisibleCharsStyle == null)
                 invisibleCharsStyle = new InvisibleCharsRenderer(Pens.Gray);
             r.ClearStyle(invisibleCharsStyle);
             r.SetStyle(invisibleCharsStyle, @".$|.\r\n|\s");
@@ -200,7 +203,7 @@ namespace SS.Ynote.Classic.UI
 
         private void codebox_TextChangedDelayed(object sender, TextChangedEventArgs e)
         {
-            if(Syntax == null)
+            if (Syntax == null)
                 Highlighter.HighlightSyntax(codebox.Language, e);
             else
                 Highlighter.HighlightSyntax(Syntax, e);
@@ -221,9 +224,11 @@ namespace SS.Ynote.Classic.UI
                         SaveFile();
                         base.OnClosing(e);
                         break;
+
                     case DialogResult.Cancel:
                         e.Cancel = true;
                         break;
+
                     case DialogResult.No:
                         base.OnClosing(e);
                         break;

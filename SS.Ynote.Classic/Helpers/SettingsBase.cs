@@ -1,12 +1,12 @@
 #region Using Directives
 
-using System.IO;
-using System.Windows.Forms;
 using FastColoredTextBoxNS;
 using Nini.Config;
+using System.IO;
+using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-#endregion
+#endregion Using Directives
 
 /// <summary>
 ///     Contains all the Settings for Ynote

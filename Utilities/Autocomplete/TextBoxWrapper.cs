@@ -16,6 +16,7 @@ namespace AutocompleteMenuNS
         private PropertyInfo selectedText;
         private PropertyInfo readonlyProperty;
         private MethodInfo getPositionFromCharIndex;
+
         private event ScrollEventHandler RTBScroll;
 
         private TextBoxWrapper(Control targetControl)
@@ -37,7 +38,7 @@ namespace AutocompleteMenuNS
                 (target as RichTextBox).VScroll += new EventHandler(TextBoxWrapper_VScroll);
         }
 
-        void TextBoxWrapper_VScroll(object sender, EventArgs e)
+        private void TextBoxWrapper_VScroll(object sender, EventArgs e)
         {
             if (RTBScroll != null)
                 RTBScroll(sender, new ScrollEventArgs(ScrollEventType.EndScroll, 0, 1));
@@ -62,27 +63,26 @@ namespace AutocompleteMenuNS
 
         public virtual string SelectedText
         {
-            get { return (string) selectedText.GetValue(target, null); }
+            get { return (string)selectedText.GetValue(target, null); }
             set { selectedText.SetValue(target, value, null); }
         }
 
         public virtual int SelectionLength
         {
-            get { return (int) selectionLength.GetValue(target, null); }
+            get { return (int)selectionLength.GetValue(target, null); }
             set { selectionLength.SetValue(target, value, null); }
         }
 
         public virtual int SelectionStart
         {
-            get { return (int) selectionStart.GetValue(target, null); }
+            get { return (int)selectionStart.GetValue(target, null); }
             set { selectionStart.SetValue(target, value, null); }
         }
 
         public virtual Point GetPositionFromCharIndex(int pos)
         {
-            return (Point) getPositionFromCharIndex.Invoke(target, new object[] {pos});
+            return (Point)getPositionFromCharIndex.Invoke(target, new object[] { pos });
         }
-
 
         public virtual Form FindForm()
         {
@@ -92,23 +92,24 @@ namespace AutocompleteMenuNS
         public virtual event EventHandler LostFocus
         {
             add { target.LostFocus += value; }
-            remove { target.LostFocus -= value; } 
+            remove { target.LostFocus -= value; }
         }
 
-        public virtual event ScrollEventHandler Scroll 
+        public virtual event ScrollEventHandler Scroll
         {
-            add { 
-                if(target is RichTextBox)
+            add
+            {
+                if (target is RichTextBox)
                     RTBScroll += value;
                 else
-                    if(target is ScrollableControl)(target as ScrollableControl).Scroll += value;
-
+                    if (target is ScrollableControl) (target as ScrollableControl).Scroll += value;
             }
-            remove {
+            remove
+            {
                 if (target is RichTextBox)
                     RTBScroll -= value;
                 else
-                    if(target is ScrollableControl)(target as ScrollableControl).Scroll -= value;
+                    if (target is ScrollableControl) (target as ScrollableControl).Scroll -= value;
             }
         }
 
@@ -118,10 +119,10 @@ namespace AutocompleteMenuNS
             remove { target.KeyDown -= value; }
         }
 
-        public virtual event MouseEventHandler MouseDown 
+        public virtual event MouseEventHandler MouseDown
         {
             add { target.MouseDown += value; }
-            remove { target.MouseDown -= value; } 
+            remove { target.MouseDown -= value; }
         }
 
         public virtual Control TargetControl
@@ -129,10 +130,9 @@ namespace AutocompleteMenuNS
             get { return target; }
         }
 
-
         public bool Readonly
         {
-            get { return (bool) readonlyProperty.GetValue(target, null);  }
+            get { return (bool)readonlyProperty.GetValue(target, null); }
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using ConsoleControlAPI;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using ConsoleControlAPI;
 
 namespace ConsoleControl
 {
@@ -56,7 +56,7 @@ namespace ConsoleControl
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="args">The <see cref="ProcessEventArgs"/> instance containing the event data.</param>
-        void processInterace_OnProcessError(object sender, ProcessEventArgs args)
+        private void processInterace_OnProcessError(object sender, ProcessEventArgs args)
         {
             //  Write the output, in red
             WriteOutput(args.Content, Color.Red);
@@ -70,7 +70,7 @@ namespace ConsoleControl
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="args">The <see cref="ProcessEventArgs"/> instance containing the event data.</param>
-        void processInterace_OnProcessOutput(object sender, ProcessEventArgs args)
+        private void processInterace_OnProcessOutput(object sender, ProcessEventArgs args)
         {
             //  Write the output, in white
             WriteOutput(args.Content, Color.White);
@@ -84,7 +84,7 @@ namespace ConsoleControl
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="args">The <see cref="ProcessEventArgs"/> instance containing the event data.</param>
-        void processInterace_OnProcessInput(object sender, ProcessEventArgs args)
+        private void processInterace_OnProcessInput(object sender, ProcessEventArgs args)
         {
             throw new NotImplementedException();
         }
@@ -94,14 +94,14 @@ namespace ConsoleControl
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="args">The <see cref="ProcessEventArgs"/> instance containing the event data.</param>
-        void processInterace_OnProcessExit(object sender, ProcessEventArgs args)
+        private void processInterace_OnProcessExit(object sender, ProcessEventArgs args)
         {
             //  Are we showing diagnostics?
             if (ShowDiagnostics)
             {
                 WriteOutput(Environment.NewLine + processInterace.ProcessFileName + " exited.", Color.FromArgb(255, 0, 255, 0));
             }
-            
+
             if (!this.IsHandleCreated)
                 return;
             //  Read only again.
@@ -128,14 +128,14 @@ namespace ConsoleControl
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.Windows.Forms.KeyEventArgs"/> instance containing the event data.</param>
-        void richTextBoxConsole_KeyDown(object sender, KeyEventArgs e)
+        private void richTextBoxConsole_KeyDown(object sender, KeyEventArgs e)
         {
             //  Are we sending keyboard commands to the process?
             if (SendKeyboardCommandsToProcess && IsProcessRunning)
             {
                 //  Get key mappings for this key event?
                 var mappings = from k in keyMappings
-                               where 
+                               where
                                (k.KeyCode == e.KeyCode &&
                                k.IsAltPressed == e.Alt &&
                                k.IsControlPressed == e.Control &&
@@ -147,7 +147,7 @@ namespace ConsoleControl
                 {
                     //SendKeysEx.SendKeys(CurrentProcessHwnd, mapping.SendKeysMapping);
                     //inputWriter.WriteLine(mapping.StreamMapping);
-//WriteInput("\x3", Color.White, false);
+                    //WriteInput("\x3", Color.White, false);
                 }
 
                 //  If we handled a mapping, we're done here.
@@ -193,10 +193,10 @@ namespace ConsoleControl
         /// <param name="color">The color.</param>
         public void WriteOutput(string output, Color color)
         {
-            if (string.IsNullOrEmpty(lastInput) == false && 
+            if (string.IsNullOrEmpty(lastInput) == false &&
                 (output == lastInput || output.Replace("\r\n", "") == lastInput))
                 return;
-                
+
             if (!this.IsHandleCreated)
                 return;
 
@@ -246,8 +246,6 @@ namespace ConsoleControl
             }));
         }
 
-        
-
         /// <summary>
         /// Runs a process.
         /// </summary>
@@ -281,7 +279,7 @@ namespace ConsoleControl
             //  Stop the interface.
             processInterace.StopProcess();
         }
-        
+
         /// <summary>
         /// Fires the console output event.
         /// </summary>
@@ -310,11 +308,11 @@ namespace ConsoleControl
         /// The internal process interface used to interface with the process.
         /// </summary>
         private readonly ProcessInterface processInterace = new ProcessInterface();
-        
+
         /// <summary>
         /// Current position that input starts at.
         /// </summary>
-        int inputStart = -1;
+        private int inputStart = -1;
 
         /// <summary>
         /// The is input enabled flag.
@@ -479,5 +477,5 @@ namespace ConsoleControl
     /// <summary>
     /// Used to allow us to find resources properly.
     /// </summary>
-    public class Resfinder {}
+    public class Resfinder { }
 }

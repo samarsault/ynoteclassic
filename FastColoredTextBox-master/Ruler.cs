@@ -19,7 +19,7 @@ namespace FastColoredTextBoxNS
         [DefaultValue(typeof(Color), "Black")]
         public Color CaretTickColor { get; set; }
 
-        FastColoredTextBox target;
+        private FastColoredTextBox target;
 
         [Description("Target FastColoredTextBox")]
         public FastColoredTextBox Target
@@ -41,14 +41,12 @@ namespace FastColoredTextBoxNS
 
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
             MinimumSize = new Size(0, 24);
-            MaximumSize = new Size(int.MaxValue/2, 24);
+            MaximumSize = new Size(int.MaxValue / 2, 24);
 
             BackColor2 = SystemColors.ControlLight;
             TickColor = Color.DarkGray;
             CaretTickColor = Color.Black;
         }
-
-
 
         protected virtual void OnTargetChanged()
         {
@@ -70,12 +68,12 @@ namespace FastColoredTextBoxNS
             target.VisibleRangeChanged += target_VisibleRangeChanged;
         }
 
-        void target_VisibleRangeChanged(object sender, EventArgs e)
+        private void target_VisibleRangeChanged(object sender, EventArgs e)
         {
             Invalidate();
         }
 
-        void target_SelectionChanged(object sender, EventArgs e)
+        private void target_SelectionChanged(object sender, EventArgs e)
         {
             Invalidate();
         }
@@ -113,13 +111,13 @@ namespace FastColoredTextBoxNS
 
             using (var pen = new Pen(TickColor))
             using (var textBrush = new SolidBrush(ForeColor))
-            for (float x = zeroPoint.X; x < Right; x += columnWidth, ++column)
-            {
-                if (column % 10 == 0)
-                    e.Graphics.DrawString(column.ToString(), Font, textBrush, x, 0f, sf);
+                for (float x = zeroPoint.X; x < Right; x += columnWidth, ++column)
+                {
+                    if (column % 10 == 0)
+                        e.Graphics.DrawString(column.ToString(), Font, textBrush, x, 0f, sf);
 
-                e.Graphics.DrawLine(pen, (int)x, fontSize.Height + (column % 5 == 0 ? 1 : 3), (int)x, Height - 4);
-            }
+                    e.Graphics.DrawLine(pen, (int)x, fontSize.Height + (column % 5 == 0 ? 1 : 3), (int)x, Height - 4);
+                }
 
             using (var pen = new Pen(TickColor))
                 e.Graphics.DrawLine(pen, new Point(car.X - 3, Height - 3), new Point(car.X + 3, Height - 3));

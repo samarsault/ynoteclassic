@@ -5,13 +5,13 @@
 //
 //========================================
 
+using FastColoredTextBoxNS;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Xml;
-using FastColoredTextBoxNS;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace SS.Ynote.Classic.Features.Syntax
 {
@@ -148,9 +148,10 @@ namespace SS.Ynote.Classic.Features.Syntax
         /// </summary>
         public Style ClassNameStyle2 { get; set; }
 
-        #endregion
+        #endregion Properties
 
         #region Public Methods
+
         /// <summary>
         /// Highlight Syntax using SyntaxBase
         /// </summary>
@@ -170,10 +171,10 @@ namespace SS.Ynote.Classic.Features.Syntax
                 e.ChangedRange.SetStyle(rule.Type, rule.Regex, rule.Options);
             }
             e.ChangedRange.ClearFoldingMarkers();
-            foreach(var folding in syntax.FoldingRules)
+            foreach (var folding in syntax.FoldingRules)
                 e.ChangedRange.SetFoldingMarkers(folding.FoldingStartMarker, folding.FoldingEndMarker, folding.Options);
-        
         }
+
         /// <summary>
         ///     Highlight Syntax
         /// </summary>
@@ -186,111 +187,145 @@ namespace SS.Ynote.Classic.Features.Syntax
                 case Language.Actionscript:
                     ActionscriptSyntaxHighlight(range);
                     break;
+
                 case Language.Assembly:
                     AsmSyntaxHighlight(range);
                     break;
+
                 case Language.Antlr:
                     AntlrSyntaxHighlight(range);
                     break;
+
                 case Language.ASP:
                     HTMLSyntaxHighlight(range);
                     break;
+
                 case Language.Objective_C:
                     ObjCHighlight(range);
                     break;
+
                 case Language.Batch:
                     BatchSyntaxHighlight(range);
                     break;
+
                 case Language.C:
                     CppSyntaxHighlight(range);
                     break;
+
                 case Language.CPP:
                     CppSyntaxHighlight(range);
                     break;
+
                 case Language.CSS:
                     CssHighlight(range);
                     break;
+
                 case Language.CSharp:
                     CSharpSyntaxHighlight(range);
                     break;
+
                 case Language.D:
                     DSyntaxHighlight(range);
                     break;
+
                 case Language.Diff:
                     DiffSyntaxHighlight(range);
                     break;
+
                 case Language.Java:
                     JavaSyntaxHighlight(range);
                     break;
+
                 case Language.Lua:
                     LuaSyntaxHighlight(range);
                     break;
+
                 case Language.Python:
                     PythonSyntaxHighlight(range);
                     break;
+
                 case Language.QBasic:
                     QBHighlight(range);
                     break;
+
                 case Language.Perl:
                     PerlSyntaxHighlight(range);
                     break;
+
                 case Language.Ruby:
                     RubySyntaxHighlight(range);
                     break;
+
                 case Language.Xml:
                     XmlSyntaxHighlight(range);
                     break;
+
                 case Language.INI:
                     IniSyntaxHighlight(range);
                     break;
+
                 case Language.Makefile:
                     MakeFileSyntaxHighlight(range);
                     break;
+
                 case Language.JSON:
                     JsonSyntaxHighlight(range);
                     break;
+
                 case Language.VB:
                     VBSyntaxHighlight(range);
                     break;
+
                 case Language.HTML:
                     HighlightHtmlJSCSS(range);
                     break;
+
                 case Language.Javascript:
                     JScriptSyntaxHighlight(range);
                     break;
+
                 case Language.SQL:
                     SqlSyntaxHighlight(range);
                     break;
+
                 case Language.Scheme:
                     SchemeSyntaxHighlight(range);
                     break;
+
                 case Language.Shell:
                     ShellSyntaxHighlight(range);
                     break;
+
                 case Language.PHP:
                     HighlightPHPHtml(range);
                     break;
+
                 case Language.Lisp:
                     LispSyntaxHighlight(range);
                     break;
+
                 case Language.FSharp:
                     FSharpSyntaxHighlight(range);
                     break;
+
                 case Language.Pascal:
                     PascalSyntaxHighlight(range);
                     break;
+
                 case Language.Scala:
                     ScalaSyntaxHighlight(range);
                     break;
+
                 case Language.Yaml:
                     YamlSyntaxHighlight(range);
                     break;
             }
         }
 
-        #endregion
+        #endregion Public Methods
 
         #region From File
+
         /// <summary>
         /// File Extension Details
         /// </summary>
@@ -298,9 +333,10 @@ namespace SS.Ynote.Classic.Features.Syntax
 
         public void LoadAllSyntaxes()
         {
-            foreach (var file in Directory.GetFiles(string.Format("{0}\\Syntaxes\\", Application.StartupPath),"*.xml"))
+            foreach (var file in Directory.GetFiles(string.Format("{0}\\Syntaxes\\", Application.StartupPath), "*.xml"))
                 LoadedSyntaxes.Add(GenerateBase(file));
         }
+
         /// <summary>
         /// Generates a SyntaxBase
         /// </summary>
@@ -308,7 +344,7 @@ namespace SS.Ynote.Classic.Features.Syntax
         /// <returns></returns>
         private SyntaxBase GenerateBase(string descFile)
         {
-            var synbase = new SyntaxBase {SysPath = descFile};
+            var synbase = new SyntaxBase { SysPath = descFile };
             using (var reader = XmlReader.Create(descFile))
             {
                 while (reader.Read())
@@ -317,15 +353,16 @@ namespace SS.Ynote.Classic.Features.Syntax
                         switch (reader.Name)
                         {
                             case "Rule":
-                            {
-                                var type = reader["Type"];
-                                var options = reader["Options"];
-                                var regex = reader["Regex"];
-                                synbase.Rules.Add(InitRule(type, regex, options));
-                                if (reader.Read())
+                                {
+                                    var type = reader["Type"];
+                                    var options = reader["Options"];
+                                    var regex = reader["Regex"];
                                     synbase.Rules.Add(InitRule(type, regex, options));
-                            }
+                                    if (reader.Read())
+                                        synbase.Rules.Add(InitRule(type, regex, options));
+                                }
                                 break;
+
                             case "Folding":
                                 var start = reader["Start"];
                                 var end = reader["End"];
@@ -334,6 +371,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                                 if (reader.Read())
                                     synbase.FoldingRules.Add(InitFoldingRule(start, end, foldOptions));
                                 break;
+
                             case "Brackets":
                                 synbase.LeftBracket = reader["Left"][0];
                                 synbase.RightBracket = reader["Right"][0];
@@ -343,30 +381,32 @@ namespace SS.Ynote.Classic.Features.Syntax
                                     synbase.RightBracket2 = reader["Right2"][0];
                                 }
                                 break;
+
                             case "Language":
                                 synbase.CommentPrefix = reader["CommentPrefix"];
                                 synbase.Extensions = reader["Extensions"].Split('|');
                                 break;
                         }
                     }
-                }
+            }
             return synbase;
         }
 
-        static FoldingRule InitFoldingRule(string start, string end, string options)
+        private static FoldingRule InitFoldingRule(string start, string end, string options)
         {
             var rule = new FoldingRule
             {
-                FoldingStartMarker = start, 
+                FoldingStartMarker = start,
                 FoldingEndMarker = end
             };
             if (options == null)
                 rule.Options = RegexOptions.None;
             else
-                rule.Options = (RegexOptions) Enum.Parse(typeof (RegexOptions), options);
+                rule.Options = (RegexOptions)Enum.Parse(typeof(RegexOptions), options);
             return rule;
         }
-         SyntaxRule InitRule(string type, string regex, string options)
+
+        private SyntaxRule InitRule(string type, string regex, string options)
         {
             var rule = new SyntaxRule { Type = GetStyleFromName(type), Regex = regex };
             if (options == null)
@@ -375,18 +415,23 @@ namespace SS.Ynote.Classic.Features.Syntax
                 rule.Options = (RegexOptions)Enum.Parse(typeof(RegexOptions), options);
             return rule;
         }
-        Style GetStyleFromName(string name)
+
+        private Style GetStyleFromName(string name)
         {
             switch (name)
             {
                 case "Comment":
                     return CommentStyle;
+
                 case "CommentTag":
                     return CommentTagStyle;
+
                 case "String":
                     return StringStyle;
+
                 case "Number":
                     return NumberStyle;
+
                 case "Variable":
                     return VariableStyle;
 
@@ -401,10 +446,13 @@ namespace SS.Ynote.Classic.Features.Syntax
 
                 case "HtmlEntity":
                     return HtmlEntityStyle;
+
                 case "TagBracket":
                     return TagBracketStyle;
+
                 case "TagName":
                     return TagNameStyle;
+
                 case "Types":
                     return TypesStyle;
 
@@ -440,11 +488,11 @@ namespace SS.Ynote.Classic.Features.Syntax
 
                 case "Statements":
                     return StatementsStyle;
-
             }
             return null;
         }
-        #endregion
+
+        #endregion From File
 
         #region Private Methods
 
@@ -747,7 +795,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                                   \\.                         #   else: match an escaped sequence
                                 )
                                 | # OR
-            
+
                                 # match any char except double quote char ("")
                                 [^""]
                               )*
@@ -880,7 +928,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                     if (tagName[0] != '/')
                     {
                         // ...push into stack
-                        var tag = new XmlTag {Name = tagName, Id = id++, StartLine = r.Start.iLine};
+                        var tag = new XmlTag { Name = tagName, Id = id++, StartLine = r.Start.iLine };
                         stack.Push(tag);
                         // if this line has no markers - set marker
                         if (string.IsNullOrEmpty(fctb[iLine].FoldingStartMarker))
@@ -949,7 +997,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                                   \\.                         #   else: match an escaped sequence
                                 )
                                 | # OR
-            
+
                                 # match any char except double quote char ("")
                                 [^""]
                               )*
@@ -1104,7 +1152,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                                   \\.                         #   else: match an escaped sequence
                                 )
                                 | # OR
-            
+
                                 # match any char except double quote char ("")
                                 [^""]
                               )*
@@ -1210,7 +1258,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                                   \\.                         #   else: match an escaped sequence
                                 )
                                 | # OR
-            
+
                                 # match any char except double quote char ("")
                                 [^""]
                               )*
@@ -1333,7 +1381,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                                   \\.                         #   else: match an escaped sequence
                                 )
                                 | # OR
-            
+
                                 # match any char except double quote char ("")
                                 [^""]
                               )*
@@ -1423,7 +1471,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                                   \\.                         #   else: match an escaped sequence
                                 )
                                 | # OR
-            
+
                                 # match any char except double quote char ("")
                                 [^""]
                               )*
@@ -1809,7 +1857,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                                   \\.                         #   else: match an escaped sequence
                                 )
                                 | # OR
-            
+
                                 # match any char except double quote char ("")
                                 [^""]
                               )*
@@ -1967,7 +2015,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.SetStyle(KeywordStyle3, @"(?<=@)(.*?)(?=@)|@|@", RegexOptions.Multiline);
         }
 
-        #endregion
+        #endregion Private Methods
 
         #region Performance Test
 
@@ -1997,11 +2045,11 @@ namespace SS.Ynote.Classic.Features.Syntax
             if (CSSSelectorStyle != null) CSSSelectorStyle.Dispose();
             if (CSSPropertyStyle != null) CSSPropertyStyle.Dispose();
             if (CharStyle != null) CharStyle.Dispose();
-        } 
+        }
          #endif
          */
 
-        #endregion
+        #endregion Performance Test
     }
 
     public class XmlTag

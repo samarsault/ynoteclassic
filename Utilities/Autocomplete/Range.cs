@@ -3,7 +3,9 @@
     public class Range
     {
         public ITextBoxWrapper TargetWrapper { get; private set; }
+
         public int Start { get; set; }
+
         public int End { get; set; }
 
         public Range(ITextBoxWrapper targetWrapper)
@@ -16,7 +18,7 @@
             get
             {
                 var text = TargetWrapper.Text;
-                
+
                 if (string.IsNullOrEmpty(text))
                     return "";
                 if (Start >= text.Length)

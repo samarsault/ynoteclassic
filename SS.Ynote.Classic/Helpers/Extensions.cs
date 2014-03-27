@@ -41,7 +41,7 @@ internal static class HelperMethods
     /// <returns></returns>
     public static T ToEnum<T>(this string str)
     {
-        return ((T) Enum.Parse(typeof (T), str));
+        return ((T)Enum.Parse(typeof(T), str));
     }
 
     /// <summary>

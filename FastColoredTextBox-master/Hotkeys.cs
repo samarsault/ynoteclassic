@@ -124,7 +124,7 @@ namespace FastColoredTextBoxNS
             Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
 
             var kc = new KeysConverter();
-            
+
             foreach (var p in s.Split(','))
             {
                 var pp = p.Split('=');

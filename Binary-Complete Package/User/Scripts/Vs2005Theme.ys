@@ -1,5 +1,0 @@
-using WeifenLuo.WinFormsUI.Docking;
-
-static void Run(IYnote ynote){
-    ynote.Panel.Theme = new VS2005Theme();
-}

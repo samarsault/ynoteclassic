@@ -5,8 +5,8 @@
 //
 //=====================================
 
-using System.Text.RegularExpressions;
 using FastColoredTextBoxNS;
+using System.Text.RegularExpressions;
 
 namespace SS.Ynote.Classic.Features.Syntax
 {
@@ -19,15 +19,18 @@ namespace SS.Ynote.Classic.Features.Syntax
         /// The Style of the Rule eg. -> CommentStyle
         /// </summary>
         public Style Type;
+
         /// <summary>
         /// Regex To Highlight
         /// </summary>
         public string Regex;
+
         /// <summary>
         /// The Regex Options
         /// </summary>
         public RegexOptions Options;
     }
+
     /// <summary>
     /// Folding Rule
     /// </summary>
@@ -37,10 +40,12 @@ namespace SS.Ynote.Classic.Features.Syntax
         /// The Folding Start Marker
         /// </summary>
         public string FoldingStartMarker;
+
         /// <summary>
         /// The Folding End Marker
         /// </summary>
         public string FoldingEndMarker;
+
         /// <summary>
         /// The RegexOptions
         /// </summary>
