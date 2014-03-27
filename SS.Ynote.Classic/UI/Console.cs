@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -256,9 +256,9 @@ namespace SS.Ynote.Classic.UI
             }
         }
 
-        private void ExecuteRunScript(string value)
+        private void ExecuteRunScript(string val)
         {
-            var item = RunConfiguration.ToRunConfig(SettingsBase.SettingsDir + "RunScripts" + value + ".run");
+            var item = RunConfiguration.ToRunConfig(SettingsBase.SettingsDir + @"RunScripts\" + val + ".run");
             if (item == null) return;
             if (ActiveEditor != null) item.ProcessConfiguration(ActiveEditor.Name);
             var temp = Path.GetTempFileName() + ".bat";
