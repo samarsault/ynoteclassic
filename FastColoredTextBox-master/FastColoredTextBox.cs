@@ -1384,10 +1384,7 @@ namespace FastColoredTextBoxNS
         {
             get
             {
-                var exporter = new ExportToHTML();
-                exporter.UseNbsp = false;
-                exporter.UseStyleTag = false;
-                exporter.UseBr = false;
+                var exporter = new ExportToHTML {UseNbsp = false, UseStyleTag = false, UseBr = false};
                 return "<pre>" + exporter.GetHtml(this) + "</pre>";
             }
         }
@@ -4961,6 +4958,12 @@ namespace FastColoredTextBoxNS
             }
         }
 
+        /// <summary>
+        /// Draws the Folding Lines
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="startLine"></param>
+        /// <param name="endLine"></param>
         protected virtual void DrawFoldingLines(PaintEventArgs e, int startLine, int endLine)
         {
             e.Graphics.SmoothingMode = SmoothingMode.None;
@@ -5996,10 +5999,7 @@ namespace FastColoredTextBoxNS
         /// <returns>Range</returns>
         public Range GetRange(int fromPos, int toPos)
         {
-            var sel = new Range(this);
-            sel.Start = PositionToPlace(fromPos);
-            sel.End = PositionToPlace(toPos);
-            return sel;
+            return new Range(this) {Start = PositionToPlace(fromPos), End = PositionToPlace(toPos)};
         }
 
         /// <summary>

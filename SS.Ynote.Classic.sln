@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SS.Ynote.Classic", "SS.Ynot
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastColoredTextBox", "FastColoredTextBox-master\FastColoredTextBox.csproj", "{6DD14A85-CCFC-4774-BD26-0F5772512319}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Utilities.csproj", "{08C5FE8E-A1AE-407E-A243-36F6D4EDC5E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{6DD14A85-CCFC-4774-BD26-0F5772512319}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{6DD14A85-CCFC-4774-BD26-0F5772512319}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DD14A85-CCFC-4774-BD26-0F5772512319}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08C5FE8E-A1AE-407E-A243-36F6D4EDC5E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08C5FE8E-A1AE-407E-A243-36F6D4EDC5E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08C5FE8E-A1AE-407E-A243-36F6D4EDC5E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08C5FE8E-A1AE-407E-A243-36F6D4EDC5E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

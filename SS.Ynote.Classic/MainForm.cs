@@ -120,7 +120,7 @@ namespace SS.Ynote.Classic
             // OpenDefault(name);
             OpenDefault(name);
 #if DEBUG
-            Debug.WriteLine("Time taken to load Default : " + stop.ElapsedMilliseconds + "Millisecs");
+            Debug.WriteLine("Time taken to load Default : " + stop.Elapsed.Seconds + " Secs");
             stop.Stop();
 #endif
         }
@@ -530,7 +530,7 @@ namespace SS.Ynote.Classic
             base.OnLoad(e);
 #if DEBUG
             watch.Stop();
-            Debug.WriteLine(watch.ElapsedMilliseconds + "Miliseconds to Load");
+            Debug.WriteLine(watch.Elapsed.Seconds + "Seconds to Load");
 #endif
         }
 

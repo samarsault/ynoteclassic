@@ -1,0 +1,6 @@
+Autocomplete\ contains the AutocompleteMenu Control by Pavel Torgashov (Codeproject)
+Configuration\ contains the Nini library. See http://nini.sourceforge.net
+Process\ contains the ConsoleControl from github
+Spelling\ contains NHunspell and NThes
+
+All are binded into one single library to optimize the program, make the dir hierarchy clear and prevent loading no. of libraries.

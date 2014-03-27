@@ -29,9 +29,7 @@ namespace SS.Ynote.Classic.Features.Syntax
         {
             get
             {
-                if (PlatformType.GetOperationSystemPlatform() == Platform.X86)
-                    return RegexOptions.Compiled;
-                return RegexOptions.None;
+                return PlatformType.GetOperationSystemPlatform() == Platform.X86 ? RegexOptions.Compiled : RegexOptions.None;
             }
         }
 
@@ -765,9 +763,9 @@ namespace SS.Ynote.Classic.Features.Syntax
             _cppNumberRegex = new Regex(@"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
             _cppKeywordRegex =
                 new Regex(
-                    @"\b(abstract|class|interface|enum|event|delegate|break|base|case|break|default|typedef|as|catch|char|checked|const|continue|decimal|default|do|double|else|explicit|extern|finally|fixed|float|for|foreach|goto|if|implicit|in|int|internal|is|lock|long|namespace|new|null|object|operator|out|override|params|private|protected|public|readonly|ref|return|sbyte|sealed|short|sizeof|stackalloc|static|struct|switch|this|throw|try|typeof|ulong|unchecked|unsafe|using|virtual|volatile|while|add|alias|ascending|descending|dynamic|from|get|global|group|join|let|orderby|partial|remove|select|set|value|var|where|yield)\b");
+                    @"\b(__asm|__based|__cdecl|__cplusplus|__emit|__export|__far|__fastcall|__fortran|__huge|__inline|__interrupt|__loadds|__near|__pascal|__saveregs|__segment|__segname|__self|__stdcall|__syscall|argc|argv|auto|break|case|char|const|continue|default|do|double|else|enum|envp|extern|float|for|goto|if|int|long|main|register|return|short|signed|sizeof|static|struct|switch|typedef|union|unsigned|void|volatile|wchar_t|while|wmain)\b");
             _cppClassNameRegex = new Regex(@"\b(class|struct|enum|interface)\s+(?<range>\w+?)\b");
-            _cppKeywordRegex2 = new Regex(@"\b(void|byte|bool|string|int|ulong|ushort|uint|true|false)\b");
+            _cppKeywordRegex2 = new Regex(@"\b(__multiple_inheritance|__single_inheritance|__virtual_inheritance|bool|catch|class|const_cast|delete|dynamic_cast|explicit|false|friend|inline|mutable|namespace|new|operator|private|protected|public|reinterpret_cast|static_cast|template|this|throw|true|try|typeid|typename|using|virtual)\b");
             _cppFunctionsRegex = new Regex(@"\b(void|int|bool|string|uint|ushort|ulong|byte)\s+(?<range>\w+?)\b");
         }
 
@@ -784,20 +782,22 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.RightBracket2 = '}';
             e.ChangedRange.tb.Range.ClearStyle(CommentStyle);
             e.ChangedRange.ClearStyle(StringStyle, KeywordStyle, KeywordStyle2, NumberStyle, CharStyle, ClassNameStyle,
-                ClassNameStyle2, PreprocessorStyle);
+                ClassNameStyle2, VariableStyle, PreprocessorStyle);
             if (_cppCommentRegex1 == null)
                 InitCppRegex();
             e.ChangedRange.tb.Range.SetStyle(CommentStyle, _cppCommentRegex1);
             e.ChangedRange.tb.Range.SetStyle(CommentStyle, _cppCommentRegex2);
             e.ChangedRange.tb.Range.SetStyle(CommentStyle, _cppCommentRegex3);
             e.ChangedRange.SetStyle(StringStyle, _cppStringRegex);
-            e.ChangedRange.SetStyle(PreprocessorStyle, "#.*$", RegexOptions.Multiline);
+            e.ChangedRange.SetStyle(StringStyle, @"(?<=\<)(.*?)(?=\>)|\<|\>");
+            e.ChangedRange.SetStyle(PreprocessorStyle, @"#[a-zA-Z_\d]*\b");
             e.ChangedRange.SetStyle(ClassNameStyle, _cppClassNameRegex);
             e.ChangedRange.SetStyle(ClassNameStyle2, _cppFunctionsRegex);
+            e.ChangedRange.SetStyle(VariableStyle, @"\*[a-zA-Z_\d]*\b");
             e.ChangedRange.SetStyle(KeywordStyle, _cppKeywordRegex);
             e.ChangedRange.SetStyle(KeywordStyle2, _cppKeywordRegex2);
             e.ChangedRange.SetStyle(NumberStyle, _cppNumberRegex);
-            e.ChangedRange.SetStyle(CharStyle, @"\;|-|>|<|=|\+|\,|\$|\^|\[|\]|\$|\!|\?");
+            e.ChangedRange.SetStyle(CharStyle, @"\;|\.|\!|>|<|\:|\?|\/|\+|\-|&|@|~");
             e.ChangedRange.ClearFoldingMarkers();
             e.ChangedRange.SetFoldingMarkers("{", "}", RegexOptions.IgnoreCase);
             e.ChangedRange.SetFoldingMarkers(@"#if", @"#end");
@@ -1829,7 +1829,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             _objCClassNameRegex = new Regex(@"\b(class|struct|enum|interface)\s+(?<range>\w+?)\b");
             _objCStringRegex2 = new Regex(@"(?<=\<)(.*?)(?=\>)|\<|\>");
             _objCFunctionsRegex = new Regex(@"\b(int|void)\s+(?<range>\w+?)\b");
-            _objCPreprocessorRegex = new Regex(@"#[a-zA-Z_\d]*\b|\bdefined\b", RegexCompiledOption);
+            _objCPreprocessorRegex = new Regex(@"#[a-zA-Z_\d]*\b", RegexCompiledOption);
             _objCKeywordRegex2 =
                 new Regex(
                     @"\b(bool|catch|class|const_cast|delete|dynamic_cast|explicit|false|friend|inline|mutable|namespace|new|operator|reinterpret_cast|static_cast|template|this|throw|true|try|typeid|typename|using|virtual)\b|@[a-zA-Z_\d]*\b");
