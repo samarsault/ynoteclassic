@@ -681,14 +681,14 @@ namespace FastColoredTextBoxNS
             set { throw new NotImplementedException(); }
         }
 
-        //hide RTL
-        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
-         EditorBrowsable(EditorBrowsableState.Never)]
-        public new bool RightToLeft
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+      //  //hide RTL
+      //  [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+      //   EditorBrowsable(EditorBrowsableState.Never)]
+      //  public new bool RightToLeft
+      //  {
+      //      get { throw new NotImplementedException(); }
+      //      set { throw new NotImplementedException(); }
+      //  }
 
         /// <summary>
         /// Color of folding area indicator
@@ -5618,7 +5618,6 @@ namespace FastColoredTextBoxNS
         /// </summary>
         public virtual void OnTextChanging(ref string text)
         {
-            //TODO:Check for Errors
             if (text != null && text.Length == 1)
             {
                 char c = text[0];

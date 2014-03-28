@@ -1,5 +1,3 @@
-using FastColoredTextBoxNS;
-
 //===============================
 // Ynote Theme Reader
 // Desc -> Reads a .ynotetheme file and applies it to a Code Edit Control.
@@ -8,6 +6,7 @@ using FastColoredTextBoxNS;
 using System;
 using System.Drawing;
 using System.Xml;
+using FastColoredTextBoxNS;
 
 namespace SS.Ynote.Classic.Features.Syntax
 {
@@ -18,6 +17,10 @@ namespace SS.Ynote.Classic.Features.Syntax
     {
         public static void ApplyTheme(string source, ISyntaxHighlighter highlighter, FastColoredTextBox tb)
         {
+#if DEBUG
+            var sp = new System.Diagnostics.Stopwatch();
+            sp.Start();
+#endif
             using (var reader = XmlReader.Create(source))
             {
                 while (reader.Read())
@@ -33,19 +36,22 @@ namespace SS.Ynote.Classic.Features.Syntax
                                 var fontstyle = reader["Font"].ToEnum<FontStyle>();
                                 var color = reader["Color"];
                                 StyleInit(name, fontstyle, GetColorFromHexVal(color), highlighter);
-                                if (reader.Read())
-                                    StyleInit(name, fontstyle, GetColorFromHexVal(color), highlighter);
+                                // if (reader.Read())
+                                //     StyleInit(name, fontstyle, GetColorFromHexVal(color), highlighter);
                                 break;
 
                             case "Key":
                                 // Search for the attribute name on this current node.
                                 KeyInit(tb, reader["Name"], reader["Value"]);
-                                if (reader.Read())
-                                    KeyInit(tb, reader["Name"], reader["Value"]);
+                                // if (reader.Read())
+                                //     KeyInit(tb, reader["Name"], reader["Value"]);
                                 break;
                         }
                     }
             }
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine("Theme Apply : " + sp.ElapsedMilliseconds);
+#endif
         }
 
         private static void KeyInit(FastColoredTextBox tb, string name, string value)

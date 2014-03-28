@@ -29,13 +29,44 @@ namespace SS.Ynote.Classic.UI
         /// </summary>
         public Editor()
         {
+#if DEBUG
+            var initwatch = new Stopwatch();
+            initwatch.Start();
+#endif
             InitializeComponent();
+#if DEBUG
+            initwatch.Stop();
+            Debug.WriteLine("Editor Initialize Component : " + initwatch.ElapsedMilliseconds + " Ms");
+#endif
             InitEvents();
+#if DEBUG
+            var hw = new Stopwatch();
+            hw.Start();
+#endif
             Highlighter = new SyntaxHighlighter();
             YnoteThemeReader.ApplyTheme(SettingsBase.ThemeFile, Highlighter, codebox);
+#if DEBUG
+            hw.Stop();
+            Debug.WriteLine("Editor Highlighting Resources : " + hw.ElapsedMilliseconds + " Ms");
+#endif
+#if DEBUG
+            var watch = new Stopwatch();
+            watch.Start();
+#endif
             InitSettings();
+#if DEBUG
+            watch.Stop();
+            Debug.WriteLine(watch.ElapsedMilliseconds + " Ms to InitSettings()");
+#endif
             if (SyntaxHighlighter.LoadedSyntaxes.Count != 0) return;
+#if DEBUG
+            var highlw = new Stopwatch();
+#endif
             Highlighter.LoadAllSyntaxes();
+#if DEBUG
+            highlw.Stop();
+            Debug.WriteLine(highlw.ElapsedMilliseconds + " Ms for Highlighter.LoadAllSyntaxes");
+#endif
         }
 
         public AutocompleteMenu AutoCompleteMenu { get; private set; }
@@ -234,15 +265,16 @@ namespace SS.Ynote.Classic.UI
                         break;
                 }
             }
-            if (!e.Cancel)
-            {
-#if DEBUG
-                Debug.WriteLine(DockPanel.Documents.Any());
-#endif
-                if (DockPanel.Documents.Count() == 1)
-                    Application.Exit();
-                DockPanel = null;
-            }
+            if (e.Cancel) return;
+            if (DockPanel.Documents.Count() == 1)
+                Application.Exit();
+            DockPanel = null;
+            codebox.TextChangedDelayed -= codebox_TextChangedDelayed;
+            codebox.AutoIndentNeeded -= codebox_AutoIndentNeeded;
+            codebox.DragDrop -= codebox_DragDrop;
+            if(invisibleCharsStyle != null)
+                invisibleCharsStyle.Dispose();
+            codebox = null;
         }
 
         private void SaveFile()

@@ -254,6 +254,7 @@
             this.mizoom50 = new System.Windows.Forms.ToolStripMenuItem();
             this.dock = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.incrementalSearcher1 = new SS.Ynote.Classic.Features.Search.IncrementalSearcher();
+            this.midocinfo = new System.Windows.Forms.MenuItem();
             this.status.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -1224,6 +1225,7 @@
             this.mishowunsaved,
             this.wordwrapmenu,
             this.seperator24,
+            this.midocinfo,
             this.miprojectmanager,
             this.seperator26,
             this.misplit});
@@ -1377,18 +1379,18 @@
             // 
             // miprojectmanager
             // 
-            this.miprojectmanager.Index = 14;
+            this.miprojectmanager.Index = 15;
             this.miprojectmanager.Text = "Project Manager";
             this.miprojectmanager.Click += new System.EventHandler(this.menuItem95_Click);
             // 
             // seperator26
             // 
-            this.seperator26.Index = 15;
+            this.seperator26.Index = 16;
             this.seperator26.Text = "-";
             // 
             // misplit
             // 
-            this.misplit.Index = 16;
+            this.misplit.Index = 17;
             this.misplit.Shortcut = System.Windows.Forms.Shortcut.F7;
             this.misplit.Text = "Split";
             this.misplit.Click += new System.EventHandler(this.menuItem57_Click);
@@ -1818,6 +1820,12 @@
             this.incrementalSearcher1.TabIndex = 4;
             this.incrementalSearcher1.Visible = false;
             // 
+            // midocinfo
+            // 
+            this.midocinfo.Index = 14;
+            this.midocinfo.Text = "Document Info";
+            this.midocinfo.Click += new System.EventHandler(this.midocinfo_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1827,6 +1835,7 @@
             this.Controls.Add(this.incrementalSearcher1);
             this.Controls.Add(this.status);
             this.IsMdiContainer = true;
+            this.Icon = Properties.Resources.ynote_favicon;
             this.Menu = this.MenuStrip;
             this.Name = "MainForm";
             this.Text = "Ynote Classic";
@@ -2061,6 +2070,7 @@
         private MenuItem menuItem1;
         private MenuItem minewsnippet;
         private MenuItem minewscript;
+        private MenuItem midocinfo;
     }
 }
 

@@ -1,0 +1,13 @@
+//css_include Encrypt.ys.include
+using SS.Ynote.Classic.UI;
+using System.Windows.Forms;
+
+static void Run(IYnote ynote)
+{
+    var document = ynote.Panel.ActiveDocument as Editor;
+    string password = "ynoterocks";
+    if(document.IsSaved){
+        Encrypter.Encrypt(document.Name, document.Name + ".encrypted", password);
+        MessageBox.Show("File Encrypted with Password : " + password);
+    }
+}

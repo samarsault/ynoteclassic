@@ -352,14 +352,18 @@ namespace SS.Ynote.Classic.Features.Syntax
                     {
                         switch (reader.Name)
                         {
+                            case "Syntax":
+                                synbase.CommentPrefix = reader["CommentPrefix"];
+                                synbase.Extensions = reader["Extensions"].Split('|');
+                                break;
                             case "Rule":
                                 {
                                     var type = reader["Type"];
                                     var options = reader["Options"];
                                     var regex = reader["Regex"];
                                     synbase.Rules.Add(InitRule(type, regex, options));
-                                    if (reader.Read())
-                                        synbase.Rules.Add(InitRule(type, regex, options));
+                                    // if (reader.Read())
+                                    //     synbase.Rules.Add(InitRule(type, regex, options));
                                 }
                                 break;
 
@@ -368,8 +372,8 @@ namespace SS.Ynote.Classic.Features.Syntax
                                 var end = reader["End"];
                                 var foldOptions = reader["Options"];
                                 synbase.FoldingRules.Add(InitFoldingRule(start, end, foldOptions));
-                                if (reader.Read())
-                                    synbase.FoldingRules.Add(InitFoldingRule(start, end, foldOptions));
+                                // if (reader.Read())
+                                //     synbase.FoldingRules.Add(InitFoldingRule(start, end, foldOptions));
                                 break;
 
                             case "Brackets":
@@ -380,11 +384,6 @@ namespace SS.Ynote.Classic.Features.Syntax
                                     synbase.LeftBracket2 = reader["Left2"][0];
                                     synbase.RightBracket2 = reader["Right2"][0];
                                 }
-                                break;
-
-                            case "Language":
-                                synbase.CommentPrefix = reader["CommentPrefix"];
-                                synbase.Extensions = reader["Extensions"].Split('|');
                                 break;
                         }
                     }

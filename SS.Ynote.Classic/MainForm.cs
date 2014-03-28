@@ -90,7 +90,6 @@ namespace SS.Ynote.Classic
             watch.Start();
 #endif
             InitializeComponent();
-            Icon = Resources.ynote_favicon;
             _mru = new Queue<string>();
             SettingsBase.LoadSettings();
             LoadPlugins();
@@ -120,7 +119,7 @@ namespace SS.Ynote.Classic
             // OpenDefault(name);
             OpenDefault(name);
 #if DEBUG
-            Debug.WriteLine("Time taken to load Default : " + stop.Elapsed.Seconds + " Secs");
+            Debug.WriteLine("Time taken to load Default : " + stop.Elapsed.TotalMilliseconds + " Secs");
             stop.Stop();
 #endif
         }
@@ -492,28 +491,17 @@ namespace SS.Ynote.Classic
 
         #region Plugins
 
-        [ImportMany("IYnotePlugin")]
-        public static IEnumerable<IYnotePlugin> Plugins { get; private set; }
-
         /// <summary>
         ///     Load Plugins
         /// </summary>
         private void LoadPlugins()
         {
             var dircatalog = new DirectoryCatalog(Application.StartupPath + @"\Plugins\");
-            var container = new CompositionContainer(dircatalog);
-            Plugins = container.GetExportedValues<IYnotePlugin>();
-            LoadYnotePlugins(this);
-        }
-
-        /// <summary>
-        ///     Loads IYnotePlugin Instances
-        /// </summary>
-        private static void LoadYnotePlugins(IYnote ynote)
-        {
-            foreach (var plugin in Plugins)
+            using (var container = new CompositionContainer(dircatalog))
             {
-                plugin.Initialize(ynote);
+                var plugins = container.GetExportedValues<IYnotePlugin>();
+                foreach (var plugin in plugins)
+                    plugin.Initialize(this);
             }
         }
 
@@ -530,7 +518,7 @@ namespace SS.Ynote.Classic
             base.OnLoad(e);
 #if DEBUG
             watch.Stop();
-            Debug.WriteLine(watch.Elapsed.Seconds + "Seconds to Load");
+            Debug.WriteLine(watch.Elapsed.Milliseconds + " Ms to Load");
 #endif
         }
 
@@ -1141,8 +1129,15 @@ namespace SS.Ynote.Classic
 
         private void reopenclosedtab_Click(object sender, EventArgs e)
         {
-            var recentlyclosed = _mru.Last();
-            if (recentlyclosed != null) OpenFile(recentlyclosed);
+            try
+            {
+                var recentlyclosed = _mru.Last();
+                if (recentlyclosed != null) OpenFile(recentlyclosed);
+            }
+            catch
+            {
+                recentfilesmenu.PerformSelect();
+            }
         }
 
         private void migotoline_Click(object sender, EventArgs e)
@@ -1273,7 +1268,7 @@ namespace SS.Ynote.Classic
         {
             if (ActiveEditor.tb.SelectedText != "")
             {
-                string trimmed = "";
+                string trimmed = string.Empty;
                 string[] lines = ActiveEditor.tb.SelectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                 trimmed = lines.Length != 1
                     ? lines.Aggregate(trimmed, (current, line) => current + (line.TrimStart() + Environment.NewLine))
@@ -1288,7 +1283,7 @@ namespace SS.Ynote.Classic
 
         private void menuItem79_Click(object sender, EventArgs e)
         {
-            if (ActiveEditor.tb.SelectedText != "")
+            if (!string.IsNullOrEmpty(ActiveEditor.tb.SelectedText))
             {
                 string trimmed = "";
                 string[] lines = ActiveEditor.tb.SelectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
@@ -1305,7 +1300,7 @@ namespace SS.Ynote.Classic
 
         private void menuItem78_Click(object sender, EventArgs e)
         {
-            if (ActiveEditor.tb.SelectedText != "")
+            if (!string.IsNullOrEmpty(ActiveEditor.tb.SelectedText))
                 ActiveEditor.tb.SelectedText = ActiveEditor.tb.SelectedText.Replace("\r\n", " ");
             else
                 MessageBox.Show("Nothing Selected to Perfrom Function", "Ynote Classic");
@@ -1463,23 +1458,19 @@ namespace SS.Ynote.Classic
         private void mispacestotab_Click(object sender, EventArgs e)
         {
             var length = ActiveEditor.tb.TabLength;
-            string formed = string.Empty;
+            var builder = new StringBuilder();
             for (int i = 0; i < length; i++)
-            {
-                formed += " ";
-            }
-            ActiveEditor.tb.SelectedText = ActiveEditor.tb.SelectedText.Replace(formed, "\t");
+                builder.Append(" ");
+            ActiveEditor.tb.SelectedText = ActiveEditor.tb.SelectedText.Replace(builder.ToString(), "\t");
         }
 
         private void mitabtospaces_Click(object sender, EventArgs e)
         {
             var length = ActiveEditor.tb.TabLength;
-            string formed = string.Empty;
+            var builder = new StringBuilder();
             for (int i = 0; i < length; i++)
-            {
-                formed += " ";
-            }
-            ActiveEditor.tb.SelectedText = ActiveEditor.tb.SelectedText.Replace("\t", formed);
+                builder.Append(" ");
+            ActiveEditor.tb.SelectedText = ActiveEditor.tb.SelectedText.Replace("\t", builder.ToString());
         }
 
         private void miscripts_Select(object sender, EventArgs e)
@@ -1721,7 +1712,6 @@ namespace SS.Ynote.Classic
             console.ShowDialog(this);
         }
 
-        //menuItem72=e.Init;
         private void micomparedocwith_Click(object sender, EventArgs e)
         {
             if (ActiveEditor == null) return;
@@ -1772,7 +1762,17 @@ namespace SS.Ynote.Classic
             foreach (string r in _mru)
                 AddRecentFile(r);
         }
-
+        private void midocinfo_Click(object sender, EventArgs e)
+        {
+            var allwords = Regex.Matches(ActiveEditor.tb.Text, @"[\S]+");
+            var selectionWords = Regex.Matches(ActiveEditor.tb.SelectedText, @"[\S]+");
+            string message =
+                string.Format(
+                    "Words : {0}\r\nSelected Words : {1}\r\nLines : {2}\r\nColumn : {3}", allwords.Count, selectionWords.Count
+                    , ActiveEditor.tb.LinesCount, ActiveEditor.tb.Selection.Start.iChar + 1);
+            MessageBox.Show(message, "Document Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
         #endregion Events
+
     }
 }

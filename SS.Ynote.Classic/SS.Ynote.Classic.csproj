@@ -247,6 +247,7 @@
     </Compile>
     <EmbeddedResource Include="Features\Packages\Downloader.resx">
       <DependentUpon>Downloader.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Features\Packages\PluginInstaller.resx">
       <DependentUpon>PluginInstaller.cs</DependentUpon>
@@ -290,9 +291,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Features\RunScript\Cmd.resx">
       <DependentUpon>Cmd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\About.resx">
-      <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Console.resx">
       <DependentUpon>Console.cs</DependentUpon>

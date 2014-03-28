@@ -1,4 +1,5 @@
-﻿using FastColoredTextBoxNS;
+﻿using System.Diagnostics;
+using FastColoredTextBoxNS;
 using Nini.Config;
 using SS.Ynote.Classic.Features.Syntax;
 using System.Collections.Generic;
@@ -54,24 +55,25 @@ internal static class FileExtensions
         var reqKey = default(string[]);
         foreach (var key in dic.Keys.Where(key => key.Contains(extension)))
             reqKey = key;
-        if (reqKey != null)
+        Language lang;
+        if (reqKey != null && dic.TryGetValue(reqKey, out lang))
+            desc.Language = lang;
+        else
         {
-            Language lang;
-            if (dic.TryGetValue(reqKey, out lang))
-                desc.Language = lang;
-            else
-            {
-                foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes)
-                    if (syntax.Extensions.Contains(extension))
-                    {
-                        desc.IsBase = true;
-                        desc.SyntaxBase = syntax;
-                    }
-                    else
-                    {
-                        desc.Language = Language.Text;
-                    }
-            }
+#if DEBUG
+            var sp = new System.Diagnostics.Stopwatch();
+            sp.Start();
+#endif
+            foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes)
+                if (syntax.Extensions.Contains(extension))
+                {
+                    desc.IsBase = true;
+                    desc.SyntaxBase = syntax;
+                }
+#if DEBUG
+            sp.Stop();
+            Debug.WriteLine("Get Language : " + sp.ElapsedMilliseconds);
+#endif
         }
         return desc;
     }

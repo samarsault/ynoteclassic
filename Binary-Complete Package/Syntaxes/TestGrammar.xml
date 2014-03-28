@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
     <YnoteSyntax>
-        <Language CommentPrefix="//" Extensions=".sl"/>
+        <Syntax CommentPrefix="//" Extensions=".sl"/>
         <Brackets Left="(" Right=")"/>
         <Rule Type="Comment" Options="Multiline" Regex="//.*$"></Rule>
         <Rule Type="String" Options="Multiline" Regex="&quot;&quot;|''|&quot;.*?[^\\]&quot;|'.*?[^\\]'"></Rule>

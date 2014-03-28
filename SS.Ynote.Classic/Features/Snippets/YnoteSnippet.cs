@@ -31,11 +31,11 @@ namespace SS.Ynote.Classic.Features.Snippets
                     if (reader.IsStartElement())
                         if (reader.Name == "Snippet")
                         {
-                            var snipp = new YnoteSnippet
-                            {
-                                Value = reader.Value.Replace(@"\r\n", "\r\n")
-                            };
-                            lst.Add(snipp);
+                            // var snipp = new YnoteSnippet
+                            // {
+                            //     Value = reader.Value.Replace(@"\r\n", "\r\n")
+                            // };
+                            // lst.Add(snipp);
                             if (reader.Read())
                             {
                                 var snippet = new YnoteSnippet

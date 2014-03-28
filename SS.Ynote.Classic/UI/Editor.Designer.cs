@@ -127,7 +127,6 @@
             // 
             this.codebox.AutoScrollMinSize = new System.Drawing.Size(27, 14);
             this.codebox.BackBrush = null;
-            this.codebox.BracketsHighlightStrategy = FastColoredTextBoxNS.BracketsHighlightStrategy.Strategy2;
             this.codebox.CharHeight = 14;
             this.codebox.CharWidth = 8;
             this.codebox.ContextMenu = this.contextmenu;
@@ -135,13 +134,9 @@
             this.codebox.DisabledColor = System.Drawing.Color.FromArgb(100, 100,100,180);
             this.codebox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.codebox.Hotkeys = resources.GetString("codebox.Hotkeys");
-            this.codebox.IsReplaceMode = false;
-            this.codebox.LeftBracket = '(';
             this.codebox.Location = new System.Drawing.Point(0, 0);
             this.codebox.Name = "codebox";
             this.codebox.Paddings = new System.Windows.Forms.Padding(0);
-            this.codebox.RightBracket = ')';
-            this.codebox.SelectionColor = System.Drawing.Color.FromArgb(60,0,0,255);
             this.codebox.Size = new System.Drawing.Size(284, 262);
             this.codebox.TabIndex = 0;
             this.codebox.Zoom = 100;
