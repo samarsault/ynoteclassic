@@ -913,9 +913,8 @@ namespace SS.Ynote.Classic
 
         private void mitransparent_Click(object sender, EventArgs e)
         {
-            //TODO:Check if working
             mitransparent.Checked = !mitransparent.Checked;
-            Opacity = mitransparent.Checked ? 1.0 : 0.7;
+            Opacity = mitransparent.Checked ? 0.7 : 1;
         }
 
         private void mifullscreen_Click(object sender, EventArgs e)
