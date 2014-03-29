@@ -1,4 +1,3 @@
-using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -18,24 +17,28 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private Rectangle m_oldFloatWindowBounds;
+
         protected Rectangle OldFloatWindowBounds
         {
             get { return m_oldFloatWindowBounds; }
         }
 
         private Control m_oldDockTo;
+
         protected Control OldDockTo
         {
             get { return m_oldDockTo; }
         }
 
         private DockStyle m_oldDock;
+
         protected DockStyle OldDock
         {
             get { return m_oldDock; }
         }
 
         private int m_oldContentIndex;
+
         protected int OldContentIndex
         {
             get { return m_oldContentIndex; }
@@ -53,24 +56,28 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private Rectangle m_floatWindowBounds;
+
         public Rectangle FloatWindowBounds
         {
             get { return m_floatWindowBounds; }
         }
 
         private Control m_dockTo;
+
         public Control DockTo
         {
             get { return m_dockTo; }
         }
 
         private DockStyle m_dock;
+
         public DockStyle Dock
         {
             get { return m_dock; }
         }
 
         private int m_contentIndex;
+
         public int ContentIndex
         {
             get { return m_contentIndex; }
@@ -82,6 +89,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private bool m_flagTestDrop = false;
+
         public bool FlagTestDrop
         {
             get { return m_flagTestDrop; }

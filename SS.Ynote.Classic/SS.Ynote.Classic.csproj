@@ -69,6 +69,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\CSScriptLibrary.v3.5.dll</HintPath>
     </Reference>
+    <Reference Include="JetBrains.Profiler.Core.Api">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\JetBrains\dotTrace\v5.5\Bin\JetBrains.Profiler.Core.Api.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition">
       <HintPath>..\Dependencies\System.ComponentModel.Composition.dll</HintPath>
@@ -269,9 +272,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Features\RunScript\RunScriptEditor.resx">
       <DependentUpon>RunScriptEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Features\Project\ProjectPanel.resx">
       <DependentUpon>ProjectPanel.cs</DependentUpon>

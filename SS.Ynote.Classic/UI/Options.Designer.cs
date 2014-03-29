@@ -103,6 +103,7 @@ namespace SS.Ynote.Classic.UI
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.cbBrackets = new System.Windows.Forms.CheckBox();
             this.tabcontrol.SuspendLayout();
             this.tabsettingpage.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -296,6 +297,7 @@ namespace SS.Ynote.Classic.UI
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.cbBrackets);
             this.groupBox7.Controls.Add(this.cbruler);
             this.groupBox7.Controls.Add(this.virtualspace);
             this.groupBox7.Controls.Add(this.highlightfoliding);
@@ -760,6 +762,19 @@ namespace SS.Ynote.Classic.UI
             this.checkBox5.Text = "Enable Plugin Loading";
             this.checkBox5.UseVisualStyleBackColor = true;
             // 
+            // cbBrackets
+            // 
+            this.cbBrackets.AutoSize = true;
+            this.cbBrackets.Checked = true;
+            this.cbBrackets.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbBrackets.Location = new System.Drawing.Point(193, 101);
+            this.cbBrackets.Name = "cbBrackets";
+            this.cbBrackets.Size = new System.Drawing.Size(137, 17);
+            this.cbBrackets.TabIndex = 21;
+            this.cbBrackets.Text = "AutoComplete Brackets";
+            this.cbBrackets.UseVisualStyleBackColor = true;
+            this.cbBrackets.CheckedChanged += new System.EventHandler(this.cbBrackets_CheckedChanged);
+            // 
             // Options
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -868,5 +883,6 @@ namespace SS.Ynote.Classic.UI
         private System.Windows.Forms.TreeNode treeNode10;
         private System.Windows.Forms.TreeNode treeNode11;
         private System.Windows.Forms.CheckBox cbruler;
+        private System.Windows.Forms.CheckBox cbBrackets;
     }
 }

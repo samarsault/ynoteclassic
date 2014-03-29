@@ -237,8 +237,12 @@ namespace FastColoredTextBoxNS
             {
                 tb.Selection.BeginUpdate();
                 char cc = '\x0';
+
                 if (ts.Count == 0)
+                {
                     InsertCharCommand.InsertLine(ts);
+                    tb.Selection.Start = Place.Empty;
+                }
                 tb.ExpandBlock(tb.Selection.Start.iLine);
                 foreach (char c in insertedText)
                     InsertCharCommand.InsertChar(c, ref cc, ts);
@@ -262,8 +266,8 @@ namespace FastColoredTextBoxNS
     public class ReplaceTextCommand : UndoableCommand
     {
         private string insertedText;
-        private readonly List<Range> ranges;
-        private readonly List<string> prevText = new List<string>();
+        private List<Range> ranges;
+        private List<string> prevText = new List<string>();
 
         /// <summary>
         /// Constructor
@@ -276,11 +280,11 @@ namespace FastColoredTextBoxNS
         {
             //sort ranges by place
             ranges.Sort((r1, r2) =>
-            {
-                if (r1.Start.iLine == r2.Start.iLine)
-                    return r1.Start.iChar.CompareTo(r2.Start.iChar);
-                return r1.Start.iLine.CompareTo(r2.Start.iLine);
-            });
+                {
+                    if (r1.Start.iLine == r2.Start.iLine)
+                        return r1.Start.iChar.CompareTo(r2.Start.iChar);
+                    return r1.Start.iLine.CompareTo(r2.Start.iLine);
+                });
             //
             this.ranges = ranges;
             this.insertedText = insertedText;
@@ -461,8 +465,8 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class ReplaceMultipleTextCommand : UndoableCommand
     {
-        private readonly List<ReplaceRange> ranges;
-        private readonly List<string> prevText = new List<string>();
+        private List<ReplaceRange> ranges;
+        private List<string> prevText = new List<string>();
 
         public class ReplaceRange
         {
@@ -553,8 +557,8 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class RemoveLinesCommand : UndoableCommand
     {
-        private readonly List<int> iLines;
-        private readonly List<string> prevText = new List<string>();
+        private List<int> iLines;
+        private List<string> prevText = new List<string>();
 
         /// <summary>
         /// Constructor
@@ -587,7 +591,10 @@ namespace FastColoredTextBoxNS
             {
                 var iLine = iLines[i];
 
-                tb.Selection.Start = iLine < ts.Count ? new Place(0, iLine) : new Place(ts[ts.Count - 1].Count, ts.Count - 1);
+                if (iLine < ts.Count)
+                    tb.Selection.Start = new Place(0, iLine);
+                else
+                    tb.Selection.Start = new Place(ts[ts.Count - 1].Count, ts.Count - 1);
 
                 InsertCharCommand.InsertLine(ts);
                 tb.Selection.Start = new Place(0, iLine);
@@ -644,14 +651,14 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class MultiRangeCommand : UndoableCommand
     {
-        private readonly UndoableCommand cmd;
-        private readonly Range range;
-        private readonly List<UndoableCommand> commandsByRanges = new List<UndoableCommand>();
+        private UndoableCommand cmd;
+        private Range range;
+        private List<UndoableCommand> commandsByRanges = new List<UndoableCommand>();
 
         public MultiRangeCommand(UndoableCommand command)
             : base(command.ts)
         {
-            cmd = command;
+            this.cmd = command;
             range = ts.CurrentTb.Selection.Clone();
         }
 

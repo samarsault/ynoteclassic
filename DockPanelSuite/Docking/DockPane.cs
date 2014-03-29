@@ -1,11 +1,9 @@
 using System;
 using System.ComponentModel;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using System.Security.Permissions;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
+using System.Security.Permissions;
+using System.Windows.Forms;
 
 namespace WeifenLuo.WinFormsUI.Docking
 {
@@ -39,24 +37,26 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private DockPaneCaptionBase m_captionControl;
+
         private DockPaneCaptionBase CaptionControl
         {
             get { return m_captionControl; }
         }
 
         private DockPaneStripBase m_tabStripControl;
+
         internal DockPaneStripBase TabStripControl
         {
             get { return m_tabStripControl; }
         }
 
-        internal protected DockPane(IDockContent content, DockState visibleState, bool show)
+        protected internal DockPane(IDockContent content, DockState visibleState, bool show)
         {
             InternalConstruct(content, visibleState, false, Rectangle.Empty, null, DockAlignment.Right, 0.5, show);
         }
 
         [SuppressMessage("Microsoft.Naming", "CA1720:AvoidTypeNamesInParameters", MessageId = "1#")]
-        internal protected DockPane(IDockContent content, FloatWindow floatWindow, bool show)
+        protected internal DockPane(IDockContent content, FloatWindow floatWindow, bool show)
         {
             if (floatWindow == null)
                 throw new ArgumentNullException("floatWindow");
@@ -64,7 +64,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             InternalConstruct(content, DockState.Float, false, Rectangle.Empty, floatWindow.NestedPanes.GetDefaultPreviousPane(this), DockAlignment.Right, 0.5, show);
         }
 
-        internal protected DockPane(IDockContent content, DockPane previousPane, DockAlignment alignment, double proportion, bool show)
+        protected internal DockPane(IDockContent content, DockPane previousPane, DockAlignment alignment, double proportion, bool show)
         {
             if (previousPane == null)
                 throw (new ArgumentNullException("previousPane"));
@@ -72,7 +72,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         [SuppressMessage("Microsoft.Naming", "CA1720:AvoidTypeNamesInParameters", MessageId = "1#")]
-        internal protected DockPane(IDockContent content, Rectangle floatWindowBounds, bool show)
+        protected internal DockPane(IDockContent content, Rectangle floatWindowBounds, bool show)
         {
             InternalConstruct(content, DockState.Float, true, floatWindowBounds, null, DockAlignment.Right, 0.5, show);
         }
@@ -87,7 +87,6 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             if (content.DockHandler.DockPanel == null)
                 throw new ArgumentException(Strings.DockPane_Constructor_NullDockPanel);
-
 
             SuspendLayout();
             SetStyle(ControlStyles.Selectable, false);
@@ -131,7 +130,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             if (disposing)
             {
-                // IMPORTANT: avoid nested call into this method on Mono. 
+                // IMPORTANT: avoid nested call into this method on Mono.
                 // https://github.com/dockpanelsuite/dockpanelsuite/issues/16
                 if (Win32Helper.IsRunningOnMono)
                 {
@@ -160,6 +159,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private IDockContent m_activeContent = null;
+
         public virtual IDockContent ActiveContent
         {
             get { return m_activeContent; }
@@ -216,6 +216,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private bool m_allowDockDragAndDrop = true;
+
         public virtual bool AllowDockDragAndDrop
         {
             get { return m_allowDockDragAndDrop; }
@@ -223,6 +224,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private IDisposable m_autoHidePane = null;
+
         internal IDisposable AutoHidePane
         {
             get { return m_autoHidePane; }
@@ -230,6 +232,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private object m_autoHideTabs = null;
+
         internal object AutoHideTabs
         {
             get { return m_autoHideTabs; }
@@ -380,18 +383,21 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private DockContentCollection m_contents;
+
         public DockContentCollection Contents
         {
             get { return m_contents; }
         }
 
         private DockContentCollection m_displayingContents;
+
         public DockContentCollection DisplayingContents
         {
             get { return m_displayingContents; }
         }
 
         private DockPanel m_dockPanel;
+
         public DockPanel DockPanel
         {
             get { return m_dockPanel; }
@@ -412,10 +418,12 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private bool m_isActivated = false;
+
         public bool IsActivated
         {
             get { return m_isActivated; }
         }
+
         internal void SetIsActivated(bool value)
         {
             if (m_isActivated == value)
@@ -428,10 +436,12 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private bool m_isActiveDocumentPane = false;
+
         public bool IsActiveDocumentPane
         {
             get { return m_isActiveDocumentPane; }
         }
+
         internal void SetIsActiveDocumentPane(bool value)
         {
             if (m_isActiveDocumentPane == value)
@@ -541,10 +551,12 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private bool m_isHidden = true;
+
         public bool IsHidden
         {
             get { return m_isHidden; }
         }
+
         private void SetIsHidden(bool value)
         {
             if (m_isHidden == value)
@@ -688,7 +700,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             // Workaround of .Net Framework bug:
             // Change the parent of a control with focus may result in the first
-            // MDI child form get activated. 
+            // MDI child form get activated.
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             IDockContent contentFocused = GetFocusedContent();
             if (contentFocused != null)
@@ -701,7 +713,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             // Workaround of .Net Framework bug:
             // Change the parent of a control with focus may result in the first
-            // MDI child form get activated. 
+            // MDI child form get activated.
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             if (contentFocused != null)
                 contentFocused.DockHandler.Activate();
@@ -764,11 +776,13 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private static readonly object DockStateChangedEvent = new object();
+
         public event EventHandler DockStateChanged
         {
             add { Events.AddHandler(DockStateChangedEvent, value); }
             remove { Events.RemoveHandler(DockStateChangedEvent, value); }
         }
+
         protected virtual void OnDockStateChanged(EventArgs e)
         {
             EventHandler handler = (EventHandler)Events[DockStateChangedEvent];
@@ -777,11 +791,13 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private static readonly object IsActivatedChangedEvent = new object();
+
         public event EventHandler IsActivatedChanged
         {
             add { Events.AddHandler(IsActivatedChangedEvent, value); }
             remove { Events.RemoveHandler(IsActivatedChangedEvent, value); }
         }
+
         protected virtual void OnIsActivatedChanged(EventArgs e)
         {
             EventHandler handler = (EventHandler)Events[IsActivatedChangedEvent];
@@ -790,11 +806,13 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private static readonly object IsActiveDocumentPaneChangedEvent = new object();
+
         public event EventHandler IsActiveDocumentPaneChanged
         {
             add { Events.AddHandler(IsActiveDocumentPaneChangedEvent, value); }
             remove { Events.RemoveHandler(IsActiveDocumentPaneChangedEvent, value); }
         }
+
         protected virtual void OnIsActiveDocumentPaneChanged(EventArgs e)
         {
             EventHandler handler = (EventHandler)Events[IsActiveDocumentPaneChangedEvent];
@@ -829,12 +847,14 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private NestedDockingStatus m_nestedDockingStatus;
+
         public NestedDockingStatus NestedDockingStatus
         {
             get { return m_nestedDockingStatus; }
         }
 
         private bool m_isFloat;
+
         public bool IsFloat
         {
             get { return m_isFloat; }
@@ -852,6 +872,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private DockState m_dockState = DockState.Unknown;
+
         public DockState DockState
         {
             get { return m_dockState; }
@@ -934,6 +955,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private int m_countRefreshStateChange = 0;
+
         private void SuspendRefreshStateChange()
         {
             m_countRefreshStateChange++;
@@ -1214,7 +1236,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         public IDockContent MouseOverTab { get; set; }
 
-        #endregion
+        #endregion IDragSource Members
 
         bool IDockDragSource.IsDockStateValid(DockState dockState)
         {
@@ -1314,6 +1336,6 @@ namespace WeifenLuo.WinFormsUI.Docking
                 DockState = DockState.Document;
         }
 
-        #endregion
+        #endregion IDockDragSource Members
     }
 }

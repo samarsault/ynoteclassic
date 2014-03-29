@@ -1,10 +1,10 @@
 using System;
 using System.Collections;
-using System.Windows.Forms;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 namespace WeifenLuo.WinFormsUI.Docking
 {
@@ -45,6 +45,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         protected sealed class TabCollection : IEnumerable<Tab>
         {
             #region IEnumerable Members
+
             IEnumerator<Tab> IEnumerable<Tab>.GetEnumerator()
             {
                 for (int i = 0; i < Count; i++)
@@ -56,7 +57,8 @@ namespace WeifenLuo.WinFormsUI.Docking
                 for (int i = 0; i < Count; i++)
                     yield return this[i];
             }
-            #endregion
+
+            #endregion IEnumerable Members
 
             internal TabCollection(DockPane pane)
             {
@@ -64,6 +66,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
 
             private DockPane m_dockPane = null;
+
             public DockPane DockPane
             {
                 get { return m_dockPane; }
@@ -188,7 +191,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
                 public AutoHideStateCollection()
                 {
-                    m_states = new AutoHideState[]	{	
+                    m_states = new AutoHideState[]	{
                                                 new AutoHideState(DockState.DockTopAutoHide),
                                                 new AutoHideState(DockState.DockBottomAutoHide),
                                                 new AutoHideState(DockState.DockLeftAutoHide),
@@ -234,12 +237,14 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
 
             private DockPanel m_dockPanel;
+
             public DockPanel DockPanel
             {
                 get { return m_dockPanel; }
             }
 
             private AutoHideStateCollection m_states;
+
             private AutoHideStateCollection States
             {
                 get { return m_states; }
@@ -321,7 +326,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     yield return this[i];
             }
 
-            #endregion
+            #endregion IEnumerable Members
         }
 
         protected AutoHideStripBase(DockPanel panel)
@@ -337,30 +342,35 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private DockPanel m_dockPanel;
+
         protected DockPanel DockPanel
         {
             get { return m_dockPanel; }
         }
 
         private PaneCollection m_panesTop;
+
         protected PaneCollection PanesTop
         {
             get { return m_panesTop; }
         }
 
         private PaneCollection m_panesBottom;
+
         protected PaneCollection PanesBottom
         {
             get { return m_panesBottom; }
         }
 
         private PaneCollection m_panesLeft;
+
         protected PaneCollection PanesLeft
         {
             get { return m_panesLeft; }
         }
 
         private PaneCollection m_panesRight;
+
         protected PaneCollection PanesRight
         {
             get { return m_panesRight; }
@@ -388,7 +398,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         protected Rectangle RectangleTopLeft
         {
             get
-            {	
+            {
                 int height = MeasureHeight();
                 return PanesTop.Count > 0 && PanesLeft.Count > 0 ? new Rectangle(0, 0, height, height) : Rectangle.Empty;
             }
@@ -437,6 +447,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private GraphicsPath m_displayingArea = null;
+
         private GraphicsPath DisplayingArea
         {
             get
@@ -501,7 +512,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         protected override void OnLayout(LayoutEventArgs levent)
         {
             RefreshChanges();
-            base.OnLayout (levent);
+            base.OnLayout(levent);
         }
 
         internal void RefreshChanges()

@@ -61,7 +61,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 checkBoxFloat.Text = Strings.DockAreaEditor_FloatCheckBoxText;
                 checkBoxFloat.TextAlign = ContentAlignment.MiddleCenter;
                 checkBoxFloat.FlatStyle = FlatStyle.System;
-            
+
                 checkBoxDockLeft.Appearance = System.Windows.Forms.Appearance.Button;
                 checkBoxDockLeft.Dock = System.Windows.Forms.DockStyle.Left;
                 checkBoxDockLeft.Width = 24;
@@ -81,7 +81,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 checkBoxDockBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
                 checkBoxDockBottom.Height = 24;
                 checkBoxDockBottom.FlatStyle = FlatStyle.System;
-            
+
                 checkBoxDockFill.Appearance = System.Windows.Forms.Appearance.Button;
                 checkBoxDockFill.Dock = System.Windows.Forms.DockStyle.Fill;
                 checkBoxDockFill.FlatStyle = FlatStyle.System;

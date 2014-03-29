@@ -9,13 +9,14 @@ using SyntaxHighlighter = SS.Ynote.Classic.Features.Syntax.SyntaxHighlighter;
 internal static class FileExtensions
 {
     internal static IDictionary<IEnumerable<string>, Language> FileExtensionsDictionary { get; set; }
+
     /// <summary>
     /// Build Dictionary
     /// </summary>
     /// <returns></returns>
     internal static void BuildDictionary()
     {
-        FileExtensionsDictionary  = new Dictionary<IEnumerable<string>, Language>();
+        FileExtensionsDictionary = new Dictionary<IEnumerable<string>, Language>();
         IConfigSource source = new IniConfigSource(SettingsBase.SettingsDir + @"Extensions.ini");
         FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("CSharp").Split('|'), Language.CSharp);
         FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("VB").Split('|'), Language.VB);

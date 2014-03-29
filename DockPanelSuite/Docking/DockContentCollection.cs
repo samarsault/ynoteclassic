@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -21,6 +20,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private DockPane m_dockPane = null;
+
         private DockPane DockPane
         {
             get { return m_dockPane; }

@@ -7,7 +7,8 @@ namespace WeifenLuo.WinFormsUI.Docking
     {
         internal class DefaultSplitterControl : SplitterControlBase
         {
-            public DefaultSplitterControl(DockPane pane) : base(pane)
+            public DefaultSplitterControl(DockPane pane)
+                : base(pane)
             {
             }
 
@@ -29,7 +30,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         public class SplitterControlBase : Control, ISplitterDragSource
         {
-            DockPane m_pane;
+            private DockPane m_pane;
 
             public SplitterControlBase(DockPane pane)
             {
@@ -43,6 +44,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
 
             private DockAlignment m_alignment;
+
             public DockAlignment Alignment
             {
                 get { return m_alignment; }
@@ -137,12 +139,13 @@ namespace WeifenLuo.WinFormsUI.Docking
                 get { return this; }
             }
 
-            #endregion
+            #endregion IDragSource Members
 
-            #endregion
+            #endregion ISplitterDragSource Members
         }
-        
+
         private SplitterControlBase m_splitter;
+
         private SplitterControlBase Splitter
         {
             get { return m_splitter; }

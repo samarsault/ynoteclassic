@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace FastColoredTextBoxNS
 {
-    public class SyntaxHighlighter : IDisposable
+    internal class SyntaxHighlighter : IDisposable
     {
         //styles
         private static readonly Platform platformType = PlatformType.GetOperationSystemPlatform();

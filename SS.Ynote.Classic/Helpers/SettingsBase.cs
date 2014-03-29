@@ -127,6 +127,11 @@ public static class SettingsBase
     public static int Zoom { get; set; }
 
     /// <summary>
+    /// Autocomplete Brackets
+    /// </summary>
+    public static bool AutoCompleteBrackets { get; set; }
+
+    /// <summary>
     ///     Loads Settings
     /// </summary>
     public static void LoadSettings()
@@ -144,6 +149,7 @@ public static class SettingsBase
             ShowCaret = source.Configs["Ynote"].GetBoolean("ShowCaret");
             ShowDocumentMap = source.Configs["Ynote"].GetBoolean("ShowDocumentMap");
             ShowRuler = source.Configs["Ynote"].GetBoolean("ShowRuler");
+            AutoCompleteBrackets = source.Configs["Ynote"].GetBoolean("AutocompleteBrackets");
             ShowFoldingLines = source.Configs["Ynote"].GetBoolean("ShowFoldingLines");
             ShowLineNumbers = source.Configs["Ynote"].GetBoolean("ShowLineNumbers");
             EnableVirtualSpace = source.Configs["Ynote"].GetBoolean("EnableVirtualSpace");
@@ -183,6 +189,7 @@ public static class SettingsBase
         source.Configs["Ynote"].Set("ShowRuler", ShowRuler);
         source.Configs["Ynote"].Set("ShowFoldingLines", ShowFoldingLines);
         source.Configs["Ynote"].Set("ShowLineNumbers", ShowLineNumbers);
+        source.Configs["Ynote"].Set("AutocompleteBrackets", AutoCompleteBrackets);
         source.Configs["Ynote"].Set("EnableVirtualSpace", EnableVirtualSpace);
         source.Configs["Ynote"].Set("HighlightFolding", HighlightFolding);
         source.Configs["Ynote"].Set("PaddingWidth", PaddingWidth);
@@ -217,6 +224,7 @@ public static class SettingsBase
         config.Set("ShowFoldingLines", true);
         config.Set("ShowLineNumbers", true);
         config.Set("ShowChangedLine", false);
+        config.Set("AutocompleteBrackets", true);
         config.Set("EnableVirtualSpace", false);
         config.Set("HighlightFolding", true);
         config.Set("PaddingWidth", 18);

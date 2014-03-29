@@ -6,6 +6,14 @@ using SS.Ynote.Classic.Features.RunScript;
 using SS.Ynote.Classic.Features.Search;
 using SS.Ynote.Classic.Features.Syntax;
 using SS.Ynote.Classic.UI;
+
+//===================================
+//
+// The Ynote Classic Project - http://ynoteclassic.codeplex.com
+// Copyright (C) 2014 Samarjeet Singh
+//
+//===================================
+//#define profiling
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
@@ -19,13 +27,36 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 using WeifenLuo.WinFormsUI.Docking;
-using SyntaxHighlighter = SS.Ynote.Classic.Features.Syntax.SyntaxHighlighter;
 using Timer = System.Windows.Forms.Timer;
+
+#if profiling
+    using JetBrains.Profiler.Core.Api;
+#endif
 
 namespace SS.Ynote.Classic
 {
     public partial class MainForm : Form, IYnote
     {
+#if profiling
+        void DoProfile()
+        {
+            PerformanceProfiler.Start();
+            CreateNewDoc();
+            ActiveEditor.Highlighter.HighlightSyntax(Language.CPP, new TextChangedEventArgs(ActiveEditor.tb.Range));
+            ActiveEditor.tb.InsertText("#include <stdafx.h>\r\n\r\n// Main Integer (void )\r\nint Main(char *mychar){\r\n\r\nreturn 0;\r\n}");
+            OpenFile(Application.StartupPath + @"\Themes\Default.ynotetheme");
+            OpenFile(SettingsBase.SettingsDir + @"Settings.ini");
+            ActiveEditor.tb.CollapseAllFoldingBlocks();
+            ActiveEditor.tb.MacrosManager.ExecuteMacros(SettingsBase.SettingsDir + @"Macros\DuplicateLine.ymc");
+            var console = new ConsoleUI(this) {StartPosition = FormStartPosition.CenterParent};
+            console.ShowDialog(this);
+            console.Close();
+            OpenFile(SettingsBase.SettingsDir + @"\Scripts\AtbashSelection.ys");
+            PerformanceProfiler.Detach();
+            PerformanceProfiler.Stop();
+        }
+#endif
+
         #region Private Fields
 
 #if DEBUG
@@ -95,6 +126,9 @@ namespace SS.Ynote.Classic
                 CreateNewDoc();
             else
                 OpenFile(filename);
+#if profiling
+            DoProfile();
+#endif
         }
 
         #endregion Constructor
@@ -112,7 +146,7 @@ namespace SS.Ynote.Classic
             stop.Start();
 #endif
             // OpenDefault(name);
-            OpenDefault(name);
+            OpenDefault(name, false);
 #if DEBUG
             Debug.WriteLine("Time taken to load Default : " + stop.Elapsed.TotalMilliseconds + " Secs");
             stop.Stop();
@@ -192,12 +226,43 @@ namespace SS.Ynote.Classic
 
         private void OpenDefault(string name, bool isreadonly)
         {
-            OpenDefault(name, Encoding.Default.BodyName, isreadonly);
-        }
-
-        private void OpenDefault(string name)
-        {
-            OpenDefault(name, false);
+            if (!File.Exists(name))
+            {
+                var result =
+                    MessageBox.Show(
+                        string.Format("The File {0} does not exist.\r\nWould you like to create it ?", name),
+                        "Ynote Classic", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    File.WriteAllText(name, "");
+                    OpenDefault(name, isreadonly);
+                }
+            }
+            else
+            {
+                if (dock.Documents.Cast<Editor>().Any(editor => editor.Name == name)) return;
+                var edit = new Editor();
+                edit.Text = Path.GetFileName(name);
+                edit.tb.ReadOnly = isreadonly;
+                edit.Name = name;
+                edit.tb.IsChanged = false;
+                edit.tb.ClearUndo();
+                if (FileExtensions.FileExtensionsDictionary == null)
+                    FileExtensions.BuildDictionary();
+                var lang = FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary, Path.GetExtension(name));
+                if (lang.IsBase)
+                {
+                    edit.Highlighter.HighlightSyntax(lang.SyntaxBase, new TextChangedEventArgs(edit.tb.Range));
+                    edit.Syntax = lang.SyntaxBase;
+                }
+                else
+                {
+                    edit.Highlighter.HighlightSyntax(lang.Language, new TextChangedEventArgs(edit.tb.Range));
+                    edit.tb.Language = lang.Language;
+                }
+                edit.tb.OpenFile(name);
+                edit.Show(dock, DockState.Document);
+            }
         }
 
         /// <summary>
@@ -536,10 +601,7 @@ namespace SS.Ynote.Classic
                 dialog.Filter = "All Files (*.*)|*.*";
                 var res = dialog.ShowDialog() == DialogResult.OK;
                 if (!res) return;
-                if (dialog.ReadOnlyChecked)
-                    OpenDefault(dialog.FileName, true);
-                else
-                    OpenDefault(dialog.FileName);
+                OpenDefault(dialog.FileName, dialog.ReadOnlyChecked);
                 SaveRecentFile(dialog.FileName, recentfilesmenu);
             }
         }
@@ -966,12 +1028,12 @@ namespace SS.Ynote.Classic
 
         private void infotimer_Tick(object sender, EventArgs e)
         {
-           if (dock.ActiveDocument == null
-               || dock.ActiveDocument.GetType() != typeof(Editor)) return;
-           int nCol = ActiveEditor.tb.Selection.Start.iChar + 1;
-           int line = ActiveEditor.tb.Selection.Start.iLine + 1;
-           infolabel.Text = string.Format(" Line : {0} Col : {1} Size : {2} bytes Selected : {3}", line, nCol,
-               ActiveEditor.tb.Text.Length, ActiveEditor.tb.SelectedText.Length);
+            if (dock.ActiveDocument == null
+                || dock.ActiveDocument.GetType() != typeof(Editor)) return;
+            int nCol = ActiveEditor.tb.Selection.Start.iChar + 1;
+            int line = ActiveEditor.tb.Selection.Start.iLine + 1;
+            infolabel.Text = string.Format(" Line : {0} Col : {1} Size : {2} bytes Selected : {3}", line, nCol,
+                ActiveEditor.tb.Text.Length, ActiveEditor.tb.SelectedText.Length);
         }
 
         private void zoom_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -1088,17 +1150,29 @@ namespace SS.Ynote.Classic
 
         private void incrementalsearchmenu_Click(object sender, EventArgs e)
         {
+            if (ActiveEditor == null) return;
             if (incrementalSearcher == null)
-                incrementalSearcher = new IncrementalSearcher();
-            if (incrementalSearcher.Visible) incrementalSearcher.Exit();
+            {
+                incrementalSearcher = new IncrementalSearcher { Dock = DockStyle.Bottom };
+                Controls.Add(incrementalSearcher);
+                incrementalSearcher.Tb = ActiveEditor.tb;
+                incrementalSearcher.tbFind.Text = ActiveEditor.tb.SelectedText;
+                incrementalSearcher.FocusTextBox();
+#if DEBUG
+                Debug.WriteLine("Sel : " + ActiveEditor.tb.SelectedText);
+#endif
+            }
             else
             {
-                if (ActiveEditor == null) return;
-                incrementalSearcher.Tb = ActiveEditor.tb;
-                if (ActiveEditor.tb.SelectedText != null)
+                if (incrementalSearcher != null
+                    && incrementalSearcher.Visible) incrementalSearcher.Exit();
+                else
+                {
+                    incrementalSearcher.Tb = ActiveEditor.tb;
                     incrementalSearcher.tbFind.Text = ActiveEditor.tb.SelectedText;
-                incrementalSearcher.Visible = true;
-                incrementalSearcher.FocusTextBox();
+                    incrementalSearcher.Visible = true;
+                    incrementalSearcher.FocusTextBox();
+                }
             }
         }
 

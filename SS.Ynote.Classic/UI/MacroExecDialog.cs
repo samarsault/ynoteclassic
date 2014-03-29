@@ -1,13 +1,14 @@
-﻿using System;
+﻿using FastColoredTextBoxNS;
+using System;
 using System.IO;
 using System.Windows.Forms;
-using FastColoredTextBoxNS;
 
 namespace SS.Ynote.Classic.UI
 {
     public partial class MacroExecDialog : Form
     {
         private FastColoredTextBox fctb;
+
         public MacroExecDialog(FastColoredTextBox tb)
         {
             InitializeComponent();

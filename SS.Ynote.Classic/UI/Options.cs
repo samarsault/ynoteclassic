@@ -257,5 +257,9 @@ namespace SS.Ynote.Classic.UI
                 foreach (var item in items)
                     lstextensions.Items.Add(item);
         }
+
+        private void cbBrackets_CheckedChanged(object sender, EventArgs e)
+        {
+        }
     }
 }

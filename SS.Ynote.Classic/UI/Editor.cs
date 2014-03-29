@@ -1,4 +1,3 @@
-using System.IO;
 using FastColoredTextBoxNS;
 using SS.Ynote.Classic.Features.Snippets;
 using SS.Ynote.Classic.Features.Syntax;
@@ -7,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -86,8 +86,8 @@ namespace SS.Ynote.Classic.UI
 
         private void InitSettings()
         {
-            //TODO:Settings
             codebox.AllowDrop = true;
+            codebox.AutoCompleteBrackets = SettingsBase.AutoCompleteBrackets;
             codebox.TabLength = SettingsBase.TabSize;
             codebox.Font = new Font(SettingsBase.FontFamily, SettingsBase.FontSize);
             codebox.ShowFoldingLines = SettingsBase.ShowFoldingLines;
@@ -199,7 +199,6 @@ namespace SS.Ynote.Classic.UI
         private void OpenFile(string file)
         {
             var edit = new Editor { Name = file, Text = Path.GetFileName(file) };
-            edit.tb.Text = File.ReadAllText(file, Encoding.Default);
             edit.tb.IsChanged = false;
             edit.tb.ClearUndo();
             //edit.ChangeLang(FileExtensions.GetLanguage(FileExtensions.BuildDictionary(), Path.GetExtension(file)));
@@ -217,6 +216,7 @@ namespace SS.Ynote.Classic.UI
                 edit.tb.Language = lang.Language;
             }
             edit.Show(DockPanel, DockState.Document);
+            edit.tb.OpenFile(file);
         }
 
         private Style invisibleCharsStyle;

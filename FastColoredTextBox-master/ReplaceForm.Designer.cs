@@ -39,13 +39,11 @@
             this.btReplaceAll = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.tbReplace = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.cmbScope = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // btClose
             // 
-            this.btClose.Location = new System.Drawing.Point(273, 163);
+            this.btClose.Location = new System.Drawing.Point(273, 153);
             this.btClose.Name = "btClose";
             this.btClose.Size = new System.Drawing.Size(75, 23);
             this.btClose.TabIndex = 8;
@@ -55,7 +53,7 @@
             // 
             // btFindNext
             // 
-            this.btFindNext.Location = new System.Drawing.Point(111, 134);
+            this.btFindNext.Location = new System.Drawing.Point(111, 124);
             this.btFindNext.Name = "btFindNext";
             this.btFindNext.Size = new System.Drawing.Size(75, 23);
             this.btFindNext.TabIndex = 5;
@@ -116,7 +114,7 @@
             // 
             // btReplace
             // 
-            this.btReplace.Location = new System.Drawing.Point(192, 134);
+            this.btReplace.Location = new System.Drawing.Point(192, 124);
             this.btReplace.Name = "btReplace";
             this.btReplace.Size = new System.Drawing.Size(75, 23);
             this.btReplace.TabIndex = 6;
@@ -126,7 +124,7 @@
             // 
             // btReplaceAll
             // 
-            this.btReplaceAll.Location = new System.Drawing.Point(273, 134);
+            this.btReplaceAll.Location = new System.Drawing.Point(273, 124);
             this.btReplaceAll.Name = "btReplaceAll";
             this.btReplaceAll.Size = new System.Drawing.Size(75, 23);
             this.btReplaceAll.TabIndex = 7;
@@ -137,7 +135,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(23, 64);
+            this.label2.Location = new System.Drawing.Point(6, 81);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(50, 13);
             this.label2.TabIndex = 9;
@@ -145,41 +143,18 @@
             // 
             // tbReplace
             // 
-            this.tbReplace.Location = new System.Drawing.Point(72, 61);
+            this.tbReplace.Location = new System.Drawing.Point(62, 78);
             this.tbReplace.Name = "tbReplace";
-            this.tbReplace.Size = new System.Drawing.Size(276, 20);
+            this.tbReplace.Size = new System.Drawing.Size(286, 20);
             this.tbReplace.TabIndex = 0;
             this.tbReplace.TextChanged += new System.EventHandler(this.cbMatchCase_CheckedChanged);
             this.tbReplace.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbFind_KeyPress);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(23, 100);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(47, 13);
-            this.label3.TabIndex = 10;
-            this.label3.Text = "Scope : ";
-            // 
-            // cmbScope
-            // 
-            this.cmbScope.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbScope.FormattingEnabled = true;
-            this.cmbScope.Items.AddRange(new object[] {
-            "Current Document",
-            "Current Selection"});
-            this.cmbScope.Location = new System.Drawing.Point(72, 97);
-            this.cmbScope.Name = "cmbScope";
-            this.cmbScope.Size = new System.Drawing.Size(276, 21);
-            this.cmbScope.TabIndex = 11;
             // 
             // ReplaceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(371, 200);
-            this.Controls.Add(this.cmbScope);
-            this.Controls.Add(this.label3);
+            this.ClientSize = new System.Drawing.Size(360, 191);
             this.Controls.Add(this.tbFind);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.tbReplace);
@@ -217,7 +192,5 @@
         private System.Windows.Forms.Label label2;
         public System.Windows.Forms.TextBox tbFind;
         public System.Windows.Forms.TextBox tbReplace;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox cmbScope;
     }
 }

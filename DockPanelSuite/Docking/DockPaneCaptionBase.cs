@@ -1,8 +1,6 @@
-using System;
-using System.Windows.Forms;
 using System.Drawing;
-using System.Runtime.InteropServices;
 using System.Security.Permissions;
+using System.Windows.Forms;
 
 namespace WeifenLuo.WinFormsUI.Docking
 {
@@ -20,14 +18,15 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private DockPane m_dockPane;
+
         protected DockPane DockPane
         {
-            get	{	return m_dockPane;	}
+            get { return m_dockPane; }
         }
 
         protected DockPane.AppearanceStyle Appearance
         {
-            get	{	return DockPane.Appearance;	}
+            get { return DockPane.Appearance; }
         }
 
         protected bool HasTabPageContextMenu
@@ -60,7 +59,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 DockPane.DockPanel.BeginDrag(DockPane);
         }
 
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]         
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         protected override void WndProc(ref Message m)
         {
             if (m.Msg == (int)Win32.Msgs.WM_LBUTTONDBLCLK)

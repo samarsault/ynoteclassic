@@ -1,13 +1,12 @@
-
 //===============================
 // Ynote Theme Reader
 // Desc -> Reads a .ynotetheme file and applies it to a Code Edit Control.
 // The Ynote Classic Project
 //===============================
 
-using System.Diagnostics;
 using FastColoredTextBoxNS;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Xml;
 
@@ -57,7 +56,7 @@ namespace SS.Ynote.Classic.Features.Syntax
 #endif
         }
 
-        static void InitKey(FastColoredTextBox tb, string name, string value)
+        private static void InitKey(FastColoredTextBox tb, string name, string value)
         {
             var keyval = GetColorFromHexVal(value);
             switch (name)
@@ -112,9 +111,9 @@ namespace SS.Ynote.Classic.Features.Syntax
             }
         }
 
-        static void InitStyle(string name, FontStyle style, Color color, ISyntaxHighlighter sh)
+        private static void InitStyle(string name, FontStyle style, Color color, ISyntaxHighlighter sh)
         {
-            var tcstyle = new TextStyle(new SolidBrush(color),null, style);
+            var tcstyle = new TextStyle(new SolidBrush(color), null, style);
             switch (name)
             {
                 case "Comment":

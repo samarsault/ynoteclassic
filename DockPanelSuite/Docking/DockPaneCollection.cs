@@ -1,5 +1,5 @@
-using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace WeifenLuo.WinFormsUI.Docking
 {
@@ -23,7 +23,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             if (index < 0 || index > Items.Count - 1)
                 return;
-            
+
             if (Contains(pane))
                 return;
 
@@ -32,7 +32,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         internal void Dispose()
         {
-            for (int i=Count - 1; i>=0; i--)
+            for (int i = Count - 1; i >= 0; i--)
                 this[i].Close();
         }
 

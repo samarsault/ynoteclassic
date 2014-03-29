@@ -50,8 +50,12 @@
     <Compile Include="DocumentMap.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="EncodingDetector.cs" />
     <Compile Include="ExportToHTML.cs" />
     <Compile Include="ExportToRTF.cs" />
+    <Compile Include="FastColoredTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GoToForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +73,12 @@
     <Compile Include="MacrosManager.cs" />
     <Compile Include="PlatformType.cs" />
     <Compile Include="Hotkeys.cs" />
+    <Compile Include="ReplaceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReplaceForm.designer.cs">
+      <DependentUpon>ReplaceForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ruler.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -76,15 +86,6 @@
       <DependentUpon>Ruler.cs</DependentUpon>
     </Compile>
     <Compile Include="SyntaxHighlighter.cs" />
-    <Compile Include="ReplaceForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ReplaceForm.Designer.cs">
-      <DependentUpon>ReplaceForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FastColoredTextBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="CommandManager.cs" />
     <Compile Include="Commands.cs" />
     <Compile Include="FindForm.cs">
@@ -123,7 +124,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ReplaceForm.resx">
       <DependentUpon>ReplaceForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

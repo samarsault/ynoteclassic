@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace WeifenLuo.WinFormsUI.Docking
 {
@@ -29,6 +24,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
 
             private Point m_startMousePosition = Point.Empty;
+
             protected Point StartMousePosition
             {
                 get { return m_startMousePosition; }
@@ -112,6 +108,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
 
             private IDragSource m_dragSource;
+
             protected IDragSource DragSource
             {
                 get { return m_dragSource; }

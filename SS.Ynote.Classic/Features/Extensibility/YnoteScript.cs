@@ -1,8 +1,8 @@
+using CSScriptLibrary;
 using System;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using CSScriptLibrary;
 
 namespace SS.Ynote.Classic.Features.Extensibility
 {
