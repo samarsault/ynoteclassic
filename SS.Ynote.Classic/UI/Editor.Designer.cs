@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Editor));
             this.contextmenu = new System.Windows.Forms.ContextMenu();
             this.cutmenu = new System.Windows.Forms.MenuItem();
             this.copymenu = new System.Windows.Forms.MenuItem();
@@ -127,19 +126,14 @@
             // 
             this.codebox.AutoScrollMinSize = new System.Drawing.Size(27, 14);
             this.codebox.BackBrush = null;
-            this.codebox.CharHeight = 14;
-            this.codebox.CharWidth = 8;
             this.codebox.ContextMenu = this.contextmenu;
             this.codebox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.codebox.DisabledColor = System.Drawing.Color.FromArgb(100, 100,100,180);
             this.codebox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.codebox.Hotkeys = resources.GetString("codebox.Hotkeys");
             this.codebox.Location = new System.Drawing.Point(0, 0);
             this.codebox.Name = "codebox";
             this.codebox.Paddings = new System.Windows.Forms.Padding(0);
             this.codebox.Size = new System.Drawing.Size(284, 262);
-            this.codebox.TabIndex = 0;
-            this.codebox.Zoom = 100;
             // 
             // tabcontext
             // 

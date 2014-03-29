@@ -1,5 +1,3 @@
-#region
-
 using SS.Ynote.Classic.Features.RunScript;
 using System;
 using System.Diagnostics;
@@ -7,8 +5,6 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-
-#endregion
 
 namespace SS.Ynote.Classic
 {
@@ -111,7 +107,7 @@ namespace SS.Ynote.Classic
             ResumeLayout(false);
         }
 
-        #endregion
+        #endregion Designer
 
         #region Constructor
 
@@ -127,7 +123,7 @@ namespace SS.Ynote.Classic
             _panel = panel;
         }
 
-        #endregion
+        #endregion Constructor
 
         private void PopulateListItems()
         {

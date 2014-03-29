@@ -1,3 +1,4 @@
+using System.IO;
 using FastColoredTextBoxNS;
 using SS.Ynote.Classic.Features.Snippets;
 using SS.Ynote.Classic.Features.Syntax;
@@ -6,7 +7,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -203,7 +203,9 @@ namespace SS.Ynote.Classic.UI
             edit.tb.IsChanged = false;
             edit.tb.ClearUndo();
             //edit.ChangeLang(FileExtensions.GetLanguage(FileExtensions.BuildDictionary(), Path.GetExtension(file)));
-            var lang = FileExtensions.GetLanguage(FileExtensions.BuildDictionary(), Path.GetExtension(file));
+            if (FileExtensions.FileExtensionsDictionary == null)
+                FileExtensions.BuildDictionary();
+            var lang = FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary, Path.GetExtension(file));
             if (lang.IsBase)
             {
                 edit.Highlighter.HighlightSyntax(lang.SyntaxBase, new TextChangedEventArgs(edit.tb.Range));
@@ -272,7 +274,7 @@ namespace SS.Ynote.Classic.UI
             codebox.TextChangedDelayed -= codebox_TextChangedDelayed;
             codebox.AutoIndentNeeded -= codebox_AutoIndentNeeded;
             codebox.DragDrop -= codebox_DragDrop;
-            if(invisibleCharsStyle != null)
+            if (invisibleCharsStyle != null)
                 invisibleCharsStyle.Dispose();
             codebox = null;
         }

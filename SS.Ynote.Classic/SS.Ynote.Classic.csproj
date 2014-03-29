@@ -292,20 +292,11 @@
     <EmbeddedResource Include="Features\RunScript\Cmd.resx">
       <DependentUpon>Cmd.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Console.resx">
-      <DependentUpon>Console.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Features\Search\IncrementalSearcher.resx">
       <DependentUpon>IncrementalSearcher.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SwitchFile.resx">
       <DependentUpon>SwitchFile.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Diff.resx">
-      <DependentUpon>Diff.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Editor.resx">
-      <DependentUpon>Editor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Features\Search\FindInFiles.resx">
       <DependentUpon>FindInFiles.cs</DependentUpon>

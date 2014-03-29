@@ -1,58 +1,62 @@
-﻿using System.Diagnostics;
-using FastColoredTextBoxNS;
+﻿using FastColoredTextBoxNS;
 using Nini.Config;
 using SS.Ynote.Classic.Features.Syntax;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using SyntaxHighlighter = SS.Ynote.Classic.Features.Syntax.SyntaxHighlighter;
 
 internal static class FileExtensions
 {
-    internal static IDictionary<string[], Language> BuildDictionary()
+    internal static IDictionary<IEnumerable<string>, Language> FileExtensionsDictionary { get; set; }
+    /// <summary>
+    /// Build Dictionary
+    /// </summary>
+    /// <returns></returns>
+    internal static void BuildDictionary()
     {
-        var dic = new Dictionary<string[], Language>();
+        FileExtensionsDictionary  = new Dictionary<IEnumerable<string>, Language>();
         IConfigSource source = new IniConfigSource(SettingsBase.SettingsDir + @"Extensions.ini");
-        dic.Add(source.Configs["Extensions"].Get("CSharp").Split('|'), Language.CSharp);
-        dic.Add(source.Configs["Extensions"].Get("VB").Split('|'), Language.VB);
-        dic.Add(source.Configs["Extensions"].Get("Javascript").Split('|'), Language.Javascript);
-        dic.Add(source.Configs["Extensions"].Get("Java").Split('|'), Language.Java);
-        dic.Add(source.Configs["Extensions"].Get("HTML").Split('|'), Language.HTML);
-        dic.Add(source.Configs["Extensions"].Get("CSS").Split('|'), Language.CSS);
-        dic.Add(source.Configs["Extensions"].Get("CPP").Split('|'), Language.CPP);
-        dic.Add(source.Configs["Extensions"].Get("PHP").Split('|'), Language.PHP);
-        dic.Add(source.Configs["Extensions"].Get("Lua").Split('|'), Language.Lua);
-        dic.Add(source.Configs["Extensions"].Get("Ruby").Split('|'), Language.Ruby);
-        dic.Add(source.Configs["Extensions"].Get("Python").Split('|'), Language.Python);
-        dic.Add(source.Configs["Extensions"].Get("Pascal").Split('|'), Language.Pascal);
-        dic.Add(source.Configs["Extensions"].Get("Lisp").Split('|'), Language.Lisp);
-        dic.Add(source.Configs["Extensions"].Get("Batch").Split('|'), Language.Batch);
-        dic.Add(source.Configs["Extensions"].Get("C").Split('|'), Language.C);
-        dic.Add(source.Configs["Extensions"].Get("Xml").Split('|'), Language.Xml);
-        dic.Add(source.Configs["Extensions"].Get("ASP").Split('|'), Language.ASP);
-        dic.Add(source.Configs["Extensions"].Get("Actionscript").Split('|'), Language.Actionscript);
-        dic.Add(source.Configs["Extensions"].Get("Assembly").Split('|'), Language.Assembly);
-        dic.Add(source.Configs["Extensions"].Get("Antlr").Split('|'), Language.Antlr);
-        dic.Add(source.Configs["Extensions"].Get("Diff").Split('|'), Language.Diff);
-        dic.Add(source.Configs["Extensions"].Get("D").Split('|'), Language.D);
-        dic.Add(source.Configs["Extensions"].Get("FSharp").Split('|'), Language.FSharp);
-        dic.Add(source.Configs["Extensions"].Get("JSON").Split('|'), Language.JSON);
-        dic.Add(source.Configs["Extensions"].Get("MakeFile").Split('|'), Language.Makefile);
-        dic.Add(source.Configs["Extensions"].Get("ObjectiveC").Split('|'), Language.Objective_C);
-        dic.Add(source.Configs["Extensions"].Get("Perl").Split('|'), Language.Perl);
-        dic.Add(source.Configs["Extensions"].Get("QBasic").Split('|'), Language.QBasic);
-        dic.Add(source.Configs["Extensions"].Get("SQL").Split('|'), Language.SQL);
-        dic.Add(source.Configs["Extensions"].Get("Shell").Split('|'), Language.Shell);
-        dic.Add(source.Configs["Extensions"].Get("Scala").Split('|'), Language.Scala);
-        dic.Add(source.Configs["Extensions"].Get("Scheme").Split('|'), Language.Scheme);
-        dic.Add(source.Configs["Extensions"].Get("INI").Split('|'), Language.INI);
-        dic.Add(source.Configs["Extensions"].Get("Yaml").Split('|'), Language.Yaml);
-        return dic;
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("CSharp").Split('|'), Language.CSharp);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("VB").Split('|'), Language.VB);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("Javascript").Split('|'), Language.Javascript);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("Java").Split('|'), Language.Java);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("HTML").Split('|'), Language.HTML);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("CSS").Split('|'), Language.CSS);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("CPP").Split('|'), Language.CPP);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("PHP").Split('|'), Language.PHP);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("Lua").Split('|'), Language.Lua);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("Ruby").Split('|'), Language.Ruby);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("Python").Split('|'), Language.Python);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("Pascal").Split('|'), Language.Pascal);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("Lisp").Split('|'), Language.Lisp);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("Batch").Split('|'), Language.Batch);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("C").Split('|'), Language.C);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("Xml").Split('|'), Language.Xml);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("ASP").Split('|'), Language.ASP);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("Actionscript").Split('|'), Language.Actionscript);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("Assembly").Split('|'), Language.Assembly);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("Antlr").Split('|'), Language.Antlr);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("Diff").Split('|'), Language.Diff);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("D").Split('|'), Language.D);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("FSharp").Split('|'), Language.FSharp);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("JSON").Split('|'), Language.JSON);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("MakeFile").Split('|'), Language.Makefile);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("ObjectiveC").Split('|'), Language.Objective_C);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("Perl").Split('|'), Language.Perl);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("QBasic").Split('|'), Language.QBasic);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("SQL").Split('|'), Language.SQL);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("Shell").Split('|'), Language.Shell);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("Scala").Split('|'), Language.Scala);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("Scheme").Split('|'), Language.Scheme);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("INI").Split('|'), Language.INI);
+        FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("Yaml").Split('|'), Language.Yaml);
     }
 
-    internal static SyntaxDesc GetLanguage(IDictionary<string[], Language> dic, string extension)
+    internal static SyntaxDesc GetLanguage(IDictionary<IEnumerable<string>, Language> dic, string extension)
     {
         var desc = new SyntaxDesc();
-        var reqKey = default(string[]);
+        IEnumerable<string> reqKey = null;
         foreach (var key in dic.Keys.Where(key => key.Contains(extension)))
             reqKey = key;
         Language lang;
@@ -61,15 +65,14 @@ internal static class FileExtensions
         else
         {
 #if DEBUG
-            var sp = new System.Diagnostics.Stopwatch();
+            var sp = new Stopwatch();
             sp.Start();
 #endif
-            foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes)
-                if (syntax.Extensions.Contains(extension))
-                {
-                    desc.IsBase = true;
-                    desc.SyntaxBase = syntax;
-                }
+            foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes.Where(syntax => syntax.Extensions.Contains(extension)))
+            {
+                desc.IsBase = true;
+                desc.SyntaxBase = syntax;
+            }
 #if DEBUG
             sp.Stop();
             Debug.WriteLine("Get Language : " + sp.ElapsedMilliseconds);

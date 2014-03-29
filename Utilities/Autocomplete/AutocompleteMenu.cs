@@ -723,7 +723,7 @@ namespace AutocompleteMenuNS
         public void Show(Control control, bool forced)
         {
             SetAutocompleteMenu(control, this);
-            this.TargetControlWrapper = FindWrapper(control);
+            TargetControlWrapper = FindWrapper(control);
             ShowAutocomplete(forced);
         }
 

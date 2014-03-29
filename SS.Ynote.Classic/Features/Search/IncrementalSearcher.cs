@@ -1,12 +1,8 @@
-#region
-
 using FastColoredTextBoxNS;
 using System;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-
-#endregion
 
 namespace SS.Ynote.Classic.Features.Search
 {

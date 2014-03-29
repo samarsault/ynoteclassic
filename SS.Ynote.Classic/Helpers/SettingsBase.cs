@@ -1,12 +1,8 @@
-#region Using Directives
-
 using FastColoredTextBoxNS;
 using Nini.Config;
 using System.IO;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-
-#endregion Using Directives
 
 /// <summary>
 ///     Contains all the Settings for Ynote
@@ -174,7 +170,7 @@ public static class SettingsBase
     /// </summary>
     public static void SaveConfiguration()
     {
-        var source = new IniConfigSource(SettingsDir + @"Settings.ini");
+        IConfigSource source = new IniConfigSource(SettingsDir + "Settings.ini");
         source.Configs["Ynote"].Set("ThemeFile", ThemeFile);
         source.Configs["Ynote"].Set("ShowHiddenCharacters", HiddenChars);
         source.Configs["Ynote"].Set("DocumentStyle", DocumentStyle);
@@ -197,7 +193,7 @@ public static class SettingsBase
         source.Configs["Ynote"].Set("FontSize", FontSize);
         source.Configs["Ynote"].Set("TabSize", TabSize);
         source.Configs["Ynote"].Set("Zoom", Zoom);
-        source.Save(SettingsDir + @"Settings.ini");
+        source.Save();
     }
 
     /// <summary>
@@ -206,8 +202,8 @@ public static class SettingsBase
     /// <param name="configfile"></param>
     public static void RestoreDefault(string configfile)
     {
-        var source = new IniConfigSource(configfile);
-        IConfig config = source.AddConfig("Ynote");
+        IConfigSource source = new IniConfigSource(configfile);
+        var config = source.AddConfig("Ynote");
         config.Set("ThemeFile", Application.StartupPath + @"\Themes\Default.ynotetheme");
         config.Set("ShowHiddenCharacters", false);
         config.Set("DocumentStyle", DocumentStyle.DockingMdi);
@@ -231,6 +227,6 @@ public static class SettingsBase
         config.Set("FontSize", 9.75F);
         config.Set("TabSize", 4);
         config.Set("Zoom", 100);
-        source.Save(configfile);
+        source.Save();
     }
 }

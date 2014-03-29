@@ -165,7 +165,7 @@ namespace Nini.Config
             }
             else
             {
-                this.Add(newConfig);
+                Add(newConfig);
                 return IndexOf(newConfig);
             }
         }

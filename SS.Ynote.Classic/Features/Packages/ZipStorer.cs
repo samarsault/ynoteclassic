@@ -1,12 +1,8 @@
-﻿#region Using Directives
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
-
-#endregion Using Directives
 
 namespace SS.Ynote.Classic.Features.Packages
 {
@@ -73,7 +69,7 @@ namespace SS.Ynote.Classic.Features.Packages
             }
         }
 
-        #region Public fields
+        #region Constant fields
 
         /// <summary>True if UTF8 encoding for filename and comments, false if default (CP 437)</summary>
         private const bool EncodeUtf8 = false;
@@ -81,7 +77,7 @@ namespace SS.Ynote.Classic.Features.Packages
         /// <summary>Force deflate algotithm even if it inflates the stored file. Off by default.</summary>
         private const bool ForceDeflating = false;
 
-        #endregion Public fields
+        #endregion Constant fields
 
         #region Private fields
 

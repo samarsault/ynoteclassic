@@ -86,13 +86,13 @@ namespace Nini.Ini
         /// <include file='IniReader.xml' path='//Property[@name="Name"]/docs/*' />
         public string Name
         {
-            get { return this.name.ToString(); }
+            get { return name.ToString(); }
         }
 
         /// <include file='IniReader.xml' path='//Property[@name="Value"]/docs/*' />
         public string Value
         {
-            get { return this.value.ToString(); }
+            get { return value.ToString(); }
         }
 
         /// <include file='IniReader.xml' path='//Property[@name="Type"]/docs/*' />
@@ -104,7 +104,7 @@ namespace Nini.Ini
         /// <include file='IniReader.xml' path='//Property[@name="Comment"]/docs/*' />
         public string Comment
         {
-            get { return (hasComment) ? this.comment.ToString() : null; }
+            get { return (hasComment) ? comment.ToString() : null; }
         }
 
         /// <include file='IniReader.xml' path='//Property[@name="LineNumber"]/docs/*' />
@@ -336,9 +336,9 @@ namespace Nini.Ini
         /// </summary>
         private void Reset()
         {
-            this.name.Remove(0, this.name.Length);
-            this.value.Remove(0, this.value.Length);
-            this.comment.Remove(0, this.comment.Length);
+            name.Remove(0, name.Length);
+            value.Remove(0, value.Length);
+            comment.Remove(0, comment.Length);
             iniType = IniType.Empty;
             hasComment = false;
         }
@@ -403,10 +403,10 @@ namespace Nini.Ini
             do
             {
                 ch = ReadChar();
-                this.comment.Append((char)ch);
+                comment.Append((char)ch);
             } while (!EndOfLine(ch));
 
-            RemoveTrailingWhitespace(this.comment);
+            RemoveTrailingWhitespace(comment);
         }
 
         /// <summary>
@@ -449,12 +449,12 @@ namespace Nini.Ini
                                         assignDelimiters[0]));
                 }
 
-                this.name.Append((char)ReadChar());
+                name.Append((char)ReadChar());
             }
 
             ReadKeyValue();
             SearchForComment();
-            RemoveTrailingWhitespace(this.name);
+            RemoveTrailingWhitespace(name);
         }
 
         /// <summary>
@@ -476,7 +476,7 @@ namespace Nini.Ini
                     characters++;
                 }
 
-                if (!this.ConsumeAllKeyText && ch == '"')
+                if (!ConsumeAllKeyText && ch == '"')
                 {
                     ReadChar();
 
@@ -523,11 +523,11 @@ namespace Nini.Ini
                     else
                     {
                         // Replace consumed characters
-                        this.value.Append(buffer.ToString());
+                        value.Append(buffer.ToString());
                     }
                 }
 
-                if (!this.ConsumeAllKeyText)
+                if (!ConsumeAllKeyText)
                 {
                     // If accepting comments then don't consume as key value
                     if (acceptCommentAfterKey && IsComment(ch) && !foundQuote)
@@ -542,12 +542,12 @@ namespace Nini.Ini
                     break;
                 }
 
-                this.value.Append((char)ReadChar());
+                value.Append((char)ReadChar());
             }
 
             if (!foundQuote)
             {
-                RemoveTrailingWhitespace(this.value);
+                RemoveTrailingWhitespace(value);
             }
         }
 
@@ -572,11 +572,11 @@ namespace Nini.Ini
                     throw new IniException(this, "Expected section end (])");
                 }
 
-                this.name.Append((char)ReadChar());
+                name.Append((char)ReadChar());
             }
 
             ConsumeToEnd(); // all after '[' is garbage
-            RemoveTrailingWhitespace(this.name);
+            RemoveTrailingWhitespace(name);
         }
 
         /// <summary>

@@ -1,11 +1,7 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
-
-#endregion
 
 namespace SS.Ynote.Classic.Features.Packages
 {

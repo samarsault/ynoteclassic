@@ -1,12 +1,8 @@
-﻿#region
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
-
-#endregion
 
 namespace SS.Ynote.Classic
 {

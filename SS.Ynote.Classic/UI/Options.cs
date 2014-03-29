@@ -1,6 +1,4 @@
-﻿#region
-
-using FastColoredTextBoxNS;
+﻿using FastColoredTextBoxNS;
 using Nini.Config;
 using System;
 using System.Collections.Generic;
@@ -8,8 +6,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-
-#endregion
 
 namespace SS.Ynote.Classic.UI
 {

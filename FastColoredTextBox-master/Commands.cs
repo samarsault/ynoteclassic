@@ -756,10 +756,10 @@ namespace FastColoredTextBoxNS
             ts.CurrentTb.Selection.ColumnSelectionMode = true;
         }
 
-          public override UndoableCommand Clone()
-          {
-              throw new NotImplementedException();
-          }
+        public override UndoableCommand Clone()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     /// <summary>

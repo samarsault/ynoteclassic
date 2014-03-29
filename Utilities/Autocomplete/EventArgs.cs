@@ -53,7 +53,7 @@ namespace AutocompleteMenuNS
 
         public WrapperNeededEventArgs(Control targetControl)
         {
-            this.TargetControl = targetControl;
+            TargetControl = targetControl;
         }
     }
 }

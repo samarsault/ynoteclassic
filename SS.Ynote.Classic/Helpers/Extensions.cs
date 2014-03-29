@@ -1,10 +1,6 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-
-#endregion
 
 internal static class HelperMethods
 {

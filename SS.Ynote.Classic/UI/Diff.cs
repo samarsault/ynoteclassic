@@ -107,9 +107,10 @@ namespace SS.Ynote.Classic.UI
         {
             fctb1.Clear();
             fctb2.Clear();
-            var dictionary = FileExtensions.BuildDictionary();
-            Highlighter.HighlightSyntax(FileExtensions.GetLanguage(dictionary, Path.GetExtension(tbFirstFile.Text)).Language, new TextChangedEventArgs(fctb1.Range));
-            Highlighter.HighlightSyntax(FileExtensions.GetLanguage(dictionary, Path.GetExtension(tbSecondFile.Text)).Language, new TextChangedEventArgs(fctb2.Range));
+            if (FileExtensions.FileExtensionsDictionary == null)
+                FileExtensions.BuildDictionary();
+            Highlighter.HighlightSyntax(FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary, Path.GetExtension(tbFirstFile.Text)).Language, new TextChangedEventArgs(fctb1.Range));
+            Highlighter.HighlightSyntax(FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary, Path.GetExtension(tbSecondFile.Text)).Language, new TextChangedEventArgs(fctb2.Range));
             Cursor = Cursors.WaitCursor;
             var source1 = Lines.Load(tbFirstFile.Text);
             var source2 = Lines.Load(tbSecondFile.Text);

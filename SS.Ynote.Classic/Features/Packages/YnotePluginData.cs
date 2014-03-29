@@ -1,8 +1,4 @@
-﻿#region
-
-using System.Collections.Generic;
-
-#endregion
+﻿using System.Collections.Generic;
 
 namespace SS.Ynote.Classic.Features.Packages
 {

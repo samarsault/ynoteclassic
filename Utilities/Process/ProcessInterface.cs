@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading;
 
 namespace ConsoleControlAPI
 {
@@ -71,7 +72,7 @@ namespace ConsoleControlAPI
                     outputWorker.ReportProgress(0, builder.ToString());
                 } while (count > 0);
 
-                System.Threading.Thread.Sleep(200);
+                Thread.Sleep(200);
             }
         }
 
@@ -110,7 +111,7 @@ namespace ConsoleControlAPI
                     errorWorker.ReportProgress(0, builder.ToString());
                 } while (count > 0);
 
-                System.Threading.Thread.Sleep(200);
+                Thread.Sleep(200);
             }
         }
 

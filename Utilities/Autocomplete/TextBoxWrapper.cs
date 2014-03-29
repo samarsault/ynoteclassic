@@ -21,7 +21,7 @@ namespace AutocompleteMenuNS
 
         private TextBoxWrapper(Control targetControl)
         {
-            this.target = targetControl;
+            target = targetControl;
             Init();
         }
 

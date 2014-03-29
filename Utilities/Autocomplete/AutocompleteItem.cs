@@ -71,7 +71,7 @@ namespace AutocompleteMenuNS
         public AutocompleteItem(string text, int imageIndex)
             : this(text)
         {
-            this.ImageIndex = imageIndex;
+            ImageIndex = imageIndex;
         }
 
         public AutocompleteItem(string text, int imageIndex, string menuText)

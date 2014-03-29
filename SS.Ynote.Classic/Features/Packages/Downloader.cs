@@ -1,16 +1,11 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Windows.Forms;
 
-#endregion
-
 namespace SS.Ynote.Classic.Features.Packages
 {
-    // TODO : Check if working
     /// <summary>
     ///     Plugin Downloader
     /// </summary>

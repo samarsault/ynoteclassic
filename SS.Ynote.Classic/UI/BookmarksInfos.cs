@@ -1,11 +1,7 @@
-﻿#region
-
-using FastColoredTextBoxNS;
+﻿using FastColoredTextBoxNS;
 using System;
 using System.Linq;
 using System.Windows.Forms;
-
-#endregion
 
 namespace SS.Ynote.Classic.UI
 {

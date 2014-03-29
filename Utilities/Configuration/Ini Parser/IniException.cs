@@ -63,7 +63,7 @@ namespace Nini.Ini
                 }
 
                 return String.Format(CultureInfo.InvariantCulture, "{0} - Line: {1}, Position: {2}.",
-                                        message, this.LineNumber, this.LinePosition);
+                                        message, LineNumber, LinePosition);
             }
         }
 
@@ -75,7 +75,7 @@ namespace Nini.Ini
         public IniException()
             : base()
         {
-            this.message = "An error has occurred";
+            message = "An error has occurred";
         }
 
         /// <include file='IniException.xml' path='//Constructor[@name="ConstructorException"]/docs/*' />
@@ -118,7 +118,7 @@ namespace Nini.Ini
 #else
 
         /// <include file='IniException.xml' path='//Method[@name="GetObjectData"]/docs/*' />
-        [SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
+        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         public override void GetObjectData(SerializationInfo info,
                                             StreamingContext context)
         {

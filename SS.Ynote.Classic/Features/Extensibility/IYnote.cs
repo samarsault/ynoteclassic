@@ -2,7 +2,6 @@ using SS.Ynote.Classic.UI;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-
 /// <summary>
 ///     IYnote Interface
 /// </summary>

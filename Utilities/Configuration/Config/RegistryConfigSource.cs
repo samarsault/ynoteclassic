@@ -61,12 +61,12 @@ namespace Nini.Config
         /// <include file='RegistryConfigSource.xml' path='//Method[@name="AddConfig"]/docs/*' />
         public override IConfig AddConfig(string name)
         {
-            if (this.DefaultKey == null)
+            if (DefaultKey == null)
             {
                 throw new ApplicationException("You must set DefaultKey");
             }
 
-            return AddConfig(name, this.DefaultKey);
+            return AddConfig(name, DefaultKey);
         }
 
         /// <include file='RegistryConfigSource.xml' path='//Method[@name="AddConfigKey"]/docs/*' />
@@ -76,7 +76,7 @@ namespace Nini.Config
             result.Key = key;
             result.ParentKey = true;
 
-            this.Configs.Add(result);
+            Configs.Add(result);
 
             return result;
         }
@@ -140,12 +140,12 @@ namespace Nini.Config
         {
             MergeConfigsIntoDocument();
 
-            for (int i = 0; i < this.Configs.Count; i++)
+            for (int i = 0; i < Configs.Count; i++)
             {
                 // New merged configs are not RegistryConfigs
-                if (this.Configs[i] is RegistryConfig)
+                if (Configs[i] is RegistryConfig)
                 {
-                    RegistryConfig config = (RegistryConfig)this.Configs[i];
+                    RegistryConfig config = (RegistryConfig)Configs[i];
                     string[] keys = config.GetKeys();
 
                     for (int j = 0; j < keys.Length; j++)
@@ -179,7 +179,7 @@ namespace Nini.Config
             {
                 config.Add(value, key.GetValue(value).ToString());
             }
-            this.Configs.Add(config);
+            Configs.Add(config);
         }
 
         /// <summary>
@@ -188,7 +188,7 @@ namespace Nini.Config
         /// </summary>
         private void MergeConfigsIntoDocument()
         {
-            foreach (IConfig config in this.Configs)
+            foreach (IConfig config in Configs)
             {
                 if (config is RegistryConfig)
                 {
@@ -216,14 +216,14 @@ namespace Nini.Config
         /// </summary>
         private void ReloadKeys()
         {
-            RegistryKey[] keys = new RegistryKey[this.Configs.Count];
+            RegistryKey[] keys = new RegistryKey[Configs.Count];
 
             for (int i = 0; i < keys.Length; i++)
             {
-                keys[i] = ((RegistryConfig)this.Configs[i]).Key;
+                keys[i] = ((RegistryConfig)Configs[i]).Key;
             }
 
-            this.Configs.Clear();
+            Configs.Clear();
             for (int i = 0; i < keys.Length; i++)
             {
                 LoadKeyValues(keys[i], ShortKeyName(keys[i]));

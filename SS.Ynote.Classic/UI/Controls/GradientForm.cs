@@ -1,11 +1,7 @@
-﻿#region
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-
-#endregion
 
 namespace SS.Ynote.Classic.UI
 {
@@ -24,9 +20,9 @@ namespace SS.Ynote.Classic.UI
         /// </summary>
         private readonly Container components = null;
 
-        #endregion
+        #endregion Gui
 
-        #endregion
+        #endregion Private Variables
 
         #region Public Properties
 
@@ -60,7 +56,7 @@ namespace SS.Ynote.Classic.UI
             }
         }
 
-        #endregion
+        #endregion Public Properties
 
         #region Constructors, Destructors
 
@@ -86,7 +82,7 @@ namespace SS.Ynote.Classic.UI
             base.Dispose(disposing);
         }
 
-        #endregion
+        #endregion Constructors, Destructors
 
         #region Windows Form Designer generated code
 
@@ -105,7 +101,7 @@ namespace SS.Ynote.Classic.UI
             this.Text = "Form1";
         }
 
-        #endregion
+        #endregion Windows Form Designer generated code
 
         #region Private Methods
 
@@ -115,7 +111,7 @@ namespace SS.Ynote.Classic.UI
             SetStyle(ControlStyles.ResizeRedraw, true);
         }
 
-        #endregion
+        #endregion Private Methods
 
         #region Overriden Methods
 
@@ -135,6 +131,6 @@ namespace SS.Ynote.Classic.UI
             lgbrush.Dispose();
         }
 
-        #endregion
+        #endregion Overriden Methods
     }
 }

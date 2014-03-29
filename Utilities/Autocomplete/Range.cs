@@ -10,7 +10,7 @@
 
         public Range(ITextBoxWrapper targetWrapper)
         {
-            this.TargetWrapper = targetWrapper;
+            TargetWrapper = targetWrapper;
         }
 
         public string Text

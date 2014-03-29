@@ -1,9 +1,5 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Windows.Forms;
-
-#endregion
 
 namespace SS.Ynote.Classic.Features.Project
 {

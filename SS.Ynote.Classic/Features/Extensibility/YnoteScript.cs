@@ -1,8 +1,8 @@
-using CSScriptLibrary;
 using System;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using CSScriptLibrary;
 
 namespace SS.Ynote.Classic.Features.Extensibility
 {
@@ -33,7 +33,7 @@ namespace SS.Ynote.Classic.Features.Extensibility
             }
             catch (Exception ex)
             {
-                MessageBox.Show("There was an Error running the script : \r\n" + ex.Message);
+                MessageBox.Show("There was an Error running the script : \r\n" + ex.Message, "YnoteScript Host", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
     }

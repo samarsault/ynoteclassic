@@ -681,14 +681,14 @@ namespace FastColoredTextBoxNS
             set { throw new NotImplementedException(); }
         }
 
-      //  //hide RTL
-      //  [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
-      //   EditorBrowsable(EditorBrowsableState.Never)]
-      //  public new bool RightToLeft
-      //  {
-      //      get { throw new NotImplementedException(); }
-      //      set { throw new NotImplementedException(); }
-      //  }
+        //  //hide RTL
+        //  [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden),
+        //   EditorBrowsable(EditorBrowsableState.Never)]
+        //  public new bool RightToLeft
+        //  {
+        //      get { throw new NotImplementedException(); }
+        //      set { throw new NotImplementedException(); }
+        //  }
 
         /// <summary>
         /// Color of folding area indicator
@@ -3802,7 +3802,7 @@ namespace FastColoredTextBoxNS
                     break;
 
                 case FCTBAction.JoinLines:
-                    SelectedText = string.Join(" ", SelectedText.Split(new string[1]
+                    SelectedText = string.Join(" ", SelectedText.Split(new[]
           {
             Environment.NewLine
           }, StringSplitOptions.None));

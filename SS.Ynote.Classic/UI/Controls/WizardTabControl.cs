@@ -1,10 +1,6 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Windows.Forms;
-
-#endregion
 
 namespace SS.Ynote.Classic.UI.Controls
 {

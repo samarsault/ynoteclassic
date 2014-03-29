@@ -112,7 +112,7 @@ namespace Nini.Config
             }
 
             savePath = path;
-            this.Save();
+            Save();
         }
 
         /// <include file='DotNetConfigSource.xml' path='//Method[@name="SaveTextWriter"]/docs/*' />
@@ -190,7 +190,7 @@ namespace Nini.Config
         private void MergeConfigsIntoDocument()
         {
             RemoveSections();
-            foreach (IConfig config in this.Configs)
+            foreach (IConfig config in Configs)
             {
                 string[] keys = config.GetKeys();
 
@@ -216,7 +216,7 @@ namespace Nini.Config
 #if (NET_COMPACT_1_0)
 			throw new NotSupportedException ("This loading method is not supported");
 #else
-            this.Merge(this); // required for SaveAll
+            Merge(this); // required for SaveAll
             for (int i = 0; i < sections.Length; i++)
             {
                 LoadCollection(sections[i], (NameValueCollection)ConfigurationSettings
@@ -230,9 +230,9 @@ namespace Nini.Config
         /// </summary>
         private void PerformLoad(XmlDocument document)
         {
-            this.Configs.Clear();
+            Configs.Clear();
 
-            this.Merge(this); // required for SaveAll
+            Merge(this); // required for SaveAll
 
             if (document.DocumentElement.Name != "configuration")
             {
@@ -266,7 +266,7 @@ namespace Nini.Config
                     config = new ConfigBase
                             (node.Attributes["name"].Value, this);
 
-                    this.Configs.Add(config);
+                    Configs.Add(config);
                     LoadKeys(rootNode, config);
                 }
             }
@@ -285,7 +285,7 @@ namespace Nini.Config
             {
                 config = new ConfigBase(section.Name, this);
 
-                this.Configs.Add(config);
+                Configs.Add(config);
                 LoadKeys(rootNode, config);
             }
         }
@@ -330,7 +330,7 @@ namespace Nini.Config
                     attr = node.Attributes["name"];
                     if (attr != null)
                     {
-                        if (this.Configs[attr.Value] == null)
+                        if (Configs[attr.Value] == null)
                         {
                             // Removes the configSections section
                             node.ParentNode.RemoveChild(node);
@@ -369,7 +369,7 @@ namespace Nini.Config
                         keyName = key.Attributes["key"];
                         if (keyName != null)
                         {
-                            if (this.Configs[sectionName].Get(keyName.Value) == null)
+                            if (Configs[sectionName].Get(keyName.Value) == null)
                             {
                                 node.RemoveChild(key);
                             }
@@ -457,7 +457,7 @@ namespace Nini.Config
                     config.Add(collection.Keys[i], collection[i]);
                 }
 
-                this.Configs.Add(config);
+                Configs.Add(config);
             }
         }
 
@@ -491,7 +491,7 @@ namespace Nini.Config
         /// </summary>
         private bool IsSavable()
         {
-            return (this.savePath != null
+            return (savePath != null
                     || configDoc != null);
         }
 
@@ -547,12 +547,12 @@ namespace Nini.Config
                     && node.Name == "section")
                 {
                     string sectionName = node.Attributes["name"].Value;
-                    IConfig config = this.Configs[sectionName];
+                    IConfig config = Configs[sectionName];
                     if (config == null)
                     {
                         // The section is new so add it
                         config = new ConfigBase(sectionName, this);
-                        this.Configs.Add(config);
+                        Configs.Add(config);
                     }
                     RemoveConfigKeys(config);
                 }
@@ -565,13 +565,13 @@ namespace Nini.Config
         private void RemoveConfigs()
         {
             IConfig config = null;
-            for (int i = this.Configs.Count - 1; i > -1; i--)
+            for (int i = Configs.Count - 1; i > -1; i--)
             {
-                config = this.Configs[i];
+                config = Configs[i];
                 // If the section is not present in the XmlDocument
                 if (GetChildElement(config.Name) == null)
                 {
-                    this.Configs.Remove(config);
+                    Configs.Remove(config);
                 }
             }
         }

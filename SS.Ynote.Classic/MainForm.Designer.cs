@@ -31,6 +31,21 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            WeifenLuo.WinFormsUI.Docking.DockPanelSkin dockPanelSkin1 = new WeifenLuo.WinFormsUI.Docking.DockPanelSkin();
+            WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin autoHideStripSkin1 = new WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin();
+            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient1 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient1 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.DockPaneStripSkin dockPaneStripSkin1 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripSkin();
+            WeifenLuo.WinFormsUI.Docking.DockPaneStripGradient dockPaneStripGradient1 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient2 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient2 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient3 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.DockPaneStripToolWindowGradient dockPaneStripToolWindowGradient1 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripToolWindowGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient4 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient5 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient3 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient6 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient7 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
             this.MenuStrip = new System.Windows.Forms.MainMenu(this.components);
             this.filemenu = new System.Windows.Forms.MenuItem();
             this.NewMenuItem = new System.Windows.Forms.MenuItem();
@@ -191,6 +206,7 @@
             this.mishowunsaved = new System.Windows.Forms.MenuItem();
             this.wordwrapmenu = new System.Windows.Forms.MenuItem();
             this.seperator24 = new System.Windows.Forms.MenuItem();
+            this.midocinfo = new System.Windows.Forms.MenuItem();
             this.miprojectmanager = new System.Windows.Forms.MenuItem();
             this.seperator26 = new System.Windows.Forms.MenuItem();
             this.misplit = new System.Windows.Forms.MenuItem();
@@ -253,8 +269,6 @@
             this.mizoom100 = new System.Windows.Forms.ToolStripMenuItem();
             this.mizoom50 = new System.Windows.Forms.ToolStripMenuItem();
             this.dock = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-            this.incrementalSearcher1 = new SS.Ynote.Classic.Features.Search.IncrementalSearcher();
-            this.midocinfo = new System.Windows.Forms.MenuItem();
             this.status.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -1377,6 +1391,12 @@
             this.seperator24.Index = 13;
             this.seperator24.Text = "-";
             // 
+            // midocinfo
+            // 
+            this.midocinfo.Index = 14;
+            this.midocinfo.Text = "Document Info";
+            this.midocinfo.Click += new System.EventHandler(this.midocinfo_Click);
+            // 
             // miprojectmanager
             // 
             this.miprojectmanager.Index = 15;
@@ -1807,24 +1827,55 @@
             this.dock.DockBottomPortion = 0.4D;
             this.dock.Location = new System.Drawing.Point(0, 0);
             this.dock.Name = "dock";
-            this.dock.Size = new System.Drawing.Size(767, 299);
+            this.dock.Size = new System.Drawing.Size(767, 338);
+            dockPanelGradient1.EndColor = System.Drawing.SystemColors.ControlLight;
+            dockPanelGradient1.StartColor = System.Drawing.SystemColors.ControlLight;
+            autoHideStripSkin1.DockStripGradient = dockPanelGradient1;
+            tabGradient1.EndColor = System.Drawing.SystemColors.Control;
+            tabGradient1.StartColor = System.Drawing.SystemColors.Control;
+            tabGradient1.TextColor = System.Drawing.SystemColors.ControlDarkDark;
+            autoHideStripSkin1.TabGradient = tabGradient1;
+            autoHideStripSkin1.TextFont = new System.Drawing.Font("Segoe UI", 9F);
+            dockPanelSkin1.AutoHideStripSkin = autoHideStripSkin1;
+            tabGradient2.EndColor = System.Drawing.SystemColors.ControlLightLight;
+            tabGradient2.StartColor = System.Drawing.SystemColors.ControlLightLight;
+            tabGradient2.TextColor = System.Drawing.SystemColors.ControlText;
+            dockPaneStripGradient1.ActiveTabGradient = tabGradient2;
+            dockPanelGradient2.EndColor = System.Drawing.SystemColors.Control;
+            dockPanelGradient2.StartColor = System.Drawing.SystemColors.Control;
+            dockPaneStripGradient1.DockStripGradient = dockPanelGradient2;
+            tabGradient3.EndColor = System.Drawing.SystemColors.ControlLight;
+            tabGradient3.StartColor = System.Drawing.SystemColors.ControlLight;
+            tabGradient3.TextColor = System.Drawing.SystemColors.ControlText;
+            dockPaneStripGradient1.InactiveTabGradient = tabGradient3;
+            dockPaneStripSkin1.DocumentGradient = dockPaneStripGradient1;
+            dockPaneStripSkin1.TextFont = new System.Drawing.Font("Segoe UI", 9F);
+            tabGradient4.EndColor = System.Drawing.SystemColors.ActiveCaption;
+            tabGradient4.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            tabGradient4.StartColor = System.Drawing.SystemColors.GradientActiveCaption;
+            tabGradient4.TextColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dockPaneStripToolWindowGradient1.ActiveCaptionGradient = tabGradient4;
+            tabGradient5.EndColor = System.Drawing.SystemColors.Control;
+            tabGradient5.StartColor = System.Drawing.SystemColors.Control;
+            tabGradient5.TextColor = System.Drawing.SystemColors.ControlText;
+            dockPaneStripToolWindowGradient1.ActiveTabGradient = tabGradient5;
+            dockPanelGradient3.EndColor = System.Drawing.SystemColors.ControlLight;
+            dockPanelGradient3.StartColor = System.Drawing.SystemColors.ControlLight;
+            dockPaneStripToolWindowGradient1.DockStripGradient = dockPanelGradient3;
+            tabGradient6.EndColor = System.Drawing.SystemColors.InactiveCaption;
+            tabGradient6.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            tabGradient6.StartColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            tabGradient6.TextColor = System.Drawing.SystemColors.InactiveCaptionText;
+            dockPaneStripToolWindowGradient1.InactiveCaptionGradient = tabGradient6;
+            tabGradient7.EndColor = System.Drawing.Color.Transparent;
+            tabGradient7.StartColor = System.Drawing.Color.Transparent;
+            tabGradient7.TextColor = System.Drawing.SystemColors.ControlDarkDark;
+            dockPaneStripToolWindowGradient1.InactiveTabGradient = tabGradient7;
+            dockPaneStripSkin1.ToolWindowGradient = dockPaneStripToolWindowGradient1;
+            dockPanelSkin1.DockPaneStripSkin = dockPaneStripSkin1;
+            this.dock.Skin = dockPanelSkin1;
             this.dock.TabIndex = 0;
             this.dock.ActiveDocumentChanged += new System.EventHandler(this.dock_ActiveDocumentChanged);
-            // 
-            // incrementalSearcher1
-            // 
-            this.incrementalSearcher1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.incrementalSearcher1.Location = new System.Drawing.Point(0, 299);
-            this.incrementalSearcher1.Name = "incrementalSearcher1";
-            this.incrementalSearcher1.Size = new System.Drawing.Size(767, 39);
-            this.incrementalSearcher1.TabIndex = 4;
-            this.incrementalSearcher1.Visible = false;
-            // 
-            // midocinfo
-            // 
-            this.midocinfo.Index = 14;
-            this.midocinfo.Text = "Document Info";
-            this.midocinfo.Click += new System.EventHandler(this.midocinfo_Click);
             // 
             // MainForm
             // 
@@ -1832,10 +1883,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(767, 360);
             this.Controls.Add(this.dock);
-            this.Controls.Add(this.incrementalSearcher1);
             this.Controls.Add(this.status);
+            this.Icon = global::SS.Ynote.Classic.Properties.Resources.ynote_favicon;
             this.IsMdiContainer = true;
-            this.Icon = Properties.Resources.ynote_favicon;
             this.Menu = this.MenuStrip;
             this.Name = "MainForm";
             this.Text = "Ynote Classic";
@@ -2025,7 +2075,6 @@
         private System.Windows.Forms.MenuItem mikeymapeditor;
         private WeifenLuo.WinFormsUI.Docking.DockPanel dock;
         private System.Windows.Forms.ToolStripStatusLabel mistats;
-        private SS.Ynote.Classic.Features.Search.IncrementalSearcher incrementalSearcher1;
         private System.Windows.Forms.MenuItem miscripts;
         private System.Windows.Forms.ToolStripStatusLabel gapfiller3;
         private System.Windows.Forms.MenuItem mirun;

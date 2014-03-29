@@ -140,8 +140,8 @@ namespace AutocompleteMenuNS
         public MulticolumnAutocompleteItem(string[] menuTextByColumns, string insertingText, bool compareBySubstring = true, bool ignoreCase = true)
             : base(insertingText, ignoreCase)
         {
-            this.CompareBySubstring = compareBySubstring;
-            this.MenuTextByColumns = menuTextByColumns;
+            CompareBySubstring = compareBySubstring;
+            MenuTextByColumns = menuTextByColumns;
         }
 
         public override CompareResult Compare(string fragmentText)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace AutocompleteMenuNS
@@ -56,7 +57,7 @@ namespace AutocompleteMenuNS
         internal void CalcSize()
         {
             Host.Size = (ListView as Control).Size;
-            Size = new System.Drawing.Size((ListView as Control).Size.Width + 4, (ListView as Control).Size.Height + 4);
+            Size = new Size((ListView as Control).Size.Width + 4, (ListView as Control).Size.Height + 4);
         }
 
         public override RightToLeft RightToLeft

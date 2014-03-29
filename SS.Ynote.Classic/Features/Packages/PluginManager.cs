@@ -1,11 +1,7 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
 using System.Windows.Forms;
-
-#endregion
 
 namespace SS.Ynote.Classic.Features.Packages
 {
@@ -21,16 +17,18 @@ namespace SS.Ynote.Classic.Features.Packages
         {
             Close();
         }
+
         /// <summary>
         /// Get Plugin List
         /// </summary>
         /// <returns></returns>
-        static IEnumerable<IYnotePlugin> LoadPlugins()
+        private static IEnumerable<IYnotePlugin> LoadPlugins()
         {
             var dircatalog = new DirectoryCatalog(Application.StartupPath + @"\Plugins\");
             var container = new CompositionContainer(dircatalog);
             return container.GetExportedValues<IYnotePlugin>();
         }
+
         private void PopulatePluginList()
         {
             var plugins = LoadPlugins();

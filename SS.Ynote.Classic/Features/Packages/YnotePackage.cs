@@ -84,9 +84,7 @@
                 foreach (var entry in dirs)
                 {
                     if (entry.FilenameInZip == data.PluginFile)
-                    {
                         zip.ExtractFile(entry, Application.StartupPath + @"\Plugins\" + data.PluginFile);
-                    }
                     var list = referenceList as string[] ?? referenceList;
                     var enumerable = referenceList as string[] ?? list.ToArray();
                     var entry1 = entry;

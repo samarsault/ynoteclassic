@@ -88,7 +88,7 @@ namespace Nini.Config
         public void Load(string filePath)
         {
             Load(new StreamReader(filePath));
-            this.savePath = filePath;
+            savePath = filePath;
         }
 
         /// <include file='IniConfigSource.xml' path='//Method[@name="LoadTextReader"]/docs/*' />
@@ -100,9 +100,9 @@ namespace Nini.Config
         /// <include file='IniConfigSource.xml' path='//Method[@name="LoadIniDocument"]/docs/*' />
         public void Load(IniDocument document)
         {
-            this.Configs.Clear();
+            Configs.Clear();
 
-            this.Merge(this); // required for SaveAll
+            Merge(this); // required for SaveAll
             iniDocument = document;
             Load();
         }
@@ -123,15 +123,15 @@ namespace Nini.Config
 
             MergeConfigsIntoDocument();
 
-            iniDocument.Save(this.savePath);
+            iniDocument.Save(savePath);
             base.Save();
         }
 
         /// <include file='IniConfigSource.xml' path='//Method[@name="SavePath"]/docs/*' />
         public void Save(string path)
         {
-            this.savePath = path;
-            this.Save();
+            savePath = path;
+            Save();
         }
 
         /// <include file='IniConfigSource.xml' path='//Method[@name="SaveTextWriter"]/docs/*' />
@@ -187,7 +187,7 @@ namespace Nini.Config
         private void MergeConfigsIntoDocument()
         {
             RemoveSections();
-            foreach (IConfig config in this.Configs)
+            foreach (IConfig config in Configs)
             {
                 string[] keys = config.GetKeys();
 
@@ -215,7 +215,7 @@ namespace Nini.Config
             for (int i = 0; i < iniDocument.Sections.Count; i++)
             {
                 section = iniDocument.Sections[i];
-                if (this.Configs[section.Name] == null)
+                if (Configs[section.Name] == null)
                 {
                     iniDocument.Sections.Remove(section.Name);
                 }
@@ -233,7 +233,7 @@ namespace Nini.Config
             {
                 foreach (string key in section.GetKeys())
                 {
-                    if (this.Configs[sectionName].Get(key) == null)
+                    if (Configs[sectionName].Get(key) == null)
                     {
                         section.Remove(key);
                     }
@@ -265,7 +265,7 @@ namespace Nini.Config
                     }
                 }
 
-                this.Configs.Add(config);
+                Configs.Add(config);
             }
         }
 
@@ -283,12 +283,12 @@ namespace Nini.Config
             {
                 section = iniDocument.Sections[i];
 
-                IConfig config = this.Configs[section.Name];
+                IConfig config = Configs[section.Name];
                 if (config == null)
                 {
                     // The section is new so add it
                     config = new ConfigBase(section.Name, this);
-                    this.Configs.Add(config);
+                    Configs.Add(config);
                 }
                 RemoveConfigKeys(config);
             }
@@ -300,13 +300,13 @@ namespace Nini.Config
         private void RemoveConfigs()
         {
             IConfig config = null;
-            for (int i = this.Configs.Count - 1; i > -1; i--)
+            for (int i = Configs.Count - 1; i > -1; i--)
             {
-                config = this.Configs[i];
+                config = Configs[i];
                 // If the section is not present in the INI doc
                 if (iniDocument.Sections[config.Name] == null)
                 {
-                    this.Configs.Remove(config);
+                    Configs.Remove(config);
                 }
             }
         }
@@ -343,7 +343,7 @@ namespace Nini.Config
         /// </summary>
         private bool IsSavable()
         {
-            return (this.savePath != null);
+            return (savePath != null);
         }
 
         #endregion Private methods

@@ -1,5 +1,3 @@
-#region Using Directives
-
 using SS.Ynote.Classic.Features.RunScript;
 using System;
 using System.Collections.Generic;
@@ -8,8 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-
-#endregion Using Directives
 
 namespace SS.Ynote.Classic.Features.Project
 {

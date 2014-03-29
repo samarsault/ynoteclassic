@@ -140,7 +140,7 @@ namespace Nini.Config
         /// <include file='IConfig.xml' path='//Method[@name="GetExpanded"]/docs/*' />
         public string GetExpanded(string key)
         {
-            return this.ConfigSource.GetExpanded(this, key);
+            return ConfigSource.GetExpanded(this, key);
         }
 
         /// <include file='IConfig.xml' path='//Method[@name="Get"]/docs/*' />
@@ -335,7 +335,7 @@ namespace Nini.Config
 
             if (Get(key) == null)
             {
-                this.Add(key, value.ToString());
+                Add(key, value.ToString());
             }
             else
             {
@@ -412,9 +412,9 @@ namespace Nini.Config
         /// </summary>
         private void Rename(string name)
         {
-            this.ConfigSource.Configs.Remove(this);
+            ConfigSource.Configs.Remove(this);
             configName = name;
-            this.ConfigSource.Configs.Add(this);
+            ConfigSource.Configs.Add(this);
         }
 
         /// <summary>

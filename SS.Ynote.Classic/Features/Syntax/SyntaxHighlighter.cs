@@ -356,6 +356,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                                 synbase.CommentPrefix = reader["CommentPrefix"];
                                 synbase.Extensions = reader["Extensions"].Split('|');
                                 break;
+
                             case "Rule":
                                 {
                                     var type = reader["Type"];

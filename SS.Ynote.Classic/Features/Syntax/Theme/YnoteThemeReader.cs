@@ -1,3 +1,6 @@
+using System.Diagnostics;
+using FastColoredTextBoxNS;
+
 //===============================
 // Ynote Theme Reader
 // Desc -> Reads a .ynotetheme file and applies it to a Code Edit Control.
@@ -6,7 +9,6 @@
 using System;
 using System.Drawing;
 using System.Xml;
-using FastColoredTextBoxNS;
 
 namespace SS.Ynote.Classic.Features.Syntax
 {
@@ -18,7 +20,7 @@ namespace SS.Ynote.Classic.Features.Syntax
         public static void ApplyTheme(string source, ISyntaxHighlighter highlighter, FastColoredTextBox tb)
         {
 #if DEBUG
-            var sp = new System.Diagnostics.Stopwatch();
+            var sp = new Stopwatch();
             sp.Start();
 #endif
             using (var reader = XmlReader.Create(source))
@@ -35,14 +37,14 @@ namespace SS.Ynote.Classic.Features.Syntax
                                 var name = reader["Name"];
                                 var fontstyle = reader["Font"].ToEnum<FontStyle>();
                                 var color = reader["Color"];
-                                StyleInit(name, fontstyle, GetColorFromHexVal(color), highlighter);
+                                InitStyle(name, fontstyle, GetColorFromHexVal(color), highlighter);
                                 // if (reader.Read())
-                                //     StyleInit(name, fontstyle, GetColorFromHexVal(color), highlighter);
+                                //     InitStyle(name, fontstyle, GetColorFromHexVal(color), highlighter);
                                 break;
 
                             case "Key":
                                 // Search for the attribute name on this current node.
-                                KeyInit(tb, reader["Name"], reader["Value"]);
+                                InitKey(tb, reader["Name"], reader["Value"]);
                                 // if (reader.Read())
                                 //     KeyInit(tb, reader["Name"], reader["Value"]);
                                 break;
@@ -50,11 +52,11 @@ namespace SS.Ynote.Classic.Features.Syntax
                     }
             }
 #if DEBUG
-            System.Diagnostics.Debug.WriteLine("Theme Apply : " + sp.ElapsedMilliseconds);
+            Debug.WriteLine("Theme Apply : " + sp.ElapsedMilliseconds);
 #endif
         }
 
-        private static void KeyInit(FastColoredTextBox tb, string name, string value)
+        static void InitKey(FastColoredTextBox tb, string name, string value)
         {
             var keyval = GetColorFromHexVal(value);
             switch (name)
@@ -109,7 +111,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             }
         }
 
-        private static void StyleInit(string name, FontStyle style, Color color, ISyntaxHighlighter sh)
+        static void InitStyle(string name, FontStyle style, Color color, ISyntaxHighlighter sh)
         {
             var tcstyle = new TextColorStyle(new SolidBrush(color), style);
             switch (name)

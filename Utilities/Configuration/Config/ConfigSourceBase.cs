@@ -72,7 +72,7 @@ namespace Nini.Config
 
             foreach (IConfig config in source.Configs)
             {
-                this.Configs.Add(config);
+                Configs.Add(config);
             }
         }
 
@@ -217,7 +217,7 @@ namespace Nini.Config
 
             if (replaces.Length > 1)
             {
-                IConfig newConfig = this.Configs[replaces[0]];
+                IConfig newConfig = Configs[replaces[0]];
                 if (newConfig == null)
                 {
                     throw new ArgumentException("Expand config not found: "

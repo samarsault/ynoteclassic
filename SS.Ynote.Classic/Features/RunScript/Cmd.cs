@@ -1,9 +1,5 @@
-﻿#region
-
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-
-#endregion
 
 namespace SS.Ynote.Classic.Features.RunScript
 {

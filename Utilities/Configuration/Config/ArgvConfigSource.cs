@@ -86,8 +86,8 @@ namespace Nini.Config
         /// <include file='ArgvConfigSource.xml' path='//Method[@name="GetArguments"]/docs/*' />
         public string[] GetArguments()
         {
-            string[] result = new string[this.arguments.Length];
-            Array.Copy(this.arguments, 0, result, 0, this.arguments.Length);
+            string[] result = new string[arguments.Length];
+            Array.Copy(arguments, 0, result, 0, arguments.Length);
 
             return result;
         }
@@ -103,14 +103,14 @@ namespace Nini.Config
         {
             IConfig result = null;
 
-            if (this.Configs[name] == null)
+            if (Configs[name] == null)
             {
                 result = new ConfigBase(name, this);
-                this.Configs.Add(result);
+                Configs.Add(result);
             }
             else
             {
-                result = this.Configs[name];
+                result = Configs[name];
             }
 
             return result;

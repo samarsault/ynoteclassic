@@ -1,24 +1,16 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Globalization;
 using System.Windows.Forms;
 
-#endregion
-
 namespace SS.Ynote.Classic.UI.Controls
 {
-    #region Using Directives
-
-    #endregion
-
     public class NumericTextBox : TextBox
     {
         #region Constants
 
         private bool allowSpace;
 
-        #endregion
+        #endregion Constants
 
         #region KeyPress
 
@@ -52,7 +44,7 @@ namespace SS.Ynote.Classic.UI.Controls
             }
         }
 
-        #endregion
+        #endregion KeyPress
 
         #region Properties
 
@@ -73,6 +65,6 @@ namespace SS.Ynote.Classic.UI.Controls
             get { return allowSpace; }
         }
 
-        #endregion
+        #endregion Properties
     }
 }

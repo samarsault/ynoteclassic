@@ -3,12 +3,11 @@ using SS.Ynote.Classic.Features.Extensibility;
 using SS.Ynote.Classic.Features.Packages;
 using SS.Ynote.Classic.Features.Project;
 using SS.Ynote.Classic.Features.RunScript;
+using SS.Ynote.Classic.Features.Search;
 using SS.Ynote.Classic.Features.Syntax;
-using SS.Ynote.Classic.Properties;
 using SS.Ynote.Classic.UI;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Diagnostics;
 using System.Drawing;
@@ -25,10 +24,6 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace SS.Ynote.Classic
 {
-    #region Using Directives
-
-    #endregion Using Directives
-
     public partial class MainForm : Form, IYnote
     {
         #region Private Fields
@@ -36,6 +31,7 @@ namespace SS.Ynote.Classic
 #if DEBUG
         private readonly Stopwatch watch;
 #endif
+        private IncrementalSearcher incrementalSearcher;
 
         /// <summary>
         ///     _mru list
@@ -178,7 +174,9 @@ namespace SS.Ynote.Classic
                 edit.Name = name;
                 edit.tb.IsChanged = false;
                 edit.tb.ClearUndo();
-                var lang = FileExtensions.GetLanguage(FileExtensions.BuildDictionary(), Path.GetExtension(name));
+                if (FileExtensions.FileExtensionsDictionary == null)
+                    FileExtensions.BuildDictionary();
+                var lang = FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary, Path.GetExtension(name));
                 if (lang.IsBase)
                 {
                     edit.Highlighter.HighlightSyntax(lang.SyntaxBase, new TextChangedEventArgs(edit.tb.Range));
@@ -452,7 +450,7 @@ namespace SS.Ynote.Classic
         /// </summary>
         private void InitTimer()
         {
-            var infotimer = new Timer { Interval = 100 };
+            var infotimer = new Timer { Interval = 200 };
             infotimer.Tick += infotimer_Tick;
             infotimer.Start();
         }
@@ -707,7 +705,7 @@ namespace SS.Ynote.Classic
 
         private void duplicatelinemenu_Click(object sender, EventArgs e)
         {
-            if (ActiveEditor != null) ActiveEditor.tb.ProcessKey(Keys.Control | Keys.D);
+            if (ActiveEditor != null) ActiveEditor.tb.DuplicateLine(ActiveEditor.tb.Selection.Start.iLine);
         }
 
         private void removeemptylines_Click(object sender, EventArgs e)
@@ -970,22 +968,12 @@ namespace SS.Ynote.Classic
 
         private void infotimer_Tick(object sender, EventArgs e)
         {
-            try
-            {
-                if (dock.ActiveDocument == null
-                    || dock.ActiveDocument.GetType() != typeof(Editor)) return;
-                int nCol = ActiveEditor.tb.Selection.Start.iChar + 1;
-                int line = ActiveEditor.tb.Selection.Start.iLine + 1;
-                infolabel.Text = string.Format(" Line : {0} Col : {1} Size : {2} Selected : {3}", line, nCol,
-                    ActiveEditor.tb.Text.Length, ActiveEditor.tb.SelectedText.Length);
-            }
-            catch (Exception ex)
-            {
-                // CarryOn(exe);
-#if DEBUG
-                Debug.WriteLine(ex);
-#endif
-            }
+           if (dock.ActiveDocument == null
+               || dock.ActiveDocument.GetType() != typeof(Editor)) return;
+           int nCol = ActiveEditor.tb.Selection.Start.iChar + 1;
+           int line = ActiveEditor.tb.Selection.Start.iLine + 1;
+           infolabel.Text = string.Format(" Line : {0} Col : {1} Size : {2} bytes Selected : {3}", line, nCol,
+               ActiveEditor.tb.Text.Length, ActiveEditor.tb.SelectedText.Length);
         }
 
         private void zoom_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -1102,15 +1090,17 @@ namespace SS.Ynote.Classic
 
         private void incrementalsearchmenu_Click(object sender, EventArgs e)
         {
-            if (incrementalSearcher1.Visible) incrementalSearcher1.Exit();
+            if (incrementalSearcher == null)
+                incrementalSearcher = new IncrementalSearcher();
+            if (incrementalSearcher.Visible) incrementalSearcher.Exit();
             else
             {
                 if (ActiveEditor == null) return;
-                incrementalSearcher1.Tb = ActiveEditor.tb;
+                incrementalSearcher.Tb = ActiveEditor.tb;
                 if (ActiveEditor.tb.SelectedText != null)
-                    incrementalSearcher1.tbFind.Text = ActiveEditor.tb.SelectedText;
-                incrementalSearcher1.Visible = true;
-                incrementalSearcher1.FocusTextBox();
+                    incrementalSearcher.tbFind.Text = ActiveEditor.tb.SelectedText;
+                incrementalSearcher.Visible = true;
+                incrementalSearcher.FocusTextBox();
             }
         }
 
@@ -1169,7 +1159,11 @@ namespace SS.Ynote.Classic
 
         private void menuItem29_Click(object sender, EventArgs e)
         {
-            ActiveEditor.tb.ProcessKey(Keys.Control | Keys.J);
+            if (ActiveEditor == null) return;
+            ActiveEditor.tb.SelectedText = string.Join(" ", ActiveEditor.tb.SelectedText.Split(new[]
+          {
+            Environment.NewLine
+          }, StringSplitOptions.None));
         }
 
         private void milanguage_Select(object sender, EventArgs e)
@@ -1577,8 +1571,8 @@ namespace SS.Ynote.Classic
         private void dock_ActiveDocumentChanged(object sender, EventArgs e)
         {
             if (ActiveEditor == null) return;
-            if (incrementalSearcher1.Visible) incrementalSearcher1.Tb = ActiveEditor.tb;
             langmenu.Text = ActiveEditor.Syntax == null ? ActiveEditor.tb.Language.ToString() : Path.GetFileNameWithoutExtension(ActiveEditor.Syntax.SysPath);
+            if (incrementalSearcher != null && incrementalSearcher.Visible) incrementalSearcher.Tb = ActiveEditor.tb;
         }
 
         private void migoleftbracket_Click(object sender, EventArgs e)
@@ -1762,6 +1756,7 @@ namespace SS.Ynote.Classic
             foreach (string r in _mru)
                 AddRecentFile(r);
         }
+
         private void midocinfo_Click(object sender, EventArgs e)
         {
             var allwords = Regex.Matches(ActiveEditor.tb.Text, @"[\S]+");
@@ -1772,7 +1767,7 @@ namespace SS.Ynote.Classic
                     , ActiveEditor.tb.LinesCount, ActiveEditor.tb.Selection.Start.iChar + 1);
             MessageBox.Show(message, "Document Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-        #endregion Events
 
+        #endregion Events
     }
 }
