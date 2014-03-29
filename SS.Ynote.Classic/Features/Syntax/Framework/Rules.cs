@@ -13,7 +13,7 @@ namespace SS.Ynote.Classic.Features.Syntax
     /// <summary>
     /// Syntax Rule
     /// </summary>
-    public class SyntaxRule
+    public sealed class SyntaxRule
     {
         /// <summary>
         /// The Style of the Rule eg. -> CommentStyle
@@ -34,7 +34,7 @@ namespace SS.Ynote.Classic.Features.Syntax
     /// <summary>
     /// Folding Rule
     /// </summary>
-    public class FoldingRule
+    public sealed class FoldingRule
     {
         /// <summary>
         /// The Folding Start Marker

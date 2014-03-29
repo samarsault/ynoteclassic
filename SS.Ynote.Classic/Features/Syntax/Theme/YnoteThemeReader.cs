@@ -1,11 +1,12 @@
-using System.Diagnostics;
-using FastColoredTextBoxNS;
 
 //===============================
 // Ynote Theme Reader
 // Desc -> Reads a .ynotetheme file and applies it to a Code Edit Control.
 // The Ynote Classic Project
 //===============================
+
+using System.Diagnostics;
+using FastColoredTextBoxNS;
 using System;
 using System.Drawing;
 using System.Xml;
@@ -113,7 +114,7 @@ namespace SS.Ynote.Classic.Features.Syntax
 
         static void InitStyle(string name, FontStyle style, Color color, ISyntaxHighlighter sh)
         {
-            var tcstyle = new TextColorStyle(new SolidBrush(color), style);
+            var tcstyle = new TextStyle(new SolidBrush(color),null, style);
             switch (name)
             {
                 case "Comment":
@@ -226,14 +227,6 @@ namespace SS.Ynote.Classic.Features.Syntax
                 // System.Windows.Forms.MessageBox.Show("Invalid Hex Number : " + ex.Message);
                 return default(Color);
             }
-        }
-    }
-
-    public class TextColorStyle : TextStyle
-    {
-        public TextColorStyle(Brush tbBrush, FontStyle fstyle)
-            : base(tbBrush, null, fstyle)
-        {
         }
     }
 }

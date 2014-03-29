@@ -15,7 +15,6 @@ namespace SS.Ynote.Classic.UI
     {
         Line,
         Column,
-        Macro,
         Splitter,
         Width
     }
@@ -78,14 +77,6 @@ namespace SS.Ynote.Classic.UI
                     numericTextBox1.Focus();
                     break;
 
-                case InsertType.Macro:
-                    Text = "Run Macro Multiple Times";
-                    label1.Text = "No. of Times to Run :";
-                    button1.Text = "Run";
-                    numericTextBox1.Visible = true;
-                    textBox1.Visible = false;
-                    break;
-
                 case InsertType.Splitter:
                     Text = "Split Settings";
                     label1.Text = "Seperator";
@@ -127,14 +118,6 @@ namespace SS.Ynote.Classic.UI
                 while (Lines > 0)
                 {
                     _fctb.InsertText(" ");
-                    Lines--;
-                }
-            }
-            else if (_it == InsertType.Macro)
-            {
-                while (Lines > 0)
-                {
-                    _fctb.MacrosManager.ExecuteMacros();
                     Lines--;
                 }
             }

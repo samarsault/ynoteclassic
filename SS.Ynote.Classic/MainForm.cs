@@ -89,7 +89,6 @@ namespace SS.Ynote.Classic
             _mru = new Queue<string>();
             SettingsBase.LoadSettings();
             LoadPlugins();
-            dock.Theme = new VS2012LightTheme();
             InitSettings();
             InitTimer();
             if (filename == null)
@@ -1215,19 +1214,20 @@ namespace SS.Ynote.Classic
         private void emptycolumns_Click(object sender, EventArgs e)
         {
             var emptycols = new UtilDialog(ActiveEditor.tb, InsertType.Column);
-            emptycols.Show();
+            emptycols.ShowDialog(this);
         }
 
         private void emptylines_Click(object sender, EventArgs e)
         {
             var utilDialog = new UtilDialog(ActiveEditor.tb, InsertType.Line);
-            utilDialog.Show();
+            utilDialog.ShowDialog(this);
         }
 
         private void mimultimacro_Click(object sender, EventArgs e)
         {
-            var macrodlg = new UtilDialog(ActiveEditor.tb, InsertType.Macro);
-            macrodlg.Show();
+            if (ActiveEditor == null) return;
+            var macrodlg = new MacroExecDialog(ActiveEditor.tb);
+            macrodlg.ShowDialog(this);
         }
 
         private void commanderMenu_Click(object sender, EventArgs e)

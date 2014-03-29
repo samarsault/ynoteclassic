@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace SS.Ynote.Classic
 {
-    public class RunConfiguration
+    public sealed class RunConfiguration
     {
         public string Name { get; private set; }
 

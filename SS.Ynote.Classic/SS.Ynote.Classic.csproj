@@ -76,9 +76,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
-    <Reference Include="WeifenLuo.WinFormsUI.Docking">
-      <HintPath>..\Dependencies\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Features\Extensibility\IPlugin.cs" />
@@ -206,6 +203,12 @@
     <Compile Include="UI\Controls\WizardTabControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\MacroExecDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\MacroExecDialog.Designer.cs">
+      <DependentUpon>MacroExecDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\SwitchFile.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -295,6 +298,9 @@
     <EmbeddedResource Include="Features\Search\IncrementalSearcher.resx">
       <DependentUpon>IncrementalSearcher.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\MacroExecDialog.resx">
+      <DependentUpon>MacroExecDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\SwitchFile.resx">
       <DependentUpon>SwitchFile.cs</DependentUpon>
     </EmbeddedResource>
@@ -343,6 +349,10 @@
     <None Include="Resources\ynote-favicon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DockPanelSuite\WinFormsUI.csproj">
+      <Project>{c75532c4-765b-418e-b09b-46d36b2abdb1}</Project>
+      <Name>WinFormsUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FastColoredTextBox-master\FastColoredTextBox.csproj">
       <Project>{6dd14a85-ccfc-4774-bd26-0f5772512319}</Project>
       <Name>FastColoredTextBox</Name>
