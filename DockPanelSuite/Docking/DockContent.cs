@@ -19,8 +19,8 @@ namespace WeifenLuo.WinFormsUI.Docking
         //Suggested as a fix by bensty regarding form resize
         private void DockContent_ParentChanged(object Sender, EventArgs e)
         {
-            if (this.Parent != null)
-                this.Font = this.Parent.Font;
+            if (Parent != null)
+                Font = Parent.Font;
         }
 
         private DockContentHandler m_dockHandler = null;
@@ -281,12 +281,12 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         void IDockContent.OnActivated(EventArgs e)
         {
-            this.OnActivated(e);
+            OnActivated(e);
         }
 
         void IDockContent.OnDeactivate(EventArgs e)
         {
-            this.OnDeactivate(e);
+            OnDeactivate(e);
         }
 
         #endregion IDockContent Members

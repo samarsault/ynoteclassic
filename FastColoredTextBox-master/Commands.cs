@@ -658,7 +658,7 @@ namespace FastColoredTextBoxNS
         public MultiRangeCommand(UndoableCommand command)
             : base(command.ts)
         {
-            this.cmd = command;
+            cmd = command;
             range = ts.CurrentTb.Selection.Clone();
         }
 

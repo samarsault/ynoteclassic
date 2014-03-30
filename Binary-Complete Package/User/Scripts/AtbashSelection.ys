@@ -1,7 +1,7 @@
 using FastColoredTextBoxNS;
 using SS.Ynote.Classic.UI;
 
-public static void Run(IYnote ynote)
+static void Main(IYnote ynote)
 {
     // Ynote Script to Encode HTML
     var self = ynote.Panel.ActiveDocument as Editor;

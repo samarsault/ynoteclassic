@@ -44,7 +44,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        protected internal override DockPaneStripBase.Tab CreateTab(IDockContent content)
+        protected internal override Tab CreateTab(IDockContent content)
         {
             return new TabVS2003(content);
         }
@@ -690,7 +690,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 Size sizeText;
                 if (content == DockPane.ActiveContent && DockPane.IsActiveDocumentPane)
                 {
-                    using (Font boldFont = new Font(this.Font, FontStyle.Bold))
+                    using (Font boldFont = new Font(Font, FontStyle.Bold))
                     {
                         sizeText = TextRenderer.MeasureText(g, content.DockHandler.TabText, boldFont, new Size(DocumentTabMaxWidth, height), DocumentTextFormat);
                     }
@@ -857,7 +857,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
                 if (DockPane.IsActiveDocumentPane)
                 {
-                    using (Font boldFont = new Font(this.Font, FontStyle.Bold))
+                    using (Font boldFont = new Font(Font, FontStyle.Bold))
                     {
                         TextRenderer.DrawText(g, tab.Content.DockHandler.TabText, boldFont, rectText, ActiveTextColor, DocumentTextFormat);
                     }
@@ -1042,7 +1042,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         /// <exclude/>
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            int index = HitTest(PointToClient(Control.MousePosition));
+            int index = HitTest(PointToClient(MousePosition));
             string toolTip = string.Empty;
 
             base.OnMouseMove(e);

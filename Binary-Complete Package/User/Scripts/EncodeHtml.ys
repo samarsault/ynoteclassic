@@ -2,7 +2,7 @@
 using System.Web;
 using SS.Ynote.Classic.UI;
 
-static void Run(IYnote ynote)
+static void Main(IYnote ynote)
 {
     var edit = ynote.Panel.ActiveDocument as Editor;
     if(edit.tb.Selection == null)return;

@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking.Win32;
 
 namespace WeifenLuo.WinFormsUI.Docking
 {
@@ -271,12 +272,12 @@ namespace WeifenLuo.WinFormsUI.Docking
                         return;
 
                     NativeMethods.SetWindowPos(Form.Handle, IntPtr.Zero, 0, 0, 0, 0,
-                        Win32.FlagsSetWindowPos.SWP_NOACTIVATE |
-                        Win32.FlagsSetWindowPos.SWP_NOMOVE |
-                        Win32.FlagsSetWindowPos.SWP_NOSIZE |
-                        Win32.FlagsSetWindowPos.SWP_NOZORDER |
-                        Win32.FlagsSetWindowPos.SWP_NOOWNERZORDER |
-                        Win32.FlagsSetWindowPos.SWP_FRAMECHANGED);
+                        FlagsSetWindowPos.SWP_NOACTIVATE |
+                        FlagsSetWindowPos.SWP_NOMOVE |
+                        FlagsSetWindowPos.SWP_NOSIZE |
+                        FlagsSetWindowPos.SWP_NOZORDER |
+                        FlagsSetWindowPos.SWP_NOOWNERZORDER |
+                        FlagsSetWindowPos.SWP_FRAMECHANGED);
                 }
             }
         }
@@ -814,7 +815,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 {
                     if (!Win32Helper.IsRunningOnMono)
                     {
-                        DockPanel.ContentFocusManager.GiveUpFocus(this.Content);
+                        DockPanel.ContentFocusManager.GiveUpFocus(Content);
                     }
                 }
                 else
@@ -1062,7 +1063,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         Rectangle IDockDragSource.BeginDrag(Point ptMouse)
         {
             Size size;
-            DockPane floatPane = this.FloatPane;
+            DockPane floatPane = FloatPane;
             if (DockState == DockState.Float || floatPane == null || floatPane.FloatWindow.NestedPanes.Count != 1)
                 size = DockPanel.DefaultFloatWindowSize;
             else

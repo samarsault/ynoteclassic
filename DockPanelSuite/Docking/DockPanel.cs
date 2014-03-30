@@ -30,7 +30,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         private readonly DockPanelExtender m_extender;
         private readonly DockPaneCollection m_panes;
         private readonly FloatWindowCollection m_floatWindows;
-        private DockPanel.AutoHideWindowControl m_autoHideWindow;
+        private AutoHideWindowControl m_autoHideWindow;
         private DockWindowCollection m_dockWindows;
         private readonly DockContent m_dummyContent;
         private readonly Control m_dummyControl;
@@ -86,7 +86,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 if (m_BackColor != value)
                 {
                     m_BackColor = value;
-                    this.Refresh();
+                    Refresh();
                 }
             }
         }
@@ -855,7 +855,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         protected override void OnParentChanged(EventArgs e)
         {
             SetAutoHideWindowParent();
-            GetMdiClientController().ParentForm = (this.Parent as Form);
+            GetMdiClientController().ParentForm = (Parent as Form);
             base.OnParentChanged(e);
         }
 
@@ -864,7 +864,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             Control parent;
             if (DocumentStyle == DocumentStyle.DockingMdi ||
                 DocumentStyle == DocumentStyle.SystemMdi)
-                parent = this.Parent;
+                parent = Parent;
             else
                 parent = this;
             if (AutoHideWindow.Parent != parent)
@@ -940,12 +940,12 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         private void UpdateWindowRegion()
         {
-            if (this.DocumentStyle == DocumentStyle.DockingMdi)
+            if (DocumentStyle == DocumentStyle.DockingMdi)
                 UpdateWindowRegion_ClipContent();
-            else if (this.DocumentStyle == DocumentStyle.DockingSdi ||
-                this.DocumentStyle == DocumentStyle.DockingWindow)
+            else if (DocumentStyle == DocumentStyle.DockingSdi ||
+                DocumentStyle == DocumentStyle.DockingWindow)
                 UpdateWindowRegion_FullDocumentArea();
-            else if (this.DocumentStyle == DocumentStyle.SystemMdi)
+            else if (DocumentStyle == DocumentStyle.SystemMdi)
                 UpdateWindowRegion_EmptyDocumentArea();
         }
 
@@ -963,7 +963,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         private void UpdateWindowRegion_ClipContent()
         {
             int count = 0;
-            foreach (DockPane pane in this.Panes)
+            foreach (DockPane pane in Panes)
             {
                 if (!pane.Visible || pane.DockState != DockState.Document)
                     continue;
@@ -979,7 +979,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             Rectangle[] rects = new Rectangle[count];
             int i = 0;
-            foreach (DockPane pane in this.Panes)
+            foreach (DockPane pane in Panes)
             {
                 if (!pane.Visible || pane.DockState != DockState.Document)
                     continue;
@@ -1004,7 +1004,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 Region = null;
             else
             {
-                Region region = new Region(new Rectangle(0, 0, this.Width, this.Height));
+                Region region = new Region(new Rectangle(0, 0, Width, Height));
                 foreach (Rectangle rect in m_clipRects)
                     region.Exclude(rect);
                 if (Region != null)

@@ -1,13 +1,10 @@
-// removeduplicateword.ys
 // YnoteScript for removing duplicate words
 using System.Text;
 using System.Collections.Generic;
 using SS.Ynote.Classic.UI;
 
 // Entry Point
-// [Entry Point]
-// #include <base.ys>
-static void Run(IYnote ynote)
+static void Main(IYnote ynote)
 {
    var edit = ynote.Panel.ActiveDocument as Editor;
    if(edit.tb.Selection == null)return;

@@ -11,7 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-using SyntaxHighlighter = SS.Ynote.Classic.Features.Syntax.SyntaxHighlighter;
 
 namespace SS.Ynote.Classic.UI
 {
@@ -29,44 +28,13 @@ namespace SS.Ynote.Classic.UI
         /// </summary>
         public Editor()
         {
-#if DEBUG
-            var initwatch = new Stopwatch();
-            initwatch.Start();
-#endif
             InitializeComponent();
-#if DEBUG
-            initwatch.Stop();
-            Debug.WriteLine("Editor Initialize Component : " + initwatch.ElapsedMilliseconds + " Ms");
-#endif
             InitEvents();
-#if DEBUG
-            var hw = new Stopwatch();
-            hw.Start();
-#endif
             Highlighter = new SyntaxHighlighter();
             YnoteThemeReader.ApplyTheme(SettingsBase.ThemeFile, Highlighter, codebox);
-#if DEBUG
-            hw.Stop();
-            Debug.WriteLine("Editor Highlighting Resources : " + hw.ElapsedMilliseconds + " Ms");
-#endif
-#if DEBUG
-            var watch = new Stopwatch();
-            watch.Start();
-#endif
             InitSettings();
-#if DEBUG
-            watch.Stop();
-            Debug.WriteLine(watch.ElapsedMilliseconds + " Ms to InitSettings()");
-#endif
             if (SyntaxHighlighter.LoadedSyntaxes.Count != 0) return;
-#if DEBUG
-            var highlw = new Stopwatch();
-#endif
             Highlighter.LoadAllSyntaxes();
-#if DEBUG
-            highlw.Stop();
-            Debug.WriteLine(highlw.ElapsedMilliseconds + " Ms for Highlighter.LoadAllSyntaxes");
-#endif
         }
 
         public AutocompleteMenu AutoCompleteMenu { get; private set; }
@@ -100,6 +68,7 @@ namespace SS.Ynote.Classic.UI
             codebox.WordWrapMode = SettingsBase.WordWrapMode;
             codebox.LineInterval = SettingsBase.LineInterval;
             codebox.LeftPadding = SettingsBase.PaddingWidth;
+            codebox.VirtualSpace = SettingsBase.EnableVirtualSpace;
             codebox.Zoom = SettingsBase.Zoom;
             codebox.HotkeysMapping = HotkeysMapping.Parse(File.ReadAllText(SettingsBase.SettingsDir + "User.ynotekeys"));
             if (SettingsBase.ShowDocumentMap)

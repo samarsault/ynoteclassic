@@ -532,7 +532,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         private IDockContent HitTest()
         {
-            Point ptMouse = PointToClient(Control.MousePosition);
+            Point ptMouse = PointToClient(MousePosition);
             return HitTest(ptMouse);
         }
 

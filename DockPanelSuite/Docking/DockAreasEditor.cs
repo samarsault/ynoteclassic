@@ -9,7 +9,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 {
     internal class DockAreasEditor : UITypeEditor
     {
-        private class DockAreasEditorControl : System.Windows.Forms.UserControl
+        private class DockAreasEditorControl : UserControl
         {
             private CheckBox checkBoxFloat;
             private CheckBox checkBoxDockLeft;
@@ -62,31 +62,31 @@ namespace WeifenLuo.WinFormsUI.Docking
                 checkBoxFloat.TextAlign = ContentAlignment.MiddleCenter;
                 checkBoxFloat.FlatStyle = FlatStyle.System;
 
-                checkBoxDockLeft.Appearance = System.Windows.Forms.Appearance.Button;
-                checkBoxDockLeft.Dock = System.Windows.Forms.DockStyle.Left;
+                checkBoxDockLeft.Appearance = Appearance.Button;
+                checkBoxDockLeft.Dock = DockStyle.Left;
                 checkBoxDockLeft.Width = 24;
                 checkBoxDockLeft.FlatStyle = FlatStyle.System;
 
-                checkBoxDockRight.Appearance = System.Windows.Forms.Appearance.Button;
-                checkBoxDockRight.Dock = System.Windows.Forms.DockStyle.Right;
+                checkBoxDockRight.Appearance = Appearance.Button;
+                checkBoxDockRight.Dock = DockStyle.Right;
                 checkBoxDockRight.Width = 24;
                 checkBoxDockRight.FlatStyle = FlatStyle.System;
 
-                checkBoxDockTop.Appearance = System.Windows.Forms.Appearance.Button;
-                checkBoxDockTop.Dock = System.Windows.Forms.DockStyle.Top;
+                checkBoxDockTop.Appearance = Appearance.Button;
+                checkBoxDockTop.Dock = DockStyle.Top;
                 checkBoxDockTop.Height = 24;
                 checkBoxDockTop.FlatStyle = FlatStyle.System;
 
-                checkBoxDockBottom.Appearance = System.Windows.Forms.Appearance.Button;
-                checkBoxDockBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+                checkBoxDockBottom.Appearance = Appearance.Button;
+                checkBoxDockBottom.Dock = DockStyle.Bottom;
                 checkBoxDockBottom.Height = 24;
                 checkBoxDockBottom.FlatStyle = FlatStyle.System;
 
-                checkBoxDockFill.Appearance = System.Windows.Forms.Appearance.Button;
-                checkBoxDockFill.Dock = System.Windows.Forms.DockStyle.Fill;
+                checkBoxDockFill.Appearance = Appearance.Button;
+                checkBoxDockFill.Dock = DockStyle.Fill;
                 checkBoxDockFill.FlatStyle = FlatStyle.System;
 
-                this.Controls.AddRange(new Control[] {
+                Controls.AddRange(new Control[] {
                                                          checkBoxDockFill,
                                                          checkBoxDockBottom,
                                                          checkBoxDockTop,
@@ -94,7 +94,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                                                          checkBoxDockLeft,
                                                          checkBoxFloat});
 
-                Size = new System.Drawing.Size(160, 144);
+                Size = new Size(160, 144);
                 BackColor = SystemColors.Control;
                 ResumeLayout();
             }
@@ -119,7 +119,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private DockAreasEditor.DockAreasEditorControl m_ui = null;
+        private DockAreasEditorControl m_ui = null;
 
         public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
         {
@@ -129,7 +129,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         public override object EditValue(ITypeDescriptorContext context, IServiceProvider sp, object value)
         {
             if (m_ui == null)
-                m_ui = new DockAreasEditor.DockAreasEditorControl();
+                m_ui = new DockAreasEditorControl();
 
             m_ui.SetStates((DockAreas)value);
 

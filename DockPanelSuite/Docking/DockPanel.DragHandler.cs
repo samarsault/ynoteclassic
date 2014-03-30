@@ -1,5 +1,6 @@
 using System.Drawing;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking.Win32;
 
 namespace WeifenLuo.WinFormsUI.Docking
 {
@@ -36,7 +37,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 if (DragControl == null)
                     return false;
 
-                StartMousePosition = Control.MousePosition;
+                StartMousePosition = MousePosition;
 
                 if (!Win32Helper.IsRunningOnMono)
                 {
@@ -67,13 +68,13 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             bool IMessageFilter.PreFilterMessage(ref Message m)
             {
-                if (m.Msg == (int)Win32.Msgs.WM_MOUSEMOVE)
+                if (m.Msg == (int)Msgs.WM_MOUSEMOVE)
                     OnDragging();
-                else if (m.Msg == (int)Win32.Msgs.WM_LBUTTONUP)
+                else if (m.Msg == (int)Msgs.WM_LBUTTONUP)
                     EndDrag(false);
-                else if (m.Msg == (int)Win32.Msgs.WM_CAPTURECHANGED)
+                else if (m.Msg == (int)Msgs.WM_CAPTURECHANGED)
                     EndDrag(true);
-                else if (m.Msg == (int)Win32.Msgs.WM_KEYDOWN && (int)m.WParam == (int)Keys.Escape)
+                else if (m.Msg == (int)Msgs.WM_KEYDOWN && (int)m.WParam == (int)Keys.Escape)
                     EndDrag(true);
 
                 return OnPreFilterMessage(ref m);
@@ -86,7 +87,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             protected sealed override void WndProc(ref Message m)
             {
-                if (m.Msg == (int)Win32.Msgs.WM_CANCELMODE || m.Msg == (int)Win32.Msgs.WM_CAPTURECHANGED)
+                if (m.Msg == (int)Msgs.WM_CANCELMODE || m.Msg == (int)Msgs.WM_CAPTURECHANGED)
                     EndDrag(true);
 
                 base.WndProc(ref m);
@@ -122,7 +123,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             protected sealed override bool OnPreFilterMessage(ref Message m)
             {
-                if ((m.Msg == (int)Win32.Msgs.WM_KEYDOWN || m.Msg == (int)Win32.Msgs.WM_KEYUP) &&
+                if ((m.Msg == (int)Msgs.WM_KEYDOWN || m.Msg == (int)Msgs.WM_KEYUP) &&
                     ((int)m.WParam == (int)Keys.ControlKey || (int)m.WParam == (int)Keys.ShiftKey))
                     OnDragging();
 

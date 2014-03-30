@@ -302,7 +302,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 				if (m_toolTipText != value)
 				{
 					if (m_toolTip == null)
-						m_toolTip = new ToolTip(this.components);
+						m_toolTip = new ToolTip(components);
 					m_toolTipText = value;
 					m_toolTip.SetToolTip(this, value);
 				}
@@ -377,7 +377,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 			base.OnMouseMove(e);
 
 			// Is mouse point inside our client rectangle
-			bool over = this.ClientRectangle.Contains(new Point(e.X, e.Y));
+			bool over = ClientRectangle.Contains(new Point(e.X, e.Y));
 
 			// If entering the button area or leaving the button area...
 			if (over != m_mouseOver)
@@ -440,7 +440,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
 		private void DrawImage(Graphics g)
 		{
-			Image image = this.Enabled ? ImageEnabled : ((ImageDisabled != null) ? ImageDisabled : ImageEnabled);
+			Image image = Enabled ? ImageEnabled : ((ImageDisabled != null) ? ImageDisabled : ImageEnabled);
 			ImageAttributes imageAttr = null;
 
 			if (null == image)
@@ -456,10 +456,10 @@ namespace WeifenLuo.WinFormsUI.Docking
 				ColorMap[] colorMap = new ColorMap[2];
 				colorMap[0] = new ColorMap();
 				colorMap[0].OldColor = Color.White;
-				colorMap[0].NewColor = this.BackColor;
+				colorMap[0].NewColor = BackColor;
 				colorMap[1] = new ColorMap();
 				colorMap[1].OldColor = Color.Black;
-				colorMap[1].NewColor = this.ForeColor;
+				colorMap[1].NewColor = ForeColor;
 				imageAttr.SetRemapTable(colorMap);
 			}
 
@@ -476,7 +476,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 							gMono.DrawImage(image, new Point[3] { new Point(0, 0), new Point(image.Width - 1, 0), new Point(0, image.Height - 1) }, rect, GraphicsUnit.Pixel, imageAttr);
 						}
 					}
-					ControlPaint.DrawImageDisabled(g, bitmapMono, 0, 0, this.BackColor);
+					ControlPaint.DrawImageDisabled(g, bitmapMono, 0, 0, BackColor);
 				}
 			}
 			else
@@ -569,7 +569,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 			ButtonBorderStyle bs;
 
 			// Decide on the type of border to draw around image
-			if (!this.Enabled)
+			if (!Enabled)
 				bs = IsPopup ? ButtonBorderStyle.Outset : ButtonBorderStyle.Solid;
 			else if (m_mouseOver && m_mouseCapture)
 				bs = ButtonBorderStyle.Inset;
@@ -582,20 +582,20 @@ namespace WeifenLuo.WinFormsUI.Docking
 			Color colorRightBottom;
 			if (bs == ButtonBorderStyle.Solid)
 			{
-				colorLeftTop = this.BackColor;
-				colorRightBottom = this.BackColor;
+				colorLeftTop = BackColor;
+				colorRightBottom = BackColor;
 			}
 			else if (bs == ButtonBorderStyle.Outset)
 			{
-				colorLeftTop = m_borderColor.IsEmpty ? this.BackColor : m_borderColor;
-				colorRightBottom = this.BackColor;
+				colorLeftTop = m_borderColor.IsEmpty ? BackColor : m_borderColor;
+				colorRightBottom = BackColor;
 			}
 			else
 			{
-				colorLeftTop = this.BackColor;
-				colorRightBottom = m_borderColor.IsEmpty ? this.BackColor : m_borderColor;
+				colorLeftTop = BackColor;
+				colorRightBottom = m_borderColor.IsEmpty ? BackColor : m_borderColor;
 			}
-			ControlPaint.DrawBorder(g, this.ClientRectangle,
+			ControlPaint.DrawBorder(g, ClientRectangle,
 				colorLeftTop, m_borderWidth, bs,
 				colorLeftTop, m_borderWidth, bs,
 				colorRightBottom, m_borderWidth, bs,

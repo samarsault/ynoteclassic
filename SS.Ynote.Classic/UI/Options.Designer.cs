@@ -61,6 +61,7 @@ namespace SS.Ynote.Classic.UI
             this.tablocation = new System.Windows.Forms.ComboBox();
             this.GeneralPage = new System.Windows.Forms.TabPage();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.cbBrackets = new System.Windows.Forms.CheckBox();
             this.cbruler = new System.Windows.Forms.CheckBox();
             this.virtualspace = new System.Windows.Forms.CheckBox();
             this.highlightfoliding = new System.Windows.Forms.CheckBox();
@@ -103,7 +104,7 @@ namespace SS.Ynote.Classic.UI
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.cbBrackets = new System.Windows.Forms.CheckBox();
+            this.btnScriptCache = new System.Windows.Forms.Button();
             this.tabcontrol.SuspendLayout();
             this.tabsettingpage.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -317,6 +318,19 @@ namespace SS.Ynote.Classic.UI
             this.groupBox7.TabIndex = 3;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Text Editor";
+            // 
+            // cbBrackets
+            // 
+            this.cbBrackets.AutoSize = true;
+            this.cbBrackets.Checked = true;
+            this.cbBrackets.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbBrackets.Location = new System.Drawing.Point(193, 101);
+            this.cbBrackets.Name = "cbBrackets";
+            this.cbBrackets.Size = new System.Drawing.Size(137, 17);
+            this.cbBrackets.TabIndex = 21;
+            this.cbBrackets.Text = "AutoComplete Brackets";
+            this.cbBrackets.UseVisualStyleBackColor = true;
+            this.cbBrackets.CheckedChanged += new System.EventHandler(this.cbBrackets_CheckedChanged);
             // 
             // cbruler
             // 
@@ -647,6 +661,7 @@ namespace SS.Ynote.Classic.UI
             // 
             // groupBox14
             // 
+            this.groupBox14.Controls.Add(this.btnScriptCache);
             this.groupBox14.Controls.Add(this.button6);
             this.groupBox14.Controls.Add(this.button5);
             this.groupBox14.Controls.Add(this.button3);
@@ -659,7 +674,7 @@ namespace SS.Ynote.Classic.UI
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(110, 95);
+            this.button6.Location = new System.Drawing.Point(203, 95);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(185, 50);
             this.button6.TabIndex = 3;
@@ -762,18 +777,15 @@ namespace SS.Ynote.Classic.UI
             this.checkBox5.Text = "Enable Plugin Loading";
             this.checkBox5.UseVisualStyleBackColor = true;
             // 
-            // cbBrackets
+            // btnScriptCache
             // 
-            this.cbBrackets.AutoSize = true;
-            this.cbBrackets.Checked = true;
-            this.cbBrackets.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbBrackets.Location = new System.Drawing.Point(193, 101);
-            this.cbBrackets.Name = "cbBrackets";
-            this.cbBrackets.Size = new System.Drawing.Size(137, 17);
-            this.cbBrackets.TabIndex = 21;
-            this.cbBrackets.Text = "AutoComplete Brackets";
-            this.cbBrackets.UseVisualStyleBackColor = true;
-            this.cbBrackets.CheckedChanged += new System.EventHandler(this.cbBrackets_CheckedChanged);
+            this.btnScriptCache.Location = new System.Drawing.Point(6, 95);
+            this.btnScriptCache.Name = "btnScriptCache";
+            this.btnScriptCache.Size = new System.Drawing.Size(185, 50);
+            this.btnScriptCache.TabIndex = 4;
+            this.btnScriptCache.Text = "Clear Scripts Cache";
+            this.btnScriptCache.UseVisualStyleBackColor = true;
+            this.btnScriptCache.Click += new System.EventHandler(this.btnScriptCache_Click);
             // 
             // Options
             // 
@@ -884,5 +896,6 @@ namespace SS.Ynote.Classic.UI
         private System.Windows.Forms.TreeNode treeNode11;
         private System.Windows.Forms.CheckBox cbruler;
         private System.Windows.Forms.CheckBox cbBrackets;
+        private System.Windows.Forms.Button btnScriptCache;
     }
 }

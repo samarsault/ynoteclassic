@@ -28,7 +28,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 get { return m_dockPaneCaption; }
             }
 
-            public bool IsAutoHide
+            private bool IsAutoHide
             {
                 get { return DockPaneCaption.DockPane.IsAutoHide; }
             }
@@ -468,7 +468,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         private void Options_Click(object sender, EventArgs e)
         {
-            ShowTabPageContextMenu(PointToClient(Control.MousePosition));
+            ShowTabPageContextMenu(PointToClient(MousePosition));
         }
 
         protected override void OnRightToLeftChanged(EventArgs e)

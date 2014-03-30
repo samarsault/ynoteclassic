@@ -103,7 +103,7 @@ namespace FastColoredTextBoxNS
         {
             if (keyData == Keys.Escape)
             {
-                this.Close();
+                Close();
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
@@ -116,7 +116,7 @@ namespace FastColoredTextBoxNS
                 e.Cancel = true;
                 Hide();
             }
-            this.tb.Focus();
+            tb.Focus();
         }
 
         private void btReplace_Click(object sender, EventArgs e)

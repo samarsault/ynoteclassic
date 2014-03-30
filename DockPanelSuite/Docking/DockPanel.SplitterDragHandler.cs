@@ -54,10 +54,10 @@ namespace WeifenLuo.WinFormsUI.Docking
             {
             }
 
-            public new ISplitterDragSource DragSource
+            private new ISplitterDragSource DragSource
             {
                 get { return base.DragSource as ISplitterDragSource; }
-                private set { base.DragSource = value; }
+                set { base.DragSource = value; }
             }
 
             private SplitterOutline m_outline;
@@ -92,7 +92,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             protected override void OnDragging()
             {
-                Outline.Show(GetSplitterOutlineBounds(Control.MousePosition));
+                Outline.Show(GetSplitterOutlineBounds(MousePosition));
             }
 
             protected override void OnEndDrag(bool abort)
@@ -102,7 +102,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 Outline.Close();
 
                 if (!abort)
-                    DragSource.MoveSplitter(GetMovingOffset(Control.MousePosition));
+                    DragSource.MoveSplitter(GetMovingOffset(MousePosition));
 
                 DragSource.EndDrag();
                 DockPanel.ResumeLayout(true, true);

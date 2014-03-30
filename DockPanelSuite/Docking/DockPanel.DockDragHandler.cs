@@ -264,7 +264,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             public DockStyle HitTest(Point pt)
             {
-                return this.Visible && ClientRectangle.Contains(PointToClient(pt)) ? DockStyle : DockStyle.None;
+                return Visible && ClientRectangle.Contains(PointToClient(pt)) ? DockStyle : DockStyle.None;
             }
         }
 
@@ -699,7 +699,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
                 public void TestDrop()
                 {
-                    Point pt = Control.MousePosition;
+                    Point pt = MousePosition;
                     DockPane = DockHelper.PaneAtPoint(pt, DockPanel);
 
                     if (TestDrop(PanelLeft, pt) != DockStyle.None)
@@ -812,35 +812,35 @@ namespace WeifenLuo.WinFormsUI.Docking
             {
                 Outline.FlagTestDrop = false;
 
-                Indicator.FullPanelEdge = ((Control.ModifierKeys & Keys.Shift) != 0);
+                Indicator.FullPanelEdge = ((ModifierKeys & Keys.Shift) != 0);
 
-                if ((Control.ModifierKeys & Keys.Control) == 0)
+                if ((ModifierKeys & Keys.Control) == 0)
                 {
                     Indicator.TestDrop();
 
                     if (!Outline.FlagTestDrop)
                     {
-                        DockPane pane = DockHelper.PaneAtPoint(Control.MousePosition, DockPanel);
+                        DockPane pane = DockHelper.PaneAtPoint(MousePosition, DockPanel);
                         if (pane != null && DragSource.IsDockStateValid(pane.DockState))
                             pane.TestDrop(DragSource, Outline);
                     }
 
                     if (!Outline.FlagTestDrop && DragSource.IsDockStateValid(DockState.Float))
                     {
-                        FloatWindow floatWindow = DockHelper.FloatWindowAtPoint(Control.MousePosition, DockPanel);
+                        FloatWindow floatWindow = DockHelper.FloatWindowAtPoint(MousePosition, DockPanel);
                         if (floatWindow != null)
                             floatWindow.TestDrop(DragSource, Outline);
                     }
                 }
                 else
-                    Indicator.DockPane = DockHelper.PaneAtPoint(Control.MousePosition, DockPanel);
+                    Indicator.DockPane = DockHelper.PaneAtPoint(MousePosition, DockPanel);
 
                 if (!Outline.FlagTestDrop)
                 {
                     if (DragSource.IsDockStateValid(DockState.Float))
                     {
                         Rectangle rect = FloatOutlineBounds;
-                        rect.Offset(Control.MousePosition.X - StartMousePosition.X, Control.MousePosition.Y - StartMousePosition.Y);
+                        rect.Offset(MousePosition.X - StartMousePosition.X, MousePosition.Y - StartMousePosition.Y);
                         Outline.Show(rect);
                     }
                 }

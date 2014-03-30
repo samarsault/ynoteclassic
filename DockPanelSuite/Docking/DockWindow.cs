@@ -160,7 +160,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             {
                 Rectangle rectLimit = DockPanel.DockArea;
                 Point location;
-                if ((Control.ModifierKeys & Keys.Shift) == 0)
+                if ((ModifierKeys & Keys.Shift) == 0)
                     location = Location;
                 else
                     location = DockPanel.DockArea.Location;
@@ -170,7 +170,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     rectLimit.X += MeasurePane.MinSize;
                     rectLimit.Width -= 2 * MeasurePane.MinSize;
                     rectLimit.Y = location.Y;
-                    if ((Control.ModifierKeys & Keys.Shift) == 0)
+                    if ((ModifierKeys & Keys.Shift) == 0)
                         rectLimit.Height = Height;
                 }
                 else
@@ -178,7 +178,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     rectLimit.Y += MeasurePane.MinSize;
                     rectLimit.Height -= 2 * MeasurePane.MinSize;
                     rectLimit.X = location.X;
-                    if ((Control.ModifierKeys & Keys.Shift) == 0)
+                    if ((ModifierKeys & Keys.Shift) == 0)
                         rectLimit.Width = Width;
                 }
 
@@ -188,7 +188,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         void ISplitterDragSource.MoveSplitter(int offset)
         {
-            if ((Control.ModifierKeys & Keys.Shift) != 0)
+            if ((ModifierKeys & Keys.Shift) != 0)
                 SendToBack();
 
             Rectangle rectDockArea = DockPanel.DockArea;

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking.Win32;
 
 namespace WeifenLuo.WinFormsUI.Docking
 {
@@ -56,7 +57,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 private IntPtr m_hHook = IntPtr.Zero;
 
                 private NativeMethods.HookProc m_filterFunc = null;
-                private Win32.HookType m_hookType;
+                private HookType m_hookType;
 
                 // Event delegate
                 public delegate void HookEventHandler(object sender, HookEventArgs e);
@@ -70,10 +71,10 @@ namespace WeifenLuo.WinFormsUI.Docking
                         HookInvoked(this, e);
                 }
 
-                public LocalWindowsHook(Win32.HookType hook)
+                public LocalWindowsHook(HookType hook)
                 {
                     m_hookType = hook;
-                    m_filterFunc = new NativeMethods.HookProc(this.CoreHookProc);
+                    m_filterFunc = new NativeMethods.HookProc(CoreHookProc);
                 }
 
                 // Default filter function
@@ -146,7 +147,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 // Ensure the windows hook has been created for this thread
                 if (sm_localWindowsHook == null)
                 {
-                    sm_localWindowsHook = new LocalWindowsHook(Win32.HookType.WH_CALLWNDPROCRET);
+                    sm_localWindowsHook = new LocalWindowsHook(HookType.WH_CALLWNDPROCRET);
                     sm_localWindowsHook.Install();
                 }
 
@@ -314,7 +315,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             private static bool ContentContains(IDockContent content, IntPtr hWnd)
             {
-                Control control = Control.FromChildHandle(hWnd);
+                Control control = FromChildHandle(hWnd);
                 for (Control parent = control; parent != null; parent = parent.Parent)
                     if (parent == content.DockHandler.Form)
                         return true;
@@ -360,22 +361,22 @@ namespace WeifenLuo.WinFormsUI.Docking
             // Windows hook event handler
             private void HookEventHandler(object sender, HookEventArgs e)
             {
-                Win32.Msgs msg = (Win32.Msgs)Marshal.ReadInt32(e.lParam, IntPtr.Size * 3);
+                Msgs msg = (Msgs)Marshal.ReadInt32(e.lParam, IntPtr.Size * 3);
 
-                if (msg == Win32.Msgs.WM_KILLFOCUS)
+                if (msg == Msgs.WM_KILLFOCUS)
                 {
                     IntPtr wParam = Marshal.ReadIntPtr(e.lParam, IntPtr.Size * 2);
                     DockPane pane = GetPaneFromHandle(wParam);
                     if (pane == null)
                         RefreshActiveWindow();
                 }
-                else if (msg == Win32.Msgs.WM_SETFOCUS)
+                else if (msg == Msgs.WM_SETFOCUS)
                     RefreshActiveWindow();
             }
 
             private DockPane GetPaneFromHandle(IntPtr hWnd)
             {
-                Control control = Control.FromChildHandle(hWnd);
+                Control control = FromChildHandle(hWnd);
 
                 IDockContent content = null;
                 DockPane pane = null;

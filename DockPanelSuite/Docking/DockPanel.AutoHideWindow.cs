@@ -458,8 +458,8 @@ namespace WeifenLuo.WinFormsUI.Docking
                 }
 
                 DockPane pane = ActivePane;
-                Point ptMouseInAutoHideWindow = PointToClient(Control.MousePosition);
-                Point ptMouseInDockPanel = DockPanel.PointToClient(Control.MousePosition);
+                Point ptMouseInAutoHideWindow = PointToClient(MousePosition);
+                Point ptMouseInDockPanel = DockPanel.PointToClient(MousePosition);
 
                 Rectangle rectTabStrip = DockPanel.GetTabStripRectangle(pane.DockState);
 

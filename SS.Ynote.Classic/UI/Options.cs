@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using SS.Ynote.Classic.Features.Syntax;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace SS.Ynote.Classic.UI
@@ -198,44 +199,47 @@ namespace SS.Ynote.Classic.UI
             Process.Start(SettingsBase.SettingsDir + "Settings.ini");
         }
 
-        private static IDictionary<Language, string[]> BuildReverseDictionary()
+        private static IDictionary<string, string[]> BuildReverseDictionary()
         {
-            var dic = new Dictionary<Language, string[]>();
+            var dic = new Dictionary<string, string[]>();
             IConfigSource source = new IniConfigSource(SettingsBase.SettingsDir + @"Extensions.ini");
-            dic.Add(Language.CSharp, source.Configs["Extensions"].Get("CSharp").Split('|'));
-            dic.Add(Language.VB, source.Configs["Extensions"].Get("VB").Split('|'));
-            dic.Add(Language.Javascript, source.Configs["Extensions"].Get("Javascript").Split('|'));
-            dic.Add(Language.Java, source.Configs["Extensions"].Get("Java").Split('|'));
-            dic.Add(Language.HTML, source.Configs["Extensions"].Get("HTML").Split('|'));
-            dic.Add(Language.CSS, source.Configs["Extensions"].Get("CSS").Split('|'));
-            dic.Add(Language.CPP, source.Configs["Extensions"].Get("CPP").Split('|'));
-            dic.Add(Language.PHP, source.Configs["Extensions"].Get("PHP").Split('|'));
-            dic.Add(Language.Lua, source.Configs["Extensions"].Get("Lua").Split('|'));
-            dic.Add(Language.Ruby, source.Configs["Extensions"].Get("Ruby").Split('|'));
-            dic.Add(Language.Python, source.Configs["Extensions"].Get("Python").Split('|'));
-            dic.Add(Language.Pascal, source.Configs["Extensions"].Get("Pascal").Split('|'));
-            dic.Add(Language.Lisp, source.Configs["Extensions"].Get("Lisp").Split('|'));
-            dic.Add(Language.Batch, source.Configs["Extensions"].Get("Batch").Split('|'));
-            dic.Add(Language.C, source.Configs["Extensions"].Get("C").Split('|'));
-            dic.Add(Language.Xml, source.Configs["Extensions"].Get("Xml").Split('|'));
-            dic.Add(Language.ASP, source.Configs["Extensions"].Get("ASP").Split('|'));
-            dic.Add(Language.Actionscript, source.Configs["Extensions"].Get("Actionscript").Split('|'));
-            dic.Add(Language.Assembly, source.Configs["Extensions"].Get("Assembly").Split('|'));
-            dic.Add(Language.Antlr, source.Configs["Extensions"].Get("Antlr").Split('|'));
-            dic.Add(Language.Diff, source.Configs["Extensions"].Get("Diff").Split('|'));
-            dic.Add(Language.D, source.Configs["Extensions"].Get("D").Split('|'));
-            dic.Add(Language.FSharp, source.Configs["Extensions"].Get("FSharp").Split('|'));
-            dic.Add(Language.JSON, source.Configs["Extensions"].Get("JSON").Split('|'));
-            dic.Add(Language.Makefile, source.Configs["Extensions"].Get("MakeFile").Split('|'));
-            dic.Add(Language.Objective_C, source.Configs["Extensions"].Get("ObjectiveC").Split('|'));
-            dic.Add(Language.Perl, source.Configs["Extensions"].Get("Perl").Split('|'));
-            dic.Add(Language.QBasic, source.Configs["Extensions"].Get("QBasic").Split('|'));
-            dic.Add(Language.SQL, source.Configs["Extensions"].Get("SQL").Split('|'));
-            dic.Add(Language.Shell, source.Configs["Extensions"].Get("Shell").Split('|'));
-            dic.Add(Language.Scala, source.Configs["Extensions"].Get("Scala").Split('|'));
-            dic.Add(Language.Scheme, source.Configs["Extensions"].Get("Scheme").Split('|'));
-            dic.Add(Language.INI, source.Configs["Extensions"].Get("INI").Split('|'));
-            dic.Add(Language.Yaml, source.Configs["Extensions"].Get("Yaml").Split('|'));
+              dic.Add("Text", new[]{".txt"});
+              dic.Add("CSharp", source.Configs["Extensions"].Get("CSharp").Split('|'));
+              dic.Add("VB", source.Configs["Extensions"].Get("VB").Split('|'));
+              dic.Add("Javascript", source.Configs["Extensions"].Get("Javascript").Split('|'));
+              dic.Add("Java", source.Configs["Extensions"].Get("Java").Split('|'));
+              dic.Add("HTML", source.Configs["Extensions"].Get("HTML").Split('|'));
+              dic.Add("CSS", source.Configs["Extensions"].Get("CSS").Split('|'));
+              dic.Add("CPP", source.Configs["Extensions"].Get("CPP").Split('|'));
+              dic.Add("PHP", source.Configs["Extensions"].Get("PHP").Split('|'));
+              dic.Add("Lua", source.Configs["Extensions"].Get("Lua").Split('|'));
+              dic.Add("Ruby", source.Configs["Extensions"].Get("Ruby").Split('|'));
+              dic.Add("Python", source.Configs["Extensions"].Get("Python").Split('|'));
+              dic.Add("Pascal", source.Configs["Extensions"].Get("Pascal").Split('|'));
+              dic.Add("Lisp", source.Configs["Extensions"].Get("Lisp").Split('|'));
+              dic.Add("Batch", source.Configs["Extensions"].Get("Batch").Split('|'));
+              dic.Add("C", source.Configs["Extensions"].Get("C").Split('|'));
+              dic.Add("Xml", source.Configs["Extensions"].Get("Xml").Split('|'));
+              dic.Add("ASP", source.Configs["Extensions"].Get("ASP").Split('|'));
+              dic.Add("Actionscript", source.Configs["Extensions"].Get("Actionscript").Split('|'));
+              dic.Add("Assembly", source.Configs["Extensions"].Get("Assembly").Split('|'));
+              dic.Add("Antlr", source.Configs["Extensions"].Get("Antlr").Split('|'));
+              dic.Add("Diff", source.Configs["Extensions"].Get("Diff").Split('|'));
+              dic.Add("D", source.Configs["Extensions"].Get("D").Split('|'));
+              dic.Add("FSharp", source.Configs["Extensions"].Get("FSharp").Split('|'));
+              dic.Add("JSON", source.Configs["Extensions"].Get("JSON").Split('|'));
+              dic.Add("Makefile", source.Configs["Extensions"].Get("MakeFile").Split('|'));
+              dic.Add("Objective_C", source.Configs["Extensions"].Get("ObjectiveC").Split('|'));
+              dic.Add("Perl", source.Configs["Extensions"].Get("Perl").Split('|'));
+              dic.Add("QBasic", source.Configs["Extensions"].Get("QBasic").Split('|'));
+              dic.Add("SQL", source.Configs["Extensions"].Get("SQL").Split('|'));
+              dic.Add("Shell", source.Configs["Extensions"].Get("Shell").Split('|'));
+              dic.Add("Scala", source.Configs["Extensions"].Get("Scala").Split('|'));
+              dic.Add("Scheme", source.Configs["Extensions"].Get("Scheme").Split('|'));
+              dic.Add("INI", source.Configs["Extensions"].Get("INI").Split('|'));
+              dic.Add("Yaml", source.Configs["Extensions"].Get("Yaml").Split('|'));
+            foreach(var syntax in SyntaxHighlighter.LoadedSyntaxes)
+                dic.Add(Path.GetFileNameWithoutExtension(syntax.SysPath), syntax.Extensions);
             return dic;
         }
 
@@ -243,23 +247,42 @@ namespace SS.Ynote.Classic.UI
         {
             foreach (var language in Enum.GetValues(typeof(Language)))
                 lstlang.Items.Add(language);
+            foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes)
+                lstlang.Items.Add(Path.GetFileNameWithoutExtension(syntax.SysPath));
             lstlang.SelectedIndexChanged += lstlang_SelectedIndexChanged;
+            lstlang.SelectedIndex = 0;
         }
 
         private void lstlang_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var lang = lstlang.SelectedItem.ToString().ToEnum<Language>();
+            var lang = lstlang.SelectedItem.ToString();
             var dic = BuildReverseDictionary();
             lstextensions.Items.Clear();
             string[] items;
             dic.TryGetValue(lang, out items);
-            if (items != null)
-                foreach (var item in items)
-                    lstextensions.Items.Add(item);
+            if (items == null) return;
+            foreach (var item in items)
+                lstextensions.Items.Add(item);
         }
 
         private void cbBrackets_CheckedChanged(object sender, EventArgs e)
         {
+            SettingsBase.AutoCompleteBrackets = cbBrackets.Checked;
+        }
+
+        private void btnScriptCache_Click(object sender, EventArgs e)
+        {
+            try
+            { 
+                foreach(var file in Directory.GetFiles(SettingsBase.SettingsDir + @"Scripts\", "*.cache"))
+                File.Delete(file);
+            MessageBox.Show("Script Cache Successfully Cleared !", "Ynote Classic", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("There was an Error Clearing the Cache\nMessage : " + ex.Message, "Ynote Classic", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }

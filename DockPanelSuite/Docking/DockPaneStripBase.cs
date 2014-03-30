@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Permissions;
 using System.Diagnostics.CodeAnalysis;
+using WeifenLuo.WinFormsUI.Docking.Win32;
 
 namespace WeifenLuo.WinFormsUI.Docking
 {
@@ -165,7 +166,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         protected int HitTest()
         {
-            return HitTest(PointToClient(Control.MousePosition));
+            return HitTest(PointToClient(MousePosition));
         }
 
         protected internal abstract int HitTest(Point point);
@@ -239,7 +240,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         protected override void WndProc(ref Message m)
         {
-            if (m.Msg == (int)Win32.Msgs.WM_LBUTTONDBLCLK)
+            if (m.Msg == (int)Msgs.WM_LBUTTONDBLCLK)
             {
                 base.WndProc(ref m);
 

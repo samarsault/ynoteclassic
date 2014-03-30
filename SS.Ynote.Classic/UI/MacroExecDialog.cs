@@ -15,7 +15,7 @@ namespace SS.Ynote.Classic.UI
             foreach (var item in Directory.GetFiles(SettingsBase.SettingsDir + @"\Macros", "*.ymc"))
                 cmbMacros.Items.Add(Path.GetFileNameWithoutExtension(item));
             cmbMacros.SelectedIndex = 0;
-            this.fctb = tb;
+            fctb = tb;
         }
 
         private void btnExec_Click(object sender, EventArgs e)

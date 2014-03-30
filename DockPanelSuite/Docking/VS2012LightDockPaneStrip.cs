@@ -1247,7 +1247,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         private Rectangle GetCloseButtonRect(Rectangle rectTab)
         {
-            if (Appearance != Docking.DockPane.AppearanceStyle.Document)
+            if (Appearance != DockPane.AppearanceStyle.Document)
             {
                 return Rectangle.Empty;
             }

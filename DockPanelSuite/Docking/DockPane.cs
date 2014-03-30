@@ -1,9 +1,11 @@
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Security.Permissions;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking.Win32;
 
 namespace WeifenLuo.WinFormsUI.Docking
 {
@@ -115,7 +117,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             SetDockState(dockState);
             if (show)
                 content.DockHandler.Pane = this;
-            else if (this.IsFloat)
+            else if (IsFloat)
                 content.DockHandler.FloatPane = this;
             else
                 content.DockHandler.PanelPane = this;
@@ -730,7 +732,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             if (!dragSource.CanDockTo(this))
                 return;
 
-            Point ptMouse = Control.MousePosition;
+            Point ptMouse = MousePosition;
 
             HitTestResult hitTestResult = GetHitTest(ptMouse);
             if (hitTestResult.HitArea == HitTestArea.Caption)
@@ -887,7 +889,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             if (value == DockState.Unknown || value == DockState.Hidden)
                 throw new InvalidOperationException(Strings.DockPane_SetDockState_InvalidState);
 
-            if ((value == DockState.Float) == this.IsFloat)
+            if ((value == DockState.Float) == IsFloat)
             {
                 InternalSetDockState(value);
                 return this;
@@ -965,7 +967,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         private void ResumeRefreshStateChange()
         {
             m_countRefreshStateChange--;
-            System.Diagnostics.Debug.Assert(m_countRefreshStateChange >= 0);
+            Debug.Assert(m_countRefreshStateChange >= 0);
             DockPanel.ResumeLayout(true, true);
         }
 
@@ -1068,7 +1070,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             if (container == null)
                 throw new InvalidOperationException(Strings.DockPane_DockTo_NullContainer);
 
-            if (container.IsFloat == this.IsFloat)
+            if (container.IsFloat == IsFloat)
             {
                 InternalAddToDockList(container, previousPane, alignment, proportion);
                 return this;
@@ -1219,7 +1221,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         protected override void WndProc(ref Message m)
         {
-            if (m.Msg == (int)Win32.Msgs.WM_MOUSEACTIVATE)
+            if (m.Msg == (int)Msgs.WM_MOUSEACTIVATE)
                 Activate();
 
             base.WndProc(ref m);

@@ -12,23 +12,28 @@ namespace FastColoredTextBoxNS
     {
         private const long _defaultHeuristicSampleSize = 0x10000; //completely arbitrary - inappropriate for high numbers of files / high speed requirements
 
-        public static Encoding DetectTextFileEncoding(string InputFilename)
+        /// <summary>
+        /// Detects the Encoding of a textfile
+        /// </summary>
+        /// <param name="inputFilename"></param>
+        /// <returns></returns>
+        public static Encoding DetectTextFileEncoding(string inputFilename)
         {
-            using (FileStream textfileStream = File.OpenRead(InputFilename))
+            using (FileStream textfileStream = File.OpenRead(inputFilename))
             {
                 return DetectTextFileEncoding(textfileStream, _defaultHeuristicSampleSize);
             }
         }
 
-        public static Encoding DetectTextFileEncoding(FileStream InputFileStream, long HeuristicSampleSize)
+        private static Encoding DetectTextFileEncoding(FileStream InputFileStream, long HeuristicSampleSize)
         {
             bool uselessBool = false;
             return DetectTextFileEncoding(InputFileStream, _defaultHeuristicSampleSize, out uselessBool);
         }
 
-        public static Encoding DetectTextFileEncoding(FileStream InputFileStream, long HeuristicSampleSize, out bool HasBOM)
+        private static Encoding DetectTextFileEncoding(FileStream InputFileStream, long HeuristicSampleSize, out bool HasBOM)
         {
-            Encoding encodingFound = null;
+            Encoding encodingFound;
 
             long originalPos = InputFileStream.Position;
 
@@ -49,7 +54,7 @@ namespace FastColoredTextBoxNS
 
             //BOM Detection failed, going for heuristics now.
             //  create sample byte array and populate it
-            byte[] sampleBytes = new byte[HeuristicSampleSize > InputFileStream.Length ? InputFileStream.Length : HeuristicSampleSize];
+            var sampleBytes = new byte[HeuristicSampleSize > InputFileStream.Length ? InputFileStream.Length : HeuristicSampleSize];
             Array.Copy(bomBytes, sampleBytes, bomBytes.Length);
             if (InputFileStream.Length > bomBytes.Length)
                 InputFileStream.Read(sampleBytes, bomBytes.Length, sampleBytes.Length - bomBytes.Length);
@@ -62,7 +67,7 @@ namespace FastColoredTextBoxNS
             return encodingFound;
         }
 
-        public static Encoding DetectBOMBytes(byte[] BOMBytes)
+        private static Encoding DetectBOMBytes(byte[] BOMBytes)
         {
             if (BOMBytes.Length < 2)
                 return null;
@@ -102,7 +107,7 @@ namespace FastColoredTextBoxNS
             return null;
         }
 
-        public static Encoding DetectUnicodeInByteSampleByHeuristics(byte[] SampleBytes)
+        private static Encoding DetectUnicodeInByteSampleByHeuristics(byte[] sampleBytes)
         {
             long oddBinaryNullsInSample = 0;
             long evenBinaryNullsInSample = 0;
@@ -117,10 +122,10 @@ namespace FastColoredTextBoxNS
             long currentPos = 0;
             int skipUTF8Bytes = 0;
 
-            while (currentPos < SampleBytes.Length)
+            while (currentPos < sampleBytes.Length)
             {
                 //binary null distribution
-                if (SampleBytes[currentPos] == 0)
+                if (sampleBytes[currentPos] == 0)
                 {
                     if (currentPos % 2 == 0)
                         evenBinaryNullsInSample++;
@@ -129,13 +134,13 @@ namespace FastColoredTextBoxNS
                 }
 
                 //likely US-ASCII characters
-                if (IsCommonUSASCIIByte(SampleBytes[currentPos]))
+                if (IsCommonUSASCIIByte(sampleBytes[currentPos]))
                     likelyUSASCIIBytesInSample++;
 
                 //suspicious sequences (look like UTF-8)
                 if (skipUTF8Bytes == 0)
                 {
-                    int lengthFound = DetectSuspiciousUTF8SequenceLength(SampleBytes, currentPos);
+                    int lengthFound = DetectSuspiciousUTF8SequenceLength(sampleBytes, currentPos);
 
                     if (lengthFound > 0)
                     {
@@ -158,8 +163,8 @@ namespace FastColoredTextBoxNS
             //  The thresholds here used (less than 20% nulls where you expect non-nulls, and more than
             //  60% nulls where you do expect nulls) are completely arbitrary.
 
-            if (((evenBinaryNullsInSample * 2.0) / SampleBytes.Length) < 0.2
-                && ((oddBinaryNullsInSample * 2.0) / SampleBytes.Length) > 0.6
+            if (((evenBinaryNullsInSample * 2.0) / sampleBytes.Length) < 0.2
+                && ((oddBinaryNullsInSample * 2.0) / sampleBytes.Length) > 0.6
                 )
                 return Encoding.Unicode;
 
@@ -169,8 +174,8 @@ namespace FastColoredTextBoxNS
             //  The thresholds here used (less than 20% nulls where you expect non-nulls, and more than
             //  60% nulls where you do expect nulls) are completely arbitrary.
 
-            if (((oddBinaryNullsInSample * 2.0) / SampleBytes.Length) < 0.2
-                && ((evenBinaryNullsInSample * 2.0) / SampleBytes.Length) > 0.6
+            if (((oddBinaryNullsInSample * 2.0) / sampleBytes.Length) < 0.2
+                && ((evenBinaryNullsInSample * 2.0) / sampleBytes.Length) > 0.6
                 )
                 return Encoding.BigEndianUnicode;
 
@@ -178,8 +183,8 @@ namespace FastColoredTextBoxNS
             //  using regexp, in his w3c.org unicode FAQ entry:
             //  http://www.w3.org/International/questions/qa-forms-utf-8
             //  adapted here for C#.
-            string potentiallyMangledString = Encoding.ASCII.GetString(SampleBytes);
-            Regex UTF8Validator = new Regex(@"\A("
+            string potentiallyMangledString = Encoding.ASCII.GetString(sampleBytes);
+            var utf8Validator = new Regex(@"\A("
                 + @"[\x09\x0A\x0D\x20-\x7E]"
                 + @"|[\xC2-\xDF][\x80-\xBF]"
                 + @"|\xE0[\xA0-\xBF][\x80-\xBF]"
@@ -189,7 +194,7 @@ namespace FastColoredTextBoxNS
                 + @"|[\xF1-\xF3][\x80-\xBF]{3}"
                 + @"|\xF4[\x80-\x8F][\x80-\xBF]{2}"
                 + @")*\z");
-            if (UTF8Validator.IsMatch(potentiallyMangledString))
+            if (utf8Validator.IsMatch(potentiallyMangledString))
             {
                 //Unfortunately, just the fact that it CAN be UTF-8 doesn't tell you much about probabilities.
                 //If all the characters are in the 0-127 range, no harm done, most western charsets are same as UTF-8 in these ranges.
@@ -211,12 +216,12 @@ namespace FastColoredTextBoxNS
                 //   approx 40%, so the chances of hitting this threshold by accident in random data are
                 //   VERY low).
 
-                if ((suspiciousUTF8SequenceCount * 500000.0 / SampleBytes.Length >= 1) //suspicious sequences
+                if ((suspiciousUTF8SequenceCount * 500000.0 / sampleBytes.Length >= 1) //suspicious sequences
                     && (
                     //all suspicious, so cannot evaluate proportion of US-Ascii
-                           SampleBytes.Length - suspiciousUTF8BytesTotal == 0
+                           sampleBytes.Length - suspiciousUTF8BytesTotal == 0
                            ||
-                           likelyUSASCIIBytesInSample * 1.0 / (SampleBytes.Length - suspiciousUTF8BytesTotal) >= 0.8
+                           likelyUSASCIIBytesInSample * 1.0 / (sampleBytes.Length - suspiciousUTF8BytesTotal) >= 0.8
                        )
                     )
                     return Encoding.UTF8;

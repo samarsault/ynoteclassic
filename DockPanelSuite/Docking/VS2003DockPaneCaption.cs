@@ -34,7 +34,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             m_buttonClose.ToolTipText = ToolTipClose;
             m_buttonClose.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            m_buttonClose.Click += new EventHandler(this.Close_Click);
+            m_buttonClose.Click += new EventHandler(Close_Click);
 
             m_buttonAutoHide.ToolTipText = ToolTipAutoHide;
             m_buttonAutoHide.Anchor = AnchorStyles.Top | AnchorStyles.Right;

@@ -1,12 +1,3 @@
-﻿using FastColoredTextBoxNS;
-using SS.Ynote.Classic.Features.Extensibility;
-using SS.Ynote.Classic.Features.Packages;
-using SS.Ynote.Classic.Features.Project;
-using SS.Ynote.Classic.Features.RunScript;
-using SS.Ynote.Classic.Features.Search;
-using SS.Ynote.Classic.Features.Syntax;
-using SS.Ynote.Classic.UI;
-
 //===================================
 //
 // The Ynote Classic Project - http://ynoteclassic.codeplex.com
@@ -15,23 +6,27 @@ using SS.Ynote.Classic.UI;
 //===================================
 //#define profiling
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition.Hosting;
-using System.Diagnostics;
-using System.Drawing;
 using System.IO;
+using System.Xml;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
+using System.Drawing;
 using System.Threading;
+using System.Diagnostics;
+using SS.Ynote.Classic.UI;
 using System.Windows.Forms;
-using System.Xml;
+using FastColoredTextBoxNS;
+using System.Collections.Generic;
 using WeifenLuo.WinFormsUI.Docking;
+using System.Text.RegularExpressions;
+using SS.Ynote.Classic.Features.Syntax;
+using SS.Ynote.Classic.Features.Search;
+using SS.Ynote.Classic.Features.Project;
 using Timer = System.Windows.Forms.Timer;
-
-#if profiling
-    using JetBrains.Profiler.Core.Api;
-#endif
+using SS.Ynote.Classic.Features.Packages;
+using SS.Ynote.Classic.Features.RunScript;
+using SS.Ynote.Classic.Features.Extensibility;
+using System.ComponentModel.Composition.Hosting;
 
 namespace SS.Ynote.Classic
 {
@@ -40,7 +35,6 @@ namespace SS.Ynote.Classic
 #if profiling
         void DoProfile()
         {
-            PerformanceProfiler.Start();
             CreateNewDoc();
             ActiveEditor.Highlighter.HighlightSyntax(Language.CPP, new TextChangedEventArgs(ActiveEditor.tb.Range));
             ActiveEditor.tb.InsertText("#include <stdafx.h>\r\n\r\n// Main Integer (void )\r\nint Main(char *mychar){\r\n\r\nreturn 0;\r\n}");
@@ -48,12 +42,7 @@ namespace SS.Ynote.Classic
             OpenFile(SettingsBase.SettingsDir + @"Settings.ini");
             ActiveEditor.tb.CollapseAllFoldingBlocks();
             ActiveEditor.tb.MacrosManager.ExecuteMacros(SettingsBase.SettingsDir + @"Macros\DuplicateLine.ymc");
-            var console = new ConsoleUI(this) {StartPosition = FormStartPosition.CenterParent};
-            console.ShowDialog(this);
-            console.Close();
             OpenFile(SettingsBase.SettingsDir + @"\Scripts\AtbashSelection.ys");
-            PerformanceProfiler.Detach();
-            PerformanceProfiler.Stop();
         }
 #endif
 
@@ -118,9 +107,8 @@ namespace SS.Ynote.Classic
 #endif
             InitializeComponent();
             _mru = new Queue<string>();
-            SettingsBase.LoadSettings();
-            LoadPlugins();
             InitSettings();
+            LoadPlugins();
             InitTimer();
             if (filename == null)
                 CreateNewDoc();
@@ -135,6 +123,24 @@ namespace SS.Ynote.Classic
 
         #region Methods
 
+        #region FILE/IO
+        /// <summary>
+        /// Create New Document
+        /// </summary>
+        public void CreateNewDoc()
+        {
+#if DEBUG
+            var sp = new Stopwatch();
+            sp.Start();
+#endif
+            _num++;
+            var edit = new Editor { Text = "untitled" + _num };
+            edit.Show(dock);
+#if DEBUG
+            sp.Stop();
+            Debug.WriteLine("Time Taken to Create New Document : " + sp.ElapsedMilliseconds + "Milliseconds");
+#endif
+        }
         /// <summary>
         ///     Open File
         /// </summary>
@@ -153,76 +159,6 @@ namespace SS.Ynote.Classic
 #endif
         }
 
-        /// <summary>
-        ///     SaveEditor without encoding
-        /// </summary>
-        /// <param name="edit"></param>
-        public void SaveEditor(Editor edit)
-        {
-            SaveEditor(edit, Encoding.Default.BodyName);
-        }
-
-        public void CreateNewDoc()
-        {
-#if DEBUG
-            var sp = new Stopwatch();
-            sp.Start();
-#endif
-            _num++;
-            var edit = new Editor { Text = "untitled" + _num };
-            edit.Show(dock, DockState.Document);
-#if DEBUG
-            sp.Stop();
-            Debug.WriteLine("Time Taken to Create New Document : " + sp.ElapsedMilliseconds + "Milliseconds");
-#endif
-        }
-
-        /// <summary>
-        ///     Default Method for Opening a File
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="encname"></param>
-        /// <param name="isreadonly"></param>
-        private void OpenDefault(string name, string encname, bool isreadonly)
-        {
-            if (!File.Exists(name))
-            {
-                var result =
-                    MessageBox.Show(
-                        string.Format("The File {0} does not exist.\r\nWould you like to create it ?", name),
-                        "Ynote Classic", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
-                {
-                    File.WriteAllText(name, "");
-                    OpenDefault(name, encname, isreadonly);
-                }
-            }
-            else
-            {
-                if (dock.Documents.Cast<Editor>().Any(editor => editor.Name == name)) return;
-                var edit = new Editor();
-                edit.tb.Text = File.ReadAllText(name, Encoding.GetEncoding(encname));
-                edit.Text = Path.GetFileName(name);
-                edit.tb.ReadOnly = isreadonly;
-                edit.Name = name;
-                edit.tb.IsChanged = false;
-                edit.tb.ClearUndo();
-                if (FileExtensions.FileExtensionsDictionary == null)
-                    FileExtensions.BuildDictionary();
-                var lang = FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary, Path.GetExtension(name));
-                if (lang.IsBase)
-                {
-                    edit.Highlighter.HighlightSyntax(lang.SyntaxBase, new TextChangedEventArgs(edit.tb.Range));
-                    edit.Syntax = lang.SyntaxBase;
-                }
-                else
-                {
-                    edit.Highlighter.HighlightSyntax(lang.Language, new TextChangedEventArgs(edit.tb.Range));
-                    edit.tb.Language = lang.Language;
-                }
-                edit.Show(dock, DockState.Document);
-            }
-        }
 
         private void OpenDefault(string name, bool isreadonly)
         {
@@ -241,12 +177,8 @@ namespace SS.Ynote.Classic
             else
             {
                 if (dock.Documents.Cast<Editor>().Any(editor => editor.Name == name)) return;
-                var edit = new Editor();
-                edit.Text = Path.GetFileName(name);
+                var edit = new Editor {Text = Path.GetFileName(name), Name = name};
                 edit.tb.ReadOnly = isreadonly;
-                edit.Name = name;
-                edit.tb.IsChanged = false;
-                edit.tb.ClearUndo();
                 if (FileExtensions.FileExtensionsDictionary == null)
                     FileExtensions.BuildDictionary();
                 var lang = FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary, Path.GetExtension(name));
@@ -260,9 +192,60 @@ namespace SS.Ynote.Classic
                     edit.Highlighter.HighlightSyntax(lang.Language, new TextChangedEventArgs(edit.tb.Range));
                     edit.tb.Language = lang.Language;
                 }
-                edit.tb.OpenFile(name);
                 edit.Show(dock, DockState.Document);
+                edit.tb.OpenFile(name);
             }
+        }
+        /// <summary>
+        ///     Default Method for Opening a File
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="enc"></param>
+        /// <param name="isreadonly"></param>
+        private void OpenDefault(string name, Encoding enc, bool isreadonly)
+        {
+            if (!File.Exists(name))
+            {
+                var result =
+                    MessageBox.Show(
+                        string.Format("The File {0} does not exist.\r\nWould you like to create it ?", name),
+                        "Ynote Classic", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    File.WriteAllText(name, "");
+                    OpenDefault(name, enc, isreadonly);
+                }
+            }
+            else
+            {
+                if (dock.Documents.Cast<Editor>().Any(editor => editor.Name == name)) return;
+                var edit = new Editor {Text = Path.GetFileName(name), Name = name};
+                edit.tb.ReadOnly = isreadonly;
+                if (FileExtensions.FileExtensionsDictionary == null)
+                    FileExtensions.BuildDictionary();
+                var lang = FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary, Path.GetExtension(name));
+                if (lang.IsBase)
+                {
+                    edit.Highlighter.HighlightSyntax(lang.SyntaxBase, new TextChangedEventArgs(edit.tb.Range));
+                    edit.Syntax = lang.SyntaxBase;
+                }
+                else
+                {
+                    edit.Highlighter.HighlightSyntax(lang.Language, new TextChangedEventArgs(edit.tb.Range));
+                    edit.tb.Language = lang.Language;
+                }
+                edit.Show(dock);
+                edit.tb.OpenFile(name, enc);
+            }
+        }
+
+        /// <summary>
+        ///     SaveEditor without encoding
+        /// </summary>
+        /// <param name="edit"></param>
+        public void SaveEditor(Editor edit)
+        {
+            SaveEditor(edit, Encoding.Default.BodyName);
         }
 
         /// <summary>
@@ -270,7 +253,7 @@ namespace SS.Ynote.Classic
         /// </summary>
         /// <param name="edit"></param>
         /// <param name="name"></param>
-        private void SaveEditor(Editor edit, string name)
+        private static void SaveEditor(Editor edit, string name)
         {
             if (!edit.IsSaved)
             {
@@ -292,7 +275,7 @@ namespace SS.Ynote.Classic
             }
         }
 
-        #endregion Methods
+        #endregion
 
         #region Recent File Handlers
 
@@ -359,7 +342,7 @@ namespace SS.Ynote.Classic
 
         #endregion Recent File Handlers
 
-        #region Language Menu/Encoding Menu Builder
+        #region Menu Builders
 
         /// <summary>
         ///     Builds the Language Menu -View->SyntaxH Highlighter->{Language(enumeration)}
@@ -476,11 +459,11 @@ namespace SS.Ynote.Classic
         /// </summary>
         /// <param name="handler"></param>
         /// <returns></returns>
-        private MenuItem[] BuildEncodingList(EventHandler handler)
+        private static MenuItem[] BuildEncodingList(EventHandler handler)
         {
             return
                 Encoding.GetEncodings()
-                    .Select(info => new MenuItem(info.DisplayName, handler) { Tag = info.Name })
+                    .Select(info => new MenuItem(info.DisplayName, handler) { Tag = info.GetEncoding() })
                     .ToArray();
         }
 
@@ -502,6 +485,7 @@ namespace SS.Ynote.Classic
         /// </summary>
         private void InitSettings()
         {
+            SettingsBase.LoadSettings();
             if (!SettingsBase.ShowMenuBar) Menu = null;
             dock.DocumentStyle = SettingsBase.DocumentStyle;
             dock.DocumentTabStripLocation = SettingsBase.TabLocation;
@@ -568,6 +552,8 @@ namespace SS.Ynote.Classic
         }
 
         #endregion Plugins
+
+        #endregion Methods
 
         #region Overrides
 
@@ -664,7 +650,10 @@ namespace SS.Ynote.Classic
 
         private void commentline_Click(object sender, EventArgs e)
         {
-            if (ActiveEditor != null) ActiveEditor.tb.CommentSelected();
+            if (ActiveEditor != null)
+            {
+                ActiveEditor.tb.CommentSelected();
+            }
         }
 
         private void gotofirstlinemenu_Click(object sender, EventArgs e)
@@ -1179,9 +1168,8 @@ namespace SS.Ynote.Classic
         private void mirevert_Click(object sender, EventArgs e)
         {
             if (ActiveEditor == null || !ActiveEditor.IsSaved) return;
-            ActiveEditor.tb.Text = File.ReadAllText(ActiveEditor.Name);
+            ActiveEditor.tb.OpenFile(ActiveEditor.Name);
             ActiveEditor.Text = Path.GetFileName(ActiveEditor.Name);
-            ActiveEditor.tb.IsChanged = false;
         }
 
         private void miprint_Click(object sender, EventArgs e)
@@ -1478,7 +1466,7 @@ namespace SS.Ynote.Classic
                 var result = dialog.ShowDialog();
                 if (result != DialogResult.OK) return;
                 var item = sender as MenuItem;
-                if (item != null) OpenDefault(dialog.FileName, item.Tag.ToString(), dialog.ReadOnlyChecked);
+                if (item != null) OpenDefault(dialog.FileName, item.Tag as Encoding, dialog.ReadOnlyChecked);
             }
         }
 
