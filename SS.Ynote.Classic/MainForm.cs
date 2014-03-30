@@ -290,7 +290,7 @@ namespace SS.Ynote.Classic
             LoadRecentList(); //load list from file
             if (!(_mru.Contains(path))) //prevent duplication on recent list
                 _mru.Enqueue(path); //insert given path into list
-            while (_mru.Count > 10) //keep list number not exceeded given value
+            while (_mru.Count > 15) //keep list number not exceeded given value
             {
                 _mru.Dequeue();
             }

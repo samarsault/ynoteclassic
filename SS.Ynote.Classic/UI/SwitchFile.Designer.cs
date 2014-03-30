@@ -16,6 +16,7 @@
             if (disposing && (components != null))
             {
                 components.Dispose();
+                this.completemenu.Items = null;
             }
             base.Dispose(disposing);
         }

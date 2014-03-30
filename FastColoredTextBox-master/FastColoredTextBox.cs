@@ -4376,7 +4376,7 @@ namespace FastColoredTextBoxNS
             if (sel.CharBeforeStart == '(' && sel.CharAfterStart == ')'
                 ||sel.CharBeforeStart == '[' && sel.CharAfterStart == ']'
                 || sel.CharBeforeStart == '\'' && sel.CharAfterStart == '\''
-                || sel.CharAfterStart == '"' && sel.CharAfterStart == '"')
+                || sel.CharBeforeStart == '"' && sel.CharAfterStart == '"')
             {
                 BeginInvoke((MethodInvoker)(() =>
                 {

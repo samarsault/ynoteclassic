@@ -1,14 +1,9 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-using AutocompleteItem = AutocompleteMenuNS.AutocompleteItem;
-using AutocompleteMenu = AutocompleteMenuNS.AutocompleteMenu;
-
-#endregion
+using AutocompleteMenuNS;
 
 namespace SS.Ynote.Classic.UI
 {
@@ -61,7 +56,6 @@ namespace SS.Ynote.Classic.UI
             if (!IsDisposed)
                 Close();
         }
-
         protected override void OnShown(EventArgs e)
         {
             completemenu.Show(textBox1, true);

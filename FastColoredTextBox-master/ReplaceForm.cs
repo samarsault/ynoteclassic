@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -46,7 +46,7 @@ namespace FastColoredTextBoxNS
             var range = tb.Selection.IsEmpty ? tb.Range.Clone() : tb.Selection.Clone();
             //
             var list = new List<Range>();
-            foreach (var r in range.GetRangesByLines(pattern, opt))
+            foreach (var r in range.GetRanges(pattern, opt))
                 list.Add(r);
 
             return list;
@@ -75,7 +75,7 @@ namespace FastColoredTextBoxNS
             else
                 range.End = startPlace;
             //
-            foreach (var r in range.GetRangesByLines(pattern, opt))
+            foreach (var r in range.GetRanges(pattern, opt))
             {
                 tb.Selection.Start = r.Start;
                 tb.Selection.End = r.End;

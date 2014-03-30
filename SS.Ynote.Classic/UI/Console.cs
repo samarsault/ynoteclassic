@@ -1,3 +1,5 @@
+using System.Text;
+using System.Xml;
 using FastColoredTextBoxNS;
 using SS.Ynote.Classic.Features.Extensibility;
 using SS.Ynote.Classic.Features.RunScript;
@@ -406,9 +408,50 @@ namespace SS.Ynote.Classic.UI
             else if (str == "Decrease")
                 ActiveEditor.tb.DecreaseIndent();
             else if (str == "Do")
-                ActiveEditor.tb.DoAutoIndent();
+                if (ActiveEditor.tb.Language == Language.Xml)
+                    PrettyXml(ActiveEditor.tb.Text);
+                else
+                    ActiveEditor.tb.DoAutoIndent();
         }
+        public static string PrettyXml(string XML)
+        {
+            var result = "";
 
+            var mStream = new MemoryStream();
+            var writer = new XmlTextWriter(mStream, Encoding.Unicode);
+            var document = new XmlDocument();
+
+            try
+            {
+                // Load the XmlDocument with the XML.
+                document.LoadXml(XML);
+
+                writer.Formatting = Formatting.Indented;
+
+                // Write the XML into a formatting XmlTextWriter
+                document.WriteContentTo(writer);
+                writer.Flush();
+                mStream.Flush();
+
+                // Have to rewind the MemoryStream in order to read
+                // its contents.
+                mStream.Position = 0;
+
+                // Read MemoryStream contents into a StreamReader.
+                var sReader = new StreamReader(mStream);
+
+                // Extract the text from the StreamReader.
+                result = sReader.ReadToEnd();
+            }
+            catch (XmlException)
+            {
+            }
+
+            mStream.Close();
+            writer.Close();
+
+            return result;
+        }
         private void CodeFoldingFunc(string str)
         {
             if (str == "FoldAll")
