@@ -31,7 +31,7 @@ namespace FastColoredTextBoxNS
         public string GetRtf(FastColoredTextBox tb)
         {
             this.tb = tb;
-            Range sel = new Range(tb);
+            var sel = new Range(tb);
             sel.SelectAll();
             return GetRtf(sel);
         }
@@ -44,7 +44,7 @@ namespace FastColoredTextBoxNS
             var tempSB = new StringBuilder();
             var currentStyleId = StyleIndex.None;
             r.Normalize();
-            int currentLine = r.Start.iLine;
+            var currentLine = r.Start.iLine;
             styles[currentStyleId] = null;
             colorTable.Clear();
             //
@@ -53,9 +53,9 @@ namespace FastColoredTextBoxNS
             if (IncludeLineNumbers)
                 tempSB.AppendFormat(@"{{\cf{1} {0}}}\tab", currentLine + 1, lineNumberColor);
             //
-            foreach (Place p in r)
+            foreach (var p in r)
             {
-                Char c = r.tb[p.iLine][p.iChar];
+                var c = r.tb[p.iLine][p.iChar];
                 if (c.style != currentStyleId)
                 {
                     Flush(sb, tempSB, currentStyleId);
@@ -65,7 +65,7 @@ namespace FastColoredTextBoxNS
 
                 if (p.iLine != currentLine)
                 {
-                    for (int i = currentLine; i < p.iLine; i++)
+                    for (var i = currentLine; i < p.iLine; i++)
                     {
                         tempSB.AppendLine(@"\line");
                         if (IncludeLineNumbers)
@@ -115,7 +115,7 @@ namespace FastColoredTextBoxNS
             if (UseOriginalFont)
             {
                 sb.Insert(0, string.Format(@"{{\fonttbl{{\f0\fmodern {0};}}}}{{\fs{1} ",
-                                tb.Font.Name, (int)(2 * tb.Font.SizeInPoints), tb.CharHeight));
+                                tb.Font.Name, 2 * tb.Font.SizeInPoints, tb.CharHeight));
                 sb.AppendLine(@"}");
             }
 
@@ -129,12 +129,12 @@ namespace FastColoredTextBoxNS
 
         private RTFStyleDescriptor GetRtfDescriptor(StyleIndex styleIndex)
         {
-            List<Style> styles = new List<Style>();
+            var styles = new List<Style>();
             //find text renderer
             TextStyle textStyle = null;
-            int mask = 1;
-            bool hasTextStyle = false;
-            for (int i = 0; i < tb.Styles.Length; i++)
+            var mask = 1;
+            var hasTextStyle = false;
+            for (var i = 0; i < tb.Styles.Length; i++)
             {
                 if (tb.Styles[i] != null && ((int)styleIndex & mask) != 0)
                     if (tb.Styles[i].IsExportable)
@@ -142,7 +142,7 @@ namespace FastColoredTextBoxNS
                         var style = tb.Styles[i];
                         styles.Add(style);
 
-                        bool isTextStyle = style is TextStyle;
+                        var isTextStyle = style is TextStyle;
                         if (isTextStyle)
                             if (!hasTextStyle || tb.AllowSeveralTextStyleDrawing)
                             {
@@ -153,7 +153,7 @@ namespace FastColoredTextBoxNS
                 mask = mask << 1;
             }
             //add TextStyle css
-            RTFStyleDescriptor result = null;
+            RTFStyleDescriptor result;
 
             result = !hasTextStyle ? tb.DefaultStyle.GetRTF() : textStyle.GetRTF();
 
@@ -185,9 +185,9 @@ namespace FastColoredTextBoxNS
                 tags.Append(desc.AdditionalTags.Trim());
 
             if (tags.Length > 0)
-                sb.AppendFormat(@"{{{0} {1}}}", tags, tempSB.ToString());
+                sb.AppendFormat(@"{{{0} {1}}}", tags, tempSB);
             else
-                sb.Append(tempSB.ToString());
+                sb.Append(tempSB);
             tempSB.Length = 0;
         }
 

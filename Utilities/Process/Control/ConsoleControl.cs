@@ -179,7 +179,7 @@ namespace ConsoleControl
             if (e.KeyCode == Keys.Return)
             {
                 //  Get the input.
-                string input = richTextBoxConsole.Text.Substring(inputStart, (richTextBoxConsole.SelectionStart) - inputStart);
+                var input = richTextBoxConsole.Text.Substring(inputStart, (richTextBoxConsole.SelectionStart) - inputStart);
 
                 //  Write the input (without echoing).
                 WriteInput(input, Color.White, false);
@@ -327,7 +327,7 @@ namespace ConsoleControl
         /// <summary>
         /// The key mappings.
         /// </summary>
-        private List<KeyMapping> keyMappings = new List<KeyMapping>();
+        private readonly List<KeyMapping> keyMappings = new List<KeyMapping>();
 
         /// <summary>
         /// Occurs when console output is produced.

@@ -24,8 +24,8 @@ namespace Nini.Config
     /// <include file='ConfigEventArgs.xml' path='//Class[@name="ConfigEventArgs"]/docs/*' />
     public class ConfigKeyEventArgs : EventArgs
     {
-        private string keyName = null;
-        private string keyValue = null;
+        private readonly string keyName = null;
+        private readonly string keyValue = null;
 
         /// <include file='ConfigEventArgs.xml' path='//Constructor[@name="Constructor"]/docs/*' />
         public ConfigKeyEventArgs(string keyName, string keyValue)
@@ -55,9 +55,9 @@ namespace Nini.Config
         #region Private variables
 
         private string configName = null;
-        private IConfigSource configSource = null;
-        private AliasText aliasText = null;
-        private IFormatProvider format = NumberFormatInfo.CurrentInfo;
+        private readonly IConfigSource configSource = null;
+        private readonly AliasText aliasText = null;
+        private readonly IFormatProvider format = NumberFormatInfo.CurrentInfo;
 
         #endregion Private variables
 
@@ -132,7 +132,7 @@ namespace Nini.Config
         /// <include file='IConfig.xml' path='//Method[@name="GetDefault"]/docs/*' />
         public string Get(string key, string defaultValue)
         {
-            string result = Get(key);
+            var result = Get(key);
 
             return (result == null) ? defaultValue : result;
         }
@@ -158,7 +158,7 @@ namespace Nini.Config
         /// <include file='IConfig.xml' path='//Method[@name="GetInt"]/docs/*' />
         public int GetInt(string key)
         {
-            string text = Get(key);
+            var text = Get(key);
 
             if (text == null)
             {
@@ -176,7 +176,7 @@ namespace Nini.Config
                 return GetInt(key);
             }
 
-            string result = Get(key);
+            var result = Get(key);
 
             if (result == null)
             {
@@ -189,7 +189,7 @@ namespace Nini.Config
         /// <include file='IConfig.xml' path='//Method[@name="GetIntDefault"]/docs/*' />
         public int GetInt(string key, int defaultValue)
         {
-            string result = Get(key);
+            var result = Get(key);
 
             return (result == null)
                     ? defaultValue
@@ -204,7 +204,7 @@ namespace Nini.Config
                 return GetInt(key, defaultValue);
             }
 
-            string result = Get(key);
+            var result = Get(key);
 
             return (result == null) ? defaultValue : GetIntAlias(key, result);
         }
@@ -212,7 +212,7 @@ namespace Nini.Config
         /// <include file='IConfig.xml' path='//Method[@name="GetLong"]/docs/*' />
         public long GetLong(string key)
         {
-            string text = Get(key);
+            var text = Get(key);
 
             if (text == null)
             {
@@ -225,7 +225,7 @@ namespace Nini.Config
         /// <include file='IConfig.xml' path='//Method[@name="GetLongDefault"]/docs/*' />
         public long GetLong(string key, long defaultValue)
         {
-            string result = Get(key);
+            var result = Get(key);
 
             return (result == null)
                     ? defaultValue
@@ -235,7 +235,7 @@ namespace Nini.Config
         /// <include file='IConfig.xml' path='//Method[@name="GetBoolean"]/docs/*' />
         public bool GetBoolean(string key)
         {
-            string text = Get(key);
+            var text = Get(key);
 
             if (text == null)
             {
@@ -248,7 +248,7 @@ namespace Nini.Config
         /// <include file='IConfig.xml' path='//Method[@name="GetBooleanDefault"]/docs/*' />
         public bool GetBoolean(string key, bool defaultValue)
         {
-            string text = Get(key);
+            var text = Get(key);
 
             return (text == null) ? defaultValue : GetBooleanAlias(text);
         }
@@ -256,7 +256,7 @@ namespace Nini.Config
         /// <include file='IConfig.xml' path='//Method[@name="GetFloat"]/docs/*' />
         public float GetFloat(string key)
         {
-            string text = Get(key);
+            var text = Get(key);
 
             if (text == null)
             {
@@ -269,7 +269,7 @@ namespace Nini.Config
         /// <include file='IConfig.xml' path='//Method[@name="GetFloatDefault"]/docs/*' />
         public float GetFloat(string key, float defaultValue)
         {
-            string result = Get(key);
+            var result = Get(key);
 
             return (result == null)
                     ? defaultValue
@@ -279,7 +279,7 @@ namespace Nini.Config
         /// <include file='IConfig.xml' path='//Method[@name="GetDouble"]/docs/*' />
         public double GetDouble(string key)
         {
-            string text = Get(key);
+            var text = Get(key);
 
             if (text == null)
             {
@@ -292,7 +292,7 @@ namespace Nini.Config
         /// <include file='IConfig.xml' path='//Method[@name="GetDoubleDefault"]/docs/*' />
         public double GetDouble(string key, double defaultValue)
         {
-            string result = Get(key);
+            var result = Get(key);
 
             return (result == null)
                     ? defaultValue
@@ -302,7 +302,7 @@ namespace Nini.Config
         /// <include file='IConfig.xml' path='//Method[@name="GetKeys"]/docs/*' />
         public string[] GetKeys()
         {
-            string[] result = new string[keys.Keys.Count];
+            var result = new string[keys.Keys.Count];
 
             keys.Keys.CopyTo(result, 0);
 
@@ -312,7 +312,7 @@ namespace Nini.Config
         /// <include file='IConfig.xml' path='//Method[@name="GetValues"]/docs/*' />
         public string[] GetValues()
         {
-            string[] result = new string[keys.Values.Count];
+            var result = new string[keys.Values.Count];
 
             keys.Values.CopyTo(result, 0);
 
@@ -423,7 +423,7 @@ namespace Nini.Config
         /// </summary>
         private int GetIntAlias(string key, string alias)
         {
-            int result = -1;
+            var result = -1;
 
             if (aliasText.ContainsInt(key, alias))
             {
@@ -443,7 +443,7 @@ namespace Nini.Config
         /// </summary>
         private bool GetBooleanAlias(string key)
         {
-            bool result = false;
+            var result = false;
 
             if (aliasText.ContainsBoolean(key))
             {

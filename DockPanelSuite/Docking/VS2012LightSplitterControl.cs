@@ -9,7 +9,6 @@ namespace WeifenLuo.WinFormsUI.Docking
         private static readonly SolidBrush _horizontalBrush = new SolidBrush(Color.FromArgb(0xFF, 204, 206, 219));
         private static readonly Color[] _verticalSurroundColors = new[] { SystemColors.Control };
 
-
         public VS2012LightSplitterControl(DockPane pane)
             : base(pane)
         {
@@ -19,7 +18,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             base.OnPaint(e);
 
-            Rectangle rect = ClientRectangle;
+            var rect = ClientRectangle;
 
             if (rect.Width <= 0 || rect.Height <= 0)
                 return;
@@ -34,7 +33,8 @@ namespace WeifenLuo.WinFormsUI.Docking
                             path.AddRectangle(rect);
                             using (var brush = new PathGradientBrush(path)
                                 {
-                                    CenterColor = Color.FromArgb(0xFF, 204, 206, 219), SurroundColors = _verticalSurroundColors
+                                    CenterColor = Color.FromArgb(0xFF, 204, 206, 219),
+                                    SurroundColors = _verticalSurroundColors
                                 })
                             {
                                 e.Graphics.FillRectangle(brush, rect.X + Measures.SplitterSize / 2 - 1, rect.Y,
@@ -43,6 +43,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                         }
                     }
                     break;
+
                 case DockAlignment.Bottom:
                 case DockAlignment.Top:
                     {

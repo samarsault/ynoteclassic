@@ -101,7 +101,7 @@ namespace AutocompleteMenuNS
 
                 selectedItemIndex = value;
 
-                OnItemHovered(new HoveredEventArgs() { Item = item });
+                OnItemHovered(new HoveredEventArgs { Item = item });
 
                 if (item != null)
                 {
@@ -126,7 +126,7 @@ namespace AutocompleteMenuNS
             if (oldItemCount == VisibleItems.Count)
                 return;
 
-            int needHeight = ItemHeight * VisibleItems.Count + 1;
+            var needHeight = ItemHeight * VisibleItems.Count + 1;
             Height = Math.Min(needHeight, MaximumSize.Height);
             AutoScrollMinSize = new Size(0, needHeight);
             oldItemCount = VisibleItems.Count;
@@ -134,7 +134,7 @@ namespace AutocompleteMenuNS
 
         private void ScrollToSelected()
         {
-            int y = SelectedItemIndex * ItemHeight - VerticalScroll.Value;
+            var y = SelectedItemIndex * ItemHeight - VerticalScroll.Value;
             if (y < 0)
                 VerticalScroll.Value = SelectedItemIndex * ItemHeight;
             if (y > ClientSize.Height - ItemHeight)
@@ -153,15 +153,15 @@ namespace AutocompleteMenuNS
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            bool rtl = RightToLeft == RightToLeft.Yes;
+            var rtl = RightToLeft == RightToLeft.Yes;
             AdjustScroll();
-            int startI = VerticalScroll.Value / ItemHeight - 1;
-            int finishI = (VerticalScroll.Value + ClientSize.Height) / ItemHeight + 1;
+            var startI = VerticalScroll.Value / ItemHeight - 1;
+            var finishI = (VerticalScroll.Value + ClientSize.Height) / ItemHeight + 1;
             startI = Math.Max(startI, 0);
             finishI = Math.Min(finishI, VisibleItems.Count);
-            int y = 0;
+            var y = 0;
 
-            for (int i = startI; i < finishI; i++)
+            for (var i = startI; i < finishI; i++)
             {
                 y = i * ItemHeight - VerticalScroll.Value;
 
@@ -266,8 +266,8 @@ namespace AutocompleteMenuNS
 
         public void ShowToolTip(AutocompleteItem autocompleteItem, Control control = null)
         {
-            string title = autocompleteItem.ToolTipTitle;
-            string text = autocompleteItem.ToolTipText;
+            var title = autocompleteItem.ToolTipTitle;
+            var text = autocompleteItem.ToolTipText;
             if (control == null)
                 control = this;
 

@@ -136,7 +136,7 @@ namespace Nini.Config
         public override string ToString()
         {
             MergeConfigsIntoDocument();
-            StringWriter writer = new StringWriter();
+            var writer = new StringWriter();
             configDoc.Save(writer);
 
             return writer.ToString();
@@ -155,9 +155,9 @@ namespace Nini.Config
             RemoveSections();
             foreach (IConfig config in Configs)
             {
-                string[] keys = config.GetKeys();
+                var keys = config.GetKeys();
 
-                XmlNode node = GetSectionByName(config.Name);
+                var node = GetSectionByName(config.Name);
                 if (node == null)
                 {
                     node = SectionNode(config.Name);
@@ -165,7 +165,7 @@ namespace Nini.Config
                 }
                 RemoveKeys(config.Name);
 
-                for (int i = 0; i < keys.Length; i++)
+                for (var i = 0; i < keys.Length; i++)
                 {
                     SetKey(node, keys[i], config.Get(keys[i]));
                 }
@@ -205,7 +205,7 @@ namespace Nini.Config
         /// </summary>
         private void RemoveKeys(string sectionName)
         {
-            XmlNode sectionNode = GetSectionByName(sectionName);
+            var sectionNode = GetSectionByName(sectionName);
             XmlAttribute keyName = null;
 
             if (sectionNode != null)
@@ -289,7 +289,7 @@ namespace Nini.Config
         /// </summary>
         private void SetKey(XmlNode sectionNode, string key, string value)
         {
-            XmlNode node = GetKeyByName(sectionNode, key);
+            var node = GetKeyByName(sectionNode, key);
 
             if (node == null)
             {
@@ -307,8 +307,8 @@ namespace Nini.Config
         private void CreateKey(XmlNode sectionNode, string key, string value)
         {
             XmlNode node = configDoc.CreateElement("Key");
-            XmlAttribute keyAttr = configDoc.CreateAttribute("Name");
-            XmlAttribute valueAttr = configDoc.CreateAttribute("Value");
+            var keyAttr = configDoc.CreateAttribute("Name");
+            var valueAttr = configDoc.CreateAttribute("Value");
             keyAttr.Value = key;
             valueAttr.Value = value;
 
@@ -324,7 +324,7 @@ namespace Nini.Config
         private XmlNode SectionNode(string name)
         {
             XmlNode result = configDoc.CreateElement("Section");
-            XmlAttribute nameAttr = configDoc.CreateAttribute("Name");
+            var nameAttr = configDoc.CreateAttribute("Name");
             nameAttr.Value = name;
             result.Attributes.Append(nameAttr);
 
@@ -397,8 +397,8 @@ namespace Nini.Config
                 if (node.NodeType == XmlNodeType.Element
                     && node.Name == "Section")
                 {
-                    string sectionName = node.Attributes["Name"].Value;
-                    IConfig config = Configs[sectionName];
+                    var sectionName = node.Attributes["Name"].Value;
+                    var config = Configs[sectionName];
                     if (config == null)
                     {
                         // The section is new so add it
@@ -416,7 +416,7 @@ namespace Nini.Config
         private void RemoveConfigs()
         {
             IConfig config = null;
-            for (int i = Configs.Count - 1; i > -1; i--)
+            for (var i = Configs.Count - 1; i > -1; i--)
             {
                 config = Configs[i];
                 // If the section is not present in the XmlDocument
@@ -432,11 +432,11 @@ namespace Nini.Config
         /// </summary>
         private void RemoveConfigKeys(IConfig config)
         {
-            XmlNode section = GetSectionByName(config.Name);
+            var section = GetSectionByName(config.Name);
 
             // Remove old keys
-            string[] configKeys = config.GetKeys();
-            foreach (string configKey in configKeys)
+            var configKeys = config.GetKeys();
+            foreach (var configKey in configKeys)
             {
                 if (GetKeyByName(section, configKey) == null)
                 {

@@ -1,13 +1,11 @@
 <?xml version="1.0"?>
     <YnoteSnippet>
-        <Keyword>document</Keyword>
-        <Keyword>firstChild</Keyword>
-        <Keyword>lastChild</Keyword>
         <Snippet>getElementByTagName('^');</Snippet>
         <Snippet>getElementById('^');</Snippet>
         <Snippet>if(^){\r\n\r\n}</Snippet>
         <Snippet>if(^){\r\n\r\n}else{\r\n\r\n}</Snippet>
         <Snippet>for(var i=0;i &lt; ^;i++){\r\n\r\n}</Snippet>
+        <Snippet>for(var item in ^){\r\n\r\n}</Snippet>
         <Snippet>while(^)\r\n{\r\n;\r\n}</Snippet>
         <Snippet>switch(^)\r\n{\r\ncase : break;\r\n}</Snippet>
         <Snippet>var ^ = function(){\r\n\r\n};</Snippet>

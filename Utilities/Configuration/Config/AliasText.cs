@@ -20,8 +20,8 @@ namespace Nini.Config
     {
         #region Private variables
 
-        private Hashtable intAlias = null;
-        private Hashtable booleanAlias = null;
+        private readonly Hashtable intAlias = null;
+        private readonly Hashtable booleanAlias = null;
 
         #endregion Private variables
 
@@ -44,13 +44,13 @@ namespace Nini.Config
         {
             if (intAlias.Contains(key))
             {
-                Hashtable keys = (Hashtable)intAlias[key];
+                var keys = (Hashtable)intAlias[key];
 
                 keys[alias] = value;
             }
             else
             {
-                Hashtable keys = InsensitiveHashtable();
+                var keys = InsensitiveHashtable();
                 keys[alias] = value;
                 intAlias.Add(key, keys);
             }
@@ -82,11 +82,11 @@ namespace Nini.Config
         /// <include file='AliasText.xml' path='//Method[@name="ContainsInt"]/docs/*' />
         public bool ContainsInt(string key, string alias)
         {
-            bool result = false;
+            var result = false;
 
             if (intAlias.Contains(key))
             {
-                Hashtable keys = (Hashtable)intAlias[key];
+                var keys = (Hashtable)intAlias[key];
                 result = (keys.Contains(alias));
             }
 
@@ -112,7 +112,7 @@ namespace Nini.Config
                 throw new ArgumentException("Alias does not exist for key");
             }
 
-            Hashtable keys = (Hashtable)intAlias[key];
+            var keys = (Hashtable)intAlias[key];
 
             if (!keys.Contains(alias))
             {
@@ -144,10 +144,10 @@ namespace Nini.Config
         /// </summary>
         private void SetAliasTypes(string key, Enum enumAlias)
         {
-            string[] names = Enum.GetNames(enumAlias.GetType());
-            int[] values = (int[])Enum.GetValues(enumAlias.GetType());
+            var names = Enum.GetNames(enumAlias.GetType());
+            var values = (int[])Enum.GetValues(enumAlias.GetType());
 
-            for (int i = 0; i < names.Length; i++)
+            for (var i = 0; i < names.Length; i++)
             {
                 AddAlias(key, names[i], values[i]);
             }

@@ -9,8 +9,8 @@ namespace Nini.Util
     {
         #region Private variables
 
-        private Hashtable table = new Hashtable();
-        private ArrayList list = new ArrayList();
+        private readonly Hashtable table = new Hashtable();
+        private readonly ArrayList list = new ArrayList();
 
         #endregion Private variables
 
@@ -49,7 +49,7 @@ namespace Nini.Util
                 if (index < 0 || index >= Count)
                     throw new ArgumentOutOfRangeException("index");
 
-                object key = ((DictionaryEntry)list[index]).Key;
+                var key = ((DictionaryEntry)list[index]).Key;
                 list[index] = new DictionaryEntry(key, value);
                 table[key] = value;
             }
@@ -76,8 +76,8 @@ namespace Nini.Util
         {
             get
             {
-                ArrayList retList = new ArrayList();
-                for (int i = 0; i < list.Count; i++)
+                var retList = new ArrayList();
+                for (var i = 0; i < list.Count; i++)
                 {
                     retList.Add(((DictionaryEntry)list[i]).Key);
                 }
@@ -90,8 +90,8 @@ namespace Nini.Util
         {
             get
             {
-                ArrayList retList = new ArrayList();
-                for (int i = 0; i < list.Count; i++)
+                var retList = new ArrayList();
+                for (var i = 0; i < list.Count; i++)
                 {
                     retList.Add(((DictionaryEntry)list[i]).Value);
                 }
@@ -192,7 +192,7 @@ namespace Nini.Util
 
         private int IndexOf(object key)
         {
-            for (int i = 0; i < list.Count; i++)
+            for (var i = 0; i < list.Count; i++)
             {
                 if (((DictionaryEntry)list[i]).Key.Equals(key))
                 {

@@ -21,7 +21,7 @@ namespace FastColoredTextBoxNS
 
         public override ICustomTypeDescriptor GetTypeDescriptor(Type objectType, object instance)
         {
-            ICustomTypeDescriptor defaultDescriptor = base.GetTypeDescriptor(objectType, instance);
+            var defaultDescriptor = base.GetTypeDescriptor(objectType, instance);
             return new FCTBTypeDescriptor(defaultDescriptor, instance);
         }
     }
@@ -49,7 +49,7 @@ namespace FastColoredTextBoxNS
             var coll = base.GetEvents();
             var list = new EventDescriptor[coll.Count];
 
-            for (int i = 0; i < coll.Count; i++)
+            for (var i = 0; i < coll.Count; i++)
                 if (coll[i].Name == "TextChanged")//instead of TextChanged slip BindingTextChanged for binding
                     list[i] = new FooTextChangedDescriptor(coll[i]);
                 else

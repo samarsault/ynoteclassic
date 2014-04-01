@@ -44,8 +44,8 @@ namespace Nini.Ini
     {
         #region Private variables
 
-        private IniSectionCollection sections = new IniSectionCollection();
-        private ArrayList initialComment = new ArrayList();
+        private readonly IniSectionCollection sections = new IniSectionCollection();
+        private readonly ArrayList initialComment = new ArrayList();
         private IniFileType fileType = IniFileType.Standard;
 
         #endregion Private variables
@@ -154,7 +154,7 @@ namespace Nini.Ini
         /// <include file='IniDocument.xml' path='//Method[@name="SaveTextWriter"]/docs/*' />
         public void Save(TextWriter textWriter)
         {
-            IniWriter writer = GetIniWriter(textWriter, fileType);
+            var writer = GetIniWriter(textWriter, fileType);
             IniItem item = null;
             IniSection section = null;
 
@@ -163,11 +163,11 @@ namespace Nini.Ini
                 writer.WriteEmpty(comment);
             }
 
-            for (int j = 0; j < sections.Count; j++)
+            for (var j = 0; j < sections.Count; j++)
             {
                 section = sections[j];
                 writer.WriteSection(section.Name, section.Comment);
-                for (int i = 0; i < section.ItemCount; i++)
+                for (var i = 0; i < section.ItemCount; i++)
                 {
                     item = section.GetItem(i);
                     switch (item.Type)
@@ -189,7 +189,7 @@ namespace Nini.Ini
         /// <include file='IniDocument.xml' path='//Method[@name="SavePath"]/docs/*' />
         public void Save(string filePath)
         {
-            StreamWriter writer = new StreamWriter(filePath);
+            var writer = new StreamWriter(filePath);
             Save(writer);
             writer.Close();
         }
@@ -210,7 +210,7 @@ namespace Nini.Ini
         private void LoadReader(IniReader reader)
         {
             reader.IgnoreComments = false;
-            bool sectionFound = false;
+            var sectionFound = false;
             IniSection section = null;
 
             try
@@ -252,9 +252,9 @@ namespace Nini.Ini
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
             finally
             {
@@ -268,7 +268,7 @@ namespace Nini.Ini
         /// </summary>
         private IniReader GetIniReader(TextReader reader, IniFileType type)
         {
-            IniReader result = new IniReader(reader);
+            var result = new IniReader(reader);
 
             switch (type)
             {
@@ -278,21 +278,21 @@ namespace Nini.Ini
 
                 case IniFileType.PythonStyle:
                     result.AcceptCommentAfterKey = false;
-                    result.SetCommentDelimiters(new char[] { ';', '#' });
-                    result.SetAssignDelimiters(new char[] { ':' });
+                    result.SetCommentDelimiters(new[] { ';', '#' });
+                    result.SetAssignDelimiters(new[] { ':' });
                     break;
 
                 case IniFileType.SambaStyle:
                     result.AcceptCommentAfterKey = false;
-                    result.SetCommentDelimiters(new char[] { ';', '#' });
+                    result.SetCommentDelimiters(new[] { ';', '#' });
                     result.LineContinuation = true;
                     break;
 
                 case IniFileType.MysqlStyle:
                     result.AcceptCommentAfterKey = false;
                     result.AcceptNoAssignmentOperator = true;
-                    result.SetCommentDelimiters(new char[] { '#' });
-                    result.SetAssignDelimiters(new char[] { ':', '=' });
+                    result.SetCommentDelimiters(new[] { '#' });
+                    result.SetAssignDelimiters(new[] { ':', '=' });
                     break;
 
                 case IniFileType.WindowsStyle:
@@ -308,7 +308,7 @@ namespace Nini.Ini
         /// </summary>
         private IniWriter GetIniWriter(TextWriter reader, IniFileType type)
         {
-            IniWriter result = new IniWriter(reader);
+            var result = new IniWriter(reader);
 
             switch (type)
             {

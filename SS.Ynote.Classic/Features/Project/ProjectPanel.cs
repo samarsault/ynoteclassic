@@ -48,7 +48,7 @@ namespace SS.Ynote.Classic.Features.Project
         /// <param name="filename"></param>
         public void OpenProject(string filename)
         {
-            YnoteProject project = YnoteProject.Read(filename);
+            var project = YnoteProject.Read(filename);
             // initialize the node
             var projectnode = new ExTreeNode(project.ProjectName, project.Folder, 2, 2, project, ProjectNodeType.Project);
             if (!Directory.Exists(project.Folder))
@@ -76,7 +76,7 @@ namespace SS.Ynote.Classic.Features.Project
             {
                 var currentNode = stack.Pop();
                 var directoryInfo = (DirectoryInfo)currentNode.Tag;
-                for (int i = 0; i < directoryInfo.GetDirectories().Length; i++)
+                for (var i = 0; i < directoryInfo.GetDirectories().Length; i++)
                 {
                     var directory = directoryInfo.GetDirectories()[i];
                     var childDirectoryNode = new ExTreeNode(directory.Name, directory.FullName, 0, 0, directory,
@@ -84,7 +84,7 @@ namespace SS.Ynote.Classic.Features.Project
                     currentNode.Nodes.Add(childDirectoryNode);
                     stack.Push(childDirectoryNode);
                 }
-                for (int i = 0; i < directoryInfo.GetFiles().Length; i++)
+                for (var i = 0; i < directoryInfo.GetFiles().Length; i++)
                 {
                     var file = directoryInfo.GetFiles()[i];
                     if (Path.GetExtension(file.FullName) != ".ynoteproj")
@@ -106,7 +106,7 @@ namespace SS.Ynote.Classic.Features.Project
                 using (var util = new ProjectUtils())
                 {
                     if (util.ShowDialog(this) != DialogResult.OK) return;
-                    string dir = Path.Combine(path.Name, util.FileName);
+                    var dir = Path.Combine(path.Name, util.FileName);
                     var node = new ExTreeNode(util.FileName, dir, 0, 0, null, ProjectNodeType.Folder);
                     Directory.CreateDirectory(dir);
                     projtree.SelectedNode.Nodes.Add(node);
@@ -229,7 +229,7 @@ namespace SS.Ynote.Classic.Features.Project
                     using (var util = new ProjectUtils())
                     {
                         if (util.ShowDialog(this) != DialogResult.OK) return;
-                        string file = Path.Combine(path.Name, util.FileName);
+                        var file = Path.Combine(path.Name, util.FileName);
                         var node = new ExTreeNode(util.FileName, file, 1, 1, null, ProjectNodeType.File);
                         File.WriteAllText(file, "");
                         projtree.SelectedNode.Nodes.Add(node);
@@ -418,8 +418,8 @@ namespace SS.Ynote.Classic.Features.Project
                     var res = dlg.ShowDialog() == DialogResult.OK;
                     if (!res) return;
                     var selectedNode = projtree.SelectedNode as ExTreeNode;
-                    string dir = selectedNode.Name;
-                    string newfile = Path.Combine(dir, Path.GetFileName(dlg.FileName));
+                    var dir = selectedNode.Name;
+                    var newfile = Path.Combine(dir, Path.GetFileName(dlg.FileName));
                     File.Copy(dlg.FileName, newfile);
                     selectedNode.Nodes.Add(new ExTreeNode(Path.GetFileName(dlg.FileName), newfile, 1, 1, null,
                         ProjectNodeType.File));

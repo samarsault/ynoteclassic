@@ -8,7 +8,7 @@ namespace SS.Ynote.Classic.Features.Extensibility
 {
     public static class YnoteScript
     {
-        static string[] GetReferences()
+        private static string[] GetReferences()
         {
             return new[]
             {
@@ -20,18 +20,18 @@ namespace SS.Ynote.Classic.Features.Extensibility
 
         public static void RunScript(IYnote ynote, string ysfile)
         {
+            string assemblyFileName = ysfile + ".cache";
+            CSScript.GlobalSettings.TargetFramework = "v3.5";
             try
             {
-                Assembly assembly;
-                string assemblyFileName = ysfile + ".cache";
-                CSScript.CacheEnabled = true;
-                CSScript.GlobalSettings.TargetFramework = "v3.5";
-               // var helper =
-               //     new AsmHelper(CSScript.LoadMethod(File.ReadAllText(ysfile), GetReferences()));
-               // helper.Invoke("*.Run", ynote);
-                assembly = !File.Exists(assemblyFileName) ? CSScript.LoadMethod(File.ReadAllText(ysfile),assemblyFileName, false, GetReferences()) : Assembly.LoadFrom(assemblyFileName);
-                var execManager = new AsmHelper(assembly);
-                execManager.Invoke("*.Main", ynote);
+                // var helper =
+                //     new AsmHelper(CSScript.LoadMethod(File.ReadAllText(ysfile), GetReferences()));
+                // helper.Invoke("*.Run", ynote);
+                var assembly = !File.Exists(assemblyFileName) ? CSScript.LoadMethod(File.ReadAllText(ysfile), assemblyFileName, false, GetReferences()) : Assembly.LoadFrom(assemblyFileName);
+                using (var execManager = new AsmHelper(assembly))
+                {
+                    execManager.Invoke("*.Main", ynote);
+                }
             }
             catch (Exception ex)
             {

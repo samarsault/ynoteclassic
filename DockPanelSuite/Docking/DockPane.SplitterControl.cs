@@ -19,8 +19,8 @@ namespace WeifenLuo.WinFormsUI.Docking
                 if (DockPane.DockState != DockState.Document)
                     return;
 
-                Graphics g = e.Graphics;
-                Rectangle rect = ClientRectangle;
+                var g = e.Graphics;
+                var rect = ClientRectangle;
                 if (Alignment == DockAlignment.Top || Alignment == DockAlignment.Bottom)
                     g.DrawLine(SystemPens.ControlDark, rect.Left, rect.Bottom - 1, rect.Right, rect.Bottom - 1);
                 else if (Alignment == DockAlignment.Left || Alignment == DockAlignment.Right)
@@ -30,7 +30,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         public class SplitterControlBase : Control, ISplitterDragSource
         {
-            private DockPane m_pane;
+            private readonly DockPane m_pane;
 
             public SplitterControlBase(DockPane pane)
             {
@@ -87,7 +87,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             {
                 get
                 {
-                    NestedDockingStatus status = DockPane.NestedDockingStatus;
+                    var status = DockPane.NestedDockingStatus;
                     return (status.DisplayingAlignment == DockAlignment.Left ||
                         status.DisplayingAlignment == DockAlignment.Right);
                 }
@@ -97,8 +97,8 @@ namespace WeifenLuo.WinFormsUI.Docking
             {
                 get
                 {
-                    NestedDockingStatus status = DockPane.NestedDockingStatus;
-                    Rectangle rectLimit = Parent.RectangleToScreen(status.LogicalBounds);
+                    var status = DockPane.NestedDockingStatus;
+                    var rectLimit = Parent.RectangleToScreen(status.LogicalBounds);
                     if (((ISplitterDragSource)this).IsVertical)
                     {
                         rectLimit.X += MeasurePane.MinSize;
@@ -116,18 +116,18 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             void ISplitterDragSource.MoveSplitter(int offset)
             {
-                NestedDockingStatus status = DockPane.NestedDockingStatus;
-                double proportion = status.Proportion;
+                var status = DockPane.NestedDockingStatus;
+                var proportion = status.Proportion;
                 if (status.LogicalBounds.Width <= 0 || status.LogicalBounds.Height <= 0)
                     return;
-                else if (status.DisplayingAlignment == DockAlignment.Left)
-                    proportion += ((double)offset) / (double)status.LogicalBounds.Width;
+                if (status.DisplayingAlignment == DockAlignment.Left)
+                    proportion += offset / (double)status.LogicalBounds.Width;
                 else if (status.DisplayingAlignment == DockAlignment.Right)
-                    proportion -= ((double)offset) / (double)status.LogicalBounds.Width;
+                    proportion -= offset / (double)status.LogicalBounds.Width;
                 else if (status.DisplayingAlignment == DockAlignment.Top)
-                    proportion += ((double)offset) / (double)status.LogicalBounds.Height;
+                    proportion += offset / (double)status.LogicalBounds.Height;
                 else
-                    proportion -= ((double)offset) / (double)status.LogicalBounds.Height;
+                    proportion -= offset / (double)status.LogicalBounds.Height;
 
                 DockPane.SetNestedDockingProportion(proportion);
             }

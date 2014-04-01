@@ -15,7 +15,7 @@ public interface IYnote
     /// <summary>
     ///     Gets the Main Menu
     /// </summary>
-    MainMenu MainMenu { get; }
+    MainMenu Menu { get; }
 
     /// <summary>
     ///     Open File

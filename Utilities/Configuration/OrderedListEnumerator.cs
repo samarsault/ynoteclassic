@@ -9,7 +9,7 @@ namespace Nini.Util
         #region Private variables
 
         private int index = -1;
-        private ArrayList list;
+        private readonly ArrayList list;
 
         #endregion Private variables
 
@@ -54,7 +54,7 @@ namespace Nini.Util
         /// <include file='OrderedListEnumerator.xml' path='//Property[@name="Entry"]/docs/*' />
         public DictionaryEntry Entry
         {
-            get { return (DictionaryEntry)Current; }
+            get { return Current; }
         }
 
         /// <include file='OrderedListEnumerator.xml' path='//Property[@name="Key"]/docs/*' />

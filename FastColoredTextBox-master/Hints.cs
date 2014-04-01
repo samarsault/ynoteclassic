@@ -109,7 +109,7 @@ namespace FastColoredTextBoxNS
                 foreach (var item in toDelete)
                     tb.Controls.Remove(item);
 
-                for (int i = 0; i < tb.LineInfos.Count; i++)
+                for (var i = 0; i < tb.LineInfos.Count; i++)
                 {
                     var li = tb.LineInfos[i];
                     li.bottomPadding = 0;

@@ -15,7 +15,7 @@ namespace FastColoredTextBoxNS
 
         public int IndexOf(string item)
         {
-            for (int i = 0; i < ts.Count; i++)
+            for (var i = 0; i < ts.Count; i++)
                 if (ts[i].Text == item)
                     return i;
 
@@ -56,7 +56,7 @@ namespace FastColoredTextBoxNS
 
         public bool Contains(string item)
         {
-            for (int i = 0; i < ts.Count; i++)
+            for (var i = 0; i < ts.Count; i++)
                 if (ts[i].Text == item)
                     return true;
 
@@ -65,7 +65,7 @@ namespace FastColoredTextBoxNS
 
         public void CopyTo(string[] array, int arrayIndex)
         {
-            for (int i = 0; i < ts.Count; i++)
+            for (var i = 0; i < ts.Count; i++)
                 array[i + arrayIndex] = ts[i].Text;
         }
 
@@ -86,7 +86,7 @@ namespace FastColoredTextBoxNS
 
         public IEnumerator<string> GetEnumerator()
         {
-            for (int i = 0; i < ts.Count; i++)
+            for (var i = 0; i < ts.Count; i++)
                 yield return ts[i].Text;
         }
 

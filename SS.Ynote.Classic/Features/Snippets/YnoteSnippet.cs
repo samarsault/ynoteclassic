@@ -7,12 +7,13 @@ namespace SS.Ynote.Classic.Features.Snippets
     public class YnoteSnippet
     {
         public string Value { get; set; }
+
         /// <summary>
         /// Get The AutoComplete Type
         /// </summary>
         public ApType AutoCompleteType { get; set; }
 
-        static string GetSnippetFile(Language lang)
+        private static string GetSnippetFile(Language lang)
         {
             return string.Format(@"{0}Snippets\{1}.ynotesnippet", SettingsBase.SettingsDir, lang);
         }
@@ -21,6 +22,7 @@ namespace SS.Ynote.Classic.Features.Snippets
         {
             return Read(GetSnippetFile(lang));
         }
+
         //<?xml version="1.0"?>
         //  <YnoteSnippet">
         //      <Snippet>for(int i=0;i &lt; ^;i++)</Snippet>
@@ -62,8 +64,6 @@ namespace SS.Ynote.Classic.Features.Snippets
             }
             return lst;
         }
-
- 
     }
 
     /// <summary>

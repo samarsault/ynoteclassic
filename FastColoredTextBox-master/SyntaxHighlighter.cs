@@ -15,10 +15,7 @@ namespace FastColoredTextBoxNS
         {
             get
             {
-                if (platformType == Platform.X86)
-                    return RegexOptions.Compiled;
-                else
-                    return RegexOptions.None;
+                return platformType == Platform.X86 ? RegexOptions.Compiled : RegexOptions.None;
             }
         }
 
@@ -33,7 +30,7 @@ namespace FastColoredTextBoxNS
         public virtual void AutoIndentNeeded(object sender, AutoIndentEventArgs args)
         {
             var tb = (sender as FastColoredTextBox);
-            Language language = tb.Language;
+            var language = tb.Language;
             switch (language)
             {
                 case Language.CSharp:
@@ -105,7 +102,6 @@ namespace FastColoredTextBoxNS
                 if (!Regex.IsMatch(args.PrevLineText, @"(;\s*$)|(;\s*//)")) //operator is unclosed
                 {
                     args.Shift = args.TabLength;
-                    return;
                 }
         }
 
@@ -159,7 +155,6 @@ namespace FastColoredTextBoxNS
             if (args.PrevLineText.TrimEnd().EndsWith("_"))
             {
                 args.Shift = args.TabLength;
-                return;
             }
         }
 
@@ -199,7 +194,6 @@ namespace FastColoredTextBoxNS
                 if (!Regex.IsMatch(args.PrevLineText, @"(;\s*$)|(;\s*//)")) //operator is unclosed
                 {
                     args.Shift = args.TabLength;
-                    return;
                 }
         }
 

@@ -914,15 +914,15 @@ namespace SS.Ynote.Classic.Features.Syntax
                 fctb.Range.ClearFoldingMarkers();
                 //
                 var stack = new Stack<XmlTag>();
-                int id = 0;
+                var id = 0;
                 var ranges =
                     fctb.Range.GetRanges(new Regex(@"<(?<range>/?\w+)\s[^>]*?[^/]>|<(?<range>/?\w+)\s*>",
                         RegexOptions.Singleline));
                 //extract opening and closing tags (exclude open-close tags: <TAG/>)
                 foreach (var r in ranges)
                 {
-                    string tagName = r.Text;
-                    int iLine = r.Start.iLine;
+                    var tagName = r.Text;
+                    var iLine = r.Start.iLine;
                     //if it is opening tag...
                     if (tagName[0] != '/')
                     {
@@ -1022,13 +1022,13 @@ namespace SS.Ynote.Classic.Features.Syntax
             //delete all markers
             fctb.Range.ClearFoldingMarkers();
 
-            int currentIndent = 0;
-            int lastNonEmptyLine = 0;
+            var currentIndent = 0;
+            var lastNonEmptyLine = 0;
 
-            for (int i = 0; i < fctb.LinesCount; i++)
+            for (var i = 0; i < fctb.LinesCount; i++)
             {
                 var line = fctb[i];
-                int spacesCount = line.StartSpacesCount;
+                var spacesCount = line.StartSpacesCount;
                 if (spacesCount == line.Count) //empty line
                     continue;
 

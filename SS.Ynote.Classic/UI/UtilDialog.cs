@@ -123,7 +123,7 @@ namespace SS.Ynote.Classic.UI
             }
             else if (_it == InsertType.Splitter)
             {
-                split(_fctb.Selection.Start.iLine);
+                Split(_fctb.Selection.Start.iLine);
             }
             else if (_it == InsertType.Width)
             {
@@ -138,12 +138,12 @@ namespace SS.Ynote.Classic.UI
             Close();
         }
 
-        private void split(int iLine)
+        private void Split(int iLine)
         {
             _fctb.Selection.Start = new Place(0, iLine);
             _fctb.Selection.Expand();
-            string[] words = _fctb.SelectedText.Split(textBox1.Text.ToCharArray());
-            foreach (string word in words)
+            var words = _fctb.SelectedText.Split(textBox1.Text.ToCharArray());
+            foreach (var word in words)
             {
                 _fctb.InsertText(word + Environment.NewLine);
             }

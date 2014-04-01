@@ -54,7 +54,8 @@ namespace WeifenLuo.WinFormsUI.Docking
                     DragForm.Show(false);
                 }
 
-                DragForm m_dragForm;
+                private readonly DragForm m_dragForm;
+
                 private DragForm DragForm
                 {
                     get { return m_dragForm; }
@@ -97,26 +98,26 @@ namespace WeifenLuo.WinFormsUI.Docking
 
                 private void SetOutline(DockPanel dockPanel, DockStyle dock, bool fullPanelEdge)
                 {
-                    Rectangle rect = fullPanelEdge ? dockPanel.DockArea : dockPanel.DocumentWindowBounds;
+                    var rect = fullPanelEdge ? dockPanel.DockArea : dockPanel.DocumentWindowBounds;
                     rect.Location = dockPanel.PointToScreen(rect.Location);
                     if (dock == DockStyle.Top)
                     {
-                        int height = dockPanel.GetDockWindowSize(DockState.DockTop);
+                        var height = dockPanel.GetDockWindowSize(DockState.DockTop);
                         rect = new Rectangle(rect.X, rect.Y, rect.Width, height);
                     }
                     else if (dock == DockStyle.Bottom)
                     {
-                        int height = dockPanel.GetDockWindowSize(DockState.DockBottom);
+                        var height = dockPanel.GetDockWindowSize(DockState.DockBottom);
                         rect = new Rectangle(rect.X, rect.Bottom - height, rect.Width, height);
                     }
                     else if (dock == DockStyle.Left)
                     {
-                        int width = dockPanel.GetDockWindowSize(DockState.DockLeft);
+                        var width = dockPanel.GetDockWindowSize(DockState.DockLeft);
                         rect = new Rectangle(rect.X, rect.Y, width, rect.Height);
                     }
                     else if (dock == DockStyle.Right)
                     {
-                        int width = dockPanel.GetDockWindowSize(DockState.DockRight);
+                        var width = dockPanel.GetDockWindowSize(DockState.DockRight);
                         rect = new Rectangle(rect.Right - width, rect.Y, width, rect.Height);
                     }
                     else if (dock == DockStyle.Fill)
@@ -132,7 +133,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 {
                     if (dock != DockStyle.Fill)
                     {
-                        Rectangle rect = pane.DisplayingRectangle;
+                        var rect = pane.DisplayingRectangle;
                         if (dock == DockStyle.Right)
                             rect.X += rect.Width / 2;
                         if (dock == DockStyle.Bottom)
@@ -147,22 +148,22 @@ namespace WeifenLuo.WinFormsUI.Docking
                     }
                     else if (contentIndex == -1)
                     {
-                        Rectangle rect = pane.DisplayingRectangle;
+                        var rect = pane.DisplayingRectangle;
                         rect.Location = pane.PointToScreen(rect.Location);
                         SetDragForm(rect);
                     }
                     else
                     {
-                        using (GraphicsPath path = pane.TabStripControl.GetOutline(contentIndex))
+                        using (var path = pane.TabStripControl.GetOutline(contentIndex))
                         {
-                            RectangleF rectF = path.GetBounds();
-                            Rectangle rect = new Rectangle((int)rectF.X, (int)rectF.Y, (int)rectF.Width, (int)rectF.Height);
-                            using (Matrix matrix = new Matrix(rect, new Point[] { new Point(0, 0), new Point(rect.Width, 0), new Point(0, rect.Height) }))
+                            var rectF = path.GetBounds();
+                            var rect = new Rectangle((int)rectF.X, (int)rectF.Y, (int)rectF.Width, (int)rectF.Height);
+                            using (var matrix = new Matrix(rect, new[] { new Point(0, 0), new Point(rect.Width, 0), new Point(0, rect.Height) }))
                             {
                                 path.Transform(matrix);
                             }
 
-                            Region region = new Region(path);
+                            var region = new Region(path);
                             SetDragForm(rect, region);
                         }
                     }
@@ -209,16 +210,16 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             private class VS2012LightPanelIndicator : PictureBox, DockPanel.IPanelIndicator
             {
-                private static Image _imagePanelLeft = Resources.DockIndicator_PanelLeft_VS2012;
-                private static Image _imagePanelRight = Resources.DockIndicator_PanelRight_VS2012;
-                private static Image _imagePanelTop = Resources.DockIndicator_PanelTop_VS2012;
-                private static Image _imagePanelBottom = Resources.DockIndicator_PanelBottom_VS2012;
-                private static Image _imagePanelFill = Resources.DockIndicator_PanelFill_VS2012;
-                private static Image _imagePanelLeftActive = Resources.DockIndicator_PanelLeft_VS2012;
-                private static Image _imagePanelRightActive = Resources.DockIndicator_PanelRight_VS2012;
-                private static Image _imagePanelTopActive = Resources.DockIndicator_PanelTop_VS2012;
-                private static Image _imagePanelBottomActive = Resources.DockIndicator_PanelBottom_VS2012;
-                private static Image _imagePanelFillActive = Resources.DockIndicator_PanelFill_VS2012;
+                private static readonly Image _imagePanelLeft = Resources.DockIndicator_PanelLeft_VS2012;
+                private static readonly Image _imagePanelRight = Resources.DockIndicator_PanelRight_VS2012;
+                private static readonly Image _imagePanelTop = Resources.DockIndicator_PanelTop_VS2012;
+                private static readonly Image _imagePanelBottom = Resources.DockIndicator_PanelBottom_VS2012;
+                private static readonly Image _imagePanelFill = Resources.DockIndicator_PanelFill_VS2012;
+                private static readonly Image _imagePanelLeftActive = Resources.DockIndicator_PanelLeft_VS2012;
+                private static readonly Image _imagePanelRightActive = Resources.DockIndicator_PanelRight_VS2012;
+                private static readonly Image _imagePanelTopActive = Resources.DockIndicator_PanelTop_VS2012;
+                private static readonly Image _imagePanelBottomActive = Resources.DockIndicator_PanelBottom_VS2012;
+                private static readonly Image _imagePanelFillActive = Resources.DockIndicator_PanelFill_VS2012;
 
                 public VS2012LightPanelIndicator(DockStyle dockStyle)
                 {
@@ -227,7 +228,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     Image = ImageInactive;
                 }
 
-                private DockStyle m_dockStyle;
+                private readonly DockStyle m_dockStyle;
 
                 private DockStyle DockStyle
                 {
@@ -258,16 +259,15 @@ namespace WeifenLuo.WinFormsUI.Docking
                     {
                         if (DockStyle == DockStyle.Left)
                             return _imagePanelLeft;
-                        else if (DockStyle == DockStyle.Right)
+                        if (DockStyle == DockStyle.Right)
                             return _imagePanelRight;
-                        else if (DockStyle == DockStyle.Top)
+                        if (DockStyle == DockStyle.Top)
                             return _imagePanelTop;
-                        else if (DockStyle == DockStyle.Bottom)
+                        if (DockStyle == DockStyle.Bottom)
                             return _imagePanelBottom;
-                        else if (DockStyle == DockStyle.Fill)
+                        if (DockStyle == DockStyle.Fill)
                             return _imagePanelFill;
-                        else
-                            return null;
+                        return null;
                     }
                 }
 
@@ -277,16 +277,15 @@ namespace WeifenLuo.WinFormsUI.Docking
                     {
                         if (DockStyle == DockStyle.Left)
                             return _imagePanelLeftActive;
-                        else if (DockStyle == DockStyle.Right)
+                        if (DockStyle == DockStyle.Right)
                             return _imagePanelRightActive;
-                        else if (DockStyle == DockStyle.Top)
+                        if (DockStyle == DockStyle.Top)
                             return _imagePanelTopActive;
-                        else if (DockStyle == DockStyle.Bottom)
+                        if (DockStyle == DockStyle.Bottom)
                             return _imagePanelBottomActive;
-                        else if (DockStyle == DockStyle.Fill)
+                        if (DockStyle == DockStyle.Fill)
                             return _imagePanelFillActive;
-                        else
-                            return null;
+                        return null;
                     }
                 }
 
@@ -318,16 +317,16 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             private class VS2012LightPaneIndicator : PictureBox, DockPanel.IPaneIndicator
             {
-                private static Bitmap _bitmapPaneDiamond = Resources.Dockindicator_PaneDiamond_VS2012;
-                private static Bitmap _bitmapPaneDiamondLeft = Resources.Dockindicator_PaneDiamond_Fill_VS2012;
-                private static Bitmap _bitmapPaneDiamondRight = Resources.Dockindicator_PaneDiamond_Fill_VS2012;
-                private static Bitmap _bitmapPaneDiamondTop = Resources.Dockindicator_PaneDiamond_Fill_VS2012;
-                private static Bitmap _bitmapPaneDiamondBottom = Resources.Dockindicator_PaneDiamond_Fill_VS2012;
-                private static Bitmap _bitmapPaneDiamondFill = Resources.Dockindicator_PaneDiamond_Fill_VS2012;
-                private static Bitmap _bitmapPaneDiamondHotSpot = Resources.Dockindicator_PaneDiamond_Hotspot_VS2012;
-                private static Bitmap _bitmapPaneDiamondHotSpotIndex = Resources.DockIndicator_PaneDiamond_HotspotIndex_VS2012;
+                private static readonly Bitmap _bitmapPaneDiamond = Resources.Dockindicator_PaneDiamond_VS2012;
+                private static readonly Bitmap _bitmapPaneDiamondLeft = Resources.Dockindicator_PaneDiamond_Fill_VS2012;
+                private static readonly Bitmap _bitmapPaneDiamondRight = Resources.Dockindicator_PaneDiamond_Fill_VS2012;
+                private static readonly Bitmap _bitmapPaneDiamondTop = Resources.Dockindicator_PaneDiamond_Fill_VS2012;
+                private static readonly Bitmap _bitmapPaneDiamondBottom = Resources.Dockindicator_PaneDiamond_Fill_VS2012;
+                private static readonly Bitmap _bitmapPaneDiamondFill = Resources.Dockindicator_PaneDiamond_Fill_VS2012;
+                private static readonly Bitmap _bitmapPaneDiamondHotSpot = Resources.Dockindicator_PaneDiamond_Hotspot_VS2012;
+                private static readonly Bitmap _bitmapPaneDiamondHotSpotIndex = Resources.DockIndicator_PaneDiamond_HotspotIndex_VS2012;
 
-                private static DockPanel.HotSpotIndex[] _hotSpots = new[]
+                private static readonly DockPanel.HotSpotIndex[] _hotSpots = new[]
                     {
                         new DockPanel.HotSpotIndex(1, 0, DockStyle.Top),
                         new DockPanel.HotSpotIndex(0, 1, DockStyle.Left),
@@ -336,7 +335,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                         new DockPanel.HotSpotIndex(1, 2, DockStyle.Bottom)
                     };
 
-                private GraphicsPath _displayingGraphicsPath = DrawHelper.CalculateGraphicsPathFromBitmap(_bitmapPaneDiamond);
+                private readonly GraphicsPath _displayingGraphicsPath = DrawHelper.CalculateGraphicsPathFromBitmap(_bitmapPaneDiamond);
 
                 public VS2012LightPaneIndicator()
                 {
@@ -359,7 +358,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     if (!ClientRectangle.Contains(pt))
                         return DockStyle.None;
 
-                    for (int i = _hotSpots.GetLowerBound(0); i <= _hotSpots.GetUpperBound(0); i++)
+                    for (var i = _hotSpots.GetLowerBound(0); i <= _hotSpots.GetUpperBound(0); i++)
                     {
                         if (_bitmapPaneDiamondHotSpot.GetPixel(pt.X, pt.Y) == _bitmapPaneDiamondHotSpotIndex.GetPixel(_hotSpots[i].X, _hotSpots[i].Y))
                             return _hotSpots[i].DockStyle;

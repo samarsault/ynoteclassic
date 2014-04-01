@@ -7,7 +7,7 @@ namespace FastColoredTextBoxNS
 {
     public partial class ReplaceForm : Form
     {
-        private FastColoredTextBox tb;
+        private readonly FastColoredTextBox tb;
         private bool firstSearch = true;
         private Place startPlace;
 
@@ -54,13 +54,13 @@ namespace FastColoredTextBoxNS
 
         public bool Find(string pattern)
         {
-            RegexOptions opt = cbMatchCase.Checked ? RegexOptions.None : RegexOptions.IgnoreCase;
+            var opt = cbMatchCase.Checked ? RegexOptions.None : RegexOptions.IgnoreCase;
             if (!cbRegex.Checked)
                 pattern = Regex.Escape(pattern);
             if (cbWholeWord.Checked)
                 pattern = "\\b" + pattern + "\\b";
             //
-            Range range = tb.Selection.Clone();
+            var range = tb.Selection.Clone();
             range.Normalize();
             //
             if (firstSearch)

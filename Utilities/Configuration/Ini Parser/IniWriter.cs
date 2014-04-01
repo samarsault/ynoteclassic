@@ -46,10 +46,10 @@ namespace Nini.Ini
         private IniWriteState writeState = IniWriteState.Start;
         private char commentDelimiter = ';';
         private char assignDelimiter = '=';
-        private TextWriter textWriter = null;
+        private readonly TextWriter textWriter = null;
         private string eol = "\r\n";
-        private StringBuilder indentationBuffer = new StringBuilder();
-        private Stream baseStream = null;
+        private readonly StringBuilder indentationBuffer = new StringBuilder();
+        private readonly Stream baseStream = null;
         private bool disposed = false;
 
         #endregion Private variables
@@ -67,7 +67,7 @@ namespace Nini.Ini
 
                 indentation = value;
                 indentationBuffer.Remove(0, indentationBuffer.Length);
-                for (int i = 0; i < value; i++)
+                for (var i = 0; i < value; i++)
                     indentationBuffer.Append(' ');
             }
         }
@@ -119,7 +119,7 @@ namespace Nini.Ini
         public IniWriter(TextWriter writer)
         {
             textWriter = writer;
-            StreamWriter streamWriter = writer as StreamWriter;
+            var streamWriter = writer as StreamWriter;
             if (streamWriter != null)
             {
                 baseStream = streamWriter.BaseStream;
@@ -312,7 +312,7 @@ namespace Nini.Ini
         /// </summary>
         private void Write(string value)
         {
-            textWriter.Write(indentationBuffer.ToString() + value);
+            textWriter.Write(indentationBuffer + value);
         }
 
         /// <summary>

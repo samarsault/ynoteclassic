@@ -16,7 +16,8 @@ namespace WeifenLuo.WinFormsUI.Docking
         /// </summary>
         /// <param name="dockPanel">The dock panel.</param>
         /// <param name="dockState">State of the dock.</param>
-        public VS2012LightDockWindow(DockPanel dockPanel, DockState dockState) : base(dockPanel, dockState)
+        public VS2012LightDockWindow(DockPanel dockPanel, DockState dockState)
+            : base(dockPanel, dockState)
         {
         }
 
@@ -24,7 +25,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             get
             {
-                Rectangle rect = ClientRectangle;
+                var rect = ClientRectangle;
                 if (DockState == DockState.DockLeft)
                     rect.Width -= Measures.SplitterSize;
                 else if (DockState == DockState.DockRight)
@@ -43,7 +44,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 return rect;
             }
         }
-        
+
         internal class VS2012LightDockWindowSplitterControl : SplitterBase
         {
             private static readonly SolidBrush _horizontalBrush = new SolidBrush(Color.FromArgb(0xFF, 204, 206, 219));
@@ -56,7 +57,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             protected override void StartDrag()
             {
-                DockWindow window = Parent as DockWindow;
+                var window = Parent as DockWindow;
                 if (window == null)
                     return;
 
@@ -67,7 +68,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             {
                 base.OnPaint(e);
 
-                Rectangle rect = ClientRectangle;
+                var rect = ClientRectangle;
 
                 if (rect.Width <= 0 || rect.Height <= 0)
                     return;
@@ -82,15 +83,17 @@ namespace WeifenLuo.WinFormsUI.Docking
                                 path.AddRectangle(rect);
                                 using (var brush = new PathGradientBrush(path)
                                     {
-                                        CenterColor = Color.FromArgb(0xFF, 204, 206, 219), SurroundColors = _verticalSurroundColors
+                                        CenterColor = Color.FromArgb(0xFF, 204, 206, 219),
+                                        SurroundColors = _verticalSurroundColors
                                     })
                                 {
-                                    e.Graphics.FillRectangle(brush, rect.X + Measures.SplitterSize / 2 - 1, rect.Y, 
-                                                             Measures.SplitterSize/3, rect.Height);
+                                    e.Graphics.FillRectangle(brush, rect.X + Measures.SplitterSize / 2 - 1, rect.Y,
+                                                             Measures.SplitterSize / 3, rect.Height);
                                 }
                             }
                         }
                         break;
+
                     case DockStyle.Bottom:
                     case DockStyle.Top:
                         {
@@ -99,7 +102,6 @@ namespace WeifenLuo.WinFormsUI.Docking
                         }
                         break;
                 }
-
             }
         }
     }

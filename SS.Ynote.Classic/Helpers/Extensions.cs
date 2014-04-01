@@ -1,8 +1,8 @@
-﻿using System;
+﻿using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Snippets;
+using System;
 using System.Linq;
 using System.Windows.Forms;
-using FastColoredTextBoxNS;
-using SS.Ynote.Classic.Features.Snippets;
 
 internal static class HelperMethods
 {
@@ -51,8 +51,9 @@ internal static class HelperMethods
     {
         return Convert.ToInt32(str);
     }
+
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="snippet"></param>
     /// <returns></returns>

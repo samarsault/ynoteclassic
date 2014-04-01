@@ -17,7 +17,8 @@ namespace WeifenLuo.WinFormsUI.Docking
                     DragForm.Show(false);
                 }
 
-                DragForm m_dragForm;
+                private readonly DragForm m_dragForm;
+
                 private DragForm DragForm
                 {
                     get { return m_dragForm; }
@@ -55,6 +56,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
 
             private SplitterOutline m_outline;
+
             private SplitterOutline Outline
             {
                 get { return m_outline; }
@@ -62,6 +64,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
 
             private Rectangle m_rectSplitter;
+
             private Rectangle RectSplitter
             {
                 get { return m_rectSplitter; }
@@ -104,18 +107,17 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             private int GetMovingOffset(Point ptMouse)
             {
-                Rectangle rect = GetSplitterOutlineBounds(ptMouse);
+                var rect = GetSplitterOutlineBounds(ptMouse);
                 if (DragSource.IsVertical)
                     return rect.X - RectSplitter.X;
-                else
-                    return rect.Y - RectSplitter.Y;
+                return rect.Y - RectSplitter.Y;
             }
 
             private Rectangle GetSplitterOutlineBounds(Point ptMouse)
             {
-                Rectangle rectLimit = DragSource.DragLimitBounds;
+                var rectLimit = DragSource.DragLimitBounds;
 
-                Rectangle rect = RectSplitter;
+                var rect = RectSplitter;
                 if (rectLimit.Width <= 0 || rectLimit.Height <= 0)
                     return rect;
 
@@ -144,6 +146,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private SplitterDragHandler m_splitterDragHandler = null;
+
         private SplitterDragHandler GetSplitterDragHandler()
         {
             if (m_splitterDragHandler == null)

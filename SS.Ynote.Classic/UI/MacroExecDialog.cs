@@ -7,7 +7,7 @@ namespace SS.Ynote.Classic.UI
 {
     public partial class MacroExecDialog : Form
     {
-        private FastColoredTextBox fctb;
+        private readonly FastColoredTextBox fctb;
 
         public MacroExecDialog(FastColoredTextBox tb)
         {
@@ -21,7 +21,7 @@ namespace SS.Ynote.Classic.UI
         private void btnExec_Click(object sender, EventArgs e)
         {
             var macro = Path.Combine(SettingsBase.SettingsDir + @"\Macros", cmbMacros.Text + ".ymc");
-            int i = 0;
+            var i = 0;
             while (i < times.Value)
             {
                 fctb.MacrosManager.ExecuteMacros(macro);

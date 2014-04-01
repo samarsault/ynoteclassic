@@ -184,8 +184,7 @@ namespace AutocompleteMenuNS
             {
                 if (Host.ListView is AutocompleteListView)
                     return (Host.ListView as AutocompleteListView).LeftPadding;
-                else
-                    return 0;
+                return 0;
             }
             set
             {
@@ -270,7 +269,7 @@ namespace AutocompleteMenuNS
                 if (sourceItems == null)
                     return null;
                 var list = new List<string>();
-                foreach (AutocompleteItem item in sourceItems)
+                foreach (var item in sourceItems)
                     list.Add(item.ToString());
                 return list.ToArray();
             }
@@ -326,7 +325,7 @@ namespace AutocompleteMenuNS
         {
             //find  AutocompleteMenu with lowest hashcode
             if (Container != null)
-                foreach (object comp in Container.Components)
+                foreach (var comp in Container.Components)
                     if (comp is AutocompleteMenu)
                         if (comp.GetHashCode() < GetHashCode())
                             return false;
@@ -468,7 +467,7 @@ namespace AutocompleteMenuNS
         {
             TargetControlWrapper = FindWrapper(sender as Control);
 
-            bool backspaceORdel = e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete;
+            var backspaceORdel = e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete;
 
             if (Host.Visible)
             {
@@ -523,8 +522,7 @@ namespace AutocompleteMenuNS
         {
             if (AutocompleteMenuByControls.ContainsKey(control))
                 return AutocompleteMenuByControls[control];
-            else
-                return null;
+            return null;
         }
 
         private bool forcedOpened = false;
@@ -580,7 +578,7 @@ namespace AutocompleteMenuNS
                 if (!args.Cancel)
                 {
                     //calc screen point for popup menu
-                    Point point = TargetControlWrapper.TargetControl.Location;
+                    var point = TargetControlWrapper.TargetControl.Location;
                     point.Offset(2, TargetControlWrapper.TargetControl.Height + 2);
                     point = TargetControlWrapper.GetPositionFromCharIndex(Fragment.Start);
                     point.Offset(2, TargetControlWrapper.TargetControl.Font.Height + 2);
@@ -601,21 +599,21 @@ namespace AutocompleteMenuNS
         {
             var visibleItems = new List<AutocompleteItem>();
 
-            bool foundSelected = false;
-            int selectedIndex = -1;
+            var foundSelected = false;
+            var selectedIndex = -1;
             //get fragment around caret
-            Range fragment = GetFragment(SearchPattern);
-            string text = fragment.Text;
+            var fragment = GetFragment(SearchPattern);
+            var text = fragment.Text;
             //
             if (sourceItems != null)
                 if (forced || (text.Length >= MinFragmentLength /* && tb.Selection.Start == tb.Selection.End*/))
                 {
                     Fragment = fragment;
                     //build popup menu
-                    foreach (AutocompleteItem item in sourceItems)
+                    foreach (var item in sourceItems)
                     {
                         item.Parent = this;
-                        CompareResult res = item.Compare(text);
+                        var res = item.Compare(text);
                         if (res != CompareResult.Hidden)
                             visibleItems.Add(item);
                         if (res == CompareResult.VisibleAndSelected && !foundSelected)
@@ -648,13 +646,13 @@ namespace AutocompleteMenuNS
 
             if (tb.SelectionLength > 0) return new Range(tb);
 
-            string text = tb.Text;
+            var text = tb.Text;
             var regex = new Regex(searchPattern);
             var result = new Range(tb);
 
-            int startPos = tb.SelectionStart;
+            var startPos = tb.SelectionStart;
             //go forward
-            int i = startPos;
+            var i = startPos;
             while (i >= 0 && i < text.Length)
             {
                 if (!regex.IsMatch(text[i].ToString()))
@@ -690,7 +688,7 @@ namespace AutocompleteMenuNS
                 sourceItems = null;
                 return;
             }
-            foreach (string item in items)
+            foreach (var item in items)
                 list.Add(new AutocompleteItem(item));
             SetAutocompleteItems(list);
         }
@@ -732,7 +730,7 @@ namespace AutocompleteMenuNS
             if (SelectedItemIndex < 0 || SelectedItemIndex >= VisibleItems.Count)
                 return;
 
-            AutocompleteItem item = VisibleItems[SelectedItemIndex];
+            var item = VisibleItems[SelectedItemIndex];
             var args = new SelectingEventArgs
                            {
                                Item = item,
@@ -750,7 +748,7 @@ namespace AutocompleteMenuNS
 
             if (!args.Handled)
             {
-                Range fragment = Fragment;
+                var fragment = Fragment;
                 ApplyAutocomplete(item, fragment);
             }
 
@@ -767,7 +765,7 @@ namespace AutocompleteMenuNS
 
         private void ApplyAutocomplete(AutocompleteItem item, Range fragment)
         {
-            string newText = item.GetTextForReplace();
+            var newText = item.GetTextForReplace();
             //replace text of fragment
             fragment.Text = newText;
             fragment.TargetWrapper.TargetControl.Focus();

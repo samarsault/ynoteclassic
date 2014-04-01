@@ -6,8 +6,8 @@ namespace WeifenLuo.WinFormsUI.Docking
 {
     public sealed class NestedPaneCollection : ReadOnlyCollection<DockPane>
     {
-        private INestedPanesContainer m_container;
-        private VisibleNestedPaneCollection m_visibleNestedPanes;
+        private readonly INestedPanesContainer m_container;
+        private readonly VisibleNestedPaneCollection m_visibleNestedPanes;
 
         internal NestedPaneCollection(INestedPanesContainer container)
             : base(new List<DockPane>())
@@ -18,22 +18,22 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         public INestedPanesContainer Container
         {
-            get	{	return m_container;	}
+            get { return m_container; }
         }
-        
+
         public VisibleNestedPaneCollection VisibleNestedPanes
         {
-            get	{	return m_visibleNestedPanes;	}
+            get { return m_visibleNestedPanes; }
         }
 
         public DockState DockState
         {
-            get	{	return Container.DockState;	}
+            get { return Container.DockState; }
         }
 
         public bool IsFloat
         {
-            get	{	return DockState == DockState.Float;	}
+            get { return DockState == DockState.Float; }
         }
 
         internal void Add(DockPane pane)
@@ -41,7 +41,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             if (pane == null)
                 return;
 
-            NestedPaneCollection oldNestedPanes = (pane.NestedPanesContainer == null) ? null : pane.NestedPanesContainer.NestedPanes;
+            var oldNestedPanes = (pane.NestedPanesContainer == null) ? null : pane.NestedPanesContainer.NestedPanes;
             if (oldNestedPanes != null)
                 oldNestedPanes.InternalRemove(pane);
             Items.Add(pane);
@@ -51,14 +51,14 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         private void CheckFloatWindowDispose()
         {
-            if (Count != 0 || Container.DockState != DockState.Float) 
+            if (Count != 0 || Container.DockState != DockState.Float)
                 return;
 
-            FloatWindow floatWindow = (FloatWindow)Container;
-            if (floatWindow.Disposing || floatWindow.IsDisposed) 
+            var floatWindow = (FloatWindow)Container;
+            if (floatWindow.Disposing || floatWindow.IsDisposed)
                 return;
 
-            if (Win32Helper.IsRunningOnMono) 
+            if (Win32Helper.IsRunningOnMono)
                 return;
 
             NativeMethods.PostMessage(((FloatWindow)Container).Handle, FloatWindow.WM_CHECKDISPOSE, 0, 0);
@@ -73,9 +73,9 @@ namespace WeifenLuo.WinFormsUI.Docking
             if (!Contains(pane))
                 return;
 
-            NestedDockingStatus statusPane = pane.NestedDockingStatus;
+            var statusPane = pane.NestedDockingStatus;
             DockPane lastNestedPane = null;
-            for (int i = Count - 1; i > IndexOf(pane); i--)
+            for (var i = Count - 1; i > IndexOf(pane); i--)
             {
                 if (this[i].NestedDockingStatus.PreviousPane == pane)
                 {
@@ -86,10 +86,10 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             if (lastNestedPane != null)
             {
-                int indexLastNestedPane = IndexOf(lastNestedPane);
+                var indexLastNestedPane = IndexOf(lastNestedPane);
                 Items[IndexOf(pane)] = lastNestedPane;
                 Items[indexLastNestedPane] = pane;
-                NestedDockingStatus lastNestedDock = lastNestedPane.NestedDockingStatus;
+                var lastNestedDock = lastNestedPane.NestedDockingStatus;
 
                 DockAlignment newAlignment;
                 if (lastNestedDock.Alignment == DockAlignment.Left)
@@ -100,12 +100,12 @@ namespace WeifenLuo.WinFormsUI.Docking
                     newAlignment = DockAlignment.Bottom;
                 else
                     newAlignment = DockAlignment.Top;
-                double newProportion = 1 - lastNestedDock.Proportion;
+                var newProportion = 1 - lastNestedDock.Proportion;
 
                 lastNestedDock.SetStatus(this, statusPane.PreviousPane, statusPane.Alignment, statusPane.Proportion);
-                for (int i = indexLastNestedPane - 1; i > IndexOf(lastNestedPane); i--)
+                for (var i = indexLastNestedPane - 1; i > IndexOf(lastNestedPane); i--)
                 {
-                    NestedDockingStatus status = this[i].NestedDockingStatus;
+                    var status = this[i].NestedDockingStatus;
                     if (status.PreviousPane == pane)
                         status.SetStatus(this, lastNestedPane, status.Alignment, status.Proportion);
                 }
@@ -125,9 +125,9 @@ namespace WeifenLuo.WinFormsUI.Docking
             if (!Contains(pane))
                 return;
 
-            NestedDockingStatus statusPane = pane.NestedDockingStatus;
+            var statusPane = pane.NestedDockingStatus;
             DockPane lastNestedPane = null;
-            for (int i=Count - 1; i> IndexOf(pane); i--)
+            for (var i = Count - 1; i > IndexOf(pane); i--)
             {
                 if (this[i].NestedDockingStatus.PreviousPane == pane)
                 {
@@ -138,14 +138,14 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             if (lastNestedPane != null)
             {
-                int indexLastNestedPane = IndexOf(lastNestedPane);
+                var indexLastNestedPane = IndexOf(lastNestedPane);
                 Items.Remove(lastNestedPane);
                 Items[IndexOf(pane)] = lastNestedPane;
-                NestedDockingStatus lastNestedDock = lastNestedPane.NestedDockingStatus;
+                var lastNestedDock = lastNestedPane.NestedDockingStatus;
                 lastNestedDock.SetStatus(this, statusPane.PreviousPane, statusPane.Alignment, statusPane.Proportion);
-                for (int i=indexLastNestedPane - 1; i>IndexOf(lastNestedPane); i--)
+                for (var i = indexLastNestedPane - 1; i > IndexOf(lastNestedPane); i--)
                 {
-                    NestedDockingStatus status = this[i].NestedDockingStatus;
+                    var status = this[i].NestedDockingStatus;
                     if (status.PreviousPane == pane)
                         status.SetStatus(this, lastNestedPane, status.Alignment, status.Proportion);
                 }
@@ -160,7 +160,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         public DockPane GetDefaultPreviousPane(DockPane pane)
         {
-            for (int i=Count-1; i>=0; i--)
+            for (var i = Count - 1; i >= 0; i--)
                 if (this[i] != pane)
                     return this[i];
 

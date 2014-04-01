@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-using System.Xml;
 
 namespace SS.Ynote.Classic.Features.Packages
 {
@@ -28,19 +26,18 @@ namespace SS.Ynote.Classic.Features.Packages
             try
             {
                 var manifest = GenerateManifest(dictionary);
-                string path = Path.GetTempFileName() + ".manifest";
+                var path = Path.GetTempFileName() + ".manifest";
                 File.WriteAllText(path, manifest);
                 using (var package = ZipStorer.Create(outfile, ""))
                 {
                     foreach (var key in dictionary.Keys)
-                        package.AddFile(ZipStorer.Compression.Store, key,Path.GetFileName(key) , "");
+                        package.AddFile(ZipStorer.Compression.Store, key, Path.GetFileName(key), "");
                     package.AddFile(ZipStorer.Compression.Store, path, "index.manifest", "");
                     return true;
                 }
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show("Package Creation Not Succesful\r\nError : " + ex.Message);
                 return false;
             }

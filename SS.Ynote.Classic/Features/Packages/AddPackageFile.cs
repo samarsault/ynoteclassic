@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace SS.Ynote.Classic.Features.Packages
@@ -14,11 +8,13 @@ namespace SS.Ynote.Classic.Features.Packages
         /// <summary>
         /// Input
         /// </summary>
-        public string Input{get { return tbFile.Text; }}
+        public string Input { get { return tbFile.Text; } }
+
         /// <summary>
         /// Output
         /// </summary>
-        public string Output{get { return tbOutput.Text; }}
+        public string Output { get { return tbOutput.Text; } }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -26,7 +22,7 @@ namespace SS.Ynote.Classic.Features.Packages
         {
             InitializeComponent();
         }
-        
+
         private void btnOk_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(tbFile.Text) || string.IsNullOrEmpty(tbOutput.Text))

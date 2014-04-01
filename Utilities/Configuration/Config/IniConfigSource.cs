@@ -170,7 +170,7 @@ namespace Nini.Config
         public override string ToString()
         {
             MergeConfigsIntoDocument();
-            StringWriter writer = new StringWriter();
+            var writer = new StringWriter();
             iniDocument.Save(writer);
 
             return writer.ToString();
@@ -189,17 +189,17 @@ namespace Nini.Config
             RemoveSections();
             foreach (IConfig config in Configs)
             {
-                string[] keys = config.GetKeys();
+                var keys = config.GetKeys();
 
                 // Create a new section if one doesn't exist
                 if (iniDocument.Sections[config.Name] == null)
                 {
-                    IniSection section = new IniSection(config.Name);
+                    var section = new IniSection(config.Name);
                     iniDocument.Sections.Add(section);
                 }
                 RemoveKeys(config.Name);
 
-                for (int i = 0; i < keys.Length; i++)
+                for (var i = 0; i < keys.Length; i++)
                 {
                     iniDocument.Sections[config.Name].Set(keys[i], config.Get(keys[i]));
                 }
@@ -212,7 +212,7 @@ namespace Nini.Config
         private void RemoveSections()
         {
             IniSection section = null;
-            for (int i = 0; i < iniDocument.Sections.Count; i++)
+            for (var i = 0; i < iniDocument.Sections.Count; i++)
             {
                 section = iniDocument.Sections[i];
                 if (Configs[section.Name] == null)
@@ -227,11 +227,11 @@ namespace Nini.Config
         /// </summary>
         private void RemoveKeys(string sectionName)
         {
-            IniSection section = iniDocument.Sections[sectionName];
+            var section = iniDocument.Sections[sectionName];
 
             if (section != null)
             {
-                foreach (string key in section.GetKeys())
+                foreach (var key in section.GetKeys())
                 {
                     if (Configs[sectionName].Get(key) == null)
                     {
@@ -250,12 +250,12 @@ namespace Nini.Config
             IniSection section = null;
             IniItem item = null;
 
-            for (int j = 0; j < iniDocument.Sections.Count; j++)
+            for (var j = 0; j < iniDocument.Sections.Count; j++)
             {
                 section = iniDocument.Sections[j];
                 config = new IniConfig(section.Name, this);
 
-                for (int i = 0; i < section.ItemCount; i++)
+                for (var i = 0; i < section.ItemCount; i++)
                 {
                     item = section.GetItem(i);
 
@@ -279,11 +279,11 @@ namespace Nini.Config
             RemoveConfigs();
 
             IniSection section = null;
-            for (int i = 0; i < iniDocument.Sections.Count; i++)
+            for (var i = 0; i < iniDocument.Sections.Count; i++)
             {
                 section = iniDocument.Sections[i];
 
-                IConfig config = Configs[section.Name];
+                var config = Configs[section.Name];
                 if (config == null)
                 {
                     // The section is new so add it
@@ -300,7 +300,7 @@ namespace Nini.Config
         private void RemoveConfigs()
         {
             IConfig config = null;
-            for (int i = Configs.Count - 1; i > -1; i--)
+            for (var i = Configs.Count - 1; i > -1; i--)
             {
                 config = Configs[i];
                 // If the section is not present in the INI doc
@@ -316,11 +316,11 @@ namespace Nini.Config
         /// </summary>
         private void RemoveConfigKeys(IConfig config)
         {
-            IniSection section = iniDocument.Sections[config.Name];
+            var section = iniDocument.Sections[config.Name];
 
             // Remove old keys
-            string[] configKeys = config.GetKeys();
-            foreach (string configKey in configKeys)
+            var configKeys = config.GetKeys();
+            foreach (var configKey in configKeys)
             {
                 if (!section.Contains(configKey))
                 {
@@ -330,10 +330,10 @@ namespace Nini.Config
             }
 
             // Add or set all new keys
-            string[] keys = section.GetKeys();
-            for (int i = 0; i < keys.Length; i++)
+            var keys = section.GetKeys();
+            for (var i = 0; i < keys.Length; i++)
             {
-                string key = keys[i];
+                var key = keys[i];
                 config.Set(key, section.GetItem(i).Value);
             }
         }

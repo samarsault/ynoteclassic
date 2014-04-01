@@ -6,10 +6,14 @@ namespace FastColoredTextBoxNS
 {
     public partial class FindForm : Form
     {
-        private bool firstSearch = true;
-        private Place startPlace;
+        private bool _firstSearch = true;
+        private Place _startPlace;
         private readonly FastColoredTextBox tb;
 
+        /// <summary>
+        /// Find Form
+        /// </summary>
+        /// <param name="tb"></param>
         public FindForm(FastColoredTextBox tb)
         {
             InitializeComponent();
@@ -38,23 +42,23 @@ namespace FastColoredTextBoxNS
         {
             try
             {
-                RegexOptions opt = cbMatchCase.Checked ? RegexOptions.None : RegexOptions.IgnoreCase;
+                var opt = cbMatchCase.Checked ? RegexOptions.None : RegexOptions.IgnoreCase;
                 if (!cbRegex.Checked)
                     pattern = Regex.Escape(pattern);
                 if (cbWholeWord.Checked)
                     pattern = "\\b" + pattern + "\\b";
                 //
-                Range range = tb.Selection.Clone();
+                var range = tb.Selection.Clone();
                 range.Normalize();
                 //
-                if (firstSearch)
+                if (_firstSearch)
                 {
-                    startPlace = range.Start;
-                    firstSearch = false;
+                    _startPlace = range.Start;
+                    _firstSearch = false;
                 }
                 //
                 range.Start = range.End;
-                range.End = range.Start >= startPlace ? new Place(tb.GetLineLength(tb.LinesCount - 1), tb.LinesCount - 1) : startPlace;
+                range.End = range.Start >= _startPlace ? new Place(tb.GetLineLength(tb.LinesCount - 1), tb.LinesCount - 1) : _startPlace;
                 //
                 foreach (var r in range.GetRanges(pattern, opt))
                 {
@@ -64,7 +68,7 @@ namespace FastColoredTextBoxNS
                     return;
                 }
                 //
-                if (range.Start >= startPlace && startPlace > Place.Empty)
+                if (range.Start >= _startPlace && _startPlace > Place.Empty)
                 {
                     tb.Selection.Start = new Place(0, 0);
                     FindNext(pattern);
@@ -90,7 +94,6 @@ namespace FastColoredTextBoxNS
             {
                 Hide();
                 e.Handled = true;
-                return;
             }
         }
 
@@ -122,7 +125,7 @@ namespace FastColoredTextBoxNS
 
         private void ResetSerach()
         {
-            firstSearch = true;
+            _firstSearch = true;
         }
 
         private void cbMatchCase_CheckedChanged(object sender, EventArgs e)
@@ -136,7 +139,7 @@ namespace FastColoredTextBoxNS
         {
             try
             {
-                RegexOptions opt = cbMatchCase.Checked ? RegexOptions.None : RegexOptions.IgnoreCase;
+                var opt = cbMatchCase.Checked ? RegexOptions.None : RegexOptions.IgnoreCase;
                 if (!cbRegex.Checked)
                     pattern = Regex.Escape(pattern);
                 if (cbWholeWord.Checked)
@@ -144,16 +147,16 @@ namespace FastColoredTextBoxNS
                 //
                 var range = tb.Selection;
                 //
-                if (firstSearch)
+                if (_firstSearch)
                 {
                     _originalSelection = range;
-                    startPlace = range.Start;
-                    firstSearch = false;
+                    _startPlace = range.Start;
+                    _firstSearch = false;
                 }
                 else
                 {
                     range.Start = range.End;
-                    range.End = range.Start >= startPlace ? new Place(tb.GetLineLength(tb.LinesCount - 1), tb.LinesCount - 1) : startPlace;
+                    range.End = range.Start >= _startPlace ? new Place(tb.GetLineLength(tb.LinesCount - 1), tb.LinesCount - 1) : _startPlace;
                 }
                 foreach (var r in range.GetRanges(pattern, opt))
                 {
@@ -163,7 +166,7 @@ namespace FastColoredTextBoxNS
                     return;
                 }
                 //
-                if (range.Start >= startPlace && startPlace > Place.Empty)
+                if (range.Start >= _startPlace && _startPlace > Place.Empty)
                 {
                     tb.Selection = _originalSelection;
                     FindNextInSelection(pattern);

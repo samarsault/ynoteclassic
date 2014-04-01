@@ -6,7 +6,7 @@ namespace Nini.Ini
         #region Private variables
 
         private IniType iniType = IniType.Empty;
-        private string iniName = "";
+        private readonly string iniName = "";
         private string iniValue = "";
         private string iniComment = null;
 

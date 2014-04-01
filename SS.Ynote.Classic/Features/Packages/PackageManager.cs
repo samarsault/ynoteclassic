@@ -20,14 +20,14 @@ namespace SS.Ynote.Classic.Features.Packages
         private void PopulatePackageList()
         {
             foreach (var file in Directory.GetFiles(SettingsBase.SettingsDir + "Packages"))
-                listView1.Items.Add(new ListViewItem(new[] {Path.GetFileNameWithoutExtension(file), file}));
+                listView1.Items.Add(new ListViewItem(new[] { Path.GetFileNameWithoutExtension(file), file }));
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             using (var ofd = new OpenFileDialog())
             {
-                ofd.Filter = "Ynote Plugin Packages (*.ypk)|*.ypk";
+                ofd.Filter = "Ynote Packages (*.ypk)|*.ypk";
                 ofd.ShowDialog();
                 if (string.IsNullOrEmpty(ofd.FileName)) return;
                 var installer = new PackageInstaller(ofd.FileName) { StartPosition = FormStartPosition.CenterParent };
@@ -46,7 +46,7 @@ namespace SS.Ynote.Classic.Features.Packages
             if (listView1.SelectedItems[0] == null)
                 return;
             var package = listView1.SelectedItems[0].SubItems[1].Text;
-            YnotePackageUninstaller.UninstallPackage(package);
+            YnotePackageManager.UninstallPackage(package);
         }
     }
 }

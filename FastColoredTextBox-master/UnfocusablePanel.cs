@@ -29,14 +29,10 @@ namespace FastColoredTextBoxNS
             using (var pen = new Pen(BorderColor))
                 e.Graphics.DrawRectangle(pen, 0, 0, ClientSize.Width - 1, ClientSize.Height - 1);
 
-            if (!string.IsNullOrEmpty(Text))
-            {
-                StringFormat sf = new StringFormat();
-                sf.Alignment = TextAlignment;
-                sf.LineAlignment = StringAlignment.Center;
-                using (var brush = new SolidBrush(ForeColor))
-                    e.Graphics.DrawString(Text, Font, brush, new RectangleF(1, 1, ClientSize.Width - 2, ClientSize.Height - 2), sf);
-            }
+            if (string.IsNullOrEmpty(Text)) return;
+            var sf = new StringFormat { Alignment = TextAlignment, LineAlignment = StringAlignment.Center };
+            using (var brush = new SolidBrush(ForeColor))
+                e.Graphics.DrawString(Text, Font, brush, new RectangleF(1, 1, ClientSize.Width - 2, ClientSize.Height - 2), sf);
         }
     }
 }

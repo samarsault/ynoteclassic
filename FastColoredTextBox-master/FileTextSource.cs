@@ -56,8 +56,8 @@ namespace FastColoredTextBoxNS
             var iStartVisibleLine = CurrentTb.VisibleRange.Start.iLine;
             var iFinishVisibleLine = CurrentTb.VisibleRange.End.iLine;
 
-            int count = 0;
-            for (int i = 0; i < Count; i++)
+            var count = 0;
+            for (var i = 0; i < Count; i++)
                 if (lines[i] != null && !base.lines[i].IsChanged && Math.Abs(i - iFinishVisibleLine) > margin)
                 {
                     lines[i] = null;
@@ -80,7 +80,7 @@ namespace FastColoredTextBoxNS
             var length = fs.Length;
             //read signature
             enc = DefineEncoding(enc, fs);
-            int shift = DefineShift(enc);
+            var shift = DefineShift(enc);
             //first line
             sourceFileLinePositions.Add((int)fs.Position);
             base.lines.Add(null);
@@ -95,14 +95,14 @@ namespace FastColoredTextBoxNS
                 }
             }
 
-            Line[] temp = new Line[100];
+            var temp = new Line[100];
             var c = base.lines.Count;
-            base.lines.AddRange(temp);
-            base.lines.TrimExcess();
-            base.lines.RemoveRange(c, temp.Length);
+            lines.AddRange(temp);
+            lines.TrimExcess();
+            lines.RemoveRange(c, temp.Length);
 
-            int[] temp2 = new int[100];
-            c = base.lines.Count;
+            var temp2 = new int[100];
+            c = lines.Count;
             sourceFileLinePositions.AddRange(temp2);
             sourceFileLinePositions.TrimExcess();
             sourceFileLinePositions.RemoveRange(c, temp.Length);
@@ -112,7 +112,7 @@ namespace FastColoredTextBoxNS
             OnLineInserted(0, Count);
             //load first lines for calc width of the text
             var linesCount = Math.Min(lines.Count, CurrentTb.ClientRectangle.Height / CurrentTb.CharHeight);
-            for (int i = 0; i < linesCount; i++)
+            for (var i = 0; i < linesCount; i++)
                 LoadLineFromSourceFile(i);
             //
             NeedRecalc(new TextChangedEventArgs(0, linesCount - 1));
@@ -142,9 +142,9 @@ namespace FastColoredTextBoxNS
 
         private static Encoding DefineEncoding(Encoding enc, Stream fs)
         {
-            int bytesPerSignature = 0;
-            byte[] signature = new byte[4];
-            int c = fs.Read(signature, 0, 4);
+            var bytesPerSignature = 0;
+            var signature = new byte[4];
+            var c = fs.Read(signature, 0, 4);
             if (signature[0] == 0xFF && signature[1] == 0xFE && signature[2] == 0x00 && signature[3] == 0x00 && c >= 4)
             {
                 enc = Encoding.UTF32;//UTF32 LE
@@ -208,14 +208,14 @@ namespace FastColoredTextBoxNS
             {
                 sw.Flush();
 
-                for (int i = 0; i < Count; i++)
+                for (var i = 0; i < Count; i++)
                 {
                     newLinePos.Add((int)tempFs.Length);
 
                     var sourceLine = ReadLine(sr, i);//read line from source file
                     string line;
 
-                    bool lineIsChanged = lines[i] != null && lines[i].IsChanged;
+                    var lineIsChanged = lines[i] != null && lines[i].IsChanged;
 
                     line = lineIsChanged ? lines[i].Text : sourceLine;
 
@@ -240,7 +240,7 @@ namespace FastColoredTextBoxNS
             }
 
             //clear lines buffer
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
                 lines[i] = null;
             //deattach from source file
             sr.Dispose();
@@ -264,7 +264,7 @@ namespace FastColoredTextBoxNS
                 return "";
             fs.Seek(filePos, SeekOrigin.Begin);
             sr.DiscardBufferedData();
-            string line = sr.ReadLine();
+            var line = sr.ReadLine();
             return line;
         }
 
@@ -281,8 +281,7 @@ namespace FastColoredTextBoxNS
             {
                 if (base.lines[i] != null)
                     return lines[i];
-                else
-                    LoadLineFromSourceFile(i);
+                LoadLineFromSourceFile(i);
 
                 return lines[i];
             }
@@ -296,7 +295,7 @@ namespace FastColoredTextBoxNS
         {
             var line = CreateLine();
             fs.Seek(sourceFileLinePositions[i], SeekOrigin.Begin);
-            StreamReader sr = new StreamReader(fs, fileEncoding);
+            var sr = new StreamReader(fs, fileEncoding);
 
             var s = sr.ReadLine();
             if (s == null)
@@ -341,24 +340,21 @@ namespace FastColoredTextBoxNS
         {
             if (base.lines[i] == null)
                 return 0;
-            else
-                return base.lines[i].Count;
+            return base.lines[i].Count;
         }
 
         public override bool LineHasFoldingStartMarker(int iLine)
         {
             if (lines[iLine] == null)
                 return false;
-            else
-                return !string.IsNullOrEmpty(lines[iLine].FoldingStartMarker);
+            return !string.IsNullOrEmpty(lines[iLine].FoldingStartMarker);
         }
 
         public override bool LineHasFoldingEndMarker(int iLine)
         {
             if (lines[iLine] == null)
                 return false;
-            else
-                return !string.IsNullOrEmpty(lines[iLine].FoldingEndMarker);
+            return !string.IsNullOrEmpty(lines[iLine].FoldingEndMarker);
         }
 
         public override void Dispose()

@@ -1,15 +1,15 @@
-using System.Text;
-using System.Xml;
 using FastColoredTextBoxNS;
 using SS.Ynote.Classic.Features.Extensibility;
 using SS.Ynote.Classic.Features.RunScript;
+using SS.Ynote.Classic.Features.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
-using SS.Ynote.Classic.Features.Syntax;
+using System.Xml;
 using WeifenLuo.WinFormsUI.Docking;
 using AutocompleteItem = AutocompleteMenuNS.AutocompleteItem;
 
@@ -42,7 +42,7 @@ namespace SS.Ynote.Classic.UI
         public void AddText(string text)
         {
             tbcommand.Text = text;
-            tbcommand.Focus();
+            tbcommand.Select(tbcommand.Text.Length, 0);
             addedText = true;
         }
 
@@ -114,10 +114,10 @@ namespace SS.Ynote.Classic.UI
             try
             {
                 var cmd = new SCommand();
-                int l = command.IndexOf(":");
+                var l = command.IndexOf(":");
                 if (l > 0)
                     cmd.Key = command.Substring(0, l);
-                string result = command.Substring(command.LastIndexOf(':') + 1);
+                var result = command.Substring(command.LastIndexOf(':') + 1);
                 cmd.Value = result;
                 return cmd;
             }
@@ -158,8 +158,8 @@ namespace SS.Ynote.Classic.UI
             switch (c.Key)
             {
                 case "SetSyntax":
-                    ActiveEditor.Highlighter.HighlightSyntax(c.Value.ToEnum<Language>(), new TextChangedEventArgs(ActiveEditor.tb.Range));
-                    ActiveEditor.tb.Language = c.Value.ToEnum<Language>();
+                    ActiveEditor.Highlighter.HighlightSyntax(c.Value.ToEnum<Language>(), new TextChangedEventArgs(ActiveEditor.Tb.Range));
+                    ActiveEditor.Tb.Language = c.Value.ToEnum<Language>();
                     ActiveEditor.Syntax = null;
                     if (LangMenu != null) LangMenu.Text = c.Value;
                     break;
@@ -168,7 +168,7 @@ namespace SS.Ynote.Classic.UI
                     foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes.Where(syntax => syntax.SysPath ==
                                                                                                                              string.Format("{0}\\Syntaxes\\{1}.xml", Application.StartupPath, c.Value)))
                     {
-                        ActiveEditor.Highlighter.HighlightSyntax(syntax, new TextChangedEventArgs(ActiveEditor.tb.Range));
+                        ActiveEditor.Highlighter.HighlightSyntax(syntax, new TextChangedEventArgs(ActiveEditor.Tb.Range));
                         ActiveEditor.Syntax = syntax;
                         if (LangMenu != null) LangMenu.Text = c.Value;
                     }
@@ -256,27 +256,27 @@ namespace SS.Ynote.Classic.UI
             switch (val)
             {
                 case "GoLeftBracket()":
-                    ActiveEditor.tb.GoLeftBracket('(', ')');
+                    ActiveEditor.Tb.GoLeftBracket('(', ')');
                     break;
 
                 case "GoRightBracket()":
-                    ActiveEditor.tb.GoRightBracket('(', ')');
+                    ActiveEditor.Tb.GoRightBracket('(', ')');
                     break;
 
                 case "GoLeftBracket[]":
-                    ActiveEditor.tb.GoLeftBracket('[', ']');
+                    ActiveEditor.Tb.GoLeftBracket('[', ']');
                     break;
 
                 case "GoRightBracket[]":
-                    ActiveEditor.tb.GoRightBracket('[', ']');
+                    ActiveEditor.Tb.GoRightBracket('[', ']');
                     break;
 
                 case "GoLeftBracket{}":
-                    ActiveEditor.tb.GoLeftBracket('{', '}');
+                    ActiveEditor.Tb.GoLeftBracket('{', '}');
                     break;
 
                 case "GoRightBracket{}":
-                    ActiveEditor.tb.GoRightBracket('{', '}');
+                    ActiveEditor.Tb.GoRightBracket('{', '}');
                     break;
             }
         }
@@ -294,7 +294,7 @@ namespace SS.Ynote.Classic.UI
 
         private void RunMacro(string macro)
         {
-            ActiveEditor.tb.MacrosManager.ExecuteMacros(string.Format(@"{0}Macros\{1}.ymc", SettingsBase.SettingsDir,
+            ActiveEditor.Tb.MacrosManager.ExecuteMacros(string.Format(@"{0}Macros\{1}.ymc", SettingsBase.SettingsDir,
                 macro));
             //ActiveEditor.tb.MacrosManager.Macros =
             //    File.ReadAllText(Application.StartupPath + @"\User\Macros\" + macro + ".ymc");
@@ -310,106 +310,131 @@ namespace SS.Ynote.Classic.UI
         private void SelectionFunc(string val)
         {
             if (val == "Readonly")
-                ActiveEditor.tb.Selection.ReadOnly = true;
+                ActiveEditor.Tb.Selection.ReadOnly = true;
             else if (val == "Writeable")
-                ActiveEditor.tb.Selection.ReadOnly = false;
+                ActiveEditor.Tb.Selection.ReadOnly = false;
         }
 
         private void Viewfunc(string str)
         {
             if (str == "ZoomIn")
-                ActiveEditor.tb.Zoom += 10;
+                ActiveEditor.Tb.Zoom += 10;
             else if (str == "ZoomOut")
-                ActiveEditor.tb.Zoom -= 10;
+                ActiveEditor.Tb.Zoom -= 10;
         }
 
         private void MacroFunc(string str)
         {
             if (str == "Record")
-                ActiveEditor.tb.MacrosManager.IsRecording = true;
+                ActiveEditor.Tb.MacrosManager.IsRecording = true;
             else if (str == "StopRecord")
-                ActiveEditor.tb.MacrosManager.IsRecording = false;
+                ActiveEditor.Tb.MacrosManager.IsRecording = false;
             else if (str == "Run")
-                ActiveEditor.tb.MacrosManager.ExecuteMacros();
+                ActiveEditor.Tb.MacrosManager.ExecuteMacros();
             else if (str == "Clear")
-                ActiveEditor.tb.MacrosManager.ClearMacros();
+                ActiveEditor.Tb.MacrosManager.ClearMacros();
         }
 
         private void CommentFunc(string func)
         {
             if (func == "Toggle")
-                ActiveEditor.tb.InsertLinePrefix(ActiveEditor.tb.CommentPrefix);
+                ActiveEditor.Tb.InsertLinePrefix(ActiveEditor.Tb.CommentPrefix);
             else if (func == "Remove")
-                ActiveEditor.tb.RemoveLinePrefix(ActiveEditor.tb.CommentPrefix);
+                ActiveEditor.Tb.RemoveLinePrefix(ActiveEditor.Tb.CommentPrefix);
         }
 
         private void Export(string func)
         {
-            var dialog = new SaveFileDialog();
-            if (func == "Rtf")
+            using (var dialog = new SaveFileDialog())
             {
-                dialog.Filter = "Rich Text (*.rtf)|*.rtf";
-                dialog.Tag = ActiveEditor.tb.Rtf;
+                switch (func)
+                {
+                    case "Rtf":
+                        dialog.Filter = "Rich Text (*.rtf)|*.rtf";
+                        dialog.Tag = ActiveEditor.Tb.Rtf;
+                        break;
+
+                    case "Html":
+                        dialog.Filter = "HTML Documents(*.html)|*.rtf";
+                        dialog.Tag = ActiveEditor.Tb.Html;
+                        break;
+                }
+                dialog.ShowDialog();
+                if (!string.IsNullOrEmpty(dialog.FileName))
+                    File.WriteAllText(dialog.FileName, dialog.Tag.ToString());
             }
-            else if (func == "Html")
-            {
-                dialog.Filter = "HTML Documents(*.html)|*.rtf";
-                dialog.Tag = ActiveEditor.tb.Html;
-            }
-            dialog.ShowDialog();
-            if (!string.IsNullOrEmpty(dialog.FileName))
-                File.WriteAllText(dialog.FileName, dialog.Tag.ToString());
         }
 
         private void LineFunc(string str)
         {
-            if (str == "MoveLineDown")
-                ActiveEditor.tb.MoveSelectedLinesDown();
-            else if (str == "MoveLineUp")
-                ActiveEditor.tb.MoveSelectedLinesUp();
-            else if (str == "Duplicate")
+            switch (str)
             {
-                FastColoredTextBox fctb = ActiveEditor.tb;
-                fctb.Selection.Start = new Place(0, ActiveEditor.tb.Selection.Start.iLine);
-                fctb.Selection.Expand();
-                object text = fctb.Selection.Text;
-                fctb.Selection.Start = new Place(0, ActiveEditor.tb.Selection.Start.iLine);
-                fctb.InsertText(text + "\r\n");
-            }
-            else if (str == "Join")
-            {
-                string[] lines = ActiveEditor.tb.SelectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-                ActiveEditor.tb.SelectedText = string.Join(" ", lines);
-            }
-            else if (str == "Sort")
-            {
-                var fctb = ActiveEditor.tb;
-                if (fctb.SelectedText == null)
-                {
-                    MessageBox.Show("No Text/Lines is/are Selected to Reverse");
-                    return;
-                }
-                string[] lines = fctb.SelectedText.Split(new[] { Environment.NewLine },
-                    StringSplitOptions.RemoveEmptyEntries);
-                Array.Reverse(lines);
-                string formedtext = lines.Aggregate<string, string>(null, (current, line) => current + (line + "\r\n"));
-                fctb.SelectedText = formedtext;
+                case "MoveLineDown":
+                    ActiveEditor.Tb.MoveSelectedLinesDown();
+                    break;
+
+                case "MoveLineUp":
+                    ActiveEditor.Tb.MoveSelectedLinesUp();
+                    break;
+
+                case "Duplicate":
+                    {
+                        var fctb = ActiveEditor.Tb;
+                        fctb.Selection.Start = new Place(0, ActiveEditor.Tb.Selection.Start.iLine);
+                        fctb.Selection.Expand();
+                        object text = fctb.Selection.Text;
+                        fctb.Selection.Start = new Place(0, ActiveEditor.Tb.Selection.Start.iLine);
+                        fctb.InsertText(text + "\r\n");
+                    }
+                    break;
+
+                case "Join":
+                    {
+                        var lines = ActiveEditor.Tb.SelectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                        ActiveEditor.Tb.SelectedText = string.Join(" ", lines);
+                    }
+                    break;
+
+                case "Sort":
+                    {
+                        var fctb = ActiveEditor.Tb;
+                        if (fctb.SelectedText == null)
+                        {
+                            MessageBox.Show("No Text/Lines is/are Selected to Reverse");
+                            return;
+                        }
+                        var lines = fctb.SelectedText.Split(new[] { Environment.NewLine },
+                            StringSplitOptions.RemoveEmptyEntries);
+                        Array.Reverse(lines);
+                        var formedtext = lines.Aggregate<string, string>(null, (current, line) => current + (line + "\r\n"));
+                        fctb.SelectedText = formedtext;
+                    }
+                    break;
             }
         }
 
         private void IndentFunc(string str)
         {
-            if (str == "Increase")
-                ActiveEditor.tb.IncreaseIndent();
-            else if (str == "Decrease")
-                ActiveEditor.tb.DecreaseIndent();
-            else if (str == "Do")
-                if (ActiveEditor.tb.Language == Language.Xml)
-                    PrettyXml(ActiveEditor.tb.Text);
-                else
-                    ActiveEditor.tb.DoAutoIndent();
+            switch (str)
+            {
+                case "Increase":
+                    ActiveEditor.Tb.IncreaseIndent();
+                    break;
+
+                case "Decrease":
+                    ActiveEditor.Tb.DecreaseIndent();
+                    break;
+
+                case "Do":
+                    if (ActiveEditor.Tb.Language == Language.Xml)
+                        ActiveEditor.Tb.Text = PrettyXml(ActiveEditor.Tb.Text);
+                    else
+                        ActiveEditor.Tb.DoAutoIndent();
+                    break;
+            }
         }
-        public static string PrettyXml(string XML)
+
+        private static string PrettyXml(string xml)
         {
             var result = "";
 
@@ -420,7 +445,7 @@ namespace SS.Ynote.Classic.UI
             try
             {
                 // Load the XmlDocument with the XML.
-                document.LoadXml(XML);
+                document.LoadXml(xml);
 
                 writer.Formatting = Formatting.Indented;
 
@@ -448,27 +473,28 @@ namespace SS.Ynote.Classic.UI
 
             return result;
         }
+
         private void CodeFoldingFunc(string str)
         {
             if (str == "FoldAll")
-                ActiveEditor.tb.CollapseAllFoldingBlocks();
+                ActiveEditor.Tb.CollapseAllFoldingBlocks();
             else if (str == "FoldSelection")
-                ActiveEditor.tb.CollapseBlock(ActiveEditor.tb.Selection.Start.iLine, ActiveEditor.tb.Selection.End.iLine);
+                ActiveEditor.Tb.CollapseBlock(ActiveEditor.Tb.Selection.Start.iLine, ActiveEditor.Tb.Selection.End.iLine);
             else if (str == "UnFoldAll")
-                ActiveEditor.tb.ExpandAllFoldingBlocks();
+                ActiveEditor.Tb.ExpandAllFoldingBlocks();
         }
 
         private void BookmarkFunc(string func)
         {
             if (func == "Toggle")
-                ActiveEditor.tb.Bookmarks.Add(ActiveEditor.tb.Selection.Start.iLine);
+                ActiveEditor.Tb.Bookmarks.Add(ActiveEditor.Tb.Selection.Start.iLine);
             else if (func == "Remove")
-                ActiveEditor.tb.Bookmarks.Remove(ActiveEditor.tb.Selection.Start.iLine);
+                ActiveEditor.Tb.Bookmarks.Remove(ActiveEditor.Tb.Selection.Start.iLine);
             else if (func == "ClearAll")
-                ActiveEditor.tb.Bookmarks.Clear();
+                ActiveEditor.Tb.Bookmarks.Clear();
             else if (func == "Manager")
             {
-                var manager = new BookmarksInfos(ActiveEditor.tb) { StartPosition = FormStartPosition.CenterParent };
+                var manager = new BookmarksInfos(ActiveEditor.Tb) { StartPosition = FormStartPosition.CenterParent };
                 manager.ShowDialog(this);
             }
         }
@@ -492,7 +518,7 @@ namespace SS.Ynote.Classic.UI
             else if (func == "Save")
                 _ynote.SaveEditor(ActiveEditor);
             else if (func == "Print")
-                ActiveEditor.tb.Print(new PrintDialogSettings { ShowPrintPreviewDialog = true });
+                ActiveEditor.Tb.Print(new PrintDialogSettings { ShowPrintPreviewDialog = true });
             else if (func == "Properties")
             {
                 if (ActiveEditor.IsSaved)

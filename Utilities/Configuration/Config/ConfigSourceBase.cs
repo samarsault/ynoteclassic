@@ -20,10 +20,10 @@ namespace Nini.Config
     {
         #region Private variables
 
-        private ArrayList sourceList = new ArrayList();
-        private ConfigCollection configList = null;
+        private readonly ArrayList sourceList = new ArrayList();
+        private readonly ConfigCollection configList = null;
         private bool autoSave = false;
-        private AliasText alias = new AliasText();
+        private readonly AliasText alias = new AliasText();
 
         #endregion Private variables
 
@@ -108,7 +108,7 @@ namespace Nini.Config
             foreach (IConfig config in configList)
             {
                 keys = config.GetKeys();
-                for (int i = 0; i < keys.Length; i++)
+                for (var i = 0; i < keys.Length; i++)
                 {
                     Expand(config, keys[i], true);
                 }
@@ -162,7 +162,7 @@ namespace Nini.Config
         /// </summary>
         private string Expand(IConfig config, string key, bool setValue)
         {
-            string result = config.Get(key);
+            var result = config.Get(key);
             if (result == null)
             {
                 throw new ArgumentException(String.Format("[{0}] not found in [{1}]",
@@ -171,19 +171,19 @@ namespace Nini.Config
 
             while (true)
             {
-                int startIndex = result.IndexOf("${", 0);
+                var startIndex = result.IndexOf("${", 0);
                 if (startIndex == -1)
                 {
                     break;
                 }
 
-                int endIndex = result.IndexOf("}", startIndex + 2);
+                var endIndex = result.IndexOf("}", startIndex + 2);
                 if (endIndex == -1)
                 {
                     break;
                 }
 
-                string search = result.Substring(startIndex + 2,
+                var search = result.Substring(startIndex + 2,
                                                   endIndex - (startIndex + 2));
 
                 if (search == key)
@@ -193,7 +193,7 @@ namespace Nini.Config
                         ("Key cannot have a expand value of itself: " + key);
                 }
 
-                string replace = ExpandValue(config, search);
+                var replace = ExpandValue(config, search);
 
                 result = result.Replace("${" + search + "}", replace);
             }
@@ -213,11 +213,11 @@ namespace Nini.Config
         {
             string result = null;
 
-            string[] replaces = search.Split('|');
+            var replaces = search.Split('|');
 
             if (replaces.Length > 1)
             {
-                IConfig newConfig = Configs[replaces[0]];
+                var newConfig = Configs[replaces[0]];
                 if (newConfig == null)
                 {
                     throw new ArgumentException("Expand config not found: "

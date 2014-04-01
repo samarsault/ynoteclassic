@@ -23,7 +23,7 @@ namespace Nini.Config
     /// <include file='ConfigEventArgs.xml' path='//Class[@name="ConfigEventArgs"]/docs/*' />
     public class ConfigEventArgs : EventArgs
     {
-        private IConfig config = null;
+        private readonly IConfig config = null;
 
         /// <include file='ConfigEventArgs.xml' path='//Constructor[@name="ConstructorIConfig"]/docs/*' />
         public ConfigEventArgs(IConfig config)
@@ -45,8 +45,8 @@ namespace Nini.Config
     {
         #region Private variables
 
-        private ArrayList configList = new ArrayList();
-        private ConfigSourceBase owner = null;
+        private readonly ArrayList configList = new ArrayList();
+        private readonly ConfigSourceBase owner = null;
 
         #endregion Private variables
 
@@ -136,13 +136,13 @@ namespace Nini.Config
             {
                 throw new ArgumentException("IConfig already exists");
             }
-            IConfig existingConfig = this[config.Name];
+            var existingConfig = this[config.Name];
 
             if (existingConfig != null)
             {
                 // Set all new keys
-                string[] keys = config.GetKeys();
-                for (int i = 0; i < keys.Length; i++)
+                var keys = config.GetKeys();
+                for (var i = 0; i < keys.Length; i++)
                 {
                     existingConfig.Set(keys[i], config.Get(keys[i]));
                 }
@@ -157,17 +157,14 @@ namespace Nini.Config
         /// <include file='ConfigCollection.xml' path='//Method[@name="Add"]/docs/*' />
         int IList.Add(object config)
         {
-            IConfig newConfig = config as IConfig;
+            var newConfig = config as IConfig;
 
             if (newConfig == null)
             {
                 throw new Exception("Must be an IConfig");
             }
-            else
-            {
-                Add(newConfig);
-                return IndexOf(newConfig);
-            }
+            Add(newConfig);
+            return IndexOf(newConfig);
         }
 
         /// <include file='ConfigCollection.xml' path='//Method[@name="AddName"]/docs/*' />
@@ -206,7 +203,7 @@ namespace Nini.Config
         /// <include file='ConfigCollection.xml' path='//Method[@name="RemoveAt"]/docs/*' />
         public void RemoveAt(int index)
         {
-            IConfig config = (IConfig)configList[index];
+            var config = (IConfig)configList[index];
             configList.RemoveAt(index);
             OnConfigRemoved(new ConfigEventArgs(config));
         }

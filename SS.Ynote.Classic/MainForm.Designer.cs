@@ -7,7 +7,7 @@
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private System.ComponentModel.IContainer components;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -234,6 +234,9 @@
             this.miwikimenu = new System.Windows.Forms.MenuItem();
             this.miupdates = new System.Windows.Forms.MenuItem();
             this.seperator62 = new System.Windows.Forms.MenuItem();
+            this.miprojpage = new System.Windows.Forms.MenuItem();
+            this.miforum = new System.Windows.Forms.MenuItem();
+            this.mibugreport = new System.Windows.Forms.MenuItem();
             this.mifb = new System.Windows.Forms.MenuItem();
             this.seperator30 = new System.Windows.Forms.MenuItem();
             this.aboutmenu = new System.Windows.Forms.MenuItem();
@@ -252,10 +255,7 @@
             this.mizoom150 = new System.Windows.Forms.ToolStripMenuItem();
             this.mizoom100 = new System.Windows.Forms.ToolStripMenuItem();
             this.mizoom50 = new System.Windows.Forms.ToolStripMenuItem();
-            this.dock = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-            this.mibugreport = new System.Windows.Forms.MenuItem();
-            this.miprojpage = new System.Windows.Forms.MenuItem();
-            this.miforum = new System.Windows.Forms.MenuItem();
+            this.Panel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.status.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -299,6 +299,7 @@
             this.miclose,
             this.ExitMenu});
             this.filemenu.Text = "File";
+            this.filemenu.Select += new System.EventHandler(this.filemenu_Select);
             // 
             // NewMenuItem
             // 
@@ -336,7 +337,6 @@
             // 
             this.recentfilesmenu.Index = 5;
             this.recentfilesmenu.Text = "Recent Files";
-            this.recentfilesmenu.Select += new System.EventHandler(this.recentfilesmenu_Select);
             // 
             // reopenclosedtab
             // 
@@ -1581,6 +1581,7 @@
             this.mimacros,
             this.miscripts});
             this.macrosmenu.Text = "Macros";
+            this.macrosmenu.Select += new System.EventHandler(this.macrosmenu_Select);
             // 
             // mirecordmacro
             // 
@@ -1632,7 +1633,6 @@
             // 
             this.miscripts.Index = 8;
             this.miscripts.Text = "Scripts";
-            this.miscripts.Select += new System.EventHandler(this.miscripts_Select);
             // 
             // pluginsmenuitem
             // 
@@ -1672,6 +1672,24 @@
             // 
             this.seperator62.Index = 2;
             this.seperator62.Text = "-";
+            // 
+            // miprojpage
+            // 
+            this.miprojpage.Index = 3;
+            this.miprojpage.Text = "Project Page";
+            this.miprojpage.Click += new System.EventHandler(this.miprojpage_Click);
+            // 
+            // miforum
+            // 
+            this.miforum.Index = 4;
+            this.miforum.Text = "Forum";
+            this.miforum.Click += new System.EventHandler(this.miforum_Click);
+            // 
+            // mibugreport
+            // 
+            this.mibugreport.Index = 5;
+            this.mibugreport.Text = "Bug Report";
+            this.mibugreport.Click += new System.EventHandler(this.mibugreport_Click);
             // 
             // mifb
             // 
@@ -1808,39 +1826,20 @@
             // 
             // dock
             // 
-            this.dock.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.dock.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dock.DockBottomPortion = 0.4D;
-            this.dock.Location = new System.Drawing.Point(0, 0);
-            this.dock.Name = "dock";
-            this.dock.Size = new System.Drawing.Size(767, 338);
-            this.dock.TabIndex = 0;
-            this.dock.ActiveDocumentChanged += new System.EventHandler(this.dock_ActiveDocumentChanged);
-            // 
-            // mibugreport
-            // 
-            this.mibugreport.Index = 5;
-            this.mibugreport.Text = "Bug Report";
-            this.mibugreport.Click += new System.EventHandler(this.mibugreport_Click);
-            // 
-            // miprojpage
-            // 
-            this.miprojpage.Index = 3;
-            this.miprojpage.Text = "Project Page";
-            this.miprojpage.Click += new System.EventHandler(this.miprojpage_Click);
-            // 
-            // miforum
-            // 
-            this.miforum.Index = 4;
-            this.miforum.Text = "Forum";
-            this.miforum.Click += new System.EventHandler(this.miforum_Click);
+            this.Panel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Panel.DockBottomPortion = 0.4D;
+            this.Panel.Location = new System.Drawing.Point(0, 0);
+            this.Panel.Name = "Panel";
+            this.Panel.Size = new System.Drawing.Size(767, 338);
+            this.Panel.TabIndex = 0;
+            this.Panel.ActiveDocumentChanged += new System.EventHandler(this.dock_ActiveDocumentChanged);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(767, 360);
-            this.Controls.Add(this.dock);
+            this.Controls.Add(this.Panel);
             this.Controls.Add(this.status);
             this.Icon = global::SS.Ynote.Classic.Properties.Resources.ynote_favicon;
             this.IsMdiContainer = true;
@@ -2029,7 +2028,6 @@
         private System.Windows.Forms.MenuItem mispacestotab;
         private System.Windows.Forms.MenuItem mitabtospaces;
         private System.Windows.Forms.MenuItem mikeymapeditor;
-        private WeifenLuo.WinFormsUI.Docking.DockPanel dock;
         private System.Windows.Forms.ToolStripStatusLabel mistats;
         private System.Windows.Forms.MenuItem miscripts;
         private System.Windows.Forms.ToolStripStatusLabel gapfiller3;

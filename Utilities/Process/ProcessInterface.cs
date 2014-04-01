@@ -286,12 +286,12 @@ namespace ConsoleControlAPI
         /// <summary>
         /// The output worker.
         /// </summary>
-        private BackgroundWorker outputWorker = new BackgroundWorker();
+        private readonly BackgroundWorker outputWorker = new BackgroundWorker();
 
         /// <summary>
         /// The error worker.
         /// </summary>
-        private BackgroundWorker errorWorker = new BackgroundWorker();
+        private readonly BackgroundWorker errorWorker = new BackgroundWorker();
 
         /// <summary>
         /// Current process file name.

@@ -10,16 +10,14 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             if (control.RightToLeft != RightToLeft.Yes)
                 return point;
-            else
-                return new Point(control.Right - point.X, point.Y);
+            return new Point(control.Right - point.X, point.Y);
         }
 
         public static Rectangle RtlTransform(Control control, Rectangle rectangle)
         {
             if (control.RightToLeft != RightToLeft.Yes)
                 return rectangle;
-            else
-                return new Rectangle(control.ClientRectangle.Right - rectangle.Right, rectangle.Y, rectangle.Width, rectangle.Height);
+            return new Rectangle(control.ClientRectangle.Right - rectangle.Right, rectangle.Y, rectangle.Width, rectangle.Height);
         }
 
         public static GraphicsPath GetRoundedCornerTab(GraphicsPath graphicsPath, Rectangle rect, bool upCorner)
@@ -28,8 +26,8 @@ namespace WeifenLuo.WinFormsUI.Docking
                 graphicsPath = new GraphicsPath();
             else
                 graphicsPath.Reset();
-            
-            int curveSize = 6;
+
+            var curveSize = 6;
             if (upCorner)
             {
                 graphicsPath.AddLine(rect.Left, rect.Bottom, rect.Left, rect.Top + curveSize / 2);
@@ -56,31 +54,31 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         // From http://edu.cnzz.cn/show_3281.html
-        public static GraphicsPath CalculateGraphicsPathFromBitmap(Bitmap bitmap, Color colorTransparent) 
-        { 
-            GraphicsPath graphicsPath = new GraphicsPath(); 
+        public static GraphicsPath CalculateGraphicsPathFromBitmap(Bitmap bitmap, Color colorTransparent)
+        {
+            var graphicsPath = new GraphicsPath();
             if (colorTransparent == Color.Empty)
-                colorTransparent = bitmap.GetPixel(0, 0); 
+                colorTransparent = bitmap.GetPixel(0, 0);
 
-            for(int row = 0; row < bitmap.Height; row ++) 
-            { 
-                int colOpaquePixel = 0;
-                for(int col = 0; col < bitmap.Width; col ++) 
-                { 
-                    if(bitmap.GetPixel(col, row) != colorTransparent) 
-                    { 
-                        colOpaquePixel = col; 
-                        int colNext = col; 
-                        for(colNext = colOpaquePixel; colNext < bitmap.Width; colNext ++) 
-                            if(bitmap.GetPixel(colNext, row) == colorTransparent) 
+            for (var row = 0; row < bitmap.Height; row++)
+            {
+                var colOpaquePixel = 0;
+                for (var col = 0; col < bitmap.Width; col++)
+                {
+                    if (bitmap.GetPixel(col, row) != colorTransparent)
+                    {
+                        colOpaquePixel = col;
+                        var colNext = col;
+                        for (colNext = colOpaquePixel; colNext < bitmap.Width; colNext++)
+                            if (bitmap.GetPixel(colNext, row) == colorTransparent)
                                 break;
- 
-                        graphicsPath.AddRectangle(new Rectangle(colOpaquePixel, row, colNext - colOpaquePixel, 1)); 
-                        col = colNext; 
-                    } 
-                } 
-            } 
-            return graphicsPath; 
-        } 
+
+                        graphicsPath.AddRectangle(new Rectangle(colOpaquePixel, row, colNext - colOpaquePixel, 1));
+                        col = colNext;
+                    }
+                }
+            }
+            return graphicsPath;
+        }
     }
 }

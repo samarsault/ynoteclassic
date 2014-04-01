@@ -46,8 +46,8 @@ namespace FastColoredTextBoxNS
             if (count == 0)
                 throw new Exception("Stack is empty");
 
-            int i = LastIndex;
-            T item = items[i];
+            var i = LastIndex;
+            var item = items[i];
             items[i] = default(T);
 
             count--;
@@ -96,8 +96,8 @@ namespace FastColoredTextBoxNS
 
         public T[] ToArray()
         {
-            T[] result = new T[count];
-            for (int i = 0; i < count; i++)
+            var result = new T[count];
+            for (var i = 0; i < count; i++)
                 result[i] = items[(start + i) % items.Length];
             return result;
         }

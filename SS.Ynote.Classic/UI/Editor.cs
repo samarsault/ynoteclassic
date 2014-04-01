@@ -2,7 +2,6 @@ using FastColoredTextBoxNS;
 using SS.Ynote.Classic.Features.Snippets;
 using SS.Ynote.Classic.Features.Syntax;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -42,7 +41,7 @@ namespace SS.Ynote.Classic.UI
         /// <summary>
         ///     Get the TB
         /// </summary>
-        public FastColoredTextBox tb
+        public FastColoredTextBox Tb
         {
             get { return codebox; }
         }
@@ -121,8 +120,7 @@ namespace SS.Ynote.Classic.UI
             // the tag start line look as follows:
             // TAGNAME VALUES* (ATTR-NAME=ATTR-VALUE)* {
             // We want to shift the next line when the current line (afte trimming) ends with a { and doesn't start with a comment
-            // TODO: a line within a multi line comment will be a false positive
-            string trimmedLine = args.LineText.Trim();
+            var trimmedLine = args.LineText.Trim();
             if (!(trimmedLine.StartsWith(codebox.CommentPrefix))
                 && trimmedLine.EndsWith("{"))
             {
@@ -148,43 +146,41 @@ namespace SS.Ynote.Classic.UI
                     AppearInterval = 50,
                     AllowTabKey = true
                 };
-            IList<AutocompleteItem> items = new List<AutocompleteItem>();
-            foreach(var snippet in YnoteSnippet.Read(codebox.Language))
-                items.Add(snippet.ToAutoCompleteItem());
+            var items = YnoteSnippet.Read(codebox.Language).Select(snippet => snippet.ToAutoCompleteItem()).ToArray();
             AutoCompleteMenu.Items.SetAutocompleteItems(items);
         }
 
         private void codebox_DragDrop(object sender, DragEventArgs e)
         {
             var fileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-            foreach (string file in fileList)
+            foreach (var file in fileList)
                 OpenFile(file);
         }
 
         private void OpenFile(string file)
         {
             var edit = new Editor { Name = file, Text = Path.GetFileName(file) };
-            edit.tb.IsChanged = false;
-            edit.tb.ClearUndo();
+            edit.Tb.IsChanged = false;
+            edit.Tb.ClearUndo();
             //edit.ChangeLang(FileExtensions.GetLanguage(FileExtensions.BuildDictionary(), Path.GetExtension(file)));
             if (FileExtensions.FileExtensionsDictionary == null)
                 FileExtensions.BuildDictionary();
             var lang = FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary, Path.GetExtension(file));
             if (lang.IsBase)
             {
-                edit.Highlighter.HighlightSyntax(lang.SyntaxBase, new TextChangedEventArgs(edit.tb.Range));
+                edit.Highlighter.HighlightSyntax(lang.SyntaxBase, new TextChangedEventArgs(edit.Tb.Range));
                 edit.Syntax = lang.SyntaxBase;
             }
             else
             {
-                edit.Highlighter.HighlightSyntax(lang.Language, new TextChangedEventArgs(edit.tb.Range));
-                edit.tb.Language = lang.Language;
+                edit.Highlighter.HighlightSyntax(lang.Language, new TextChangedEventArgs(edit.Tb.Range));
+                edit.Tb.Language = lang.Language;
             }
             edit.Show(DockPanel, DockState.Document);
-            edit.tb.OpenFile(file);
+            edit.Tb.OpenFile(file);
         }
 
-        private Style invisibleCharsStyle;
+        private Style _invisibleCharsStyle;
 
         /// <summary>
         ///     Do MISC Formatting
@@ -193,10 +189,10 @@ namespace SS.Ynote.Classic.UI
         private void DoFormatting(Range r)
         {
             if (!SettingsBase.HiddenChars) return;
-            if (invisibleCharsStyle == null)
-                invisibleCharsStyle = new InvisibleCharsRenderer(Pens.Gray);
-            r.ClearStyle(invisibleCharsStyle);
-            r.SetStyle(invisibleCharsStyle, @".$|.\r\n|\s");
+            if (_invisibleCharsStyle == null)
+                _invisibleCharsStyle = new InvisibleCharsRenderer(Pens.Gray);
+            r.ClearStyle(_invisibleCharsStyle);
+            r.SetStyle(_invisibleCharsStyle, @".$|.\r\n|\s");
         }
 
         private void codebox_TextChangedDelayed(object sender, TextChangedEventArgs e)
@@ -239,9 +235,8 @@ namespace SS.Ynote.Classic.UI
             codebox.TextChangedDelayed -= codebox_TextChangedDelayed;
             codebox.AutoIndentNeeded -= codebox_AutoIndentNeeded;
             codebox.DragDrop -= codebox_DragDrop;
-            if (invisibleCharsStyle != null)
-                invisibleCharsStyle.Dispose();
-            codebox = null;
+            if (_invisibleCharsStyle != null)
+                _invisibleCharsStyle.Dispose();
         }
 
         private void SaveFile()
@@ -294,6 +289,7 @@ namespace SS.Ynote.Classic.UI
 
         private void menuItem13_Click(object sender, EventArgs e)
         {
+            if (!IsSaved) return;
             Process.Start(Path.GetDirectoryName(Name));
         }
 
@@ -302,7 +298,7 @@ namespace SS.Ynote.Classic.UI
             var dockPanel = DockPanel;
             if (dockPanel.DocumentStyle == DocumentStyle.SystemMdi)
             {
-                Form activeMdi = ActiveMdiChild;
+                var activeMdi = ActiveMdiChild;
                 foreach (var form in MdiChildren.Where(form => form != activeMdi))
                 {
                     form.Close();
@@ -310,9 +306,9 @@ namespace SS.Ynote.Classic.UI
             }
             else
             {
-                for (int i = 0; i < dockPanel.DocumentsToArray().Length; i++)
+                for (var i = 0; i < dockPanel.DocumentsToArray().Length; i++)
                 {
-                    IDockContent document = dockPanel.DocumentsToArray()[i];
+                    var document = dockPanel.DocumentsToArray()[i];
                     if (!document.DockHandler.IsActivated)
                         document.DockHandler.Close();
                 }
@@ -341,7 +337,7 @@ namespace SS.Ynote.Classic.UI
             BuildContextMenu();
         }
 
-        void BuildContextMenu()
+        private void BuildContextMenu()
         {
             var cutmenu = new MenuItem {Index = 0, Text = "Cut"};
             cutmenu.Click += cutemenu_Click;
@@ -373,7 +369,7 @@ namespace SS.Ynote.Classic.UI
             redomenu,
             seperator2,
             selectallmenu,
-            foldselectedmenu,
+            foldselectedmenu
             });
         }
     }

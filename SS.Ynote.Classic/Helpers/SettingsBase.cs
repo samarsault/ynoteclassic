@@ -136,38 +136,42 @@ public static class SettingsBase
     /// </summary>
     public static void LoadSettings()
     {
-        if (File.Exists(SettingsDir + "Settings.ini"))
+        while (true)
         {
-            IConfigSource source = new IniConfigSource(SettingsDir + "Settings.ini");
-            ThemeFile = source.Configs["Ynote"].Get("ThemeFile");
-            HiddenChars = source.Configs["Ynote"].GetBoolean("ShowHiddenCharacters");
-            DocumentStyle = source.Configs["Ynote"].Get("DocumentStyle").ToEnum<DocumentStyle>();
-            TabLocation = source.Configs["Ynote"].Get("TabLocation").ToEnum<DocumentTabStripLocation>();
-            WordWrapMode = source.Configs["Ynote"].Get("WordWrapMode").ToEnum<WordWrapMode>();
-            BracketsStrategy = source.Configs["Ynote"].Get("BracketStrategy").ToEnum<BracketsHighlightStrategy>();
-            FoldingStrategy = source.Configs["Ynote"].Get("FoldingStrategy").ToEnum<FindEndOfFoldingBlockStrategy>();
-            ShowCaret = source.Configs["Ynote"].GetBoolean("ShowCaret");
-            ShowDocumentMap = source.Configs["Ynote"].GetBoolean("ShowDocumentMap");
-            ShowRuler = source.Configs["Ynote"].GetBoolean("ShowRuler");
-            AutoCompleteBrackets = source.Configs["Ynote"].GetBoolean("AutocompleteBrackets");
-            ShowFoldingLines = source.Configs["Ynote"].GetBoolean("ShowFoldingLines");
-            ShowLineNumbers = source.Configs["Ynote"].GetBoolean("ShowLineNumbers");
-            EnableVirtualSpace = source.Configs["Ynote"].GetBoolean("EnableVirtualSpace");
-            HighlightFolding = source.Configs["Ynote"].GetBoolean("HighlightFolding");
-            PaddingWidth = source.Configs["Ynote"].GetInt("PaddingWidth");
-            LineInterval = source.Configs["Ynote"].GetInt("LineInterval");
-            ShowStatusBar = source.Configs["Ynote"].GetBoolean("StatusBar");
-            ShowMenuBar = source.Configs["Ynote"].GetBoolean("MenuBar");
-            FontFamily = source.Configs["Ynote"].Get("FontFamily");
-            FontSize = source.Configs["Ynote"].GetFloat("FontSize");
-            TabSize = source.Configs["Ynote"].GetInt("TabSize");
-            Zoom = source.Configs["Ynote"].GetInt("Zoom");
-        }
-        else
-        {
-            File.WriteAllText(SettingsDir + "Settings.ini", "");
-            RestoreDefault(SettingsDir + "Settings.ini");
-            LoadSettings();
+            if (File.Exists(SettingsDir + "Settings.ini"))
+            {
+                IConfigSource source = new IniConfigSource(SettingsDir + "Settings.ini");
+                ThemeFile = source.Configs["Ynote"].Get("ThemeFile");
+                HiddenChars = source.Configs["Ynote"].GetBoolean("ShowHiddenCharacters");
+                DocumentStyle = source.Configs["Ynote"].Get("DocumentStyle").ToEnum<DocumentStyle>();
+                TabLocation = source.Configs["Ynote"].Get("TabLocation").ToEnum<DocumentTabStripLocation>();
+                WordWrapMode = source.Configs["Ynote"].Get("WordWrapMode").ToEnum<WordWrapMode>();
+                BracketsStrategy = source.Configs["Ynote"].Get("BracketStrategy").ToEnum<BracketsHighlightStrategy>();
+                FoldingStrategy = source.Configs["Ynote"].Get("FoldingStrategy").ToEnum<FindEndOfFoldingBlockStrategy>();
+                ShowCaret = source.Configs["Ynote"].GetBoolean("ShowCaret");
+                ShowDocumentMap = source.Configs["Ynote"].GetBoolean("ShowDocumentMap");
+                ShowRuler = source.Configs["Ynote"].GetBoolean("ShowRuler");
+                AutoCompleteBrackets = source.Configs["Ynote"].GetBoolean("AutocompleteBrackets");
+                ShowFoldingLines = source.Configs["Ynote"].GetBoolean("ShowFoldingLines");
+                ShowLineNumbers = source.Configs["Ynote"].GetBoolean("ShowLineNumbers");
+                EnableVirtualSpace = source.Configs["Ynote"].GetBoolean("EnableVirtualSpace");
+                HighlightFolding = source.Configs["Ynote"].GetBoolean("HighlightFolding");
+                PaddingWidth = source.Configs["Ynote"].GetInt("PaddingWidth");
+                LineInterval = source.Configs["Ynote"].GetInt("LineInterval");
+                ShowStatusBar = source.Configs["Ynote"].GetBoolean("StatusBar");
+                ShowMenuBar = source.Configs["Ynote"].GetBoolean("MenuBar");
+                FontFamily = source.Configs["Ynote"].Get("FontFamily");
+                FontSize = source.Configs["Ynote"].GetFloat("FontSize");
+                TabSize = source.Configs["Ynote"].GetInt("TabSize");
+                Zoom = source.Configs["Ynote"].GetInt("Zoom");
+            }
+            else
+            {
+                File.WriteAllText(SettingsDir + "Settings.ini", "");
+                RestoreDefault(SettingsDir + "Settings.ini");
+                continue;
+            }
+            break;
         }
     }
 
@@ -231,7 +235,7 @@ public static class SettingsBase
         config.Set("LineInterval", 0);
         config.Set("MenuBar", true);
         config.Set("StatusBar", true);
-        config.Set("FontFamily", "Courier New");
+        config.Set("FontFamily", "Consolas");
         config.Set("FontSize", 9.75F);
         config.Set("TabSize", 4);
         config.Set("Zoom", 100);

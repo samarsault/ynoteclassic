@@ -19,11 +19,11 @@ namespace SS.Ynote.Classic.UI.Controls
             base.OnKeyPress(e);
 
             var numberFormatInfo = CultureInfo.CurrentCulture.NumberFormat;
-            string decimalSeparator = numberFormatInfo.NumberDecimalSeparator;
-            string groupSeparator = numberFormatInfo.NumberGroupSeparator;
-            string negativeSign = numberFormatInfo.NegativeSign;
+            var decimalSeparator = numberFormatInfo.NumberDecimalSeparator;
+            var groupSeparator = numberFormatInfo.NumberGroupSeparator;
+            var negativeSign = numberFormatInfo.NegativeSign;
 
-            string keyInput = e.KeyChar.ToString();
+            var keyInput = e.KeyChar.ToString();
 
             if (Char.IsDigit(e.KeyChar))
             {

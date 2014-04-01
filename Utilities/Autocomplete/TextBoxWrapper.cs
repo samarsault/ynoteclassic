@@ -10,7 +10,7 @@ namespace AutocompleteMenuNS
     /// </summary>
     public class TextBoxWrapper : ITextBoxWrapper
     {
-        private Control target;
+        private readonly Control target;
         private PropertyInfo selectionStart;
         private PropertyInfo selectionLength;
         private PropertyInfo selectedText;

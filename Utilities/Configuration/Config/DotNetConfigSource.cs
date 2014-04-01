@@ -24,7 +24,7 @@ namespace Nini.Config
     {
         #region Private variables
 
-        private string[] sections = null;
+        private readonly string[] sections = null;
         private XmlDocument configDoc = null;
         private string savePath = null;
 
@@ -162,7 +162,7 @@ namespace Nini.Config
         public override string ToString()
         {
             MergeConfigsIntoDocument();
-            StringWriter writer = new StringWriter();
+            var writer = new StringWriter();
             configDoc.Save(writer);
 
             return writer.ToString();
@@ -192,16 +192,16 @@ namespace Nini.Config
             RemoveSections();
             foreach (IConfig config in Configs)
             {
-                string[] keys = config.GetKeys();
+                var keys = config.GetKeys();
 
                 RemoveKeys(config.Name);
-                XmlNode node = GetChildElement(config.Name);
+                var node = GetChildElement(config.Name);
                 if (node == null)
                 {
                     node = SectionNode(config.Name);
                 }
 
-                for (int i = 0; i < keys.Length; i++)
+                for (var i = 0; i < keys.Length; i++)
                 {
                     SetKey(node, keys[i], config.Get(keys[i]));
                 }
@@ -217,7 +217,7 @@ namespace Nini.Config
 			throw new NotSupportedException ("This loading method is not supported");
 #else
             Merge(this); // required for SaveAll
-            for (int i = 0; i < sections.Length; i++)
+            for (var i = 0; i < sections.Length; i++)
             {
                 LoadCollection(sections[i], (NameValueCollection)ConfigurationSettings
                                 .GetConfig(sections[i]));
@@ -249,7 +249,7 @@ namespace Nini.Config
         {
             LoadOtherSection(rootNode, "appSettings");
 
-            XmlNode sections = GetChildElement(rootNode, "configSections");
+            var sections = GetChildElement(rootNode, "configSections");
 
             if (sections == null)
             {
@@ -278,7 +278,7 @@ namespace Nini.Config
         /// </summary>
         private void LoadOtherSection(XmlNode rootNode, string nodeName)
         {
-            XmlNode section = GetChildElement(rootNode, nodeName);
+            var section = GetChildElement(rootNode, nodeName);
             ConfigBase config = null;
 
             if (section != null)
@@ -295,7 +295,7 @@ namespace Nini.Config
         /// </summary>
         private void LoadKeys(XmlNode rootNode, ConfigBase config)
         {
-            XmlNode section = GetChildElement(rootNode, config.Name);
+            var section = GetChildElement(rootNode, config.Name);
 
             foreach (XmlNode node in section.ChildNodes)
             {
@@ -314,7 +314,7 @@ namespace Nini.Config
         private void RemoveSections()
         {
             XmlAttribute attr = null;
-            XmlNode sections = GetChildElement("configSections");
+            var sections = GetChildElement("configSections");
 
             if (sections == null)
             {
@@ -336,7 +336,7 @@ namespace Nini.Config
                             node.ParentNode.RemoveChild(node);
 
                             // Removes the <SectionName> section
-                            XmlNode dataNode = GetChildElement(attr.Value);
+                            var dataNode = GetChildElement(attr.Value);
                             if (dataNode != null)
                             {
                                 configDoc.DocumentElement.RemoveChild(dataNode);
@@ -356,7 +356,7 @@ namespace Nini.Config
         /// </summary>
         private void RemoveKeys(string sectionName)
         {
-            XmlNode node = GetChildElement(sectionName);
+            var node = GetChildElement(sectionName);
             XmlAttribute keyName = null;
 
             if (node != null)
@@ -388,7 +388,7 @@ namespace Nini.Config
         /// </summary>
         private void SetKey(XmlNode sectionNode, string key, string value)
         {
-            XmlNode keyNode = GetKey(sectionNode, key);
+            var keyNode = GetKey(sectionNode, key);
 
             if (keyNode == null)
             {
@@ -427,8 +427,8 @@ namespace Nini.Config
         private void CreateKey(XmlNode sectionNode, string key, string value)
         {
             XmlNode node = configDoc.CreateElement("add");
-            XmlAttribute keyAttr = configDoc.CreateAttribute("key");
-            XmlAttribute valueAttr = configDoc.CreateAttribute("value");
+            var keyAttr = configDoc.CreateAttribute("key");
+            var valueAttr = configDoc.CreateAttribute("value");
             keyAttr.Value = key;
             valueAttr.Value = value;
 
@@ -443,7 +443,7 @@ namespace Nini.Config
         /// </summary>
         private void LoadCollection(string name, NameValueCollection collection)
         {
-            ConfigBase config = new ConfigBase(name, this);
+            var config = new ConfigBase(name, this);
 
             if (collection == null)
             {
@@ -452,7 +452,7 @@ namespace Nini.Config
 
             if (collection != null)
             {
-                for (int i = 0; i < collection.Count; i++)
+                for (var i = 0; i < collection.Count; i++)
                 {
                     config.Add(collection.Keys[i], collection[i]);
                 }
@@ -468,7 +468,7 @@ namespace Nini.Config
         {
             // Add node for configSections node
             XmlNode node = configDoc.CreateElement("section");
-            XmlAttribute attr = configDoc.CreateAttribute("name");
+            var attr = configDoc.CreateAttribute("name");
             attr.Value = name;
             node.Attributes.Append(attr);
 
@@ -476,7 +476,7 @@ namespace Nini.Config
             attr.Value = "System.Configuration.NameValueSectionHandler";
             node.Attributes.Append(attr);
 
-            XmlNode section = GetChildElement("configSections");
+            var section = GetChildElement("configSections");
             section.AppendChild(node);
 
             // Add node for configuration node
@@ -532,7 +532,7 @@ namespace Nini.Config
             // Remove all missing configs first
             RemoveConfigs();
 
-            XmlNode sections = GetChildElement("configSections");
+            var sections = GetChildElement("configSections");
 
             if (sections == null)
             {
@@ -546,8 +546,8 @@ namespace Nini.Config
                 if (node.NodeType == XmlNodeType.Element
                     && node.Name == "section")
                 {
-                    string sectionName = node.Attributes["name"].Value;
-                    IConfig config = Configs[sectionName];
+                    var sectionName = node.Attributes["name"].Value;
+                    var config = Configs[sectionName];
                     if (config == null)
                     {
                         // The section is new so add it
@@ -565,7 +565,7 @@ namespace Nini.Config
         private void RemoveConfigs()
         {
             IConfig config = null;
-            for (int i = Configs.Count - 1; i > -1; i--)
+            for (var i = Configs.Count - 1; i > -1; i--)
             {
                 config = Configs[i];
                 // If the section is not present in the XmlDocument
@@ -581,11 +581,11 @@ namespace Nini.Config
         /// </summary>
         private void RemoveConfigKeys(IConfig config)
         {
-            XmlNode section = GetChildElement(config.Name);
+            var section = GetChildElement(config.Name);
 
             // Remove old keys
-            string[] configKeys = config.GetKeys();
-            foreach (string configKey in configKeys)
+            var configKeys = config.GetKeys();
+            foreach (var configKey in configKeys)
             {
                 if (GetKey(section, configKey) == null)
                 {

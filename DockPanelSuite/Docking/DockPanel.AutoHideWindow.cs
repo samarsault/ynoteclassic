@@ -39,11 +39,11 @@ namespace WeifenLuo.WinFormsUI.Docking
                     m_splitter.Dock = DockStyle.Top;
                 }
 
-                Rectangle rectDisplaying = DisplayingRectangle;
-                Rectangle rectHidden = new Rectangle(-rectDisplaying.Width, rectDisplaying.Y, rectDisplaying.Width, rectDisplaying.Height);
+                var rectDisplaying = DisplayingRectangle;
+                var rectHidden = new Rectangle(-rectDisplaying.Width, rectDisplaying.Y, rectDisplaying.Width, rectDisplaying.Height);
                 foreach (Control c in Controls)
                 {
-                    DockPane pane = c as DockPane;
+                    var pane = c as DockPane;
                     if (pane == null)
                         continue;
 
@@ -59,7 +59,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             protected override void OnPaint(PaintEventArgs e)
             {
                 // Draw the border
-                Graphics g = e.Graphics;
+                var g = e.Graphics;
 
                 if (DockState == DockState.DockBottomAutoHide)
                     g.DrawLine(SystemPens.ControlLightLight, 0, 1, ClientRectangle.Right, 1);
@@ -89,7 +89,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     m_autoHideWindow = autoHideWindow;
                 }
 
-                private AutoHideWindowControl m_autoHideWindow;
+                private readonly AutoHideWindowControl m_autoHideWindow;
 
                 private AutoHideWindowControl AutoHideWindow
                 {
@@ -113,7 +113,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             #endregion consts
 
-            private Timer m_timerMouseTrack;
+            private readonly Timer m_timerMouseTrack;
             protected SplitterBase m_splitter;
 
             public AutoHideWindowControl(DockPanel dockPanel)
@@ -135,7 +135,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 base.Dispose(disposing);
             }
 
-            private DockPanel m_dockPanel = null;
+            private readonly DockPanel m_dockPanel = null;
 
             public DockPanel DockPanel
             {
@@ -151,7 +151,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             private void SetActivePane()
             {
-                DockPane value = (ActiveContent == null ? null : ActiveContent.DockHandler.Pane);
+                var value = (ActiveContent == null ? null : ActiveContent.DockHandler.Pane);
 
                 if (value == m_activePane)
                     return;
@@ -169,7 +169,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             protected virtual void OnActiveContentChanged(EventArgs e)
             {
-                EventHandler handler = (EventHandler)Events[ActiveContentChangedEvent];
+                var handler = (EventHandler)Events[ActiveContentChangedEvent];
                 if (handler != null)
                     handler(this, e);
             }
@@ -260,8 +260,8 @@ namespace WeifenLuo.WinFormsUI.Docking
 
                 Parent.SuspendLayout();
 
-                Rectangle rectSource = GetRectangle(!show);
-                Rectangle rectTarget = GetRectangle(show);
+                var rectSource = GetRectangle(!show);
+                var rectTarget = GetRectangle(show);
                 int dxLoc, dyLoc;
                 int dWidth, dHeight;
                 dxLoc = dyLoc = dWidth = dHeight = 0;
@@ -294,15 +294,15 @@ namespace WeifenLuo.WinFormsUI.Docking
                 if (Visible == false)
                     Visible = true;
 
-                int speedFactor = 1;
-                int totalPixels = (rectSource.Width != rectTarget.Width) ?
+                var speedFactor = 1;
+                var totalPixels = (rectSource.Width != rectTarget.Width) ?
                     Math.Abs(rectSource.Width - rectTarget.Width) :
                     Math.Abs(rectSource.Height - rectTarget.Height);
-                int remainPixels = totalPixels;
-                DateTime startingTime = DateTime.Now;
+                var remainPixels = totalPixels;
+                var startingTime = DateTime.Now;
                 while (rectSource != rectTarget)
                 {
-                    DateTime startPerMove = DateTime.Now;
+                    var startPerMove = DateTime.Now;
 
                     rectSource.X += dxLoc * speedFactor;
                     rectSource.Y += dyLoc * speedFactor;
@@ -325,16 +325,15 @@ namespace WeifenLuo.WinFormsUI.Docking
 
                     while (true)
                     {
-                        TimeSpan time = new TimeSpan(0, 0, 0, 0, ANIMATE_TIME);
-                        TimeSpan elapsedPerMove = DateTime.Now - startPerMove;
-                        TimeSpan elapsedTime = DateTime.Now - startingTime;
+                        var time = new TimeSpan(0, 0, 0, 0, ANIMATE_TIME);
+                        var elapsedPerMove = DateTime.Now - startPerMove;
+                        var elapsedTime = DateTime.Now - startingTime;
                         if (((int)((time - elapsedTime).TotalMilliseconds)) <= 0)
                         {
                             speedFactor = remainPixels;
                             break;
                         }
-                        else
-                            speedFactor = remainPixels * (int)elapsedPerMove.TotalMilliseconds / (int)((time - elapsedTime).TotalMilliseconds);
+                        speedFactor = remainPixels * (int)elapsedPerMove.TotalMilliseconds / (int)((time - elapsedTime).TotalMilliseconds);
                         if (speedFactor >= 1)
                             break;
                     }
@@ -347,7 +346,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             {
                 Bounds = DockPanel.GetAutoHideWindowBounds(rect);
 
-                Rectangle rectClient = ClientRectangle;
+                var rectClient = ClientRectangle;
 
                 if (DockState == DockState.DockLeftAutoHide)
                     ActivePane.Location = new Point(rectClient.Right - 2 - Measures.SplitterSize - ActivePane.Width, ActivePane.Location.Y);
@@ -360,7 +359,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 if (DockState == DockState.Unknown)
                     return Rectangle.Empty;
 
-                Rectangle rect = DockPanel.AutoHideWindowRectangle;
+                var rect = DockPanel.AutoHideWindowRectangle;
 
                 if (show)
                     return rect;
@@ -392,13 +391,13 @@ namespace WeifenLuo.WinFormsUI.Docking
                 }
 
                 // start the timer
-                int hovertime = SystemInformation.MouseHoverTime;
+                var hovertime = SystemInformation.MouseHoverTime;
 
                 // assign a default value 400 in case of setting Timer.Interval invalid value exception
                 if (hovertime <= 0)
                     hovertime = 400;
 
-                m_timerMouseTrack.Interval = 2 * (int)hovertime;
+                m_timerMouseTrack.Interval = 2 * hovertime;
                 m_timerMouseTrack.Enabled = true;
             }
 
@@ -406,7 +405,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             {
                 get
                 {
-                    Rectangle rect = ClientRectangle;
+                    var rect = ClientRectangle;
 
                     // exclude the border and the splitter
                     if (DockState == DockState.DockBottomAutoHide)
@@ -457,11 +456,11 @@ namespace WeifenLuo.WinFormsUI.Docking
                     return;
                 }
 
-                DockPane pane = ActivePane;
-                Point ptMouseInAutoHideWindow = PointToClient(MousePosition);
-                Point ptMouseInDockPanel = DockPanel.PointToClient(MousePosition);
+                var pane = ActivePane;
+                var ptMouseInAutoHideWindow = PointToClient(MousePosition);
+                var ptMouseInDockPanel = DockPanel.PointToClient(MousePosition);
 
-                Rectangle rectTabStrip = DockPanel.GetTabStripRectangle(pane.DockState);
+                var rectTabStrip = DockPanel.GetTabStripRectangle(pane.DockState);
 
                 if (!ClientRectangle.Contains(ptMouseInAutoHideWindow) && !rectTabStrip.Contains(ptMouseInDockPanel))
                 {
@@ -491,7 +490,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             {
                 get
                 {
-                    Rectangle rectLimit = DockPanel.DockArea;
+                    var rectLimit = DockPanel.DockArea;
 
                     if ((this as ISplitterDragSource).IsVertical)
                     {
@@ -510,33 +509,33 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             void ISplitterDragSource.MoveSplitter(int offset)
             {
-                Rectangle rectDockArea = DockPanel.DockArea;
-                IDockContent content = ActiveContent;
+                var rectDockArea = DockPanel.DockArea;
+                var content = ActiveContent;
                 if (DockState == DockState.DockLeftAutoHide && rectDockArea.Width > 0)
                 {
                     if (content.DockHandler.AutoHidePortion < 1)
-                        content.DockHandler.AutoHidePortion += ((double)offset) / (double)rectDockArea.Width;
+                        content.DockHandler.AutoHidePortion += offset / (double)rectDockArea.Width;
                     else
                         content.DockHandler.AutoHidePortion = Width + offset;
                 }
                 else if (DockState == DockState.DockRightAutoHide && rectDockArea.Width > 0)
                 {
                     if (content.DockHandler.AutoHidePortion < 1)
-                        content.DockHandler.AutoHidePortion -= ((double)offset) / (double)rectDockArea.Width;
+                        content.DockHandler.AutoHidePortion -= offset / (double)rectDockArea.Width;
                     else
                         content.DockHandler.AutoHidePortion = Width - offset;
                 }
                 else if (DockState == DockState.DockBottomAutoHide && rectDockArea.Height > 0)
                 {
                     if (content.DockHandler.AutoHidePortion < 1)
-                        content.DockHandler.AutoHidePortion -= ((double)offset) / (double)rectDockArea.Height;
+                        content.DockHandler.AutoHidePortion -= offset / (double)rectDockArea.Height;
                     else
                         content.DockHandler.AutoHidePortion = Height - offset;
                 }
                 else if (DockState == DockState.DockTopAutoHide && rectDockArea.Height > 0)
                 {
                     if (content.DockHandler.AutoHidePortion < 1)
-                        content.DockHandler.AutoHidePortion += ((double)offset) / (double)rectDockArea.Height;
+                        content.DockHandler.AutoHidePortion += offset / (double)rectDockArea.Height;
                     else
                         content.DockHandler.AutoHidePortion = Height + offset;
                 }
@@ -573,16 +572,16 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             get
             {
-                DockState state = AutoHideWindow.DockState;
-                Rectangle rectDockArea = DockArea;
+                var state = AutoHideWindow.DockState;
+                var rectDockArea = DockArea;
                 if (ActiveAutoHideContent == null)
                     return Rectangle.Empty;
 
                 if (Parent == null)
                     return Rectangle.Empty;
 
-                Rectangle rect = Rectangle.Empty;
-                double autoHideSize = ActiveAutoHideContent.DockHandler.AutoHidePortion;
+                var rect = Rectangle.Empty;
+                var autoHideSize = ActiveAutoHideContent.DockHandler.AutoHidePortion;
                 if (state == DockState.DockLeftAutoHide)
                 {
                     if (autoHideSize < 1)
@@ -637,8 +636,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             if (DocumentStyle == DocumentStyle.SystemMdi ||
                 DocumentStyle == DocumentStyle.DockingMdi)
                 return (Parent == null) ? Rectangle.Empty : Parent.RectangleToClient(RectangleToScreen(rectAutoHideWindow));
-            else
-                return rectAutoHideWindow;
+            return rectAutoHideWindow;
         }
 
         internal void RefreshAutoHideStrip()

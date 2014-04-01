@@ -1,12 +1,13 @@
 using System;
-using System.Globalization;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.ComponentModel;
+using System.Globalization;
 
 namespace WeifenLuo.WinFormsUI.Docking
 {
     #region DockPanelSkin classes
+
     /// <summary>
     /// The skin to use when displaying the DockPanel.
     /// The skin allows custom gradient color schemes to be used when drawing the
@@ -241,9 +242,10 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
     }
 
-    #endregion
+    #endregion DockPanelSkin classes
 
     #region Converters
+
     public class DockPanelSkinConverter : ExpandableObjectConverter
     {
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
@@ -356,7 +358,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
-            TabGradient val = value as TabGradient;
+            var val = value as TabGradient;
             if (destinationType == typeof(String) && val != null)
             {
                 return "DockPaneTabGradient";
@@ -364,5 +366,6 @@ namespace WeifenLuo.WinFormsUI.Docking
             return base.ConvertTo(context, culture, value, destinationType);
         }
     }
-    #endregion
+
+    #endregion Converters
 }

@@ -51,8 +51,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             m_autoHideWindow.ActiveContentChanged += m_autoHideWindow_ActiveContentChanged;
             SetAutoHideWindowParent();
 
-            m_dummyControl = new DummyControl();
-            m_dummyControl.Bounds = new Rectangle(0, 0, 1, 1);
+            m_dummyControl = new DummyControl { Bounds = new Rectangle(0, 0, 1, 1) };
             Controls.Add(m_dummyControl);
 
             LoadDockWindows();
@@ -135,7 +134,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             if (DocumentStyle != DocumentStyle.DockingMdi)
                 return;
 
-            foreach (DockPane pane in Panes)
+            foreach (var pane in Panes)
                 if (pane.DockState == DockState.Document)
                     pane.SetContentBounds();
 
@@ -219,7 +218,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private DockContentCollection m_contents = new DockContentCollection();
+        private readonly DockContentCollection m_contents = new DockContentCollection();
 
         [Browsable(false)]
         public DockContentCollection Contents
@@ -246,7 +245,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     return;
 
                 m_rightToLeftLayout = value;
-                foreach (FloatWindow floatWindow in FloatWindows)
+                foreach (var floatWindow in FloatWindows)
                     floatWindow.RightToLeftLayout = value;
             }
         }
@@ -254,7 +253,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         protected override void OnRightToLeftChanged(EventArgs e)
         {
             base.OnRightToLeftChanged(e);
-            foreach (FloatWindow floatWindow in FloatWindows)
+            foreach (var floatWindow in FloatWindows)
             {
                 if (floatWindow.RightToLeft != RightToLeft)
                     floatWindow.RightToLeft = RightToLeft;
@@ -497,8 +496,8 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             get
             {
-                int count = 0;
-                foreach (IDockContent content in Documents)
+                var count = 0;
+                foreach (var content in Documents)
                     count++;
 
                 return count;
@@ -507,10 +506,10 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         public IDockContent[] DocumentsToArray()
         {
-            int count = DocumentsCount;
-            IDockContent[] documents = new IDockContent[count];
-            int i = 0;
-            foreach (IDockContent content in Documents)
+            var count = DocumentsCount;
+            var documents = new IDockContent[count];
+            var i = 0;
+            foreach (var content in Documents)
             {
                 documents[i] = content;
                 i++;
@@ -524,7 +523,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             get
             {
-                foreach (IDockContent content in Contents)
+                foreach (var content in Contents)
                 {
                     if (content.DockHandler.DockState == DockState.Document)
                         yield return content;
@@ -590,7 +589,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 SetMdiClient();
                 InvalidateWindowRegion();
 
-                foreach (IDockContent content in Contents)
+                foreach (var content in Contents)
                 {
                     if (content.DockHandler.DockState == DockState.Document)
                         content.DockHandler.SetPaneAndVisible(content.DockHandler.Pane);
@@ -622,9 +621,9 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             if (dockState == DockState.DockLeft || dockState == DockState.DockRight)
             {
-                int width = ClientRectangle.Width - DockPadding.Left - DockPadding.Right;
-                int dockLeftSize = m_dockLeftPortion >= 1 ? (int)m_dockLeftPortion : (int)(width * m_dockLeftPortion);
-                int dockRightSize = m_dockRightPortion >= 1 ? (int)m_dockRightPortion : (int)(width * m_dockRightPortion);
+                var width = ClientRectangle.Width - DockPadding.Left - DockPadding.Right;
+                var dockLeftSize = m_dockLeftPortion >= 1 ? (int)m_dockLeftPortion : (int)(width * m_dockLeftPortion);
+                var dockRightSize = m_dockRightPortion >= 1 ? (int)m_dockRightPortion : (int)(width * m_dockRightPortion);
 
                 if (dockLeftSize < MeasurePane.MinSize)
                     dockLeftSize = MeasurePane.MinSize;
@@ -633,18 +632,18 @@ namespace WeifenLuo.WinFormsUI.Docking
 
                 if (dockLeftSize + dockRightSize > width - MeasurePane.MinSize)
                 {
-                    int adjust = (dockLeftSize + dockRightSize) - (width - MeasurePane.MinSize);
+                    var adjust = (dockLeftSize + dockRightSize) - (width - MeasurePane.MinSize);
                     dockLeftSize -= adjust / 2;
                     dockRightSize -= adjust / 2;
                 }
 
                 return dockState == DockState.DockLeft ? dockLeftSize : dockRightSize;
             }
-            else if (dockState == DockState.DockTop || dockState == DockState.DockBottom)
+            if (dockState == DockState.DockTop || dockState == DockState.DockBottom)
             {
-                int height = ClientRectangle.Height - DockPadding.Top - DockPadding.Bottom;
-                int dockTopSize = m_dockTopPortion >= 1 ? (int)m_dockTopPortion : (int)(height * m_dockTopPortion);
-                int dockBottomSize = m_dockBottomPortion >= 1 ? (int)m_dockBottomPortion : (int)(height * m_dockBottomPortion);
+                var height = ClientRectangle.Height - DockPadding.Top - DockPadding.Bottom;
+                var dockTopSize = m_dockTopPortion >= 1 ? (int)m_dockTopPortion : (int)(height * m_dockTopPortion);
+                var dockBottomSize = m_dockBottomPortion >= 1 ? (int)m_dockBottomPortion : (int)(height * m_dockBottomPortion);
 
                 if (dockTopSize < MeasurePane.MinSize)
                     dockTopSize = MeasurePane.MinSize;
@@ -653,15 +652,14 @@ namespace WeifenLuo.WinFormsUI.Docking
 
                 if (dockTopSize + dockBottomSize > height - MeasurePane.MinSize)
                 {
-                    int adjust = (dockTopSize + dockBottomSize) - (height - MeasurePane.MinSize);
+                    var adjust = (dockTopSize + dockBottomSize) - (height - MeasurePane.MinSize);
                     dockTopSize -= adjust / 2;
                     dockBottomSize -= adjust / 2;
                 }
 
                 return dockState == DockState.DockTop ? dockTopSize : dockBottomSize;
             }
-            else
-                return 0;
+            return 0;
         }
 
         protected override void OnLayout(LayoutEventArgs levent)
@@ -706,8 +704,8 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             if (DockBackColor == BackColor) return;
 
-            Graphics g = e.Graphics;
-            SolidBrush bgBrush = new SolidBrush(DockBackColor);
+            var g = e.Graphics;
+            var bgBrush = new SolidBrush(DockBackColor);
             g.FillRectangle(bgBrush, ClientRectangle);
         }
 
@@ -743,7 +741,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             DockPadding.All = 0;
 
-            int height = AutoHideStripControl.MeasureHeight();
+            var height = AutoHideStripControl.MeasureHeight();
 
             if (AutoHideStripControl.GetNumberOfPanes(DockState.DockLeftAutoHide) > 0)
                 DockPadding.Left = height;
@@ -792,7 +790,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         public void SetPaneIndex(DockPane pane, int index)
         {
-            int oldIndex = Panes.IndexOf(pane);
+            var oldIndex = Panes.IndexOf(pane);
             if (oldIndex == -1)
                 throw (new ArgumentException(Strings.DockPanel_SetPaneIndex_InvalidPane));
 
@@ -889,7 +887,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 if (!IsParentFormValid() || !Visible)
                     return Rectangle.Empty;
 
-                Rectangle rect = ParentForm.RectangleToClient(RectangleToScreen(DocumentWindowBounds));
+                var rect = ParentForm.RectangleToClient(RectangleToScreen(DocumentWindowBounds));
                 return rect;
             }
         }
@@ -898,7 +896,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             get
             {
-                Rectangle rectDocumentBounds = DisplayRectangle;
+                var rectDocumentBounds = DisplayRectangle;
                 if (DockWindows[DockState.DockLeft].Visible)
                 {
                     rectDocumentBounds.X += DockWindows[DockState.DockLeft].Width;
@@ -956,14 +954,14 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         private void UpdateWindowRegion_EmptyDocumentArea()
         {
-            Rectangle rect = DocumentWindowBounds;
-            SetRegion(new Rectangle[] { rect });
+            var rect = DocumentWindowBounds;
+            SetRegion(new[] { rect });
         }
 
         private void UpdateWindowRegion_ClipContent()
         {
-            int count = 0;
-            foreach (DockPane pane in Panes)
+            var count = 0;
+            foreach (var pane in Panes)
             {
                 if (!pane.Visible || pane.DockState != DockState.Document)
                     continue;
@@ -977,9 +975,9 @@ namespace WeifenLuo.WinFormsUI.Docking
                 return;
             }
 
-            Rectangle[] rects = new Rectangle[count];
-            int i = 0;
-            foreach (DockPane pane in Panes)
+            var rects = new Rectangle[count];
+            var i = 0;
+            foreach (var pane in Panes)
             {
                 if (!pane.Visible || pane.DockState != DockState.Document)
                     continue;
@@ -1004,8 +1002,8 @@ namespace WeifenLuo.WinFormsUI.Docking
                 Region = null;
             else
             {
-                Region region = new Region(new Rectangle(0, 0, Width, Height));
-                foreach (Rectangle rect in m_clipRects)
+                var region = new Region(new Rectangle(0, 0, Width, Height));
+                foreach (var rect in m_clipRects)
                     region.Exclude(rect);
                 if (Region != null)
                 {
@@ -1020,13 +1018,13 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             if (clipRects == null && m_clipRects == null)
                 return false;
-            else if ((clipRects == null) != (m_clipRects == null))
+            if ((clipRects == null) != (m_clipRects == null))
                 return true;
 
-            foreach (Rectangle rect in clipRects)
+            foreach (var rect in clipRects)
             {
-                bool matched = false;
-                foreach (Rectangle rect2 in m_clipRects)
+                var matched = false;
+                foreach (var rect2 in m_clipRects)
                 {
                     if (rect == rect2)
                     {
@@ -1038,10 +1036,10 @@ namespace WeifenLuo.WinFormsUI.Docking
                     return true;
             }
 
-            foreach (Rectangle rect2 in m_clipRects)
+            foreach (var rect2 in m_clipRects)
             {
-                bool matched = false;
-                foreach (Rectangle rect in clipRects)
+                var matched = false;
+                foreach (var rect in clipRects)
                 {
                     if (rect == rect2)
                     {
@@ -1067,7 +1065,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         protected virtual void OnActiveAutoHideContentChanged(EventArgs e)
         {
-            EventHandler handler = (EventHandler)Events[ActiveAutoHideContentChangedEvent];
+            var handler = (EventHandler)Events[ActiveAutoHideContentChangedEvent];
             if (handler != null)
                 handler(this, e);
         }
@@ -1089,7 +1087,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         protected virtual void OnContentAdded(DockContentEventArgs e)
         {
-            EventHandler<DockContentEventArgs> handler = (EventHandler<DockContentEventArgs>)Events[ContentAddedEvent];
+            var handler = (EventHandler<DockContentEventArgs>)Events[ContentAddedEvent];
             if (handler != null)
                 handler(this, e);
         }
@@ -1106,7 +1104,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         protected virtual void OnContentRemoved(DockContentEventArgs e)
         {
-            EventHandler<DockContentEventArgs> handler = (EventHandler<DockContentEventArgs>)Events[ContentRemovedEvent];
+            var handler = (EventHandler<DockContentEventArgs>)Events[ContentRemovedEvent];
             if (handler != null)
                 handler(this, e);
         }

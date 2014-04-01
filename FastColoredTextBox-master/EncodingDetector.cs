@@ -19,7 +19,7 @@ namespace FastColoredTextBoxNS
         /// <returns></returns>
         public static Encoding DetectTextFileEncoding(string inputFilename)
         {
-            using (FileStream textfileStream = File.OpenRead(inputFilename))
+            using (var textfileStream = File.OpenRead(inputFilename))
             {
                 return DetectTextFileEncoding(textfileStream, _defaultHeuristicSampleSize);
             }
@@ -27,7 +27,7 @@ namespace FastColoredTextBoxNS
 
         private static Encoding DetectTextFileEncoding(FileStream InputFileStream, long HeuristicSampleSize)
         {
-            bool uselessBool = false;
+            bool uselessBool;
             return DetectTextFileEncoding(InputFileStream, _defaultHeuristicSampleSize, out uselessBool);
         }
 
@@ -35,7 +35,7 @@ namespace FastColoredTextBoxNS
         {
             Encoding encodingFound;
 
-            long originalPos = InputFileStream.Position;
+            var originalPos = InputFileStream.Position;
 
             InputFileStream.Position = 0;
 
@@ -120,7 +120,7 @@ namespace FastColoredTextBoxNS
             //  character counts.
 
             long currentPos = 0;
-            int skipUTF8Bytes = 0;
+            var skipUTF8Bytes = 0;
 
             while (currentPos < sampleBytes.Length)
             {
@@ -140,7 +140,7 @@ namespace FastColoredTextBoxNS
                 //suspicious sequences (look like UTF-8)
                 if (skipUTF8Bytes == 0)
                 {
-                    int lengthFound = DetectSuspiciousUTF8SequenceLength(sampleBytes, currentPos);
+                    var lengthFound = DetectSuspiciousUTF8SequenceLength(sampleBytes, currentPos);
 
                     if (lengthFound > 0)
                     {
@@ -183,7 +183,7 @@ namespace FastColoredTextBoxNS
             //  using regexp, in his w3c.org unicode FAQ entry:
             //  http://www.w3.org/International/questions/qa-forms-utf-8
             //  adapted here for C#.
-            string potentiallyMangledString = Encoding.ASCII.GetString(sampleBytes);
+            var potentiallyMangledString = Encoding.ASCII.GetString(sampleBytes);
             var utf8Validator = new Regex(@"\A("
                 + @"[\x09\x0A\x0D\x20-\x7E]"
                 + @"|[\xC2-\xDF][\x80-\xBF]"
@@ -244,13 +244,12 @@ namespace FastColoredTextBoxNS
                 || (testByte >= 0x7B && testByte <= 0x7E) //common punctuation
                 )
                 return true;
-            else
-                return false;
+            return false;
         }
 
         private static int DetectSuspiciousUTF8SequenceLength(byte[] sampleBytes, long currentPos)
         {
-            int lengthFound = 0;
+            var lengthFound = 0;
 
             if (sampleBytes.Length >= currentPos + 1
                 && sampleBytes[currentPos] == 0xC2

@@ -31,7 +31,7 @@ namespace Nini.Util
         /// <include file='ArgvParser.xml' path='//Constructor[@name="Constructor"]/docs/*' />
         public ArgvParser(string args)
         {
-            Regex Extractor = new Regex(@"(['""][^""]+['""])\s*|([^\s]+)\s*",
+            var Extractor = new Regex(@"(['""][^""]+['""])\s*|([^\s]+)\s*",
                                         RegexOptions.Compiled);
             MatchCollection matches;
             string[] parts;
@@ -41,7 +41,7 @@ namespace Nini.Util
             matches = Extractor.Matches(args);
             parts = new string[matches.Count - 1];
 
-            for (int i = 1; i < matches.Count; i++)
+            for (var i = 1; i < matches.Count; i++)
             {
                 parts[i - 1] = matches[i].Value.Trim();
             }
@@ -74,7 +74,7 @@ namespace Nini.Util
         private void Extract(string[] args)
         {
             parameters = new StringDictionary();
-            Regex splitter = new Regex(@"^([/-]|--){1}(?<name>\w+)([:=])?(?<value>.+)?$",
+            var splitter = new Regex(@"^([/-]|--){1}(?<name>\w+)([:=])?(?<value>.+)?$",
                                         RegexOptions.Compiled);
             char[] trimChars = { '"', '\'' };
             string parameter = null;
@@ -83,7 +83,7 @@ namespace Nini.Util
             // Valid parameters forms: {-,/,--}param{ , = ,:}((",')value(",'))
             // Examples: -param1 value1 --param2 /param3:"Test-:-work"
             // /param4 = happy -param5 '-- = nice = --'
-            foreach (string arg in args)
+            foreach (var arg in args)
             {
                 part = splitter.Match(arg);
                 if (!part.Success)

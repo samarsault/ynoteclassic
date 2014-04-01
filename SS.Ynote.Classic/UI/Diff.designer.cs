@@ -16,8 +16,8 @@
             if (disposing)
             {
                 if(components!=null)components.Dispose();
-                if (redStyle != null) redStyle.Dispose();
-                if (greenStyle != null) greenStyle.Dispose();
+                if (_redStyle != null) _redStyle.Dispose();
+                if (_greenStyle != null) _greenStyle.Dispose();
             }
             base.Dispose(disposing);
         }

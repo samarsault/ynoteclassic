@@ -20,9 +20,9 @@ namespace Nini.Ini
     {
         #region Private variables
 
-        private OrderedList configList = new OrderedList();
-        private string name = "";
-        private string comment = null;
+        private readonly OrderedList configList = new OrderedList();
+        private readonly string name = "";
+        private readonly string comment = null;
         private int commentCount = 0;
 
         #endregion Private variables
@@ -75,7 +75,7 @@ namespace Nini.Ini
 
             if (Contains(key))
             {
-                IniItem item = (IniItem)configList[key];
+                var item = (IniItem)configList[key];
                 result = item.Value;
             }
 
@@ -91,10 +91,10 @@ namespace Nini.Ini
         /// <include file='IniSection.xml' path='//Method[@name="GetKeys"]/docs/*' />
         public string[] GetKeys()
         {
-            ArrayList list = new ArrayList();
+            var list = new ArrayList();
             IniItem item = null;
 
-            for (int i = 0; i < configList.Count; i++)
+            for (var i = 0; i < configList.Count; i++)
             {
                 item = (IniItem)configList[i];
                 if (item.Type == IniType.Key)
@@ -102,7 +102,7 @@ namespace Nini.Ini
                     list.Add(item.Name);
                 }
             }
-            string[] result = new string[list.Count];
+            var result = new string[list.Count];
             list.CopyTo(result, 0);
 
             return result;
@@ -141,8 +141,8 @@ namespace Nini.Ini
         /// <include file='IniSection.xml' path='//Method[@name="SetComment"]/docs/*' />
         public void Set(string comment)
         {
-            string name = "#comment" + commentCount;
-            IniItem item = new IniItem(name, null,
+            var name = "#comment" + commentCount;
+            var item = new IniItem(name, null,
                                         IniType.Empty, comment);
             configList.Add(name, item);
 

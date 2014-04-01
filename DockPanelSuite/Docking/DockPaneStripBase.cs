@@ -1,21 +1,21 @@
 using System;
-using System.Windows.Forms;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Permissions;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Security.Permissions;
+using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking.Win32;
 
 namespace WeifenLuo.WinFormsUI.Docking
 {
     public abstract class DockPaneStripBase : Control
     {
-        [SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]        
+        [SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
         protected internal class Tab : IDisposable
         {
-            private IDockContent m_content;
+            private readonly IDockContent m_content;
 
             public Tab(IDockContent content)
             {
@@ -48,29 +48,32 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]        
+        [SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
         protected sealed class TabCollection : IEnumerable<Tab>
         {
             #region IEnumerable Members
+
             IEnumerator<Tab> IEnumerable<Tab>.GetEnumerator()
             {
-                for (int i = 0; i < Count; i++)
+                for (var i = 0; i < Count; i++)
                     yield return this[i];
             }
 
             IEnumerator IEnumerable.GetEnumerator()
             {
-                for (int i = 0; i < Count; i++)
+                for (var i = 0; i < Count; i++)
                     yield return this[i];
             }
-            #endregion
+
+            #endregion IEnumerable Members
 
             internal TabCollection(DockPane pane)
             {
                 m_dockPane = pane;
             }
 
-            private DockPane m_dockPane;
+            private readonly DockPane m_dockPane;
+
             public DockPane DockPane
             {
                 get { return m_dockPane; }
@@ -85,7 +88,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             {
                 get
                 {
-                    IDockContent content = DockPane.DisplayingContents[index];
+                    var content = DockPane.DisplayingContents[index];
                     if (content == null)
                         throw (new ArgumentOutOfRangeException("index"));
                     return content.DockHandler.GetTab(DockPane.TabStripControl);
@@ -125,18 +128,20 @@ namespace WeifenLuo.WinFormsUI.Docking
             AllowDrop = true;
         }
 
-        private DockPane m_dockPane;
+        private readonly DockPane m_dockPane;
+
         protected DockPane DockPane
         {
-            get	{	return m_dockPane;	}
+            get { return m_dockPane; }
         }
 
         protected DockPane.AppearanceStyle Appearance
         {
-            get	{	return DockPane.Appearance;	}
+            get { return DockPane.Appearance; }
         }
 
         private TabCollection m_tabs = null;
+
         protected TabCollection Tabs
         {
             get
@@ -179,22 +184,23 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private Rectangle _dragBox = Rectangle.Empty;
+
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
 
-            int index = HitTest();
+            var index = HitTest();
             if (index != -1)
             {
                 if (e.Button == MouseButtons.Middle)
                 {
                     // Close the specified content.
-                    IDockContent content = Tabs[index].Content;
+                    var content = Tabs[index].Content;
                     DockPane.CloseContent(content);
                 }
                 else
                 {
-                    IDockContent content = Tabs[index].Content;
+                    var content = Tabs[index].Content;
                     if (DockPane.ActiveContent != content)
                         DockPane.ActiveContent = content;
                 }
@@ -212,7 +218,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             base.OnMouseMove(e);
 
-            if (e.Button != MouseButtons.Left || _dragBox.Contains(e.Location)) 
+            if (e.Button != MouseButtons.Left || _dragBox.Contains(e.Location))
                 return;
 
             if (DockPane.DockPanel.AllowEndUserDocking && DockPane.AllowDockDragAndDrop && DockPane.ActiveContent.DockHandler.AllowEndUserDocking)
@@ -244,29 +250,28 @@ namespace WeifenLuo.WinFormsUI.Docking
             {
                 base.WndProc(ref m);
 
-                int index = HitTest();
+                var index = HitTest();
                 if (DockPane.DockPanel.AllowEndUserDocking && index != -1)
                 {
-                    IDockContent content = Tabs[index].Content;
+                    var content = Tabs[index].Content;
                     if (content.DockHandler.CheckDockState(!content.DockHandler.IsFloat) != DockState.Unknown)
-                        content.DockHandler.IsFloat = !content.DockHandler.IsFloat;	
+                        content.DockHandler.IsFloat = !content.DockHandler.IsFloat;
                 }
 
                 return;
             }
 
             base.WndProc(ref m);
-            return;
         }
 
         protected override void OnDragOver(DragEventArgs drgevent)
         {
             base.OnDragOver(drgevent);
 
-            int index = HitTest();
+            var index = HitTest();
             if (index != -1)
             {
-                IDockContent content = Tabs[index].Content;
+                var content = Tabs[index].Content;
                 if (DockPane.ActiveContent != content)
                     DockPane.ActiveContent = content;
             }

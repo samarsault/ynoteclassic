@@ -51,7 +51,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private Form m_form;
+        private readonly Form m_form;
 
         public Form Form
         {
@@ -79,7 +79,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             internal set { m_nextActive = value; }
         }
 
-        private EventHandlerList m_events;
+        private readonly EventHandlerList m_events;
 
         private EventHandlerList Events
         {
@@ -297,7 +297,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
                 DockPanel.SuspendLayout(true);
 
-                DockPane oldPane = Pane;
+                var oldPane = Pane;
 
                 SuspendSetDockState();
                 FloatPane = (value == null ? null : (value.IsFloat ? value : FloatPane));
@@ -362,7 +362,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 if (m_isFloat == value)
                     return;
 
-                DockState visibleState = CheckDockState(value);
+                var visibleState = CheckDockState(value);
 
                 if (visibleState == DockState.Unknown)
                     throw new InvalidOperationException(Strings.DockContentHandler_IsFloat_InvalidValue);
@@ -409,7 +409,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                         throw new InvalidOperationException(Strings.DockContentHandler_DockPane_InvalidValue);
                 }
 
-                DockPane oldPane = Pane;
+                var oldPane = Pane;
 
                 if (m_panelPane != null)
                     RemoveFromPane(m_panelPane);
@@ -448,7 +448,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                         throw new InvalidOperationException(Strings.DockContentHandler_FloatPane_InvalidValue);
                 }
 
-                DockPane oldPane = Pane;
+                var oldPane = Pane;
 
                 if (m_floatPane != null)
                     RemoveFromPane(m_floatPane);
@@ -499,13 +499,13 @@ namespace WeifenLuo.WinFormsUI.Docking
             if (visibleState == DockState.Hidden || (visibleState != DockState.Unknown && !IsDockStateValid(visibleState)))
                 throw new InvalidOperationException(Strings.DockContentHandler_SetDockState_InvalidState);
 
-            DockPanel dockPanel = DockPanel;
+            var dockPanel = DockPanel;
             if (dockPanel != null)
                 dockPanel.SuspendLayout(true);
 
             SuspendSetDockState();
 
-            DockState oldDockState = DockState;
+            var oldDockState = DockState;
 
             if (m_isHidden != isHidden || oldDockState == DockState.Unknown)
             {
@@ -676,8 +676,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             if (DockPanel != null && dockState == DockState.Document && DockPanel.DocumentStyle == DocumentStyle.SystemMdi)
                 return false;
-            else
-                return DockHelper.IsDockStateValid(dockState, DockAreas);
+            return DockHelper.IsDockStateValid(dockState, DockAreas);
         }
 
         private ContextMenu m_tabPageContextMenu = null;
@@ -711,7 +710,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     Form.Activate();
                     return;
                 }
-                else if (DockHelper.IsDockStateAutoHide(DockState))
+                if (DockHelper.IsDockStateAutoHide(DockState))
                 {
                     if (DockPanel.ActiveAutoHideContent != Content)
                     {
@@ -807,7 +806,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             // Change the parent of a control with focus may result in the first
             // MDI child form get activated.
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            bool bRestoreFocus = false;
+            var bRestoreFocus = false;
             if (Form.ContainsFocus)
             {
                 // Suggested as a fix for a memory leak by bugreports
@@ -875,7 +874,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             else if (PanelPane == null)
             {
                 DockPane paneExisting = null;
-                foreach (DockPane pane in DockPanel.Panes)
+                foreach (var pane in DockPanel.Panes)
                     if (pane.DockState == dockState)
                     {
                         paneExisting = pane;
@@ -954,7 +953,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         public void Close()
         {
-            DockPanel dockPanel = DockPanel;
+            var dockPanel = DockPanel;
             if (dockPanel != null)
                 dockPanel.SuspendLayout(true);
             Form.Close();
@@ -992,7 +991,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         protected virtual void OnDockStateChanged(EventArgs e)
         {
-            EventHandler handler = (EventHandler)Events[DockStateChangedEvent];
+            var handler = (EventHandler)Events[DockStateChangedEvent];
             if (handler != null)
                 handler(this, e);
         }
@@ -1063,14 +1062,14 @@ namespace WeifenLuo.WinFormsUI.Docking
         Rectangle IDockDragSource.BeginDrag(Point ptMouse)
         {
             Size size;
-            DockPane floatPane = FloatPane;
+            var floatPane = FloatPane;
             if (DockState == DockState.Float || floatPane == null || floatPane.FloatWindow.NestedPanes.Count != 1)
                 size = DockPanel.DefaultFloatWindowSize;
             else
                 size = floatPane.FloatWindow.Size;
 
             Point location;
-            Rectangle rectPane = Pane.ClientRectangle;
+            var rectPane = Pane.ClientRectangle;
             if (DockState == DockState.Document)
             {
                 if (Pane.DockPanel.DocumentTabStripLocation == DocumentTabStripLocation.Bottom)
@@ -1098,14 +1097,14 @@ namespace WeifenLuo.WinFormsUI.Docking
         public void FloatAt(Rectangle floatWindowBounds)
         {
             // TODO: where is the pane used?
-            DockPane pane = DockPanel.DockPaneFactory.CreateDockPane(Content, floatWindowBounds, true);
+            var pane = DockPanel.DockPaneFactory.CreateDockPane(Content, floatWindowBounds, true);
         }
 
         public void DockTo(DockPane pane, DockStyle dockStyle, int contentIndex)
         {
             if (dockStyle == DockStyle.Fill)
             {
-                bool samePane = (Pane == pane);
+                var samePane = (Pane == pane);
                 if (!samePane)
                     Pane = pane;
 
@@ -1113,9 +1112,9 @@ namespace WeifenLuo.WinFormsUI.Docking
                     pane.SetContentIndex(Content, contentIndex);
                 else
                 {
-                    DockContentCollection contents = pane.Contents;
-                    int oldIndex = contents.IndexOf(Content);
-                    int newIndex = contentIndex;
+                    var contents = pane.Contents;
+                    var oldIndex = contents.IndexOf(Content);
+                    var newIndex = contentIndex;
                     if (oldIndex < newIndex)
                     {
                         newIndex += 1;
@@ -1127,8 +1126,8 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
             else
             {
-                DockPane paneFrom = DockPanel.DockPaneFactory.CreateDockPane(Content, pane.DockState, true);
-                INestedPanesContainer container = pane.NestedPanesContainer;
+                var paneFrom = DockPanel.DockPaneFactory.CreateDockPane(Content, pane.DockState, true);
+                var container = pane.NestedPanesContainer;
                 if (dockStyle == DockStyle.Left)
                     paneFrom.DockTo(container, pane, DockAlignment.Left, 0.5);
                 else if (dockStyle == DockStyle.Right)

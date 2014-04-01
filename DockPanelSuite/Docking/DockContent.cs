@@ -23,7 +23,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 Font = Parent.Font;
         }
 
-        private DockContentHandler m_dockHandler = null;
+        private readonly DockContentHandler m_dockHandler = null;
 
         [Browsable(false)]
         public DockContentHandler DockHandler
@@ -310,7 +310,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         protected virtual void OnDockStateChanged(EventArgs e)
         {
-            EventHandler handler = (EventHandler)Events[DockStateChangedEvent];
+            var handler = (EventHandler)Events[DockStateChangedEvent];
             if (handler != null)
                 handler(this, e);
         }

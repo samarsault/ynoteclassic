@@ -72,7 +72,7 @@ namespace Nini.Config
         /// <include file='RegistryConfigSource.xml' path='//Method[@name="AddConfigKey"]/docs/*' />
         public IConfig AddConfig(string name, RegistryKey key)
         {
-            RegistryConfig result = new RegistryConfig(name, this);
+            var result = new RegistryConfig(name, this);
             result.Key = key;
             result.ParentKey = true;
 
@@ -84,7 +84,7 @@ namespace Nini.Config
         /// <include file='RegistryConfigSource.xml' path='//Method[@name="AddMapping"]/docs/*' />
         public void AddMapping(RegistryKey registryKey, string path)
         {
-            RegistryKey key = registryKey.OpenSubKey(path, true);
+            var key = registryKey.OpenSubKey(path, true);
 
             if (key == null)
             {
@@ -99,7 +99,7 @@ namespace Nini.Config
                                 string path,
                                 RegistryRecurse recurse)
         {
-            RegistryKey key = registryKey.OpenSubKey(path, true);
+            var key = registryKey.OpenSubKey(path, true);
 
             if (key == null)
             {
@@ -115,8 +115,8 @@ namespace Nini.Config
                 LoadKeyValues(key, ShortKeyName(key));
             }
 
-            string[] subKeys = key.GetSubKeyNames();
-            for (int i = 0; i < subKeys.Length; i++)
+            var subKeys = key.GetSubKeyNames();
+            for (var i = 0; i < subKeys.Length; i++)
             {
                 switch (recurse)
                 {
@@ -140,15 +140,15 @@ namespace Nini.Config
         {
             MergeConfigsIntoDocument();
 
-            for (int i = 0; i < Configs.Count; i++)
+            for (var i = 0; i < Configs.Count; i++)
             {
                 // New merged configs are not RegistryConfigs
                 if (Configs[i] is RegistryConfig)
                 {
-                    RegistryConfig config = (RegistryConfig)Configs[i];
-                    string[] keys = config.GetKeys();
+                    var config = (RegistryConfig)Configs[i];
+                    var keys = config.GetKeys();
 
-                    for (int j = 0; j < keys.Length; j++)
+                    for (var j = 0; j < keys.Length; j++)
                     {
                         config.Key.SetValue(keys[j], config.Get(keys[j]));
                     }
@@ -171,11 +171,11 @@ namespace Nini.Config
         /// </summary>
         private void LoadKeyValues(RegistryKey key, string keyName)
         {
-            RegistryConfig config = new RegistryConfig(keyName, this);
+            var config = new RegistryConfig(keyName, this);
             config.Key = key;
 
-            string[] values = key.GetValueNames();
-            foreach (string value in values)
+            var values = key.GetValueNames();
+            foreach (var value in values)
             {
                 config.Add(value, key.GetValue(value).ToString());
             }
@@ -192,7 +192,7 @@ namespace Nini.Config
             {
                 if (config is RegistryConfig)
                 {
-                    RegistryConfig registryConfig = (RegistryConfig)config;
+                    var registryConfig = (RegistryConfig)config;
 
                     if (registryConfig.ParentKey)
                     {
@@ -201,8 +201,8 @@ namespace Nini.Config
                     }
                     RemoveKeys(registryConfig);
 
-                    string[] keys = config.GetKeys();
-                    for (int i = 0; i < keys.Length; i++)
+                    var keys = config.GetKeys();
+                    for (var i = 0; i < keys.Length; i++)
                     {
                         registryConfig.Key.SetValue(keys[i], config.Get(keys[i]));
                     }
@@ -216,15 +216,15 @@ namespace Nini.Config
         /// </summary>
         private void ReloadKeys()
         {
-            RegistryKey[] keys = new RegistryKey[Configs.Count];
+            var keys = new RegistryKey[Configs.Count];
 
-            for (int i = 0; i < keys.Length; i++)
+            for (var i = 0; i < keys.Length; i++)
             {
                 keys[i] = ((RegistryConfig)Configs[i]).Key;
             }
 
             Configs.Clear();
-            for (int i = 0; i < keys.Length; i++)
+            for (var i = 0; i < keys.Length; i++)
             {
                 LoadKeyValues(keys[i], ShortKeyName(keys[i]));
             }
@@ -235,7 +235,7 @@ namespace Nini.Config
         /// </summary>
         private void RemoveKeys(RegistryConfig config)
         {
-            foreach (string valueName in config.Key.GetValueNames())
+            foreach (var valueName in config.Key.GetValueNames())
             {
                 if (!config.Contains(valueName))
                 {
@@ -250,7 +250,7 @@ namespace Nini.Config
         /// </summary>
         private string ShortKeyName(RegistryKey key)
         {
-            int index = key.Name.LastIndexOf("\\");
+            var index = key.Name.LastIndexOf("\\");
 
             return (index == -1) ? key.Name : key.Name.Substring(index + 1);
         }

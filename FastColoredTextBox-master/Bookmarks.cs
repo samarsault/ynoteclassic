@@ -75,7 +75,7 @@ namespace FastColoredTextBoxNS
 
         protected virtual void tb_LineRemoved(object sender, LineRemovedEventArgs e)
         {
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
                 if (items[i].LineIndex >= e.Index)
                 {
                     if (items[i].LineIndex >= e.Index + e.Count)
@@ -95,7 +95,7 @@ namespace FastColoredTextBoxNS
 
         protected virtual void tb_LineInserted(object sender, LineInsertedEventArgs e)
         {
-            for (int i = 0; i < Count; i++)
+            for (var i = 0; i < Count; i++)
                 if (items[i].LineIndex >= e.Index)
                 {
                     items[i].LineIndex = items[i].LineIndex + e.Count;
@@ -186,8 +186,8 @@ namespace FastColoredTextBoxNS
         /// </summary>
         public override bool Remove(int lineIndex)
         {
-            bool was = false;
-            for (int i = 0; i < Count; i++)
+            var was = false;
+            for (var i = 0; i < Count; i++)
                 if (items[i].LineIndex == lineIndex)
                 {
                     items.RemoveAt(i);

@@ -1,8 +1,8 @@
 using System;
-using System.Drawing;
-using System.Windows.Forms;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Drawing;
+using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking.Win32;
 using ScrollBars = WeifenLuo.WinFormsUI.Docking.Win32.ScrollBars;
 
@@ -84,8 +84,8 @@ namespace WeifenLuo.WinFormsUI.Docking
                     if (!Win32Helper.IsRunningOnMono)
                     {
                         // Get styles using Win32 calls
-                        int style = NativeMethods.GetWindowLong(MdiClient.Handle, (int)GetWindowLongIndex.GWL_STYLE);
-                        int exStyle = NativeMethods.GetWindowLong(MdiClient.Handle, (int)GetWindowLongIndex.GWL_EXSTYLE);
+                        var style = NativeMethods.GetWindowLong(MdiClient.Handle, (int)GetWindowLongIndex.GWL_STYLE);
+                        var exStyle = NativeMethods.GetWindowLong(MdiClient.Handle, (int)GetWindowLongIndex.GWL_EXSTYLE);
 
                         // Add or remove style flags as necessary.
                         switch (m_borderStyle)
@@ -167,10 +167,10 @@ namespace WeifenLuo.WinFormsUI.Docking
 
                     // If the component is dropped onto a form during design-time,
                     // set the ParentForm property.
-                    IDesignerHost host = (value.GetService(typeof(IDesignerHost)) as IDesignerHost);
+                    var host = (value.GetService(typeof(IDesignerHost)) as IDesignerHost);
                     if (host != null)
                     {
-                        Form parent = host.RootComponent as Form;
+                        var parent = host.RootComponent as Form;
                         if (parent != null)
                             ParentForm = parent;
                     }
@@ -336,6 +336,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private MdiClientController m_mdiClientController = null;
+
         private MdiClientController GetMdiClientController()
         {
             if (m_mdiClientController == null)
@@ -354,7 +355,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             if (GetMdiClientController().ParentForm == null)
                 return;
 
-            IDockContent content = GetMdiClientController().ParentForm.ActiveMdiChild as IDockContent;
+            var content = GetMdiClientController().ParentForm.ActiveMdiChild as IDockContent;
             if (content == null)
                 return;
 
@@ -396,7 +397,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         // 3. MdiClientController.Handle assigned
         private void SetMdiClient()
         {
-            MdiClientController controller = GetMdiClientController();
+            var controller = GetMdiClientController();
 
             if (DocumentStyle == DocumentStyle.DockingMdi)
             {
@@ -428,8 +429,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             if (MdiClientExists)
                 return GetMdiClientController().MdiClient.RectangleToClient(rect);
-            else
-                return Rectangle.Empty;
+            return Rectangle.Empty;
         }
     }
 }

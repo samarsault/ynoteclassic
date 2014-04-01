@@ -11,12 +11,12 @@ namespace WeifenLuo.WinFormsUI.Docking
     {
         private class DockAreasEditorControl : UserControl
         {
-            private CheckBox checkBoxFloat;
-            private CheckBox checkBoxDockLeft;
-            private CheckBox checkBoxDockRight;
-            private CheckBox checkBoxDockTop;
-            private CheckBox checkBoxDockBottom;
-            private CheckBox checkBoxDockFill;
+            private readonly CheckBox checkBoxFloat;
+            private readonly CheckBox checkBoxDockLeft;
+            private readonly CheckBox checkBoxDockRight;
+            private readonly CheckBox checkBoxDockTop;
+            private readonly CheckBox checkBoxDockBottom;
+            private readonly CheckBox checkBoxDockFill;
             private DockAreas m_oldDockAreas;
 
             public DockAreas DockAreas
@@ -39,8 +39,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
                     if (dockAreas == 0)
                         return m_oldDockAreas;
-                    else
-                        return dockAreas;
+                    return dockAreas;
                 }
             }
 
@@ -133,7 +132,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             m_ui.SetStates((DockAreas)value);
 
-            IWindowsFormsEditorService edSvc = (IWindowsFormsEditorService)sp.GetService(typeof(IWindowsFormsEditorService));
+            var edSvc = (IWindowsFormsEditorService)sp.GetService(typeof(IWindowsFormsEditorService));
             edSvc.DropDownControl(m_ui);
 
             return m_ui.DockAreas;

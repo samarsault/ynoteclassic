@@ -38,7 +38,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             get
             {
-                CreateParams createParams = base.CreateParams;
+                var createParams = base.CreateParams;
                 createParams.ExStyle |= (int)(WindowExStyles.WS_EX_NOACTIVATE | WindowExStyles.WS_EX_TOOLWINDOW);
                 return createParams;
             }
@@ -60,12 +60,13 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             get { return true; }
         }
+
         public virtual void Show(bool bActivate)
         {
-                Show();
+            Show();
 
-                if (bActivate)
-                    Activate();
+            if (bActivate)
+                Activate();
         }
     }
 }

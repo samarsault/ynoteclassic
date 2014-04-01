@@ -1,7 +1,7 @@
 using System;
-using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Windows.Forms;
 
 namespace WeifenLuo.WinFormsUI.Docking
 {
@@ -19,6 +19,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private bool m_isMouseOver = false;
+
         protected bool IsMouseOver
         {
             get { return m_isMouseOver; }
@@ -40,7 +41,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            bool over = ClientRectangle.Contains(e.X, e.Y);
+            var over = ClientRectangle.Contains(e.X, e.Y);
             if (IsMouseOver != over)
                 IsMouseOver = over;
         }
@@ -63,15 +64,15 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             if (IsMouseOver && Enabled)
             {
-                using (Pen pen = new Pen(ForeColor))
+                using (var pen = new Pen(ForeColor))
                 {
                     e.Graphics.DrawRectangle(pen, Rectangle.Inflate(ClientRectangle, -1, -1));
                 }
             }
 
-            using (ImageAttributes imageAttributes = new ImageAttributes())
+            using (var imageAttributes = new ImageAttributes())
             {
-                ColorMap[] colorMap = new ColorMap[2];
+                var colorMap = new ColorMap[2];
                 colorMap[0] = new ColorMap();
                 colorMap[0].OldColor = Color.FromArgb(0, 0, 0);
                 colorMap[0].NewColor = ForeColor;
@@ -99,7 +100,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             if (IsDisposed)
                 return;
 
-            bool mouseOver = ClientRectangle.Contains(PointToClient(MousePosition));
+            var mouseOver = ClientRectangle.Contains(PointToClient(MousePosition));
             if (mouseOver != IsMouseOver)
                 IsMouseOver = mouseOver;
 

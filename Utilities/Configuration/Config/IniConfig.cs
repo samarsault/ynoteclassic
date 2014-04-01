@@ -17,7 +17,7 @@ namespace Nini.Config
     {
         #region Private variables
 
-        private IniConfigSource parent = null;
+        private readonly IniConfigSource parent = null;
 
         #endregion Private variables
 
@@ -82,7 +82,7 @@ namespace Nini.Config
         {
             string result = null;
 
-            string lowerKey = key.ToLower();
+            var lowerKey = key.ToLower();
             foreach (string currentKey in keys.Keys)
             {
                 if (currentKey.ToLower() == lowerKey)

@@ -21,7 +21,7 @@ namespace Nini.Ini
     {
         #region Private variables
 
-        private OrderedList list = new OrderedList();
+        private readonly OrderedList list = new OrderedList();
 
         #endregion Private variables
 

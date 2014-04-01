@@ -131,7 +131,7 @@ namespace FastColoredTextBoxNS
                 Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
                 var kc = new KeysConverter();
 
-                StringBuilder sb = new StringBuilder();
+                var sb = new StringBuilder();
                 sb.AppendLine("<macros>");
                 foreach (var item in macro)
                 {

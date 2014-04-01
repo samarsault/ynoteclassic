@@ -32,7 +32,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             {
                 base.OnPaint(e);
 
-                Rectangle rect = ClientRectangle;
+                var rect = ClientRectangle;
 
                 if (rect.Width <= 0 || rect.Height <= 0)
                     return;
@@ -47,7 +47,8 @@ namespace WeifenLuo.WinFormsUI.Docking
                                 path.AddRectangle(rect);
                                 using (var brush = new PathGradientBrush(path)
                                     {
-                                        CenterColor = Color.FromArgb(0xFF, 204, 206, 219), SurroundColors = _verticalSurroundColors
+                                        CenterColor = Color.FromArgb(0xFF, 204, 206, 219),
+                                        SurroundColors = _verticalSurroundColors
                                     })
                                 {
                                     e.Graphics.FillRectangle(brush, rect.X + Measures.SplitterSize / 2 - 1, rect.Y,
@@ -56,6 +57,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                             }
                         }
                         break;
+
                     case DockState.DockBottomAutoHide:
                     case DockState.DockTopAutoHide:
                         {
@@ -67,7 +69,8 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        public VS2012LightAutoHideWindowControl(DockPanel dockPanel) : base(dockPanel)
+        public VS2012LightAutoHideWindowControl(DockPanel dockPanel)
+            : base(dockPanel)
         {
             m_splitter = new VS2012LightAutoHideWindowSplitterControl(this);
             Controls.Add(m_splitter);
@@ -77,7 +80,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             get
             {
-                Rectangle rect = ClientRectangle;
+                var rect = ClientRectangle;
 
                 // exclude the border and the splitter
                 if (DockState == DockState.DockBottomAutoHide)
@@ -123,14 +126,13 @@ namespace WeifenLuo.WinFormsUI.Docking
                 m_splitter.Dock = DockStyle.Top;
             }
 
-            Rectangle rectDisplaying = DisplayingRectangle;
-            Rectangle rectHidden = new Rectangle(-rectDisplaying.Width, rectDisplaying.Y, rectDisplaying.Width, rectDisplaying.Height);
+            var rectDisplaying = DisplayingRectangle;
+            var rectHidden = new Rectangle(-rectDisplaying.Width, rectDisplaying.Y, rectDisplaying.Width, rectDisplaying.Height);
             foreach (Control c in Controls)
             {
-                DockPane pane = c as DockPane;
+                var pane = c as DockPane;
                 if (pane == null)
                     continue;
-
 
                 if (pane == ActivePane)
                     pane.Bounds = rectDisplaying;

@@ -20,8 +20,8 @@ namespace Nini.Config
     {
         #region Private variables
 
-        private ArgvParser parser = null;
-        private string[] arguments = null;
+        private readonly ArgvParser parser = null;
+        private readonly string[] arguments = null;
 
         #endregion Private variables
 
@@ -64,7 +64,7 @@ namespace Nini.Config
         public void AddSwitch(string configName, string longName,
                                 string shortName)
         {
-            IConfig config = GetConfig(configName);
+            var config = GetConfig(configName);
 
             if (shortName != null &&
                 (shortName.Length < 1 || shortName.Length > 2))
@@ -86,7 +86,7 @@ namespace Nini.Config
         /// <include file='ArgvConfigSource.xml' path='//Method[@name="GetArguments"]/docs/*' />
         public string[] GetArguments()
         {
-            string[] result = new string[arguments.Length];
+            var result = new string[arguments.Length];
             Array.Copy(arguments, 0, result, 0, arguments.Length);
 
             return result;

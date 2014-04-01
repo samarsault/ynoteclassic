@@ -64,11 +64,11 @@ namespace Nini.Ini
         private int lineNumber = 1;
         private int column = 1;
         private IniType iniType = IniType.Empty;
-        private TextReader textReader = null;
+        private readonly TextReader textReader = null;
         private bool ignoreComments = false;
-        private StringBuilder name = new StringBuilder();
-        private StringBuilder value = new StringBuilder();
-        private StringBuilder comment = new StringBuilder();
+        private readonly StringBuilder name = new StringBuilder();
+        private readonly StringBuilder value = new StringBuilder();
+        private readonly StringBuilder comment = new StringBuilder();
         private IniReadState readState = IniReadState.Initial;
         private bool hasComment = false;
         private bool disposed = false;
@@ -189,7 +189,7 @@ namespace Nini.Ini
         /// <include file='IniReader.xml' path='//Method[@name="Read"]/docs/*' />
         public bool Read()
         {
-            bool result = false;
+            var result = false;
 
             if (readState != IniReadState.EndOfFile
                 || readState != IniReadState.Closed)
@@ -204,7 +204,7 @@ namespace Nini.Ini
         /// <include file='IniReader.xml' path='//Method[@name="MoveToNextSection"]/docs/*' />
         public bool MoveToNextSection()
         {
-            bool result = false;
+            var result = false;
 
             while (true)
             {
@@ -222,7 +222,7 @@ namespace Nini.Ini
         /// <include file='IniReader.xml' path='//Method[@name="MoveToNextKey"]/docs/*' />
         public bool MoveToNextKey()
         {
-            bool result = false;
+            var result = false;
 
             while (true)
             {
@@ -263,7 +263,7 @@ namespace Nini.Ini
         /// <include file='IniReader.xml' path='//Method[@name="GetCommentDelimiters"]/docs/*' />
         public char[] GetCommentDelimiters()
         {
-            char[] result = new char[commentDelimiters.Length];
+            var result = new char[commentDelimiters.Length];
             Array.Copy(commentDelimiters, 0, result, 0, commentDelimiters.Length);
 
             return result;
@@ -283,7 +283,7 @@ namespace Nini.Ini
         /// <include file='IniReader.xml' path='//Method[@name="GetAssignDelimiters"]/docs/*' />
         public char[] GetAssignDelimiters()
         {
-            char[] result = new char[assignDelimiters.Length];
+            var result = new char[assignDelimiters.Length];
             Array.Copy(assignDelimiters, 0, result, 0, assignDelimiters.Length);
 
             return result;
@@ -348,8 +348,8 @@ namespace Nini.Ini
         /// </summary>
         private bool ReadNext()
         {
-            bool result = true;
-            int ch = PeekChar();
+            var result = true;
+            var ch = PeekChar();
             Reset();
 
             if (IsComment(ch))
@@ -396,7 +396,7 @@ namespace Nini.Ini
         /// </summary>
         private void ReadComment()
         {
-            int ch = -1;
+            var ch = -1;
             SkipWhitespace();
             hasComment = true;
 
@@ -414,7 +414,7 @@ namespace Nini.Ini
         /// </summary>
         private void RemoveTrailingWhitespace(StringBuilder builder)
         {
-            string temp = builder.ToString();
+            var temp = builder.ToString();
 
             builder.Remove(0, builder.Length);
             builder.Append(temp.TrimEnd(null));
@@ -425,7 +425,7 @@ namespace Nini.Ini
         /// </summary>
         private void ReadKey()
         {
-            int ch = -1;
+            var ch = -1;
             iniType = IniType.Key;
 
             while (true)
@@ -462,9 +462,9 @@ namespace Nini.Ini
         /// </summary>
         private void ReadKeyValue()
         {
-            int ch = -1;
-            bool foundQuote = false;
-            int characters = 0;
+            var ch = -1;
+            var foundQuote = false;
+            var characters = 0;
             SkipWhitespace();
 
             while (true)
@@ -485,10 +485,7 @@ namespace Nini.Ini
                         foundQuote = true;
                         continue;
                     }
-                    else
-                    {
-                        break;
-                    }
+                    break;
                 }
 
                 if (foundQuote && EndOfLine(ch))
@@ -499,7 +496,7 @@ namespace Nini.Ini
                 // Handle line continuation
                 if (lineContinuation && ch == '\\')
                 {
-                    StringBuilder buffer = new StringBuilder();
+                    var buffer = new StringBuilder();
                     buffer.Append((char)ReadChar()); // append '\'
 
                     while (PeekChar() != '\n' && IsWhitespace(PeekChar()))
@@ -520,11 +517,8 @@ namespace Nini.Ini
                         ReadChar();
                         continue;
                     }
-                    else
-                    {
-                        // Replace consumed characters
-                        value.Append(buffer.ToString());
-                    }
+                    // Replace consumed characters
+                    value.Append(buffer);
                 }
 
                 if (!ConsumeAllKeyText)
@@ -556,7 +550,7 @@ namespace Nini.Ini
         /// </summary>
         private void ReadSection()
         {
-            int ch = -1;
+            var ch = -1;
             iniType = IniType.Section;
             ch = ReadChar(); // consume "["
 
@@ -584,7 +578,7 @@ namespace Nini.Ini
         /// </summary>
         private void SearchForComment()
         {
-            int ch = ReadChar();
+            var ch = ReadChar();
 
             while (!EndOfLine(ch))
             {
@@ -609,7 +603,7 @@ namespace Nini.Ini
         /// </summary>
         private void ConsumeToEnd()
         {
-            int ch = -1;
+            var ch = -1;
 
             do
             {
@@ -622,7 +616,7 @@ namespace Nini.Ini
         /// </summary>
         private int ReadChar()
         {
-            int result = textReader.Read();
+            var result = textReader.Read();
 
             if (result == '\n')
             {
@@ -666,9 +660,9 @@ namespace Nini.Ini
         /// </summary>
         private bool HasCharacter(char[] characters, int ch)
         {
-            bool result = false;
+            var result = false;
 
-            for (int i = 0; i < characters.Length; i++)
+            for (var i = 0; i < characters.Length; i++)
             {
                 if (ch == characters[i])
                 {

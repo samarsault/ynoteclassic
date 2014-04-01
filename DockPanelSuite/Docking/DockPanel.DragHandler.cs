@@ -96,7 +96,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         private abstract class DragHandler : DragHandlerBase
         {
-            private DockPanel m_dockPanel;
+            private readonly DockPanel m_dockPanel;
 
             protected DragHandler(DockPanel dockPanel)
             {

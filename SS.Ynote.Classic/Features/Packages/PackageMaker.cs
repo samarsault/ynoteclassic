@@ -16,12 +16,11 @@ namespace SS.Ynote.Classic.Features.Packages
             Close();
         }
 
-
         private void outfilebtn_Click(object sender, EventArgs e)
         {
             using (var s = new SaveFileDialog())
             {
-                s.Filter = "Ynote Plugin Package (*.ypk)|*.ypk";
+                s.Filter = "Ynote Package File (*.ypk)|*.ypk";
                 s.ShowDialog();
                 if (s.FileName == null) return;
                 txtoutfile.Text = s.FileName;
@@ -31,14 +30,12 @@ namespace SS.Ynote.Classic.Features.Packages
         private void createpackagebtn_Click(object sender, EventArgs e)
         {
             var dic = lstfiles.Items.Cast<ListViewItem>().ToDictionary(item => item.SubItems[0].Text, item => item.SubItems[1].Text);
-          //  foreach(ListViewItem item in lstfiles.Items)
-          //      dic.Add(item.SubItems[0].Text, item.SubItems[1].Text);
-            if (YnotePackageMaker.MakePackage(txtoutfile.Text, dic))
-            {
-                MessageBox.Show("Plugin Package Successfully Created !", "Plugin Packer", MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-                Close();
-            }
+            //  foreach(ListViewItem item in lstfiles.Items)
+            //      dic.Add(item.SubItems[0].Text, item.SubItems[1].Text);
+            if (!YnotePackageMaker.MakePackage(txtoutfile.Text, dic)) return;
+            MessageBox.Show("Package Successfully Created !", "Plugin Packer", MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+            Close();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -52,7 +49,7 @@ namespace SS.Ynote.Classic.Features.Packages
             {
                 var show = dlg.ShowDialog();
                 if (show == DialogResult.OK)
-                    lstfiles.Items.Add(new ListViewItem(new[] {dlg.Input, dlg.Output}));
+                    lstfiles.Items.Add(new ListViewItem(new[] { dlg.Input, dlg.Output }));
             }
         }
     }

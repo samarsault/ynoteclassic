@@ -14,7 +14,6 @@ namespace WeifenLuo.WinFormsUI.Docking
                     _resourceManager = new ResourceManager("WeifenLuo.WinFormsUI.Docking.Strings", typeof(ResourceHelper).Assembly);
                 return _resourceManager;
             }
-
         }
 
         public static string GetString(string name)

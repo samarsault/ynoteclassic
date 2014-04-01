@@ -105,8 +105,7 @@
       <DependentUpon>PackageMaker.cs</DependentUpon>
     </Compile>
     <Compile Include="Features\Packages\YnotePackage.cs" />
-    <Compile Include="Features\Packages\YnotePackageInstaller.cs" />
-    <Compile Include="Features\Packages\YnotePackageUninstaller.cs" />
+    <Compile Include="Features\Packages\YnotePackageManager.cs" />
     <Compile Include="Features\Packages\ZipStorer.cs" />
     <Compile Include="Features\Project\Common.cs" />
     <Compile Include="Features\Project\ProjectUtils.cs">
@@ -268,9 +267,6 @@
     <EmbeddedResource Include="Features\Project\Wizard.resx">
       <DependentUpon>Wizard.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -281,17 +277,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="UI\BookmarksInfos.resx">
-      <DependentUpon>BookmarksInfos.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Features\RunScript\Cmd.resx">
       <DependentUpon>Cmd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Features\Search\IncrementalSearcher.resx">
-      <DependentUpon>IncrementalSearcher.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Console.resx">
-      <DependentUpon>Console.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Editor.resx">
       <DependentUpon>Editor.cs</DependentUpon>
@@ -301,9 +288,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SwitchFile.resx">
       <DependentUpon>SwitchFile.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Features\Search\FindInFiles.resx">
-      <DependentUpon>FindInFiles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\UtilDialog.resx">
       <DependentUpon>UtilDialog.cs</DependentUpon>

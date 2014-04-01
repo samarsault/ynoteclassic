@@ -17,31 +17,31 @@ namespace SS.Ynote.Classic.UI
 {
     public partial class Diff : DockContent
     {
-        private readonly SyntaxHighlighter Highlighter;
-        private readonly Style greenStyle;
-        private readonly Style redStyle;
+        private readonly SyntaxHighlighter _highlighter;
+        private readonly Style _greenStyle;
+        private readonly Style _redStyle;
         private int _updating;
 
         public Diff()
         {
             InitializeComponent();
-            greenStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(50, Color.Lime)));
-            redStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(50, Color.Red)));
-            Highlighter = new SyntaxHighlighter();
-            YnoteThemeReader.ApplyTheme(Application.StartupPath + @"\Themes\Default.ynotetheme", Highlighter, fctb1);
-            YnoteThemeReader.ApplyTheme(Application.StartupPath + @"\Themes\Default.ynotetheme", Highlighter, fctb2);
+            _greenStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(50, Color.Lime)));
+            _redStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(50, Color.Red)));
+            _highlighter = new SyntaxHighlighter();
+            YnoteThemeReader.ApplyTheme(Application.StartupPath + @"\Themes\Default.ynotetheme", _highlighter, fctb1);
+            YnoteThemeReader.ApplyTheme(Application.StartupPath + @"\Themes\Default.ynotetheme", _highlighter, fctb2);
         }
 
         public Diff(string firstfile, string secondfile)
         {
             InitializeComponent();
-            greenStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(50, Color.Lime)));
-            redStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(50, Color.Red)));
+            _greenStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(50, Color.Lime)));
+            _redStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(50, Color.Red)));
             tbFirstFile.Text = firstfile;
             tbSecondFile.Text = secondfile;
-            Highlighter = new SyntaxHighlighter();
-            YnoteThemeReader.ApplyTheme(Application.StartupPath + @"\Themes\Default.ynotetheme", Highlighter, fctb1);
-            YnoteThemeReader.ApplyTheme(Application.StartupPath + @"\Themes\Default.ynotetheme", Highlighter, fctb2);
+            _highlighter = new SyntaxHighlighter();
+            YnoteThemeReader.ApplyTheme(Application.StartupPath + @"\Themes\Default.ynotetheme", _highlighter, fctb1);
+            YnoteThemeReader.ApplyTheme(Application.StartupPath + @"\Themes\Default.ynotetheme", _highlighter, fctb2);
         }
 
         private void btSecond_Click(object sender, EventArgs e)
@@ -64,8 +64,8 @@ namespace SS.Ynote.Classic.UI
             var fastColoredTextBox = sender as FastColoredTextBox;
             if (fastColoredTextBox != null)
             {
-                int vPos = fastColoredTextBox.VerticalScroll.Value;
-                int curLine = fastColoredTextBox.Selection.Start.iLine;
+                var vPos = fastColoredTextBox.VerticalScroll.Value;
+                var curLine = fastColoredTextBox.Selection.Start.iLine;
 
                 UpdateScroll(sender == fctb2 ? fctb1 : fctb2, vPos, curLine);
             }
@@ -109,8 +109,8 @@ namespace SS.Ynote.Classic.UI
             fctb2.Clear();
             if (FileExtensions.FileExtensionsDictionary == null)
                 FileExtensions.BuildDictionary();
-            Highlighter.HighlightSyntax(FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary, Path.GetExtension(tbFirstFile.Text)).Language, new TextChangedEventArgs(fctb1.Range));
-            Highlighter.HighlightSyntax(FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary, Path.GetExtension(tbSecondFile.Text)).Language, new TextChangedEventArgs(fctb2.Range));
+            _highlighter.HighlightSyntax(FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary, Path.GetExtension(tbFirstFile.Text)).Language, new TextChangedEventArgs(fctb1.Range));
+            _highlighter.HighlightSyntax(FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary, Path.GetExtension(tbSecondFile.Text)).Language, new TextChangedEventArgs(fctb2.Range));
             Cursor = Cursors.WaitCursor;
             var source1 = Lines.Load(tbFirstFile.Text);
             var source2 = Lines.Load(tbSecondFile.Text);
@@ -128,7 +128,8 @@ namespace SS.Ynote.Classic.UI
 
         private void btCompare_Click(object sender, EventArgs e)
         {
-            DoCompare();
+            //TODO:Check if working
+            BeginInvoke(new MethodInvoker(DoCompare));
         }
 
         private void Process(IEnumerable<Line> lines)
@@ -144,11 +145,11 @@ namespace SS.Ynote.Classic.UI
 
                     case DiffType.Inserted:
                         fctb1.AppendText(Environment.NewLine);
-                        fctb2.AppendText(line.line + Environment.NewLine, greenStyle);
+                        fctb2.AppendText(line.line + Environment.NewLine, _greenStyle);
                         break;
 
                     case DiffType.Deleted:
-                        fctb1.AppendText(line.line + Environment.NewLine, redStyle);
+                        fctb1.AppendText(line.line + Environment.NewLine, _redStyle);
                         fctb2.AppendText(Environment.NewLine);
                         break;
                 }
@@ -202,16 +203,16 @@ namespace SS.Ynote.Classic.UI
                     ElapsedTime = sw.Elapsed;
                 }
 
-                for (int i = 0; i < _preSkip; i++)
+                for (var i = 0; i < _preSkip; i++)
                 {
                     FireLineUpdate(DiffType.None, i, -1);
                 }
 
-                int totalSkip = _preSkip + _postSkip;
+                var totalSkip = _preSkip + _postSkip;
                 ShowDiff(_left.Count - totalSkip, _right.Count - totalSkip);
 
-                int leftLen = _left.Count;
-                for (int i = _postSkip; i > 0; i--)
+                var leftLen = _left.Count;
+                for (var i = _postSkip; i > 0; i--)
                 {
                     FireLineUpdate(DiffType.None, leftLen - i, -1);
                 }
@@ -226,8 +227,8 @@ namespace SS.Ynote.Classic.UI
             /// </summary>
             private void CalculatePostSkip()
             {
-                int leftLen = _left.Count;
-                int rightLen = _right.Count;
+                var leftLen = _left.Count;
+                var rightLen = _right.Count;
                 while (_postSkip < leftLen && _postSkip < rightLen &&
                        _postSkip < (leftLen - _preSkip) &&
                        _compareFunc(_left[leftLen - _postSkip - 1], _right[rightLen - _postSkip - 1]))
@@ -243,8 +244,8 @@ namespace SS.Ynote.Classic.UI
             /// </summary>
             private void CalculatePreSkip()
             {
-                int leftLen = _left.Count;
-                int rightLen = _right.Count;
+                var leftLen = _left.Count;
+                var rightLen = _right.Count;
                 while (_preSkip < leftLen && _preSkip < rightLen &&
                        _compareFunc(_left[_preSkip], _right[_preSkip]))
                 {
@@ -293,7 +294,7 @@ namespace SS.Ynote.Classic.UI
             /// </summary>
             private void CreateLCSMatrix()
             {
-                int totalSkip = _preSkip + _postSkip;
+                var totalSkip = _preSkip + _postSkip;
                 if (totalSkip >= _left.Count || totalSkip >= _right.Count)
                     return;
 
@@ -301,12 +302,12 @@ namespace SS.Ynote.Classic.UI
                 // unskipped contents of the diff'ed arrays
                 _matrix = new int[_left.Count - totalSkip + 1, _right.Count - totalSkip + 1];
 
-                for (int i = 1; i <= _left.Count - totalSkip; i++)
+                for (var i = 1; i <= _left.Count - totalSkip; i++)
                 {
                     // Simple optimization to avoid this calculation
                     // inside the outer loop (may have got JIT optimized
                     // but my tests showed a minor improvement in speed)
-                    int leftIndex = _preSkip + i - 1;
+                    var leftIndex = _preSkip + i - 1;
 
                     // Again, instead of calculating the adjusted index inside
                     // the loop, I initialize it under the assumption that
@@ -326,12 +327,12 @@ namespace SS.Ynote.Classic.UI
 
             private void FireLineUpdate(DiffType diffType, int leftIndex, int rightIndex)
             {
-                EventHandler<DiffEventArgs<T>> local = LineUpdate;
+                var local = LineUpdate;
 
                 if (local == null)
                     return;
 
-                T lineValue = leftIndex >= 0 ? _left[leftIndex] : _right[rightIndex];
+                var lineValue = leftIndex >= 0 ? _left[leftIndex] : _right[rightIndex];
 
                 local(this, new DiffEventArgs<T>(diffType, lineValue, leftIndex, rightIndex));
             }
@@ -465,15 +466,16 @@ namespace SS.Ynote.Classic.UI
             {
                 get
                 {
-                    if (i == -1) return fictiveLine;
-                    return base[i];
+                    return i == -1 ? fictiveLine : base[i];
                 }
 
-                set
-                {
-                    if (i == -1) fictiveLine = value;
-                    base[i] = value;
-                }
+                /*
+                                set
+                                {
+                                    if (i == -1) fictiveLine = value;
+                                    base[i] = value;
+                                }
+                */
             }
 
             /// <summary>
@@ -483,7 +485,7 @@ namespace SS.Ynote.Classic.UI
             {
                 if (Count != other.Count)
                     return false;
-                for (int i = 0; i < Count; i++)
+                for (var i = 0; i < Count; i++)
                     if (this[i] != other[i])
                         return false;
                 return true;
@@ -511,7 +513,7 @@ namespace SS.Ynote.Classic.UI
             public void Merge(Lines lines)
             {
                 var diff = new SimpleDiff<Line>(this, lines);
-                int iLine = -1;
+                var iLine = -1;
 
                 diff.LineUpdate += (o, e) =>
                 {
@@ -562,7 +564,7 @@ namespace SS.Ynote.Classic.UI
             private IEnumerable<Line> Expand(int from, int to)
             {
                 var result = new Lines();
-                for (int i = from; i <= to; i++)
+                for (var i = from; i <= to; i++)
                 {
                     if (this[i].state != DiffType.Deleted)
                         result.Add(this[i]);

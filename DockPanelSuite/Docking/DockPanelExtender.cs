@@ -1,6 +1,6 @@
 using System;
-using System.Drawing;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace WeifenLuo.WinFormsUI.Docking
@@ -26,7 +26,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             DockPane.SplitterControlBase CreateSplitterControl(DockPane pane);
         }
-        
+
         public interface IDockWindowSplitterControlFactory
         {
             SplitterBase CreateSplitterControl();
@@ -36,6 +36,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         public interface IFloatWindowFactory
         {
             FloatWindow CreateFloatWindow(DockPanel dockPanel, DockPane pane);
+
             FloatWindow CreateFloatWindow(DockPanel dockPanel, DockPane pane, Rectangle bounds);
         }
 
@@ -108,7 +109,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        #endregion
+        #endregion DefaultDockPaneFactory
 
         #region DefaultDockPaneSplitterControlFactory
 
@@ -120,8 +121,8 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        #endregion
-        
+        #endregion DefaultDockPaneSplitterControlFactory
+
         #region DefaultDockWindowSplitterControlFactory
 
         private class DefaultDockWindowSplitterControlFactory : IDockWindowSplitterControlFactory
@@ -132,7 +133,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        #endregion
+        #endregion DefaultDockWindowSplitterControlFactory
 
         #region DefaultFloatWindowFactory
 
@@ -149,7 +150,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        #endregion
+        #endregion DefaultFloatWindowFactory
 
         #region DefaultDockWindowFactory
 
@@ -161,11 +162,11 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        #endregion
+        #endregion DefaultDockWindowFactory
 
         #region DefaultDockPaneCaptionFactory
 
-        private class DefaultDockPaneCaptionFactory :  IDockPaneCaptionFactory
+        private class DefaultDockPaneCaptionFactory : IDockPaneCaptionFactory
         {
             public DockPaneCaptionBase CreateDockPaneCaption(DockPane pane)
             {
@@ -173,7 +174,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        #endregion
+        #endregion DefaultDockPaneCaptionFactory
 
         #region DefaultDockPaneTabStripFactory
 
@@ -185,7 +186,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        #endregion
+        #endregion DefaultDockPaneTabStripFactory
 
         #region DefaultAutoHideStripFactory
 
@@ -197,7 +198,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        #endregion
+        #endregion DefaultAutoHideStripFactory
 
         #region DefaultAutoHideWindowFactory
 
@@ -209,7 +210,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        #endregion
+        #endregion DefaultAutoHideWindowFactory
 
         public class DefaultPaneIndicatorFactory : IPaneIndicatorFactory
         {
@@ -240,7 +241,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             m_dockPanel = dockPanel;
         }
 
-        private DockPanel m_dockPanel;
+        private readonly DockPanel m_dockPanel;
 
         private DockPanel DockPanel
         {
@@ -287,7 +288,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 m_dockPaneSplitterControlFactory = value;
             }
         }
-        
+
         private IDockWindowSplitterControlFactory m_dockWindowSplitterControlFactory;
 
         public IDockWindowSplitterControlFactory DockWindowSplitterControlFactory
@@ -402,7 +403,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
 
         private IAutoHideWindowFactory m_autoHideWindowFactory;
-        
+
         public IAutoHideWindowFactory AutoHideWindowFactory
         {
             get { return m_autoHideWindowFactory ?? (m_autoHideWindowFactory = new DefaultAutoHideWindowFactory()); }
