@@ -25,8 +25,8 @@ namespace WeifenLuo.WinFormsUI.Docking
             m_getPersistStringCallback = getPersistStringCallback;
 
             m_events = new EventHandlerList();
-            Form.Disposed += new EventHandler(Form_Disposed);
-            Form.TextChanged += new EventHandler(Form_TextChanged);
+            Form.Disposed += Form_Disposed;
+            Form.TextChanged += Form_TextChanged;
         }
 
         public void Dispose()
@@ -45,8 +45,8 @@ namespace WeifenLuo.WinFormsUI.Docking
                 if (m_tab != null)
                     m_tab.Dispose();
 
-                Form.Disposed -= new EventHandler(Form_Disposed);
-                Form.TextChanged -= new EventHandler(Form_TextChanged);
+                Form.Disposed -= Form_Disposed;
+                Form.TextChanged -= Form_TextChanged;
                 m_events.Dispose();
             }
         }

@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 
-namespace SS.Ynote.Classic
+namespace SS.Ynote.Classic.Features.RunScript
 {
     public sealed class RunConfiguration
     {
@@ -18,7 +17,7 @@ namespace SS.Ynote.Classic
 
         public static IEnumerable<string> GetConfigurations()
         {
-            return Directory.GetFiles(SettingsBase.SettingsDir + @"RunScripts\").ToList();
+            return Directory.GetFiles(SettingsBase.SettingsDir + @"RunScripts\");
         }
 
         public static RunConfiguration ToRunConfig(string file)

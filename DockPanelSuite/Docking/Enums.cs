@@ -1,7 +1,6 @@
 using System;
 using System.ComponentModel;
 using System.Drawing.Design;
-using System.Windows.Forms;
 
 namespace WeifenLuo.WinFormsUI.Docking
 {

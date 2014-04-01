@@ -53,8 +53,8 @@ namespace AutocompleteMenuNS
         public AutocompleteMenu()
         {
             Host = new AutocompleteMenuHost(this);
-            Host.ListView.ItemSelected += new EventHandler(ListView_ItemSelected);
-            Host.ListView.ItemHovered += new EventHandler<HoveredEventArgs>(ListView_ItemHovered);
+            Host.ListView.ItemSelected += ListView_ItemSelected;
+            Host.ListView.ItemHovered += ListView_ItemHovered;
             VisibleItems = new List<AutocompleteItem>();
             Enabled = true;
             AppearInterval = 500;
@@ -296,8 +296,8 @@ namespace AutocompleteMenuNS
                     ctrl.MaximumSize = ctrl.MaximumSize;
                 }
                 Host.ListView = value;
-                Host.ListView.ItemSelected += new EventHandler(ListView_ItemSelected);
-                Host.ListView.ItemHovered += new EventHandler<HoveredEventArgs>(ListView_ItemHovered);
+                Host.ListView.ItemSelected += ListView_ItemSelected;
+                Host.ListView.ItemHovered += ListView_ItemHovered;
             }
         }
 
@@ -418,10 +418,10 @@ namespace AutocompleteMenuNS
 
             myForm = form;
 
-            form.LocationChanged += new EventHandler(form_LocationChanged);
-            form.ResizeBegin += new EventHandler(form_LocationChanged);
-            form.FormClosing += new FormClosingEventHandler(form_FormClosing);
-            form.LostFocus += new EventHandler(form_LocationChanged);
+            form.LocationChanged += form_LocationChanged;
+            form.ResizeBegin += form_LocationChanged;
+            form.FormClosing += form_FormClosing;
+            form.LostFocus += form_LocationChanged;
         }
 
         private void UnsubscribeForm(ITextBoxWrapper wrapper)
@@ -430,10 +430,10 @@ namespace AutocompleteMenuNS
             var form = wrapper.TargetControl.FindForm();
             if (form == null) return;
 
-            form.LocationChanged -= new EventHandler(form_LocationChanged);
-            form.ResizeBegin -= new EventHandler(form_LocationChanged);
-            form.FormClosing -= new FormClosingEventHandler(form_FormClosing);
-            form.LostFocus -= new EventHandler(form_LocationChanged);
+            form.LocationChanged -= form_LocationChanged;
+            form.ResizeBegin -= form_LocationChanged;
+            form.FormClosing -= form_FormClosing;
+            form.LostFocus -= form_LocationChanged;
         }
 
         private void form_FormClosing(object sender, FormClosingEventArgs e)

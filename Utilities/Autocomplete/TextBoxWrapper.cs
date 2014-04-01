@@ -35,7 +35,7 @@ namespace AutocompleteMenuNS
             getPositionFromCharIndex = t.GetMethod("GetPositionFromCharIndex") ?? t.GetMethod("PositionToPoint");
 
             if (target is RichTextBox)
-                (target as RichTextBox).VScroll += new EventHandler(TextBoxWrapper_VScroll);
+                (target as RichTextBox).VScroll += TextBoxWrapper_VScroll;
         }
 
         private void TextBoxWrapper_VScroll(object sender, EventArgs e)

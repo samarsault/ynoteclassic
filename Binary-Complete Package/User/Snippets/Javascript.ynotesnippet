@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
     <YnoteSnippet>
+        <Keyword>document</Keyword>
+        <Keyword>firstChild</Keyword>
+        <Keyword>lastChild</Keyword>
         <Snippet>getElementByTagName('^');</Snippet>
         <Snippet>getElementById('^');</Snippet>
         <Snippet>if(^){\r\n\r\n}</Snippet>

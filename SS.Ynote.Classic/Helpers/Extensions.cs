@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Snippets;
 
 internal static class HelperMethods
 {
@@ -48,5 +50,14 @@ internal static class HelperMethods
     public static int ToInt(this string str)
     {
         return Convert.ToInt32(str);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="snippet"></param>
+    /// <returns></returns>
+    public static AutocompleteItem ToAutoCompleteItem(this YnoteSnippet snippet)
+    {
+        return snippet.AutoCompleteType == ApType.Snippet ? new SnippetAutocompleteItem(snippet.Value) : new AutocompleteItem(snippet.Value);
     }
 }

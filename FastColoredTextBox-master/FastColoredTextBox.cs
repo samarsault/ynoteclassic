@@ -3384,7 +3384,7 @@ namespace FastColoredTextBoxNS
         /// </summary>
         public virtual bool ProcessKey(Keys keyData)
         {
-            KeyEventArgs a = new KeyEventArgs(keyData);
+            var a = new KeyEventArgs(keyData);
 
             if (a.KeyCode == Keys.Tab && !AcceptsTab)
                 return false;
@@ -4251,6 +4251,12 @@ namespace FastColoredTextBoxNS
         /// </summary>
         public virtual bool ProcessKey(char c, Keys modifiers)
         {
+            if (c == ':' && Language == Language.CSS)
+            {
+                InsertText(":;");
+                Selection.GoLeft();
+                return true;
+            }
             if (handledChar)
                 return true;
 
@@ -7157,17 +7163,17 @@ window.status = ""#print"";
         /// </summary>
         public void OpenFile(string fileName, Encoding enc)
         {
-            var ts = CreateTextSource();
+           // var ts = CreateTextSource();
             try
             {
-                InitTextSource(ts);
+               // InitTextSource(ts);
                 Text = File.ReadAllText(fileName, enc);
                 ClearUndo();
                 IsChanged = false;
             }
             catch
             {
-                InitTextSource(CreateTextSource());
+              //  InitTextSource(CreateTextSource());
                 lines.InsertLine(0, TextSource.CreateLine());
                 IsChanged = false;
                 throw;

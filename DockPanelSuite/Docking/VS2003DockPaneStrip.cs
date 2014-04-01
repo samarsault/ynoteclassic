@@ -428,19 +428,19 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             m_buttonClose.ToolTipText = ToolTipClose;
             m_buttonClose.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            m_buttonClose.Click += new EventHandler(Close_Click);
+            m_buttonClose.Click += Close_Click;
 
             m_buttonScrollLeft.Enabled = false;
             m_buttonScrollLeft.RepeatClick = true;
             m_buttonScrollLeft.ToolTipText = ToolTipScrollLeft;
             m_buttonScrollLeft.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            m_buttonScrollLeft.Click += new EventHandler(ScrollLeft_Click);
+            m_buttonScrollLeft.Click += ScrollLeft_Click;
 
             m_buttonScrollRight.Enabled = false;
             m_buttonScrollRight.RepeatClick = true;
             m_buttonScrollRight.ToolTipText = ToolTipScrollRight;
             m_buttonScrollRight.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            m_buttonScrollRight.Click += new EventHandler(ScrollRight_Click);
+            m_buttonScrollRight.Click += ScrollRight_Click;
 
             Controls.AddRange(new Control[] {	m_buttonClose,
                                                 m_buttonScrollLeft,

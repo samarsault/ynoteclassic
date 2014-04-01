@@ -76,7 +76,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(669, 197);
+            this.tabControl1.Size = new System.Drawing.Size(669, 201);
             this.tabControl1.TabIndex = 0;
             // 
             // tpFind
@@ -96,7 +96,7 @@
             this.tpFind.Location = new System.Drawing.Point(4, 22);
             this.tpFind.Name = "tpFind";
             this.tpFind.Padding = new System.Windows.Forms.Padding(3);
-            this.tpFind.Size = new System.Drawing.Size(661, 171);
+            this.tpFind.Size = new System.Drawing.Size(661, 175);
             this.tpFind.TabIndex = 0;
             this.tpFind.Text = "Find In Files";
             this.tpFind.UseVisualStyleBackColor = true;
@@ -105,7 +105,7 @@
             // 
             this.cbCase.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.cbCase.AutoSize = true;
-            this.cbCase.Location = new System.Drawing.Point(13, 134);
+            this.cbCase.Location = new System.Drawing.Point(13, 136);
             this.cbCase.Name = "cbCase";
             this.cbCase.Size = new System.Drawing.Size(83, 17);
             this.cbCase.TabIndex = 16;
@@ -116,7 +116,7 @@
             // 
             this.cbRegex.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.cbRegex.AutoSize = true;
-            this.cbRegex.Location = new System.Drawing.Point(102, 134);
+            this.cbRegex.Location = new System.Drawing.Point(102, 136);
             this.cbRegex.Name = "cbRegex";
             this.cbRegex.Size = new System.Drawing.Size(57, 17);
             this.cbRegex.TabIndex = 12;
@@ -240,7 +240,7 @@
             this.tpReplace.Location = new System.Drawing.Point(4, 22);
             this.tpReplace.Name = "tpReplace";
             this.tpReplace.Padding = new System.Windows.Forms.Padding(3);
-            this.tpReplace.Size = new System.Drawing.Size(661, 171);
+            this.tpReplace.Size = new System.Drawing.Size(661, 175);
             this.tpReplace.TabIndex = 2;
             this.tpReplace.Text = "Replace In Files";
             this.tpReplace.UseVisualStyleBackColor = true;
@@ -267,7 +267,7 @@
             // 
             this.cbReplaceICase.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.cbReplaceICase.AutoSize = true;
-            this.cbReplaceICase.Location = new System.Drawing.Point(28, 133);
+            this.cbReplaceICase.Location = new System.Drawing.Point(28, 135);
             this.cbReplaceICase.Name = "cbReplaceICase";
             this.cbReplaceICase.Size = new System.Drawing.Size(83, 17);
             this.cbReplaceICase.TabIndex = 28;
@@ -278,7 +278,7 @@
             // 
             this.cbReplaceRegex.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.cbReplaceRegex.AutoSize = true;
-            this.cbReplaceRegex.Location = new System.Drawing.Point(117, 133);
+            this.cbReplaceRegex.Location = new System.Drawing.Point(117, 135);
             this.cbReplaceRegex.Name = "cbReplaceRegex";
             this.cbReplaceRegex.Size = new System.Drawing.Size(57, 17);
             this.cbReplaceRegex.TabIndex = 27;
@@ -287,7 +287,7 @@
             // 
             // label3
             // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(479, 74);
             this.label3.Name = "label3";
@@ -297,7 +297,7 @@
             // 
             // tbReplaceFilter
             // 
-            this.tbReplaceFilter.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.tbReplaceFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.tbReplaceFilter.Location = new System.Drawing.Point(515, 70);
             this.tbReplaceFilter.Name = "tbReplaceFilter";
             this.tbReplaceFilter.Size = new System.Drawing.Size(122, 20);
@@ -389,7 +389,7 @@
             this.tpResults.Location = new System.Drawing.Point(4, 22);
             this.tpResults.Name = "tpResults";
             this.tpResults.Padding = new System.Windows.Forms.Padding(3);
-            this.tpResults.Size = new System.Drawing.Size(661, 171);
+            this.tpResults.Size = new System.Drawing.Size(661, 175);
             this.tpResults.TabIndex = 1;
             this.tpResults.Text = "Results";
             this.tpResults.UseVisualStyleBackColor = true;
@@ -404,7 +404,7 @@
             this.lvresults.GridLines = true;
             this.lvresults.Location = new System.Drawing.Point(3, 3);
             this.lvresults.Name = "lvresults";
-            this.lvresults.Size = new System.Drawing.Size(655, 165);
+            this.lvresults.Size = new System.Drawing.Size(655, 169);
             this.lvresults.TabIndex = 0;
             this.lvresults.UseCompatibleStateImageBehavior = false;
             this.lvresults.View = System.Windows.Forms.View.Details;
@@ -425,7 +425,7 @@
             this.AcceptButton = this.btnFind;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(669, 197);
+            this.ClientSize = new System.Drawing.Size(669, 201);
             this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "FindInFiles";

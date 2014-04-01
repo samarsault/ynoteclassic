@@ -10,7 +10,7 @@ namespace WeifenLuo.WinFormsUI.Docking
     {
         public DockContent()
         {
-            m_dockHandler = new DockContentHandler(this, new GetPersistStringCallback(GetPersistString));
+            m_dockHandler = new DockContentHandler(this, GetPersistString);
             m_dockHandler.DockStateChanged += DockHandler_DockStateChanged;
             //Suggested as a fix by bensty regarding form resize
             ParentChanged += DockContent_ParentChanged;

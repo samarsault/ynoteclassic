@@ -277,7 +277,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                     break;
 
                 case Language.HTML:
-                    HighlightHtmlJSCSS(range);
+                    HighlightHtmlCSS(range);
                     break;
 
                 case Language.Javascript:
@@ -624,7 +624,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             _cssNumberRegex = new Regex(@"\d+[\.]?\d*(pt|px|\%|em)?");
             _cssPropertyRegex =
                 new Regex(
-                    @"(?<![\-\w])(animation|animation-name|animation-duration|animation-timing-function|animation-delay|animation-iteration-count|animation-direction|animation-play-state|appearance|backface-visibility|background|background|background-attachment|background-color|background-image|background-position|background-repeat|background-clip|background-origin|background-size|border|border|border-bottom|border-bottom-color|border-bottom-style|border-bottom-width|border-collapse|border-color|border-left|border-left-color|border-left-style|border-left-width|border-right|border-right-color|border-right-style|border-right-width|border-spacing|border-style|border-top|border-top-color|border-top-style|border-top-width|border-width|border-bottom-left-radius|border-bottom-right-radius|border-image|border-image-outset|border-image-repeat|border-image-slice|border-image-source|border-image-width|border-radius|border-top-left-radius|border-top-right-radius|box|box-align|box-direction|box-flex|box-flex-group|box-lines|box-ordinal-group|box-orient|box-pack|box-sizing|box-shadow|caption-side|clear|clip|color|column|column-count|column-fill|column-gap|column-rule|column-rule-color|column-rule-style|column-rule-width|column-span|column-width|columns|content|counter-increment|counter-reset|cursor|direction|display|empty-cells|float|font|font|font-family|font-size|font-style|font-variant|font-weight|@font-face|font-size-adjust|font-stretch|grid-columns|grid-rows|hanging-punctuation|height|icon|@keyframes|letter-spacing|line-height|list-style|list-style|list-style-image|list-style-position|list-style-type|margin|margin|margin-bottom|margin-left|margin-right|margin-top|max-height|max-width|min-height|min-width|nav|nav-down|nav-index|nav-left|nav-right|nav-up|opacity|outline|outline|outline-color|outline-offset|outline-style|outline-width|overflow|overflow-x|overflow-y|padding|padding|padding-bottom|padding-left|padding-right|padding-top|page-break|page-break-after|page-break-before|page-break-inside|perspective|perspective-origin|position|punctuation-trim|quotes|resize|rotation|rotation-point|table-layout|target|target|target-name|target-new|target-position|text|text-align|text-decoration|text-indent|text-justify|text-outline|text-overflow|text-shadow|text-transform|text-wrap|transform|transform|transform-origin|transform-style|transition|transition|transition-property|transition-duration|transition-timing-function|transition-delay|vertical-align|visibility|width|white-space|word-spacing|word-break|word-wrap|z-index|rgb|rgba|url|alpha|attr|counter|rect|hsl|hsla)(?![\-\w])|-moz-[a-zA-Z_\d]*(?![\-\w])|-webkit-[a-zA-Z_\d]*(?![\-\w])",
+                    @"(?<![\-\w])(animation|animation-name|animation-duration|animation-timing-function|animation-delay|animation-iteration-count|animation-direction|animation-play-state|appearance|backface-visibility|background|background|background-attachment|background-color|background-image|background-position|background-repeat|background-clip|background-origin|background-size|border|border|border-bottom|border-bottom-color|border-bottom-style|border-bottom-width|border-collapse|border-color|border-left|border-left-color|border-left-style|border-left-width|border-right|border-right-color|border-right-style|border-right-width|border-spacing|border-style|border-top|border-top-color|border-top-style|border-top-width|border-width|border-bottom-left-radius|border-bottom-right-radius|border-image|border-image-outset|border-image-repeat|border-image-slice|border-image-source|border-image-width|border-radius|border-top-left-radius|border-top-right-radius|box|box-align|box-direction|box-flex|box-flex-group|box-lines|box-ordinal-group|box-orient|box-pack|box-sizing|box-shadow|caption-side|clear|clip|color|column|column-count|column-fill|column-gap|column-rule|column-rule-color|column-rule-style|column-rule-width|column-span|column-width|columns|content|counter-increment|counter-reset|cursor|direction|display|empty-cells|float|font|font|font-family|font-size|font-style|font-variant|font-weight|@font-face|font-size-adjust|font-stretch|grid-columns|grid-rows|hanging-punctuation|height|icon|@keyframes|letter-spacing|line-height|list-style|list-style|list-style-image|list-style-position|list-style-type|margin|margin|margin-bottom|margin-left|margin-right|margin-top|max-height|max-width|min-height|min-width|nav|nav-down|nav-index|nav-left|nav-right|nav-up|opacity|outline|outline|outline-color|outline-offset|outline-style|outline-width|overflow|overflow-x|overflow-y|padding|padding|padding-bottom|padding-left|padding-right|padding-top|page-break|page-break-after|page-break-before|page-break-inside|perspective|perspective-origin|position|punctuation-trim|quotes|resize|rotation|rotation-point|table-layout|target|target|target-name|target-new|target-position|text|text-align|text-decoration|text-indent|text-justify|text-outline|text-overflow|text-shadow|text-transform|text-wrap|transform|transform|transform-origin|transform-style|transition|transition|transition-property|transition-duration|transition-timing-function|transition-delay|vertical-align|visibility|width|white-space|word-spacing|word-break|word-wrap|z-index|rgb|rgba|url|alpha|attr|counter|rect|hsl|hsla)(?![\-\w])|\-moz\-[a-zA-Z]*[a-zA-Z]*[a-zA-Z]|-t-[a-zA-Z_\d]*(?![\-\w])|-webkit-[a-zA-Z_\d]*(?![\-\w])",
                     RegexOptions.IgnoreCase);
             _cssSelectorRegex =
                 new Regex(
@@ -643,14 +643,13 @@ namespace SS.Ynote.Classic.Features.Syntax
         private void CssHighlight(TextChangedEventArgs e)
         {
             e.ChangedRange.tb.CommentPrefix = "/*";
-            e.ChangedRange.ClearStyle(StringStyle, CSSPropertyStyle, CSSSelectorStyle, CSSPropertyValueStyle,
+            e.ChangedRange.ClearStyle(CSSPropertyStyle, CSSSelectorStyle, CSSPropertyValueStyle,
                 NumberStyle);
-
+            e.ChangedRange.tb.Range.ClearStyle(CommentTagStyle);
             e.ChangedRange.tb.RightBracket = '}';
             e.ChangedRange.tb.LeftBracket2 = '(';
             e.ChangedRange.tb.RightBracket2 = ')';
             e.ChangedRange.tb.LeftBracket = '{';
-            e.ChangedRange.tb.Range.ClearStyle(CommentTagStyle);
             if (_cssCommentRegex2 == null)
                 InitCssRegex();
             e.ChangedRange.tb.Range.SetStyle(CommentTagStyle, _cssCommentRegex2);
@@ -1337,16 +1336,9 @@ namespace SS.Ynote.Classic.Features.Syntax
             }
         }
 
-        private void HighlightHtmlJSCSS(TextChangedEventArgs e)
+        private void HighlightHtmlCSS(TextChangedEventArgs e)
         {
             HTMLSyntaxHighlight(e);
-            foreach (var r in e.ChangedRange.tb.GetRanges(@"(<script.*?>.*?</script>)", RegexOptions.Singleline))
-            {
-                //remove HTML highlighting from this fragment
-                r.ClearStyle(CommentStyle, AttributeStyle, AttributeValueStyle, HtmlEntityStyle);
-                //do Jscript highlighting
-                JScriptSyntaxHighlight(new TextChangedEventArgs(r));
-            }
             foreach (var r in e.ChangedRange.tb.GetRanges(@"(<style.*?>.*?</style>)", RegexOptions.Singleline))
             {
                 //remove HTML highlighting from this fragment

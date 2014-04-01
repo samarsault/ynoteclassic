@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
@@ -58,9 +57,6 @@ namespace SS.Ynote.Classic.Features.RunScript
             var item = configTree.SelectedNode;
             var tag = item.Tag as RunConfiguration;
             if (tag != null) File.Delete(tag.GetPath());
-#if DEBUG
-            Debug.WriteLine(tag.GetPath());
-#endif
             configTree.Nodes.Remove(item);
         }
 

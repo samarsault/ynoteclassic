@@ -6,7 +6,6 @@
 
 using FastColoredTextBoxNS;
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Xml;
 
@@ -19,10 +18,6 @@ namespace SS.Ynote.Classic.Features.Syntax
     {
         public static void ApplyTheme(string source, ISyntaxHighlighter highlighter, FastColoredTextBox tb)
         {
-#if DEBUG
-            var sp = new Stopwatch();
-            sp.Start();
-#endif
             using (var reader = XmlReader.Create(source))
             {
                 while (reader.Read())
@@ -51,9 +46,6 @@ namespace SS.Ynote.Classic.Features.Syntax
                         }
                     }
             }
-#if DEBUG
-            Debug.WriteLine("Theme Apply : " + sp.ElapsedMilliseconds);
-#endif
         }
 
         private static void InitKey(FastColoredTextBox tb, string name, string value)

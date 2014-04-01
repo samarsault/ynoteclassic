@@ -60,6 +60,7 @@
             this.rtfExport = new System.Windows.Forms.MenuItem();
             this.htmlexport = new System.Windows.Forms.MenuItem();
             this.seperator25 = new System.Windows.Forms.MenuItem();
+            this.miclose = new System.Windows.Forms.MenuItem();
             this.ExitMenu = new System.Windows.Forms.MenuItem();
             this.editmenu = new System.Windows.Forms.MenuItem();
             this.UndoMenuItem = new System.Windows.Forms.MenuItem();
@@ -233,8 +234,6 @@
             this.miwikimenu = new System.Windows.Forms.MenuItem();
             this.miupdates = new System.Windows.Forms.MenuItem();
             this.seperator62 = new System.Windows.Forms.MenuItem();
-            this.miresources = new System.Windows.Forms.MenuItem();
-            this.miplugincentral = new System.Windows.Forms.MenuItem();
             this.mifb = new System.Windows.Forms.MenuItem();
             this.seperator30 = new System.Windows.Forms.MenuItem();
             this.aboutmenu = new System.Windows.Forms.MenuItem();
@@ -254,6 +253,9 @@
             this.mizoom100 = new System.Windows.Forms.ToolStripMenuItem();
             this.mizoom50 = new System.Windows.Forms.ToolStripMenuItem();
             this.dock = new WeifenLuo.WinFormsUI.Docking.DockPanel();
+            this.mibugreport = new System.Windows.Forms.MenuItem();
+            this.miprojpage = new System.Windows.Forms.MenuItem();
+            this.miforum = new System.Windows.Forms.MenuItem();
             this.status.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -294,6 +296,7 @@
             this.miimport,
             this.miexport,
             this.seperator25,
+            this.miclose,
             this.ExitMenu});
             this.filemenu.Text = "File";
             // 
@@ -468,9 +471,16 @@
             this.seperator25.Index = 21;
             this.seperator25.Text = "-";
             // 
+            // miclose
+            // 
+            this.miclose.Index = 22;
+            this.miclose.Shortcut = System.Windows.Forms.Shortcut.CtrlW;
+            this.miclose.Text = "Close";
+            this.miclose.Click += new System.EventHandler(this.miclose_Click);
+            // 
             // ExitMenu
             // 
-            this.ExitMenu.Index = 22;
+            this.ExitMenu.Index = 23;
             this.ExitMenu.Text = "Exit";
             this.ExitMenu.Click += new System.EventHandler(this.ExitMenu_Click);
             // 
@@ -1438,7 +1448,7 @@
             // pluginmanagermenu
             // 
             this.pluginmanagermenu.Index = 2;
-            this.pluginmanagermenu.Text = "Plugin Manager";
+            this.pluginmanagermenu.Text = "Package Manager";
             this.pluginmanagermenu.Click += new System.EventHandler(this.pluginmanagermenu_Click);
             // 
             // mikeymapeditor
@@ -1637,8 +1647,9 @@
             this.miwikimenu,
             this.miupdates,
             this.seperator62,
-            this.miresources,
-            this.miplugincentral,
+            this.miprojpage,
+            this.miforum,
+            this.mibugreport,
             this.mifb,
             this.seperator30,
             this.aboutmenu});
@@ -1662,30 +1673,20 @@
             this.seperator62.Index = 2;
             this.seperator62.Text = "-";
             // 
-            // miresources
-            // 
-            this.miresources.Index = 3;
-            this.miresources.Text = "Resources";
-            // 
-            // miplugincentral
-            // 
-            this.miplugincentral.Index = 4;
-            this.miplugincentral.Text = "Plugin Central";
-            // 
             // mifb
             // 
-            this.mifb.Index = 5;
+            this.mifb.Index = 6;
             this.mifb.Text = "Facebook";
             this.mifb.Click += new System.EventHandler(this.mifb_Click);
             // 
             // seperator30
             // 
-            this.seperator30.Index = 6;
+            this.seperator30.Index = 7;
             this.seperator30.Text = "-";
             // 
             // aboutmenu
             // 
-            this.aboutmenu.Index = 7;
+            this.aboutmenu.Index = 8;
             this.aboutmenu.Shortcut = System.Windows.Forms.Shortcut.ShiftF1;
             this.aboutmenu.Text = "About";
             this.aboutmenu.Click += new System.EventHandler(this.aboutmenu_Click);
@@ -1816,6 +1817,24 @@
             this.dock.TabIndex = 0;
             this.dock.ActiveDocumentChanged += new System.EventHandler(this.dock_ActiveDocumentChanged);
             // 
+            // mibugreport
+            // 
+            this.mibugreport.Index = 5;
+            this.mibugreport.Text = "Bug Report";
+            this.mibugreport.Click += new System.EventHandler(this.mibugreport_Click);
+            // 
+            // miprojpage
+            // 
+            this.miprojpage.Index = 3;
+            this.miprojpage.Text = "Project Page";
+            this.miprojpage.Click += new System.EventHandler(this.miprojpage_Click);
+            // 
+            // miforum
+            // 
+            this.miforum.Index = 4;
+            this.miforum.Text = "Forum";
+            this.miforum.Click += new System.EventHandler(this.miforum_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1910,8 +1929,6 @@
         private System.Windows.Forms.MenuItem seperator66;
         private System.Windows.Forms.MenuItem OptionsMenu;
         private System.Windows.Forms.MenuItem seperator62;
-        private System.Windows.Forms.MenuItem miresources;
-        private System.Windows.Forms.MenuItem miplugincentral;
         private System.Windows.Forms.MenuItem mifb;
         private System.Windows.Forms.MenuItem mifolding;
         private System.Windows.Forms.MenuItem foldallmenu;
@@ -2059,6 +2076,10 @@
         private MenuItem minewsnippet;
         private MenuItem minewscript;
         private MenuItem midocinfo;
+        private MenuItem miclose;
+        private MenuItem miprojpage;
+        private MenuItem mibugreport;
+        private MenuItem miforum;
     }
 }
 

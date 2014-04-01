@@ -34,11 +34,11 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             m_buttonClose.ToolTipText = ToolTipClose;
             m_buttonClose.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            m_buttonClose.Click += new EventHandler(Close_Click);
+            m_buttonClose.Click += Close_Click;
 
             m_buttonAutoHide.ToolTipText = ToolTipAutoHide;
             m_buttonAutoHide.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            m_buttonAutoHide.Click += new EventHandler(AutoHide_Click);
+            m_buttonAutoHide.Click += AutoHide_Click;
 
             Controls.AddRange(new Control[]	{	m_buttonClose, m_buttonAutoHide });
 

@@ -2,7 +2,6 @@
 using Nini.Config;
 using SS.Ynote.Classic.Features.Syntax;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using SyntaxHighlighter = SS.Ynote.Classic.Features.Syntax.SyntaxHighlighter;
 
@@ -65,19 +64,11 @@ internal static class FileExtensions
             desc.Language = lang;
         else
         {
-#if DEBUG
-            var sp = new Stopwatch();
-            sp.Start();
-#endif
             foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes.Where(syntax => syntax.Extensions.Contains(extension)))
             {
                 desc.IsBase = true;
                 desc.SyntaxBase = syntax;
             }
-#if DEBUG
-            sp.Stop();
-            Debug.WriteLine("Get Language : " + sp.ElapsedMilliseconds);
-#endif
         }
         return desc;
     }

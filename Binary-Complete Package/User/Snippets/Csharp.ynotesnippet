@@ -7,7 +7,7 @@
         <Snippet>for(int i=0;i &lt; ^;i++){\r\n\r\n}</Snippet>
         <Snippet>foreach(var item in ^)\r\n{\r\n\r\n}</Snippet>
         <Snippet>while(^)\r\n{\r\n;\r\n}</Snippet>
-        <Snippet>switch(^)\r\n{\ncase : break;\r\n}</Snippet>
+        <Snippet>switch(^)\r\n{\r\ncase : break;\r\n}</Snippet>
         <Snippet>public class ^\r\n{\r\n}</Snippet>
         <Snippet>static class ^\r\n{\r\n}</Snippet>
         <Snippet>internal class ^\r\n{\r\n}</Snippet>

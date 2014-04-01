@@ -37,7 +37,6 @@
             this.completemenu.SetAutocompleteMenu(this.tbcommand, this.completemenu);
             this.tbcommand.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tbcommand.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbcommand.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.tbcommand.Location = new System.Drawing.Point(1, 0);
             this.tbcommand.Name = "tbcommand";
             this.tbcommand.Size = new System.Drawing.Size(502, 29);

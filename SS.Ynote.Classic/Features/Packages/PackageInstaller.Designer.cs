@@ -1,6 +1,6 @@
 ﻿namespace SS.Ynote.Classic.Features.Packages
 {
-    partial class PluginInstaller
+    partial class PackageInstaller
     {
         /// <summary>
         /// Required designer variable.
@@ -45,11 +45,11 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(13, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(122, 17);
+            this.label1.Size = new System.Drawing.Size(130, 17);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Installing Plugin....";
+            this.label1.Text = "Installing Package..";
             // 
-            // PluginInstaller
+            // PackageInstaller
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -58,9 +58,9 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.progressBar1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "PluginInstaller";
+            this.Name = "PackageInstaller";
             this.ShowIcon = false;
-            this.Text = "Plugin Installer";
+            this.Text = "Package Installer";
             this.ResumeLayout(false);
             this.PerformLayout();
 

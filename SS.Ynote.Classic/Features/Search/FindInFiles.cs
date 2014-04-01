@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -67,9 +66,7 @@ namespace SS.Ynote.Classic.UI
             }
             catch (Exception e)
             {
-#if DEBUG
-                Debug.WriteLine(e);
-#endif
+                ;
             }
             return false;
         }
@@ -192,107 +189,79 @@ namespace SS.Ynote.Classic.UI
 
         private void lvresults_DoubleClick(object sender, EventArgs e)
         {
-            if (lvresults.SelectedItems[0].SubItems[2].Text == "False")
+            try
             {
-                _ynote.OpenFile(lvresults.SelectedItems[0].SubItems[0].Text);
-                var editor = (Editor) (_ynote.Panel.ActiveDocument);
-                editor.tb.Navigate(Convert.ToInt32(lvresults.SelectedItems[0].SubItems[1].Text) - 1);
-            }
-            else
-            {
-                foreach (Editor document in _ynote.Panel.Documents)
-                    if (document.Name == lvresults.SelectedItems[0].SubItems[0].Text)
+                if (lvresults.SelectedItems[0].SubItems[2].Text == "False")
+                {
+                    _ynote.OpenFile(lvresults.SelectedItems[0].SubItems[0].Text);
+                    var editor = (Editor) (_ynote.Panel.ActiveDocument);
+                    editor.tb.Navigate(Convert.ToInt32(lvresults.SelectedItems[0].SubItems[1].Text) - 1);
+                }
+                else
+                {
+                    foreach (Editor document in _ynote.Panel.Documents.Cast<Editor>().Where(document => document.Name == lvresults.SelectedItems[0].SubItems[0].Text))
                     {
                         document.Show();
                         document.tb.Navigate(Convert.ToInt32(lvresults.SelectedItems[0].SubItems[1].Text) - 1);
                     }
+                }
+            }
+            catch
+            {
+                _ynote.OpenFile(lvresults.SelectedItems[0].SubItems[0].Text);
             }
         }
 
-        private static void ReplaceInFiles(IEnumerable<string> filePaths, string searchText, string replaceText,
+        private void ReplaceInFiles(IEnumerable<string> filePaths, string searchText, string replaceText,
             bool ignoreCase)
         {
-            int counter = 0;
-            string currentFile = string.Empty;
-            string currentLine = string.Empty;
-            string updatedLine = string.Empty;
-
-            foreach (string file in filePaths)
+            try
             {
-                currentFile = File.ReadAllText(file);
-                if (currentFile.Contains(searchText))
+                foreach (string file in filePaths)
                 {
-                    counter++;
-                    using (var streamReader = new StreamReader(file))
+                    var lines = File.ReadAllLines(file);
+                    var comparison = ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+                    for (int i = 0; i < lines.Length; i++)
                     {
-                        while (!streamReader.EndOfStream)
+                        if (lines[i].Contains(searchText, comparison))
                         {
-                            var comparison = ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
-                            currentLine = streamReader.ReadLine();
-                            if (currentLine.Contains(searchText, comparison))
-                            {
-                                updatedLine = currentLine.Replace(searchText, replaceText);
-
-                                break;
-                            }
+                            lines[i] = lines[i].Replace(searchText, replaceText);
+                            lvresults.Items.Add(
+                              new ListViewItem(new[] { file, i.ToString(), FileExists(_ynote, file).ToString() }));
                         }
                     }
-
-                    currentFile = currentFile.Replace(currentLine, updatedLine);
-
-                    // If file is ReadOnly then remove that attribute.
-                    var attributes = File.GetAttributes(file);
-                    if ((attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
-                        File.SetAttributes(file, attributes ^ FileAttributes.ReadOnly);
-
-                    using (var streamWriter = new StreamWriter(file))
-                    {
-                        streamWriter.Write(currentFile);
-                    }
+                    File.WriteAllLines(file, lines);
                 }
+            }
+            catch
+            {
+                ;
             }
         }
 
-        private static void ReplaceInFilesWithRegex(IEnumerable<string> filePaths, string searchText, string replaceText,
+        private void ReplaceInFilesWithRegex(IEnumerable<string> filePaths, string searchText, string replaceText,
             RegexOptions options)
         {
-            int counter = 0;
-            string currentFile = string.Empty;
-            string currentLine = string.Empty;
-            string updatedLine = string.Empty;
-
-            foreach (string file in filePaths)
+            try
             {
-                currentFile = File.ReadAllText(file);
-                if (currentFile.Contains(searchText))
+                foreach (string file in filePaths)
                 {
-                    counter++;
-                    using (var streamReader = new StreamReader(file))
+                    var lines = File.ReadAllLines(file);
+                    for (int i = 0; i < lines.Length; i++)
                     {
-                        while (!streamReader.EndOfStream)
+                        if (Regex.IsMatch(lines[i], searchText, options))
                         {
-                            currentLine = streamReader.ReadLine();
-
-                            if (currentLine.Contains(searchText))
-                            {
-                                updatedLine = Regex.Replace(currentLine, searchText, replaceText, options);
-                                break;
-                            }
+                            lines[i] = Regex.Replace(lines[i], searchText, replaceText);
+                            lvresults.Items.Add(
+                                new ListViewItem(new[] {file, i.ToString(), FileExists(_ynote, file).ToString()}));
                         }
                     }
-
-                    currentFile = currentFile.Replace(currentLine, updatedLine);
-
-                    // If file is ReadOnly then remove that attribute.
-                    var attributes = File.GetAttributes(file);
-                    if ((attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
-                        File.SetAttributes(file, attributes ^ FileAttributes.ReadOnly);
-
-                    using (var streamWriter = new StreamWriter(file))
-                    {
-                        streamWriter.Write(currentFile);
-                    }
+                    File.WriteAllLines(file, lines);
                 }
+            }
+            catch
+            {
+
             }
         }
 
@@ -308,16 +277,27 @@ namespace SS.Ynote.Classic.UI
 
         private void btnReplace_Click(object sender, EventArgs e)
         {
-            string[] files = tbReplaceDir.Text == "$docs"
-                ? (from Editor doc in _ynote.Panel.Documents where doc.IsSaved select doc.Name).ToArray()
-                : Directory.GetFiles(tbReplaceDir.Text, tbReplaceFilter.Text);
-            if (cbRegex.Checked)
+            if (tbReplaceFilter.Text == "*.*")
             {
-                var options = cbReplaceICase.Checked ? RegexOptions.IgnoreCase : RegexOptions.None;
-                ReplaceInFilesWithRegex(files, tbReplaceFind.Text, tbReplaceWith.Text, options);
+                MessageBox.Show(
+                    "Error : Invalid Filter\r\n The Filter is not accepted as it can cause performance and system problems\r\nPlease specify a valid file filter",
+                    "Ynote Classic", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
             }
-            else
-                ReplaceInFiles(files, tbReplaceFind.Text, tbReplaceWith.Text, cbReplaceICase.Checked);
+            var files = tbReplaceDir.Text == "$docs"
+? (from Editor doc in _ynote.Panel.Documents where doc.IsSaved select doc.Name).ToArray()
+: Directory.GetFiles(tbReplaceDir.Text, tbReplaceFilter.Text);
+            BeginInvoke((MethodInvoker)(() =>
+            {
+                if (cbRegex.Checked)
+                {
+                    var options = cbReplaceICase.Checked ? RegexOptions.IgnoreCase : RegexOptions.None;
+                    ReplaceInFilesWithRegex(files, tbReplaceFind.Text, tbReplaceWith.Text, options);
+                }
+                else
+                    ReplaceInFiles(files, tbReplaceFind.Text, tbReplaceWith.Text, cbReplaceICase.Checked);
+            }));
+            tabControl1.SelectedIndex = 2;
         }
     }
 }

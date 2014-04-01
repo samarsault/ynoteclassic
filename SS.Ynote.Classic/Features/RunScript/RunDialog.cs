@@ -1,6 +1,5 @@
 using SS.Ynote.Classic.Features.RunScript;
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -138,9 +137,6 @@ namespace SS.Ynote.Classic
             item.ProcessConfiguration(_file);
             var temp = Path.GetTempFileName() + ".bat";
             File.WriteAllText(temp, item.ToBatch());
-#if DEBUG
-            Debug.WriteLine("$source = " + item.Arguments);
-#endif
             var console = new Cmd("cmd.exe", "/k " + temp);
             console.Show(_panel, DockState.DockBottom);
             Close();

@@ -110,9 +110,6 @@ namespace SS.Ynote.Classic.Features.Project
                     var node = new ExTreeNode(util.FileName, dir, 0, 0, null, ProjectNodeType.Folder);
                     Directory.CreateDirectory(dir);
                     projtree.SelectedNode.Nodes.Add(node);
-#if DEBUG
-                    MessageBox.Show(dir);
-#endif
                 }
             }
         }
@@ -236,9 +233,6 @@ namespace SS.Ynote.Classic.Features.Project
                         var node = new ExTreeNode(util.FileName, file, 1, 1, null, ProjectNodeType.File);
                         File.WriteAllText(file, "");
                         projtree.SelectedNode.Nodes.Add(node);
-#if DEBUG
-                        MessageBox.Show(file);
-#endif
                     }
                 }
             }
@@ -325,9 +319,6 @@ namespace SS.Ynote.Classic.Features.Project
         private void build_click(object sender, EventArgs e)
         {
             var buildfile = ((ToolStripMenuItem)(sender)).Name;
-#if DEBUG
-            Debug.WriteLine("Project RunScript : " + buildfile);
-#endif
             var console = new Cmd("cmd.exe", "/k " + buildfile);
             console.Show(DockPanel, DockState.DockBottom);
         }
@@ -347,9 +338,6 @@ namespace SS.Ynote.Classic.Features.Project
             var node = projtree.SelectedNode as ExTreeNode;
             if (node.Type != ProjectNodeType.Project) return;
             var buildfile = (node.Tag as YnoteProject).BuildFile;
-#if DEBUG
-            Debug.WriteLine("Project RunScript : " + buildfile);
-#endif
             var console = new Cmd("cmd.exe", "/k " + buildfile);
             console.Show(DockPanel, DockState.DockBottom);
         }

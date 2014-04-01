@@ -267,7 +267,7 @@ namespace SS.Ynote.Classic.Features.Packages
         ///     Updates central directory (if pertinent) and close the Zip storage
         /// </summary>
         /// <remarks>This is a required step, unless automatic dispose is used</remarks>
-        private void Close()
+        public void Close()
         {
             if (Access != FileAccess.Read)
             {

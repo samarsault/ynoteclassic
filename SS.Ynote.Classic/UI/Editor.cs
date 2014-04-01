@@ -148,13 +148,9 @@ namespace SS.Ynote.Classic.UI
                     AppearInterval = 50,
                     AllowTabKey = true
                 };
-            ICollection<AutocompleteItem> items =
-                YnoteSnippet.Read(codebox.Language)
-                    .Select(snippet => snippet.ToAutoCompleteItem())
-                    .Cast<AutocompleteItem>()
-                    .ToList();
-            //  foreach(var snippet in YnoteSnippet.Read(codebox.Language))
-            //      items.Add(snippet.ToAutoCompleteItem());
+            IList<AutocompleteItem> items = new List<AutocompleteItem>();
+            foreach(var snippet in YnoteSnippet.Read(codebox.Language))
+                items.Add(snippet.ToAutoCompleteItem());
             AutoCompleteMenu.Items.SetAutocompleteItems(items);
         }
 
@@ -337,6 +333,48 @@ namespace SS.Ynote.Classic.UI
         private void menuItem9_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void contextmenu_Popup(object sender, EventArgs e)
+        {
+            if (contextmenu.MenuItems.Count != 0) return;
+            BuildContextMenu();
+        }
+
+        void BuildContextMenu()
+        {
+            var cutmenu = new MenuItem {Index = 0, Text = "Cut"};
+            cutmenu.Click += cutemenu_Click;
+            var copymenu = new MenuItem {Index = 1, Text = "Copy"};
+            copymenu.Click += copymenu_Click;
+            var pastemenu = new MenuItem {Index = 2, Text = "Paste"};
+            pastemenu.Click += pastemenu_Click;
+            var seperator = new MenuItem("-") {Index = 3};
+            var undomenu = new MenuItem {Index = 4, Text = "Undo"};
+            undomenu.Click += undomenu_Click;
+            var redomenu = new MenuItem {Index = 5, Text = "Redo"};
+            redomenu.Click += redomenu_Click;
+            var seperator2 = new MenuItem("-") {Index = 6};
+            var selectallmenu = new MenuItem {Index = 7, Text = "Select All"};
+            selectallmenu.Click += selectallmenu_Click;
+            var foldselectedmenu = new MenuItem
+            {
+                Index = 8,
+                Shortcut = Shortcut.F4,
+                Text = "Fold Selected"
+            };
+            foldselectedmenu.Click += menuItem10_Click;
+            contextmenu.MenuItems.AddRange(new[] {
+            cutmenu,
+            copymenu,
+            pastemenu,
+            seperator,
+            undomenu,
+            redomenu,
+            seperator2,
+            selectallmenu,
+            foldselectedmenu,
+            });
         }
     }
 }

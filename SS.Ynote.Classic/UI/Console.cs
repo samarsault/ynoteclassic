@@ -9,9 +9,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using SS.Ynote.Classic.Features.Syntax;
 using WeifenLuo.WinFormsUI.Docking;
 using AutocompleteItem = AutocompleteMenuNS.AutocompleteItem;
-using SyntaxHighlighter = SS.Ynote.Classic.Features.Syntax.SyntaxHighlighter;
 
 namespace SS.Ynote.Classic.UI
 {
@@ -165,14 +165,13 @@ namespace SS.Ynote.Classic.UI
                     break;
 
                 case "SetSyntaxFile":
-                    foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes)
-                        if (syntax.SysPath ==
-                            string.Format("{0}\\Syntaxes\\{1}.xml", Application.StartupPath, c.Value))
-                        {
-                            ActiveEditor.Highlighter.HighlightSyntax(syntax, new TextChangedEventArgs(ActiveEditor.tb.Range));
-                            ActiveEditor.Syntax = syntax;
-                            if (LangMenu != null) LangMenu.Text = c.Value;
-                        }
+                    foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes.Where(syntax => syntax.SysPath ==
+                                                                                                                             string.Format("{0}\\Syntaxes\\{1}.xml", Application.StartupPath, c.Value)))
+                    {
+                        ActiveEditor.Highlighter.HighlightSyntax(syntax, new TextChangedEventArgs(ActiveEditor.tb.Range));
+                        ActiveEditor.Syntax = syntax;
+                        if (LangMenu != null) LangMenu.Text = c.Value;
+                    }
                     break;
 
                 case "File":
@@ -289,9 +288,6 @@ namespace SS.Ynote.Classic.UI
             if (ActiveEditor != null) item.ProcessConfiguration(ActiveEditor.Name);
             var temp = Path.GetTempFileName() + ".bat";
             File.WriteAllText(temp, item.ToBatch());
-#if DEBUG
-            Debug.WriteLine("$source = " + item.Arguments);
-#endif
             var console = new Cmd("cmd.exe", "/k " + temp);
             console.Show(_ynote.Panel, DockState.DockBottom);
         }
