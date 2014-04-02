@@ -1,4 +1,5 @@
-﻿using FastColoredTextBoxNS;
+﻿using System.Runtime.InteropServices.ComTypes;
+using FastColoredTextBoxNS;
 using Nini.Config;
 using SS.Ynote.Classic.Features.Syntax;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using SyntaxHighlighter = SS.Ynote.Classic.Features.Syntax.SyntaxHighlighter;
 
 internal static class FileExtensions
 {
-    internal static IDictionary<IEnumerable<string>, Language> FileExtensionsDictionary { get; set; }
+    internal static IDictionary<IEnumerable<string>, Language> FileExtensionsDictionary { get; private set; }
 
     /// <summary>
     /// Build Dictionary
@@ -56,38 +57,33 @@ internal static class FileExtensions
     internal static SyntaxDesc GetLanguage(IDictionary<IEnumerable<string>, Language> dic, string extension)
     {
         var desc = new SyntaxDesc();
-        IEnumerable<string> reqKey = null;
-        foreach (var key in dic.Keys.Where(key => key.Contains(extension)))
-            reqKey = key;
         Language lang;
-        if (reqKey != null && dic.TryGetValue(reqKey, out lang))
-            desc.Language = lang;
-        else
-        {
-            foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes.Where(syntax => syntax.Extensions.Contains(extension)))
-            {
-                desc.IsBase = true;
-                desc.SyntaxBase = syntax;
-            }
-        }
+        foreach (var key in dic.Keys.Where(key => key.Contains(extension)))
+            if (dic.TryGetValue(key, out lang))
+                desc.Language = lang;
+            else
+                foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes.Where(syntax => syntax.Extensions.Contains(extension)))
+                    desc.SyntaxBase = syntax;
         return desc;
     }
 }
 
-public class SyntaxDesc
+internal class SyntaxDesc
 {
     /// <summary>
     /// Is a Syntax Base
     /// </summary>
-    public bool IsBase;
+    internal bool IsBase{
+        get { return SyntaxBase != null; }
+    }
 
     /// <summary>
     /// if IsBase = false Value of Language
     /// </summary>
-    public Language Language;
+    internal Language Language;
 
     /// <summary>
     /// Syntax Base
     /// </summary>
-    public SyntaxBase SyntaxBase;
+    internal SyntaxBase SyntaxBase;
 }

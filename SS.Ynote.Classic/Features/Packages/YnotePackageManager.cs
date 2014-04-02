@@ -18,18 +18,21 @@ namespace SS.Ynote.Classic.Features.Packages
                 var data = GetPackageData(pack);
                 if (data != null)
                 {
-                    var zip = ZipStorer.Open(pack, FileAccess.Read);
-                    var dirs = zip.ReadCentralDir();
-                    foreach (var entry in dirs)
+                    using (var zip = ZipStorer.Open(pack, FileAccess.Read))
                     {
-                        foreach (
-                            var key in
-                                data.Keys.Where(key => Path.GetFileName(entry.FilenameInZip) == Path.GetFileName(key)))
+                        var dirs = zip.ReadCentralDir();
+                        foreach (var entry in dirs)
                         {
-                            string temp;
-                            data.TryGetValue(key, out temp);
-                            if (temp != null)
-                                zip.ExtractFile(entry, temp);
+                            foreach (
+                                var key in
+                                    data.Keys.Where(
+                                        key => Path.GetFileName(entry.FilenameInZip) == Path.GetFileName(key)))
+                            {
+                                string temp;
+                                data.TryGetValue(key, out temp);
+                                if (temp != null)
+                                    zip.ExtractFile(entry, temp);
+                            }
                         }
                     }
                     File.Copy(pack,

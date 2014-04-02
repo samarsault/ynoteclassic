@@ -197,21 +197,22 @@ namespace SS.Ynote.Classic.UI
                     foreach (var document in _ynote.Panel.Documents.Cast<Editor>().Where(document => document.Name == lvresults.SelectedItems[0].SubItems[0].Text))
                     {
                         document.Show();
-                        document.Tb.Navigate(Convert.ToInt32(lvresults.SelectedItems[0].SubItems[1].Text) - 1);
+                        document.Tb.Navigate(lvresults.SelectedItems[0].SubItems[1].Text.ToInt() - 1);
                     }
                 }
             }
             catch
             {
                 _ynote.OpenFile(lvresults.SelectedItems[0].SubItems[0].Text);
+                ((Editor)(_ynote.Panel.ActiveDocument)).Tb.Navigate(lvresults.SelectedItems[0].SubItems[1].Text.ToInt() - 1);
             }
         }
 
         private void ReplaceInFiles(IEnumerable<string> filePaths, string searchText, string replaceText,
             bool ignoreCase)
         {
-            try
-            {
+                try
+                {
                 foreach (var file in filePaths)
                 {
                     var lines = File.ReadAllLines(file);
@@ -230,7 +231,7 @@ namespace SS.Ynote.Classic.UI
             }
             catch
             {
-                ;
+                
             }
         }
 
@@ -280,7 +281,7 @@ namespace SS.Ynote.Classic.UI
             }
             var files = tbReplaceDir.Text == "$docs"
 ? (from Editor doc in _ynote.Panel.Documents where doc.IsSaved select doc.Name).ToArray()
-: Directory.GetFiles(tbReplaceDir.Text, tbReplaceFilter.Text);
+: Directory.GetFiles(tbReplaceDir.Text, tbReplaceFilter.Text, cbSearchIn.Text.ToEnum<SearchOption>());
             BeginInvoke((MethodInvoker)(() =>
             {
                 if (cbRegex.Checked)

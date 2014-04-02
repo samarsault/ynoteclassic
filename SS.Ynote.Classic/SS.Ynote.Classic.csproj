@@ -65,15 +65,13 @@
     <ApplicationIcon>Resources\ynote-favicon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CSScriptLibrary.v3.5, Version=3.7.1.0, Culture=neutral, PublicKeyToken=70fcc3d18c749033, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\CSScriptLibrary.v3.5.dll</HintPath>
+    <Reference Include="CSScriptLibrary.v3.5">
+      <HintPath>..\Binary-Complete Package\CSScriptLibrary.v3.5.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition">
-      <HintPath>..\Dependencies\System.ComponentModel.Composition.dll</HintPath>
+      <HintPath>..\Binary-Complete Package\System.ComponentModel.Composition.dll</HintPath>
     </Reference>
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
@@ -279,9 +277,6 @@
     </Compile>
     <EmbeddedResource Include="Features\RunScript\Cmd.resx">
       <DependentUpon>Cmd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Editor.resx">
-      <DependentUpon>Editor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\MacroExecDialog.resx">
       <DependentUpon>MacroExecDialog.cs</DependentUpon>

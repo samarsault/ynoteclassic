@@ -9,7 +9,7 @@ namespace SS.Ynote.Classic.Features.Packages
     /// <summary>
     ///     Unique class for compression/decompression file. Represents a Zip file.
     /// </summary>
-    public sealed class ZipStorer : IDisposable
+    internal sealed class ZipStorer : IDisposable
     {
         /// <summary>
         ///     Compression method enumeration

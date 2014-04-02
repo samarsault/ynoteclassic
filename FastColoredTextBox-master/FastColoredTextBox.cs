@@ -17,7 +17,7 @@
 // This restriction saves memory.
 // However, you can to compile FCTB with 32 styles supporting.
 // Uncomment following definition if you need 32 styles instead of 16:
-// #define Styles32
+#define Styles32
 
 using Microsoft.Win32;
 using System;
@@ -41,7 +41,7 @@ namespace FastColoredTextBoxNS
     /// <summary>
     /// Fast colored textbox
     /// </summary>
-    public partial class FastColoredTextBox : UserControl, ISupportInitialize
+    public class FastColoredTextBox : UserControl, ISupportInitialize
     {
         internal const int minLeftIndent = 8;
         private const int maxBracketSearchIterations = 1000;
@@ -219,11 +219,8 @@ namespace FastColoredTextBoxNS
             textAreaBorderColor = Color.Black;
             macrosManager = new MacrosManager(this);
             HotkeysMapping = new HotkeysMapping();
-            HotkeysMapping.InitDefault();
             WordWrapAutoIndent = true;
             FoldedBlocks = new Dictionary<int, int>();
-            AutoCompleteBrackets = true;
-            //
             base.AutoScroll = true;
             timer.Tick += timer_Tick;
             timer2.Tick += timer2_Tick;
@@ -2448,20 +2445,20 @@ namespace FastColoredTextBoxNS
 
             var begin_sample = String.Format(begin, 0, 0, 0, 0);
 
-            var count_begin = enc.GetByteCount(begin_sample);
-            var count_html_begin = enc.GetByteCount(html_begin);
-            var count_html = enc.GetByteCount(html);
-            var count_html_end = enc.GetByteCount(html_end);
+            var countBegin = enc.GetByteCount(begin_sample);
+            var countHtmlBegin = enc.GetByteCount(html_begin);
+            var countHtml = enc.GetByteCount(html);
+            var countHtmlEnd = enc.GetByteCount(html_end);
 
-            var html_total = String.Format(
+            var htmlTotal = String.Format(
                 begin
-                , count_begin
-                , count_begin + count_html_begin + count_html + count_html_end
-                , count_begin + count_html_begin
-                , count_begin + count_html_begin + count_html
+                , countBegin
+                , countBegin + countHtmlBegin + countHtml + countHtmlEnd
+                , countBegin + countHtmlBegin
+                , countBegin + countHtmlBegin + countHtml
                                     ) + html_begin + html + html_end;
 
-            return new MemoryStream(enc.GetBytes(html_total));
+            return new MemoryStream(enc.GetBytes(htmlTotal));
         }
 
         /// <summary>
@@ -2519,10 +2516,7 @@ namespace FastColoredTextBoxNS
 
                 Pasting(this, args);
 
-                if (args.Cancel)
-                    text = string.Empty;
-                else
-                    text = args.InsertingText;
+                text = args.Cancel ? string.Empty : args.InsertingText;
             }
 
             if (!string.IsNullOrEmpty(text))
@@ -2542,10 +2536,7 @@ namespace FastColoredTextBoxNS
         /// </summary>
         public void GoEnd()
         {
-            if (lines.Count > 0)
-                Selection.Start = new Place(lines[lines.Count - 1].Count, lines.Count - 1);
-            else
-                Selection.Start = new Place(0, 0);
+            Selection.Start = lines.Count > 0 ? new Place(lines[lines.Count - 1].Count, lines.Count - 1) : new Place(0, 0);
 
             DoCaretVisible();
         }
@@ -2706,10 +2697,7 @@ namespace FastColoredTextBoxNS
             lines.Manager.BeginAutoUndoCommands();
             try
             {
-                if (lines.Count > 0)
-                    Selection.Start = new Place(lines[lines.Count - 1].Count, lines.Count - 1);
-                else
-                    Selection.Start = new Place(0, 0);
+                Selection.Start = lines.Count > 0 ? new Place(lines[lines.Count - 1].Count, lines.Count - 1) : new Place(0, 0);
 
                 //remember last caret position
                 var last = Selection.Start;
@@ -4829,17 +4817,20 @@ namespace FastColoredTextBoxNS
 
             //draw column selection
             if (Selection.ColumnSelectionMode)
-                if (SelectionStyle.BackgroundBrush is SolidBrush)
+            {
+                var brush = SelectionStyle.BackgroundBrush as SolidBrush;
+                if (brush != null)
                 {
-                    var color = ((SolidBrush)SelectionStyle.BackgroundBrush).Color;
+                    var color = brush.Color;
                     var p1 = PlaceToPoint(Selection.Start);
                     var p2 = PlaceToPoint(Selection.End);
                     using (var pen = new Pen(color))
                         e.Graphics.DrawRectangle(pen,
-                                                 Rectangle.FromLTRB(Math.Min(p1.X, p2.X) - 1, Math.Min(p1.Y, p2.Y),
-                                                                    Math.Max(p1.X, p2.X),
-                                                                    Math.Max(p1.Y, p2.Y) + CharHeight));
+                            Rectangle.FromLTRB(Math.Min(p1.X, p2.X) - 1, Math.Min(p1.Y, p2.Y),
+                                Math.Max(p1.X, p2.X),
+                                Math.Max(p1.Y, p2.Y) + CharHeight));
                 }
+            }
             //draw brackets highlighting
             if (BracketsStyle != null && leftBracketPosition != null && rightBracketPosition != null)
             {
@@ -5237,12 +5228,7 @@ namespace FastColoredTextBoxNS
                 Selection.ColumnSelectionMode = true;
             }
             else
-            {
-                if (VirtualSpace)
-                    Selection.Start = PointToPlaceSimple(e.Location);
-                else
-                    Selection.Start = PointToPlace(e.Location);
-            }
+                Selection.Start = VirtualSpace ? PointToPlaceSimple(e.Location) : PointToPlace(e.Location);
 
             if ((lastModifiers & Keys.Shift) != 0)
                 Selection.End = oldEnd;
@@ -5809,10 +5795,7 @@ namespace FastColoredTextBoxNS
             base.OnTextChanged(args);
 
             //dalayed event stuffs
-            if (delayedTextChangedRange == null)
-                delayedTextChangedRange = args.ChangedRange.Clone();
-            else
-                delayedTextChangedRange = delayedTextChangedRange.GetUnionWith(args.ChangedRange);
+            delayedTextChangedRange = delayedTextChangedRange == null ? args.ChangedRange.Clone() : delayedTextChangedRange.GetUnionWith(args.ChangedRange);
 
             needRiseTextChangedDelayed = true;
             ResetTimer(timer2);
@@ -6020,9 +6003,7 @@ namespace FastColoredTextBoxNS
         /// <returns>Range</returns>
         public Range GetRange(int fromPos, int toPos)
         {
-            var sel = new Range(this);
-            sel.Start = PositionToPlace(fromPos);
-            sel.End = PositionToPlace(toPos);
+            var sel = new Range(this) {Start = PositionToPlace(fromPos), End = PositionToPlace(toPos)};
             return sel;
         }
 
@@ -7172,10 +7153,7 @@ window.status = ""#print"";
             try
             {
                 var enc = EncodingDetector.DetectTextFileEncoding(fileName);
-                if (enc != null)
-                    OpenFile(fileName, enc);
-                else
-                    OpenFile(fileName, Encoding.Default);
+                OpenFile(fileName, enc ?? Encoding.Default);
             }
             catch (Exception ex)
             {
@@ -7266,9 +7244,7 @@ window.status = ""#print"";
         /// </summary>
         public void ShowGoToDialog()
         {
-            var form = new GoToForm();
-            form.TotalLineCount = LinesCount;
-            form.SelectedLineNumber = Selection.Start.iLine + 1;
+            var form = new GoToForm {TotalLineCount = LinesCount, SelectedLineNumber = Selection.Start.iLine + 1};
 
             if (form.ShowDialog() == DialogResult.OK)
             {

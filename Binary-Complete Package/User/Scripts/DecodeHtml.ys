@@ -5,6 +5,6 @@ using SS.Ynote.Classic.UI;
 static void Main(IYnote ynote)
 {
     var edit = ynote.Panel.ActiveDocument as Editor;
-    if(edit.tb.Selection == null)return;
-    edit.tb.SelectedText = HttpUtility.HtmlDecode(edit.tb.SelectedText);
+    if(edit.Tb.Selection == null)return;
+    edit.Tb.SelectedText = HttpUtility.HtmlDecode(edit.Tb.SelectedText);
 }

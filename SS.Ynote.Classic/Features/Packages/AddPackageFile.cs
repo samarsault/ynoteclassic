@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace SS.Ynote.Classic.Features.Packages
 {
-    public partial class AddPackageFile : Form
+    internal partial class AddPackageFile : Form
     {
         /// <summary>
         /// Input

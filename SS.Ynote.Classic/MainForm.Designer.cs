@@ -7,7 +7,7 @@
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components;
+        private System.ComponentModel.IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -31,7 +31,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.MenuStrip = new System.Windows.Forms.MainMenu(this.components);
+            this.MenuStrip = new System.Windows.Forms.MainMenu(components);
             this.filemenu = new System.Windows.Forms.MenuItem();
             this.NewMenuItem = new System.Windows.Forms.MenuItem();
             this.OpenMenuItem = new System.Windows.Forms.MenuItem();

@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace SS.Ynote.Classic.UI
 {
-    public partial class BookmarksInfos : Form
+    internal partial class BookmarksInfos : Form
     {
         private readonly FastColoredTextBox tb;
 

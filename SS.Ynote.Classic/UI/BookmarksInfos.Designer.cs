@@ -1,6 +1,6 @@
 ﻿namespace SS.Ynote.Classic.UI
 {
-    partial class BookmarksInfos
+    internal partial class BookmarksInfos
     {
         /// <summary>
         /// Required designer variable.

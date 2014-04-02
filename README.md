@@ -10,13 +10,14 @@ Features
   - Powerful Search and Replace using Regular Expressions in document, files and selection.
   - Powerful Project Management
   - Diff Utility
+  - Automatic Encoding Detection with more than 100 encodings supported.
   - WYSWYIG Printing
   - MDI and SDI
   - Plugins, Macros, Color Schemes, Syntax Files, Scripts and much more.
 
 Version
 ----
- 2.7 Alpha 1
+ 2.7 Beta
 
 License
 ----

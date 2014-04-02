@@ -1,6 +1,6 @@
 ﻿namespace SS.Ynote.Classic.Features.Packages
 {
-    partial class AddPackageFile
+    internal partial class AddPackageFile
     {
         /// <summary>
         /// Required designer variable.

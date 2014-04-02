@@ -32,7 +32,7 @@ namespace SS.Ynote.Classic.UI
             Highlighter = new SyntaxHighlighter();
             YnoteThemeReader.ApplyTheme(SettingsBase.ThemeFile, Highlighter, codebox);
             InitSettings();
-            if (SyntaxHighlighter.LoadedSyntaxes.Count != 0) return;
+            if (!SyntaxHighlighter.LoadedSyntaxes.Any()) return;
             Highlighter.LoadAllSyntaxes();
         }
 
@@ -232,11 +232,6 @@ namespace SS.Ynote.Classic.UI
             if (DockPanel.Documents.Count() == 1)
                 Application.Exit();
             DockPanel = null;
-            codebox.TextChangedDelayed -= codebox_TextChangedDelayed;
-            codebox.AutoIndentNeeded -= codebox_AutoIndentNeeded;
-            codebox.DragDrop -= codebox_DragDrop;
-            if (_invisibleCharsStyle != null)
-                _invisibleCharsStyle.Dispose();
         }
 
         private void SaveFile()

@@ -6,8 +6,8 @@ static void Main(IYnote ynote)
 {
     // Ynote Script to Encode HTML
     var self = ynote.Panel.ActiveDocument as Editor;
-    if(self.tb.Selection == null)return;
-    self.tb.SelectedText = Rot13(self.tb.SelectedText);
+    if(self.Tb.Selection == null)return;
+    self.Tb.SelectedText = Rot13(self.Tb.SelectedText);
 }
 /// <summary>
 /// Performs the ROT13 character rotation.

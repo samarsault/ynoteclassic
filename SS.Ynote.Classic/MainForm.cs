@@ -1,12 +1,3 @@
-using FastColoredTextBoxNS;
-using SS.Ynote.Classic.Features.Extensibility;
-using SS.Ynote.Classic.Features.Packages;
-using SS.Ynote.Classic.Features.Project;
-using SS.Ynote.Classic.Features.RunScript;
-using SS.Ynote.Classic.Features.Search;
-using SS.Ynote.Classic.Features.Syntax;
-using SS.Ynote.Classic.UI;
-
 //===================================
 //
 // The Ynote Classic Project - http://ynoteclassic.codeplex.com
@@ -27,6 +18,14 @@ using System.Windows.Forms;
 using System.Xml;
 using WeifenLuo.WinFormsUI.Docking;
 using Timer = System.Windows.Forms.Timer;
+using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Extensibility;
+using SS.Ynote.Classic.Features.Packages;
+using SS.Ynote.Classic.Features.Project;
+using SS.Ynote.Classic.Features.RunScript;
+using SS.Ynote.Classic.Features.Search;
+using SS.Ynote.Classic.Features.Syntax;
+using SS.Ynote.Classic.UI;
 
 namespace SS.Ynote.Classic
 {
@@ -68,10 +67,6 @@ namespace SS.Ynote.Classic
         /// <param name="filename"></param>
         public MainForm(string filename)
         {
-#if DEBUG
-            var watch = new Stopwatch();
-            watch.Start();
-#endif
             InitializeComponent();
             InitSettings();
             LoadPlugins();
@@ -79,11 +74,7 @@ namespace SS.Ynote.Classic
             if (filename == null)
                 CreateNewDoc();
             else
-                OpenFile(filename);
-#if DEBUG
-            watch.Stop();
-            MessageBox.Show(watch.ElapsedMilliseconds + " Milliseconds to load");
-#endif
+                LoadFile(filename);
         }
 
         #endregion Constructor
@@ -114,13 +105,18 @@ namespace SS.Ynote.Classic
 
         private void OpenDefault(string name, bool isreadonly)
         {
-            BeginInvoke((MethodInvoker)(() =>
+            BeginInvoke((MethodInvoker) (() =>
             {
                 var enc = EncodingDetector.DetectTextFileEncoding(name);
                 OpenDefault(name, enc ?? Encoding.Default, isreadonly);
             }));
         }
 
+        private void LoadFile(string name)
+        {
+            var enc = EncodingDetector.DetectTextFileEncoding(name);
+            OpenDefault(name, enc ?? Encoding.Default, false);
+        }
         /// <summary>
         ///     Default Method for Opening a File
         /// </summary>
@@ -224,16 +220,15 @@ namespace SS.Ynote.Classic
         private void SaveRecentFile(string path, MenuItem recent)
         {
             if (_mru == null)
-                _mru = new Queue<string>();
+                LoadRecentList();
             recent.MenuItems.Clear(); //clear all recent list from menu
-            LoadRecentList(); //load list from file
+            // LoadRecentList(); //load list from file
             if (!(_mru.Contains(path))) //prevent duplication on recent list
                 _mru.Enqueue(path); //insert given path into list
-            while (_mru.Count > 15) //keep list number not exceeded given value
+            while (_mru.Count > 20) //keep list number not exceeded given value
                 _mru.Dequeue();
-            foreach (var item in _mru)
+            foreach (var fileRecent in _mru.Select(item => new MenuItem(item)))
             {
-                var fileRecent = new MenuItem(item); //create new menu for each item in list
                 fileRecent.Click += (sender, args) => OpenFile(((MenuItem)(sender)).Text);
                 recent.MenuItems.Add(fileRecent); //add the menu to "recent" menu
             }

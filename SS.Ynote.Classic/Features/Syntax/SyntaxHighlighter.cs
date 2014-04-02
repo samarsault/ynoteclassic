@@ -329,7 +329,7 @@ namespace SS.Ynote.Classic.Features.Syntax
         /// <summary>
         /// File Extension Details
         /// </summary>
-        public static readonly IList<SyntaxBase> LoadedSyntaxes = new List<SyntaxBase>();
+        public static IList<SyntaxBase> LoadedSyntaxes = new List<SyntaxBase>();
 
         public void LoadAllSyntaxes()
         {
@@ -494,7 +494,7 @@ namespace SS.Ynote.Classic.Features.Syntax
 
         #endregion From File
 
-        #region Private Methods
+        #region Private Variables
 
         private Regex _cSharpAttributeRegex,
             _cSharpClassNameRegex;
@@ -700,7 +700,7 @@ namespace SS.Ynote.Classic.Features.Syntax
         }
 
         /// <summary>
-        ///     Java/Actionscript Highlight
+        ///Java Highlight
         /// </summary>
         /// <param name="e"></param>
         private void JavaSyntaxHighlight(TextChangedEventArgs e)
@@ -716,6 +716,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.ClearStyle(PreprocessorStyle, StringStyle, NumberStyle, ClassNameStyle, ClassNameStyle2,
                 KeywordStyle,
                 KeywordStyle2, KeywordStyle3, CharStyle);
+            e.ChangedRange.SetStyle(StringStyle, _cppStringRegex);
             e.ChangedRange.tb.Range.SetStyle(CommentStyle, _javaCommentRegex1);
             e.ChangedRange.tb.Range.SetStyle(CommentStyle, _javaCommentRegex2);
             e.ChangedRange.tb.Range.SetStyle(CommentStyle, _javaCommentRegex3);
@@ -832,10 +833,11 @@ namespace SS.Ynote.Classic.Features.Syntax
                 ClassNameStyle2, VariableStyle, PreprocessorStyle);
             if (_cppCommentRegex1 == null)
                 InitCppRegex();
+
+            e.ChangedRange.SetStyle(StringStyle, _cppStringRegex);
             e.ChangedRange.tb.Range.SetStyle(CommentStyle, _cppCommentRegex1);
             e.ChangedRange.tb.Range.SetStyle(CommentStyle, _cppCommentRegex2);
             e.ChangedRange.tb.Range.SetStyle(CommentStyle, _cppCommentRegex3);
-            e.ChangedRange.SetStyle(StringStyle, _cppStringRegex);
             e.ChangedRange.SetStyle(StringStyle, @"(?<=\<)(.*?)(?=\>)|\<|\>");
             e.ChangedRange.SetStyle(PreprocessorStyle, @"#[a-zA-Z_\d]*\b");
             e.ChangedRange.SetStyle(ClassNameStyle, _cppClassNameRegex);
@@ -968,12 +970,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.RightBracket2 = ']';
             e.ChangedRange.tb.Range.ClearStyle(CommentStyle, CommentTagStyle);
             e.ChangedRange.ClearStyle(StringStyle, ClassNameStyle, ClassNameStyle2, KeywordStyle, KeywordStyle2,
-                NumberStyle, CharStyle);
-            e.ChangedRange.tb.Range.SetStyle(CommentTagStyle,
-                "(\"\"\".*?\"\"\")|(.*\"\"\")|(\'\'\'.*?\'\'\')|(.*\'\'\')",
-                RegexOptions.Singleline | RegexOptions.RightToLeft | RegexOptions.Multiline);
-            e.ChangedRange.tb.Range.SetStyle(CommentStyle, "#.*$", RegexOptions.Multiline);
-            e.ChangedRange.SetStyle(StringStyle, new Regex(
+                NumberStyle, CharStyle); e.ChangedRange.SetStyle(StringStyle, new Regex(
                 @"
                             # Character definitions:
                             '
@@ -1006,6 +1003,11 @@ namespace SS.Ynote.Classic.Features.Syntax
                 RegexOptions.ExplicitCapture | RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace |
                 RegexCompiledOption
                 ));
+            e.ChangedRange.tb.Range.SetStyle(CommentTagStyle,
+                "(\"\"\".*?\"\"\")|(.*\"\"\")|(\'\'\'.*?\'\'\')|(.*\'\'\')",
+                RegexOptions.Singleline | RegexOptions.RightToLeft | RegexOptions.Multiline);
+            e.ChangedRange.tb.Range.SetStyle(CommentStyle, "#.*$", RegexOptions.Multiline);
+           
             e.ChangedRange.SetStyle(ClassNameStyle, @"\b(class)\s+(?<range>\w+?)\b");
             e.ChangedRange.SetStyle(ClassNameStyle2, @"\b(def)\s+(?<range>\w+?)\b");
             e.ChangedRange.SetStyle(KeywordStyle,
@@ -1163,7 +1165,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                 ));
             e.ChangedRange.SetStyle(VariableStyle, @"\$[a-zA-Z_\d]*\b", RegexCompiledOption);
             e.ChangedRange.SetStyle(KeywordStyle,
-                @"\b(__FILE__|__LINE__|alias|and|begin|break|case|class|def|defined|do|else|elsif|end|ensure|for|foreach|if|in|module|next|not|or|redo|rescue|retry|return|super|then|undef|unless|until|when|while|yield)\b");
+                @"\b(__FILE__|__LINE__|alias|and|begin|break|case|class|def|defined|do|else|elsif|end|ensure|for|foreach|if|in|module|next|not|or|redo|rescue|retry|return|require|super|then|undef|unless|until|when|while|yield)\b");
             e.ChangedRange.SetStyle(KeywordStyle2, @"\b(self|puts|true|false|nil)\b");
             e.ChangedRange.SetStyle(NumberStyle, @"\b\\d+[\\.]?\\d*([eE]\\-?\\d+)?[lLdDfF]?\b|\b0x[a-fA-F\\d]+\b");
             e.ChangedRange.SetStyle(CharStyle, @"\[|\]|\*|\?|\(|\)|\^|\!|\;|\,|\.|\:");
@@ -1414,12 +1416,12 @@ namespace SS.Ynote.Classic.Features.Syntax
             //
             if (_cSharpStringRegex == null)
                 InitCSharpRegex();
+            //string highlighting
+            e.ChangedRange.SetStyle(StringStyle, _cSharpStringRegex);
             //comment highlighting
             e.ChangedRange.tb.Range.SetStyle(CommentStyle, _cSharpCommentRegex1);
             e.ChangedRange.tb.Range.SetStyle(CommentStyle, _cSharpCommentRegex2);
             e.ChangedRange.tb.Range.SetStyle(CommentStyle, _cSharpCommentRegex3);
-            //string highlighting
-            e.ChangedRange.SetStyle(StringStyle, _cSharpStringRegex);
             //number highlighting
             e.ChangedRange.SetStyle(NumberStyle, _cSharpNumberRegex);
             //attribute highlighting
@@ -1509,12 +1511,12 @@ namespace SS.Ynote.Classic.Features.Syntax
 
             if (_jScriptStringRegex == null)
                 InitJScriptRegex();
+            //string highlighting
+            e.ChangedRange.SetStyle(StringStyle, _jScriptStringRegex);
             //comment highlighting
             e.ChangedRange.tb.Range.SetStyle(CommentStyle, _jScriptCommentRegex1);
             e.ChangedRange.tb.Range.SetStyle(CommentStyle, _jScriptCommentRegex2);
             e.ChangedRange.tb.Range.SetStyle(CommentStyle, _jScriptCommentRegex3);
-            //string highlighting
-            e.ChangedRange.SetStyle(StringStyle, _jScriptStringRegex);
             //number highlighting
             e.ChangedRange.SetStyle(NumberStyle, _jScriptNumberRegex);
             e.ChangedRange.SetStyle(ClassNameStyle, _jScriptFunctionRegex);
@@ -1680,12 +1682,12 @@ namespace SS.Ynote.Classic.Features.Syntax
                 FunctionsStyle, TypesStyle);
             if (_sqlStringRegex == null)
                 InitSqlRegex();
+            //string highlighting
+            e.ChangedRange.SetStyle(StringStyle, _sqlStringRegex);
             //comment highlighting
             e.ChangedRange.tb.Range.SetStyle(CommentStyle, _sqlCommentRegex1);
             e.ChangedRange.tb.Range.SetStyle(CommentStyle, _sqlCommentRegex2);
             e.ChangedRange.tb.Range.SetStyle(CommentStyle, _sqlCommentRegex3);
-            //string highlighting
-            e.ChangedRange.SetStyle(StringStyle, _sqlStringRegex);
             //number highlighting
             e.ChangedRange.SetStyle(NumberStyle, _sqlNumberRegex);
             //types highlighting
@@ -1820,7 +1822,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                 @"\b(tokens|header|lexclass|grammar|class|extends|Lexer|TreeParser|charVocabulary|Parser|protected|public|private|returns|throws|exception|catch|options)\b",
                 RegexOptions.IgnoreCase);
             e.ChangedRange.SetStyle(KeywordStyle2,
-                @"ANTLRException|ANTLR_API|ANTLR_API|ANTLR_CXX_SUPPORTS_NAMESPACE|ANTLR_C_USING|ANTLR_REALLY_NO_STRCASECMP|ANTLR_SUPPORT_XML|ANTLR_USE_NAMESPACE|EOF_TYPE|HAS_NOT_CCTYPE_H|INVALID_TYPE|MIN_USER_TYPE|NEEDS_OPERATOR_LESS_THAN|NO_STATIC_CONSTS|NULL_TREE_LOOKAHEAD|AST|ASTArray|ASTFactory|ASTNULL|ASTNULLType|ASTPair|ASTRefCount|BaseAST|BitSet|CUSTOM_API|CharBuffer|CharInputBuffer|CharScanner|CharScannerLiteralsLess|CharStreamException|CharStreamIOException|CircularQueue|CommonAST|CommonASTWithHiddenTokens|CommonHiddenStreamToken|CommonToken|IOException|InputBuffer|LA|LLkParser|LT|LexerInputState|LoadAST|MismatchedCharException|MismatchedTokenException|NoViableAltException|NoViableAltForCharException|OS_NO_ALLOCATOR|Parser|ParserInputState|RecognitionException|RefCount|RefToken|SKIP|SemanticException|Token|TokenBuffer|TokenStream|TokenStreamBasicFilter|TokenStreamException|TokenStreamHiddenTokenFilter|TokenStreamIOException|TokenStreamRecognitionException|TokenStreamRetryException|TokenStreamSelector|Tracer|TreeParser|TreeParserInputState|TreeParserSharedInputState)\b",
+                @"ANTLRException|ANTLR_API|ANTLR_API|ANTLR_CXX_SUPPORTS_NAMESPACE|ANTLR_C_USING|ANTLR_REALLY_NO_STRCASECMP|ANTLR_SUPPORT_XML|ANTLR_USE_NAMESPACE|EOF_TYPE|HAS_NOT_CCTYPE_H|INVALID_TYPE|MIN_USER_TYPE|NEEDS_OPERATOR_LESS_THAN|NO_STATIC_CONSTS|NULL_TREE_LOOKAHEAD|AST|ASTArray|ASTFactory|ASTNULL|ASTNULLType|ASTPair|ASTRefCount|BaseAST|BitSet|CUSTOM_API|CharBuffer|CharInputBuffer|CharScanner|CharScannerLiteralsLess|CharStreamException|CharStreamIOException|CircularQueue|CommonAST|CommonASTWithHiddenTokens|CommonHiddenStreamToken|CommonToken|IOException|InputBuffer|LA|LLkParser|LT|LexerInputState|LoadAST|MismatchedCharException|MismatchedTokenException|NoViableAltException|NoViableAltForCharException|OS_NO_ALLOCATOR|Parser|ParserInputState|RecognitionException|RefCount|RefToken|SKIP|SemanticException|Token|TokenBuffer|TokenStream|TokenStreamBasicFilter|TokenStreamException|TokenStreamHiddenTokenFilter|TokenStreamIOException|TokenStreamRecognitionException|TokenStreamRexception|TokenStreamSelector|Tracer|TreeParser|TreeParserInputState|TreeParserSharedInputState)\b",
                 RegexOptions.IgnoreCase);
         }
 
@@ -2046,10 +2048,21 @@ namespace SS.Ynote.Classic.Features.Syntax
 
     public class XmlTag
     {
+        /// <summary>
+        /// XmlTag id
+        /// </summary>
         public int Id;
+        /// <summary>
+        /// XmlTag Name
+        /// </summary>
         public string Name;
+        /// <summary>
+        /// XmlTag StartLine
+        /// </summary>
         public int StartLine;
-
+        /// <summary>
+        /// XmlTag Marker
+        /// </summary>
         public string Marker
         {
             get { return Name + Id; }

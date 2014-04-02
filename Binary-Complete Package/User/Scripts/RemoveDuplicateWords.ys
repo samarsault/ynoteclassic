@@ -7,8 +7,8 @@ using SS.Ynote.Classic.UI;
 static void Main(IYnote ynote)
 {
    var edit = ynote.Panel.ActiveDocument as Editor;
-   if(edit.tb.Selection == null)return;
-   edit.tb.SelectedText = RemoveDuplicateWords(edit.tb.SelectedText);
+   if(edit.Tb.Selection == null)return;
+   edit.Tb.SelectedText = RemoveDuplicateWords(edit.Tb.SelectedText);
 }
 
 static public string RemoveDuplicateWords(string v)

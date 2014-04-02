@@ -5,9 +5,9 @@ static void Main(IYnote ynote)
 {
     // Ynote Script to Encode HTML
     var self = ynote.Panel.ActiveDocument as Editor;
-    if(self.tb.Selection == null)return;
+    if(self.Tb.Selection == null)return;
     InitTable();
-    self.tb.SelectedText = Transform(self.tb.SelectedText);
+    self.Tb.SelectedText = Transform(self.Tb.SelectedText);
 }
 
 /// <summary>
@@ -37,7 +37,7 @@ public static void InitTable()
 }
 
 /// <summary>
-/// Apply the Atbash cipher.
+/// Apply the ATbash cipher.
 /// </summary>
 public static string Transform(string value)
 {

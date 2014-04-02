@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace SS.Ynote.Classic
 {
-    public class InvisibleCharsRenderer : Style
+    internal class InvisibleCharsRenderer : Style
     {
         private readonly Pen _pen;
 
