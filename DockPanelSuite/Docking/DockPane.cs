@@ -160,7 +160,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             base.Dispose(disposing);
         }
 
-        private IDockContent m_activeContent = null;
+        private IDockContent m_activeContent;
 
         public virtual IDockContent ActiveContent
         {
@@ -225,7 +225,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             set { m_allowDockDragAndDrop = value; }
         }
 
-        private IDisposable m_autoHidePane = null;
+        private IDisposable m_autoHidePane;
 
         internal IDisposable AutoHidePane
         {
@@ -233,13 +233,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             set { m_autoHidePane = value; }
         }
 
-        private object m_autoHideTabs = null;
-
-        internal object AutoHideTabs
-        {
-            get { return m_autoHideTabs; }
-            set { m_autoHideTabs = value; }
-        }
+        internal object AutoHideTabs { get; set; }
 
         private object TabPageContextMenu
         {
@@ -252,9 +246,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
                 if (content.DockHandler.TabPageContextMenuStrip != null)
                     return content.DockHandler.TabPageContextMenuStrip;
-                if (content.DockHandler.TabPageContextMenu != null)
-                    return content.DockHandler.TabPageContextMenu;
-                return null;
+                return content.DockHandler.TabPageContextMenu ?? null;
             }
         }
 
@@ -416,7 +408,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private bool m_isActivated = false;
+        private bool m_isActivated;
 
         public bool IsActivated
         {
@@ -434,7 +426,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             OnIsActivatedChanged(EventArgs.Empty);
         }
 
-        private bool m_isActiveDocumentPane = false;
+        private bool m_isActiveDocumentPane;
 
         public bool IsActiveDocumentPane
         {
@@ -952,7 +944,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             ResumeRefreshStateChange(oldContainer, oldDockState);
         }
 
-        private int m_countRefreshStateChange = 0;
+        private int m_countRefreshStateChange;
 
         private void SuspendRefreshStateChange()
         {

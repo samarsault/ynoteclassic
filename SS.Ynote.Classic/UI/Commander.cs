@@ -15,13 +15,13 @@ using AutocompleteItem = AutocompleteMenuNS.AutocompleteItem;
 
 namespace SS.Ynote.Classic.UI
 {
-    public partial class ConsoleUI : Form
+    public partial class Commander : Form
     {
         private readonly IYnote _ynote;
 
-        private bool addedText;
+        private bool _addedText;
 
-        public ConsoleUI(IYnote host)
+        public Commander(IYnote host)
         {
             InitializeComponent();
             completemenu.AllowsTabKey = true;
@@ -43,7 +43,7 @@ namespace SS.Ynote.Classic.UI
         {
             tbcommand.Text = text;
             tbcommand.Select(tbcommand.Text.Length, 0);
-            addedText = true;
+            _addedText = true;
         }
 
         private void BuildAutoComplete()
@@ -130,7 +130,7 @@ namespace SS.Ynote.Classic.UI
 
         protected override void OnShown(EventArgs e)
         {
-            if (addedText) return;
+            if (_addedText) return;
             completemenu.Show(tbcommand, true);
             base.OnShown(e);
         }
@@ -191,7 +191,7 @@ namespace SS.Ynote.Classic.UI
                     break;
 
                 case "Script":
-                    RunScript(c.Value);
+                    YnoteScript.RunScript(_ynote, SettingsBase.SettingsDir + @"Scripts\" + c.Value + ". ys");
                     break;
 
                 case "Indent":
@@ -296,15 +296,11 @@ namespace SS.Ynote.Classic.UI
         {
             ActiveEditor.Tb.MacrosManager.ExecuteMacros(string.Format(@"{0}Macros\{1}.ymc", SettingsBase.SettingsDir,
                 macro));
-            //ActiveEditor.tb.MacrosManager.Macros =
-            //    File.ReadAllText(Application.StartupPath + @"\User\Macros\" + macro + ".ymc");
-            //ActiveEditor.tb.MacrosManager.ExecuteMacros();
         }
 
         private void RunScript(string script)
         {
             //  ScriptingHelper.RunScript(Application.StartupPath + @"\User\Scripts\" + script + ".ys", _ynote);
-            YnoteScript.RunScript(_ynote, SettingsBase.SettingsDir + @"Scripts\" + script + ".ys");
         }
 
         private void SelectionFunc(string val)

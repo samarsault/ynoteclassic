@@ -1,6 +1,6 @@
 ﻿namespace SS.Ynote.Classic.UI
 {
-    partial class ConsoleUI
+    partial class Commander
     {
         /// <summary>
         /// Required designer variable.
@@ -55,14 +55,14 @@
             this.completemenu.SearchPattern = ".*";
             this.completemenu.TargetControlWrapper = null;
             // 
-            // ConsoleUI
+            // Commander
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(503, 29);
             this.Controls.Add(this.tbcommand);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "ConsoleUI";
+            this.Name = "Commander";
             this.Text = "Console";
             this.ResumeLayout(false);
             this.PerformLayout();

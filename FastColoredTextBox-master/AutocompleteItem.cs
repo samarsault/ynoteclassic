@@ -11,7 +11,6 @@ namespace FastColoredTextBoxNS
         public string Text;
         public int ImageIndex = -1;
         public object Tag;
-        private string toolTipText;
         private string menuText;
 
         public AutocompleteMenu Parent { private get; set; }
@@ -44,7 +43,7 @@ namespace FastColoredTextBoxNS
             : this(text, imageIndex, menuText)
         {
             ToolTipTitle = toolTipTitle;
-            this.toolTipText = toolTipText;
+            ToolTipText = toolTipText;
         }
 
         /// <summary>
@@ -92,11 +91,7 @@ namespace FastColoredTextBoxNS
         /// Tooltip text.
         /// </summary>
         /// <remarks>For display tooltip text, ToolTipTitle must be not null</remarks>
-        public string ToolTipText
-        {
-            get { return toolTipText; }
-            protected set { toolTipText = value; }
-        }
+        public string ToolTipText { get; protected set; }
 
         /// <summary>
         /// Menu text. This text is displayed in the drop-down menu.
@@ -214,13 +209,17 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class MethodAutocompleteItem : AutocompleteItem
     {
-        private string firstPart;
-        private readonly string lowercaseText;
+        private string _firstPart;
+        private readonly string _lowercaseText;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
         public MethodAutocompleteItem(string text)
             : base(text)
         {
-            lowercaseText = Text.ToLower();
+            _lowercaseText = Text.ToLower();
         }
 
         public override CompareResult Compare(string fragmentText)
@@ -229,17 +228,17 @@ namespace FastColoredTextBoxNS
             if (i < 0)
                 return CompareResult.Hidden;
             var lastPart = fragmentText.Substring(i + 1);
-            firstPart = fragmentText.Substring(0, i);
+            _firstPart = fragmentText.Substring(0, i);
 
             if (lastPart == "") return CompareResult.Visible;
             if (Text.StartsWith(lastPart, StringComparison.InvariantCultureIgnoreCase))
                 return CompareResult.VisibleAndSelected;
-            return lowercaseText.Contains(lastPart.ToLower()) ? CompareResult.Visible : CompareResult.Hidden;
+            return _lowercaseText.Contains(lastPart.ToLower()) ? CompareResult.Visible : CompareResult.Hidden;
         }
 
         public override string GetTextForReplace()
         {
-            return firstPart + "." + Text;
+            return _firstPart + "." + Text;
         }
     }
 

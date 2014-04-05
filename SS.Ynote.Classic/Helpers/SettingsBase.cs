@@ -1,3 +1,13 @@
+//=====================================
+//
+// SettingsBase.cs
+// Copyright (C) 2014 Samarjeet Singh
+//
+//=====================================
+//#define PORTABLE
+#if !PORTABLE
+    using System;
+#endif
 using FastColoredTextBoxNS;
 using Nini.Config;
 using System.IO;
@@ -5,16 +15,15 @@ using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
 /// <summary>
-///     Contains all the Settings for Ynote
+/// Contains all the Settings for Ynote
 /// </summary>
 public static class SettingsBase
 {
-    /// <summary>
-    ///     Settings Directory
-    ///     If Portable then same ,
-    ///     else = Environment.SpecialFolder.ApplicationData  + "\Ynote Classic\"
-    /// </summary>
-    public static readonly string SettingsDir = Application.StartupPath + @"\User\";
+#if PORTABLE
+    internal static readonly string SettingsDir = Application.StartupPath + @"\User\";
+#else
+    internal static readonly string SettingsDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Ynote_Classic\";
+#endif
 
     /// <summary>
     ///     ThemeFile
@@ -29,22 +38,22 @@ public static class SettingsBase
     /// <summary>
     ///     Document Style
     /// </summary>
-    public static DocumentStyle DocumentStyle { get; set; }
+    internal static DocumentStyle DocumentStyle { get; set; }
 
     /// <summary>
     ///     Get the Tab Location
     /// </summary>
-    public static DocumentTabStripLocation TabLocation { get; set; }
+    internal static DocumentTabStripLocation TabLocation { get; set; }
 
     /// <summary>
     ///     Show Folding Lines
     /// </summary>
-    public static bool ShowFoldingLines { get; set; }
+    internal static bool ShowFoldingLines { get; set; }
 
     /// <summary>
     ///     Show Caret
     /// </summary>
-    public static bool ShowCaret { get; set; }
+    internal static bool ShowCaret { get; set; }
 
     /// <summary>
     ///     Highlight Folding
@@ -64,27 +73,27 @@ public static class SettingsBase
     /// <summary>
     ///     Whether to Show Line Numbers
     /// </summary>
-    public static bool ShowLineNumbers { get; set; }
+    internal static bool ShowLineNumbers { get; set; }
 
     /// <summary>
     ///     Whether to Enable Virtual Space
     /// </summary>
-    public static bool EnableVirtualSpace { get; set; }
+    internal static bool EnableVirtualSpace { get; set; }
 
     /// <summary>
     ///     Get the WordWrap Mode
     /// </summary>
-    public static WordWrapMode WordWrapMode { get; set; }
+    internal static WordWrapMode WordWrapMode { get; set; }
 
     /// <summary>
     ///     Folding Strategy
     /// </summary>
-    public static FindEndOfFoldingBlockStrategy FoldingStrategy { get; set; }
+    internal static FindEndOfFoldingBlockStrategy FoldingStrategy { get; set; }
 
     /// <summary>
     ///     The Bracket Highlight Strategy
     /// </summary>
-    public static BracketsHighlightStrategy BracketsStrategy { get; set; }
+    internal static BracketsHighlightStrategy BracketsStrategy { get; set; }
 
     /// <summary>
     ///     Padding Width
@@ -109,27 +118,27 @@ public static class SettingsBase
     /// <summary>
     ///     Get The FontFamily
     /// </summary>
-    public static string FontFamily { get; private set; }
+    internal static string FontFamily { get; private set; }
 
     /// <summary>
     ///     Get the font size
     /// </summary>
-    public static float FontSize { get; private set; }
+    internal static float FontSize { get; private set; }
 
     /// <summary>
     ///     Get the Tab Size
     /// </summary>
-    public static int TabSize { get; set; }
+    internal static int TabSize { get; set; }
 
     /// <summary>
     ///     Zoom
     /// </summary>
-    public static int Zoom { get; set; }
+    internal static int Zoom { get; set; }
 
     /// <summary>
     /// Autocomplete Brackets
     /// </summary>
-    public static bool AutoCompleteBrackets { get; set; }
+    internal static bool AutoCompleteBrackets { get; set; }
 
     /// <summary>
     ///     Loads Settings
@@ -167,8 +176,10 @@ public static class SettingsBase
             }
             else
             {
-                File.WriteAllText(SettingsDir + "Settings.ini", "");
-                RestoreDefault(SettingsDir + "Settings.ini");
+                if (!Directory.Exists(SettingsDir))
+                    Directory.CreateDirectory(SettingsDir);
+                File.WriteAllText(SettingsDir  + "Settings.ini", "");
+                RestoreDefault();
                 continue;
             }
             break;
@@ -210,10 +221,9 @@ public static class SettingsBase
     /// <summary>
     ///     Restores Default Settings
     /// </summary>
-    /// <param name="configfile"></param>
-    public static void RestoreDefault(string configfile)
+    static void RestoreDefault()
     {
-        IConfigSource source = new IniConfigSource(configfile);
+        IConfigSource source = new IniConfigSource(SettingsDir + "Settings.ini");
         var config = source.AddConfig("Ynote");
         config.Set("ThemeFile", Application.StartupPath + @"\Themes\Default.ynotetheme");
         config.Set("ShowHiddenCharacters", false);

@@ -20,7 +20,7 @@ namespace SS.Ynote.Classic.Features.Packages
         {
             IDictionary<string, string> dic = new Dictionary<string, string>();
             var lines = File.ReadAllLines(manifest);
-            foreach (var command in lines.Select(line => Parse(line.Replace("$ynotedir", Application.StartupPath))))
+            foreach (var command in lines.Select(line => Parse(line.Replace("$ynotedata", SettingsBase.SettingsDir).Replace("$ynotedir", Application.StartupPath))))
                 dic.Add(command.Key, command.Value);
             //foreach (var line in lines)
             //{

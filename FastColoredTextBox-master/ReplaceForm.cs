@@ -70,10 +70,7 @@ namespace FastColoredTextBoxNS
             }
             //
             range.Start = range.End;
-            if (range.Start >= startPlace)
-                range.End = new Place(tb.GetLineLength(tb.LinesCount - 1), tb.LinesCount - 1);
-            else
-                range.End = startPlace;
+            range.End = range.Start >= startPlace ? new Place(tb.GetLineLength(tb.LinesCount - 1), tb.LinesCount - 1) : startPlace;
             //
             foreach (var r in range.GetRanges(pattern, opt))
             {

@@ -74,8 +74,10 @@ namespace SS.Ynote.Classic.Features.Packages
         /// <summary>True if UTF8 encoding for filename and comments, false if default (CP 437)</summary>
         private const bool EncodeUtf8 = false;
 
+/*
         /// <summary>Force deflate algotithm even if it inflates the stored file. Off by default.</summary>
         private const bool ForceDeflating = false;
+*/
 
         #endregion Constant fields
 
@@ -661,7 +663,7 @@ namespace SS.Ynote.Classic.Features.Packages
             _zfe.CompressedSize = (uint)(ZipFileStream.Position - posStart);
 
             // Verify for real compression
-            if (_zfe.Method == Compression.Deflate && !ForceDeflating && _source.CanSeek &&
+            if (_zfe.Method == Compression.Deflate && _source.CanSeek &&
                 _zfe.CompressedSize > _zfe.FileSize)
             {
                 // Start operation again with Store algorithm

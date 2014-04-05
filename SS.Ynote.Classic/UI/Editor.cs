@@ -32,7 +32,7 @@ namespace SS.Ynote.Classic.UI
             Highlighter = new SyntaxHighlighter();
             YnoteThemeReader.ApplyTheme(SettingsBase.ThemeFile, Highlighter, codebox);
             InitSettings();
-            if (!SyntaxHighlighter.LoadedSyntaxes.Any()) return;
+            if (SyntaxHighlighter.LoadedSyntaxes.Any()) return;
             Highlighter.LoadAllSyntaxes();
         }
 
@@ -78,7 +78,6 @@ namespace SS.Ynote.Classic.UI
                     BackColor = codebox.BackColor,
                     ForeColor = codebox.SelectionColor,
                     Location = new Point(144, 0),
-                    Name = "dM1",
                     ScrollbarVisible = false,
                     Size = new Size(140, 262),
                     TabIndex = 2,
@@ -92,7 +91,6 @@ namespace SS.Ynote.Classic.UI
             {
                 Dock = DockStyle.Top,
                 Location = new Point(0, 0),
-                Name = "ruler",
                 Size = new Size(284, 24),
                 TabIndex = 1,
                 Target = codebox
@@ -252,36 +250,7 @@ namespace SS.Ynote.Classic.UI
             }
         }
 
-        private void cutemenu_Click(object sender, EventArgs e)
-        {
-            codebox.Cut();
-        }
-
-        private void copymenu_Click(object sender, EventArgs e)
-        {
-            codebox.Copy();
-        }
-
-        private void pastemenu_Click(object sender, EventArgs e)
-        {
-            codebox.Paste();
-        }
-
-        private void undomenu_Click(object sender, EventArgs e)
-        {
-            codebox.Undo();
-        }
-
-        private void redomenu_Click(object sender, EventArgs e)
-        {
-            codebox.Redo();
-        }
-
-        private void selectallmenu_Click(object sender, EventArgs e)
-        {
-            codebox.SelectAll();
-        }
-
+     
         private void menuItem13_Click(object sender, EventArgs e)
         {
             if (!IsSaved) return;
@@ -335,19 +304,19 @@ namespace SS.Ynote.Classic.UI
         private void BuildContextMenu()
         {
             var cutmenu = new MenuItem {Index = 0, Text = "Cut"};
-            cutmenu.Click += cutemenu_Click;
+            cutmenu.Click += (sender, args) => codebox.Cut();
             var copymenu = new MenuItem {Index = 1, Text = "Copy"};
-            copymenu.Click += copymenu_Click;
+            copymenu.Click += (sender,args) => codebox.Copy();
             var pastemenu = new MenuItem {Index = 2, Text = "Paste"};
-            pastemenu.Click += pastemenu_Click;
+            pastemenu.Click+= (sender, args) => codebox.Paste();
             var seperator = new MenuItem("-") {Index = 3};
             var undomenu = new MenuItem {Index = 4, Text = "Undo"};
-            undomenu.Click += undomenu_Click;
+            undomenu.Click += (sender, args) => codebox.Undo();
             var redomenu = new MenuItem {Index = 5, Text = "Redo"};
-            redomenu.Click += redomenu_Click;
+            redomenu.Click += (sender, args) => codebox.Redo();
             var seperator2 = new MenuItem("-") {Index = 6};
             var selectallmenu = new MenuItem {Index = 7, Text = "Select All"};
-            selectallmenu.Click += selectallmenu_Click;
+            selectallmenu.Click += (sender, args) => codebox.SelectAll();
             var foldselectedmenu = new MenuItem
             {
                 Index = 8,
@@ -366,6 +335,19 @@ namespace SS.Ynote.Classic.UI
             selectallmenu,
             foldselectedmenu
             });
+        }
+
+        private void menuItem2_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(Text);
+        }
+
+        private void menuItem3_Click(object sender, EventArgs e)
+        {
+            if (Name != "Editor")
+                Clipboard.SetText(Name);
+            else
+                MessageBox.Show("File Not Saved ! ", "Ynote Classic", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
     }
 }

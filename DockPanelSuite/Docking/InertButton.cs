@@ -33,15 +33,15 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         private readonly IContainer components = new Container();
         private int m_borderWidth = 1;
-        private bool m_mouseOver = false;
-        private bool m_mouseCapture = false;
-        private bool m_isPopup = false;
-        private Image m_imageEnabled = null;
-        private Image m_imageDisabled = null;
+        private bool m_mouseOver;
+        private bool m_mouseCapture;
+        private bool m_isPopup;
+        private Image m_imageEnabled;
+        private Image m_imageDisabled;
         private int m_imageIndexEnabled = -1;
         private int m_imageIndexDisabled = -1;
         private bool m_monochrom = true;
-        private ToolTip m_toolTip = null;
+        private ToolTip m_toolTip;
         private string m_toolTipText = "";
         private Color m_borderColor = Color.Empty;
 

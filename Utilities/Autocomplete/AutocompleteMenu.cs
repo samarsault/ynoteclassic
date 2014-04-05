@@ -15,6 +15,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -266,12 +267,7 @@ namespace AutocompleteMenuNS
         {
             get
             {
-                if (sourceItems == null)
-                    return null;
-                var list = new List<string>();
-                foreach (var item in sourceItems)
-                    list.Add(item.ToString());
-                return list.ToArray();
+                return sourceItems == null ? null : sourceItems.Select(item => item.ToString()).ToArray();
             }
             set { SetAutocompleteItems(value); }
         }
@@ -325,10 +321,8 @@ namespace AutocompleteMenuNS
         {
             //find  AutocompleteMenu with lowest hashcode
             if (Container != null)
-                foreach (var comp in Container.Components)
-                    if (comp is AutocompleteMenu)
-                        if (comp.GetHashCode() < GetHashCode())
-                            return false;
+                if (Container.Components.OfType<AutocompleteMenu>().Any(comp => comp.GetHashCode() < GetHashCode()))
+                    return false;
             //we are main autocomplete menu on form ...
             //check extendee as TextBox
             if (!(extendee is Control))
@@ -500,10 +494,7 @@ namespace AutocompleteMenuNS
 
         private void ResetTimer(int interval)
         {
-            if (interval <= 0)
-                timer.Interval = AppearInterval;
-            else
-                timer.Interval = interval;
+            timer.Interval = interval <= 0 ? AppearInterval : interval;
             timer.Stop();
             timer.Start();
         }
@@ -525,7 +516,7 @@ namespace AutocompleteMenuNS
             return null;
         }
 
-        private bool forcedOpened = false;
+        private bool forcedOpened;
 
         internal void ShowAutocomplete(bool forced)
         {
@@ -626,10 +617,7 @@ namespace AutocompleteMenuNS
 
             VisibleItems = visibleItems;
 
-            if (foundSelected)
-                SelectedItemIndex = selectedIndex;
-            else
-                SelectedItemIndex = 0;
+            SelectedItemIndex = foundSelected ? selectedIndex : 0;
 
             Host.CalcSize();
         }
@@ -682,14 +670,12 @@ namespace AutocompleteMenuNS
 
         public void SetAutocompleteItems(IEnumerable<string> items)
         {
-            var list = new List<AutocompleteItem>();
             if (items == null)
             {
                 sourceItems = null;
                 return;
             }
-            foreach (var item in items)
-                list.Add(new AutocompleteItem(item));
+            var list = items.Select(item => new AutocompleteItem(item)).ToList();
             SetAutocompleteItems(list);
         }
 

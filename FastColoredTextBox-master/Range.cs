@@ -15,7 +15,7 @@ namespace FastColoredTextBoxNS
         private Place end;
         public readonly FastColoredTextBox tb;
         private int preferedPos = -1;
-        private int updating = 0;
+        private int updating;
 
         private string cachedText;
         private List<Place> cachedCharIndexToPlace;
@@ -849,7 +849,7 @@ namespace FastColoredTextBoxNS
             for (var iLine = Start.iLine; iLine <= End.iLine; iLine++)
             {
                 //
-                var isLineLoaded = fts != null ? fts.IsLineLoaded(iLine) : true;
+                var isLineLoaded = fts == null || fts.IsLineLoaded(iLine);
                 //
                 var r = new Range(tb, new Place(0, iLine), new Place(tb[iLine].Count, iLine));
                 if (iLine == Start.iLine || iLine == End.iLine)
@@ -882,7 +882,7 @@ namespace FastColoredTextBoxNS
             for (var iLine = End.iLine; iLine >= Start.iLine; iLine--)
             {
                 //
-                var isLineLoaded = fts != null ? fts.IsLineLoaded(iLine) : true;
+                var isLineLoaded = fts == null || fts.IsLineLoaded(iLine);
                 //
                 var r = new Range(tb, new Place(0, iLine), new Place(tb[iLine].Count, iLine));
                 if (iLine == Start.iLine || iLine == End.iLine)
@@ -1335,11 +1335,14 @@ namespace FastColoredTextBoxNS
 
                 ReadOnlyStyle readonlyStyle = null;
                 foreach (var style in tb.Styles)
-                    if (style is ReadOnlyStyle)
+                {
+                    var readOnlyStyle = style as ReadOnlyStyle;
+                    if (readOnlyStyle != null)
                     {
-                        readonlyStyle = (ReadOnlyStyle)style;
+                        readonlyStyle = readOnlyStyle;
                         break;
                     }
+                }
 
                 if (readonlyStyle != null)
                 {
@@ -1386,11 +1389,14 @@ namespace FastColoredTextBoxNS
                 //find exists ReadOnlyStyle of style buffer
                 ReadOnlyStyle readonlyStyle = null;
                 foreach (var style in tb.Styles)
-                    if (style is ReadOnlyStyle)
+                {
+                    var readOnlyStyle = style as ReadOnlyStyle;
+                    if (readOnlyStyle != null)
                     {
-                        readonlyStyle = (ReadOnlyStyle)style;
+                        readonlyStyle = readOnlyStyle;
                         break;
                     }
+                }
 
                 //create ReadOnlyStyle
                 if (readonlyStyle == null)

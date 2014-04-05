@@ -5,7 +5,7 @@ namespace FastColoredTextBoxNS
 {
     public class CommandManager
     {
-        private readonly int maxHistoryLength = 200;
+        private const int maxHistoryLength = 200;
         private readonly LimitedStack<UndoableCommand> history;
         private readonly Stack<UndoableCommand> redoStack = new Stack<UndoableCommand>();
 
@@ -19,7 +19,7 @@ namespace FastColoredTextBoxNS
 
         public void ExecuteCommand(Command cmd)
         {
-            if (disabledCommands > 0)
+            if (_disabledCommands > 0)
                 return;
 
             //multirange ?
@@ -80,19 +80,19 @@ namespace FastColoredTextBoxNS
             TextSource.CurrentTb.OnUndoRedoStateChanged();
         }
 
-        private int disabledCommands = 0;
+        private int _disabledCommands;
 
         private void EndDisableCommands()
         {
-            disabledCommands--;
+            _disabledCommands--;
         }
 
         private void BeginDisableCommands()
         {
-            disabledCommands++;
+            _disabledCommands++;
         }
 
-        private int autoUndoCommands = 0;
+        private int autoUndoCommands;
 
         public void EndAutoUndoCommands()
         {

@@ -135,14 +135,14 @@ namespace WeifenLuo.WinFormsUI.Docking
                 base.Dispose(disposing);
             }
 
-            private readonly DockPanel m_dockPanel = null;
+            private readonly DockPanel m_dockPanel;
 
             public DockPanel DockPanel
             {
                 get { return m_dockPanel; }
             }
 
-            private DockPane m_activePane = null;
+            private DockPane m_activePane;
 
             public DockPane ActivePane
             {
@@ -174,7 +174,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     handler(this, e);
             }
 
-            private IDockContent m_activeContent = null;
+            private IDockContent m_activeContent;
 
             public IDockContent ActiveContent
             {
@@ -235,7 +235,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 set { m_flagAnimate = value; }
             }
 
-            private bool m_flagDragging = false;
+            private bool m_flagDragging;
 
             internal bool FlagDragging
             {

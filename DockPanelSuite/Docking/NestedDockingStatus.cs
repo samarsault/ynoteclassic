@@ -9,21 +9,21 @@ namespace WeifenLuo.WinFormsUI.Docking
             m_dockPane = pane;
         }
 
-        private readonly DockPane m_dockPane = null;
+        private readonly DockPane m_dockPane;
 
         public DockPane DockPane
         {
             get { return m_dockPane; }
         }
 
-        private NestedPaneCollection m_nestedPanes = null;
+        private NestedPaneCollection m_nestedPanes;
 
         public NestedPaneCollection NestedPanes
         {
             get { return m_nestedPanes; }
         }
 
-        private DockPane m_previousPane = null;
+        private DockPane m_previousPane;
 
         public DockPane PreviousPane
         {
@@ -44,14 +44,14 @@ namespace WeifenLuo.WinFormsUI.Docking
             get { return m_proportion; }
         }
 
-        private bool m_isDisplaying = false;
+        private bool m_isDisplaying;
 
         public bool IsDisplaying
         {
             get { return m_isDisplaying; }
         }
 
-        private DockPane m_displayingPreviousPane = null;
+        private DockPane m_displayingPreviousPane;
 
         public DockPane DisplayingPreviousPane
         {

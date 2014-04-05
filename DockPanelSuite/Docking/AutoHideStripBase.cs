@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace WeifenLuo.WinFormsUI.Docking
 {
-    public abstract partial class AutoHideStripBase : Control
+    public abstract class AutoHideStripBase : Control
     {
         [SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
         protected class Tab : IDisposable
@@ -65,7 +65,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 m_dockPane = pane;
             }
 
-            private readonly DockPane m_dockPane = null;
+            private readonly DockPane m_dockPane;
 
             public DockPane DockPane
             {
@@ -165,8 +165,8 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             private class AutoHideState
             {
-                public readonly DockState m_dockState;
-                public bool m_selected = false;
+                private readonly DockState m_dockState;
+                private bool m_selected;
 
                 public AutoHideState(DockState dockState)
                 {
@@ -444,17 +444,11 @@ namespace WeifenLuo.WinFormsUI.Docking
             return Rectangle.Empty;
         }
 
-        private GraphicsPath m_displayingArea = null;
+        private GraphicsPath m_displayingArea;
 
         private GraphicsPath DisplayingArea
         {
-            get
-            {
-                if (m_displayingArea == null)
-                    m_displayingArea = new GraphicsPath();
-
-                return m_displayingArea;
-            }
+            get { return m_displayingArea ?? (m_displayingArea = new GraphicsPath()); }
         }
 
         private void SetRegion()

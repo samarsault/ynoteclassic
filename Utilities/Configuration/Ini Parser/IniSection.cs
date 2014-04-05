@@ -22,8 +22,8 @@ namespace Nini.Ini
 
         private readonly OrderedList configList = new OrderedList();
         private readonly string name = "";
-        private readonly string comment = null;
-        private int commentCount = 0;
+        private readonly string comment;
+        private int commentCount;
 
         #endregion Private variables
 

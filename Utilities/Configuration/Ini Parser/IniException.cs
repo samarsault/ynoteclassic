@@ -27,7 +27,7 @@ namespace Nini.Ini
     {
         #region Private variables
 
-        private readonly IniReader iniReader = null;
+        private readonly IniReader iniReader;
         private readonly string message = "";
 
         #endregion Private variables

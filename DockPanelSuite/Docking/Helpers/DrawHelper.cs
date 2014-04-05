@@ -27,7 +27,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             else
                 graphicsPath.Reset();
 
-            var curveSize = 6;
+            const int curveSize = 6;
             if (upCorner)
             {
                 graphicsPath.AddLine(rect.Left, rect.Bottom, rect.Left, rect.Top + curveSize / 2);
@@ -62,12 +62,11 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             for (var row = 0; row < bitmap.Height; row++)
             {
-                var colOpaquePixel = 0;
                 for (var col = 0; col < bitmap.Width; col++)
                 {
                     if (bitmap.GetPixel(col, row) != colorTransparent)
                     {
-                        colOpaquePixel = col;
+                        var colOpaquePixel = col;
                         var colNext = col;
                         for (colNext = colOpaquePixel; colNext < bitmap.Width; colNext++)
                             if (bitmap.GetPixel(colNext, row) == colorTransparent)

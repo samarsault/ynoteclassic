@@ -140,7 +140,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             get { return DockPane.Appearance; }
         }
 
-        private TabCollection m_tabs = null;
+        private TabCollection m_tabs;
 
         protected TabCollection Tabs
         {

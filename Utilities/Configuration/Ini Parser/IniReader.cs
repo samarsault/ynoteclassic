@@ -64,18 +64,18 @@ namespace Nini.Ini
         private int lineNumber = 1;
         private int column = 1;
         private IniType iniType = IniType.Empty;
-        private readonly TextReader textReader = null;
-        private bool ignoreComments = false;
+        private readonly TextReader textReader;
+        private bool ignoreComments;
         private readonly StringBuilder name = new StringBuilder();
         private readonly StringBuilder value = new StringBuilder();
         private readonly StringBuilder comment = new StringBuilder();
         private IniReadState readState = IniReadState.Initial;
-        private bool hasComment = false;
-        private bool disposed = false;
-        private bool lineContinuation = false;
+        private bool hasComment;
+        private bool disposed;
+        private bool lineContinuation;
         private bool acceptCommentAfterKey = true;
-        private bool acceptNoAssignmentOperator = false;
-        private bool consumeAllKeyText = false;
+        private bool acceptNoAssignmentOperator;
+        private bool consumeAllKeyText;
         private char[] commentDelimiters = new char[] { ';' };
         private char[] assignDelimiters = new char[] { '=' };
 

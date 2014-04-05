@@ -55,7 +55,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 // Internal properties
                 private IntPtr m_hHook = IntPtr.Zero;
 
-                private readonly NativeMethods.HookProc m_filterFunc = null;
+                private readonly NativeMethods.HookProc m_filterFunc;
                 private readonly HookType m_hookType;
 
                 // Event delegate
@@ -160,7 +160,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 get { return m_dockPanel; }
             }
 
-            private bool m_disposed = false;
+            private bool m_disposed;
 
             protected override void Dispose(bool disposing)
             {
@@ -177,7 +177,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 base.Dispose(disposing);
             }
 
-            private IDockContent m_contentActivating = null;
+            private IDockContent m_contentActivating;
 
             private IDockContent ContentActivating
             {
@@ -242,7 +242,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     ListContent.Remove(content);
             }
 
-            private IDockContent m_lastActiveContent = null;
+            private IDockContent m_lastActiveContent;
 
             private IDockContent LastActiveContent
             {
@@ -322,7 +322,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 return false;
             }
 
-            private int m_countSuspendFocusTracking = 0;
+            private int m_countSuspendFocusTracking;
 
             public void SuspendFocusTracking()
             {
@@ -396,7 +396,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 return pane;
             }
 
-            private bool m_inRefreshActiveWindow = false;
+            private bool m_inRefreshActiveWindow;
 
             private bool InRefreshActiveWindow
             {
@@ -429,7 +429,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     DockPanel.OnActivePaneChanged(EventArgs.Empty);
             }
 
-            private DockPane m_activePane = null;
+            private DockPane m_activePane;
 
             public DockPane ActivePane
             {
@@ -451,7 +451,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     m_activePane.SetIsActivated(true);
             }
 
-            private IDockContent m_activeContent = null;
+            private IDockContent m_activeContent;
 
             public IDockContent ActiveContent
             {
@@ -478,7 +478,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 }
             }
 
-            private DockPane m_activeDocumentPane = null;
+            private DockPane m_activeDocumentPane;
 
             public DockPane ActiveDocumentPane
             {
@@ -514,7 +514,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     m_activeDocumentPane.SetIsActiveDocumentPane(true);
             }
 
-            private IDockContent m_activeDocument = null;
+            private IDockContent m_activeDocument;
 
             public IDockContent ActiveDocument
             {

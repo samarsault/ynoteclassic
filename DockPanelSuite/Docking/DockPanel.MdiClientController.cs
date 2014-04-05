@@ -16,9 +16,9 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             private bool m_autoScroll = true;
             private BorderStyle m_borderStyle = BorderStyle.Fixed3D;
-            private MdiClient m_mdiClient = null;
-            private Form m_parentForm = null;
-            private ISite m_site = null;
+            private MdiClient m_mdiClient;
+            private Form m_parentForm;
+            private ISite m_site;
 
             public void Dispose()
             {
@@ -335,7 +335,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private MdiClientController m_mdiClientController = null;
+        private MdiClientController m_mdiClientController;
 
         private MdiClientController GetMdiClientController()
         {

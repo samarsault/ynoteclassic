@@ -143,19 +143,17 @@ namespace ConsoleControl
                                select k;
 
                 //  Go through each mapping, send the message.
-                foreach (var mapping in mappings)
+              /*  foreach (var mapping in mappings)
                 {
                     //SendKeysEx.SendKeys(CurrentProcessHwnd, mapping.SendKeysMapping);
                     //inputWriter.WriteLine(mapping.StreamMapping);
                     //WriteInput("\x3", Color.White, false);
                 }
-
+                */
                 //  If we handled a mapping, we're done here.
-                if (mappings.Any())
-                {
-                    e.SuppressKeyPress = true;
-                    return;
-                }
+                if (!mappings.Any()) return;
+                e.SuppressKeyPress = true;
+                return;
             }
 
             //  If we're at the input point and it's backspace, bail.

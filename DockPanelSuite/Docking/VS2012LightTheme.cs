@@ -289,7 +289,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     }
                 }
 
-                private bool m_isActivated = false;
+                private bool m_isActivated;
 
                 private bool IsActivated
                 {

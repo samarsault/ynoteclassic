@@ -23,7 +23,7 @@ namespace Nini.Config
     /// <include file='ConfigEventArgs.xml' path='//Class[@name="ConfigEventArgs"]/docs/*' />
     public class ConfigEventArgs : EventArgs
     {
-        private readonly IConfig config = null;
+        private readonly IConfig config;
 
         /// <include file='ConfigEventArgs.xml' path='//Constructor[@name="ConstructorIConfig"]/docs/*' />
         public ConfigEventArgs(IConfig config)
@@ -46,7 +46,7 @@ namespace Nini.Config
         #region Private variables
 
         private readonly ArrayList configList = new ArrayList();
-        private readonly ConfigSourceBase owner = null;
+        private readonly ConfigSourceBase owner;
 
         #endregion Private variables
 

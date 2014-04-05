@@ -20,9 +20,7 @@ namespace FastColoredTextBoxNS
         public static Encoding DetectTextFileEncoding(string inputFilename)
         {
             using (var textfileStream = File.OpenRead(inputFilename))
-            {
                 return DetectTextFileEncoding(textfileStream, _defaultHeuristicSampleSize);
-            }
         }
 
         private static Encoding DetectTextFileEncoding(FileStream InputFileStream, long HeuristicSampleSize)

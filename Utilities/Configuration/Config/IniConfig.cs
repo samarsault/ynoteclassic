@@ -17,7 +17,7 @@ namespace Nini.Config
     {
         #region Private variables
 
-        private readonly IniConfigSource parent = null;
+        private readonly IniConfigSource parent;
 
         #endregion Private variables
 

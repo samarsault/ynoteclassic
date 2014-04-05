@@ -20,8 +20,8 @@ namespace Nini.Config
     {
         #region Private variables
 
-        private readonly ArgvParser parser = null;
-        private readonly string[] arguments = null;
+        private readonly ArgvParser parser;
+        private readonly string[] arguments;
 
         #endregion Private variables
 

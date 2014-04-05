@@ -10,28 +10,16 @@ namespace FastColoredTextBoxNS
         private const ushort PROCESSOR_ARCHITECTURE_AMD64 = 9;
         private const ushort PROCESSOR_ARCHITECTURE_UNKNOWN = 0xFFFF;
 
-        [StructLayout(LayoutKind.Sequential)]
-        private struct SYSTEM_INFO
-        {
-            public readonly ushort wProcessorArchitecture;
-            public readonly ushort wReserved;
-            public readonly uint dwPageSize;
-            public readonly IntPtr lpMinimumApplicationAddress;
-            public readonly IntPtr lpMaximumApplicationAddress;
-            public readonly UIntPtr dwActiveProcessorMask;
-            public readonly uint dwNumberOfProcessors;
-            public readonly uint dwProcessorType;
-            public readonly uint dwAllocationGranularity;
-            public readonly ushort wProcessorLevel;
-            public readonly ushort wProcessorRevision;
-        };
-
         [DllImport("kernel32.dll")]
         private static extern void GetNativeSystemInfo(ref SYSTEM_INFO lpSystemInfo);
 
         [DllImport("kernel32.dll")]
         private static extern void GetSystemInfo(ref SYSTEM_INFO lpSystemInfo);
 
+        /// <summary>
+        ///     Gets the Operating System Platform
+        /// </summary>
+        /// <returns></returns>
         public static Platform GetOperationSystemPlatform()
         {
             var sysInfo = new SYSTEM_INFO();
@@ -42,7 +30,7 @@ namespace FastColoredTextBoxNS
             {
                 GetNativeSystemInfo(ref sysInfo);
             }
-            // else use GetSystemInfo
+                // else use GetSystemInfo
             else
             {
                 GetSystemInfo(ref sysInfo);
@@ -61,6 +49,22 @@ namespace FastColoredTextBoxNS
                     return Platform.Unknown;
             }
         }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct SYSTEM_INFO
+        {
+            public readonly ushort wProcessorArchitecture;
+            private readonly ushort wReserved;
+            private readonly uint dwPageSize;
+            private readonly IntPtr lpMinimumApplicationAddress;
+            private readonly IntPtr lpMaximumApplicationAddress;
+            private readonly UIntPtr dwActiveProcessorMask;
+            private readonly uint dwNumberOfProcessors;
+            private readonly uint dwProcessorType;
+            private readonly uint dwAllocationGranularity;
+            private readonly ushort wProcessorLevel;
+            private readonly ushort wProcessorRevision;
+        };
     }
 
     public enum Platform

@@ -104,7 +104,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             get { return _ButtonGapBetween; }
         }
 
-        private static Image _imageCloseEnabled = null;
+        private static Image _imageCloseEnabled;
 
         /// <include file='CodeDoc/DockPaneCaptionVS2003.xml' path='//CodeDoc/Class[@name="DockPaneCaptionVS2003"]/Property[@name="ImageCloseEnabled"]/*'/>
         protected virtual Image ImageCloseEnabled
@@ -117,7 +117,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private static Image _imageCloseDisabled = null;
+        private static Image _imageCloseDisabled;
 
         /// <include file='CodeDoc/DockPaneCaptionVS2003.xml' path='//CodeDoc/Class[@name="DockPaneCaptionVS2003"]/Property[@name="ImageCloseDisabled"]/*'/>
         protected virtual Image ImageCloseDisabled
@@ -130,7 +130,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private static Image _imageAutoHideYes = null;
+        private static Image _imageAutoHideYes;
 
         /// <include file='CodeDoc/DockPaneCaptionVS2003.xml' path='//CodeDoc/Class[@name="DockPaneCaptionVS2003"]/Property[@name="ImageAutoHideYes"]/*'/>
         protected virtual Image ImageAutoHideYes
@@ -143,7 +143,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private static Image _imageAutoHideNo = null;
+        private static Image _imageAutoHideNo;
 
         /// <include file='CodeDoc/DockPaneCaptionVS2003.xml' path='//CodeDoc/Class[@name="DockPaneCaptionVS2003"]/Property[@name="ImageAutoHideNo"]/*'/>
         protected virtual Image ImageAutoHideNo
@@ -156,7 +156,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private static string _toolTipClose = null;
+        private static string _toolTipClose;
 
         /// <include file='CodeDoc/DockPaneCaptionVS2003.xml' path='//CodeDoc/Class[@name="DockPaneCaptionVS2003"]/Property[@name="ToolTipClose"]/*'/>
         protected virtual string ToolTipClose
@@ -169,7 +169,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private static string _toolTipAutoHide = null;
+        private static string _toolTipAutoHide;
 
         /// <include file='CodeDoc/DockPaneCaptionVS2003.xml' path='//CodeDoc/Class[@name="DockPaneCaptionVS2003"]/Property[@name="ToolTipAutoHide"]/*'/>
         protected virtual string ToolTipAutoHide

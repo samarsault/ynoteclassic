@@ -36,6 +36,9 @@
             this.micloseallbutthis = new System.Windows.Forms.MenuItem();
             this.micloseall = new System.Windows.Forms.MenuItem();
             this.miopencontaining = new System.Windows.Forms.MenuItem();
+            this.menuItem1 = new System.Windows.Forms.MenuItem();
+            this.menuItem2 = new System.Windows.Forms.MenuItem();
+            this.menuItem3 = new System.Windows.Forms.MenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.codebox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -45,6 +48,7 @@
             // 
             // codebox
             // 
+            this.codebox.AutoCompleteBrackets = false;
             this.codebox.AutoScrollMinSize = new System.Drawing.Size(27, 14);
             this.codebox.BackBrush = null;
             this.codebox.CharHeight = 14;
@@ -68,7 +72,10 @@
             this.miclose,
             this.micloseallbutthis,
             this.micloseall,
-            this.miopencontaining});
+            this.miopencontaining,
+            this.menuItem1,
+            this.menuItem2,
+            this.menuItem3});
             // 
             // miclose
             // 
@@ -94,6 +101,23 @@
             this.miopencontaining.Text = "Open Containing Folder";
             this.miopencontaining.Click += new System.EventHandler(this.menuItem13_Click);
             // 
+            // menuItem1
+            // 
+            this.menuItem1.Index = 4;
+            this.menuItem1.Text = "-";
+            // 
+            // menuItem2
+            // 
+            this.menuItem2.Index = 5;
+            this.menuItem2.Text = "Copy Filename to Clipboard";
+            this.menuItem2.Click += new System.EventHandler(this.menuItem2_Click);
+            // 
+            // menuItem3
+            // 
+            this.menuItem3.Index = 6;
+            this.menuItem3.Text = "Copy Full File Path to Clipboard";
+            this.menuItem3.Click += new System.EventHandler(this.menuItem3_Click);
+            // 
             // Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -118,6 +142,9 @@
         private System.Windows.Forms.MenuItem micloseallbutthis;
         private System.Windows.Forms.MenuItem micloseall;
         private System.Windows.Forms.MenuItem miopencontaining;
+        private System.Windows.Forms.MenuItem menuItem1;
+        private System.Windows.Forms.MenuItem menuItem2;
+        private System.Windows.Forms.MenuItem menuItem3;
 
     }
 }

@@ -123,22 +123,22 @@ namespace ConsoleControlAPI
         public void StartProcess(string fileName, string arguments)
         {
             //  Create the process start info.
-            var processStartInfo = new ProcessStartInfo(fileName, arguments);
+            var processStartInfo = new ProcessStartInfo(fileName, arguments)
+            {
+                UseShellExecute = false,
+                ErrorDialog = false,
+                CreateNoWindow = true,
+                RedirectStandardError = true,
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true
+            };
 
             //  Set the options.
-            processStartInfo.UseShellExecute = false;
-            processStartInfo.ErrorDialog = false;
-            processStartInfo.CreateNoWindow = true;
 
             //  Specify redirection.
-            processStartInfo.RedirectStandardError = true;
-            processStartInfo.RedirectStandardInput = true;
-            processStartInfo.RedirectStandardOutput = true;
 
             //  Create the process.
-            process = new Process();
-            process.EnableRaisingEvents = true;
-            process.StartInfo = processStartInfo;
+            process = new Process {EnableRaisingEvents = true, StartInfo = processStartInfo};
             process.Exited += currentProcess_Exited;
 
             //  Start the process.
@@ -226,6 +226,7 @@ namespace ConsoleControlAPI
                 theEvent(this, new ProcessEventArgs(content));
         }
 
+/*
         /// <summary>
         /// Fires the process input event.
         /// </summary>
@@ -237,6 +238,7 @@ namespace ConsoleControlAPI
             if (theEvent != null)
                 theEvent(this, new ProcessEventArgs(content));
         }
+*/
 
         /// <summary>
         /// Fires the process exit event.

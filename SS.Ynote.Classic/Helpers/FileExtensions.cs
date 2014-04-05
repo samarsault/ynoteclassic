@@ -1,10 +1,8 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-using FastColoredTextBoxNS;
+﻿using FastColoredTextBoxNS;
 using Nini.Config;
 using SS.Ynote.Classic.Features.Syntax;
 using System.Collections.Generic;
 using System.Linq;
-using SyntaxHighlighter = SS.Ynote.Classic.Features.Syntax.SyntaxHighlighter;
 
 internal static class FileExtensions
 {
@@ -17,7 +15,7 @@ internal static class FileExtensions
     internal static void BuildDictionary()
     {
         FileExtensionsDictionary = new Dictionary<IEnumerable<string>, Language>();
-        IConfigSource source = new IniConfigSource(SettingsBase.SettingsDir + @"Extensions.ini");
+        IConfigSource source = new IniConfigSource(SettingsBase.SettingsDir + "Extensions.ini");
         FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("CSharp").Split('|'), Language.CSharp);
         FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("VB").Split('|'), Language.VB);
         FileExtensionsDictionary.Add(source.Configs["Extensions"].Get("Javascript").Split('|'), Language.Javascript);

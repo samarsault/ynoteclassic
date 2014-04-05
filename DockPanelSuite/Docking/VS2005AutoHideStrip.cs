@@ -14,7 +14,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             {
             }
 
-            private int m_tabX = 0;
+            private int m_tabX;
 
             public int TabX
             {
@@ -22,7 +22,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 set { m_tabX = value; }
             }
 
-            private int m_tabWidth = 0;
+            private int m_tabWidth;
 
             public int TabWidth
             {

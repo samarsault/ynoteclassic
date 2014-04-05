@@ -1,9 +1,19 @@
 //===================================
 //
 // The Ynote Classic Project - http://ynoteclassic.codeplex.com
-// Copyright (C) 2014 Samarjeet Singh
+// Copyright (C) 2014 Samarjeet Singh ( singh.samarjeet.27@gmail.com )
 //
 //===================================
+
+using System.Security;
+using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Extensibility;
+using SS.Ynote.Classic.Features.Packages;
+using SS.Ynote.Classic.Features.Project;
+using SS.Ynote.Classic.Features.RunScript;
+using SS.Ynote.Classic.Features.Search;
+using SS.Ynote.Classic.Features.Syntax;
+using SS.Ynote.Classic.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
@@ -18,14 +28,6 @@ using System.Windows.Forms;
 using System.Xml;
 using WeifenLuo.WinFormsUI.Docking;
 using Timer = System.Windows.Forms.Timer;
-using FastColoredTextBoxNS;
-using SS.Ynote.Classic.Features.Extensibility;
-using SS.Ynote.Classic.Features.Packages;
-using SS.Ynote.Classic.Features.Project;
-using SS.Ynote.Classic.Features.RunScript;
-using SS.Ynote.Classic.Features.Search;
-using SS.Ynote.Classic.Features.Syntax;
-using SS.Ynote.Classic.UI;
 
 namespace SS.Ynote.Classic
 {
@@ -65,16 +67,16 @@ namespace SS.Ynote.Classic
         ///     Default Constructor
         /// </summary>
         /// <param name="filename"></param>
-        public MainForm(string filename)
+        public MainForm(string fn)
         {
             InitializeComponent();
             InitSettings();
             LoadPlugins();
             InitTimer();
-            if (filename == null)
+            if (string.IsNullOrEmpty(fn))
                 CreateNewDoc();
             else
-                LoadFile(filename);
+                OpenFile(fn);
         }
 
         #endregion Constructor
@@ -88,97 +90,106 @@ namespace SS.Ynote.Classic
         /// </summary>
         public void CreateNewDoc()
         {
-            var num = 1;
-            var edit = new Editor { Text = "untitled" + num };
-            num++;
+            var edit = new Editor { Text = "untitled" };
             edit.Show(Panel);
         }
-
-        /// <summary>
-        ///     Open File
-        /// </summary>
-        /// <param name="name"></param>
-        public void OpenFile(string name)
+        private void OpenFileAsync(string name)
         {
-            OpenDefault(name, false);
-        }
-
-        private void OpenDefault(string name, bool isreadonly)
-        {
-            BeginInvoke((MethodInvoker) (() =>
-            {
-                var enc = EncodingDetector.DetectTextFileEncoding(name);
-                OpenDefault(name, enc ?? Encoding.Default, isreadonly);
-            }));
-        }
-
-        private void LoadFile(string name)
-        {
-            var enc = EncodingDetector.DetectTextFileEncoding(name);
-            OpenDefault(name, enc ?? Encoding.Default, false);
+            BeginInvoke((MethodInvoker) (() => OpenFile(name)));
         }
         /// <summary>
         ///     Default Method for Opening a File
         /// </summary>
         /// <param name="name"></param>
-        /// <param name="enc"></param>
         /// <param name="isreadonly"></param>
-        private void OpenDefault(string name, Encoding enc, bool isreadonly)
+        public void OpenFile(string name)
         {
-            try
+            if (!File.Exists(name))
             {
-                if (!File.Exists(name))
+                var result =
+                    MessageBox.Show(
+                        string.Format("The File {0} does not exist.\r\nWould you like to create it ?", name),
+                        "Ynote Classic", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result != DialogResult.Yes) return;
+                File.WriteAllText(name, null);
+                OpenFile(name);
+            }
+            else
+            {
+                if (Panel.Documents.Cast<DockContent>().Any(doc => doc is Editor && doc.Name == name))
+                    return;
+                var edit = new Editor { Text = Path.GetFileName(name), Name = name };
+                if (FileExtensions.FileExtensionsDictionary == null)
+                    FileExtensions.BuildDictionary();
+                var lang = FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary,
+                    Path.GetExtension(name));
+                if (lang.IsBase)
                 {
-                    var result =
-                        MessageBox.Show(
-                            string.Format("The File {0} does not exist.\r\nWould you like to create it ?", name),
-                            "Ynote Classic", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (result == DialogResult.Yes)
-                    {
-                        File.WriteAllText(name, "");
-                        OpenDefault(name, enc, isreadonly);
-                    }
+                    edit.Highlighter.HighlightSyntax(lang.SyntaxBase, new TextChangedEventArgs(edit.Tb.Range));
+                    edit.Syntax = lang.SyntaxBase;
                 }
                 else
                 {
-                    if (Panel.Documents.Cast<Editor>().Any(editor => editor.Name == name)) return;
-                    var edit = new Editor { Text = Path.GetFileName(name), Name = name };
-                    edit.Tb.ReadOnly = isreadonly;
-                    if (FileExtensions.FileExtensionsDictionary == null)
-                        FileExtensions.BuildDictionary();
-                    var lang = FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary,
-                        Path.GetExtension(name));
-                    if (lang.IsBase)
-                    {
-                        edit.Highlighter.HighlightSyntax(lang.SyntaxBase, new TextChangedEventArgs(edit.Tb.Range));
-                        edit.Syntax = lang.SyntaxBase;
-                    }
-                    else
-                    {
-                        edit.Highlighter.HighlightSyntax(lang.Language, new TextChangedEventArgs(edit.Tb.Range));
-                        edit.Tb.Language = lang.Language;
-                    }
-                    edit.Show(Panel);
-                    var info = new FileInfo(name);
-                    if (info.Length > 9242800) // if greather than approx 10mb
-                        edit.Tb.OpenBindingFile(name, enc);
-                    else
-                        edit.Tb.OpenFile(name, enc);
+                    edit.Highlighter.HighlightSyntax(lang.Language, new TextChangedEventArgs(edit.Tb.Range));
+                    edit.Tb.Language = lang.Language;
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error Opening File : " + ex.Message, "Ynote Classic", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                edit.Show(Panel);
+                var info = new FileInfo(name);
+                var encoding = EncodingDetector.DetectTextFileEncoding(name) ?? Encoding.Default;
+                if (info.Length > 9242800) // if greather than approx 10mb
+                    edit.Tb.OpenBindingFile(name, encoding);
+                else
+                    edit.Tb.OpenFile(name, encoding);
+                edit.Tb.ReadOnly = info.IsReadOnly;
             }
         }
-
+        private void OpenFile(string name, Encoding encoding)
+        {
+            if (!File.Exists(name))
+            {
+                var result =
+                    MessageBox.Show(
+                        string.Format("The File {0} does not exist.\r\nWould you like to create it ?", name),
+                        "Ynote Classic", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result != DialogResult.Yes) return;
+                File.WriteAllText(name, null);
+                OpenFile(name, encoding);
+            }
+            else
+            {
+                if (Panel.Documents.Cast<DockContent>().Any(doc => doc is Editor && doc.Name == name))
+                    return;
+                var edit = new Editor { Text = Path.GetFileName(name), Name = name };
+                if (FileExtensions.FileExtensionsDictionary == null)
+                    FileExtensions.BuildDictionary();
+                var lang = FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary,
+                    Path.GetExtension(name));
+                if (lang.IsBase)
+                {
+                    edit.Highlighter.HighlightSyntax(lang.SyntaxBase, new TextChangedEventArgs(edit.Tb.Range));
+                    edit.Syntax = lang.SyntaxBase;
+                }
+                else
+                {
+                    edit.Highlighter.HighlightSyntax(lang.Language, new TextChangedEventArgs(edit.Tb.Range));
+                    edit.Tb.Language = lang.Language;
+                }
+                edit.Show(Panel);
+                var info = new FileInfo(name);
+                if (info.Length > 9242800) // if greather than approx 10mb
+                    edit.Tb.OpenBindingFile(name, encoding);
+                else
+                    edit.Tb.OpenFile(name, encoding);
+                edit.Tb.ReadOnly = info.IsReadOnly;
+            }
+        }
         /// <summary>
         ///     SaveEditor without encoding
         /// </summary>
         /// <param name="edit"></param>
         public void SaveEditor(Editor edit)
         {
-            SaveEditor(edit, Encoding.Default.BodyName);
+            SaveEditor(edit, Encoding.Default);
         }
 
         /// <summary>
@@ -186,7 +197,7 @@ namespace SS.Ynote.Classic
         /// </summary>
         /// <param name="edit"></param>
         /// <param name="name"></param>
-        private static void SaveEditor(Editor edit, string name)
+        static void SaveEditor(Editor edit, Encoding encoding)
         {
             if (!edit.IsSaved)
             {
@@ -195,7 +206,7 @@ namespace SS.Ynote.Classic
                     s.Filter = "All Files(*.*)|*.*";
                     s.ShowDialog();
                     if (s.FileName == "") return;
-                    edit.Tb.SaveToFile(s.FileName, Encoding.GetEncoding(name));
+                    edit.Tb.SaveToFile(s.FileName, encoding);
                     edit.Text = Path.GetFileName(s.FileName);
                     edit.Name = s.FileName;
                 }
@@ -248,9 +259,12 @@ namespace SS.Ynote.Classic
         /// </summary>
         private void LoadRecentList()
         {
+            if (!Directory.Exists(SettingsBase.SettingsDir))
+                Directory.CreateDirectory(SettingsBase.SettingsDir);
             if (_mru == null)
                 _mru = new Queue<string>();
-            _mru.Clear();
+            else
+                _mru.Clear();
             try
             {
                 using (var listToRead = new StreamReader(SettingsBase.SettingsDir + "Recent.info"))
@@ -477,12 +491,18 @@ namespace SS.Ynote.Classic
         /// <returns></returns>
         private static bool CheckForUpdates()
         {
-            using (var reader = XmlReader.Create("http://dat.sscorps.tk/ynoteupdate.xml", new XmlReaderSettings { ProhibitDtd = false }))
+            using (var reader = XmlReader.Create("https://raw.githubusercontent.com/samarjeet27/ynoteclassic/master/updates.xml", new XmlReaderSettings { ProhibitDtd = false }))
             {
-                if (reader.IsStartElement())
-                    if (reader.Name == "UpdateAvailable")
-                        return true;
-                return false;
+                while(reader.Read())
+                    if (reader.IsStartElement())
+                        if (reader.Name == "Update")
+                        {
+                            var version = Convert.ToDouble(reader["Version"]);
+                            var appV = Convert.ToDouble(Application.ProductVersion);
+                            if(version > appV)
+                                return true;
+                        }
+                    return false;
             }
         }
 
@@ -495,7 +515,9 @@ namespace SS.Ynote.Classic
         /// </summary>
         private void LoadPlugins()
         {
-            using (var dircatalog = new DirectoryCatalog(Application.StartupPath + @"\Plugins\"))
+            if (!Directory.Exists(SettingsBase.SettingsDir + @"\Plugins"))
+                Directory.CreateDirectory(SettingsBase.SettingsDir);
+            using (var dircatalog = new DirectoryCatalog(SettingsBase.SettingsDir + @"\Plugins\"))
             {
                 using (var container = new CompositionContainer(dircatalog))
                 {
@@ -506,9 +528,9 @@ namespace SS.Ynote.Classic
             }
         }
 
-        #endregion Plugins
+        #endregion
 
-        #endregion Methods
+        #endregion
 
         #region Events
 
@@ -521,11 +543,10 @@ namespace SS.Ynote.Classic
         {
             using (var dialog = new OpenFileDialog())
             {
-                dialog.ShowReadOnly = true;
                 dialog.Filter = "All Files (*.*)|*.*";
                 var res = dialog.ShowDialog() == DialogResult.OK;
                 if (!res) return;
-                OpenDefault(dialog.FileName, dialog.ReadOnlyChecked);
+                OpenFileAsync(dialog.FileName);
                 SaveRecentFile(dialog.FileName, recentfilesmenu);
             }
         }
@@ -950,7 +971,7 @@ namespace SS.Ynote.Classic
 
         private void miwikimenu_Click(object sender, EventArgs e)
         {
-            Process.Start("http://ynoteclassic.codeplex.com/wiki");
+            Process.Start("http://ynoteclassic.codeplex.com/documentation");
         }
 
         private void zoom_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -1134,9 +1155,8 @@ namespace SS.Ynote.Classic
         private void colorschememenu_Select(object sender, EventArgs e)
         {
             if (colorschememenu.MenuItems.Count != 0) return;
-            foreach (var file in Directory.GetFiles(Application.StartupPath + "\\Themes"))
+            foreach (var menuitem in Directory.GetFiles(SettingsBase.SettingsDir + "\\Themes").Select(file => new MenuItem { Text = Path.GetFileNameWithoutExtension(file), Name = file }))
             {
-                var menuitem = new MenuItem { Text = Path.GetFileNameWithoutExtension(file), Name = file };
                 menuitem.Click += colorschemeitem_Click;
                 colorschememenu.MenuItems.Add(menuitem);
             }
@@ -1219,7 +1239,7 @@ namespace SS.Ynote.Classic
 
         private void commanderMenu_Click(object sender, EventArgs e)
         {
-            using (var console = new ConsoleUI(this))
+            using (var console = new Commander(this))
             {
                 console.StartPosition = FormStartPosition.CenterParent;
                 console.LangMenu = langmenu;
@@ -1385,13 +1405,12 @@ namespace SS.Ynote.Classic
             using (var dialog = new OpenFileDialog
             {
                 Filter = "All Files(*.*)|*.*",
-                ShowReadOnly = true
             })
             {
                 var result = dialog.ShowDialog();
                 if (result != DialogResult.OK) return;
                 var item = sender as MenuItem;
-                if (item != null) OpenDefault(dialog.FileName, item.Tag as Encoding, dialog.ReadOnlyChecked);
+                if (item != null) OpenFile(dialog.FileName, item.Tag as Encoding);
             }
         }
 
@@ -1656,14 +1675,14 @@ namespace SS.Ynote.Classic
 
         private void migoogle_Click(object sender, EventArgs e)
         {
-            var console = new ConsoleUI(this) { StartPosition = FormStartPosition.CenterParent };
+            var console = new Commander(this) { StartPosition = FormStartPosition.CenterParent };
             console.AddText("Google:");
             console.ShowDialog(this);
         }
 
         private void miwiki_Click(object sender, EventArgs e)
         {
-            var console = new ConsoleUI(this) { StartPosition = FormStartPosition.CenterParent };
+            var console = new Commander(this) { StartPosition = FormStartPosition.CenterParent };
             console.AddText("Wikipedia:");
             console.ShowDialog(this);
         }
@@ -1695,14 +1714,12 @@ namespace SS.Ynote.Classic
 
         private void minewscript_Click(object sender, EventArgs e)
         {
-            var scriptnum = 1;
             CreateNewDoc();
-            ActiveEditor.Text = "Script" + scriptnum;
+            ActiveEditor.Text = "Script";
             ActiveEditor.Tb.Text =
                 "using SS.Ynote.Classic;\r\n\r\nstatic void Run(IYnote ynote)\r\n{\r\n// your code\r\n}";
             ActiveEditor.Highlighter.HighlightSyntax(Language.CSharp, new TextChangedEventArgs(ActiveEditor.Tb.Range));
             ActiveEditor.Tb.Language = Language.CSharp;
-            scriptnum++;
         }
 
         private void minewsnippet_Click(object sender, EventArgs e)

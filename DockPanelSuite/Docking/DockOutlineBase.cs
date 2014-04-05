@@ -88,13 +88,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             get { return m_contentIndex != 0; }
         }
 
-        private bool m_flagTestDrop = false;
-
-        public bool FlagTestDrop
-        {
-            get { return m_flagTestDrop; }
-            set { m_flagTestDrop = value; }
-        }
+        public bool FlagTestDrop { get; set; }
 
         private void SaveOldValues()
         {

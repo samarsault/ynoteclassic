@@ -11,6 +11,11 @@ namespace SS.Ynote.Classic.Features.Packages
     /// </summary>
     public static class YnotePackageManager
     {
+        /// <summary>
+        /// Install a Package
+        /// </summary>
+        /// <param name="pack"></param>
+        /// <returns></returns>
         public static bool InstallPackage(string pack)
         {
             try
@@ -35,8 +40,10 @@ namespace SS.Ynote.Classic.Features.Packages
                             }
                         }
                     }
+                    if (!Directory.Exists(SettingsBase.SettingsDir + "Packages"))
+                        Directory.CreateDirectory(SettingsBase.SettingsDir + "Packages");
                     File.Copy(pack,
-                        string.Format("{0}\\User\\Packages\\{1}", Application.StartupPath, Path.GetFileName(pack)));
+                        string.Format("{0}\\Packages\\{1}", SettingsBase.SettingsDir, Path.GetFileName(pack)), true);
                     return true;
                 }
             }
@@ -47,6 +54,10 @@ namespace SS.Ynote.Classic.Features.Packages
             }
             return false;
         }
+        /// <summary>
+        /// Uninstall a Package
+        /// </summary>
+        /// <param name="packageFile"></param>
         public static void UninstallPackage(string packageFile)
         {
             try
@@ -70,8 +81,12 @@ namespace SS.Ynote.Classic.Features.Packages
                     MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
-
-        private static string Extractmanifest(string package)
+        /// <summary>
+        /// Extract Manifest from package
+        /// </summary>
+        /// <param name="package"></param>
+        /// <returns></returns>
+        static string Extractmanifest(string package)
         {
             var zip = ZipStorer.Open(package, FileAccess.Read);
             var dirs = zip.ReadCentralDir();
@@ -87,14 +102,27 @@ namespace SS.Ynote.Classic.Features.Packages
             }
             return null;
         }
-
+        /// <summary>
+        /// Get All Files from Manifest
+        /// </summary>
+        /// <param name="manifest"></param>
+        /// <returns></returns>
         private static IEnumerable<string> GetFiles(string manifest)
         {
             var dic = YnotePackage.GenerateDictionary(manifest);
             // foreach (string item in dic.Values)
             //     files.Add(item.Replace("$ynotedir", Application.StartupPath));
-            return dic.Values.Select(item => item.Replace("$ynotedir", Application.StartupPath)).ToList();
+            return
+                dic.Values.Select(
+                    item =>
+                        item.Replace("$ynotedata", SettingsBase.SettingsDir)
+                            .Replace("$ynotedir", Application.StartupPath)).ToArray();
         }
+        /// <summary>
+        /// Gets Package Data
+        /// </summary>
+        /// <param name="package"></param>
+        /// <returns></returns>
         private static IDictionary<string, string> GetPackageData(string package)
         {
             var zip = ZipStorer.Open(package, FileAccess.Read);

@@ -63,7 +63,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             get { return Form as IDockContent; }
         }
 
-        private IDockContent m_previousActive = null;
+        private IDockContent m_previousActive;
 
         public IDockContent PreviousActive
         {
@@ -71,7 +71,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             internal set { m_previousActive = value; }
         }
 
-        private IDockContent m_nextActive = null;
+        private IDockContent m_nextActive;
 
         public IDockContent NextActive
         {
@@ -232,7 +232,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private DockPanel m_dockPanel = null;
+        private DockPanel m_dockPanel;
 
         public DockPanel DockPanel
         {
@@ -322,7 +322,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private string m_tabText = null;
+        private string m_tabText;
 
         public string TabText
         {
@@ -352,7 +352,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private bool m_isFloat = false;
+        private bool m_isFloat;
 
         public bool IsFloat
         {
@@ -393,7 +393,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             return dockState;
         }
 
-        private DockPane m_panelPane = null;
+        private DockPane m_panelPane;
 
         public DockPane PanelPane
         {
@@ -432,7 +432,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 pane.Dispose();
         }
 
-        private DockPane m_floatPane = null;
+        private DockPane m_floatPane;
 
         public DockPane FloatPane
         {
@@ -463,7 +463,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private int m_countSetDockState = 0;
+        private int m_countSetDockState;
 
         private void SuspendSetDockState()
         {
@@ -625,7 +625,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             get { return GetPersistStringCallback == null ? Form.GetType().ToString() : GetPersistStringCallback(); }
         }
 
-        private GetPersistStringCallback m_getPersistStringCallback = null;
+        private GetPersistStringCallback m_getPersistStringCallback;
 
         public GetPersistStringCallback GetPersistStringCallback
         {
@@ -633,7 +633,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             set { m_getPersistStringCallback = value; }
         }
 
-        private bool m_hideOnClose = false;
+        private bool m_hideOnClose;
 
         public bool HideOnClose
         {
@@ -658,7 +658,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private bool m_isActivated = false;
+        private bool m_isActivated;
 
         public bool IsActivated
         {
@@ -679,7 +679,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             return DockHelper.IsDockStateValid(dockState, DockAreas);
         }
 
-        private ContextMenu m_tabPageContextMenu = null;
+        private ContextMenu m_tabPageContextMenu;
 
         public ContextMenu TabPageContextMenu
         {
@@ -687,7 +687,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             set { m_tabPageContextMenu = value; }
         }
 
-        private string m_toolTipText = null;
+        private string m_toolTipText;
 
         public string ToolTipText
         {
@@ -961,7 +961,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 dockPanel.ResumeLayout(true, true);
         }
 
-        private DockPaneStripBase.Tab m_tab = null;
+        private DockPaneStripBase.Tab m_tab;
 
         internal DockPaneStripBase.Tab GetTab(DockPaneStripBase dockPaneStrip)
         {
@@ -971,7 +971,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             return m_tab;
         }
 
-        private IDisposable m_autoHideTab = null;
+        private IDisposable m_autoHideTab;
 
         internal IDisposable AutoHideTab
         {
@@ -1015,7 +1015,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private bool m_flagClipWindow = false;
+        private bool m_flagClipWindow;
 
         internal bool FlagClipWindow
         {
@@ -1033,7 +1033,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private ContextMenuStrip m_tabPageContextMenuStrip = null;
+        private ContextMenuStrip m_tabPageContextMenuStrip;
 
         public ContextMenuStrip TabPageContextMenuStrip
         {

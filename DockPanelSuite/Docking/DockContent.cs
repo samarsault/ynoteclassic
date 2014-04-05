@@ -23,7 +23,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 Font = Parent.Font;
         }
 
-        private readonly DockContentHandler m_dockHandler = null;
+        private readonly DockContentHandler m_dockHandler;
 
         [Browsable(false)]
         public DockContentHandler DockHandler
@@ -58,7 +58,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             set { DockHandler.AutoHidePortion = value; }
         }
 
-        private string m_tabText = null;
+        private string m_tabText;
 
         [Localizable(true)]
         [LocalizedCategory("Category_Docking")]
@@ -328,10 +328,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             if (DockPanel != null && DockPanel.SupportDeeplyNestedContent && IsHandleCreated)
             {
-                BeginInvoke((MethodInvoker)delegate
-                {
-                    base.OnSizeChanged(e);
-                });
+                BeginInvoke((MethodInvoker)(() => base.OnSizeChanged(e)));
             }
             else
             {

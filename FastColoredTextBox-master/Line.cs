@@ -232,12 +232,7 @@ namespace FastColoredTextBoxNS
         /// </summary>
         public List<int> CutOffPositions
         {
-            get
-            {
-                if (cutOffPositions == null)
-                    cutOffPositions = new List<int>();
-                return cutOffPositions;
-            }
+            get { return cutOffPositions ?? (cutOffPositions = new List<int>()); }
         }
 
         /// <summary>

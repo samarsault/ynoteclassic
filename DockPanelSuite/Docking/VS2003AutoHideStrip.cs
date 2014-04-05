@@ -15,7 +15,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             {
             }
 
-            private int m_tabX = 0;
+            private int m_tabX;
 
             protected internal int TabX
             {
@@ -23,7 +23,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 set { m_tabX = value; }
             }
 
-            private int m_tabWidth = 0;
+            private int m_tabWidth;
 
             protected internal int TabWidth
             {
@@ -49,7 +49,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         #region Customizable Properties
 
-        private static StringFormat _stringFormatTabHorizontal = null;
+        private static StringFormat _stringFormatTabHorizontal;
 
         /// <include file='CodeDoc/AutoHideStripVS2003.xml' path='//CodeDoc/Class[@name="AutoHideStripVS2003"]/Property[@name="StringFormatTabHorizontal"]/*'/>
         protected virtual StringFormat StringFormatTabHorizontal

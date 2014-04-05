@@ -37,7 +37,7 @@ namespace Nini.Config
     {
         #region Private variables
 
-        private RegistryKey defaultKey = null;
+        private RegistryKey defaultKey;
 
         #endregion Private variables
 
@@ -264,8 +264,8 @@ namespace Nini.Config
         {
             #region Private variables
 
-            private RegistryKey key = null;
-            private bool parentKey = false;
+            private RegistryKey key;
+            private bool parentKey;
 
             #endregion Private variables
 

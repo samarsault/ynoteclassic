@@ -21,8 +21,8 @@ namespace Nini.Config
     {
         #region Private variables
 
-        private XmlDocument configDoc = null;
-        private string savePath = null;
+        private XmlDocument configDoc;
+        private string savePath;
 
         #endregion Private variables
 

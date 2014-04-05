@@ -41,12 +41,9 @@ namespace SS.Ynote.Classic.UI
             System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("File Extensions");
             System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Files", new System.Windows.Forms.TreeNode[] {
             treeNode6});
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("General Settings");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Plugins", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Manage");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Data", new System.Windows.Forms.TreeNode[] {
             treeNode8});
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Manage");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Data", new System.Windows.Forms.TreeNode[] {
-            treeNode10});
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -94,17 +91,9 @@ namespace SS.Ynote.Classic.UI
             this.label21 = new System.Windows.Forms.Label();
             this.ClearPage = new System.Windows.Forms.TabPage();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.btnScriptCache = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.Plugins = new System.Windows.Forms.TabPage();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.linkLabel3 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.btnScriptCache = new System.Windows.Forms.Button();
             this.tabcontrol.SuspendLayout();
             this.tabsettingpage.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -117,9 +106,6 @@ namespace SS.Ynote.Classic.UI
             this.groupBox16.SuspendLayout();
             this.ClearPage.SuspendLayout();
             this.groupBox14.SuspendLayout();
-            this.Plugins.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeView1
@@ -143,21 +129,16 @@ namespace SS.Ynote.Classic.UI
             treeNode6.Text = "File Extensions";
             treeNode7.Name = "Node21";
             treeNode7.Text = "Files";
-            treeNode8.Name = "General";
-            treeNode8.Text = "General Settings";
-            treeNode9.Name = "Node30";
-            treeNode9.Text = "Plugins";
-            treeNode10.Checked = true;
-            treeNode10.Name = "ClearDataNode";
-            treeNode10.Text = "Manage";
-            treeNode11.Name = "DataNode";
-            treeNode11.Text = "Data";
+            treeNode8.Checked = true;
+            treeNode8.Name = "ClearDataNode";
+            treeNode8.Text = "Manage";
+            treeNode9.Name = "DataNode";
+            treeNode9.Text = "Data";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode2,
             treeNode5,
             treeNode7,
-            treeNode9,
-            treeNode11});
+            treeNode9});
             this.treeView1.ShowLines = false;
             this.treeView1.Size = new System.Drawing.Size(169, 313);
             this.treeView1.TabIndex = 0;
@@ -209,7 +190,6 @@ namespace SS.Ynote.Classic.UI
             this.tabcontrol.Controls.Add(this.EditingPage);
             this.tabcontrol.Controls.Add(this.FileExtensionsPage);
             this.tabcontrol.Controls.Add(this.ClearPage);
-            this.tabcontrol.Controls.Add(this.Plugins);
             this.tabcontrol.Location = new System.Drawing.Point(180, 4);
             this.tabcontrol.Multiline = true;
             this.tabcontrol.Name = "tabcontrol";
@@ -664,17 +644,26 @@ namespace SS.Ynote.Classic.UI
             this.groupBox14.Controls.Add(this.btnScriptCache);
             this.groupBox14.Controls.Add(this.button6);
             this.groupBox14.Controls.Add(this.button5);
-            this.groupBox14.Controls.Add(this.button3);
-            this.groupBox14.Location = new System.Drawing.Point(22, 6);
+            this.groupBox14.Location = new System.Drawing.Point(24, 48);
             this.groupBox14.Name = "groupBox14";
-            this.groupBox14.Size = new System.Drawing.Size(394, 200);
+            this.groupBox14.Size = new System.Drawing.Size(394, 182);
             this.groupBox14.TabIndex = 6;
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Clear";
             // 
+            // btnScriptCache
+            // 
+            this.btnScriptCache.Location = new System.Drawing.Point(12, 28);
+            this.btnScriptCache.Name = "btnScriptCache";
+            this.btnScriptCache.Size = new System.Drawing.Size(185, 50);
+            this.btnScriptCache.TabIndex = 4;
+            this.btnScriptCache.Text = "Clear Scripts Cache";
+            this.btnScriptCache.UseVisualStyleBackColor = true;
+            this.btnScriptCache.Click += new System.EventHandler(this.btnScriptCache_Click);
+            // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(203, 95);
+            this.button6.Location = new System.Drawing.Point(108, 84);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(185, 50);
             this.button6.TabIndex = 3;
@@ -690,102 +679,7 @@ namespace SS.Ynote.Classic.UI
             this.button5.TabIndex = 2;
             this.button5.Text = "Clear Recent Files";
             this.button5.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(6, 30);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(185, 46);
-            this.button3.TabIndex = 0;
-            this.button3.Text = "Clear Application Data";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // Plugins
-            // 
-            this.Plugins.BackColor = System.Drawing.SystemColors.Control;
-            this.Plugins.Controls.Add(this.groupBox4);
-            this.Plugins.Controls.Add(this.groupBox3);
-            this.Plugins.Location = new System.Drawing.Point(4, 22);
-            this.Plugins.Name = "Plugins";
-            this.Plugins.Padding = new System.Windows.Forms.Padding(3);
-            this.Plugins.Size = new System.Drawing.Size(447, 319);
-            this.Plugins.TabIndex = 8;
-            this.Plugins.Text = "Plugins";
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.linkLabel3);
-            this.groupBox4.Controls.Add(this.linkLabel2);
-            this.groupBox4.Controls.Add(this.linkLabel1);
-            this.groupBox4.Location = new System.Drawing.Point(97, 143);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(239, 110);
-            this.groupBox4.TabIndex = 2;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Resources";
-            // 
-            // linkLabel3
-            // 
-            this.linkLabel3.AutoSize = true;
-            this.linkLabel3.Location = new System.Drawing.Point(81, 66);
-            this.linkLabel3.Name = "linkLabel3";
-            this.linkLabel3.Size = new System.Drawing.Size(64, 13);
-            this.linkLabel3.TabIndex = 2;
-            this.linkLabel3.TabStop = true;
-            this.linkLabel3.Text = "Plugin Docs";
-            // 
-            // linkLabel2
-            // 
-            this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(143, 33);
-            this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(70, 13);
-            this.linkLabel2.TabIndex = 1;
-            this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "Create Plugin";
-            // 
-            // linkLabel1
-            // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(19, 33);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(93, 13);
-            this.linkLabel1.TabIndex = 0;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Ynote Plugins Site";
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.checkBox5);
-            this.groupBox3.Location = new System.Drawing.Point(66, 16);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(290, 110);
-            this.groupBox3.TabIndex = 0;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "General";
-            // 
-            // checkBox5
-            // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Checked = true;
-            this.checkBox5.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox5.Location = new System.Drawing.Point(83, 47);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(132, 17);
-            this.checkBox5.TabIndex = 0;
-            this.checkBox5.Text = "Enable Plugin Loading";
-            this.checkBox5.UseVisualStyleBackColor = true;
-            // 
-            // btnScriptCache
-            // 
-            this.btnScriptCache.Location = new System.Drawing.Point(6, 95);
-            this.btnScriptCache.Name = "btnScriptCache";
-            this.btnScriptCache.Size = new System.Drawing.Size(185, 50);
-            this.btnScriptCache.TabIndex = 4;
-            this.btnScriptCache.Text = "Clear Scripts Cache";
-            this.btnScriptCache.UseVisualStyleBackColor = true;
-            this.btnScriptCache.Click += new System.EventHandler(this.btnScriptCache_Click);
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // Options
             // 
@@ -817,11 +711,6 @@ namespace SS.Ynote.Classic.UI
             this.groupBox16.PerformLayout();
             this.ClearPage.ResumeLayout(false);
             this.groupBox14.ResumeLayout(false);
-            this.Plugins.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -860,7 +749,6 @@ namespace SS.Ynote.Classic.UI
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.GroupBox groupBox14;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ComboBox cbdockstyle;
         private System.Windows.Forms.Label label4;
@@ -872,13 +760,6 @@ namespace SS.Ynote.Classic.UI
         private NumericTextBox tbpaddingwidth;
         private System.Windows.Forms.CheckBox virtualspace;
         private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.TabPage Plugins;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.LinkLabel linkLabel3;
-        private System.Windows.Forms.LinkLabel linkLabel2;
-        private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.CheckBox checkBox5;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.NumericUpDown tabsize;

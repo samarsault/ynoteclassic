@@ -65,7 +65,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 m_image1 = image1;
             }
 
-            private int m_imageCategory = 0;
+            private int m_imageCategory;
 
             public int ImageCategory
             {
@@ -133,13 +133,13 @@ namespace WeifenLuo.WinFormsUI.Docking
         private readonly ToolTip m_toolTip;
         private Font m_font;
         private Font m_boldFont;
-        private int m_startDisplayingTab = 0;
-        private int m_endDisplayingTab = 0;
-        private int m_firstDisplayingTab = 0;
-        private bool m_documentTabsOverflow = false;
+        private int m_startDisplayingTab;
+        private int m_endDisplayingTab;
+        private int m_firstDisplayingTab;
+        private bool m_documentTabsOverflow;
         private static string m_toolTipSelect;
         private static string m_toolTipClose;
-        private bool m_closeButtonVisible = false;
+        private bool m_closeButtonVisible;
         private Rectangle _activeClose;
 
         #endregion Members
@@ -435,10 +435,10 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             get
             {
-                var textFormat = TextFormatFlags.EndEllipsis |
-                    TextFormatFlags.HorizontalCenter |
-                    TextFormatFlags.SingleLine |
-                    TextFormatFlags.VerticalCenter;
+                const TextFormatFlags textFormat = TextFormatFlags.EndEllipsis |
+                                                   TextFormatFlags.HorizontalCenter |
+                                                   TextFormatFlags.SingleLine |
+                                                   TextFormatFlags.VerticalCenter;
                 if (RightToLeft == RightToLeft.Yes)
                     return textFormat | TextFormatFlags.RightToLeft | TextFormatFlags.Right;
                 return textFormat;
@@ -459,10 +459,10 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             get
             {
-                var textFormat = TextFormatFlags.EndEllipsis |
-                    TextFormatFlags.SingleLine |
-                    TextFormatFlags.VerticalCenter |
-                    TextFormatFlags.HorizontalCenter;
+                const TextFormatFlags textFormat = TextFormatFlags.EndEllipsis |
+                                                   TextFormatFlags.SingleLine |
+                                                   TextFormatFlags.VerticalCenter |
+                                                   TextFormatFlags.HorizontalCenter;
                 if (RightToLeft == RightToLeft.Yes)
                     return textFormat | TextFormatFlags.RightToLeft;
                 return textFormat;

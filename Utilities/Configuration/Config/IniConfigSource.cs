@@ -21,8 +21,8 @@ namespace Nini.Config
     {
         #region Private variables
 
-        private IniDocument iniDocument = null;
-        private string savePath = null;
+        private IniDocument iniDocument;
+        private string savePath;
         private bool caseSensitive = true;
 
         #endregion Private variables

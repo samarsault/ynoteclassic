@@ -69,13 +69,14 @@
             this.tbOutput.FormattingEnabled = true;
             this.tbOutput.Items.AddRange(new object[] {
             "$ynotedir\\",
-            "$ynotedir\\Plugins",
-            "$ynotedir\\Themes",
-            "$ynotedir\\Syntaxes",
-            "$ynotedir\\User",
-            "$ynotedir\\User\\Macros",
-            "$ynotedir\\User\\Scripts\\",
-            "$ynotedir\\User\\Snippets\\"});
+            "$ynotedata\\Plugins",
+            "$ynotedata\\Themes",
+            "$ynotedata\\Syntaxes",
+            "$ynotedata\\",
+            "$ynotedata\\Macros",
+            "$ynotedata\\RunScripts",
+            "$ynotedata\\Scripts",
+            "$ynotedata\\Snippets"});
             this.tbOutput.Location = new System.Drawing.Point(75, 58);
             this.tbOutput.Name = "tbOutput";
             this.tbOutput.Size = new System.Drawing.Size(250, 21);

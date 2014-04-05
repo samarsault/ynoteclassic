@@ -9,7 +9,7 @@ namespace AutocompleteMenuNS
     public class AutocompleteListView : UserControl, IAutocompleteListView
     {
         private readonly ToolTip toolTip = new ToolTip();
-        private int hoveredItemIndex = -1;
+        private const int hoveredItemIndex = -1;
         private int oldItemCount;
         private int selectedItemIndex = -1;
         private IList<AutocompleteItem> visibleItems;
@@ -159,11 +159,10 @@ namespace AutocompleteMenuNS
             var finishI = (VerticalScroll.Value + ClientSize.Height) / ItemHeight + 1;
             startI = Math.Max(startI, 0);
             finishI = Math.Min(finishI, VisibleItems.Count);
-            var y = 0;
 
             for (var i = startI; i < finishI; i++)
             {
-                y = i * ItemHeight - VerticalScroll.Value;
+                var y = i * ItemHeight - VerticalScroll.Value;
 
                 if (ImageList != null && VisibleItems[i].ImageIndex >= 0)
                     if (rtl)

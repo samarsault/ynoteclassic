@@ -16,6 +16,8 @@ namespace SS.Ynote.Classic.UI
         public Options()
         {
             InitializeComponent();
+            if (!Directory.Exists(SettingsBase.SettingsDir))
+                Directory.CreateDirectory(SettingsBase.SettingsDir);
             treeView1.ExpandAll();
             InitSettings();
             BuildLangList();
@@ -67,10 +69,6 @@ namespace SS.Ynote.Classic.UI
 
                 case "Manage":
                     tabcontrol.SelectTab(ClearPage);
-                    break;
-
-                case "General Settings":
-                    tabcontrol.SelectTab(Plugins);
                     break;
             }
         }
@@ -168,21 +166,14 @@ namespace SS.Ynote.Classic.UI
             Close();
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Directory.Delete(Environment.SpecialFolder.ApplicationData + @"\Ynote Classic\");
-            }
-            catch
-            {
-            }
-        }
-
         private void button6_Click(object sender, EventArgs e)
         {
-            File.WriteAllText(string.Empty, SettingsBase.SettingsDir + "Settings.ini");
-            SettingsBase.RestoreDefault(SettingsBase.SettingsDir + "Settings.ini");
+           var result = MessageBox.Show("You will need to restart the application for changes to take place.\nDo you want to continue ? ", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                File.Delete(SettingsBase.SettingsDir + "Settings.ini");
+                Application.Restart();
+            }
         }
 
         private void cbruler_CheckedChanged(object sender, EventArgs e)
@@ -192,13 +183,13 @@ namespace SS.Ynote.Classic.UI
 
         private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(SettingsBase.SettingsDir + "Settings.ini");
+            Process.Start(SettingsBase.SettingsDir + "Extensions.ini");
         }
 
         private static IDictionary<string, string[]> BuildReverseDictionary()
         {
             var dic = new Dictionary<string, string[]>();
-            IConfigSource source = new IniConfigSource(SettingsBase.SettingsDir + @"Extensions.ini");
+            IConfigSource source = new IniConfigSource(SettingsBase.SettingsDir + "Extensions.ini");
             dic.Add("Text", new[] { ".txt" });
             dic.Add("CSharp", source.Configs["Extensions"].Get("CSharp").Split('|'));
             dic.Add("VB", source.Configs["Extensions"].Get("VB").Split('|'));
@@ -277,6 +268,21 @@ namespace SS.Ynote.Classic.UI
             catch (Exception ex)
             {
                 MessageBox.Show("There was an Error Clearing the Cache\nMessage : " + ex.Message, "Ynote Classic", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                File.Delete(SettingsBase.SettingsDir + "Recent.info");
+                MessageBox.Show("Recent Files Successfully cleared. Changes will take place after restart.", null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Clearing Recent Files \r\n Message : " + ex.Message, null,
+    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
     }

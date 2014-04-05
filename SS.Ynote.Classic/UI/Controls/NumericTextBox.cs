@@ -8,7 +8,7 @@ namespace SS.Ynote.Classic.UI.Controls
     {
         #region Constants
 
-        private bool allowSpace;
+        private bool _allowSpace;
 
         #endregion Constants
 
@@ -35,7 +35,7 @@ namespace SS.Ynote.Classic.UI.Controls
             else if (e.KeyChar == '\b')
             {
             }
-            else if (allowSpace && e.KeyChar == ' ')
+            else if (_allowSpace && e.KeyChar == ' ')
             {
             }
             else
@@ -60,9 +60,9 @@ namespace SS.Ynote.Classic.UI.Controls
 
         public bool AllowSpace
         {
-            set { allowSpace = value; }
+            set { _allowSpace = value; }
 
-            get { return allowSpace; }
+            get { return _allowSpace; }
         }
 
         #endregion Properties

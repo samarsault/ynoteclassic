@@ -28,7 +28,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 get { return m_dockPaneCaption; }
             }
 
-            public bool IsAutoHide
+            private bool IsAutoHide
             {
                 get { return DockPaneCaption.DockPane.IsAutoHide; }
             }
@@ -69,13 +69,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         private static Bitmap ImageButtonClose
         {
-            get
-            {
-                if (_imageButtonClose == null)
-                    _imageButtonClose = Resources.DockPane_Close;
-
-                return _imageButtonClose;
-            }
+            get { return _imageButtonClose ?? (_imageButtonClose = Resources.DockPane_Close); }
         }
 
         private InertButton m_buttonClose;
@@ -100,26 +94,14 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         private static Bitmap ImageButtonAutoHide
         {
-            get
-            {
-                if (_imageButtonAutoHide == null)
-                    _imageButtonAutoHide = Resources.DockPane_AutoHide;
-
-                return _imageButtonAutoHide;
-            }
+            get { return _imageButtonAutoHide ?? (_imageButtonAutoHide = Resources.DockPane_AutoHide); }
         }
 
         private static Bitmap _imageButtonDock;
 
         private static Bitmap ImageButtonDock
         {
-            get
-            {
-                if (_imageButtonDock == null)
-                    _imageButtonDock = Resources.DockPane_Dock;
-
-                return _imageButtonDock;
-            }
+            get { return _imageButtonDock ?? (_imageButtonDock = Resources.DockPane_Dock); }
         }
 
         private InertButton m_buttonAutoHide;
@@ -144,13 +126,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         private static Bitmap ImageButtonOptions
         {
-            get
-            {
-                if (_imageButtonOptions == null)
-                    _imageButtonOptions = Resources.DockPane_Option;
-
-                return _imageButtonOptions;
-            }
+            get { return _imageButtonOptions ?? (_imageButtonOptions = Resources.DockPane_Option); }
         }
 
         private InertButton m_buttonOptions;
@@ -251,37 +227,21 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         private static string ToolTipClose
         {
-            get
-            {
-                if (_toolTipClose == null)
-                    _toolTipClose = Strings.DockPaneCaption_ToolTipClose;
-                return _toolTipClose;
-            }
+            get { return _toolTipClose ?? (_toolTipClose = Strings.DockPaneCaption_ToolTipClose); }
         }
 
         private static string _toolTipOptions;
 
         private static string ToolTipOptions
         {
-            get
-            {
-                if (_toolTipOptions == null)
-                    _toolTipOptions = Strings.DockPaneCaption_ToolTipOptions;
-
-                return _toolTipOptions;
-            }
+            get { return _toolTipOptions ?? (_toolTipOptions = Strings.DockPaneCaption_ToolTipOptions); }
         }
 
         private static string _toolTipAutoHide;
 
         private static string ToolTipAutoHide
         {
-            get
-            {
-                if (_toolTipAutoHide == null)
-                    _toolTipAutoHide = Strings.DockPaneCaption_ToolTipAutoHide;
-                return _toolTipAutoHide;
-            }
+            get { return _toolTipAutoHide ?? (_toolTipAutoHide = Strings.DockPaneCaption_ToolTipAutoHide); }
         }
 
         private static Blend _activeBackColorGradientBlend;
@@ -292,10 +252,8 @@ namespace WeifenLuo.WinFormsUI.Docking
             {
                 if (_activeBackColorGradientBlend == null)
                 {
-                    var blend = new Blend(2);
+                    var blend = new Blend(2) {Factors = new[] {0.5F, 1.0F}, Positions = new[] {0.0F, 1.0F}};
 
-                    blend.Factors = new[] { 0.5F, 1.0F };
-                    blend.Positions = new[] { 0.0F, 1.0F };
                     _activeBackColorGradientBlend = blend;
                 }
 
@@ -313,10 +271,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private static TextFormatFlags _textFormat =
-            TextFormatFlags.SingleLine |
-            TextFormatFlags.EndEllipsis |
-            TextFormatFlags.VerticalCenter;
+        private const TextFormatFlags _textFormat = TextFormatFlags.SingleLine | TextFormatFlags.EndEllipsis | TextFormatFlags.VerticalCenter;
 
         private TextFormatFlags TextFormat
         {
@@ -350,12 +305,8 @@ namespace WeifenLuo.WinFormsUI.Docking
                 return;
 
             var rect = ClientRectangle;
-            Color captionColor;
 
-            if (DockPane.IsActivated)
-                captionColor = DockPane.DockPanel.Skin.DockPaneStripSkin.ToolWindowGradient.ActiveCaptionGradient.StartColor;
-            else
-                captionColor = DockPane.DockPanel.Skin.DockPaneStripSkin.ToolWindowGradient.InactiveCaptionGradient.StartColor;
+            var captionColor = DockPane.IsActivated ? DockPane.DockPanel.Skin.DockPaneStripSkin.ToolWindowGradient.ActiveCaptionGradient.StartColor : DockPane.DockPanel.Skin.DockPaneStripSkin.ToolWindowGradient.InactiveCaptionGradient.StartColor;
 
             var captionBrush = new SolidBrush(captionColor);
             g.FillRectangle(captionBrush, rect);
@@ -401,9 +352,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             if (rectStrip.Width <= 0 || rectStrip.Height <= 0)
                 return;
 
-            var penDots = new Pen(colorDots, 1);
-            penDots.DashStyle = DashStyle.Custom;
-            penDots.DashPattern = new float[] { 1, 3 };
+            var penDots = new Pen(colorDots, 1) {DashStyle = DashStyle.Custom, DashPattern = new float[] {1, 3}};
             var positionY = rectStrip.Height / 2;
 
             g.DrawLine(penDots, rectStrip.X + 2, positionY, rectStrip.X + rectStrip.Width - 2, positionY);
@@ -426,7 +375,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         private bool CloseButtonEnabled
         {
-            get { return (DockPane.ActiveContent != null) ? DockPane.ActiveContent.DockHandler.CloseButton : false; }
+            get { return (DockPane.ActiveContent != null) && DockPane.ActiveContent.DockHandler.CloseButton; }
         }
 
         /// <summary>
@@ -434,7 +383,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         /// </summary>
         private bool CloseButtonVisible
         {
-            get { return (DockPane.ActiveContent != null) ? DockPane.ActiveContent.DockHandler.CloseButtonVisible : false; }
+            get { return (DockPane.ActiveContent != null) && DockPane.ActiveContent.DockHandler.CloseButtonVisible; }
         }
 
         private bool ShouldShowAutoHideButton

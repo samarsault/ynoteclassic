@@ -20,8 +20,8 @@ namespace Nini.Config
     {
         #region Private variables
 
-        private readonly Hashtable intAlias = null;
-        private readonly Hashtable booleanAlias = null;
+        private readonly Hashtable intAlias;
+        private readonly Hashtable booleanAlias;
 
         #endregion Private variables
 

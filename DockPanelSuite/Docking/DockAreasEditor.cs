@@ -118,7 +118,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private DockAreasEditorControl m_ui = null;
+        private DockAreasEditorControl m_ui;
 
         public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
         {

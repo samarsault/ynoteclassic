@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
@@ -41,7 +41,7 @@ namespace SS.Ynote.Classic.Features.RunScript
 
         public string GetPath()
         {
-            return string.Format(@"{0}\User\RunScripts\{1}.run", Application.StartupPath, Name);
+            return string.Format(@"{0}\RunScripts\{1}.run", SettingsBase.SettingsDir, Name);
         }
 
         public void ProcessConfiguration(string filename)

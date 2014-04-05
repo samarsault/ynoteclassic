@@ -1486,6 +1486,7 @@
             // 
             this.miexecfile.Index = 6;
             this.miexecfile.Text = "Execute File";
+            this.miexecfile.Shortcut = Shortcut.F5;
             this.miexecfile.Click += new System.EventHandler(this.menuItem30_Click);
             // 
             // mirunscripts

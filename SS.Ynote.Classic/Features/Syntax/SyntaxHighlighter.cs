@@ -1,22 +1,15 @@
-//========================================
-//
-// Ynote Classic Syntax Highlighter
-// Copyright (C) 2014 Samarjeet Singh
-//
-//========================================
-
-using FastColoredTextBoxNS;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
+using FastColoredTextBoxNS;
 
 namespace SS.Ynote.Classic.Features.Syntax
 {
     /// <summary>
-    ///  Predifined Syntax Highlighter
+    ///     Predifined Syntax Highlighter
     /// </summary>
     public sealed class SyntaxHighlighter : ISyntaxHighlighter
     {
@@ -29,7 +22,9 @@ namespace SS.Ynote.Classic.Features.Syntax
         {
             get
             {
-                return PlatformType.GetOperationSystemPlatform() == Platform.X86 ? RegexOptions.Compiled : RegexOptions.None;
+                return PlatformType.GetOperationSystemPlatform() == Platform.X86
+                    ? RegexOptions.Compiled
+                    : RegexOptions.None;
             }
         }
 
@@ -153,7 +148,7 @@ namespace SS.Ynote.Classic.Features.Syntax
         #region Public Methods
 
         /// <summary>
-        /// Highlight Syntax using SyntaxBase
+        ///     Highlight Syntax using SyntaxBase
         /// </summary>
         /// <param name="syntax"></param>
         /// <param name="e"></param>
@@ -327,24 +322,24 @@ namespace SS.Ynote.Classic.Features.Syntax
         #region From File
 
         /// <summary>
-        /// File Extension Details
+        ///     File Extension Details
         /// </summary>
         public static IList<SyntaxBase> LoadedSyntaxes = new List<SyntaxBase>();
 
         public void LoadAllSyntaxes()
         {
-            foreach (var file in Directory.GetFiles(string.Format("{0}\\Syntaxes\\", Application.StartupPath), "*.xml"))
+            foreach (var file in Directory.GetFiles(string.Format(@"{0}\Syntaxes\", SettingsBase.SettingsDir), "*.xml"))
                 LoadedSyntaxes.Add(GenerateBase(file));
         }
 
         /// <summary>
-        /// Generates a SyntaxBase
+        ///     Generates a SyntaxBase
         /// </summary>
         /// <param name="descFile"></param>
         /// <returns></returns>
         private SyntaxBase GenerateBase(string descFile)
         {
-            var synbase = new SyntaxBase { SysPath = descFile };
+            var synbase = new SyntaxBase {SysPath = descFile};
             using (var reader = XmlReader.Create(descFile))
             {
                 while (reader.Read())
@@ -358,14 +353,14 @@ namespace SS.Ynote.Classic.Features.Syntax
                                 break;
 
                             case "Rule":
-                                {
-                                    var type = reader["Type"];
-                                    var options = reader["Options"];
-                                    var regex = reader["Regex"];
-                                    synbase.Rules.Add(InitRule(type, regex, options));
-                                    // if (reader.Read())
-                                    //     synbase.Rules.Add(InitRule(type, regex, options));
-                                }
+                            {
+                                var type = reader["Type"];
+                                var options = reader["Options"];
+                                var regex = reader["Regex"];
+                                synbase.Rules.Add(InitRule(type, regex, options));
+                                // if (reader.Read())
+                                //     synbase.Rules.Add(InitRule(type, regex, options));
+                            }
                                 break;
 
                             case "Folding":
@@ -402,17 +397,17 @@ namespace SS.Ynote.Classic.Features.Syntax
             if (options == null)
                 rule.Options = RegexOptions.None;
             else
-                rule.Options = (RegexOptions)Enum.Parse(typeof(RegexOptions), options);
+                rule.Options = (RegexOptions) Enum.Parse(typeof (RegexOptions), options);
             return rule;
         }
 
         private SyntaxRule InitRule(string type, string regex, string options)
         {
-            var rule = new SyntaxRule { Type = GetStyleFromName(type), Regex = regex };
+            var rule = new SyntaxRule {Type = GetStyleFromName(type), Regex = regex};
             if (options == null)
                 rule.Options = RegexOptions.None;
             else
-                rule.Options = (RegexOptions)Enum.Parse(typeof(RegexOptions), options);
+                rule.Options = (RegexOptions) Enum.Parse(typeof (RegexOptions), options);
             return rule;
         }
 
@@ -614,6 +609,17 @@ namespace SS.Ynote.Classic.Features.Syntax
         private Regex _vbNumberRegex;
         private Regex _vbStringRegex;
 
+        private Regex pyClassNameRegex,
+            pyClassNameRegex2;
+
+        private Regex pyCommentRegex,
+            pyCommentRegex2,
+            pyKeywordRegex,
+            pyKeywordRegex2,
+            pyNumberRegex;
+
+        private Regex pyStringRegex;
+
         /// <summary>
         ///     Init CSS Regex
         /// </summary>
@@ -700,7 +706,7 @@ namespace SS.Ynote.Classic.Features.Syntax
         }
 
         /// <summary>
-        ///Java Highlight
+        ///     Java Highlight
         /// </summary>
         /// <param name="e"></param>
         private void JavaSyntaxHighlight(TextChangedEventArgs e)
@@ -813,7 +819,9 @@ namespace SS.Ynote.Classic.Features.Syntax
                 new Regex(
                     @"\b(__asm|__based|__cdecl|__cplusplus|__emit|__export|__far|__fastcall|__fortran|__huge|__inline|__interrupt|__loadds|__near|__pascal|__saveregs|__segment|__segname|__self|__stdcall|__syscall|argc|argv|auto|break|case|char|const|continue|default|do|double|else|enum|envp|extern|float|for|goto|if|int|long|main|register|return|short|signed|sizeof|static|struct|switch|typedef|union|unsigned|void|volatile|wchar_t|while|wmain)\b");
             _cppClassNameRegex = new Regex(@"\b(class|struct|enum|interface)\s+(?<range>\w+?)\b");
-            _cppKeywordRegex2 = new Regex(@"\b(__multiple_inheritance|__single_inheritance|__virtual_inheritance|bool|catch|class|const_cast|delete|dynamic_cast|explicit|false|friend|inline|mutable|namespace|new|operator|private|protected|public|reinterpret_cast|static_cast|template|this|throw|true|try|typeid|typename|using|virtual)\b");
+            _cppKeywordRegex2 =
+                new Regex(
+                    @"\b(__multiple_inheritance|__single_inheritance|__virtual_inheritance|bool|catch|class|const_cast|delete|dynamic_cast|explicit|false|friend|inline|mutable|namespace|new|operator|private|protected|public|reinterpret_cast|static_cast|template|this|throw|true|try|typeid|typename|using|virtual)\b");
             _cppFunctionsRegex = new Regex(@"\b(void|int|bool|string|uint|ushort|ulong|byte)\s+(?<range>\w+?)\b");
         }
 
@@ -929,7 +937,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                     if (tagName[0] != '/')
                     {
                         // ...push into stack
-                        var tag = new XmlTag { Name = tagName, Id = id++, StartLine = r.Start.iLine };
+                        var tag = new XmlTag {Name = tagName, Id = id++, StartLine = r.Start.iLine};
                         stack.Push(tag);
                         // if this line has no markers - set marker
                         if (string.IsNullOrEmpty(fctb[iLine].FoldingStartMarker))
@@ -961,16 +969,9 @@ namespace SS.Ynote.Classic.Features.Syntax
             }
         }
 
-        private void PythonSyntaxHighlight(TextChangedEventArgs e)
+        private void InitPythonRegex()
         {
-            e.ChangedRange.tb.CommentPrefix = "#";
-            e.ChangedRange.tb.LeftBracket = '(';
-            e.ChangedRange.tb.RightBracket = ')';
-            e.ChangedRange.tb.LeftBracket2 = '[';
-            e.ChangedRange.tb.RightBracket2 = ']';
-            e.ChangedRange.tb.Range.ClearStyle(CommentStyle, CommentTagStyle);
-            e.ChangedRange.ClearStyle(StringStyle, ClassNameStyle, ClassNameStyle2, KeywordStyle, KeywordStyle2,
-                NumberStyle, CharStyle); e.ChangedRange.SetStyle(StringStyle, new Regex(
+            pyStringRegex = new Regex(
                 @"
                             # Character definitions:
                             '
@@ -1002,20 +1003,43 @@ namespace SS.Ynote.Classic.Features.Syntax
                         ",
                 RegexOptions.ExplicitCapture | RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace |
                 RegexCompiledOption
-                ));
-            e.ChangedRange.tb.Range.SetStyle(CommentTagStyle,
+                );
+            pyCommentRegex = new Regex(@"#.*$", RegexOptions.Multiline);
+            pyCommentRegex2 = new Regex(
                 "(\"\"\".*?\"\"\")|(.*\"\"\")|(\'\'\'.*?\'\'\')|(.*\'\'\')",
                 RegexOptions.Singleline | RegexOptions.RightToLeft | RegexOptions.Multiline);
-            e.ChangedRange.tb.Range.SetStyle(CommentStyle, "#.*$", RegexOptions.Multiline);
-           
-            e.ChangedRange.SetStyle(ClassNameStyle, @"\b(class)\s+(?<range>\w+?)\b");
-            e.ChangedRange.SetStyle(ClassNameStyle2, @"\b(def)\s+(?<range>\w+?)\b");
-            e.ChangedRange.SetStyle(KeywordStyle,
-                @"\b(and|del|from|not|while|as|elif|global|or|with|assert|else|if|pass|yield|break|except|import|print|class|exec|nonlocal|in|raise|continue|finally|is|return|def|for|lambda|try)\b");
-            e.ChangedRange.SetStyle(KeywordStyle2,
-                @"\b(int|id|callable|dict|open|all|vars|object|iter|enumerate|sorted|property|super|classmethod|tuple|compile|basestring|map|range|ord|isinstance|long|float|format|str|type|hasattr|max|len|repr|getattr|list)\b");
-            e.ChangedRange.SetStyle(NumberStyle, @"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
-            e.ChangedRange.SetStyle(CharStyle, @"\!|\:|\+|=|\-|\*|\@");
+            pyKeywordRegex =
+                new Regex(
+                    @"\b(and|del|from|not|while|as|elif|global|or|with|assert|else|if|pass|yield|break|except|import|print|class|exec|nonlocal|in|raise|continue|finally|is|return|def|for|lambda|try)\b");
+            pyKeywordRegex2 =
+                new Regex(
+                    @"\b(int|id|callable|dict|open|all|vars|object|iter|enumerate|sorted|property|super|classmethod|tuple|compile|basestring|map|range|ord|isinstance|long|float|format|str|type|hasattr|max|len|repr|getattr|list)\b");
+            pyClassNameRegex = new Regex(@"\b(class)\s+(?<range>\w+?)\b");
+            pyClassNameRegex2 = new Regex(@"\b(def)\s+(?<range>\w+?)\b");
+            pyNumberRegex = new Regex(@"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
+        }
+
+        private void PythonSyntaxHighlight(TextChangedEventArgs e)
+        {
+            e.ChangedRange.tb.CommentPrefix = "#";
+            e.ChangedRange.tb.LeftBracket = '(';
+            e.ChangedRange.tb.RightBracket = ')';
+            e.ChangedRange.tb.LeftBracket2 = '[';
+            e.ChangedRange.tb.RightBracket2 = ']';
+            e.ChangedRange.tb.Range.ClearStyle(CommentStyle, CommentTagStyle);
+            e.ChangedRange.ClearStyle(StringStyle, ClassNameStyle, ClassNameStyle2, KeywordStyle, KeywordStyle2,
+                NumberStyle, CharStyle);
+            if (pyCommentRegex == null)
+                InitPythonRegex();
+            e.ChangedRange.SetStyle(StringStyle, pyStringRegex);
+            e.ChangedRange.tb.Range.SetStyle(CommentTagStyle, pyCommentRegex2);
+            e.ChangedRange.tb.Range.SetStyle(CommentStyle, pyCommentRegex);
+            e.ChangedRange.SetStyle(ClassNameStyle, pyClassNameRegex);
+            e.ChangedRange.SetStyle(ClassNameStyle2, pyClassNameRegex2);
+            e.ChangedRange.SetStyle(KeywordStyle, pyKeywordRegex);
+            e.ChangedRange.SetStyle(KeywordStyle2, pyKeywordRegex2);
+            e.ChangedRange.SetStyle(NumberStyle, pyNumberRegex);
+            e.ChangedRange.SetStyle(CharStyle, @"\!|\:|\+|=|\-|\*|@|\.");
             PythonFold(e.ChangedRange.tb);
         }
 
@@ -1054,7 +1078,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.RightBracket = ')';
             e.ChangedRange.tb.RightBracket2 = ']';
             e.ChangedRange.ClearStyle(CommentStyle, StringStyle, KeywordStyle, KeywordStyle2, NumberStyle);
-            e.ChangedRange.SetStyle(CommentStyle, "//.*$");
+            e.ChangedRange.SetStyle(CommentStyle, @"//.*$");
             e.ChangedRange.SetStyle(CommentStyle, @"(\(\*.*?\*\))|(\(\*.*)");
             e.ChangedRange.SetStyle(StringStyle, @"""""|@""""|''|@"".*?""|(?<!@)(?<range>"".*?[^\\]"")|'.*?[^\\]'");
             e.ChangedRange.SetStyle(KeywordStyle,
@@ -2049,19 +2073,22 @@ namespace SS.Ynote.Classic.Features.Syntax
     public class XmlTag
     {
         /// <summary>
-        /// XmlTag id
+        ///     XmlTag id
         /// </summary>
         public int Id;
+
         /// <summary>
-        /// XmlTag Name
+        ///     XmlTag Name
         /// </summary>
         public string Name;
+
         /// <summary>
-        /// XmlTag StartLine
+        ///     XmlTag StartLine
         /// </summary>
         public int StartLine;
+
         /// <summary>
-        /// XmlTag Marker
+        ///     XmlTag Marker
         /// </summary>
         public string Marker
         {

@@ -41,16 +41,16 @@ namespace Nini.Ini
     {
         #region Private variables
 
-        private int indentation = 0;
-        private bool useValueQuotes = false;
+        private int indentation;
+        private bool useValueQuotes;
         private IniWriteState writeState = IniWriteState.Start;
         private char commentDelimiter = ';';
         private char assignDelimiter = '=';
-        private readonly TextWriter textWriter = null;
-        private string eol = "\r\n";
+        private readonly TextWriter textWriter;
+        private const string eol = "\r\n";
         private readonly StringBuilder indentationBuffer = new StringBuilder();
-        private readonly Stream baseStream = null;
-        private bool disposed = false;
+        private readonly Stream baseStream;
+        private bool disposed;
 
         #endregion Private variables
 

@@ -21,8 +21,8 @@ namespace Nini.Config
         #region Private variables
 
         private readonly ArrayList sourceList = new ArrayList();
-        private readonly ConfigCollection configList = null;
-        private bool autoSave = false;
+        private readonly ConfigCollection configList;
+        private bool autoSave;
         private readonly AliasText alias = new AliasText();
 
         #endregion Private variables

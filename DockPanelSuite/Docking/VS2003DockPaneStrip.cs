@@ -101,7 +101,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             get { return m_components; }
         }
 
-        private int m_offsetX = 0;
+        private int m_offsetX;
 
         private int OffsetX
         {
@@ -184,7 +184,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             get { return _ToolWindowTabSeperatorGapBottom; }
         }
 
-        private static Image _imageCloseEnabled = null;
+        private static Image _imageCloseEnabled;
 
         /// <include file='CodeDoc/DockPaneStripVS2003.xml' path='//CodeDoc/Class[@name="DockPaneStripVS2003"]/Property[@name="ImageCloseEnabled"]/*'/>
         protected virtual Image ImageCloseEnabled
@@ -197,7 +197,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private static Image _imageCloseDisabled = null;
+        private static Image _imageCloseDisabled;
 
         /// <include file='CodeDoc/DockPaneStripVS2003.xml' path='//CodeDoc/Class[@name="DockPaneStripVS2003"]/Property[@name="ImageCloseDisabled"]/*'/>
         protected virtual Image ImageCloseDisabled
@@ -210,7 +210,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private static Image _imageScrollLeftEnabled = null;
+        private static Image _imageScrollLeftEnabled;
 
         /// <include file='CodeDoc/DockPaneStripVS2003.xml' path='//CodeDoc/Class[@name="DockPaneStripVS2003"]/Property[@name="ImageScrollLeftEnabled"]/*'/>
         protected virtual Image ImageScrollLeftEnabled
@@ -223,7 +223,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private static Image _imageScrollLeftDisabled = null;
+        private static Image _imageScrollLeftDisabled;
 
         /// <include file='CodeDoc/DockPaneStripVS2003.xml' path='//CodeDoc/Class[@name="DockPaneStripVS2003"]/Property[@name="ImageScrollLeftDisabled"]/*'/>
         protected virtual Image ImageScrollLeftDisabled
@@ -236,7 +236,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private static Image _imageScrollRightEnabled = null;
+        private static Image _imageScrollRightEnabled;
 
         /// <include file='CodeDoc/DockPaneStripVS2003.xml' path='//CodeDoc/Class[@name="DockPaneStripVS2003"]/Property[@name="ImageScrollRightEnabled"]/*'/>
         protected virtual Image ImageScrollRightEnabled
@@ -249,7 +249,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private static Image _imageScrollRightDisabled = null;
+        private static Image _imageScrollRightDisabled;
 
         /// <include file='CodeDoc/DockPaneStripVS2003.xml' path='//CodeDoc/Class[@name="DockPaneStripVS2003"]/Property[@name="ImageScrollRightDisabled"]/*'/>
         protected virtual Image ImageScrollRightDisabled
@@ -262,7 +262,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private static string _toolTipClose = null;
+        private static string _toolTipClose;
 
         /// <include file='CodeDoc/DockPaneStripVS2003.xml' path='//CodeDoc/Class[@name="DockPaneStripVS2003"]/Property[@name="ToolTipClose"]/*'/>
         protected virtual string ToolTipClose
@@ -275,7 +275,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private static string _toolTipScrollLeft = null;
+        private static string _toolTipScrollLeft;
 
         /// <include file='CodeDoc/DockPaneStripVS2003.xml' path='//CodeDoc/Class[@name="DockPaneStripVS2003"]/Property[@name="ToolTipScrollLeft"]/*'/>
         protected virtual string ToolTipScrollLeft
@@ -288,7 +288,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private static string _toolTipScrollRight = null;
+        private static string _toolTipScrollRight;
 
         /// <include file='CodeDoc/DockPaneStripVS2003.xml' path='//CodeDoc/Class[@name="DockPaneStripVS2003"]/Property[@name="ToolTipScrollRight"]/*'/>
         protected virtual string ToolTipScrollRight

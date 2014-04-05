@@ -100,7 +100,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             DockBackColor = Color.Empty;
         }
 
-        private AutoHideStripBase m_autoHideStripControl = null;
+        private AutoHideStripBase m_autoHideStripControl;
 
         internal AutoHideStripBase AutoHideStripControl
         {
@@ -141,7 +141,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             InvalidateWindowRegion();
         }
 
-        private bool m_disposed = false;
+        private bool m_disposed;
 
         protected override void Dispose(bool disposing)
         {
@@ -231,7 +231,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             get { return m_dummyContent; }
         }
 
-        private bool m_rightToLeftLayout = false;
+        private bool m_rightToLeftLayout;
 
         [DefaultValue(false)]
         [LocalizedCategory("Appearance")]
@@ -260,7 +260,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private bool m_showDocumentIcon = false;
+        private bool m_showDocumentIcon;
 
         [DefaultValue(false)]
         [LocalizedCategory("Category_Docking")]
@@ -601,7 +601,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private bool _supprtDeeplyNestedContent = false;
+        private bool _supprtDeeplyNestedContent;
 
         [LocalizedCategory("Category_Performance")]
         [LocalizedDescription("DockPanel_SupportDeeplyNestedContent_Description")]
@@ -916,7 +916,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private PaintEventHandler m_dummyControlPaintEventHandler = null;
+        private PaintEventHandler m_dummyControlPaintEventHandler;
 
         private void InvalidateWindowRegion()
         {
@@ -989,7 +989,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             SetRegion(rects);
         }
 
-        private Rectangle[] m_clipRects = null;
+        private Rectangle[] m_clipRects;
 
         private void SetRegion(Rectangle[] clipRects)
         {

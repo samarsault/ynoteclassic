@@ -248,7 +248,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 }
             }
 
-            private bool m_isActivated = false;
+            private bool m_isActivated;
 
             private bool IsActivated
             {
@@ -425,7 +425,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             {
                 #region consts
 
-                private int _PanelIndicatorMargin = 10;
+                private const int _PanelIndicatorMargin = 10;
 
                 #endregion consts
 
@@ -445,7 +445,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     Region = new Region(Rectangle.Empty);
                 }
 
-                private IPaneIndicator m_paneDiamond = null;
+                private IPaneIndicator m_paneDiamond;
 
                 private IPaneIndicator PaneDiamond
                 {
@@ -458,7 +458,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     }
                 }
 
-                private IPanelIndicator m_panelLeft = null;
+                private IPanelIndicator m_panelLeft;
 
                 private IPanelIndicator PanelLeft
                 {
@@ -471,7 +471,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     }
                 }
 
-                private IPanelIndicator m_panelRight = null;
+                private IPanelIndicator m_panelRight;
 
                 private IPanelIndicator PanelRight
                 {
@@ -484,7 +484,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     }
                 }
 
-                private IPanelIndicator m_panelTop = null;
+                private IPanelIndicator m_panelTop;
 
                 private IPanelIndicator PanelTop
                 {
@@ -497,7 +497,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     }
                 }
 
-                private IPanelIndicator m_panelBottom = null;
+                private IPanelIndicator m_panelBottom;
 
                 private IPanelIndicator PanelBottom
                 {
@@ -510,7 +510,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     }
                 }
 
-                private IPanelIndicator m_panelFill = null;
+                private IPanelIndicator m_panelFill;
 
                 private IPanelIndicator PanelFill
                 {
@@ -523,7 +523,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     }
                 }
 
-                private bool m_fullPanelEdge = false;
+                private bool m_fullPanelEdge;
 
                 public bool FullPanelEdge
                 {
@@ -548,7 +548,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     get { return DragHandler.DockPanel; }
                 }
 
-                private DockPane m_dockPane = null;
+                private DockPane m_dockPane;
 
                 public DockPane DockPane
                 {
@@ -565,7 +565,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     }
                 }
 
-                private IHitTest m_hitTest = null;
+                private IHitTest m_hitTest;
 
                 private IHitTest HitTestResult
                 {
@@ -873,7 +873,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        private DockDragHandler m_dockDragHandler = null;
+        private DockDragHandler m_dockDragHandler;
 
         private DockDragHandler GetDockDragHandler()
         {

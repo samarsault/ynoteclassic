@@ -12,7 +12,7 @@ namespace FastColoredTextBoxNS
     /// This class contains the source text (chars and styles).
     /// It stores a text lines, the manager of commands, undo/redo stack, styles.
     /// </summary>
-    public class FileTextSource : TextSource, IDisposable
+    public class FileTextSource : TextSource
     {
         private List<int> sourceFileLinePositions = new List<int>();
         private FileStream fs;
@@ -53,21 +53,26 @@ namespace FastColoredTextBoxNS
         private void UnloadUnusedLines()
         {
             const int margin = 2000;
-            var iStartVisibleLine = CurrentTb.VisibleRange.Start.iLine;
+         //   var iStartVisibleLine = CurrentTb.VisibleRange.Start.iLine;
             var iFinishVisibleLine = CurrentTb.VisibleRange.End.iLine;
 
-            var count = 0;
+            //var count = 0;
             for (var i = 0; i < Count; i++)
-                if (lines[i] != null && !base.lines[i].IsChanged && Math.Abs(i - iFinishVisibleLine) > margin)
+                if (lines[i] != null && !lines[i].IsChanged && Math.Abs(i - iFinishVisibleLine) > margin)
                 {
                     lines[i] = null;
-                    count++;
+                 //   count++;
                 }
 #if debug
             Console.WriteLine("UnloadUnusedLines: " + count);
 #endif
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="enc"></param>
         public void OpenFile(string fileName, Encoding enc)
         {
             Clear();
@@ -83,7 +88,7 @@ namespace FastColoredTextBoxNS
             var shift = DefineShift(enc);
             //first line
             sourceFileLinePositions.Add((int)fs.Position);
-            base.lines.Add(null);
+            lines.Add(null);
             //other lines
             while (fs.Position < length)
             {
@@ -91,7 +96,7 @@ namespace FastColoredTextBoxNS
                 if (b == 10)// char \n
                 {
                     sourceFileLinePositions.Add((int)(fs.Position) + shift);
-                    base.lines.Add(null);
+                    lines.Add(null);
                 }
             }
 
@@ -213,11 +218,10 @@ namespace FastColoredTextBoxNS
                     newLinePos.Add((int)tempFs.Length);
 
                     var sourceLine = ReadLine(sr, i);//read line from source file
-                    string line;
 
                     var lineIsChanged = lines[i] != null && lines[i].IsChanged;
 
-                    line = lineIsChanged ? lines[i].Text : sourceLine;
+                    string line = lineIsChanged ? lines[i].Text : sourceLine;
 
                     //call event handler
                     if (LinePushed != null)
@@ -279,7 +283,7 @@ namespace FastColoredTextBoxNS
         {
             get
             {
-                if (base.lines[i] != null)
+                if (lines[i] != null)
                     return lines[i];
                 LoadLineFromSourceFile(i);
 
@@ -297,9 +301,7 @@ namespace FastColoredTextBoxNS
             fs.Seek(sourceFileLinePositions[i], SeekOrigin.Begin);
             var sr = new StreamReader(fs, fileEncoding);
 
-            var s = sr.ReadLine();
-            if (s == null)
-                s = "";
+            var s = sr.ReadLine() ?? "";
 
             //call event handler
             if (LineNeeded != null)
@@ -313,7 +315,7 @@ namespace FastColoredTextBoxNS
 
             foreach (var c in s)
                 line.Add(new Char(c));
-            base.lines[i] = line;
+            lines[i] = line;
 
             if (CurrentTb.WordWrap)
                 OnRecalcWordWrap(new TextChangedEventArgs(i, i));
@@ -338,9 +340,7 @@ namespace FastColoredTextBoxNS
 
         public override int GetLineLength(int i)
         {
-            if (base.lines[i] == null)
-                return 0;
-            return base.lines[i].Count;
+            return lines[i] == null ? 0 : base.lines[i].Count;
         }
 
         public override bool LineHasFoldingStartMarker(int iLine)

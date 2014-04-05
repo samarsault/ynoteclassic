@@ -3,7 +3,6 @@ using SS.Ynote.Classic.Features.Syntax;
 using SS.Ynote.Classic.UI.DiffMergeStuffs;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -181,8 +180,6 @@ namespace SS.Ynote.Classic.UI
                 InitializeCompareFunc();
             }
 
-            private TimeSpan ElapsedTime { get; set; }
-
             public event EventHandler<DiffEventArgs<T>> LineUpdate;
 
             /// <summary>
@@ -194,13 +191,9 @@ namespace SS.Ynote.Classic.UI
             {
                 if (!_matrixCreated)
                 {
-                    var sw = new Stopwatch();
-                    sw.Start();
                     CalculatePreSkip();
                     CalculatePostSkip();
                     CreateLCSMatrix();
-                    sw.Stop();
-                    ElapsedTime = sw.Elapsed;
                 }
 
                 for (var i = 0; i < _preSkip; i++)
@@ -451,7 +444,7 @@ namespace SS.Ynote.Classic.UI
         public class Lines : List<Line>, IEquatable<Lines>
         {
             //??? ?????? ????? ??? ???????? ?????, ??????????? ? ????? ??????, ?? ?????? ?????? ????????? ?????
-            private Line fictiveLine = new Line("===fictive line===") { state = DiffType.Deleted };
+            private readonly Line _fictiveLine = new Line("===fictive line===") { state = DiffType.Deleted };
 
             private Lines()
             {
@@ -466,7 +459,7 @@ namespace SS.Ynote.Classic.UI
             {
                 get
                 {
-                    return i == -1 ? fictiveLine : base[i];
+                    return i == -1 ? _fictiveLine : base[i];
                 }
 
                 /*

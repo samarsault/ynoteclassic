@@ -175,11 +175,11 @@
     <Compile Include="UI\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Console.cs">
+    <Compile Include="UI\Commander.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\Console.Designer.cs">
-      <DependentUpon>Console.cs</DependentUpon>
+    <Compile Include="UI\Commander.Designer.cs">
+      <DependentUpon>Commander.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Controls\GradientForm.cs">
       <SubType>Form</SubType>
@@ -277,6 +277,9 @@
     </Compile>
     <EmbeddedResource Include="Features\RunScript\Cmd.resx">
       <DependentUpon>Cmd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Editor.resx">
+      <DependentUpon>Editor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\MacroExecDialog.resx">
       <DependentUpon>MacroExecDialog.cs</DependentUpon>

@@ -15,7 +15,7 @@ namespace FastColoredTextBoxNS
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="tb">Underlaying textbox</param>
+        /// <param name="ts">Underlaying textsource</param>
         /// <param name="c">Inserting char</param>
         public InsertCharCommand(TextSource ts, char c)
             : base(ts)
@@ -200,7 +200,7 @@ namespace FastColoredTextBoxNS
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="tb">Underlaying textbox</param>
+        /// <param name="ts">Underlaying textbox</param>
         /// <param name="insertedText">Text for inserting</param>
         public InsertTextCommand(TextSource ts, string insertedText)
             : base(ts)

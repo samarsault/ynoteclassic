@@ -24,8 +24,8 @@ namespace Nini.Config
     /// <include file='ConfigEventArgs.xml' path='//Class[@name="ConfigEventArgs"]/docs/*' />
     public class ConfigKeyEventArgs : EventArgs
     {
-        private readonly string keyName = null;
-        private readonly string keyValue = null;
+        private readonly string keyName;
+        private readonly string keyValue;
 
         /// <include file='ConfigEventArgs.xml' path='//Constructor[@name="Constructor"]/docs/*' />
         public ConfigKeyEventArgs(string keyName, string keyValue)
@@ -54,9 +54,9 @@ namespace Nini.Config
     {
         #region Private variables
 
-        private string configName = null;
-        private readonly IConfigSource configSource = null;
-        private readonly AliasText aliasText = null;
+        private string configName;
+        private readonly IConfigSource configSource;
+        private readonly AliasText aliasText;
         private readonly IFormatProvider format = NumberFormatInfo.CurrentInfo;
 
         #endregion Private variables
