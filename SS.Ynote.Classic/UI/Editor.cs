@@ -1,6 +1,3 @@
-using FastColoredTextBoxNS;
-using SS.Ynote.Classic.Features.Snippets;
-using SS.Ynote.Classic.Features.Syntax;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -9,18 +6,22 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Snippets;
+using SS.Ynote.Classic.Features.Syntax;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace SS.Ynote.Classic.UI
 {
     public partial class Editor : DockContent
     {
-        public SyntaxBase Syntax;
-
         /// <summary>
         ///     Syntax Highligher
         /// </summary>
         public readonly ISyntaxHighlighter Highlighter;
+
+        public SyntaxBase Syntax;
+        private Style _invisibleCharsStyle;
 
         /// <summary>
         ///     Default Constructor
@@ -64,7 +65,6 @@ namespace SS.Ynote.Classic.UI
             codebox.BracketsHighlightStrategy = SettingsBase.BracketsStrategy;
             codebox.CaretVisible = SettingsBase.ShowCaret;
             codebox.ShowFoldingLines = SettingsBase.ShowFoldingLines;
-            codebox.WordWrapMode = SettingsBase.WordWrapMode;
             codebox.LineInterval = SettingsBase.LineInterval;
             codebox.LeftPadding = SettingsBase.PaddingWidth;
             codebox.VirtualSpace = SettingsBase.EnableVirtualSpace;
@@ -150,14 +150,14 @@ namespace SS.Ynote.Classic.UI
 
         private void codebox_DragDrop(object sender, DragEventArgs e)
         {
-            var fileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            var fileList = (string[]) e.Data.GetData(DataFormats.FileDrop, false);
             foreach (var file in fileList)
-                OpenFile(file);
+                BeginInvoke((MethodInvoker) (() => OpenFile(file)));
         }
 
         private void OpenFile(string file)
         {
-            var edit = new Editor { Name = file, Text = Path.GetFileName(file) };
+            var edit = new Editor {Name = file, Text = Path.GetFileName(file)};
             edit.Tb.IsChanged = false;
             edit.Tb.ClearUndo();
             //edit.ChangeLang(FileExtensions.GetLanguage(FileExtensions.BuildDictionary(), Path.GetExtension(file)));
@@ -177,8 +177,6 @@ namespace SS.Ynote.Classic.UI
             edit.Show(DockPanel, DockState.Document);
             edit.Tb.OpenFile(file);
         }
-
-        private Style _invisibleCharsStyle;
 
         /// <summary>
         ///     Do MISC Formatting
@@ -214,7 +212,6 @@ namespace SS.Ynote.Classic.UI
                 {
                     case DialogResult.Yes:
                         SaveFile();
-                        base.OnClosing(e);
                         break;
 
                     case DialogResult.Cancel:
@@ -222,14 +219,17 @@ namespace SS.Ynote.Classic.UI
                         break;
 
                     case DialogResult.No:
-                        base.OnClosing(e);
                         break;
                 }
             }
-            if (e.Cancel) return;
-            if (DockPanel.Documents.Count() == 1)
-                Application.Exit();
-            DockPanel = null;
+            codebox.CloseBindingFile();
+            if (!e.Cancel)
+            {
+                if (DockPanel.Documents.Count() == 1)
+                    Application.Exit();
+                DockPanel = null;
+            }
+            base.OnClosing(e);
         }
 
         private void SaveFile()
@@ -250,7 +250,7 @@ namespace SS.Ynote.Classic.UI
             }
         }
 
-     
+
         private void menuItem13_Click(object sender, EventArgs e)
         {
             if (!IsSaved) return;
@@ -306,9 +306,9 @@ namespace SS.Ynote.Classic.UI
             var cutmenu = new MenuItem {Index = 0, Text = "Cut"};
             cutmenu.Click += (sender, args) => codebox.Cut();
             var copymenu = new MenuItem {Index = 1, Text = "Copy"};
-            copymenu.Click += (sender,args) => codebox.Copy();
+            copymenu.Click += (sender, args) => codebox.Copy();
             var pastemenu = new MenuItem {Index = 2, Text = "Paste"};
-            pastemenu.Click+= (sender, args) => codebox.Paste();
+            pastemenu.Click += (sender, args) => codebox.Paste();
             var seperator = new MenuItem("-") {Index = 3};
             var undomenu = new MenuItem {Index = 4, Text = "Undo"};
             undomenu.Click += (sender, args) => codebox.Undo();
@@ -324,16 +324,17 @@ namespace SS.Ynote.Classic.UI
                 Text = "Fold Selected"
             };
             foldselectedmenu.Click += menuItem10_Click;
-            contextmenu.MenuItems.AddRange(new[] {
-            cutmenu,
-            copymenu,
-            pastemenu,
-            seperator,
-            undomenu,
-            redomenu,
-            seperator2,
-            selectallmenu,
-            foldselectedmenu
+            contextmenu.MenuItems.AddRange(new[]
+            {
+                cutmenu,
+                copymenu,
+                pastemenu,
+                seperator,
+                undomenu,
+                redomenu,
+                seperator2,
+                selectallmenu,
+                foldselectedmenu
             });
         }
 
@@ -344,7 +345,7 @@ namespace SS.Ynote.Classic.UI
 
         private void menuItem3_Click(object sender, EventArgs e)
         {
-            if (Name != "Editor")
+            if (IsSaved)
                 Clipboard.SetText(Name);
             else
                 MessageBox.Show("File Not Saved ! ", "Ynote Classic", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);

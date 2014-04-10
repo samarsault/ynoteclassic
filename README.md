@@ -17,7 +17,7 @@ Features
 
 Version
 ----
- 2.7 Beta 2
+ 2.7
 
 License
 ----

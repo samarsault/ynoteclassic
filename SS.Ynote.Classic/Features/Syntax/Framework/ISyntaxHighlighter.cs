@@ -1,11 +1,4 @@
-﻿//==========================================
-//
-// Ynote Classic Syntax Highlighter Framework
-// Copyright (C) 2014 Samarjeet Singh
-//
-//==========================================
-
-using FastColoredTextBoxNS;
+﻿using FastColoredTextBoxNS;
 
 namespace SS.Ynote.Classic.Features.Syntax
 {
@@ -134,14 +127,14 @@ namespace SS.Ynote.Classic.Features.Syntax
         void HighlightSyntax(Language language, TextChangedEventArgs range);
 
         /// <summary>
-        /// Highlight Syntax with SyntaxBase file
+        ///     Highlight Syntax with SyntaxBase file
         /// </summary>
         /// <param name="Syntax"></param>
         /// <param name="args"></param>
         void HighlightSyntax(SyntaxBase Syntax, TextChangedEventArgs args);
 
         /// <summary>
-        /// Loads All Syntaxes
+        ///     Loads All Syntaxes
         /// </summary>
         void LoadAllSyntaxes();
     }

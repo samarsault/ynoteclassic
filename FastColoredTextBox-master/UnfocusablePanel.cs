@@ -8,6 +8,13 @@ namespace FastColoredTextBoxNS
     [ToolboxItem(false)]
     public class UnfocusablePanel : UserControl
     {
+        public UnfocusablePanel()
+        {
+            SetStyle(ControlStyles.Selectable, false);
+            SetStyle(
+                ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
+        }
+
         public Color BackColor2 { get; set; }
 
         public Color BorderColor { get; set; }
@@ -15,12 +22,6 @@ namespace FastColoredTextBoxNS
         public new string Text { get; set; }
 
         public StringAlignment TextAlignment { get; set; }
-
-        public UnfocusablePanel()
-        {
-            SetStyle(ControlStyles.Selectable, false);
-            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
-        }
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -30,9 +31,10 @@ namespace FastColoredTextBoxNS
                 e.Graphics.DrawRectangle(pen, 0, 0, ClientSize.Width - 1, ClientSize.Height - 1);
 
             if (string.IsNullOrEmpty(Text)) return;
-            var sf = new StringFormat { Alignment = TextAlignment, LineAlignment = StringAlignment.Center };
+            var sf = new StringFormat {Alignment = TextAlignment, LineAlignment = StringAlignment.Center};
             using (var brush = new SolidBrush(ForeColor))
-                e.Graphics.DrawString(Text, Font, brush, new RectangleF(1, 1, ClientSize.Width - 2, ClientSize.Height - 2), sf);
+                e.Graphics.DrawString(Text, Font, brush,
+                    new RectangleF(1, 1, ClientSize.Width - 2, ClientSize.Height - 2), sf);
         }
     }
 }

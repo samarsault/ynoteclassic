@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
 using System.Xml;
 using FastColoredTextBoxNS;
 
@@ -1013,7 +1012,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                     @"\b(and|del|from|not|while|as|elif|global|or|with|assert|else|if|pass|yield|break|except|import|print|class|exec|nonlocal|in|raise|continue|finally|is|return|def|for|lambda|try)\b");
             pyKeywordRegex2 =
                 new Regex(
-                    @"\b(int|id|callable|dict|open|all|vars|object|iter|enumerate|sorted|property|super|classmethod|tuple|compile|basestring|map|range|ord|isinstance|long|float|format|str|type|hasattr|max|len|repr|getattr|list)\b");
+                    @"\b(int|id|callable|dict|open|all|vars|object|iter|enumerate|False|True|sorted|property|super|classmethod|tuple|compile|basestring|map|range|ord|isinstance|long|float|format|str|type|hasattr|max|len|repr|getattr|list)\b");
             pyClassNameRegex = new Regex(@"\b(class)\s+(?<range>\w+?)\b");
             pyClassNameRegex2 = new Regex(@"\b(def)\s+(?<range>\w+?)\b");
             pyNumberRegex = new Regex(@"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
@@ -1436,7 +1435,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             //clear style of changed range
             e.ChangedRange.tb.Range.ClearStyle(CommentStyle);
             e.ChangedRange.ClearStyle(StringStyle, NumberStyle, AttributeStyle, ClassNameStyle, ClassNameStyle2,
-                KeywordStyle, KeywordStyle2);
+                KeywordStyle, KeywordStyle2, PreprocessorStyle);
             //
             if (_cSharpStringRegex == null)
                 InitCSharpRegex();
@@ -1454,6 +1453,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.SetStyle(ClassNameStyle, _cSharpClassNameRegex);
             //funtion highlight
             e.ChangedRange.SetStyle(ClassNameStyle2, _csharpFunctionRegex);
+            e.ChangedRange.SetStyle(PreprocessorStyle, @"#[a-zA-Z_\d]*\b");
             //keyword highlighting
             e.ChangedRange.SetStyle(KeywordStyle, _cSharpKeywordRegex);
             //keywordstyle2

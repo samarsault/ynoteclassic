@@ -5,28 +5,28 @@ using System.Text;
 namespace FastColoredTextBoxNS
 {
     /// <summary>
-    /// Exports colored text as RTF
+    ///     Exports colored text as RTF
     /// </summary>
     /// <remarks>At this time only TextStyle renderer is supported. Other styles is not exported.</remarks>
     public class ExportToRTF
     {
-        /// <summary>
-        /// Includes line numbers
-        /// </summary>
-        public bool IncludeLineNumbers { get; set; }
-
-        /// <summary>
-        /// Use original font
-        /// </summary>
-        public bool UseOriginalFont { get; set; }
-
-        private FastColoredTextBox tb;
         private readonly Dictionary<Color, int> colorTable = new Dictionary<Color, int>();
+        private FastColoredTextBox tb;
 
         public ExportToRTF()
         {
             UseOriginalFont = true;
         }
+
+        /// <summary>
+        ///     Includes line numbers
+        /// </summary>
+        public bool IncludeLineNumbers { get; set; }
+
+        /// <summary>
+        ///     Use original font
+        /// </summary>
+        public bool UseOriginalFont { get; set; }
 
         public string GetRtf(FastColoredTextBox tb)
         {
@@ -89,7 +89,7 @@ namespace FastColoredTextBoxNS
 
                     default:
                         var ch = c.c;
-                        var code = (int)ch;
+                        var code = (int) ch;
                         if (code < 128)
                             tempSB.Append(c.c);
                         else
@@ -115,7 +115,7 @@ namespace FastColoredTextBoxNS
             if (UseOriginalFont)
             {
                 sb.Insert(0, string.Format(@"{{\fonttbl{{\f0\fmodern {0};}}}}{{\fs{1} ",
-                                tb.Font.Name, 2 * tb.Font.SizeInPoints, tb.CharHeight));
+                    tb.Font.Name, 2*tb.Font.SizeInPoints));
                 sb.AppendLine(@"}");
             }
 
@@ -136,7 +136,7 @@ namespace FastColoredTextBoxNS
             var hasTextStyle = false;
             for (var i = 0; i < tb.Styles.Length; i++)
             {
-                if (tb.Styles[i] != null && ((int)styleIndex & mask) != 0)
+                if (tb.Styles[i] != null && ((int) styleIndex & mask) != 0)
                     if (tb.Styles[i].IsExportable)
                     {
                         var style = tb.Styles[i];
@@ -153,18 +153,17 @@ namespace FastColoredTextBoxNS
                 mask = mask << 1;
             }
             //add TextStyle css
-            RTFStyleDescriptor result;
 
-            result = !hasTextStyle ? tb.DefaultStyle.GetRTF() : textStyle.GetRTF();
+            var result = !hasTextStyle ? tb.DefaultStyle.GetRTF() : textStyle.GetRTF();
 
             return result;
         }
 
         public static string GetColorAsString(Color color)
         {
-            if (color == Color.Transparent)
-                return "";
-            return string.Format(@"\red{0}\green{1}\blue{2}", color.R, color.G, color.B);
+            return color == Color.Transparent
+                ? ""
+                : string.Format(@"\red{0}\green{1}\blue{2}", color.R, color.G, color.B);
         }
 
         private void Flush(StringBuilder sb, StringBuilder tempSB, StyleIndex currentStyle)

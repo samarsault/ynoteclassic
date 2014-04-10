@@ -1,7 +1,3 @@
-using FastColoredTextBoxNS;
-using SS.Ynote.Classic.Features.Extensibility;
-using SS.Ynote.Classic.Features.RunScript;
-using SS.Ynote.Classic.Features.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,6 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Extensibility;
+using SS.Ynote.Classic.Features.RunScript;
+using SS.Ynote.Classic.Features.Syntax;
 using WeifenLuo.WinFormsUI.Docking;
 using AutocompleteItem = AutocompleteMenuNS.AutocompleteItem;
 
@@ -49,9 +49,11 @@ namespace SS.Ynote.Classic.UI
         private void BuildAutoComplete()
         {
             var items = new List<AutocompleteItem>();
-            items.AddRange(from object lang in Enum.GetValues(typeof(Language))
-                           select new AutocompleteItem("SetSyntax:" + lang));
-            items.AddRange(from item in SyntaxHighlighter.LoadedSyntaxes where item != null select new AutocompleteItem("SetSyntaxFile:" + Path.GetFileNameWithoutExtension(item.SysPath)));
+            items.AddRange(from object lang in Enum.GetValues(typeof (Language))
+                select new AutocompleteItem("SetSyntax:" + lang));
+            items.AddRange(from item in SyntaxHighlighter.LoadedSyntaxes
+                where item != null
+                select new AutocompleteItem("SetSyntaxFile:" + Path.GetFileNameWithoutExtension(item.SysPath)));
             items.Add(new AutocompleteItem("File:New"));
             items.Add(new AutocompleteItem("File:Open"));
             items.Add(new AutocompleteItem("File:Save"));
@@ -158,7 +160,8 @@ namespace SS.Ynote.Classic.UI
             switch (c.Key)
             {
                 case "SetSyntax":
-                    ActiveEditor.Highlighter.HighlightSyntax(c.Value.ToEnum<Language>(), new TextChangedEventArgs(ActiveEditor.Tb.Range));
+                    ActiveEditor.Highlighter.HighlightSyntax(c.Value.ToEnum<Language>(),
+                        new TextChangedEventArgs(ActiveEditor.Tb.Range));
                     ActiveEditor.Tb.Language = c.Value.ToEnum<Language>();
                     ActiveEditor.Syntax = null;
                     if (LangMenu != null) LangMenu.Text = c.Value;
@@ -166,7 +169,10 @@ namespace SS.Ynote.Classic.UI
 
                 case "SetSyntaxFile":
                     foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes.Where(syntax => syntax.SysPath ==
-                                                                                                                             string.Format("{0}\\Syntaxes\\{1}.xml", Application.StartupPath, c.Value)))
+                                                                                            string.Format(
+                                                                                                "{0}\\Syntaxes\\{1}.xml",
+                                                                                                SettingsBase.SettingsDir,
+                                                                                                c.Value)))
                     {
                         ActiveEditor.Highlighter.HighlightSyntax(syntax, new TextChangedEventArgs(ActiveEditor.Tb.Range));
                         ActiveEditor.Syntax = syntax;
@@ -298,17 +304,17 @@ namespace SS.Ynote.Classic.UI
                 macro));
         }
 
-        private void RunScript(string script)
-        {
-            //  ScriptingHelper.RunScript(Application.StartupPath + @"\User\Scripts\" + script + ".ys", _ynote);
-        }
-
         private void SelectionFunc(string val)
         {
-            if (val == "Readonly")
-                ActiveEditor.Tb.Selection.ReadOnly = true;
-            else if (val == "Writeable")
-                ActiveEditor.Tb.Selection.ReadOnly = false;
+            switch (val)
+            {
+                case "Readonly":
+                    ActiveEditor.Tb.Selection.ReadOnly = true;
+                    break;
+                case "Writeable":
+                    ActiveEditor.Tb.Selection.ReadOnly = false;
+                    break;
+            }
         }
 
         private void Viewfunc(string str)
@@ -374,37 +380,37 @@ namespace SS.Ynote.Classic.UI
                     break;
 
                 case "Duplicate":
-                    {
-                        var fctb = ActiveEditor.Tb;
-                        fctb.Selection.Start = new Place(0, ActiveEditor.Tb.Selection.Start.iLine);
-                        fctb.Selection.Expand();
-                        object text = fctb.Selection.Text;
-                        fctb.Selection.Start = new Place(0, ActiveEditor.Tb.Selection.Start.iLine);
-                        fctb.InsertText(text + "\r\n");
-                    }
+                {
+                    var fctb = ActiveEditor.Tb;
+                    fctb.Selection.Start = new Place(0, ActiveEditor.Tb.Selection.Start.iLine);
+                    fctb.Selection.Expand();
+                    object text = fctb.Selection.Text;
+                    fctb.Selection.Start = new Place(0, ActiveEditor.Tb.Selection.Start.iLine);
+                    fctb.InsertText(text + "\r\n");
+                }
                     break;
 
                 case "Join":
-                    {
-                        var lines = ActiveEditor.Tb.SelectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-                        ActiveEditor.Tb.SelectedText = string.Join(" ", lines);
-                    }
+                {
+                    var lines = ActiveEditor.Tb.SelectedText.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
+                    ActiveEditor.Tb.SelectedText = string.Join(" ", lines);
+                }
                     break;
 
                 case "Sort":
+                {
+                    var fctb = ActiveEditor.Tb;
+                    if (fctb.SelectedText == null)
                     {
-                        var fctb = ActiveEditor.Tb;
-                        if (fctb.SelectedText == null)
-                        {
-                            MessageBox.Show("No Text/Lines is/are Selected to Reverse");
-                            return;
-                        }
-                        var lines = fctb.SelectedText.Split(new[] { Environment.NewLine },
-                            StringSplitOptions.RemoveEmptyEntries);
-                        Array.Reverse(lines);
-                        var formedtext = lines.Aggregate<string, string>(null, (current, line) => current + (line + "\r\n"));
-                        fctb.SelectedText = formedtext;
+                        MessageBox.Show("No Text/Lines is/are Selected to Reverse");
+                        return;
                     }
+                    var lines = fctb.SelectedText.Split(new[] {Environment.NewLine},
+                        StringSplitOptions.RemoveEmptyEntries);
+                    Array.Reverse(lines);
+                    var formedtext = lines.Aggregate<string, string>(null, (current, line) => current + (line + "\r\n"));
+                    fctb.SelectedText = formedtext;
+                }
                     break;
             }
         }
@@ -490,7 +496,7 @@ namespace SS.Ynote.Classic.UI
                 ActiveEditor.Tb.Bookmarks.Clear();
             else if (func == "Manager")
             {
-                var manager = new BookmarksInfos(ActiveEditor.Tb) { StartPosition = FormStartPosition.CenterParent };
+                var manager = new BookmarksInfos(ActiveEditor.Tb) {StartPosition = FormStartPosition.CenterParent};
                 manager.ShowDialog(this);
             }
         }
@@ -514,7 +520,7 @@ namespace SS.Ynote.Classic.UI
             else if (func == "Save")
                 _ynote.SaveEditor(ActiveEditor);
             else if (func == "Print")
-                ActiveEditor.Tb.Print(new PrintDialogSettings { ShowPrintPreviewDialog = true });
+                ActiveEditor.Tb.Print(new PrintDialogSettings {ShowPrintPreviewDialog = true});
             else if (func == "Properties")
             {
                 if (ActiveEditor.IsSaved)

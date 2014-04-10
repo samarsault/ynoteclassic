@@ -1,12 +1,12 @@
-﻿using FastColoredTextBoxNS;
-using Nini.Config;
-using SS.Ynote.Classic.Features.Syntax;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using FastColoredTextBoxNS;
+using Nini.Config;
+using SS.Ynote.Classic.Features.Syntax;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace SS.Ynote.Classic.UI
@@ -28,12 +28,11 @@ namespace SS.Ynote.Classic.UI
         /// </summary>
         private void InitSettings()
         {
-            cmbwordwrapmode.DataSource = Enum.GetValues(typeof(WordWrapMode));
             cbdockstyle.Text = SettingsBase.DocumentStyle.ToString();
             comboBox2.Text = SettingsBase.BracketsStrategy.ToString();
-            cmbwordwrapmode.Text = SettingsBase.WordWrapMode.ToString();
             tablocation.Text = SettingsBase.TabLocation.ToString();
             checkBox1.Checked = SettingsBase.ShowDocumentMap;
+            cbBrackets.Checked = SettingsBase.AutoCompleteBrackets;
             ShowLineNumber.Checked = SettingsBase.ShowLineNumbers;
             showcaret.Checked = SettingsBase.ShowCaret;
             showfoldinglines.Checked = SettingsBase.ShowFoldingLines;
@@ -41,10 +40,10 @@ namespace SS.Ynote.Classic.UI
             highlightfoliding.Checked = SettingsBase.HighlightFolding;
             tbpaddingwidth.Text = SettingsBase.PaddingWidth.ToString();
             tblineinterval.Text = SettingsBase.LineInterval.ToString();
-            cmbwordwrapmode.Text = SettingsBase.WordWrapMode.ToString();
             comboBox1.Text = SettingsBase.FoldingStrategy.ToString();
             tabsize.Value = SettingsBase.TabSize;
             cbruler.Checked = SettingsBase.ShowRuler;
+            numrecent.Value = SettingsBase.RecentFileNumber;
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
@@ -125,17 +124,6 @@ namespace SS.Ynote.Classic.UI
             SettingsBase.EnableVirtualSpace = virtualspace.Checked;
         }
 
-        private void cmbwordwrapmode_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                SettingsBase.WordWrapMode = cmbwordwrapmode.Text.ToEnum<WordWrapMode>();
-            }
-            catch
-            {
-            }
-        }
-
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             SettingsBase.FoldingStrategy = comboBox1.Text.ToEnum<FindEndOfFoldingBlockStrategy>();
@@ -157,6 +145,7 @@ namespace SS.Ynote.Classic.UI
             SettingsBase.PaddingWidth = tbpaddingwidth.IntValue;
             SettingsBase.LineInterval = tblineinterval.IntValue;
             SettingsBase.TabSize = Convert.ToInt32(tabsize.Value);
+            SettingsBase.RecentFileNumber = Convert.ToInt32(numrecent.Value);
             SettingsBase.SaveConfiguration();
             Close();
         }
@@ -168,7 +157,10 @@ namespace SS.Ynote.Classic.UI
 
         private void button6_Click(object sender, EventArgs e)
         {
-           var result = MessageBox.Show("You will need to restart the application for changes to take place.\nDo you want to continue ? ", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var result =
+                MessageBox.Show(
+                    "You will need to restart the application for changes to take place.\nDo you want to continue ? ",
+                    "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
                 File.Delete(SettingsBase.SettingsDir + "Settings.ini");
@@ -190,7 +182,7 @@ namespace SS.Ynote.Classic.UI
         {
             var dic = new Dictionary<string, string[]>();
             IConfigSource source = new IniConfigSource(SettingsBase.SettingsDir + "Extensions.ini");
-            dic.Add("Text", new[] { ".txt" });
+            dic.Add("Text", new[] {".txt"});
             dic.Add("CSharp", source.Configs["Extensions"].Get("CSharp").Split('|'));
             dic.Add("VB", source.Configs["Extensions"].Get("VB").Split('|'));
             dic.Add("Javascript", source.Configs["Extensions"].Get("Javascript").Split('|'));
@@ -232,7 +224,7 @@ namespace SS.Ynote.Classic.UI
 
         private void BuildLangList()
         {
-            foreach (var language in Enum.GetValues(typeof(Language)))
+            foreach (var language in Enum.GetValues(typeof (Language)))
                 lstlang.Items.Add(language);
             foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes.Where(syntax => syntax.SysPath != null))
                 lstlang.Items.Add(Path.GetFileNameWithoutExtension(syntax.SysPath));
@@ -263,11 +255,13 @@ namespace SS.Ynote.Classic.UI
             {
                 foreach (var file in Directory.GetFiles(SettingsBase.SettingsDir + @"Scripts\", "*.cache"))
                     File.Delete(file);
-                MessageBox.Show("Script Cache Successfully Cleared !", "Ynote Classic", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Script Cache Successfully Cleared !", "Ynote Classic", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("There was an Error Clearing the Cache\nMessage : " + ex.Message, "Ynote Classic", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("There was an Error Clearing the Cache\nMessage : " + ex.Message, "Ynote Classic",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -282,7 +276,7 @@ namespace SS.Ynote.Classic.UI
             catch (Exception ex)
             {
                 MessageBox.Show("Error Clearing Recent Files \r\n Message : " + ex.Message, null,
-    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
     }

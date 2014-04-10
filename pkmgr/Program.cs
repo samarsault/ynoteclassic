@@ -1,12 +1,12 @@
 ﻿using System;
-using SS.Ynote.Classic.Features.Packages;
 using System.IO;
+using SS.Ynote.Classic.Features.Packages;
 
 namespace pkmgr
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             if (
                 !Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "Ynote_Classic"))
@@ -28,7 +28,6 @@ namespace pkmgr
                     ? "Package Successfully Installed!"
                     : "Error Installing Package");
             }
-
         }
     }
 }

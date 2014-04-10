@@ -1,8 +1,8 @@
-﻿using FastColoredTextBoxNS;
-using SS.Ynote.Classic.Features.Snippets;
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Snippets;
 
 internal static class HelperMethods
 {
@@ -39,7 +39,7 @@ internal static class HelperMethods
     /// <returns></returns>
     public static T ToEnum<T>(this string str)
     {
-        return ((T)Enum.Parse(typeof(T), str));
+        return ((T) Enum.Parse(typeof (T), str));
     }
 
     /// <summary>
@@ -53,12 +53,13 @@ internal static class HelperMethods
     }
 
     /// <summary>
-    ///
     /// </summary>
     /// <param name="snippet"></param>
     /// <returns></returns>
     public static AutocompleteItem ToAutoCompleteItem(this YnoteSnippet snippet)
     {
-        return snippet.AutoCompleteType == ApType.Snippet ? new SnippetAutocompleteItem(snippet.Value) : new AutocompleteItem(snippet.Value);
+        return snippet.AutoCompleteType == ApType.Snippet
+            ? new SnippetAutocompleteItem(snippet.Value)
+            : new AutocompleteItem(snippet.Value);
     }
 }

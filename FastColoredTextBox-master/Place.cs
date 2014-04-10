@@ -3,7 +3,7 @@
 namespace FastColoredTextBoxNS
 {
     /// <summary>
-    /// Line index and char index
+    ///     Line index and char index
     /// </summary>
     public struct Place : IEquatable<Place>
     {
@@ -16,10 +16,9 @@ namespace FastColoredTextBoxNS
             this.iLine = iLine;
         }
 
-        public void Offset(int dx, int dy)
+        public static Place Empty
         {
-            iChar += dx;
-            iLine += dy;
+            get { return new Place(); }
         }
 
         public bool Equals(Place other)
@@ -27,9 +26,15 @@ namespace FastColoredTextBoxNS
             return iChar == other.iChar && iLine == other.iLine;
         }
 
+        public void Offset(int dx, int dy)
+        {
+            iChar += dx;
+            iLine += dy;
+        }
+
         public override bool Equals(object obj)
         {
-            return (obj is Place) && Equals((Place)obj);
+            return (obj is Place) && Equals((Place) obj);
         }
 
         public override int GetHashCode()
@@ -79,11 +84,6 @@ namespace FastColoredTextBoxNS
             if (p1.iLine < p2.iLine) return false;
             if (p1.iChar > p2.iChar) return true;
             return false;
-        }
-
-        public static Place Empty
-        {
-            get { return new Place(); }
         }
 
         public override string ToString()

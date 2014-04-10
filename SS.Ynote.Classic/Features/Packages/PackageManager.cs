@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
@@ -47,6 +48,25 @@ namespace SS.Ynote.Classic.Features.Packages
                 return;
             var package = listView1.SelectedItems[0].SubItems[1].Text;
             YnotePackageManager.UninstallPackage(package);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            using (var dlg = new OpenFileDialog())
+            {
+                dlg.Filter = "Ynote Packages (*.ypk)|*.ypk";
+                if (dlg.ShowDialog() != DialogResult.OK) return;
+                var info = new ProcessStartInfo(Application.StartupPath + "\\pkmgr.exe")
+                {
+                    Verb = "runas",
+                    Arguments = dlg.FileName
+                };
+                Process.Start(info);
+            }
+        }
+        private void PackageManager_HelpButtonClicked(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Process.Start("http://ynoteclassic.codeplex.com/wikipage?title=Ynote%20Packages");
         }
     }
 }

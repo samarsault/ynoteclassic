@@ -7,13 +7,13 @@ using System.Windows.Forms;
 namespace FastColoredTextBoxNS
 {
     /// <summary>
-    /// Collection of Hints.
-    /// This is temporary buffer for currently displayed hints.
+    ///     Collection of Hints.
+    ///     This is temporary buffer for currently displayed hints.
     /// </summary>
     public class Hints : ICollection<Hint>, IDisposable
     {
-        private readonly FastColoredTextBox tb;
         private readonly List<Hint> items = new List<Hint>();
+        private readonly FastColoredTextBox tb;
 
         public Hints(FastColoredTextBox tb)
         {
@@ -21,65 +21,6 @@ namespace FastColoredTextBoxNS
             tb.TextChanged += OnTextBoxTextChanged;
             tb.KeyDown += OnTextBoxKeyDown;
             tb.VisibleRangeChanged += OnTextBoxVisibleRangeChanged;
-        }
-
-        protected virtual void OnTextBoxKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Escape && e.Modifiers == Keys.None)
-                Clear();
-        }
-
-        protected virtual void OnTextBoxTextChanged(object sender, TextChangedEventArgs e)
-        {
-            Clear();
-        }
-
-        public void Dispose()
-        {
-            tb.TextChanged -= OnTextBoxTextChanged;
-            tb.KeyDown -= OnTextBoxKeyDown;
-            tb.VisibleRangeChanged -= OnTextBoxVisibleRangeChanged;
-        }
-
-        private void OnTextBoxVisibleRangeChanged(object sender, EventArgs e)
-        {
-            if (items.Count == 0)
-                return;
-
-            tb.NeedRecalc(true);
-            foreach (var item in items)
-            {
-                LayoutHint(item);
-                item.HostPanel.Invalidate();
-            }
-        }
-
-        private void LayoutHint(Hint hint)
-        {
-            if (hint.Inline || hint.Range.Start.iLine >= tb.LinesCount - 1)
-            {
-                if (hint.Range.Start.iLine < tb.LineInfos.Count - 1)
-                    hint.HostPanel.Top = tb.LineInfos[hint.Range.Start.iLine + 1].startY - hint.TopPadding - hint.HostPanel.Height - tb.VerticalScroll.Value;
-                else
-                    hint.HostPanel.Top = tb.TextHeight + tb.Paddings.Top - hint.HostPanel.Height - tb.VerticalScroll.Value;
-            }
-            else
-            {
-                hint.HostPanel.Top = tb.LineInfos[hint.Range.Start.iLine + 1].startY - tb.VerticalScroll.Value;
-            }
-
-            if (hint.Dock == DockStyle.Fill)
-            {
-                hint.Width = tb.ClientSize.Width - tb.LeftIndent - 2;
-                hint.HostPanel.Left = tb.LeftIndent;
-            }
-            else
-            {
-                var p1 = tb.PlaceToPoint(hint.Range.Start);
-                var p2 = tb.PlaceToPoint(hint.Range.End);
-                var cx = (p1.X + p2.X) / 2;
-                hint.HostPanel.Left = Math.Max(tb.LeftIndent, cx - hint.HostPanel.Width / 2);
-            }
         }
 
         public IEnumerator<Hint> GetEnumerator()
@@ -94,7 +35,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Clears all displayed hints
+        ///     Clears all displayed hints
         /// </summary>
         public void Clear()
         {
@@ -123,7 +64,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Add and shows the hint
+        ///     Add and shows the hint
         /// </summary>
         /// <param name="hint"></param>
         public void Add(Hint hint)
@@ -151,7 +92,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Is collection contains the hint?
+        ///     Is collection contains the hint?
         /// </summary>
         public bool Contains(Hint item)
         {
@@ -164,7 +105,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Count of hints
+        ///     Count of hints
         /// </summary>
         public int Count
         {
@@ -180,113 +121,74 @@ namespace FastColoredTextBoxNS
         {
             throw new NotImplementedException();
         }
+
+        public void Dispose()
+        {
+            tb.TextChanged -= OnTextBoxTextChanged;
+            tb.KeyDown -= OnTextBoxKeyDown;
+            tb.VisibleRangeChanged -= OnTextBoxVisibleRangeChanged;
+        }
+
+        protected virtual void OnTextBoxKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape && e.Modifiers == Keys.None)
+                Clear();
+        }
+
+        protected virtual void OnTextBoxTextChanged(object sender, TextChangedEventArgs e)
+        {
+            Clear();
+        }
+
+        private void OnTextBoxVisibleRangeChanged(object sender, EventArgs e)
+        {
+            if (items.Count == 0)
+                return;
+
+            tb.NeedRecalc(true);
+            foreach (var item in items)
+            {
+                LayoutHint(item);
+                item.HostPanel.Invalidate();
+            }
+        }
+
+        private void LayoutHint(Hint hint)
+        {
+            if (hint.Inline || hint.Range.Start.iLine >= tb.LinesCount - 1)
+            {
+                if (hint.Range.Start.iLine < tb.LineInfos.Count - 1)
+                    hint.HostPanel.Top = tb.LineInfos[hint.Range.Start.iLine + 1].startY - hint.TopPadding -
+                                         hint.HostPanel.Height - tb.VerticalScroll.Value;
+                else
+                    hint.HostPanel.Top = tb.TextHeight + tb.Paddings.Top - hint.HostPanel.Height -
+                                         tb.VerticalScroll.Value;
+            }
+            else
+            {
+                hint.HostPanel.Top = tb.LineInfos[hint.Range.Start.iLine + 1].startY - tb.VerticalScroll.Value;
+            }
+
+            if (hint.Dock == DockStyle.Fill)
+            {
+                hint.Width = tb.ClientSize.Width - tb.LeftIndent - 2;
+                hint.HostPanel.Left = tb.LeftIndent;
+            }
+            else
+            {
+                var p1 = tb.PlaceToPoint(hint.Range.Start);
+                var p2 = tb.PlaceToPoint(hint.Range.End);
+                var cx = (p1.X + p2.X)/2;
+                hint.HostPanel.Left = Math.Max(tb.LeftIndent, cx - hint.HostPanel.Width/2);
+            }
+        }
     }
 
     /// <summary>
-    /// Hint of FastColoredTextbox
+    ///     Hint of FastColoredTextbox
     /// </summary>
     public class Hint
     {
-        /// <summary>
-        /// Text of simple hint
-        /// </summary>
-        public string Text { get { return HostPanel.Text; } set { HostPanel.Text = value; } }
-
-        /// <summary>
-        /// Linked range
-        /// </summary>
-        public Range Range { get; set; }
-
-        /// <summary>
-        /// Backcolor
-        /// </summary>
-        public Color BackColor { get { return HostPanel.BackColor; } set { HostPanel.BackColor = value; } }
-
-        /// <summary>
-        /// Second backcolor
-        /// </summary>
-        public Color BackColor2 { get { return HostPanel.BackColor2; } set { HostPanel.BackColor2 = value; } }
-
-        /// <summary>
-        /// Border color
-        /// </summary>
-        public Color BorderColor { get { return HostPanel.BorderColor; } set { HostPanel.BorderColor = value; } }
-
-        /// <summary>
-        /// Fore color
-        /// </summary>
-        public Color ForeColor { get { return HostPanel.ForeColor; } set { HostPanel.ForeColor = value; } }
-
-        /// <summary>
-        /// Text alignment
-        /// </summary>
-        public StringAlignment TextAlignment { get { return HostPanel.TextAlignment; } set { HostPanel.TextAlignment = value; } }
-
-        /// <summary>
-        /// Font
-        /// </summary>
-        public Font Font { get { return HostPanel.Font; } set { HostPanel.Font = value; } }
-
-        /// <summary>
-        /// Occurs when user click on simple hint
-        /// </summary>
-        public event EventHandler Click
-        {
-            add { HostPanel.Click += value; }
-            remove { HostPanel.Click -= value; }
-        }
-
-        /// <summary>
-        /// Inner control
-        /// </summary>
-        public Control InnerControl { get; set; }
-
-        /// <summary>
-        /// Docking (allows None and Fill only)
-        /// </summary>
-        public DockStyle Dock { get; set; }
-
-        /// <summary>
-        /// Width of hint (if Dock is None)
-        /// </summary>
-        public int Width { get { return HostPanel.Width; } set { HostPanel.Width = value; } }
-
-        /// <summary>
-        /// Height of hint
-        /// </summary>
-        public int Height { get { return HostPanel.Height; } set { HostPanel.Height = value; } }
-
-        /// <summary>
-        /// Host panel
-        /// </summary>
-        public UnfocusablePanel HostPanel { get; private set; }
-
-        internal int TopPadding { get; set; }
-
-        /// <summary>
-        /// Tag
-        /// </summary>
-        public object Tag { get; set; }
-
-        /// <summary>
-        /// Cursor
-        /// </summary>
-        public Cursor Cursor { get { return HostPanel.Cursor; } set { HostPanel.Cursor = value; } }
-
-        /// <summary>
-        /// Inlining. If True then hint will moves apart text.
-        /// </summary>
-        public bool Inline { get; set; }
-
-        /// <summary>
-        /// Scroll textbox to the hint
-        /// </summary>
-        public virtual void DoVisible()
-        {
-            Range.tb.DoRangeVisible(Range, true);
-            Range.tb.Invalidate();
-        }
-
         private Hint(Range range, Control innerControl, string text, bool inline, bool dock)
         {
             Range = range;
@@ -300,7 +202,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Creates Hint
+        ///     Creates Hint
         /// </summary>
         /// <param name="range">Linked range</param>
         /// <param name="text">Text for simple hint</param>
@@ -312,7 +214,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Creates Hint
+        ///     Creates Hint
         /// </summary>
         /// <param name="range">Linked range</param>
         /// <param name="text">Text for simple hint</param>
@@ -322,7 +224,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Creates Hint
+        ///     Creates Hint
         /// </summary>
         /// <param name="range">Linked range</param>
         /// <param name="innerControl">Inner control</param>
@@ -334,13 +236,153 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Creates Hint
+        ///     Creates Hint
         /// </summary>
         /// <param name="range">Linked range</param>
         /// <param name="innerControl">Inner control</param>
         public Hint(Range range, Control innerControl)
             : this(range, innerControl, null, true, true)
         {
+        }
+
+        /// <summary>
+        ///     Text of simple hint
+        /// </summary>
+        public string Text
+        {
+            get { return HostPanel.Text; }
+            set { HostPanel.Text = value; }
+        }
+
+        /// <summary>
+        ///     Linked range
+        /// </summary>
+        public Range Range { get; set; }
+
+        /// <summary>
+        ///     Backcolor
+        /// </summary>
+        public Color BackColor
+        {
+            get { return HostPanel.BackColor; }
+            set { HostPanel.BackColor = value; }
+        }
+
+        /// <summary>
+        ///     Second backcolor
+        /// </summary>
+        public Color BackColor2
+        {
+            get { return HostPanel.BackColor2; }
+            set { HostPanel.BackColor2 = value; }
+        }
+
+        /// <summary>
+        ///     Border color
+        /// </summary>
+        public Color BorderColor
+        {
+            get { return HostPanel.BorderColor; }
+            set { HostPanel.BorderColor = value; }
+        }
+
+        /// <summary>
+        ///     Fore color
+        /// </summary>
+        public Color ForeColor
+        {
+            get { return HostPanel.ForeColor; }
+            set { HostPanel.ForeColor = value; }
+        }
+
+        /// <summary>
+        ///     Text alignment
+        /// </summary>
+        public StringAlignment TextAlignment
+        {
+            get { return HostPanel.TextAlignment; }
+            set { HostPanel.TextAlignment = value; }
+        }
+
+        /// <summary>
+        ///     Font
+        /// </summary>
+        public Font Font
+        {
+            get { return HostPanel.Font; }
+            set { HostPanel.Font = value; }
+        }
+
+        /// <summary>
+        ///     Inner control
+        /// </summary>
+        public Control InnerControl { get; set; }
+
+        /// <summary>
+        ///     Docking (allows None and Fill only)
+        /// </summary>
+        public DockStyle Dock { get; set; }
+
+        /// <summary>
+        ///     Width of hint (if Dock is None)
+        /// </summary>
+        public int Width
+        {
+            get { return HostPanel.Width; }
+            set { HostPanel.Width = value; }
+        }
+
+        /// <summary>
+        ///     Height of hint
+        /// </summary>
+        public int Height
+        {
+            get { return HostPanel.Height; }
+            set { HostPanel.Height = value; }
+        }
+
+        /// <summary>
+        ///     Host panel
+        /// </summary>
+        public UnfocusablePanel HostPanel { get; private set; }
+
+        internal int TopPadding { get; set; }
+
+        /// <summary>
+        ///     Tag
+        /// </summary>
+        public object Tag { get; set; }
+
+        /// <summary>
+        ///     Cursor
+        /// </summary>
+        public Cursor Cursor
+        {
+            get { return HostPanel.Cursor; }
+            set { HostPanel.Cursor = value; }
+        }
+
+        /// <summary>
+        ///     Inlining. If True then hint will moves apart text.
+        /// </summary>
+        public bool Inline { get; set; }
+
+        /// <summary>
+        ///     Occurs when user click on simple hint
+        /// </summary>
+        public event EventHandler Click
+        {
+            add { HostPanel.Click += value; }
+            remove { HostPanel.Click -= value; }
+        }
+
+        /// <summary>
+        ///     Scroll textbox to the hint
+        /// </summary>
+        public virtual void DoVisible()
+        {
+            Range.tb.DoRangeVisible(Range, true);
+            Range.tb.Invalidate();
         }
 
         protected virtual void Init()

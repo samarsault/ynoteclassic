@@ -75,9 +75,16 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=3.0.0.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Desktop\Ynote Classic 2.7\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
+    <Reference Include="YnoteUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Desktop\Ynote Classic 2.7\YnoteUtils.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Features\Extensibility\IPlugin.cs" />
     <Compile Include="Features\Packages\AddPackageFile.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,6 +119,12 @@
     <Compile Include="Features\Project\ProjectUtils.Designer.cs">
       <DependentUpon>ProjectUtils.cs</DependentUpon>
     </Compile>
+    <Compile Include="Features\RunScript\NewRun.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Features\RunScript\NewRun.Designer.cs">
+      <DependentUpon>NewRun.cs</DependentUpon>
+    </Compile>
     <Compile Include="Features\Snippets\YnoteSnippet.cs" />
     <Compile Include="Features\Syntax\Framework\Rules.cs" />
     <Compile Include="Features\Syntax\Framework\SyntaxBase.cs" />
@@ -135,11 +148,11 @@
     <Compile Include="Features\Project\ProjectPanel.Designer.cs">
       <DependentUpon>ProjectPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Features\Project\Wizard.cs">
+    <Compile Include="Features\Project\ProjectWizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Features\Project\Wizard.Designer.cs">
-      <DependentUpon>Wizard.cs</DependentUpon>
+    <Compile Include="Features\Project\ProjectWizard.Designer.cs">
+      <DependentUpon>ProjectWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="Features\Project\YnoteProj.cs" />
     <Compile Include="Helpers\SettingsBase.cs" />
@@ -155,7 +168,6 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\BookmarksInfos.cs">
       <SubType>Form</SubType>
@@ -256,14 +268,17 @@
     <EmbeddedResource Include="Features\Project\ProjectUtils.resx">
       <DependentUpon>ProjectUtils.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Features\RunScript\NewRun.resx">
+      <DependentUpon>NewRun.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Features\RunScript\RunScriptEditor.resx">
       <DependentUpon>RunScriptEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Features\Project\ProjectPanel.resx">
       <DependentUpon>ProjectPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Features\Project\Wizard.resx">
-      <DependentUpon>Wizard.cs</DependentUpon>
+    <EmbeddedResource Include="Features\Project\ProjectWizard.resx">
+      <DependentUpon>ProjectWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -329,17 +344,9 @@
     <None Include="Resources\ynote-favicon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DockPanelSuite\WinFormsUI.csproj">
-      <Project>{c75532c4-765b-418e-b09b-46d36b2abdb1}</Project>
-      <Name>WinFormsUI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FastColoredTextBox-master\FastColoredTextBox.csproj">
       <Project>{6dd14a85-ccfc-4774-bd26-0f5772512319}</Project>
       <Name>FastColoredTextBox</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Utilities\Utilities.csproj">
-      <Project>{08c5fe8e-a1ae-407e-a243-36f6d4edc5e5}</Project>
-      <Name>Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

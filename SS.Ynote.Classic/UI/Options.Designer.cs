@@ -30,20 +30,20 @@ namespace SS.Ynote.Classic.UI
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Tabs");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Environment", new System.Windows.Forms.TreeNode[] {
-            treeNode1});
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("General");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("MISC");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Text Editor", new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4});
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("File Extensions");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Files", new System.Windows.Forms.TreeNode[] {
-            treeNode6});
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Manage");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Data", new System.Windows.Forms.TreeNode[] {
-            treeNode8});
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Tabs");
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Environment", new System.Windows.Forms.TreeNode[] {
+            treeNode10});
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("General");
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("MISC");
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Text Editor", new System.Windows.Forms.TreeNode[] {
+            treeNode12,
+            treeNode13});
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("File Extensions");
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Files", new System.Windows.Forms.TreeNode[] {
+            treeNode15});
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Manage");
+            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Data", new System.Windows.Forms.TreeNode[] {
+            treeNode17});
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -68,8 +68,6 @@ namespace SS.Ynote.Classic.UI
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.ShowLineNumber = new System.Windows.Forms.CheckBox();
-            this.cmbwordwrapmode = new System.Windows.Forms.ComboBox();
-            this.label9 = new System.Windows.Forms.Label();
             this.showcaret = new System.Windows.Forms.CheckBox();
             this.showfoldinglines = new System.Windows.Forms.CheckBox();
             this.EditingPage = new System.Windows.Forms.TabPage();
@@ -94,6 +92,9 @@ namespace SS.Ynote.Classic.UI
             this.btnScriptCache = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
+            this.groupOther = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.numrecent = new System.Windows.Forms.NumericUpDown();
             this.tabcontrol.SuspendLayout();
             this.tabsettingpage.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -106,6 +107,8 @@ namespace SS.Ynote.Classic.UI
             this.groupBox16.SuspendLayout();
             this.ClearPage.SuspendLayout();
             this.groupBox14.SuspendLayout();
+            this.groupOther.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numrecent)).BeginInit();
             this.SuspendLayout();
             // 
             // treeView1
@@ -115,30 +118,30 @@ namespace SS.Ynote.Classic.UI
             this.treeView1.Indent = 27;
             this.treeView1.Location = new System.Drawing.Point(9, 36);
             this.treeView1.Name = "treeView1";
-            treeNode1.Name = "TabsNode";
-            treeNode1.Text = "Tabs";
-            treeNode2.Name = "EnvironmentNode";
-            treeNode2.Text = "Environment";
-            treeNode3.Name = "TextEditorGeneralNode";
-            treeNode3.Text = "General";
-            treeNode4.Name = "TextEditorEditing";
-            treeNode4.Text = "MISC";
-            treeNode5.Name = "TextEditorNode";
-            treeNode5.Text = "Text Editor";
-            treeNode6.Name = "FileExtensionsNode";
-            treeNode6.Text = "File Extensions";
-            treeNode7.Name = "Node21";
-            treeNode7.Text = "Files";
-            treeNode8.Checked = true;
-            treeNode8.Name = "ClearDataNode";
-            treeNode8.Text = "Manage";
-            treeNode9.Name = "DataNode";
-            treeNode9.Text = "Data";
+            treeNode10.Name = "TabsNode";
+            treeNode10.Text = "Tabs";
+            treeNode11.Name = "EnvironmentNode";
+            treeNode11.Text = "Environment";
+            treeNode12.Name = "TextEditorGeneralNode";
+            treeNode12.Text = "General";
+            treeNode13.Name = "TextEditorEditing";
+            treeNode13.Text = "MISC";
+            treeNode14.Name = "TextEditorNode";
+            treeNode14.Text = "Text Editor";
+            treeNode15.Name = "FileExtensionsNode";
+            treeNode15.Text = "File Extensions";
+            treeNode16.Name = "Node21";
+            treeNode16.Text = "Files";
+            treeNode17.Checked = true;
+            treeNode17.Name = "ClearDataNode";
+            treeNode17.Text = "Manage";
+            treeNode18.Name = "DataNode";
+            treeNode18.Text = "Data";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2,
-            treeNode5,
-            treeNode7,
-            treeNode9});
+            treeNode11,
+            treeNode14,
+            treeNode16,
+            treeNode18});
             this.treeView1.ShowLines = false;
             this.treeView1.Size = new System.Drawing.Size(169, 313);
             this.treeView1.TabIndex = 0;
@@ -200,6 +203,7 @@ namespace SS.Ynote.Classic.UI
             // tabsettingpage
             // 
             this.tabsettingpage.BackColor = System.Drawing.SystemColors.Control;
+            this.tabsettingpage.Controls.Add(this.groupOther);
             this.tabsettingpage.Controls.Add(this.groupBox1);
             this.tabsettingpage.Location = new System.Drawing.Point(4, 22);
             this.tabsettingpage.Name = "tabsettingpage";
@@ -214,9 +218,9 @@ namespace SS.Ynote.Classic.UI
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.tablocation);
-            this.groupBox1.Location = new System.Drawing.Point(44, 43);
+            this.groupBox1.Location = new System.Drawing.Point(15, 19);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(341, 148);
+            this.groupBox1.Size = new System.Drawing.Size(412, 148);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "General";
@@ -228,7 +232,7 @@ namespace SS.Ynote.Classic.UI
             this.cbdockstyle.Items.AddRange(new object[] {
             "DockingSdi",
             "DockingMdi"});
-            this.cbdockstyle.Location = new System.Drawing.Point(113, 70);
+            this.cbdockstyle.Location = new System.Drawing.Point(152, 73);
             this.cbdockstyle.Name = "cbdockstyle";
             this.cbdockstyle.Size = new System.Drawing.Size(189, 21);
             this.cbdockstyle.TabIndex = 10;
@@ -237,7 +241,7 @@ namespace SS.Ynote.Classic.UI
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(31, 73);
+            this.label4.Location = new System.Drawing.Point(54, 76);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(68, 13);
             this.label4.TabIndex = 9;
@@ -246,7 +250,7 @@ namespace SS.Ynote.Classic.UI
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(28, 42);
+            this.label2.Location = new System.Drawing.Point(54, 42);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(79, 13);
             this.label2.TabIndex = 7;
@@ -259,7 +263,7 @@ namespace SS.Ynote.Classic.UI
             this.tablocation.Items.AddRange(new object[] {
             "Top",
             "Bottom"});
-            this.tablocation.Location = new System.Drawing.Point(113, 38);
+            this.tablocation.Location = new System.Drawing.Point(152, 39);
             this.tablocation.Name = "tablocation";
             this.tablocation.Size = new System.Drawing.Size(189, 21);
             this.tablocation.TabIndex = 6;
@@ -288,8 +292,6 @@ namespace SS.Ynote.Classic.UI
             this.groupBox7.Controls.Add(this.comboBox1);
             this.groupBox7.Controls.Add(this.label10);
             this.groupBox7.Controls.Add(this.ShowLineNumber);
-            this.groupBox7.Controls.Add(this.cmbwordwrapmode);
-            this.groupBox7.Controls.Add(this.label9);
             this.groupBox7.Controls.Add(this.showcaret);
             this.groupBox7.Controls.Add(this.showfoldinglines);
             this.groupBox7.Location = new System.Drawing.Point(16, 6);
@@ -367,7 +369,7 @@ namespace SS.Ynote.Classic.UI
             this.comboBox2.Items.AddRange(new object[] {
             "Strategy1",
             "Strategy2"});
-            this.comboBox2.Location = new System.Drawing.Point(162, 217);
+            this.comboBox2.Location = new System.Drawing.Point(162, 183);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(179, 21);
             this.comboBox2.TabIndex = 16;
@@ -376,7 +378,7 @@ namespace SS.Ynote.Classic.UI
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(17, 220);
+            this.label5.Location = new System.Drawing.Point(17, 186);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(139, 13);
             this.label5.TabIndex = 15;
@@ -389,7 +391,7 @@ namespace SS.Ynote.Classic.UI
             this.comboBox1.Items.AddRange(new object[] {
             "Strategy1",
             "Strategy2"});
-            this.comboBox1.Location = new System.Drawing.Point(125, 180);
+            this.comboBox1.Location = new System.Drawing.Point(125, 146);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(216, 21);
             this.comboBox1.TabIndex = 14;
@@ -398,7 +400,7 @@ namespace SS.Ynote.Classic.UI
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(17, 183);
+            this.label10.Location = new System.Drawing.Point(17, 149);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(92, 13);
             this.label10.TabIndex = 13;
@@ -416,25 +418,6 @@ namespace SS.Ynote.Classic.UI
             this.ShowLineNumber.Text = "Show Line Numbers";
             this.ShowLineNumber.UseVisualStyleBackColor = true;
             this.ShowLineNumber.CheckedChanged += new System.EventHandler(this.ShowLineNumber_CheckedChanged);
-            // 
-            // cmbwordwrapmode
-            // 
-            this.cmbwordwrapmode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbwordwrapmode.FormattingEnabled = true;
-            this.cmbwordwrapmode.Location = new System.Drawing.Point(125, 143);
-            this.cmbwordwrapmode.Name = "cmbwordwrapmode";
-            this.cmbwordwrapmode.Size = new System.Drawing.Size(216, 21);
-            this.cmbwordwrapmode.TabIndex = 5;
-            this.cmbwordwrapmode.SelectedIndexChanged += new System.EventHandler(this.cmbwordwrapmode_SelectedIndexChanged);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(17, 146);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(101, 13);
-            this.label9.TabIndex = 4;
-            this.label9.Text = "Word Wrap Mode : ";
             // 
             // showcaret
             // 
@@ -681,6 +664,33 @@ namespace SS.Ynote.Classic.UI
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
+            // groupOther
+            // 
+            this.groupOther.Controls.Add(this.numrecent);
+            this.groupOther.Controls.Add(this.label6);
+            this.groupOther.Location = new System.Drawing.Point(122, 183);
+            this.groupOther.Name = "groupOther";
+            this.groupOther.Size = new System.Drawing.Size(234, 91);
+            this.groupOther.TabIndex = 9;
+            this.groupOther.TabStop = false;
+            this.groupOther.Text = "Other";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(36, 39);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(107, 13);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "No. of Recent Files : ";
+            // 
+            // numrecent
+            // 
+            this.numrecent.Location = new System.Drawing.Point(149, 37);
+            this.numrecent.Name = "numrecent";
+            this.numrecent.Size = new System.Drawing.Size(47, 20);
+            this.numrecent.TabIndex = 1;
+            // 
             // Options
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -711,6 +721,9 @@ namespace SS.Ynote.Classic.UI
             this.groupBox16.PerformLayout();
             this.ClearPage.ResumeLayout(false);
             this.groupBox14.ResumeLayout(false);
+            this.groupOther.ResumeLayout(false);
+            this.groupOther.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numrecent)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -733,8 +746,6 @@ namespace SS.Ynote.Classic.UI
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.CheckBox ShowLineNumber;
-        private System.Windows.Forms.ComboBox cmbwordwrapmode;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.CheckBox showcaret;
         private System.Windows.Forms.CheckBox showfoldinglines;
         private System.Windows.Forms.Label label17;
@@ -778,5 +789,8 @@ namespace SS.Ynote.Classic.UI
         private System.Windows.Forms.CheckBox cbruler;
         private System.Windows.Forms.CheckBox cbBrackets;
         private System.Windows.Forms.Button btnScriptCache;
+        private System.Windows.Forms.GroupBox groupOther;
+        private System.Windows.Forms.NumericUpDown numrecent;
+        private System.Windows.Forms.Label label6;
     }
 }

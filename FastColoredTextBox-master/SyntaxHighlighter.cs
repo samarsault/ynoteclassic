@@ -13,10 +13,7 @@ namespace FastColoredTextBoxNS
 
         public static RegexOptions RegexCompiledOption
         {
-            get
-            {
-                return platformType == Platform.X86 ? RegexOptions.Compiled : RegexOptions.None;
-            }
+            get { return platformType == Platform.X86 ? RegexOptions.Compiled : RegexOptions.None; }
         }
 
         #region IDisposable Members
@@ -45,7 +42,8 @@ namespace FastColoredTextBoxNS
                     HTMLAutoIndentNeeded(sender, args);
                     break;
 
-                case Language.Xml: HTMLAutoIndentNeeded(sender, args);
+                case Language.Xml:
+                    HTMLAutoIndentNeeded(sender, args);
                     break;
 
                 case Language.SQL:
@@ -59,24 +57,29 @@ namespace FastColoredTextBoxNS
                 case Language.Javascript:
                     CSharpAutoIndentNeeded(sender, args);
                     break; //JS like C#
-                case Language.CPP: CSharpAutoIndentNeeded(sender, args);
+                case Language.CPP:
+                    CSharpAutoIndentNeeded(sender, args);
                     break;
 
-                case Language.Objective_C: CSharpAutoIndentNeeded(sender, args);
+                case Language.Objective_C:
+                    CSharpAutoIndentNeeded(sender, args);
                     break;
 
-                case Language.Actionscript: CSharpAutoIndentNeeded(sender, args);
+                case Language.Actionscript:
+                    CSharpAutoIndentNeeded(sender, args);
                     break;
 
-                case Language.Scala: CSharpAutoIndentNeeded(sender, args);
+                case Language.Scala:
+                    CSharpAutoIndentNeeded(sender, args);
                     break;
 
-                case Language.Java: CSharpAutoIndentNeeded(sender, args);
+                case Language.Java:
+                    CSharpAutoIndentNeeded(sender, args);
                     break;
             }
         }
 
-        private void PHPAutoIndentNeeded(object sender, AutoIndentEventArgs args)
+        private static void PHPAutoIndentNeeded(object sender, AutoIndentEventArgs args)
         {
             /*
             FastColoredTextBox tb = sender as FastColoredTextBox;
@@ -128,8 +131,8 @@ namespace FastColoredTextBoxNS
             }
             //start of declaration
             if (Regex.IsMatch(args.LineText,
-                              @"\b(Class|Property|Enum|Structure|Sub|Function|Namespace|Interface|Get)\b|(Set\s*\()",
-                              RegexOptions.IgnoreCase))
+                @"\b(Class|Property|Enum|Structure|Sub|Function|Namespace|Interface|Get)\b|(Set\s*\()",
+                RegexOptions.IgnoreCase))
             {
                 args.ShiftNextLines = args.TabLength;
                 return;
@@ -186,7 +189,7 @@ namespace FastColoredTextBoxNS
             //some statements: case, default
             if (Regex.IsMatch(args.LineText, @"^\s*(case|default)\b.*:\s*($|//)"))
             {
-                args.Shift = -args.TabLength / 2;
+                args.Shift = -args.TabLength/2;
                 return;
             }
             //is unclosed operator in previous line ?
@@ -207,12 +210,12 @@ namespace FastColoredTextBoxNS
 
         private char[] RememberBrackets(FastColoredTextBox tb)
         {
-            return new[] { tb.LeftBracket, tb.RightBracket, tb.LeftBracket2, tb.RightBracket2 };
+            return new[] {tb.LeftBracket, tb.RightBracket, tb.LeftBracket2, tb.RightBracket2};
         }
     }
 
     /// <summary>
-    /// Language
+    ///     Language
     /// </summary>
     public enum Language
     {

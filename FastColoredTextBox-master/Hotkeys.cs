@@ -12,12 +12,12 @@ using KEYS = System.Windows.Forms.Keys;
 namespace FastColoredTextBoxNS
 {
     /// <summary>
-    /// Dictionary of shortcuts for FCTB
+    ///     Dictionary of shortcuts for FCTB
     /// </summary>
-    public class HotkeysMapping : SortedDictionary<Keys, FCTBAction>
+    public class HotkeysMapping : SortedDictionary<KEYS, FCTBAction>
     {
         /// <summary>
-        /// Initialize Default Items
+        ///     Initialize Default Items
         /// </summary>
         public virtual void InitDefault()
         {
@@ -128,8 +128,8 @@ namespace FastColoredTextBoxNS
             foreach (var p in s.Split(','))
             {
                 var pp = p.Split('=');
-                var k = (Keys)kc.ConvertFromString(pp[0].Trim());
-                var a = (FCTBAction)Enum.Parse(typeof(FCTBAction), pp[1].Trim());
+                var k = (Keys) kc.ConvertFromString(pp[0].Trim());
+                var a = (FCTBAction) Enum.Parse(typeof (FCTBAction), pp[1].Trim());
                 result[k] = a;
             }
 
@@ -140,7 +140,7 @@ namespace FastColoredTextBoxNS
     }
 
     /// <summary>
-    /// Actions for shortcuts
+    ///     Actions for shortcuts
     /// </summary>
     public enum FCTBAction
     {
@@ -241,7 +241,7 @@ namespace FastColoredTextBoxNS
 
         public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
         {
-            if ((provider.GetService(typeof(IWindowsFormsEditorService)) != null))
+            if ((provider.GetService(typeof (IWindowsFormsEditorService)) != null))
             {
                 var form = new HotkeysEditorForm(HotkeysMapping.Parse(value as string));
 

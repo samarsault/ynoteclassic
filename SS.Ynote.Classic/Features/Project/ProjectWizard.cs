@@ -3,11 +3,11 @@ using System.Windows.Forms;
 
 namespace SS.Ynote.Classic.Features.Project
 {
-    public partial class Wizard : Form
+    public partial class ProjectWizard : Form
     {
         private readonly IProjectPanel _project;
 
-        public Wizard(IProjectPanel project)
+        public ProjectWizard(IProjectPanel project)
         {
             InitializeComponent();
             _project = project;
@@ -17,19 +17,20 @@ namespace SS.Ynote.Classic.Features.Project
         {
             var dialog = new SaveFileDialog { Filter = "Ynote Project Files (*.ynoteproj)|*.ynoteproj" };
             dialog.ShowDialog();
-            if (dialog.FileName == "") return;
+            if (string.IsNullOrEmpty(dialog.FileName)) return;
             txtfilename.Text = dialog.FileName;
         }
-
         private void button2_Click(object sender, EventArgs e)
         {
-            var dialog = new OpenFileDialog
+            using (var dialog = new OpenFileDialog
             {
                 Filter = "Batch Files (*.bat)(*.cmd)|*.bat;*.cmd|Executables (*.exe)|*.exe"
-            };
-            dialog.ShowDialog();
-            if (dialog.FileName == "") return;
-            txtbuild.Text = dialog.FileName;
+            })
+            {
+                dialog.ShowDialog();
+                if (string.IsNullOrEmpty(dialog.FileName)) return;
+                txtbuild.Text = dialog.FileName;
+            }
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -49,27 +50,31 @@ namespace SS.Ynote.Classic.Features.Project
             };
             if (checkBox1.Checked)
                 proj.BuildFile = txtbuild.Text;
-            proj.MakeProjectFile(proj.ProjectFile);
-            _project.OpenProject(txtfilename.Text);
+            proj.MakeProjectFile();
+            ResultingProject = proj;
         }
-
+        public YnoteProject ResultingProject { get; set; }
         private void button1_Click(object sender, EventArgs e)
         {
             BuildProject();
+            DialogResult = DialogResult.OK;
             Close();
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.Cancel;
             Close();
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            var browser = new FolderBrowserDialog();
-            browser.ShowDialog();
-            if (browser.SelectedPath == null) return;
-            txtfolder.Text = browser.SelectedPath;
+            using (var browser = new FolderBrowserDialog())
+            {
+                browser.ShowDialog();
+                if (browser.SelectedPath == null) return;
+                txtfolder.Text = browser.SelectedPath;
+            }
         }
     }
 }

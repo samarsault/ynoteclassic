@@ -33,18 +33,19 @@
             this.button2 = new System.Windows.Forms.Button();
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.label1 = new System.Windows.Forms.Label();
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label1 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(111, 263);
+            this.button1.Location = new System.Drawing.Point(15, 263);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(149, 23);
+            this.button1.Size = new System.Drawing.Size(109, 23);
             this.button1.TabIndex = 7;
-            this.button1.Text = "Install New Package";
+            this.button1.Text = "Install Package";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -87,6 +88,11 @@
             this.columnHeader1.Text = "Name";
             this.columnHeader1.Width = 259;
             // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Location";
+            this.columnHeader2.Width = 356;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -95,11 +101,6 @@
             this.label1.Size = new System.Drawing.Size(106, 13);
             this.label1.TabIndex = 7;
             this.label1.Text = "Installed Packages : ";
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Location";
-            this.columnHeader2.Width = 356;
             // 
             // button4
             // 
@@ -111,11 +112,22 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(130, 263);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(135, 23);
+            this.button5.TabIndex = 11;
+            this.button5.Text = "Install Package (Admin)";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // PackageManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(645, 302);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button3);
@@ -123,10 +135,12 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.listView1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.HelpButton = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "PackageManager";
             this.Text = "Package Manager";
+            this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.PackageManager_HelpButtonClicked);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -141,6 +155,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button5;
 
     }
 }

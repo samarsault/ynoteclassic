@@ -17,9 +17,9 @@ namespace FastColoredTextBoxNS
             dgv.DataSource = wrappers;
         }
 
-        private int CompereKeys(Keys key1, Keys key2)
+        private static int CompereKeys(Keys key1, Keys key2)
         {
-            var res = ((int)key1 & 0xff).CompareTo((int)key2 & 0xff);
+            var res = ((int) key1 & 0xff).CompareTo((int) key2 & 0xff);
             if (res == 0)
                 res = key1.CompareTo(key2);
 
@@ -37,7 +37,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Returns edited hotkey map
+        ///     Returns edited hotkey map
         /// </summary>
         /// <returns></returns>
         public HotkeysMapping GetHotkeys()
@@ -58,17 +58,20 @@ namespace FastColoredTextBoxNS
         {
             var cell = (dgv[0, e.RowIndex] as DataGridViewComboBoxCell);
             if (cell.Items.Count == 0)
-                foreach (var item in new[] { "", "Ctrl", "Ctrl + Shift", "Ctrl + Alt", "Shift", "Shift + Alt", "Alt", "Ctrl + Shift + Alt" })
+                foreach (
+                    var item in
+                        new[]
+                        {"", "Ctrl", "Ctrl + Shift", "Ctrl + Alt", "Shift", "Shift + Alt", "Alt", "Ctrl + Shift + Alt"})
                     cell.Items.Add(item);
 
             cell = (dgv[1, e.RowIndex] as DataGridViewComboBoxCell);
             if (cell.Items.Count == 0)
-                foreach (var item in Enum.GetValues(typeof(Keys)))
+                foreach (var item in Enum.GetValues(typeof (Keys)))
                     cell.Items.Add(item);
 
             cell = (dgv[2, e.RowIndex] as DataGridViewComboBoxCell);
             if (cell.Items.Count == 0)
-                foreach (var item in Enum.GetValues(typeof(FCTBAction)))
+                foreach (var item in Enum.GetValues(typeof (FCTBAction)))
                     cell.Items.Add(item);
         }
 
@@ -92,7 +95,12 @@ namespace FastColoredTextBoxNS
                 var actions = GetUnAssignedActions();
                 if (!string.IsNullOrEmpty(actions))
                 {
-                    if (MessageBox.Show("Some actions are not assigned!\r\nActions: " + actions + "\r\nPress Yes to save and exit, press No to continue editing", "Some actions is not assigned", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                    if (
+                        MessageBox.Show(
+                            "Some actions are not assigned!\r\nActions: " + actions +
+                            "\r\nPress Yes to save and exit, press No to continue editing",
+                            "Some actions is not assigned", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) ==
+                        DialogResult.No)
                         e.Cancel = true;
                 }
             }
@@ -106,11 +114,11 @@ namespace FastColoredTextBoxNS
             foreach (var w in wrappers)
                 dic[w.Action] = w.Action;
 
-            foreach (var item in Enum.GetValues(typeof(FCTBAction)))
-                if ((FCTBAction)item != FCTBAction.None)
-                    if (!((FCTBAction)item).ToString().StartsWith("CustomAction"))
+            foreach (var item in Enum.GetValues(typeof (FCTBAction)))
+                if ((FCTBAction) item != FCTBAction.None)
+                    if (!((FCTBAction) item).ToString().StartsWith("CustomAction"))
                     {
-                        if (!dic.ContainsKey((FCTBAction)item))
+                        if (!dic.ContainsKey((FCTBAction) item))
                             sb.Append(item + ", ");
                     }
 
@@ -120,6 +128,10 @@ namespace FastColoredTextBoxNS
 
     internal class HotkeyWrapper
     {
+        private bool Alt;
+        private bool Ctrl;
+        private bool Shift;
+
         public HotkeyWrapper(Keys keyData, FCTBAction action)
         {
             var a = new KeyEventArgs(keyData);
@@ -130,20 +142,6 @@ namespace FastColoredTextBoxNS
             Key = a.KeyCode;
             Action = action;
         }
-
-        public Keys ToKeyData()
-        {
-            var res = Key;
-            if (Ctrl) res |= Keys.Control;
-            if (Alt) res |= Keys.Alt;
-            if (Shift) res |= Keys.Shift;
-
-            return res;
-        }
-
-        private bool Ctrl;
-        private bool Shift;
-        private bool Alt;
 
         public string Modifiers
         {
@@ -174,5 +172,15 @@ namespace FastColoredTextBoxNS
         public Keys Key { get; set; }
 
         public FCTBAction Action { get; set; }
+
+        public Keys ToKeyData()
+        {
+            var res = Key;
+            if (Ctrl) res |= Keys.Control;
+            if (Alt) res |= Keys.Alt;
+            if (Shift) res |= Keys.Shift;
+
+            return res;
+        }
     }
 }

@@ -1,8 +1,8 @@
-using FastColoredTextBoxNS;
 using System;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using FastColoredTextBoxNS;
 
 namespace SS.Ynote.Classic.Features.Search
 {
@@ -49,8 +49,12 @@ namespace SS.Ynote.Classic.Features.Search
                 }
                 //
                 range.Start = range.End;
-                range.End = range.Start >= _startPlace ? new Place(Tb.GetLineLength(Tb.LinesCount - 1), Tb.LinesCount - 1) : _startPlace;
+                range.End = range.Start >= _startPlace
+                    ? new Place(Tb.GetLineLength(Tb.LinesCount - 1), Tb.LinesCount - 1)
+                    : _startPlace;
                 //
+
+                HighlightAllMatches(Tb.Range, @pattern, cbMatchCase.Checked);
                 foreach (var r in range.GetRanges(pattern, opt))
                 {
                     Tb.Selection = r;
@@ -74,12 +78,15 @@ namespace SS.Ynote.Classic.Features.Search
             }
         }
 
-        public void FocusTextBox()
+        internal void FocusTextBox()
         {
-            ResetSerach();
-            tbFind.Focus();
-            if (tbFind.Text != null)
-                tbFind.SelectAll();
+            BeginInvoke((MethodInvoker) delegate
+            {
+                ResetSerach();
+                tbFind.Focus();
+                if (tbFind.Text != null)
+                    tbFind.SelectAll();
+            });
         }
 
         private void HighlightAllMatches(Range r, string pattern, bool ignorecase)
@@ -103,9 +110,12 @@ namespace SS.Ynote.Classic.Features.Search
 
         private void tbFind_TextChanged(object sender, EventArgs e)
         {
-            ResetSerach();
-            tbFind.BackColor = Color.White;
-            FindNext(tbFind.Text);
+            BeginInvoke((MethodInvoker) delegate
+            {
+                ResetSerach();
+                tbFind.BackColor = Color.White;
+                FindNext(tbFind.Text);
+            });
         }
 
         //private void FindForm_Load(object sender, EventArgs e)

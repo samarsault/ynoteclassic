@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace FastColoredTextBoxNS
 {
     /// <summary>
-    /// Insert single char
+    ///     Insert single char
     /// </summary>
     /// <remarks>This operation includes also insertion of new line and removing char by backspace</remarks>
     public class InsertCharCommand : UndoableCommand
@@ -13,7 +13,7 @@ namespace FastColoredTextBoxNS
         private char deletedChar = '\x0';
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="ts">Underlaying textsource</param>
         /// <param name="c">Inserting char</param>
@@ -24,15 +24,18 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Undo operation
+        ///     Undo operation
         /// </summary>
         public override void Undo()
         {
             ts.OnTextChanging();
             switch (c)
             {
-                case '\n': MergeLines(sel.Start.iLine, ts); break;
-                case '\r': break;
+                case '\n':
+                    MergeLines(sel.Start.iLine, ts);
+                    break;
+                case '\r':
+                    break;
                 case '\b':
                     ts.CurrentTb.Selection.Start = lastSel.Start;
                     var cc = '\x0';
@@ -56,7 +59,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Execute operation
+        ///     Execute operation
         /// </summary>
         public override void Execute()
         {
@@ -73,7 +76,8 @@ namespace FastColoredTextBoxNS
                 InsertLine(ts);
             InsertChar(c, ref deletedChar, ts);
 
-            ts.NeedRecalc(new TextSource.TextChangedEventArgs(ts.CurrentTb.Selection.Start.iLine, ts.CurrentTb.Selection.Start.iLine));
+            ts.NeedRecalc(new TextSource.TextChangedEventArgs(ts.CurrentTb.Selection.Start.iLine,
+                ts.CurrentTb.Selection.Start.iLine));
             base.Execute();
         }
 
@@ -91,8 +95,9 @@ namespace FastColoredTextBoxNS
                     InsertLine(ts);
                     break;
 
-                case '\r': break;
-                case '\b'://backspace
+                case '\r':
+                    break;
+                case '\b': //backspace
                     if (tb.Selection.Start.iChar == 0 && tb.Selection.Start.iLine == 0)
                         return;
                     if (tb.Selection.Start.iChar == 0)
@@ -113,14 +118,15 @@ namespace FastColoredTextBoxNS
                     break;
 
                 case '\t':
-                    var spaceCountNextTabStop = tb.TabLength - (tb.Selection.Start.iChar % tb.TabLength);
+                    var spaceCountNextTabStop = tb.TabLength - (tb.Selection.Start.iChar%tb.TabLength);
                     if (spaceCountNextTabStop == 0)
                         spaceCountNextTabStop = tb.TabLength;
 
                     for (var i = 0; i < spaceCountNextTabStop; i++)
                         ts[tb.Selection.Start.iLine].Insert(tb.Selection.Start.iChar, new Char(' '));
 
-                    tb.Selection.Start = new Place(tb.Selection.Start.iChar + spaceCountNextTabStop, tb.Selection.Start.iLine);
+                    tb.Selection.Start = new Place(tb.Selection.Start.iChar + spaceCountNextTabStop,
+                        tb.Selection.Start.iLine);
                     break;
 
                 default:
@@ -147,7 +153,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Merge lines i and i+1
+        ///     Merge lines i and i+1
         /// </summary>
         internal static void MergeLines(int i, TextSource ts)
         {
@@ -191,14 +197,14 @@ namespace FastColoredTextBoxNS
     }
 
     /// <summary>
-    /// Insert text
+    ///     Insert text
     /// </summary>
     public class InsertTextCommand : UndoableCommand
     {
         internal string insertedText;
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="ts">Underlaying textbox</param>
         /// <param name="insertedText">Text for inserting</param>
@@ -209,7 +215,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Undo operation
+        ///     Undo operation
         /// </summary>
         public override void Undo()
         {
@@ -221,7 +227,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Execute operation
+        ///     Execute operation
         /// </summary>
         public override void Execute()
         {
@@ -261,18 +267,18 @@ namespace FastColoredTextBoxNS
     }
 
     /// <summary>
-    /// Insert text into given ranges
+    ///     Insert text into given ranges
     /// </summary>
     public class ReplaceTextCommand : UndoableCommand
     {
-        private string insertedText;
-        private readonly List<Range> ranges;
         private readonly List<string> prevText = new List<string>();
+        private readonly List<Range> ranges;
+        private string insertedText;
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
-        /// <param name="tb">Underlaying textbox</param>
+        /// <param name="ts">Underlaying textsourc</param>
         /// <param name="ranges">List of ranges for replace</param>
         /// <param name="insertedText">Text for inserting</param>
         public ReplaceTextCommand(TextSource ts, List<Range> ranges, string insertedText)
@@ -280,11 +286,11 @@ namespace FastColoredTextBoxNS
         {
             //sort ranges by place
             ranges.Sort((r1, r2) =>
-                {
-                    if (r1.Start.iLine == r2.Start.iLine)
-                        return r1.Start.iChar.CompareTo(r2.Start.iChar);
-                    return r1.Start.iLine.CompareTo(r2.Start.iLine);
-                });
+            {
+                if (r1.Start.iLine == r2.Start.iLine)
+                    return r1.Start.iChar.CompareTo(r2.Start.iChar);
+                return r1.Start.iLine.CompareTo(r2.Start.iLine);
+            });
             //
             this.ranges = ranges;
             this.insertedText = insertedText;
@@ -292,7 +298,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Undo operation
+        ///     Undo operation
         /// </summary>
         public override void Undo()
         {
@@ -320,7 +326,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Execute operation
+        ///     Execute operation
         /// </summary>
         public override void Execute()
         {
@@ -381,14 +387,14 @@ namespace FastColoredTextBoxNS
     }
 
     /// <summary>
-    /// Clear selected text
+    ///     Clear selected text
     /// </summary>
     public class ClearSelectedCommand : UndoableCommand
     {
         private string deletedText;
 
         /// <summary>
-        /// Construstor
+        ///     Construstor
         /// </summary>
         /// <param name="tb">Underlaying textbox</param>
         public ClearSelectedCommand(TextSource ts)
@@ -397,7 +403,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Undo operation
+        ///     Undo operation
         /// </summary>
         public override void Undo()
         {
@@ -410,7 +416,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Execute operation
+        ///     Execute operation
         /// </summary>
         public override void Execute()
         {
@@ -461,22 +467,15 @@ namespace FastColoredTextBoxNS
     }
 
     /// <summary>
-    /// Replaces text
+    ///     Replaces text
     /// </summary>
     public class ReplaceMultipleTextCommand : UndoableCommand
     {
-        private readonly List<ReplaceRange> ranges;
         private readonly List<string> prevText = new List<string>();
-
-        public class ReplaceRange
-        {
-            public Range ReplacedRange { get; set; }
-
-            public String ReplaceText { get; set; }
-        }
+        private readonly List<ReplaceRange> ranges;
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="ts">Underlaying textsource</param>
         /// <param name="ranges">List of ranges for replace</param>
@@ -496,7 +495,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Undo operation
+        ///     Undo operation
         /// </summary>
         public override void Undo()
         {
@@ -521,7 +520,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Execute operation
+        ///     Execute operation
         /// </summary>
         public override void Execute()
         {
@@ -550,10 +549,17 @@ namespace FastColoredTextBoxNS
         {
             return new ReplaceMultipleTextCommand(ts, new List<ReplaceRange>(ranges));
         }
+
+        public class ReplaceRange
+        {
+            public Range ReplacedRange { get; set; }
+
+            public String ReplaceText { get; set; }
+        }
     }
 
     /// <summary>
-    /// Removes lines
+    ///     Removes lines
     /// </summary>
     public class RemoveLinesCommand : UndoableCommand
     {
@@ -561,7 +567,7 @@ namespace FastColoredTextBoxNS
         private readonly List<string> prevText = new List<string>();
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="tb">Underlaying textbox</param>
         /// <param name="ranges">List of ranges for replace</param>
@@ -577,7 +583,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Undo operation
+        ///     Undo operation
         /// </summary>
         public override void Undo()
         {
@@ -591,10 +597,9 @@ namespace FastColoredTextBoxNS
             {
                 var iLine = iLines[i];
 
-                if (iLine < ts.Count)
-                    tb.Selection.Start = new Place(0, iLine);
-                else
-                    tb.Selection.Start = new Place(ts[ts.Count - 1].Count, ts.Count - 1);
+                tb.Selection.Start = iLine < ts.Count
+                    ? new Place(0, iLine)
+                    : new Place(ts[ts.Count - 1].Count, ts.Count - 1);
 
                 InsertCharCommand.InsertLine(ts);
                 tb.Selection.Start = new Place(0, iLine);
@@ -615,7 +620,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Execute operation
+        ///     Execute operation
         /// </summary>
         public override void Execute()
         {
@@ -629,7 +634,7 @@ namespace FastColoredTextBoxNS
             {
                 var iLine = iLines[i];
 
-                prevText.Add(ts[iLine].Text);//backward
+                prevText.Add(ts[iLine].Text); //backward
                 ts.RemoveLine(iLine);
                 //ts.OnTextChanged(ranges[i].Start.iLine, ranges[i].End.iLine);
             }
@@ -647,13 +652,13 @@ namespace FastColoredTextBoxNS
     }
 
     /// <summary>
-    /// Wrapper for multirange commands
+    ///     Wrapper for multirange commands
     /// </summary>
     public class MultiRangeCommand : UndoableCommand
     {
         private readonly UndoableCommand cmd;
-        private readonly Range range;
         private readonly List<UndoableCommand> commandsByRanges = new List<UndoableCommand>();
+        private readonly Range range;
 
         public MultiRangeCommand(UndoableCommand command)
             : base(command.ts)
@@ -677,11 +682,11 @@ namespace FastColoredTextBoxNS
             {
                 if (cmd is InsertTextCommand)
                     ExecuteInsertTextCommand(ref iChar, (cmd as InsertTextCommand).insertedText);
+                else if (cmd is InsertCharCommand && (cmd as InsertCharCommand).c != '\x0' &&
+                         (cmd as InsertCharCommand).c != '\b') //if not DEL or BACKSPACE
+                    ExecuteInsertTextCommand(ref iChar, (cmd as InsertCharCommand).c.ToString());
                 else
-                    if (cmd is InsertCharCommand && (cmd as InsertCharCommand).c != '\x0' && (cmd as InsertCharCommand).c != '\b')//if not DEL or BACKSPACE
-                        ExecuteInsertTextCommand(ref iChar, (cmd as InsertCharCommand).c.ToString());
-                    else
-                        ExecuteCommand(ref iChar);
+                    ExecuteCommand(ref iChar);
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -712,7 +717,7 @@ namespace FastColoredTextBoxNS
                 var lineIsEmpty = r.End < r.Start && line.StartSpacesCount == line.Count;
                 if (!lineIsEmpty)
                 {
-                    var insertedText = lines[iLine % lines.Length];
+                    var insertedText = lines[iLine%lines.Length];
                     if (r.End < r.Start && insertedText != "")
                     {
                         //add forwarding spaces
@@ -770,7 +775,7 @@ namespace FastColoredTextBoxNS
     }
 
     /// <summary>
-    /// Remembers current selection and restore it after Undo
+    ///     Remembers current selection and restore it after Undo
     /// </summary>
     public class SelectCommand : UndoableCommand
     {

@@ -7,7 +7,7 @@ using System.Drawing.Drawing2D;
 namespace FastColoredTextBoxNS
 {
     /// <summary>
-    /// Base class for bookmark collection
+    ///     Base class for bookmark collection
     /// </summary>
     public abstract class BaseBookmarks : ICollection<Bookmark>, IDisposable
     {
@@ -58,19 +58,29 @@ namespace FastColoredTextBoxNS
     }
 
     /// <summary>
-    /// Collection of bookmarks
+    ///     Collection of bookmarks
     /// </summary>
     public class Bookmarks : BaseBookmarks
     {
-        protected FastColoredTextBox tb;
-        protected List<Bookmark> items = new List<Bookmark>();
         protected int counter;
+        protected List<Bookmark> items = new List<Bookmark>();
+        protected FastColoredTextBox tb;
 
         public Bookmarks(FastColoredTextBox tb)
         {
             this.tb = tb;
             tb.LineInserted += tb_LineInserted;
             tb.LineRemoved += tb_LineRemoved;
+        }
+
+        public override int Count
+        {
+            get { return items.Count; }
+        }
+
+        public override bool IsReadOnly
+        {
+            get { return false; }
         }
 
         protected virtual void tb_LineRemoved(object sender, LineRemovedEventArgs e)
@@ -100,12 +110,11 @@ namespace FastColoredTextBoxNS
                 {
                     items[i].LineIndex = items[i].LineIndex + e.Count;
                 }
-                else
-                    if (items[i].LineIndex == e.Index - 1 && e.Count == 1)
-                    {
-                        if (tb[e.Index - 1].StartSpacesCount == tb[e.Index - 1].Count)
-                            items[i].LineIndex = items[i].LineIndex + e.Count;
-                    }
+                else if (items[i].LineIndex == e.Index - 1 && e.Count == 1)
+                {
+                    if (tb[e.Index - 1].StartSpacesCount == tb[e.Index - 1].Count)
+                        items[i].LineIndex = items[i].LineIndex + e.Count;
+                }
         }
 
         public override void Dispose()
@@ -165,16 +174,6 @@ namespace FastColoredTextBoxNS
             items.CopyTo(array, arrayIndex);
         }
 
-        public override int Count
-        {
-            get { return items.Count; }
-        }
-
-        public override bool IsReadOnly
-        {
-            get { return false; }
-        }
-
         public override bool Remove(Bookmark item)
         {
             tb.Invalidate();
@@ -182,7 +181,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Removes bookmark by line index
+        ///     Removes bookmark by line index
         /// </summary>
         public override bool Remove(int lineIndex)
         {
@@ -200,7 +199,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Returns Bookmark by index.
+        ///     Returns Bookmark by index.
         /// </summary>
         public override Bookmark GetBookmark(int i)
         {
@@ -209,37 +208,10 @@ namespace FastColoredTextBoxNS
     }
 
     /// <summary>
-    /// Bookmark of FastColoredTextbox
+    ///     Bookmark of FastColoredTextbox
     /// </summary>
     public class Bookmark
     {
-        public FastColoredTextBox TB { get; private set; }
-
-        /// <summary>
-        /// Name of bookmark
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Line index
-        /// </summary>
-        public int LineIndex { get; set; }
-
-        /// <summary>
-        /// Color of bookmark sign
-        /// </summary>
-        public Color Color { get; set; }
-
-        /// <summary>
-        /// Scroll textbox to the bookmark
-        /// </summary>
-        public virtual void DoVisible()
-        {
-            TB.Selection.Start = new Place(0, LineIndex);
-            TB.DoRangeVisible(TB.Selection, true);
-            TB.Invalidate();
-        }
-
         public Bookmark(FastColoredTextBox tb, string name, int lineIndex)
         {
             TB = tb;
@@ -248,10 +220,38 @@ namespace FastColoredTextBoxNS
             Color = tb.BookmarkColor;
         }
 
+        public FastColoredTextBox TB { get; private set; }
+
+        /// <summary>
+        ///     Name of bookmark
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        ///     Line index
+        /// </summary>
+        public int LineIndex { get; set; }
+
+        /// <summary>
+        ///     Color of bookmark sign
+        /// </summary>
+        public Color Color { get; set; }
+
+        /// <summary>
+        ///     Scroll textbox to the bookmark
+        /// </summary>
+        public virtual void DoVisible()
+        {
+            TB.Selection.Start = new Place(0, LineIndex);
+            TB.DoRangeVisible(TB.Selection, true);
+            TB.Invalidate();
+        }
+
         public virtual void Paint(Graphics gr, Rectangle lineRect)
         {
             var size = TB.CharHeight - 1;
-            using (var brush = new LinearGradientBrush(new Rectangle(0, lineRect.Top, size, size), Color.White, Color, 45))
+            using (
+                var brush = new LinearGradientBrush(new Rectangle(0, lineRect.Top, size, size), Color.White, Color, 45))
                 gr.FillEllipse(brush, 0, lineRect.Top, size, size);
             using (var pen = new Pen(Color))
                 gr.DrawEllipse(pen, 0, lineRect.Top, size, size);

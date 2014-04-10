@@ -7,12 +7,12 @@ using System.Windows.Forms;
 namespace SS.Ynote.Classic.Features.Packages
 {
     /// <summary>
-    /// Ynote Package Loader
+    ///     Ynote Package Loader
     /// </summary>
     public static class YnotePackageManager
     {
         /// <summary>
-        /// Install a Package
+        ///     Install a Package
         /// </summary>
         /// <param name="pack"></param>
         /// <returns></returns>
@@ -54,8 +54,9 @@ namespace SS.Ynote.Classic.Features.Packages
             }
             return false;
         }
+
         /// <summary>
-        /// Uninstall a Package
+        ///     Uninstall a Package
         /// </summary>
         /// <param name="packageFile"></param>
         public static void UninstallPackage(string packageFile)
@@ -63,14 +64,16 @@ namespace SS.Ynote.Classic.Features.Packages
             try
             {
                 var result = MessageBox.Show(string.Format("Are you Sure you want to uninstall : {0} ? ",
-                    Path.GetFileNameWithoutExtension(packageFile)), "Ynote Classic", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    Path.GetFileNameWithoutExtension(packageFile)), "Ynote Classic", MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
                     foreach (var file in GetFiles(Extractmanifest(packageFile)))
                         File.Delete(file);
                     File.Delete(packageFile);
-                    var r2 = MessageBox.Show("Package Successfully Uninstalled. Restart now to make changes", "Ynote Classic",
-                         MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    var r2 = MessageBox.Show("Package Successfully Uninstalled. Restart now to make changes",
+                        "Ynote Classic",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (r2 == DialogResult.Yes)
                         Application.Restart();
                 }
@@ -81,12 +84,13 @@ namespace SS.Ynote.Classic.Features.Packages
                     MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
+
         /// <summary>
-        /// Extract Manifest from package
+        ///     Extract Manifest from package
         /// </summary>
         /// <param name="package"></param>
         /// <returns></returns>
-        static string Extractmanifest(string package)
+        private static string Extractmanifest(string package)
         {
             var zip = ZipStorer.Open(package, FileAccess.Read);
             var dirs = zip.ReadCentralDir();
@@ -102,8 +106,9 @@ namespace SS.Ynote.Classic.Features.Packages
             }
             return null;
         }
+
         /// <summary>
-        /// Get All Files from Manifest
+        ///     Get All Files from Manifest
         /// </summary>
         /// <param name="manifest"></param>
         /// <returns></returns>
@@ -118,8 +123,9 @@ namespace SS.Ynote.Classic.Features.Packages
                         item.Replace("$ynotedata", SettingsBase.SettingsDir)
                             .Replace("$ynotedir", Application.StartupPath)).ToArray();
         }
+
         /// <summary>
-        /// Gets Package Data
+        ///     Gets Package Data
         /// </summary>
         /// <param name="package"></param>
         /// <returns></returns>

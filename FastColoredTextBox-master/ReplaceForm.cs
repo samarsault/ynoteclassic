@@ -70,7 +70,9 @@ namespace FastColoredTextBoxNS
             }
             //
             range.Start = range.End;
-            range.End = range.Start >= startPlace ? new Place(tb.GetLineLength(tb.LinesCount - 1), tb.LinesCount - 1) : startPlace;
+            range.End = range.Start >= startPlace
+                ? new Place(tb.GetLineLength(tb.LinesCount - 1), tb.LinesCount - 1)
+                : startPlace;
             //
             foreach (var r in range.GetRanges(pattern, opt))
             {
@@ -151,7 +153,8 @@ namespace FastColoredTextBoxNS
                 if (!ro)
                     if (ranges.Count > 0)
                     {
-                        tb.TextSource.Manager.ExecuteCommand(new ReplaceTextCommand(tb.TextSource, ranges, tbReplace.Text));
+                        tb.TextSource.Manager.ExecuteCommand(new ReplaceTextCommand(tb.TextSource, ranges,
+                            tbReplace.Text));
                         tb.Selection.Start = new Place(0, 0);
                     }
                 //

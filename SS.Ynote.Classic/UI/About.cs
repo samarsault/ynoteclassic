@@ -12,6 +12,7 @@ namespace SS.Ynote.Classic.UI
             InitializeComponent();
             LostFocus += (sender, args) => Close();
             var licensedir = Application.StartupPath + @"\License.txt";
+            textBox1.ReadOnly = true;
             if (File.Exists(licensedir))
                 textBox1.Text = File.ReadAllText(licensedir);
         }

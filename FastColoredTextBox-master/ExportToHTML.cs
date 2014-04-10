@@ -5,42 +5,13 @@ using System.Text;
 namespace FastColoredTextBoxNS
 {
     /// <summary>
-    /// Exports colored text as HTML
+    ///     Exports colored text as HTML
     /// </summary>
     /// <remarks>At this time only TextStyle renderer is supported. Other styles is not exported.</remarks>
     public class ExportToHTML
     {
-        private const string LineNumbersCSS = "<style type=\"text/css\"> .lineNumber{font-family : monospace; font-size : small; font-style : normal; font-weight : normal; color : Teal; background-color : ThreedFace;} </style>";
-
-        /// <summary>
-        /// Use nbsp; instead space
-        /// </summary>
-        public bool UseNbsp { get; set; }
-
-        /// <summary>
-        /// Use nbsp; instead space in beginning of line
-        /// </summary>
-        public bool UseForwardNbsp { get; set; }
-
-        /// <summary>
-        /// Use original font
-        /// </summary>
-        public bool UseOriginalFont { get; set; }
-
-        /// <summary>
-        /// Use style tag instead style attribute
-        /// </summary>
-        public bool UseStyleTag { get; set; }
-
-        /// <summary>
-        /// Use 'br' tag instead of '\n'
-        /// </summary>
-        public bool UseBr { get; set; }
-
-        /// <summary>
-        /// Includes line numbers
-        /// </summary>
-        public bool IncludeLineNumbers { get; set; }
+        private const string LineNumbersCSS =
+            "<style type=\"text/css\"> .lineNumber{font-family : monospace; font-size : small; font-style : normal; font-weight : normal; color : Teal; background-color : ThreedFace;} </style>";
 
         private FastColoredTextBox tb;
 
@@ -51,6 +22,36 @@ namespace FastColoredTextBoxNS
             UseStyleTag = true;
             UseBr = true;
         }
+
+        /// <summary>
+        ///     Use nbsp; instead space
+        /// </summary>
+        public bool UseNbsp { get; set; }
+
+        /// <summary>
+        ///     Use nbsp; instead space in beginning of line
+        /// </summary>
+        public bool UseForwardNbsp { get; set; }
+
+        /// <summary>
+        ///     Use original font
+        /// </summary>
+        public bool UseOriginalFont { get; set; }
+
+        /// <summary>
+        ///     Use style tag instead style attribute
+        /// </summary>
+        public bool UseStyleTag { get; set; }
+
+        /// <summary>
+        ///     Use 'br' tag instead of '\n'
+        /// </summary>
+        public bool UseBr { get; set; }
+
+        /// <summary>
+        ///     Includes line numbers
+        /// </summary>
+        public bool IncludeLineNumbers { get; set; }
 
         public string GetHtml(FastColoredTextBox tb)
         {
@@ -72,7 +73,7 @@ namespace FastColoredTextBoxNS
             styles[currentStyleId] = null;
             if (UseOriginalFont)
                 sb.AppendFormat("<font style=\"font-family: {0}, monospace; font-size: {1}pt; line-height: {2}px;\">",
-                                                r.tb.Font.Name, r.tb.Font.SizeInPoints, r.tb.CharHeight);
+                    r.tb.Font.Name, r.tb.Font.SizeInPoints, r.tb.CharHeight);
 
             //
             if (IncludeLineNumbers)
@@ -159,7 +160,7 @@ namespace FastColoredTextBoxNS
             var hasTextStyle = false;
             for (var i = 0; i < tb.Styles.Length; i++)
             {
-                if (tb.Styles[i] != null && ((int)styleIndex & mask) != 0)
+                if (tb.Styles[i] != null && ((int) styleIndex & mask) != 0)
                     if (tb.Styles[i].IsExportable)
                     {
                         var style = tb.Styles[i];
@@ -188,7 +189,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Gets Color as String
+        ///     Gets Color as String
         /// </summary>
         /// <param name="color"></param>
         /// <returns></returns>

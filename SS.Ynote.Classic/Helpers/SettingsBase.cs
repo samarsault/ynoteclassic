@@ -1,149 +1,141 @@
-//=====================================
+//==================================
 //
-// SettingsBase.cs
-// Copyright (C) 2014 Samarjeet Singh
-//
-//=====================================
+// Copyright (C) 2014 Samarjeet Singh (singh.samarjeet.27@gmail.com)
+// 
 //#define PORTABLE
-#if !PORTABLE
-    using System;
-#endif
+using System.IO;
 using FastColoredTextBoxNS;
 using Nini.Config;
-using System.IO;
-using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
+#if PORTABLE
+    using System.Windows.Forms;
+#else
+    using System;
+#endif
 /// <summary>
 /// Contains all the Settings for Ynote
 /// </summary>
 public static class SettingsBase
 {
-#if PORTABLE
-    internal static readonly string SettingsDir = Application.StartupPath + @"\User\";
-#else
+#if !PORTABLE
     internal static readonly string SettingsDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Ynote_Classic\";
+#else
+    internal static readonly string SettingsDir = Application.StartupPath + @"\User\";
 #endif
-
-    /// <summary>
-    ///     ThemeFile
+/// <summary>
+    ///     Show Hidden Chars
     /// </summary>
     public static string ThemeFile { get; set; }
 
     /// <summary>
-    ///     Show Hidden Chars
-    /// </summary>
+    ///     Document Style
+    /// </summary>ry>
     public static bool HiddenChars { get; set; }
 
-    /// <summary>
-    ///     Document Style
-    /// </summary>
+    ///<summary>
+    ///     Get the Tab Location
+    ///</summary>
     internal static DocumentStyle DocumentStyle { get; set; }
 
     /// <summary>
-    ///     Get the Tab Location
-    /// </summary>
+    ///   /// <summary>
+    ///     Show Folding Lines
     internal static DocumentTabStripLocation TabLocation { get; set; }
 
-    /// <summary>
-    ///     Show Folding Lines
+    /// <sum/// <summary>
+    ///     Show Caret
     /// </summary>
     internal static bool ShowFoldingLines { get; set; }
-
-    /// <summary>
-    ///     Show Caret
+/// <summary>
+    ///     Highlight Folding
     /// </summary>
     internal static bool ShowCaret { get; set; }
 
-    /// <summary>
-    ///     Highlight Folding
-    /// </summary>
+    /// </// <summary>
+    ///     Show Document Map
     public static bool HighlightFolding { get; set; }
 
-    /// <summary>
-    ///     Show Document Map
-    /// </summary>
+    /// /// <summary>
+    ///     Show Ruler
+    /// </summary>ry>
     public static bool ShowDocumentMap { get; set; }
 
     /// <summary>
-    ///     Show Ruler
-    /// </summary>
-    public static bool ShowRuler { get; set; }
+    ///     Whether to Show Line Numbers
+    internal static bool ShowRuler { get; set; }
 
     /// <summary>
-    ///     Whether to Show Line Numbers
-    /// </summary>
+  /// <summary>
+    ///     Whether to Enable Virtual Space
     internal static bool ShowLineNumbers { get; set; }
 
     /// <summary>
-    ///     Whether to Enable Virtual Space
-    /// </summary>
-    internal static bool EnableVirtualSpace { get; set; }
-
-    /// <summary>
-    ///     Get the WordWrap Mode
-    /// </summary>
-    internal static WordWrapMode WordWrapMode { get; set; }
-
-    /// <summary>
+    /// /// <summary>
     ///     Folding Strategy
-    /// </summary>
+    internal static bool EnableVirtualSpace { get; set; }
+    /// <summary>
+    ///     Foldi/// <summary>
+    ///     The Bracket Highlight Strategy
     internal static FindEndOfFoldingBlockStrategy FoldingStrategy { get; set; }
 
     /// <summary>
-    ///     The Bracket Highlight Strategy
-    /// </summary>
+    ///     The Bracket High/// <summary>
+    ///     Padding Width
     internal static BracketsHighlightStrategy BracketsStrategy { get; set; }
 
-    /// <summary>
-    ///     Padding Width
-    /// </summary>
+  /// <summary>
+    ///     Line Interval
+    /// </summary>y>
     public static int PaddingWidth { get; set; }
 
-    /// <summary>
-    ///     Line Interval
+  /// <summary>
+    ///     Show Status Bar
     /// </summary>
     public static int LineInterval { get; set; }
 
     /// <summary>
-    ///     Show Status Bar
+    ///  Show Status Bar
     /// </summary>
-    public static bool ShowStatusBar { get; set; }
+    internal static bool ShowStatusBar { get; set; }
+
+   /// <summary>
+   /// Show MenuBar
+   /// </summary>
+    internal static bool ShowMenuBar { get; private set; }
 
     /// <summary>
-    ///     Show Menu Bar
+    /// Font-Family
     /// </summary>
-    public static bool ShowMenuBar { get; private set; }
+    internal  static string FontFamily { get; private set; }
+    /// <summary>
+    /// No. of RecentFiles
+    /// </summary>
+    internal static int RecentFileNumber { get; set; }
 
     /// <summary>
-    ///     Get The FontFamily
-    /// </summary>
-    internal static string FontFamily { get; private set; }
-
-    /// <summary>
-    ///     Get the font size
-    /// </summary>
+    /// Font Size
+    ///  </summary>
     internal static float FontSize { get; private set; }
-
-    /// <summary>
-    ///     Get the Tab Size
-    /// </summary>
-    internal static int TabSize { get; set; }
 
     /// <summary>
     ///     Zoom
     /// </summary>
-    internal static int Zoom { get; set; }
+    internal static int TabSize { get; set; }
 
     /// <summary>
-    /// Autocomplete Brackets
+    ///     Autocomplete Brackets
+    /// </summary>
+    internal static int Zoom { get; set; }
+    /// <summary>
+    ///     Loads Settings
     /// </summary>
     internal static bool AutoCompleteBrackets { get; set; }
 
     /// <summary>
     ///     Loads Settings
     /// </summary>
-    public static void LoadSettings()
+    internal static void LoadSettings()
     {
         while (true)
         {
@@ -154,7 +146,6 @@ public static class SettingsBase
                 HiddenChars = source.Configs["Ynote"].GetBoolean("ShowHiddenCharacters");
                 DocumentStyle = source.Configs["Ynote"].Get("DocumentStyle").ToEnum<DocumentStyle>();
                 TabLocation = source.Configs["Ynote"].Get("TabLocation").ToEnum<DocumentTabStripLocation>();
-                WordWrapMode = source.Configs["Ynote"].Get("WordWrapMode").ToEnum<WordWrapMode>();
                 BracketsStrategy = source.Configs["Ynote"].Get("BracketStrategy").ToEnum<BracketsHighlightStrategy>();
                 FoldingStrategy = source.Configs["Ynote"].Get("FoldingStrategy").ToEnum<FindEndOfFoldingBlockStrategy>();
                 ShowCaret = source.Configs["Ynote"].GetBoolean("ShowCaret");
@@ -172,13 +163,12 @@ public static class SettingsBase
                 FontFamily = source.Configs["Ynote"].Get("FontFamily");
                 FontSize = source.Configs["Ynote"].GetFloat("FontSize");
                 TabSize = source.Configs["Ynote"].GetInt("TabSize");
+                RecentFileNumber = source.Configs["Ynote"].GetInt("RecentFilesNo");
                 Zoom = source.Configs["Ynote"].GetInt("Zoom");
             }
             else
             {
-                if (!Directory.Exists(SettingsDir))
-                    Directory.CreateDirectory(SettingsDir);
-                File.WriteAllText(SettingsDir  + "Settings.ini", "");
+                File.WriteAllText(SettingsDir + "Settings.ini", null);
                 RestoreDefault();
                 continue;
             }
@@ -196,7 +186,6 @@ public static class SettingsBase
         source.Configs["Ynote"].Set("ShowHiddenCharacters", HiddenChars);
         source.Configs["Ynote"].Set("DocumentStyle", DocumentStyle);
         source.Configs["Ynote"].Set("TabLocation", TabLocation);
-        source.Configs["Ynote"].Set("WordWrapMode", WordWrapMode);
         source.Configs["Ynote"].Set("BracketStrategy", BracketsStrategy);
         source.Configs["Ynote"].Set("FoldingStrategy", FoldingStrategy);
         source.Configs["Ynote"].Set("ShowCaret", ShowCaret);
@@ -209,27 +198,23 @@ public static class SettingsBase
         source.Configs["Ynote"].Set("HighlightFolding", HighlightFolding);
         source.Configs["Ynote"].Set("PaddingWidth", PaddingWidth);
         source.Configs["Ynote"].Set("LineInterval", LineInterval);
+        source.Configs["Ynote"].Set("RecentFilesNo", RecentFileNumber);
         source.Configs["Ynote"].Set("StatusBar", ShowStatusBar);
         source.Configs["Ynote"].Set("MenuBar", ShowMenuBar);
         source.Configs["Ynote"].Set("FontFamily", FontFamily);
         source.Configs["Ynote"].Set("FontSize", FontSize);
-        source.Configs["Ynote"].Set("TabSize", TabSize);
         source.Configs["Ynote"].Set("Zoom", Zoom);
         source.Save();
     }
 
-    /// <summary>
-    ///     Restores Default Settings
-    /// </summary>
     static void RestoreDefault()
     {
         IConfigSource source = new IniConfigSource(SettingsDir + "Settings.ini");
         var config = source.AddConfig("Ynote");
-        config.Set("ThemeFile", Application.StartupPath + @"\Themes\Default.ynotetheme");
+        config.Set("ThemeFile", SettingsDir + @"\Themes\Default.ynotetheme");
         config.Set("ShowHiddenCharacters", false);
         config.Set("DocumentStyle", DocumentStyle.DockingMdi);
         config.Set("TabLocation", DocumentTabStripLocation.Top);
-        config.Set("WordWrapMode", WordWrapMode.WordWrapControlWidth);
         config.Set("BracketStrategy", BracketsHighlightStrategy.Strategy2);
         source.Configs["Ynote"].Set("FoldingStrategy", FindEndOfFoldingBlockStrategy.Strategy1);
         config.Set("ShowCaret", true);
@@ -243,6 +228,7 @@ public static class SettingsBase
         config.Set("HighlightFolding", true);
         config.Set("PaddingWidth", 18);
         config.Set("LineInterval", 0);
+        config.Set("RecentFilesNo", 15);
         config.Set("MenuBar", true);
         config.Set("StatusBar", true);
         config.Set("FontFamily", "Consolas");

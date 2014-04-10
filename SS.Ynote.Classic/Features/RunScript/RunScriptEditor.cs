@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace SS.Ynote.Classic.Features.RunScript
@@ -15,12 +16,12 @@ namespace SS.Ynote.Classic.Features.RunScript
         private void PopulateTree()
         {
             var node = new TreeNode("Configurations");
-            foreach (var file in RunConfiguration.GetConfigurations())
-            {
-                var config = RunConfiguration.ToRunConfig(file);
-                var tn = new TreeNode(config.Name) { Tag = config };
+            foreach (
+                var tn in
+                    RunConfiguration.GetConfigurations()
+                        .Select(RunConfiguration.ToRunConfig)
+                        .Select(config => new TreeNode(config.Name) {Tag = config}))
                 node.Nodes.Add(tn);
-            }
             configTree.Nodes.Add(node);
             configTree.ExpandAll();
         }
@@ -47,9 +48,11 @@ namespace SS.Ynote.Classic.Features.RunScript
         private void button1_Click(object sender, EventArgs e)
         {
             var sNode = configTree.SelectedNode.Tag as RunConfiguration;
-            if (sNode != null) sNode.EditConfig(tbProcess.Text, tbArgs.Text, tbCmdDir.Text, tbName.Text);
+            if (sNode != null && sNode.Name != null)
+                sNode.EditConfig(tbName.Text, tbProcess.Text, tbArgs.Text, tbCmdDir.Text);
             else
-                MessageBox.Show("Error Processing Request : Nothing Selected", "Ynote Classic", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("Error Processing Request : Nothing Selected", "Ynote Classic", MessageBoxButtons.OK,
+                    MessageBoxIcon.Exclamation);
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
@@ -62,10 +65,14 @@ namespace SS.Ynote.Classic.Features.RunScript
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            var nd = new TreeNode("untitled") { Tag = new RunConfiguration() };
-            configTree.Nodes[0].Nodes.Add(nd);
-            nd.BeginEdit();
-            configTree.SelectedNode = nd;
+            using (var dlg = new NewRun())
+            {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    configTree.Nodes.Clear();
+                    PopulateTree();
+                }
+            }
         }
 
         private void toolStripButton3_Click(object sender, EventArgs e)

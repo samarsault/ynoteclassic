@@ -1,10 +1,10 @@
 ﻿/// <summary>
-/// IYnote Plugin
+///     IYnote Plugin
 /// </summary>
-public interface IYnotePlugin : IPlugin
+public interface IYnotePlugin
 {
     /// <summary>
     ///     Run Plugin()
     /// </summary>
-    void Initialize(IYnote ynote);
+    void Main(IYnote ynote);
 }

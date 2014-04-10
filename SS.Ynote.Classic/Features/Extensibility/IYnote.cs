@@ -1,5 +1,5 @@
-using SS.Ynote.Classic.UI;
 using System.Windows.Forms;
+using SS.Ynote.Classic.UI;
 using WeifenLuo.WinFormsUI.Docking;
 
 /// <summary>

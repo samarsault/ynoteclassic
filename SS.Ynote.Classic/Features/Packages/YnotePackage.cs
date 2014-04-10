@@ -1,26 +1,24 @@
-﻿// =================================
-//
-// Ynote Package
-// Copyright (C) 2014 Samarjeet Singh
-//
-//==================================
-
-using SS.Ynote.Classic.UI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using SS.Ynote.Classic.UI;
 
 namespace SS.Ynote.Classic.Features.Packages
 {
-    public static class YnotePackage
+    internal static class YnotePackage
     {
-        public static IDictionary<string, string> GenerateDictionary(string manifest)
+        internal static IDictionary<string, string> GenerateDictionary(string manifest)
         {
             IDictionary<string, string> dic = new Dictionary<string, string>();
             var lines = File.ReadAllLines(manifest);
-            foreach (var command in lines.Select(line => Parse(line.Replace("$ynotedata", SettingsBase.SettingsDir).Replace("$ynotedir", Application.StartupPath))))
+            foreach (
+                var command in
+                    lines.Select(
+                        line =>
+                            Parse(line.Replace("$ynotedata", SettingsBase.SettingsDir)
+                                .Replace("$ynotedir", Application.StartupPath))))
                 dic.Add(command.Key, command.Value);
             //foreach (var line in lines)
             //{
@@ -31,7 +29,7 @@ namespace SS.Ynote.Classic.Features.Packages
         }
 
         /// <summary>
-        /// Parses a Ynote Package index.manifest
+        ///     Parses a Ynote Package index.manifest
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>

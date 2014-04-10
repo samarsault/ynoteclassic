@@ -1,18 +1,29 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
 using System.Xml;
 
 namespace SS.Ynote.Classic.Features.RunScript
 {
     public sealed class RunConfiguration
     {
-        public string Name { get; private set; }
+        /// <summary>
+        ///     Configuration Name
+        /// </summary>
+        public string Name { get; set; }
 
+        /// <summary>
+        ///     Configuration Process
+        /// </summary>
         public string Process { get; private set; }
 
+        /// <summary>
+        ///     Configuration arguments
+        /// </summary>
         public string Arguments { get; private set; }
 
+        /// <summary>
+        ///     Active Command Line Directory
+        /// </summary>
         public string CmdDir { get; private set; }
 
         public static IEnumerable<string> GetConfigurations()
@@ -44,23 +55,27 @@ namespace SS.Ynote.Classic.Features.RunScript
             return string.Format(@"{0}\RunScripts\{1}.run", SettingsBase.SettingsDir, Name);
         }
 
-        public void ProcessConfiguration(string filename)
+        internal void ProcessConfiguration(string filename)
         {
             Arguments = Arguments.Replace("$source", filename);
         }
 
-        public void EditConfig(string proc, string args, string dir, string name)
+        internal void EditConfig(string name, string proc, string args, string dir)
         {
             var str =
                 string.Format(
                     "<?xml version=\"1.0\"?>\r\n\t<YnoteRun>\r\n\t\t<Config Name=\"{3}\" Process=\"{0}\" Args=\"{1}\" Directory=\"{2}\"/>\r\n\t</YnoteRun>",
                     proc, args, dir, name);
-            File.WriteAllText(GetPath(), str);
+            Name = name;
+            Arguments = args;
+            CmdDir = dir;
+            Process = proc;
+            File.WriteAllText(string.Format("{0}\\RunScripts\\{1}.run", SettingsBase.SettingsDir, name), str);
         }
 
-        public string ToBatch()
+        internal string ToBatch()
         {
-            if (CmdDir != "")
+            if (!string.IsNullOrEmpty(CmdDir))
                 return string.Format("@echo off\r\necho {0} Run Script\r\ncd {1}\r\n{2} {3}", Name, CmdDir, Process,
                     Arguments);
             return string.Format("@echo off\r\necho {0} Run Script\r\n{1} {2}", Name, Process, Arguments);

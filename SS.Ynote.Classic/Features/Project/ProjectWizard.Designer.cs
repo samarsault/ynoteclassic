@@ -1,6 +1,6 @@
 ﻿namespace SS.Ynote.Classic.Features.Project
 {
-    partial class Wizard
+    partial class ProjectWizard
     {
         /// <summary>
         /// Required designer variable.
@@ -184,7 +184,7 @@
             this.panel1.Size = new System.Drawing.Size(338, 43);
             this.panel1.TabIndex = 15;
             // 
-            // Wizard
+            // ProjectWizard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -203,9 +203,9 @@
             this.Controls.Add(this.txtbuild);
             this.Controls.Add(this.txtprojname);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "Wizard";
+            this.Name = "ProjectWizard";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Project Wizard";
+            this.Text = "Project ProjectWizard";
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

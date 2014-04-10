@@ -1,6 +1,6 @@
-﻿using FastColoredTextBoxNS;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Xml;
+using FastColoredTextBoxNS;
 
 namespace SS.Ynote.Classic.Features.Snippets
 {
@@ -9,7 +9,7 @@ namespace SS.Ynote.Classic.Features.Snippets
         public string Value { get; set; }
 
         /// <summary>
-        /// Get The AutoComplete Type
+        ///     Get The AutoComplete Type
         /// </summary>
         public ApType AutoCompleteType { get; set; }
 
@@ -67,8 +67,8 @@ namespace SS.Ynote.Classic.Features.Snippets
     }
 
     /// <summary>
-    /// Getsh the AutoCompletion Type i.e keyword or snippet
-    /// which are processed in different manners
+    ///     Getsh the AutoCompletion Type i.e keyword or snippet
+    ///     which are processed in different manners
     /// </summary>
     public enum ApType
     {

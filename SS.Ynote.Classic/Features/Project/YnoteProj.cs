@@ -58,11 +58,10 @@ namespace SS.Ynote.Classic.Features.Project
         /// <summary>
         ///     Make Project File
         /// </summary>
-        /// <param name="outfile"></param>
-        public void MakeProjectFile(string outfile)
+        public void MakeProjectFile()
         {
-            var xmlWriterSettings = new XmlWriterSettings { NewLineOnAttributes = true, Indent = true };
-            using (var writer = XmlWriter.Create(outfile, xmlWriterSettings))
+            var xmlWriterSettings = new XmlWriterSettings {NewLineOnAttributes = true, Indent = true};
+            using (var writer = XmlWriter.Create(ProjectFile, xmlWriterSettings))
             {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("YnoteProject");

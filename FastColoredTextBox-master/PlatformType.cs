@@ -8,7 +8,9 @@ namespace FastColoredTextBoxNS
         private const ushort PROCESSOR_ARCHITECTURE_INTEL = 0;
         private const ushort PROCESSOR_ARCHITECTURE_IA64 = 6;
         private const ushort PROCESSOR_ARCHITECTURE_AMD64 = 9;
+/*
         private const ushort PROCESSOR_ARCHITECTURE_UNKNOWN = 0xFFFF;
+*/
 
         [DllImport("kernel32.dll")]
         private static extern void GetNativeSystemInfo(ref SYSTEM_INFO lpSystemInfo);

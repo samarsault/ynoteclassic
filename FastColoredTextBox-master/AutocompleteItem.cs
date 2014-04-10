@@ -4,19 +4,16 @@ using System.Drawing;
 namespace FastColoredTextBoxNS
 {
     /// <summary>
-    /// Item of autocomplete menu
+    ///     Item of autocomplete menu
     /// </summary>
     public class AutocompleteItem
     {
-        public string Text;
         public int ImageIndex = -1;
         public object Tag;
+        public string Text;
         private string menuText;
 
-        public AutocompleteMenu Parent { private get; set; }
-
         /// <summary>
-        ///
         /// </summary>
         public AutocompleteItem()
         {
@@ -46,55 +43,22 @@ namespace FastColoredTextBoxNS
             ToolTipText = toolTipText;
         }
 
-        /// <summary>
-        /// Returns text for inserting into Textbox
-        /// </summary>
-        public virtual string GetTextForReplace()
-        {
-            return Text;
-        }
+        public AutocompleteMenu Parent { private get; set; }
 
         /// <summary>
-        /// Compares fragment text with this item
-        /// </summary>
-        public virtual CompareResult Compare(string fragmentText)
-        {
-            if (Text.StartsWith(fragmentText, StringComparison.InvariantCultureIgnoreCase) &&
-                   Text != fragmentText)
-                return CompareResult.VisibleAndSelected;
-
-            return CompareResult.Hidden;
-        }
-
-        /// <summary>
-        /// Returns text for display into popup menu
-        /// </summary>
-        public override string ToString()
-        {
-            return menuText ?? Text;
-        }
-
-        /// <summary>
-        /// This method is called after item inserted into text
-        /// </summary>
-        public virtual void OnSelected(AutocompleteMenu popupMenu, SelectedEventArgs e)
-        {
-        }
-
-        /// <summary>
-        /// Title for tooltip.
+        ///     Title for tooltip.
         /// </summary>
         /// <remarks>Return null for disable tooltip for this item</remarks>
         public string ToolTipTitle { get; protected set; }
 
         /// <summary>
-        /// Tooltip text.
+        ///     Tooltip text.
         /// </summary>
         /// <remarks>For display tooltip text, ToolTipTitle must be not null</remarks>
         public string ToolTipText { get; protected set; }
 
         /// <summary>
-        /// Menu text. This text is displayed in the drop-down menu.
+        ///     Menu text. This text is displayed in the drop-down menu.
         /// </summary>
         public string MenuText
         {
@@ -103,7 +67,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Fore color of text of item
+        ///     Fore color of text of item
         /// </summary>
         public Color ForeColor
         {
@@ -112,35 +76,70 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Back color of item
+        ///     Back color of item
         /// </summary>
         public virtual Color BackColor
         {
             get { return Color.Transparent; }
             // set { throw new NotImplementedException("Override this property to change color"); }
         }
+
+        /// <summary>
+        ///     Returns text for inserting into Textbox
+        /// </summary>
+        public virtual string GetTextForReplace()
+        {
+            return Text;
+        }
+
+        /// <summary>
+        ///     Compares fragment text with this item
+        /// </summary>
+        public virtual CompareResult Compare(string fragmentText)
+        {
+            if (Text.StartsWith(fragmentText, StringComparison.InvariantCultureIgnoreCase) &&
+                Text != fragmentText)
+                return CompareResult.VisibleAndSelected;
+
+            return CompareResult.Hidden;
+        }
+
+        /// <summary>
+        ///     Returns text for display into popup menu
+        /// </summary>
+        public override string ToString()
+        {
+            return menuText ?? Text;
+        }
+
+        /// <summary>
+        ///     This method is called after item inserted into text
+        /// </summary>
+        public virtual void OnSelected(AutocompleteMenu popupMenu, SelectedEventArgs e)
+        {
+        }
     }
 
     public enum CompareResult
     {
         /// <summary>
-        /// Item do not appears
+        ///     Item do not appears
         /// </summary>
         Hidden,
 
         /// <summary>
-        /// Item appears
+        ///     Item appears
         /// </summary>
         Visible,
 
         /// <summary>
-        /// Item appears and will selected
+        ///     Item appears and will selected
         /// </summary>
         VisibleAndSelected
     }
 
     /// <summary>
-    /// Autocomplete item for code snippets
+    ///     Autocomplete item for code snippets
     /// </summary>
     /// <remarks>Snippet can contain special char ^ for caret position.</remarks>
     public class SnippetAutocompleteItem : AutocompleteItem
@@ -192,12 +191,12 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Compares fragment text with this item
+        ///     Compares fragment text with this item
         /// </summary>
         public override CompareResult Compare(string fragmentText)
         {
             if (Text.StartsWith(fragmentText, StringComparison.InvariantCultureIgnoreCase) &&
-                   Text != fragmentText)
+                Text != fragmentText)
                 return CompareResult.Visible;
 
             return CompareResult.Hidden;
@@ -205,15 +204,14 @@ namespace FastColoredTextBoxNS
     }
 
     /// <summary>
-    /// This autocomplete item appears after dot
+    ///     This autocomplete item appears after dot
     /// </summary>
     public class MethodAutocompleteItem : AutocompleteItem
     {
-        private string _firstPart;
         private readonly string _lowercaseText;
+        private string _firstPart;
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="text"></param>
         public MethodAutocompleteItem(string text)
@@ -243,8 +241,8 @@ namespace FastColoredTextBoxNS
     }
 
     /// <summary>
-    /// This Item does not check correspondence to current text fragment.
-    /// SuggestItem is intended for dynamic menus.
+    ///     This Item does not check correspondence to current text fragment.
+    ///     SuggestItem is intended for dynamic menus.
     /// </summary>
     public class SuggestItem : AutocompleteItem
     {

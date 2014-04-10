@@ -1,8 +1,8 @@
-using CSScriptLibrary;
 using System;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using CSScriptLibrary;
 
 namespace SS.Ynote.Classic.Features.Extensibility
 {
@@ -20,14 +20,16 @@ namespace SS.Ynote.Classic.Features.Extensibility
 
         public static void RunScript(IYnote ynote, string ysfile)
         {
-            string assemblyFileName = ysfile + ".cache";
+            var assemblyFileName = ysfile + ".cache";
             CSScript.GlobalSettings.TargetFramework = "v3.5";
             try
             {
                 // var helper =
                 //     new AsmHelper(CSScript.LoadMethod(File.ReadAllText(ysfile), GetReferences()));
                 // helper.Invoke("*.Run", ynote);
-                var assembly = !File.Exists(assemblyFileName) ? CSScript.LoadMethod(File.ReadAllText(ysfile), assemblyFileName, false, GetReferences()) : Assembly.LoadFrom(assemblyFileName);
+                var assembly = !File.Exists(assemblyFileName)
+                    ? CSScript.LoadMethod(File.ReadAllText(ysfile), assemblyFileName, false, GetReferences())
+                    : Assembly.LoadFrom(assemblyFileName);
                 using (var execManager = new AsmHelper(assembly))
                 {
                     execManager.Invoke("*.Main", ynote);
@@ -35,7 +37,8 @@ namespace SS.Ynote.Classic.Features.Extensibility
             }
             catch (Exception ex)
             {
-                MessageBox.Show("There was an Error running the script : \r\n" + ex.Message, "YnoteScript Host", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("There was an Error running the script : \r\n" + ex.Message, "YnoteScript Host",
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
     }

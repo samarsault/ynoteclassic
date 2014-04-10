@@ -1,17 +1,17 @@
 ﻿namespace FastColoredTextBoxNS
 {
     /// <summary>
-    /// Char and style
+    ///     Char and style
     /// </summary>
     public struct Char
     {
         /// <summary>
-        /// Unicode character
+        ///     Unicode character
         /// </summary>
         public char c;
 
         /// <summary>
-        /// Style bit mask
+        ///     Style bit mask
         /// </summary>
         /// <remarks>Bit 1 in position n means that this char will rendering by FastColoredTextBox.Styles[n]</remarks>
         public StyleIndex style;

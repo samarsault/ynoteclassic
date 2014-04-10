@@ -10,10 +10,10 @@ namespace FastColoredTextBoxNS
         private Place _startPlace;
         private readonly FastColoredTextBox tb;
 
-        /// <summary>
-        /// Find Form
+     /// <summary>
+        ///     Find Form
         /// </summary>
-        /// <param name="tb"></param>
+        /// <param name="tb"></param>)
         public FindForm(FastColoredTextBox tb)
         {
             InitializeComponent();
@@ -28,17 +28,18 @@ namespace FastColoredTextBoxNS
 
         private void btFindNext_Click(object sender, EventArgs e)
         {
-            if (cmbFindIn.SelectedIndex == 0)
-                FindNext(tbFind.Text);
-            else
-                FindNextInSelection(tbFind.Text);
+           if (cmbFindIn.SelectedIndex == 0)
+               FindNext(tbFind.Text);
+           else
+               FindNextInSelection(tbFind.Text);
         }
 
         /// <summary>
-        /// Find Next
+        /// <summary>
+        ///     Find Next
         /// </summary>
-        /// <param name="pattern"></param>
-        public virtual void FindNext(string pattern)
+        /// <param name="pattern"></param>id FindNext(string pattern)
+        public void FindNext(string pattern)
         {
             try
             {

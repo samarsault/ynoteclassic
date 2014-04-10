@@ -1,11 +1,15 @@
-//===================================
-//
-// The Ynote Classic Project - http://ynoteclassic.codeplex.com
-// Copyright (C) 2014 Samarjeet Singh ( singh.samarjeet.27@gmail.com )
-//
-//===================================
-
-using System.Security;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition.Hosting;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Windows.Forms;
 using FastColoredTextBoxNS;
 using SS.Ynote.Classic.Features.Extensibility;
 using SS.Ynote.Classic.Features.Packages;
@@ -14,18 +18,6 @@ using SS.Ynote.Classic.Features.RunScript;
 using SS.Ynote.Classic.Features.Search;
 using SS.Ynote.Classic.Features.Syntax;
 using SS.Ynote.Classic.UI;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition.Hosting;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Windows.Forms;
-using System.Xml;
 using WeifenLuo.WinFormsUI.Docking;
 using Timer = System.Windows.Forms.Timer;
 
@@ -72,11 +64,11 @@ namespace SS.Ynote.Classic
             InitializeComponent();
             InitSettings();
             LoadPlugins();
-            InitTimer();
             if (string.IsNullOrEmpty(fn))
                 CreateNewDoc();
             else
                 OpenFile(fn);
+            InitTimer();
         }
 
         #endregion Constructor
@@ -86,43 +78,38 @@ namespace SS.Ynote.Classic
         #region FILE/IO
 
         /// <summary>
-        /// Create New Document
+        ///     Create New Document
         /// </summary>
         public void CreateNewDoc()
         {
-            var edit = new Editor { Text = "untitled" };
+            var edit = new Editor {Text = "untitled"};
             edit.Show(Panel);
         }
-        private void OpenFileAsync(string name)
-        {
-            BeginInvoke((MethodInvoker) (() => OpenFile(name)));
-        }
+
         /// <summary>
-        ///     Default Method for Opening a File
+        ///     Opens a File
         /// </summary>
         /// <param name="name"></param>
-        /// <param name="isreadonly"></param>
         public void OpenFile(string name)
         {
-            if (!File.Exists(name))
+            while (true)
             {
-                var result =
-                    MessageBox.Show(
-                        string.Format("The File {0} does not exist.\r\nWould you like to create it ?", name),
-                        "Ynote Classic", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result != DialogResult.Yes) return;
-                File.WriteAllText(name, null);
-                OpenFile(name);
-            }
-            else
-            {
+                if (!File.Exists(name))
+                {
+                    var result =
+                        MessageBox.Show(
+                            string.Format("The File {0} does not exist.\r\nWould you like to create it ?", name),
+                            "Ynote Classic", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result != DialogResult.Yes) return;
+                    File.WriteAllText(name, null);
+                    continue;
+                }
                 if (Panel.Documents.Cast<DockContent>().Any(doc => doc is Editor && doc.Name == name))
                     return;
-                var edit = new Editor { Text = Path.GetFileName(name), Name = name };
+                var edit = new Editor {Text = Path.GetFileName(name), Name = name};
                 if (FileExtensions.FileExtensionsDictionary == null)
                     FileExtensions.BuildDictionary();
-                var lang = FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary,
-                    Path.GetExtension(name));
+                var lang = FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary, Path.GetExtension(name));
                 if (lang.IsBase)
                 {
                     edit.Highlighter.HighlightSyntax(lang.SyntaxBase, new TextChangedEventArgs(edit.Tb.Range));
@@ -141,8 +128,24 @@ namespace SS.Ynote.Classic
                 else
                     edit.Tb.OpenFile(name, encoding);
                 edit.Tb.ReadOnly = info.IsReadOnly;
+                break;
             }
         }
+
+        /// <summary>
+        ///     SaveEditor without encoding
+        /// </summary>
+        /// <param name="edit"></param>
+        public void SaveEditor(Editor edit)
+        {
+            SaveEditor(edit, Encoding.Default);
+        }
+
+        private void OpenFileAsync(string name)
+        {
+            BeginInvoke((MethodInvoker) (() => OpenFile(name)));
+        }
+
         private void OpenFile(string name, Encoding encoding)
         {
             if (!File.Exists(name))
@@ -159,7 +162,7 @@ namespace SS.Ynote.Classic
             {
                 if (Panel.Documents.Cast<DockContent>().Any(doc => doc is Editor && doc.Name == name))
                     return;
-                var edit = new Editor { Text = Path.GetFileName(name), Name = name };
+                var edit = new Editor {Text = Path.GetFileName(name), Name = name};
                 if (FileExtensions.FileExtensionsDictionary == null)
                     FileExtensions.BuildDictionary();
                 var lang = FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary,
@@ -183,43 +186,43 @@ namespace SS.Ynote.Classic
                 edit.Tb.ReadOnly = info.IsReadOnly;
             }
         }
-        /// <summary>
-        ///     SaveEditor without encoding
-        /// </summary>
-        /// <param name="edit"></param>
-        public void SaveEditor(Editor edit)
-        {
-            SaveEditor(edit, Encoding.Default);
-        }
 
         /// <summary>
         ///     Save a typeof(Editor), with encoding.getEncoding( "name")
         /// </summary>
         /// <param name="edit"></param>
         /// <param name="name"></param>
-        static void SaveEditor(Editor edit, Encoding encoding)
+        private static void SaveEditor(Editor edit, Encoding encoding)
         {
-            if (!edit.IsSaved)
+            try
             {
-                using (var s = new SaveFileDialog())
+                if (!edit.IsSaved)
                 {
-                    s.Filter = "All Files(*.*)|*.*";
-                    s.ShowDialog();
-                    if (s.FileName == "") return;
-                    edit.Tb.SaveToFile(s.FileName, encoding);
-                    edit.Text = Path.GetFileName(s.FileName);
-                    edit.Name = s.FileName;
+                    using (var s = new SaveFileDialog())
+                    {
+                        s.Filter = "All Files(*.*)|*.*";
+                        s.ShowDialog();
+                        if (s.FileName == "") return;
+                        edit.Tb.SaveToFile(s.FileName, encoding);
+                        edit.Text = Path.GetFileName(s.FileName);
+                        edit.Name = s.FileName;
+                    }
+                }
+                else
+                {
+                    edit.Tb.SaveToFile(edit.Name, encoding);
+                    edit.Text = Path.GetFileName(edit.Name);
+                    edit.Name = edit.Name;
                 }
             }
-            else
+            catch (Exception ex)
             {
-                edit.Tb.SaveToFile(edit.Name, Encoding.GetEncoding(name));
-                edit.Text = Path.GetFileName(edit.Name);
-                edit.Name = edit.Name;
+                MessageBox.Show("Error Saving File !!" + ex.Message, null, MessageBoxButtons.OK,
+                    MessageBoxIcon.Exclamation);
             }
         }
 
-        #endregion FILE/IO
+        #endregion
 
         #region Recent File Handlers
 
@@ -228,21 +231,13 @@ namespace SS.Ynote.Classic
         /// </summary>
         /// <param name="path"></param>
         /// <param name="recent"></param>
-        private void SaveRecentFile(string path, MenuItem recent)
+        private void SaveRecentFiles()
         {
             if (_mru == null)
                 LoadRecentList();
-            recent.MenuItems.Clear(); //clear all recent list from menu
             // LoadRecentList(); //load list from file
-            if (!(_mru.Contains(path))) //prevent duplication on recent list
-                _mru.Enqueue(path); //insert given path into list
-            while (_mru.Count > 20) //keep list number not exceeded given value
+            while (_mru.Count > SettingsBase.RecentFileNumber) //keep list number not exceeded given value
                 _mru.Dequeue();
-            foreach (var fileRecent in _mru.Select(item => new MenuItem(item)))
-            {
-                fileRecent.Click += (sender, args) => OpenFile(((MenuItem)(sender)).Text);
-                recent.MenuItems.Add(fileRecent); //add the menu to "recent" menu
-            }
             //writing menu list to file
             using (var stringToWrite = new StreamWriter(SettingsBase.SettingsDir + "Recent.info"))
             {
@@ -255,30 +250,27 @@ namespace SS.Ynote.Classic
         }
 
         /// <summary>
-        ///     Loads the List of Recent files from list
+        /// Loads the List of Recent files from list
         /// </summary>
-        private void LoadRecentList()
+        void LoadRecentList()
         {
+            string rfPath = SettingsBase.SettingsDir + "Recent.info";
             if (!Directory.Exists(SettingsBase.SettingsDir))
                 Directory.CreateDirectory(SettingsBase.SettingsDir);
-            if (_mru == null)
-                _mru = new Queue<string>();
-            else
-                _mru.Clear();
-            try
+            if(!File.Exists(rfPath))
+                File.WriteAllText(rfPath, string.Empty);
+            _mru = new Queue<string>();
+            using (var listToRead = new StreamReader(rfPath))
             {
-                using (var listToRead = new StreamReader(SettingsBase.SettingsDir + "Recent.info"))
-                {
-                    //read file stream
-                    string line;
-                    while ((line = listToRead.ReadLine()) != null) //read each line until end of file
-                        _mru.Enqueue(line); //insert to list
-                    listToRead.Close(); //close the stream
-                }
+                //read file stream
+                string line;
+                while ((line = listToRead.ReadLine()) != null) //read each line until end of file
+                    _mru.Enqueue(line); //insert to list
+                listToRead.Close(); //close the stream
             }
-            catch
-            {
-            }
+            foreach (var item in _mru)
+                recentfilesmenu.MenuItems.Add(item, 
+                    (sender, args) => OpenFile(((MenuItem) (sender)).Text));
         }
 
         /// <summary>
@@ -287,9 +279,15 @@ namespace SS.Ynote.Classic
         /// <param name="name"></param>
         private void AddRecentFile(string name)
         {
-            var fileRecent = new MenuItem(name); //create new menu for each item in list
-            fileRecent.Click += (sender, args) => OpenFile(((MenuItem)(sender)).Text);
-            recentfilesmenu.MenuItems.Add(fileRecent); //add the menu to "recent" menu
+            if (_mru == null)
+                LoadRecentList();
+            if (!_mru.Contains(name))
+            {
+                var fileRecent = new MenuItem(name); //create new menu for each item in list
+                _mru.Enqueue(name);
+                fileRecent.Click += (sender, args) => OpenFile(((MenuItem) (sender)).Text);
+                recentfilesmenu.MenuItems.Add(fileRecent); //add the menu to "recent" menu
+            }
         }
 
         #endregion Recent File Handlers
@@ -301,7 +299,7 @@ namespace SS.Ynote.Classic
         /// </summary>
         private void BuildLangMenu()
         {
-            var menus = Enum.GetValues(typeof(Language)).Cast<Language>();
+            var menus = Enum.GetValues(typeof (Language)).Cast<Language>();
 
             foreach (var m in menus.Select(lang => new MenuItem(lang.ToString())))
             {
@@ -310,7 +308,7 @@ namespace SS.Ynote.Classic
             }
             foreach (var item in SyntaxHighlighter.LoadedSyntaxes)
                 milanguage.MenuItems.Add(new MenuItem(Path.GetFileNameWithoutExtension(item.SysPath),
-                    LangMenuItemClicked) { Tag = item });
+                    LangMenuItemClicked) {Tag = item});
             milanguage.GetMenuByName("Text").Checked = true;
         }
 
@@ -415,7 +413,7 @@ namespace SS.Ynote.Classic
         {
             return
                 Encoding.GetEncodings()
-                    .Select(info => new MenuItem(info.DisplayName, handler) { Tag = info.GetEncoding() })
+                    .Select(info => new MenuItem(info.DisplayName, handler) {Tag = info.GetEncoding()})
                     .ToArray();
         }
 
@@ -450,7 +448,7 @@ namespace SS.Ynote.Classic
         /// </summary>
         private void InitTimer()
         {
-            using (var infotimer = new Timer { Interval = 200 })
+            using (var infotimer = new Timer {Interval = 200})
             {
                 infotimer.Tick += (sender, args) => UpdateDocumentInfo();
                 infotimer.Start();
@@ -458,12 +456,11 @@ namespace SS.Ynote.Classic
         }
 
         /// <summary>
-        /// Updates the Document Info
+        ///     Updates the Document Info
         /// </summary>
         private void UpdateDocumentInfo()
         {
-            if (Panel.ActiveDocument == null
-                || Panel.ActiveDocument.GetType() != typeof(Editor)) return;
+            if (!(Panel.ActiveDocument is Editor) || ActiveEditor == null) return;
             var nCol = ActiveEditor.Tb.Selection.Start.iChar + 1;
             var line = ActiveEditor.Tb.Selection.Start.iLine + 1;
             infolabel.Text = string.Format(" Line : {0} Col : {1} Size : {2} bytes Selected : {3}", line, nCol,
@@ -479,8 +476,8 @@ namespace SS.Ynote.Classic
         {
             // Use LINQ to sort the array received and return a copy.
             var sorted = from s in e
-                         orderby s.Length ascending
-                         select s;
+                orderby s.Length ascending
+                select s;
             return sorted;
         }
 
@@ -491,19 +488,28 @@ namespace SS.Ynote.Classic
         /// <returns></returns>
         private static bool CheckForUpdates()
         {
-            using (var reader = XmlReader.Create("https://raw.githubusercontent.com/samarjeet27/ynoteclassic/master/updates.xml", new XmlReaderSettings { ProhibitDtd = false }))
+            const string url = "https://raw.githubusercontent.com/samarjeet27/ynoteclassic/master/updates.xml";
+            return RemoteFileExists(url);
+        }
+
+        private static bool RemoteFileExists(string url)
+        {
+            var bResult = false;
+            using (var client = new WebClient())
             {
-                while(reader.Read())
-                    if (reader.IsStartElement())
-                        if (reader.Name == "Update")
-                        {
-                            var version = Convert.ToDouble(reader["Version"]);
-                            var appV = Convert.ToDouble(Application.ProductVersion);
-                            if(version > appV)
-                                return true;
-                        }
-                    return false;
+                try
+                {
+                    client.UseDefaultCredentials = true;
+                    var stream = client.OpenRead(url);
+                    if (stream != null)
+                        bResult = true;
+                }
+                catch
+                {
+                    bResult = false;
+                }
             }
+            return bResult;
         }
 
         #endregion MISC
@@ -517,19 +523,28 @@ namespace SS.Ynote.Classic
         {
             if (!Directory.Exists(SettingsBase.SettingsDir + @"\Plugins"))
                 Directory.CreateDirectory(SettingsBase.SettingsDir);
-            using (var dircatalog = new DirectoryCatalog(SettingsBase.SettingsDir + @"\Plugins\"))
+            using (var dircatalog = new DirectoryCatalog(SettingsBase.SettingsDir + @"\Plugins"))
             {
                 using (var container = new CompositionContainer(dircatalog))
                 {
                     var plugins = container.GetExportedValues<IYnotePlugin>();
                     foreach (var plugin in plugins)
-                        plugin.Initialize(this);
+                        plugin.Main(this);
                 }
             }
         }
 
         #endregion
 
+        #endregion
+
+        #region Overrides
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            SaveRecentFiles();
+            base.OnClosing(e);
+        }
         #endregion
 
         #region Events
@@ -547,7 +562,7 @@ namespace SS.Ynote.Classic
                 var res = dialog.ShowDialog() == DialogResult.OK;
                 if (!res) return;
                 OpenFileAsync(dialog.FileName);
-                SaveRecentFile(dialog.FileName, recentfilesmenu);
+                AddRecentFile(dialog.FileName);
             }
         }
 
@@ -840,7 +855,7 @@ namespace SS.Ynote.Classic
 
         private void fromrtf_Click(object sender, EventArgs e)
         {
-            using (var o = new OpenFileDialog { Filter = "RTF Files (*.rtf)|*.rtf" })
+            using (var o = new OpenFileDialog {Filter = "RTF Files (*.rtf)|*.rtf"})
             {
                 o.ShowDialog();
                 if (o.FileName == "") return;
@@ -914,7 +929,7 @@ namespace SS.Ynote.Classic
 
         private void menuItem57_Click(object sender, EventArgs e)
         {
-            var splitedit = new Editor { Name = ActiveEditor.Name, Text = "[Split] " + ActiveEditor.Text };
+            var splitedit = new Editor {Name = ActiveEditor.Name, Text = "[Split] " + ActiveEditor.Text};
             splitedit.Tb.SourceTextBox = ActiveEditor.Tb;
             splitedit.Tb.ReadOnly = true;
             splitedit.Show(ActiveEditor.Pane, DockAlignment.Bottom, 0.5);
@@ -990,7 +1005,7 @@ namespace SS.Ynote.Classic
 
         private void pluginmanagermenu_Click(object sender, EventArgs e)
         {
-            using (var manager = new PackageManager { StartPosition = FormStartPosition.CenterParent })
+            using (var manager = new PackageManager {StartPosition = FormStartPosition.CenterParent})
             {
                 manager.ShowDialog(this);
             }
@@ -998,7 +1013,7 @@ namespace SS.Ynote.Classic
 
         private void savemenu_Click(object sender, EventArgs e)
         {
-            SaveEditor(ActiveEditor);
+            BeginInvoke((MethodInvoker)(() => SaveEditor(ActiveEditor)));
         }
 
         private void misaveas_Click(object sender, EventArgs e)
@@ -1019,8 +1034,9 @@ namespace SS.Ynote.Classic
 
         private void misaveall_Click(object sender, EventArgs e)
         {
+            //TODO:Check If Working
             foreach (Editor doc in Panel.Documents)
-                SaveEditor(doc);
+                BeginInvoke((MethodInvoker)(() => SaveEditor(doc)));
         }
 
         private void OptionsMenu_Click(object sender, EventArgs e)
@@ -1091,7 +1107,7 @@ namespace SS.Ynote.Classic
             if (ActiveEditor == null) return;
             if (_incrementalSearcher == null)
             {
-                _incrementalSearcher = new IncrementalSearcher { Dock = DockStyle.Bottom };
+                _incrementalSearcher = new IncrementalSearcher {Dock = DockStyle.Bottom};
                 Controls.Add(_incrementalSearcher);
                 _incrementalSearcher.Tb = ActiveEditor.Tb;
                 _incrementalSearcher.tbFind.Text = ActiveEditor.Tb.SelectedText;
@@ -1120,13 +1136,15 @@ namespace SS.Ynote.Classic
 
         private void miprint_Click(object sender, EventArgs e)
         {
-            ActiveEditor.Tb.Print(new PrintDialogSettings { ShowPrintDialog = true });
+            ActiveEditor.Tb.Print(new PrintDialogSettings {ShowPrintDialog = true});
         }
 
         private void reopenclosedtab_Click(object sender, EventArgs e)
         {
             try
             {
+                if (_mru == null)
+                    LoadRecentList();
                 var recentlyclosed = _mru.Last();
                 if (recentlyclosed != null) OpenFile(recentlyclosed);
             }
@@ -1155,7 +1173,10 @@ namespace SS.Ynote.Classic
         private void colorschememenu_Select(object sender, EventArgs e)
         {
             if (colorschememenu.MenuItems.Count != 0) return;
-            foreach (var menuitem in Directory.GetFiles(SettingsBase.SettingsDir + "\\Themes").Select(file => new MenuItem { Text = Path.GetFileNameWithoutExtension(file), Name = file }))
+            foreach (
+                var menuitem in
+                    Directory.GetFiles(SettingsBase.SettingsDir + "\\Themes")
+                        .Select(file => new MenuItem {Text = Path.GetFileNameWithoutExtension(file), Name = file}))
             {
                 menuitem.Click += colorschemeitem_Click;
                 colorschememenu.MenuItems.Add(menuitem);
@@ -1166,9 +1187,9 @@ namespace SS.Ynote.Classic
         {
             if (ActiveEditor == null) return;
             ActiveEditor.Tb.SelectedText = string.Join(" ", ActiveEditor.Tb.SelectedText.Split(new[]
-          {
-            Environment.NewLine
-          }, StringSplitOptions.None));
+            {
+                Environment.NewLine
+            }, StringSplitOptions.None));
         }
 
         private void milanguage_Select(object sender, EventArgs e)
@@ -1190,7 +1211,7 @@ namespace SS.Ynote.Classic
         private void menuItem65_Click(object sender, EventArgs e)
         {
             var fctb = ActiveEditor.Tb;
-            var lines = fctb.SelectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            var lines = fctb.SelectedText.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
             Array.Sort(lines);
             var formedtext = lines.Aggregate<string, string>(null, (current, str) => current + (str + "\r\n"));
             fctb.SelectedText = formedtext;
@@ -1203,7 +1224,7 @@ namespace SS.Ynote.Classic
 
         private void gotobookmark_Click(object sender, EventArgs e)
         {
-            var bookmarksmanager = new BookmarksInfos(ActiveEditor.Tb) { StartPosition = FormStartPosition.CenterScreen };
+            var bookmarksmanager = new BookmarksInfos(ActiveEditor.Tb) {StartPosition = FormStartPosition.CenterScreen};
             bookmarksmanager.Show();
         }
 
@@ -1252,7 +1273,7 @@ namespace SS.Ynote.Classic
             if (ActiveEditor.Tb.SelectedText != "")
             {
                 var trimmed = "";
-                var lines = ActiveEditor.Tb.SelectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                var lines = ActiveEditor.Tb.SelectedText.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
                 trimmed = lines.Length != 1
                     ? lines.Aggregate(trimmed, (current, line) => current + (line.TrimEnd() + Environment.NewLine))
                     : ActiveEditor.Tb.SelectedText.TrimEnd();
@@ -1269,7 +1290,7 @@ namespace SS.Ynote.Classic
             if (ActiveEditor.Tb.SelectedText != "")
             {
                 var trimmed = string.Empty;
-                var lines = ActiveEditor.Tb.SelectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                var lines = ActiveEditor.Tb.SelectedText.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
                 trimmed = lines.Length != 1
                     ? lines.Aggregate(trimmed, (current, line) => current + (line.TrimStart() + Environment.NewLine))
                     : ActiveEditor.Tb.SelectedText.TrimStart();
@@ -1286,7 +1307,7 @@ namespace SS.Ynote.Classic
             if (!string.IsNullOrEmpty(ActiveEditor.Tb.SelectedText))
             {
                 var trimmed = "";
-                var lines = ActiveEditor.Tb.SelectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                var lines = ActiveEditor.Tb.SelectedText.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
                 trimmed = lines.Length != 1
                     ? lines.Aggregate(trimmed, (current, line) => current + (line.Trim() + Environment.NewLine))
                     : ActiveEditor.Tb.SelectedText.Trim();
@@ -1324,7 +1345,7 @@ namespace SS.Ynote.Classic
 
         private void menuItem84_Click(object sender, EventArgs e)
         {
-            var fileswitcher = new SwitchFile(this) { StartPosition = FormStartPosition.CenterParent };
+            var fileswitcher = new SwitchFile(this) {StartPosition = FormStartPosition.CenterParent};
             fileswitcher.ShowDialog(this);
         }
 
@@ -1355,7 +1376,7 @@ namespace SS.Ynote.Classic
             if (ActiveEditor.Tb.SelectedText != "")
             {
                 var trimmed = "";
-                var lines = ActiveEditor.Tb.SelectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                var lines = ActiveEditor.Tb.SelectedText.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
                 trimmed = lines.Length != 1
                     ? lines.Aggregate(trimmed,
                         (current, line) => current + (TrimPunctuation(line) + Environment.NewLine))
@@ -1417,7 +1438,7 @@ namespace SS.Ynote.Classic
         private void saveencoding_click(object sender, EventArgs e)
         {
             var menuItem = sender as MenuItem;
-            if (menuItem != null) SaveEditor(ActiveEditor, menuItem.Tag.ToString());
+            if (menuItem != null) SaveEditor(ActiveEditor, menuItem.Tag as Encoding);
         }
 
         private void misaveencoding_Select(object sender, EventArgs e)
@@ -1495,7 +1516,7 @@ namespace SS.Ynote.Classic
         private void langmenu_MouseEnter(object sender, EventArgs e)
         {
             if (langmenu.DropDownItems.Count != 0) return;
-            var menus = Enum.GetValues(typeof(Language)).Cast<Language>();
+            var menus = Enum.GetValues(typeof (Language)).Cast<Language>();
 
             foreach (var m in menus.Select(lang => new ToolStripMenuItem(lang.ToString())))
             {
@@ -1503,7 +1524,8 @@ namespace SS.Ynote.Classic
                 langmenu.DropDownItems.Add(m);
             }
             foreach (var item in SyntaxHighlighter.LoadedSyntaxes)
-                langmenu.DropDownItems.Add(new ToolStripMenuItem(Path.GetFileNameWithoutExtension(item.SysPath), null, langitem_Click)
+                langmenu.DropDownItems.Add(new ToolStripMenuItem(Path.GetFileNameWithoutExtension(item.SysPath), null,
+                    langitem_Click)
                 {
                     Tag = item
                 });
@@ -1545,14 +1567,16 @@ namespace SS.Ynote.Classic
 
         private void miruneditor_Click(object sender, EventArgs e)
         {
-            var editor = new RunScriptEditor { StartPosition = FormStartPosition.CenterParent };
+            var editor = new RunScriptEditor {StartPosition = FormStartPosition.CenterParent};
             editor.ShowDialog(this);
         }
 
         private void dock_ActiveDocumentChanged(object sender, EventArgs e)
         {
             if (ActiveEditor == null) return;
-            langmenu.Text = ActiveEditor.Syntax == null ? ActiveEditor.Tb.Language.ToString() : Path.GetFileNameWithoutExtension(ActiveEditor.Syntax.SysPath);
+            langmenu.Text = ActiveEditor.Syntax == null
+                ? ActiveEditor.Tb.Language.ToString()
+                : Path.GetFileNameWithoutExtension(ActiveEditor.Syntax.SysPath);
             if (_incrementalSearcher != null && _incrementalSearcher.Visible) _incrementalSearcher.Tb = ActiveEditor.Tb;
         }
 
@@ -1589,7 +1613,7 @@ namespace SS.Ynote.Classic
         private void misortlength_Click(object sender, EventArgs e)
         {
             if (ActiveEditor == null) return;
-            var lines = ActiveEditor.Tb.SelectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            var lines = ActiveEditor.Tb.SelectedText.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
             var results = SortByLength(lines);
             ActiveEditor.Tb.SelectedText = results.Aggregate<string, string>(null,
                 (current, result) => current + (result + "\r\n"));
@@ -1675,14 +1699,14 @@ namespace SS.Ynote.Classic
 
         private void migoogle_Click(object sender, EventArgs e)
         {
-            var console = new Commander(this) { StartPosition = FormStartPosition.CenterParent };
+            var console = new Commander(this) {StartPosition = FormStartPosition.CenterParent};
             console.AddText("Google:");
             console.ShowDialog(this);
         }
 
         private void miwiki_Click(object sender, EventArgs e)
         {
-            var console = new Commander(this) { StartPosition = FormStartPosition.CenterParent };
+            var console = new Commander(this) {StartPosition = FormStartPosition.CenterParent};
             console.AddText("Wikipedia:");
             console.ShowDialog(this);
         }
@@ -1725,7 +1749,8 @@ namespace SS.Ynote.Classic
         private void minewsnippet_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null)
-                OpenFile(string.Format(@"{0}Snippets\{1}.ynotesnippet", SettingsBase.SettingsDir, ActiveEditor.Tb.Language));
+                OpenFile(string.Format(@"{0}Snippets\{1}.ynotesnippet", SettingsBase.SettingsDir,
+                    ActiveEditor.Tb.Language));
         }
 
         private void midocinfo_Click(object sender, EventArgs e)
@@ -1734,7 +1759,8 @@ namespace SS.Ynote.Classic
             var selectionWords = Regex.Matches(ActiveEditor.Tb.SelectedText, @"[\S]+");
             var message =
                 string.Format(
-                    "Words : {0}\r\nSelected Words : {1}\r\nLines : {2}\r\nColumn : {3}", allwords.Count, selectionWords.Count
+                    "Words : {0}\r\nSelected Words : {1}\r\nLines : {2}\r\nColumn : {3}", allwords.Count,
+                    selectionWords.Count
                     , ActiveEditor.Tb.LinesCount, ActiveEditor.Tb.Selection.Start.iChar + 1);
             MessageBox.Show(message, "Document Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -1763,7 +1789,7 @@ namespace SS.Ynote.Classic
         private void filemenu_Select(object sender, EventArgs e)
         {
             if (recentfilesmenu.MenuItems.Count != 0) return;
-            LoadRecentList();
+            if(_mru == null) LoadRecentList();
             foreach (var r in _mru)
                 AddRecentFile(r);
         }
@@ -1772,9 +1798,13 @@ namespace SS.Ynote.Classic
         {
             mimacros.MenuItems.Clear();
             var mnum = 0;
-            foreach (var file in Directory.GetFiles(SettingsBase.SettingsDir + @"Macros\", "*.ymc"))
+            foreach (
+                var item in
+                    Directory.GetFiles(SettingsBase.SettingsDir + @"Macros\", "*.ymc")
+                        .Select(
+                            file => new MenuItem(Path.GetFileNameWithoutExtension(file), macroitem_click) {Name = file})
+                )
             {
-                var item = new MenuItem(Path.GetFileNameWithoutExtension(file), macroitem_click) { Name = file };
                 if (mnum < 10)
                     item.Shortcut = ("Alt" + mnum).ToEnum<Shortcut>();
                 mnum++;
@@ -1782,9 +1812,13 @@ namespace SS.Ynote.Classic
             }
             if (miscripts.MenuItems.Count != 0) return;
             var si = 0;
-            foreach (var file in Directory.GetFiles(SettingsBase.SettingsDir + @"Scripts\", "*.ys"))
+            foreach (
+                var item in
+                    Directory.GetFiles(SettingsBase.SettingsDir + @"Scripts\", "*.ys")
+                        .Select(
+                            file =>
+                                new MenuItem(Path.GetFileNameWithoutExtension(file), scriptitem_clicked) {Name = file}))
             {
-                var item = new MenuItem(Path.GetFileNameWithoutExtension(file), scriptitem_clicked) { Name = file };
                 if (si < 10)
                     item.Shortcut = ("Ctrl" + si).ToEnum<Shortcut>();
                 si++;

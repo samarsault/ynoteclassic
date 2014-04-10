@@ -3,32 +3,16 @@
 namespace FastColoredTextBoxNS
 {
     /// <summary>
-    /// Limited stack
+    ///     Limited stack
     /// </summary>
     public class LimitedStack<T>
     {
-        private T[] items;
         private int count;
+        private T[] items;
         private int start;
 
         /// <summary>
-        /// Max stack length
-        /// </summary>
-        public int MaxItemCount
-        {
-            get { return items.Length; }
-        }
-
-        /// <summary>
-        /// Current length of stack
-        /// </summary>
-        public int Count
-        {
-            get { return count; }
-        }
-
-        /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="maxItemCount">Maximum length of stack</param>
         public LimitedStack(int maxItemCount)
@@ -39,7 +23,28 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Pop item
+        ///     Max stack length
+        /// </summary>
+        public int MaxItemCount
+        {
+            get { return items.Length; }
+        }
+
+        /// <summary>
+        ///     Current length of stack
+        /// </summary>
+        public int Count
+        {
+            get { return count; }
+        }
+
+        private int LastIndex
+        {
+            get { return (start + count - 1)%items.Length; }
+        }
+
+        /// <summary>
+        ///     Pop item
         /// </summary>
         public T Pop()
         {
@@ -55,13 +60,8 @@ namespace FastColoredTextBoxNS
             return item;
         }
 
-        private int LastIndex
-        {
-            get { return (start + count - 1) % items.Length; }
-        }
-
         /// <summary>
-        /// Peek item
+        ///     Peek item
         /// </summary>
         public T Peek()
         {
@@ -72,12 +72,12 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Push item
+        ///     Push item
         /// </summary>
         public void Push(T item)
         {
             if (count == items.Length)
-                start = (start + 1) % items.Length;
+                start = (start + 1)%items.Length;
             else
                 count++;
 
@@ -85,7 +85,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Clear stack
+        ///     Clear stack
         /// </summary>
         public void Clear()
         {
@@ -98,7 +98,7 @@ namespace FastColoredTextBoxNS
         {
             var result = new T[count];
             for (var i = 0; i < count; i++)
-                result[i] = items[(start + i) % items.Length];
+                result[i] = items[(start + i)%items.Length];
             return result;
         }
     }

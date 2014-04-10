@@ -1653,7 +1653,7 @@ namespace FastColoredTextBoxNS
             base.OnDragDrop(e);
         }
 
-        private void DoDragDrop_old(Place place, string text)
+        /* private void DoDragDrop_old(Place place, string text)
         {
             var insertRange = new Range(this, place, place);
 
@@ -1766,7 +1766,7 @@ namespace FastColoredTextBoxNS
             Selection.EndUpdate();
             EndAutoUndo();
             draggedRange = null;
-        }
+        }*/
 
         private void DoDragDrop(Place place, string text)
         {
@@ -2181,7 +2181,7 @@ namespace FastColoredTextBoxNS
             }
         }
 
-        private void DrawTriangle(Graphics g, Brush brush)
+        private static void DrawTriangle(Graphics g, Brush brush)
         {
             const int size = 5;
             var points = new[] {new Point(size, 2*size), new Point(0, 3*size), new Point(-size, 2*size)};
@@ -2594,7 +2594,7 @@ namespace FastColoredTextBoxNS
             {
 #if Styles32
                 var s = (uint) this[place].style;
-                for (int i = 0; i < 32; i++)
+                for (var i = 0; i < 32; i++)
                     if ((s & ((uint) 1) << i) != 0)
                         result.Add(Styles[i]);
 #else
@@ -3025,7 +3025,7 @@ namespace FastColoredTextBoxNS
         [DllImport("user32.dll")]
         private static extern IntPtr CloseClipboard();
 
-        private void SetClipboard(DataObject data)
+        private static void SetClipboard(DataObject data)
         {
             try
             {
@@ -5038,7 +5038,6 @@ namespace FastColoredTextBoxNS
         {
             if (!Selection.IsEmpty)
                 return;
-            var end = Selection.Start;
             while (Selection.CharAfterStart == ' ')
                 Selection.GoRight(true);
             ClearSelected();
@@ -5541,7 +5540,6 @@ namespace FastColoredTextBoxNS
             var state = graphics.Save();
             graphics.SmoothingMode = SmoothingMode.HighQuality;
             graphics.TranslateTransform(rect.Left + h/2, rect.Top + h/2);
-            var ts = new TimeSpan(DateTime.Now.Ticks);
             graphics.RotateTransform(180*(DateTime.Now.Millisecond/1000f));
             using (var pen = new Pen(Color.Red, 2))
             {
@@ -7611,7 +7609,7 @@ namespace FastColoredTextBoxNS
             return s.Replace("<", "&lt;").Replace(">", "&gt;").Replace("&", "&amp;");
         }
 
-        private void wb_StatusTextChanged(object sender, EventArgs e)
+        private static void wb_StatusTextChanged(object sender, EventArgs e)
         {
             var wb = sender as WebBrowser;
             if (wb.StatusText.Contains("#print"))

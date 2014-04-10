@@ -1,3 +1,10 @@
+//=================================================
+//
+// Ynote Classic
+// Copyright (C) 2014 Samarjeet Singh (singh.samarjeet.27@gmail.com)
+//
+//==================================================
+
 using System;
 using System.Windows.Forms;
 
@@ -6,10 +13,10 @@ namespace SS.Ynote.Classic
     internal static class Program
     {
         /// <summary>
-        /// The main entry point for the application.
+        ///     The main entry point for the application.
         /// </summary>
         [STAThread]
-        private static void Main(string[] args)
+        static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

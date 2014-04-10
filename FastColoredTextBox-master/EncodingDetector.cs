@@ -1,7 +1,4 @@
-﻿// Copyright Tao Klerks, 2010-2012, tao@klerks.biz
-// Licensed under the modified BSD license.
-
-using System;
+﻿using System;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -10,10 +7,11 @@ namespace FastColoredTextBoxNS
 {
     public static class EncodingDetector
     {
-        private const long _defaultHeuristicSampleSize = 0x10000; //completely arbitrary - inappropriate for high numbers of files / high speed requirements
+        private const long _defaultHeuristicSampleSize = 0x10000;
+            //completely arbitrary - inappropriate for high numbers of files / high speed requirements
 
         /// <summary>
-        /// Detects the Encoding of a textfile
+        ///     Detects the Encoding of a textfile
         /// </summary>
         /// <param name="inputFilename"></param>
         /// <returns></returns>
@@ -29,10 +27,9 @@ namespace FastColoredTextBoxNS
             return DetectTextFileEncoding(InputFileStream, _defaultHeuristicSampleSize, out uselessBool);
         }
 
-        private static Encoding DetectTextFileEncoding(FileStream InputFileStream, long HeuristicSampleSize, out bool HasBOM)
+        private static Encoding DetectTextFileEncoding(FileStream InputFileStream, long HeuristicSampleSize,
+            out bool HasBOM)
         {
-            Encoding encodingFound;
-
             var originalPos = InputFileStream.Position;
 
             InputFileStream.Position = 0;
@@ -41,7 +38,7 @@ namespace FastColoredTextBoxNS
             var bomBytes = new byte[InputFileStream.Length > 4 ? 4 : InputFileStream.Length];
             InputFileStream.Read(bomBytes, 0, bomBytes.Length);
 
-            encodingFound = DetectBOMBytes(bomBytes);
+            var encodingFound = DetectBOMBytes(bomBytes);
 
             if (encodingFound != null)
             {
@@ -52,7 +49,8 @@ namespace FastColoredTextBoxNS
 
             //BOM Detection failed, going for heuristics now.
             //  create sample byte array and populate it
-            var sampleBytes = new byte[HeuristicSampleSize > InputFileStream.Length ? InputFileStream.Length : HeuristicSampleSize];
+            var sampleBytes =
+                new byte[HeuristicSampleSize > InputFileStream.Length ? InputFileStream.Length : HeuristicSampleSize];
             Array.Copy(bomBytes, sampleBytes, bomBytes.Length);
             if (InputFileStream.Length > bomBytes.Length)
                 InputFileStream.Read(sampleBytes, bomBytes.Length, sampleBytes.Length - bomBytes.Length);
@@ -125,7 +123,7 @@ namespace FastColoredTextBoxNS
                 //binary null distribution
                 if (sampleBytes[currentPos] == 0)
                 {
-                    if (currentPos % 2 == 0)
+                    if (currentPos%2 == 0)
                         evenBinaryNullsInSample++;
                     else
                         oddBinaryNullsInSample++;
@@ -161,8 +159,8 @@ namespace FastColoredTextBoxNS
             //  The thresholds here used (less than 20% nulls where you expect non-nulls, and more than
             //  60% nulls where you do expect nulls) are completely arbitrary.
 
-            if (((evenBinaryNullsInSample * 2.0) / sampleBytes.Length) < 0.2
-                && ((oddBinaryNullsInSample * 2.0) / sampleBytes.Length) > 0.6
+            if (((evenBinaryNullsInSample*2.0)/sampleBytes.Length) < 0.2
+                && ((oddBinaryNullsInSample*2.0)/sampleBytes.Length) > 0.6
                 )
                 return Encoding.Unicode;
 
@@ -172,8 +170,8 @@ namespace FastColoredTextBoxNS
             //  The thresholds here used (less than 20% nulls where you expect non-nulls, and more than
             //  60% nulls where you do expect nulls) are completely arbitrary.
 
-            if (((oddBinaryNullsInSample * 2.0) / sampleBytes.Length) < 0.2
-                && ((evenBinaryNullsInSample * 2.0) / sampleBytes.Length) > 0.6
+            if (((oddBinaryNullsInSample*2.0)/sampleBytes.Length) < 0.2
+                && ((evenBinaryNullsInSample*2.0)/sampleBytes.Length) > 0.6
                 )
                 return Encoding.BigEndianUnicode;
 
@@ -183,15 +181,15 @@ namespace FastColoredTextBoxNS
             //  adapted here for C#.
             var potentiallyMangledString = Encoding.ASCII.GetString(sampleBytes);
             var utf8Validator = new Regex(@"\A("
-                + @"[\x09\x0A\x0D\x20-\x7E]"
-                + @"|[\xC2-\xDF][\x80-\xBF]"
-                + @"|\xE0[\xA0-\xBF][\x80-\xBF]"
-                + @"|[\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}"
-                + @"|\xED[\x80-\x9F][\x80-\xBF]"
-                + @"|\xF0[\x90-\xBF][\x80-\xBF]{2}"
-                + @"|[\xF1-\xF3][\x80-\xBF]{3}"
-                + @"|\xF4[\x80-\x8F][\x80-\xBF]{2}"
-                + @")*\z");
+                                          + @"[\x09\x0A\x0D\x20-\x7E]"
+                                          + @"|[\xC2-\xDF][\x80-\xBF]"
+                                          + @"|\xE0[\xA0-\xBF][\x80-\xBF]"
+                                          + @"|[\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}"
+                                          + @"|\xED[\x80-\x9F][\x80-\xBF]"
+                                          + @"|\xF0[\x90-\xBF][\x80-\xBF]{2}"
+                                          + @"|[\xF1-\xF3][\x80-\xBF]{3}"
+                                          + @"|\xF4[\x80-\x8F][\x80-\xBF]{2}"
+                                          + @")*\z");
             if (utf8Validator.IsMatch(potentiallyMangledString))
             {
                 //Unfortunately, just the fact that it CAN be UTF-8 doesn't tell you much about probabilities.
@@ -214,13 +212,13 @@ namespace FastColoredTextBoxNS
                 //   approx 40%, so the chances of hitting this threshold by accident in random data are
                 //   VERY low).
 
-                if ((suspiciousUTF8SequenceCount * 500000.0 / sampleBytes.Length >= 1) //suspicious sequences
+                if ((suspiciousUTF8SequenceCount*500000.0/sampleBytes.Length >= 1) //suspicious sequences
                     && (
-                    //all suspicious, so cannot evaluate proportion of US-Ascii
-                           sampleBytes.Length - suspiciousUTF8BytesTotal == 0
-                           ||
-                           likelyUSASCIIBytesInSample * 1.0 / (sampleBytes.Length - suspiciousUTF8BytesTotal) >= 0.8
-                       )
+                        //all suspicious, so cannot evaluate proportion of US-Ascii
+                        sampleBytes.Length - suspiciousUTF8BytesTotal == 0
+                        ||
+                        likelyUSASCIIBytesInSample*1.0/(sampleBytes.Length - suspiciousUTF8BytesTotal) >= 0.8
+                        )
                     )
                     return Encoding.UTF8;
             }
@@ -259,16 +257,16 @@ namespace FastColoredTextBoxNS
                     )
                     lengthFound = 2;
                 else if (sampleBytes[currentPos + 1] == 0x90
-                    || sampleBytes[currentPos + 1] == 0x9D
+                         || sampleBytes[currentPos + 1] == 0x9D
                     )
                     lengthFound = 2;
                 else if (sampleBytes[currentPos + 1] >= 0xA0
-                    && sampleBytes[currentPos + 1] <= 0xBF
+                         && sampleBytes[currentPos + 1] <= 0xBF
                     )
                     lengthFound = 2;
             }
             else if (sampleBytes.Length >= currentPos + 1
-                && sampleBytes[currentPos] == 0xC3
+                     && sampleBytes[currentPos] == 0xC3
                 )
             {
                 if (sampleBytes[currentPos + 1] >= 0x80
@@ -277,7 +275,7 @@ namespace FastColoredTextBoxNS
                     lengthFound = 2;
             }
             else if (sampleBytes.Length >= currentPos + 1
-                && sampleBytes[currentPos] == 0xC5
+                     && sampleBytes[currentPos] == 0xC5
                 )
             {
                 if (sampleBytes[currentPos + 1] == 0x92
@@ -285,24 +283,24 @@ namespace FastColoredTextBoxNS
                     )
                     lengthFound = 2;
                 else if (sampleBytes[currentPos + 1] == 0xA0
-                    || sampleBytes[currentPos + 1] == 0xA1
+                         || sampleBytes[currentPos + 1] == 0xA1
                     )
                     lengthFound = 2;
                 else if (sampleBytes[currentPos + 1] == 0xB8
-                    || sampleBytes[currentPos + 1] == 0xBD
-                    || sampleBytes[currentPos + 1] == 0xBE
+                         || sampleBytes[currentPos + 1] == 0xBD
+                         || sampleBytes[currentPos + 1] == 0xBE
                     )
                     lengthFound = 2;
             }
             else if (sampleBytes.Length >= currentPos + 1
-                && sampleBytes[currentPos] == 0xC6
+                     && sampleBytes[currentPos] == 0xC6
                 )
             {
                 if (sampleBytes[currentPos + 1] == 0x92)
                     lengthFound = 2;
             }
             else if (sampleBytes.Length >= currentPos + 1
-                && sampleBytes[currentPos] == 0xCB
+                     && sampleBytes[currentPos] == 0xCB
                 )
             {
                 if (sampleBytes[currentPos + 1] == 0x86
@@ -311,7 +309,7 @@ namespace FastColoredTextBoxNS
                     lengthFound = 2;
             }
             else if (sampleBytes.Length >= currentPos + 2
-                && sampleBytes[currentPos] == 0xE2
+                     && sampleBytes[currentPos] == 0xE2
                 )
             {
                 if (sampleBytes[currentPos + 1] == 0x80)
@@ -345,11 +343,11 @@ namespace FastColoredTextBoxNS
                         lengthFound = 3;
                 }
                 else if (sampleBytes[currentPos + 1] == 0x82
-                    && sampleBytes[currentPos + 2] == 0xAC
+                         && sampleBytes[currentPos + 2] == 0xAC
                     )
                     lengthFound = 3;
                 else if (sampleBytes[currentPos + 1] == 0x84
-                    && sampleBytes[currentPos + 2] == 0xA2
+                         && sampleBytes[currentPos + 2] == 0xA2
                     )
                     lengthFound = 3;
             }

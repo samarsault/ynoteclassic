@@ -12,13 +12,13 @@ namespace FastColoredTextBoxNS
             this.rectangle = rectangle;
         }
 
-        public virtual void Draw(Graphics gr, Pen pen)
-        {
-        }
-
         public virtual Cursor Cursor
         {
             get { return Cursors.Hand; }
+        }
+
+        public virtual void Draw(Graphics gr, Pen pen)
+        {
         }
     }
 
@@ -37,7 +37,8 @@ namespace FastColoredTextBoxNS
             //draw minus
             gr.FillRectangle(Brushes.White, rectangle);
             gr.DrawRectangle(pen, rectangle);
-            gr.DrawLine(pen, rectangle.Left + 2, rectangle.Top + rectangle.Height / 2, rectangle.Right - 2, rectangle.Top + rectangle.Height / 2);
+            gr.DrawLine(pen, rectangle.Left + 2, rectangle.Top + rectangle.Height/2, rectangle.Right - 2,
+                rectangle.Top + rectangle.Height/2);
         }
     }
 
@@ -56,8 +57,10 @@ namespace FastColoredTextBoxNS
             //draw plus
             gr.FillRectangle(Brushes.White, rectangle);
             gr.DrawRectangle(pen, rectangle);
-            gr.DrawLine(Pens.Red, rectangle.Left + 2, rectangle.Top + rectangle.Height / 2, rectangle.Right - 2, rectangle.Top + rectangle.Height / 2);
-            gr.DrawLine(Pens.Red, rectangle.Left + rectangle.Width / 2, rectangle.Top + 2, rectangle.Left + rectangle.Width / 2, rectangle.Bottom - 2);
+            gr.DrawLine(Pens.Red, rectangle.Left + 2, rectangle.Top + rectangle.Height/2, rectangle.Right - 2,
+                rectangle.Top + rectangle.Height/2);
+            gr.DrawLine(Pens.Red, rectangle.Left + rectangle.Width/2, rectangle.Top + 2,
+                rectangle.Left + rectangle.Width/2, rectangle.Bottom - 2);
         }
     }
 
@@ -79,26 +82,26 @@ namespace FastColoredTextBoxNS
 
     public class StyleVisualMarker : VisualMarker
     {
-        public Style Style { get; private set; }
-
         public StyleVisualMarker(Rectangle rectangle, Style style)
             : base(rectangle)
         {
             Style = style;
         }
+
+        public Style Style { get; private set; }
     }
 
     public class VisualMarkerEventArgs : MouseEventArgs
     {
-        public Style Style { get; private set; }
-
-        public StyleVisualMarker Marker { get; private set; }
-
         public VisualMarkerEventArgs(Style style, StyleVisualMarker marker, MouseEventArgs args)
             : base(args.Button, args.Clicks, args.X, args.Y, args.Delta)
         {
             Style = style;
             Marker = marker;
         }
+
+        public Style Style { get; private set; }
+
+        public StyleVisualMarker Marker { get; private set; }
     }
 }

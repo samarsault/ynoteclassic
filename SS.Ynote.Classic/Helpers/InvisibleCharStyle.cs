@@ -1,5 +1,5 @@
-﻿using FastColoredTextBoxNS;
-using System.Drawing;
+﻿using System.Drawing;
+using FastColoredTextBoxNS;
 
 namespace SS.Ynote.Classic
 {
@@ -22,7 +22,7 @@ namespace SS.Ynote.Classic
                     {
                         case ' ':
                             var point = tb.PlaceToPoint(place);
-                            point.Offset(tb.CharWidth / 2, tb.CharHeight / 2);
+                            point.Offset(tb.CharWidth/2, tb.CharHeight/2);
                             gr.DrawLine(_pen, point.X, point.Y, point.X + 1, point.Y);
                             break;
                     }

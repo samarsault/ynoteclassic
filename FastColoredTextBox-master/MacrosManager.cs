@@ -9,11 +9,12 @@ using System.Xml;
 namespace FastColoredTextBoxNS
 {
     /// <summary>
-    /// This class records, stores and executes the macros.
+    ///     This class records, stores and executes the macros.
     /// </summary>
     public class MacrosManager
     {
         private readonly List<object> macro = new List<object>();
+        private bool isRecording;
 
         internal MacrosManager(FastColoredTextBox ctrl)
         {
@@ -22,106 +23,38 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Allows to user to record macros
+        ///     Allows to user to record macros
         /// </summary>
         public bool AllowMacroRecordingByUser { get; set; }
 
-        private bool isRecording;
-
         /// <summary>
-        /// Returns current recording state. Set to True/False to start/stop recording programmatically.
+        ///     Returns current recording state. Set to True/False to start/stop recording programmatically.
         /// </summary>
         public bool IsRecording
         {
             get { return isRecording; }
-            set { isRecording = value; UnderlayingControl.Invalidate(); }
+            set
+            {
+                isRecording = value;
+                UnderlayingControl.Invalidate();
+            }
         }
 
         /// <summary>
-        /// FCTB
+        ///     FCTB
         /// </summary>
         public FastColoredTextBox UnderlayingControl { get; private set; }
 
         /// <summary>
-        /// Executes recorded macro
+        ///     Returns True if last macro is empty
         /// </summary>
-        /// <returns></returns>
-        public void ExecuteMacros()
+        public bool MacroIsEmpty
         {
-            IsRecording = false;
-            UnderlayingControl.BeginUpdate();
-            UnderlayingControl.Selection.BeginUpdate();
-            UnderlayingControl.BeginAutoUndo();
-            foreach (var item in macro)
-            {
-                if (item is Keys)
-                {
-                    UnderlayingControl.ProcessKey((Keys)item);
-                }
-                if (item is KeyValuePair<char, Keys>)
-                {
-                    var p = (KeyValuePair<char, Keys>)item;
-                    UnderlayingControl.ProcessKey(p.Key, p.Value);
-                }
-            }
-            UnderlayingControl.EndAutoUndo();
-            UnderlayingControl.Selection.EndUpdate();
-            UnderlayingControl.EndUpdate();
+            get { return macro.Count == 0; }
         }
 
         /// <summary>
-        /// Adds the char to current macro
-        /// </summary>
-        public void AddCharToMacros(char c, Keys modifiers)
-        {
-            macro.Add(new KeyValuePair<char, Keys>(c, modifiers));
-        }
-
-        /// <summary>
-        /// Adds keyboard key to current macro
-        /// </summary>
-        public void AddKeyToMacros(Keys keyData)
-        {
-            macro.Add(keyData);
-        }
-
-        /// <summary>
-        /// Clears last recorded macro
-        /// </summary>
-        public void ClearMacros()
-        {
-            macro.Clear();
-        }
-
-        internal void ProcessKey(Keys keyData)
-        {
-            if (IsRecording)
-                AddKeyToMacros(keyData);
-        }
-
-        internal void ProcessKey(char c, Keys modifiers)
-        {
-            if (IsRecording)
-                AddCharToMacros(c, modifiers);
-        }
-
-        /// <summary>
-        /// Executes Macro from file
-        /// </summary>
-        /// <param name="file"/>
-        public void ExecuteMacros(string file)
-        {
-            Macros = File.ReadAllText(file);
-            ExecuteMacros();
-        }
-
-        /// <summary>
-        /// Returns True if last macro is empty
-        /// </summary>
-        public bool MacroIsEmpty { get { return macro.Count == 0; } }
-
-        /// <summary>
-        /// Macros as string.
+        ///     Macros as string.
         /// </summary>
         public string Macros
         {
@@ -137,12 +70,12 @@ namespace FastColoredTextBoxNS
                 {
                     if (item is Keys)
                     {
-                        sb.AppendFormat("<item key='{0}' />\r\n", kc.ConvertToString((Keys)item));
+                        sb.AppendFormat("<item key='{0}' />\r\n", kc.ConvertToString((Keys) item));
                     }
                     else if (item is KeyValuePair<char, Keys>)
                     {
-                        var p = (KeyValuePair<char, Keys>)item;
-                        sb.AppendFormat("<item char='{0}' key='{1}' />\r\n", (int)p.Key, kc.ConvertToString(p.Value));
+                        var p = (KeyValuePair<char, Keys>) item;
+                        sb.AppendFormat("<item char='{0}' key='{1}' />\r\n", (int) p.Key, kc.ConvertToString(p.Value));
                     }
                 }
                 sb.AppendLine("</macros>");
@@ -176,17 +109,89 @@ namespace FastColoredTextBoxNS
                         if (ca != null)
                         {
                             if (ka != null)
-                                AddCharToMacros((char)int.Parse(ca.Value), (Keys)kc.ConvertFromString(ka.Value));
+                                AddCharToMacros((char) int.Parse(ca.Value), (Keys) kc.ConvertFromString(ka.Value));
                             else
-                                AddCharToMacros((char)int.Parse(ca.Value), Keys.None);
+                                AddCharToMacros((char) int.Parse(ca.Value), Keys.None);
                         }
-                        else
-                            if (ka != null)
-                                AddKeyToMacros((Keys)kc.ConvertFromString(ka.Value));
+                        else if (ka != null)
+                            AddKeyToMacros((Keys) kc.ConvertFromString(ka.Value));
                     }
 
                 Thread.CurrentThread.CurrentUICulture = cult;
             }
+        }
+
+        /// <summary>
+        ///     Executes recorded macro
+        /// </summary>
+        /// <returns></returns>
+        public void ExecuteMacros()
+        {
+            IsRecording = false;
+            UnderlayingControl.BeginUpdate();
+            UnderlayingControl.Selection.BeginUpdate();
+            UnderlayingControl.BeginAutoUndo();
+            foreach (var item in macro)
+            {
+                if (item is Keys)
+                {
+                    UnderlayingControl.ProcessKey((Keys) item);
+                }
+                if (item is KeyValuePair<char, Keys>)
+                {
+                    var p = (KeyValuePair<char, Keys>) item;
+                    UnderlayingControl.ProcessKey(p.Key, p.Value);
+                }
+            }
+            UnderlayingControl.EndAutoUndo();
+            UnderlayingControl.Selection.EndUpdate();
+            UnderlayingControl.EndUpdate();
+        }
+
+        /// <summary>
+        ///     Adds the char to current macro
+        /// </summary>
+        public void AddCharToMacros(char c, Keys modifiers)
+        {
+            macro.Add(new KeyValuePair<char, Keys>(c, modifiers));
+        }
+
+        /// <summary>
+        ///     Adds keyboard key to current macro
+        /// </summary>
+        public void AddKeyToMacros(Keys keyData)
+        {
+            macro.Add(keyData);
+        }
+
+        /// <summary>
+        ///     Clears last recorded macro
+        /// </summary>
+        public void ClearMacros()
+        {
+            macro.Clear();
+        }
+
+        internal void ProcessKey(Keys keyData)
+        {
+            if (IsRecording)
+                AddKeyToMacros(keyData);
+        }
+
+        internal void ProcessKey(char c, Keys modifiers)
+        {
+            if (IsRecording)
+                AddCharToMacros(c, modifiers);
+        }
+
+        /// <summary>
+        ///     Executes Macro from file
+        /// </summary>
+        /// <param name="file" />
+        public void ExecuteMacros(string file)
+        {
+            Macros = File.ReadAllText(file);
+            ExecuteMacros();
         }
     }
 }

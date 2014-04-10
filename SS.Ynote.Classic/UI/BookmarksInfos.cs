@@ -1,7 +1,7 @@
-﻿using FastColoredTextBoxNS;
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+using FastColoredTextBoxNS;
 
 namespace SS.Ynote.Classic.UI
 {
@@ -29,11 +29,11 @@ namespace SS.Ynote.Classic.UI
             //     lstbookmarks.Items.Add(item);
             // }
             foreach (var item in from bookmark in tb.Bookmarks
-                                 let iline = bookmark.LineIndex + 1
-                                 select new ListViewItem(new[] { bookmark.Name, iline.ToString(), tb[bookmark.LineIndex].Text })
-                                     {
-                                         Tag = bookmark
-                                     })
+                let iline = bookmark.LineIndex + 1
+                select new ListViewItem(new[] {bookmark.Name, iline.ToString(), tb[bookmark.LineIndex].Text})
+                {
+                    Tag = bookmark
+                })
             {
                 lstbookmarks.Items.Add(item);
             }

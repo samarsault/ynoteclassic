@@ -6,21 +6,27 @@ namespace SS.Ynote.Classic.Features.Packages
     internal partial class AddPackageFile : Form
     {
         /// <summary>
-        /// Input
-        /// </summary>
-        public string Input { get { return tbFile.Text; } }
-
-        /// <summary>
-        /// Output
-        /// </summary>
-        public string Output { get { return tbOutput.Text; } }
-
-        /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         public AddPackageFile()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        ///     Input
+        /// </summary>
+        public string Input
+        {
+            get { return tbFile.Text; }
+        }
+
+        /// <summary>
+        ///     Output
+        /// </summary>
+        public string Output
+        {
+            get { return tbOutput.Text; }
         }
 
         private void btnOk_Click(object sender, EventArgs e)

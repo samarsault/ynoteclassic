@@ -1,15 +1,15 @@
-﻿using FastColoredTextBoxNS;
+﻿using System.Collections.Generic;
+using System.Linq;
+using FastColoredTextBoxNS;
 using Nini.Config;
 using SS.Ynote.Classic.Features.Syntax;
-using System.Collections.Generic;
-using System.Linq;
 
 internal static class FileExtensions
 {
     internal static IDictionary<IEnumerable<string>, Language> FileExtensionsDictionary { get; private set; }
 
     /// <summary>
-    /// Build Dictionary
+    ///     Build Dictionary
     /// </summary>
     /// <returns></returns>
     internal static void BuildDictionary()
@@ -60,7 +60,9 @@ internal static class FileExtensions
             if (dic.TryGetValue(key, out lang))
                 desc.Language = lang;
             else
-                foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes.Where(syntax => syntax.Extensions.Contains(extension)))
+                foreach (
+                    var syntax in
+                        SyntaxHighlighter.LoadedSyntaxes.Where(syntax => syntax.Extensions.Contains(extension)))
                     desc.SyntaxBase = syntax;
         return desc;
     }
@@ -69,19 +71,20 @@ internal static class FileExtensions
 internal class SyntaxDesc
 {
     /// <summary>
-    /// Is a Syntax Base
-    /// </summary>
-    internal bool IsBase{
-        get { return SyntaxBase != null; }
-    }
-
-    /// <summary>
-    /// if IsBase = false Value of Language
+    ///     if IsBase = false Value of Language
     /// </summary>
     internal Language Language;
 
     /// <summary>
-    /// Syntax Base
+    ///     Syntax Base
     /// </summary>
     internal SyntaxBase SyntaxBase;
+
+    /// <summary>
+    ///     Is a Syntax Base
+    /// </summary>
+    internal bool IsBase
+    {
+        get { return SyntaxBase != null; }
+    }
 }

@@ -1,0 +1,9 @@
+Step 1:
+Build using Visual Studio or the Command Line
+Execute install.bat which will install the required packages in the %appdata%\Ynote_Classic Directory
+
+Step 2 (Portable):
+
+Add '#define PORTABLE' to SettingsBase.cs
+Build using VS/Cmd
+Execute install.bat which will install the required packages in the User\ Directory

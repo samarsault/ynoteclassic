@@ -1,8 +1,8 @@
-﻿using AutocompleteMenuNS;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using AutocompleteMenuNS;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace SS.Ynote.Classic.UI
@@ -21,8 +21,8 @@ namespace SS.Ynote.Classic.UI
         private void BuildAutoComplete()
         {
             var items = (from DockContent doc in _ynote.Panel.Documents
-                         where doc.GetType() == typeof(Editor)
-                         select new AutocompleteItem(doc.Text)).ToList();
+                where doc.GetType() == typeof (Editor)
+                select new AutocompleteItem(doc.Text)).ToList();
             SetAutoComplete(items, completemenu, textBox1);
         }
 

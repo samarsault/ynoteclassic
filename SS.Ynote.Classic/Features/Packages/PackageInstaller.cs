@@ -5,13 +5,13 @@ namespace SS.Ynote.Classic.Features.Packages
 {
     public partial class PackageInstaller : Form
     {
-        private readonly Timer _time;
         private readonly string _package;
+        private readonly Timer _time;
 
         public PackageInstaller(string package)
         {
             InitializeComponent();
-            _time = new Timer { Interval = 10 };
+            _time = new Timer {Interval = 10};
             _time.Tick += _time_Tick;
             _package = package;
             _time.Start();

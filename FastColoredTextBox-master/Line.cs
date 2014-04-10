@@ -7,45 +7,11 @@ using System.Text;
 namespace FastColoredTextBoxNS
 {
     /// <summary>
-    /// Line of text
+    ///     Line of text
     /// </summary>
     public class Line : IList<Char>
     {
         protected List<Char> chars;
-
-        public string FoldingStartMarker { get; set; }
-
-        public string FoldingEndMarker { get; set; }
-
-        /// <summary>
-        /// Text of line was changed
-        /// </summary>
-        public bool IsChanged { get; set; }
-
-        /// <summary>
-        /// Time of last visit of caret in this line
-        /// </summary>
-        /// <remarks>This property can be used for forward/backward navigating</remarks>
-        public DateTime LastVisit { get; set; }
-
-        /// <summary>
-        /// Background brush.
-        /// </summary>
-        public Brush BackgroundBrush { get; set; }
-
-        /// <summary>
-        /// Unique ID
-        /// </summary>
-        public int UniqueId { get; private set; }
-
-        /// <summary>
-        /// Count of needed start spaces for AutoIndent
-        /// </summary>
-        public int AutoIndentSpacesNeededCount
-        {
-            get;
-            internal set;
-        }
 
         internal Line(int uid)
         {
@@ -53,23 +19,38 @@ namespace FastColoredTextBoxNS
             chars = new List<Char>();
         }
 
-        /// <summary>
-        /// Clears style of chars, delete folding markers
-        /// </summary>
-        public void ClearStyle(StyleIndex styleIndex)
-        {
-            FoldingStartMarker = null;
-            FoldingEndMarker = null;
-            for (var i = 0; i < Count; i++)
-            {
-                var c = this[i];
-                c.style &= ~styleIndex;
-                this[i] = c;
-            }
-        }
+        public string FoldingStartMarker { get; set; }
+
+        public string FoldingEndMarker { get; set; }
 
         /// <summary>
-        /// Text of the line
+        ///     Text of line was changed
+        /// </summary>
+        public bool IsChanged { get; set; }
+
+        /// <summary>
+        ///     Time of last visit of caret in this line
+        /// </summary>
+        /// <remarks>This property can be used for forward/backward navigating</remarks>
+        public DateTime LastVisit { get; set; }
+
+        /// <summary>
+        ///     Background brush.
+        /// </summary>
+        public Brush BackgroundBrush { get; set; }
+
+        /// <summary>
+        ///     Unique ID
+        /// </summary>
+        public int UniqueId { get; private set; }
+
+        /// <summary>
+        ///     Count of needed start spaces for AutoIndent
+        /// </summary>
+        public int AutoIndentSpacesNeededCount { get; internal set; }
+
+        /// <summary>
+        ///     Text of the line
         /// </summary>
         public virtual string Text
         {
@@ -83,16 +64,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Clears folding markers
-        /// </summary>
-        public void ClearFoldingMarkers()
-        {
-            FoldingStartMarker = null;
-            FoldingEndMarker = null;
-        }
-
-        /// <summary>
-        /// Count of start spaces
+        ///     Count of start spaces
         /// </summary>
         public int StartSpacesCount
         {
@@ -125,14 +97,8 @@ namespace FastColoredTextBoxNS
 
         public Char this[int index]
         {
-            get
-            {
-                return chars[index];
-            }
-            set
-            {
-                chars[index] = value;
-            }
+            get { return chars[index]; }
+            set { chars[index] = value; }
         }
 
         public void Add(Char item)
@@ -156,7 +122,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Chars count
+        ///     Chars count
         /// </summary>
         public int Count
         {
@@ -183,6 +149,30 @@ namespace FastColoredTextBoxNS
             return chars.GetEnumerator();
         }
 
+        /// <summary>
+        ///     Clears style of chars, delete folding markers
+        /// </summary>
+        public void ClearStyle(StyleIndex styleIndex)
+        {
+            FoldingStartMarker = null;
+            FoldingEndMarker = null;
+            for (var i = 0; i < Count; i++)
+            {
+                var c = this[i];
+                c.style &= ~styleIndex;
+                this[i] = c;
+            }
+        }
+
+        /// <summary>
+        ///     Clears folding markers
+        /// </summary>
+        public void ClearFoldingMarkers()
+        {
+            FoldingStartMarker = null;
+            FoldingEndMarker = null;
+        }
+
         public virtual void RemoveRange(int index, int count)
         {
             if (index >= Count)
@@ -203,20 +193,20 @@ namespace FastColoredTextBoxNS
 
     public struct LineInfo
     {
+        /// <summary>
+        ///     Visible state
+        /// </summary>
+        public VisibleState VisibleState;
+
+        internal int bottomPadding;
+
         private List<int> cutOffPositions;
 
         //Y coordinate of line on screen
         internal int startY;
 
-        internal int bottomPadding;
-
         //indent of secondary wordwrap strings (in chars)
         internal int wordWrapIndent;
-
-        /// <summary>
-        /// Visible state
-        /// </summary>
-        public VisibleState VisibleState;
 
         public LineInfo(int startY)
         {
@@ -228,7 +218,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Positions for wordwrap cutoffs
+        ///     Positions for wordwrap cutoffs
         /// </summary>
         public List<int> CutOffPositions
         {
@@ -236,7 +226,7 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Count of wordwrap string count for this line
+        ///     Count of wordwrap string count for this line
         /// </summary>
         public int WordWrapStringsCount
         {
@@ -249,8 +239,10 @@ namespace FastColoredTextBoxNS
                             return 1;
                         return cutOffPositions.Count + 1;
 
-                    case VisibleState.Hidden: return 0;
-                    case VisibleState.StartOfHiddenBlock: return 1;
+                    case VisibleState.Hidden:
+                        return 0;
+                    case VisibleState.StartOfHiddenBlock:
+                        return 1;
                 }
 
                 return 0;
@@ -270,13 +262,13 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        /// Gets index of wordwrap string for given char position
+        ///     Gets index of wordwrap string for given char position
         /// </summary>
         public int GetWordWrapStringIndex(int iChar)
         {
             if (cutOffPositions == null || cutOffPositions.Count == 0) return 0;
             for (var i = 0; i < cutOffPositions.Count; i++)
-                if (cutOffPositions[i] >/*>=*/ iChar)
+                if (cutOffPositions[i] > /*>=*/ iChar)
                     return i;
             return cutOffPositions.Count;
         }
@@ -284,7 +276,9 @@ namespace FastColoredTextBoxNS
 
     public enum VisibleState : byte
     {
-        Visible, StartOfHiddenBlock, Hidden
+        Visible,
+        StartOfHiddenBlock,
+        Hidden
     }
 
     public enum IndentMarker

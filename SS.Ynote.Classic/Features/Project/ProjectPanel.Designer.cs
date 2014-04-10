@@ -1,11 +1,14 @@
-﻿namespace SS.Ynote.Classic.Features.Project
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace SS.Ynote.Classic.Features.Project
 {
     partial class ProjectPanel
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -61,6 +64,7 @@
             this.menuItem16 = new System.Windows.Forms.MenuItem();
             this.menuItem14 = new System.Windows.Forms.MenuItem();
             this.menuItem15 = new System.Windows.Forms.MenuItem();
+            this.menuItem17 = new System.Windows.Forms.MenuItem();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -240,7 +244,8 @@
             this.projMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuItem12,
             this.menuItem3,
-            this.menuItem4});
+            this.menuItem4,
+            this.menuItem17});
             // 
             // menuItem12
             // 
@@ -257,7 +262,7 @@
             // menuItem4
             // 
             this.menuItem4.Index = 2;
-            this.menuItem4.Text = "Remove";
+            this.menuItem4.Text = "Delete";
             this.menuItem4.Click += new System.EventHandler(this.menuItem4_Click);
             // 
             // fileMenu
@@ -293,17 +298,17 @@
             this.menuItem15.Text = "Delete";
             this.menuItem15.Click += new System.EventHandler(this.menuItem15_Click);
             // 
+            // menuItem17
+            // 
+            this.menuItem17.Index = 3;
+            this.menuItem17.Text = "Remove";
+            this.menuItem17.Click += new System.EventHandler(this.menuItem17_Click);
+            // 
             // ProjectPanel
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(267, 367);
             this.Controls.Add(this.projtree);
             this.Controls.Add(this.toolStrip1);
-            this.DockAreas = ((WeifenLuo.WinFormsUI.Docking.DockAreas)(((((WeifenLuo.WinFormsUI.Docking.DockAreas.Float | WeifenLuo.WinFormsUI.Docking.DockAreas.DockLeft) 
-            | WeifenLuo.WinFormsUI.Docking.DockAreas.DockRight) 
-            | WeifenLuo.WinFormsUI.Docking.DockAreas.DockTop) 
-            | WeifenLuo.WinFormsUI.Docking.DockAreas.DockBottom)));
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "ProjectPanel";
@@ -317,36 +322,37 @@
 
         #endregion
 
-        private System.Windows.Forms.TreeView projtree;
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
-        private System.Windows.Forms.ToolStripMenuItem newProjectToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openProjectToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem buildProjectToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ImageList imageList1;
-        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openExplorerToolStripMenuItem;
-        private System.Windows.Forms.ContextMenu folderMenu;
-        private System.Windows.Forms.MenuItem menuItem1;
-        private System.Windows.Forms.MenuItem menuItem2;
-        private System.Windows.Forms.ContextMenu projMenu;
-        private System.Windows.Forms.MenuItem menuItem9;
-        private System.Windows.Forms.MenuItem menuItem7;
-        private System.Windows.Forms.MenuItem menuItem8;
-        private System.Windows.Forms.MenuItem menuItem6;
-        private System.Windows.Forms.MenuItem menuItem5;
-        private System.Windows.Forms.MenuItem menuItem10;
-        private System.Windows.Forms.MenuItem menuItem11;
-        private System.Windows.Forms.MenuItem menuItem12;
-        private System.Windows.Forms.MenuItem menuItem3;
-        private System.Windows.Forms.MenuItem menuItem4;
-        private System.Windows.Forms.ContextMenu fileMenu;
-        private System.Windows.Forms.MenuItem menuItem15;
-        private System.Windows.Forms.MenuItem menuItem13;
-        private System.Windows.Forms.MenuItem menuItem16;
-        private System.Windows.Forms.MenuItem menuItem14;
+        private TreeView projtree;
+        private ToolStrip toolStrip1;
+        private ToolStripDropDownButton toolStripDropDownButton1;
+        private ToolStripMenuItem newProjectToolStripMenuItem;
+        private ToolStripMenuItem openProjectToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem closeToolStripMenuItem;
+        private ToolStripMenuItem buildProjectToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator3;
+        private ImageList imageList1;
+        private ToolStripMenuItem refreshToolStripMenuItem;
+        private ToolStripMenuItem openExplorerToolStripMenuItem;
+        private ContextMenu folderMenu;
+        private MenuItem menuItem1;
+        private MenuItem menuItem2;
+        private ContextMenu projMenu;
+        private MenuItem menuItem9;
+        private MenuItem menuItem7;
+        private MenuItem menuItem8;
+        private MenuItem menuItem6;
+        private MenuItem menuItem5;
+        private MenuItem menuItem10;
+        private MenuItem menuItem11;
+        private MenuItem menuItem12;
+        private MenuItem menuItem3;
+        private MenuItem menuItem4;
+        private ContextMenu fileMenu;
+        private MenuItem menuItem15;
+        private MenuItem menuItem13;
+        private MenuItem menuItem16;
+        private MenuItem menuItem14;
+        private MenuItem menuItem17;
     }
 }

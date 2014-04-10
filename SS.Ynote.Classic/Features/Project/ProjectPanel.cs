@@ -1,10 +1,10 @@
-using SS.Ynote.Classic.Features.RunScript;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using SS.Ynote.Classic.Features.RunScript;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace SS.Ynote.Classic.Features.Project
@@ -22,6 +22,10 @@ namespace SS.Ynote.Classic.Features.Project
         ///     Ynote Reference to the Object
         /// </summary>
         private readonly IYnote _ynote;
+        /// <summary>
+        /// Recent Projects
+        /// </summary>
+        private IList<string> RecentProjects { get; set; }
 
         #endregion Private Variables
 
@@ -36,6 +40,7 @@ namespace SS.Ynote.Classic.Features.Project
             InitializeComponent();
             _ynote = ynote;
             _openprojects = new List<YnoteProject>();
+            RecentProjects = GetUserProjects();
         }
 
         #endregion Constructor
@@ -46,26 +51,31 @@ namespace SS.Ynote.Classic.Features.Project
         ///     Opens a project file in the Project Explorer
         /// </summary>
         /// <param name="filename"></param>
-        public void OpenProject(string filename)
+        void OpenProject(YnoteProject project)
         {
-            var project = YnoteProject.Read(filename);
             // initialize the node
             var projectnode = new ExTreeNode(project.ProjectName, project.Folder, 2, 2, project, ProjectNodeType.Project);
             if (!Directory.Exists(project.Folder))
                 MessageBox.Show("Error : Can't find directory : " + project.Folder, "Project Manager",
                     MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             else
-                ListDirectory(projectnode, project.Folder);
+                BeginInvoke((MethodInvoker)(() => ListDirectory(projectnode, project.Folder)));
             projtree.Nodes.Add(projectnode);
             _openprojects.Add(project);
         }
-
+        public void OpenProject(string filename)
+        {
+            if (!File.Exists(filename) || 
+                string.IsNullOrEmpty(filename)) return;
+            var proj = YnoteProject.Read(filename);
+            OpenProject(proj);
+        }
         /// <summary>
         ///     Lists a Directory in Project Explorer
         /// </summary>
         /// <param name="iTreeNode"></param>
         /// <param name="path"></param>
-        private static void ListDirectory(ExTreeNode iTreeNode, string path)
+        static void ListDirectory(TreeNode iTreeNode, string path)
         {
             var stack = new Stack<TreeNode>();
             var rootDirectory = new DirectoryInfo(path);
@@ -75,7 +85,7 @@ namespace SS.Ynote.Classic.Features.Project
             while (stack.Count > 0)
             {
                 var currentNode = stack.Pop();
-                var directoryInfo = (DirectoryInfo)currentNode.Tag;
+                var directoryInfo = (DirectoryInfo) currentNode.Tag;
                 for (var i = 0; i < directoryInfo.GetDirectories().Length; i++)
                 {
                     var directory = directoryInfo.GetDirectories()[i];
@@ -119,7 +129,7 @@ namespace SS.Ynote.Classic.Features.Project
         /// </summary>
         /// <param name="treeNode"></param>
         /// <returns></returns>
-        private TreeNode FindRootNode(TreeNode treeNode)
+        static TreeNode FindRootNode(TreeNode treeNode)
         {
             while (treeNode.Parent != null)
                 treeNode = treeNode.Parent;
@@ -152,11 +162,12 @@ namespace SS.Ynote.Classic.Features.Project
         /// <param name="path"></param>
         /// <param name="newpath"></param>
         /// <param name="node"></param>
-        private static void RenameDirectory(string path, string newpath, ExTreeNode node)
+        private void RenameDirectory(string path, string newpath, ExTreeNode node)
         {
             Directory.Move(path, newpath);
             node.Text = Path.GetFileName(newpath);
             node.Name = newpath;
+            RefreshProjects();
         }
 
         /// <summary>
@@ -179,19 +190,18 @@ namespace SS.Ynote.Classic.Features.Project
             var node = projtree.SelectedNode as ExTreeNode;
             var filename = projtree.SelectedNode.Name;
             var dir = Path.GetDirectoryName(projtree.SelectedNode.Name);
-            node.BeginEdit();
-            if (node.Type == ProjectNodeType.Folder)
+            using (var dlg = new ProjectUtils())
             {
-                using (var dlg = new ProjectUtils())
+                var result = dlg.ShowDialog() == DialogResult.OK;
+                if (result)
                 {
-                    var ok = dlg.ShowDialog(this) == DialogResult.OK;
-                    if (ok)
+                    if (node.Type == ProjectNodeType.Folder)
                         RenameDirectory(filename, dir + @"\" + dlg.FileName, node);
+                    else if (node.Type == ProjectNodeType.File)
+                        RenameFile(filename, dir + @"\" + dlg.FileName, node);
+                    node.Text = dlg.FileName;
                 }
             }
-            else if (node.Type == ProjectNodeType.File)
-                projtree.AfterLabelEdit +=
-                    (o, args) => RenameFile(filename, dir + @"\" + node.Text, node);
         }
 
         /// <summary>
@@ -199,7 +209,7 @@ namespace SS.Ynote.Classic.Features.Project
         /// </summary>
         /// <param name="strSource"></param>
         /// <param name="strDestination"></param>
-        private void CopyDirectory(string strSource, string strDestination)
+        private static void CopyDirectory(string strSource, string strDestination)
         {
             if (!Directory.Exists(strDestination))
             {
@@ -248,7 +258,7 @@ namespace SS.Ynote.Classic.Features.Project
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        private bool IsDir(string input)
+        private static bool IsDir(string input)
         {
             return (File.GetAttributes(input) & FileAttributes.Directory)
                    == FileAttributes.Directory;
@@ -266,16 +276,66 @@ namespace SS.Ynote.Classic.Features.Project
             _openprojects.Clear();
         }
 
-        #endregion Methods
+        /// <summary>
+        ///     Saves Recent File to List
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="recent"></param>
+        void SaveUserProjects()
+        {
+            //writing menu list to file
+            using (var stringToWrite = new StreamWriter(SettingsBase.SettingsDir + "User.projects"))
+            {
+                foreach (var item in RecentProjects)
+                    stringToWrite.WriteLine(item); //write list to stream
+                stringToWrite.Flush(); //write stream to file
+                stringToWrite.Close(); //close the stream and reclaim memory
+            }
+        }
+
+        /// <summary>
+        ///     Loads the List of Recent files from list
+        /// </summary>
+        internal static IList<string> GetUserProjects()
+        {
+            var _mru = new List<string>();
+            try
+            {
+                using (var listToRead = new StreamReader(SettingsBase.SettingsDir + "User.projects"))
+                {
+                    //read file stream
+                    string line;
+                    while ((line = listToRead.ReadLine()) != null) //read each line until end of file
+                        _mru.Add(line); //insert to list
+                    listToRead.Close(); //close the stream
+                }
+            }
+            catch
+            {
+                ;
+            }
+            return _mru;
+        }
+
+        #endregion
 
         #region Events
 
         private void newProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // initialize new project-wizard
-            var wizard = new Wizard(this);
-            // showdialog(this);
-            wizard.ShowDialog();
+            using (var wizard = new ProjectWizard(this))
+            {
+                // showdialog(this);
+                if (wizard.ShowDialog() == DialogResult.OK)
+                {
+                    if (wizard.ResultingProject != null)
+                    {
+                        OpenProject(wizard.ResultingProject);
+                        RecentProjects.Add(wizard.ResultingProject.ProjectFile);
+                    }
+                }
+            }
         }
 
         private void openProjectToolStripMenuItem_Click(object sender, EventArgs e)
@@ -284,15 +344,17 @@ namespace SS.Ynote.Classic.Features.Project
             {
                 dlg.Filter = "Ynote Project Files(*.ynoteproj)|*.ynoteproj";
                 dlg.ShowDialog();
-                if (dlg.FileName == "") return;
+                if (string.IsNullOrEmpty(dlg.FileName)) return;
                 OpenProject(dlg.FileName);
+                if(!RecentProjects.Contains(dlg.FileName))
+                    RecentProjects.Add(dlg.FileName);
             }
         }
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var rootnode = FindRootNode(projtree.SelectedNode);
-            _openprojects.Remove((YnoteProject)(rootnode.Tag));
+            _openprojects.Remove((YnoteProject) (rootnode.Tag));
             RefreshProjects();
         }
 
@@ -318,7 +380,7 @@ namespace SS.Ynote.Classic.Features.Project
 
         private void build_click(object sender, EventArgs e)
         {
-            var buildfile = ((ToolStripMenuItem)(sender)).Name;
+            var buildfile = ((ToolStripMenuItem) (sender)).Name;
             var console = new Cmd("cmd.exe", "/k " + buildfile);
             console.Show(DockPanel, DockState.DockBottom);
         }
@@ -350,12 +412,15 @@ namespace SS.Ynote.Classic.Features.Project
         private void menuItem4_Click(object sender, EventArgs e)
         {
             var proj = projtree.SelectedNode.Tag as YnoteProject;
-            var result = MessageBox.Show("Are you sure you want to delete the project ?", "Project Manager",
+            var result = MessageBox.Show("Are you sure you want to delete the project along with all it's files ?",
+                "Project Manager",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (proj != null && result == DialogResult.Yes)
             {
-                Directory.Delete(proj.Folder);
+                Directory.Delete(proj.Folder, true);
                 File.Delete(proj.Folder);
+                projtree.Nodes.Remove(projtree.SelectedNode);
+                RecentProjects.Remove(proj.ProjectFile);
             }
         }
 
@@ -458,7 +523,19 @@ namespace SS.Ynote.Classic.Features.Project
         {
             DeleteFile();
         }
-
+        private void menuItem17_Click(object sender, EventArgs e)
+        {
+            var node = projtree.SelectedNode as ExTreeNode;
+            if (node == null) return;
+            var result = MessageBox.Show("This will Remove the Project from the Tree, Continue ?", null, MessageBoxButtons.YesNo,
+                 MessageBoxIcon.Question);
+            if (result == DialogResult.Yes
+                && node.Type == ProjectNodeType.Project)
+            {
+                projtree.Nodes.Remove(node);
+                RecentProjects.Remove(((YnoteProject)(node.Tag)).ProjectFile);
+            }
+        }
         private void treeView1_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -478,7 +555,17 @@ namespace SS.Ynote.Classic.Features.Project
                 }
             }
         }
-
-        #endregion Events
+        protected override void OnLoad(EventArgs e)
+        {
+            foreach(var item in RecentProjects)
+                BeginInvoke((MethodInvoker)(() => OpenProject(item))); ;
+            base.OnLoad(e);
+        }
+        protected override void OnClosed(EventArgs e)
+        {
+            SaveUserProjects();
+            base.OnClosed(e);
+        }
+        #endregion
     }
 }

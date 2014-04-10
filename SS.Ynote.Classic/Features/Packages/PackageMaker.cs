@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -29,7 +31,8 @@ namespace SS.Ynote.Classic.Features.Packages
 
         private void createpackagebtn_Click(object sender, EventArgs e)
         {
-            var dic = lstfiles.Items.Cast<ListViewItem>().ToDictionary(item => item.SubItems[0].Text, item => item.SubItems[1].Text);
+            var dic = lstfiles.Items.Cast<ListViewItem>()
+                .ToDictionary(item => item.SubItems[0].Text, item => item.SubItems[1].Text);
             //  foreach(ListViewItem item in lstfiles.Items)
             //      dic.Add(item.SubItems[0].Text, item.SubItems[1].Text);
             if (!YnotePackageMaker.MakePackage(txtoutfile.Text, dic)) return;
@@ -49,8 +52,13 @@ namespace SS.Ynote.Classic.Features.Packages
             {
                 var show = dlg.ShowDialog();
                 if (show == DialogResult.OK)
-                    lstfiles.Items.Add(new ListViewItem(new[] { dlg.Input, dlg.Output }));
+                    lstfiles.Items.Add(new ListViewItem(new[] {dlg.Input, dlg.Output}));
             }
+        }
+
+        private void PackageMaker_HelpButtonClicked(object sender, CancelEventArgs e)
+        {
+            Process.Start("https://ynoteclassic.codeplex.com/wikipage?title=Ynote Packages");
         }
     }
 }

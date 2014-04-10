@@ -5,14 +5,14 @@ namespace FastColoredTextBoxNS
 {
     public partial class GoToForm : Form
     {
-        public int SelectedLineNumber { get; set; }
-
-        public int TotalLineCount { get; set; }
-
         public GoToForm()
         {
             InitializeComponent();
         }
+
+        public int SelectedLineNumber { get; set; }
+
+        public int TotalLineCount { get; set; }
 
         protected override void OnLoad(EventArgs e)
         {

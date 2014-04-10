@@ -1,6 +1,3 @@
-using FastColoredTextBoxNS;
-using SS.Ynote.Classic.Features.Syntax;
-using SS.Ynote.Classic.UI.DiffMergeStuffs;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,9 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Syntax;
+using SS.Ynote.Classic.UI.DiffMergeStuffs;
 using WeifenLuo.WinFormsUI.Docking;
 using Line = SS.Ynote.Classic.UI.DiffMergeStuffs.Line;
-using SyntaxHighlighter = SS.Ynote.Classic.Features.Syntax.SyntaxHighlighter;
 
 namespace SS.Ynote.Classic.UI
 {
@@ -27,8 +26,8 @@ namespace SS.Ynote.Classic.UI
             _greenStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(50, Color.Lime)));
             _redStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(50, Color.Red)));
             _highlighter = new SyntaxHighlighter();
-            YnoteThemeReader.ApplyTheme(Application.StartupPath + @"\Themes\Default.ynotetheme", _highlighter, fctb1);
-            YnoteThemeReader.ApplyTheme(Application.StartupPath + @"\Themes\Default.ynotetheme", _highlighter, fctb2);
+            YnoteThemeReader.ApplyTheme(SettingsBase.SettingsDir + @"\Themes\Default.ynotetheme", _highlighter, fctb1);
+            YnoteThemeReader.ApplyTheme(SettingsBase.SettingsDir + @"\Themes\Default.ynotetheme", _highlighter, fctb2);
         }
 
         public Diff(string firstfile, string secondfile)
@@ -39,8 +38,8 @@ namespace SS.Ynote.Classic.UI
             tbFirstFile.Text = firstfile;
             tbSecondFile.Text = secondfile;
             _highlighter = new SyntaxHighlighter();
-            YnoteThemeReader.ApplyTheme(Application.StartupPath + @"\Themes\Default.ynotetheme", _highlighter, fctb1);
-            YnoteThemeReader.ApplyTheme(Application.StartupPath + @"\Themes\Default.ynotetheme", _highlighter, fctb2);
+            YnoteThemeReader.ApplyTheme(SettingsBase.SettingsDir + @"\Themes\Default.ynotetheme", _highlighter, fctb1);
+            YnoteThemeReader.ApplyTheme(SettingsBase.SettingsDir + @"\Themes\Default.ynotetheme", _highlighter, fctb2);
         }
 
         private void btSecond_Click(object sender, EventArgs e)
@@ -108,12 +107,15 @@ namespace SS.Ynote.Classic.UI
             fctb2.Clear();
             if (FileExtensions.FileExtensionsDictionary == null)
                 FileExtensions.BuildDictionary();
-            _highlighter.HighlightSyntax(FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary, Path.GetExtension(tbFirstFile.Text)).Language, new TextChangedEventArgs(fctb1.Range));
-            _highlighter.HighlightSyntax(FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary, Path.GetExtension(tbSecondFile.Text)).Language, new TextChangedEventArgs(fctb2.Range));
             Cursor = Cursors.WaitCursor;
             var source1 = Lines.Load(tbFirstFile.Text);
             var source2 = Lines.Load(tbSecondFile.Text);
-
+            var lang =
+                FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary, Path.GetExtension(tbFirstFile.Text))
+                    .Language;
+            var lang2 =
+              FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary, Path.GetExtension(tbSecondFile.Text))
+                  .Language;
             source1.Merge(source2);
 
             BeginUpdate();
@@ -123,6 +125,9 @@ namespace SS.Ynote.Classic.UI
             EndUpdate();
 
             Cursor = Cursors.Default;
+
+            _highlighter.HighlightSyntax(lang, new TextChangedEventArgs(fctb1.Range));
+            _highlighter.HighlightSyntax(lang2, new TextChangedEventArgs(fctb2.Range));
         }
 
         private void btCompare_Click(object sender, EventArgs e)
@@ -180,13 +185,14 @@ namespace SS.Ynote.Classic.UI
                 InitializeCompareFunc();
             }
 
-            public event EventHandler<DiffEventArgs<T>> LineUpdate;
-
             /// <summary>
             ///     This is the sole public method and it initializes
             ///     the LCS matrix the first time it's called, and
             ///     proceeds to fire a series of LineUpdate events
+            /// </summary> proceeds to fire a series of LineUpdate events
             /// </summary>
+            public event EventHandler<DiffEventArgs<T>> LineUpdate;
+
             public void RunDiff()
             {
                 if (!_matrixCreated)
@@ -207,32 +213,36 @@ namespace SS.Ynote.Classic.UI
                 var leftLen = _left.Count;
                 for (var i = _postSkip; i > 0; i--)
                 {
-                    FireLineUpdate(DiffType.None, leftLen - i, -1);
+                    FireLineUpdate(DiffType.None, leftLen - 1, -1);
                 }
             }
 
             /// <summary>
-            ///     This method is an optimization that
-            ///     skips matching elements at the end of the
-            ///     two arrays being diff'ed.
-            ///     Care's taken so that this will never
-            ///     overlap with the pre-skip.
-            /// </summary>
-            private void CalculatePostSkip()
-            {
-                var leftLen = _left.Count;
-                var rightLen = _right.Count;
-                while (_postSkip < leftLen && _postSkip < rightLen &&
-                       _postSkip < (leftLen - _preSkip) &&
-                       _compareFunc(_left[leftLen - _postSkip - 1], _right[rightLen - _postSkip - 1]))
-                {
-                    _postSkip++;
-                }
-            }
+                    ///     This method is an optimization that
+                    ///     skips matching elements at the end of the
+                    ///     two arrays being diff'ed.
+                    ///     Care's taken so that this will never
+                    ///     overlap with the pre-skip.
+                    /// </summary>
+                    ///     overlap with the pre-skip.
+                    /// </summary>
+                private void CalculatePostSkip()
+                    {
+                        var leftLen = _left.Count;
+                        var rightLen = _right.Count;
+                        while (_postSkip < leftLen && _postSkip < rightLen &&
+                               _postSkip < (leftLen - _preSkip) &&
+                               _compareFunc(_left[leftLen - _postSkip - 1], _right[rightLen - _postSkip - 1]))
+                        {
+                            _preSkip++;
+                        }
+                    }
 
             /// <summary>
             ///     This method is an optimization that
             ///     skips matching elements at the start of
+            ///     the arrays being diff'ed
+            /// </summary>f
             ///     the arrays being diff'ed
             /// </summary>
             private void CalculatePreSkip()
@@ -246,14 +256,6 @@ namespace SS.Ynote.Classic.UI
                 }
             }
 
-            /// <summary>
-            ///     This traverses the elements using the LCS matrix
-            ///     and fires appropriate events for added, subtracted,
-            ///     and unchanged lines.
-            ///     It's recursively called till we run out of items.
-            /// </summary>
-            /// <param name="leftIndex"></param>
-            /// <param name="rightIndex"></param>
             private void ShowDiff(int leftIndex, int rightIndex)
             {
                 if (leftIndex > 0 && rightIndex > 0 &&
@@ -279,13 +281,8 @@ namespace SS.Ynote.Classic.UI
                         FireLineUpdate(DiffType.Deleted, _preSkip + leftIndex - 1, -1);
                     }
                 }
-            }
-
-            /// <summary>
-            ///     This is the core method in the entire class,
-            ///     and uses the standard LCS calculation algorithm.
-            /// </summary>
-            private void CreateLCSMatrix()
+            } 
+                private void CreateLCSMatrix()
             {
                 var totalSkip = _preSkip + _postSkip;
                 if (totalSkip >= _left.Count || totalSkip >= _right.Count)
@@ -333,7 +330,7 @@ namespace SS.Ynote.Classic.UI
             private void InitializeCompareFunc()
             {
                 // Special case for String types
-                if (typeof(T) == typeof(String))
+                if (typeof (T) == typeof (String))
                 {
                     _compareFunc = StringCompare;
                 }
@@ -343,14 +340,6 @@ namespace SS.Ynote.Classic.UI
                 }
             }
 
-            /// <summary>
-            ///     This comparison is specifically
-            ///     for strings, and was nearly thrice as
-            ///     fast as the default comparison operation.
-            /// </summary>
-            /// <param name="left"></param>
-            /// <param name="right"></param>
-            /// <returns></returns>
             private static bool StringCompare(T left, T right)
             {
                 return Equals(left, right);
@@ -369,7 +358,41 @@ namespace SS.Ynote.Classic.UI
             Inserted = 1,
             Deleted = 2
         }
+           public class Line
+            {
+                public readonly string line;
+                public DiffType state;
+                public Lines subLines;
 
+                public Line(string line)
+                {
+                    this.line = line;
+                }
+                /// <summary>
+                ///     Equals
+                /// </summary>    /// <summary>
+                ///     Equals
+                /// </summary>
+                public override bool Equals(object obj)
+                {
+                    return Equals(line, ((Line)obj).line);
+                }
+
+                public static bool operator ==(Line line1, Line line2)
+                {
+                    return Equals(line1.line, line2.line);
+                }
+
+                public static bool operator !=(Line line1, Line line2)
+                {
+                    return !Equals(line1.line, line2.line);
+                }
+
+                public override string ToString()
+                {
+                    return line;
+                }
+            }
         public class DiffEventArgs<T> : EventArgs
         {
             public DiffEventArgs(DiffType diffType, T lineValue, int leftIndex, int rightIndex)
@@ -385,189 +408,139 @@ namespace SS.Ynote.Classic.UI
             public T LineValue { get; private set; }
 
             private int LeftIndex { get; set; }
-
+            //TODO: Check RIght Index
             private int RightIndex { get; set; }
+
         }
 
         /// <summary>
-        ///     Line of file
-        /// </summary>
-        public class Line
-        {
-            /// <summary>
-            ///     Source string
+            ///     File as list of lines
             /// </summary>
-            public readonly string line;
-
-            /// <summary>
-            ///     Line state
-            /// </summary>
-            public DiffType state;
-
-            /// <summary>
-            ///     Inserted strings
-            /// </summary>
-            public Lines subLines;
-
-            public Line(string line)
+            public class Lines : List<Line>, IEquatable<Lines>
             {
-                this.line = line;
-            }
+                //??? ?????? ????? ??? ???????? ?????, ??????????? ? ????? ??????, ?? ?????? ?????? ????????? ?????
+                private readonly Line _fictiveLine = new Line("===fictive line===") {state = DiffType.Deleted};
 
-            /// <summary>
-            ///     Equals
-            /// </summary>
-            public override bool Equals(object obj)
-            {
-                return Equals(line, ((Line)obj).line);
-            }
-
-            public static bool operator ==(Line line1, Line line2)
-            {
-                return Equals(line1.line, line2.line);
-            }
-
-            public static bool operator !=(Line line1, Line line2)
-            {
-                return !Equals(line1.line, line2.line);
-            }
-
-            public override string ToString()
-            {
-                return line;
-            }
-        }
-
-        /// <summary>
-        ///     File as list of lines
-        /// </summary>
-        public class Lines : List<Line>, IEquatable<Lines>
-        {
-            //??? ?????? ????? ??? ???????? ?????, ??????????? ? ????? ??????, ?? ?????? ?????? ????????? ?????
-            private readonly Line _fictiveLine = new Line("===fictive line===") { state = DiffType.Deleted };
-
-            private Lines()
-            {
-            }
-
-            private Lines(int capacity)
-                : base(capacity)
-            {
-            }
-
-            private Line this[int i]
-            {
-                get
+                private Lines()
                 {
-                    return i == -1 ? _fictiveLine : base[i];
                 }
 
-                /*
+                private Lines(int capacity)
+                    : base(capacity)
+                {
+                }
+
+                private Line this[int i]
+                {
+                    get
+                    {
+                        return i == -1 ? _fictiveLine : base[i];
+                    }
+
+                    /*
                                 set
                                 {
                                     if (i == -1) fictiveLine = value;
-                                    base[i] = value;
-                                }
-                */
-            }
-
-            /// <summary>
+         /// <summary>
             ///     Is lines equal?
             /// </summary>
-            public bool Equals(Lines other)
-            {
-                if (Count != other.Count)
-                    return false;
-                for (var i = 0; i < Count; i++)
-                    if (this[i] != other[i])
-                        return false;
-                return true;
-            }
-
-            public static Lines Load(string fileName)
-            {
-                return Load(fileName, Encoding.Default);
-            }
-
-            /// <summary>
-            ///     Load from file
-            /// </summary>
-            private static Lines Load(string fileName, Encoding enc)
-            {
-                var lines = new Lines();
-                lines.AddRange(File.ReadAllLines(fileName, enc ?? Encoding.Default).Select(line => new Line(line)));
-
-                return lines;
-            }
-
-            /// <summary>
-            ///     Merge lines
-            /// </summary>
-            public void Merge(Lines lines)
-            {
-                var diff = new SimpleDiff<Line>(this, lines);
-                var iLine = -1;
-
-                diff.LineUpdate += (o, e) =>
-                {
-                    if (e.DiffType == DiffType.Inserted)
-                    {
-                        if (this[iLine].subLines == null)
-                            this[iLine].subLines = new Lines();
-                        e.LineValue.state = DiffType.Inserted;
-                        this[iLine].subLines.Add(e.LineValue);
-                    }
-                    else
-                    {
-                        iLine++;
-                        this[iLine].state = e.DiffType;
-                        if (iLine > 0 &&
-                            this[iLine - 1].state == DiffType.Deleted &&
-                            this[iLine - 1].subLines == null &&
-                            e.DiffType == DiffType.None)
-                            this[iLine - 1].subLines = new Lines();
-                    }
-                };
-                //????????? ???????? ?????????? ???????????? ????????????????????? (LCS)
-                diff.RunDiff();
-            }
-
-            /// <summary>
-            ///     Clone
-            /// </summary>
-            public Lines Clone()
-            {
-                var result = new Lines(Count);
-                result.AddRange(this.Select(line => new Line(line.line)));
-
-                return result;
-            }
-
-            /// <summary>
-            ///     Transform tree to list
-            /// </summary>
-            private IEnumerable<Line> Expand()
-            {
-                return Expand(-1, Count - 1);
-            }
-
-            /// <summary>
-            ///     Transform tree to list
-            /// </summary>
-            private IEnumerable<Line> Expand(int from, int to)
-            {
-                var result = new Lines();
-                for (var i = from; i <= to; i++)
-                {
-                    if (this[i].state != DiffType.Deleted)
-                        result.Add(this[i]);
-                    if (this[i].subLines != null)
-                        result.AddRange(this[i].subLines.Expand());
+                */
                 }
 
-                return result;
+                /// <summary>
+                ///     Is lines equal?
+                /// </summary>
+                public bool Equals(Lines other)
+                {
+                    if (Count != other.Count)
+                        return false;
+                    for (var i = 0; i < Count; i++)
+                        if (this[i] != other[i])
+                            return false;
+                    return true;
+                }
+
+                public static Lines Load(string fileName)
+                {
+                    return Load(fileName, Encoding.Default);
+                }
+
+                /// <summary>
+                ///     Load from file
+                /// </summary>
+                private static Lines Load(string fileName, Encoding enc)
+                {
+                    var lines = new Lines();
+                    lines.AddRange(File.ReadAllLines(fileName, enc ?? Encoding.Default).Select(line => new Line(line)));
+                    return lines;
+                }
+
+                /// <summary>
+                ///     Merge lines
+                /// </summary>
+                public void Merge(Lines lines)
+                {
+                    var diff = new SimpleDiff<Line>(this, lines);
+                    var iLine = -1;
+
+                    diff.LineUpdate += (o, e) =>
+                    {
+                        if (e.DiffType == DiffType.Inserted)
+                        {
+                            if (this[iLine].subLines == null)
+                                this[iLine].subLines = new Lines();
+                            e.LineValue.state = DiffType.Inserted;
+                            this[iLine].subLines.Add(e.LineValue);
+                        }
+                        else
+                        {
+                            iLine++;
+                            this[iLine].state = e.DiffType;
+                            if (iLine > 0 &&
+                                this[iLine - 1].state == DiffType.Deleted &&
+                                this[iLine - 1].subLines == null &&
+                                e.DiffType == DiffType.None)
+                                this[iLine - 1].subLines = new Lines();
+                        }
+                    };
+                    //?????/// <summary>
+                    diff.RunDiff();
+                }
+
+                /// <summary>
+                ///     Clone
+                /// </summary>
+                public Lines Clone()
+                {
+                    var result = new Lines(Count);
+                    result.AddRange(this.Select(line => new Line(line.line)));
+                    //TODO:Recheck
+                    return result;
+                }
+
+                private IEnumerable<Line> Expand()
+                {
+                    return Expand(-1, Count - 1);
+                }
+
+                /// <summary>
+                ///     Transform tree to list
+                /// </summary>
+                private IEnumerable<Line> Expand(int from, int to)
+                {
+                    var result = new Lines();
+                    for (var i = from; i <= to; i++)
+                    {
+                        if (this[i].state != DiffType.Deleted)
+                            result.Add(this[i]);
+                        if (this[i].subLines != null)
+                            result.AddRange(this[i].subLines.Expand());
+                    }
+
+                    return result;
+                }
             }
-        }
+    }
 
         /*
                 /// <summary>
@@ -588,5 +561,4 @@ namespace SS.Ynote.Classic.UI
         */
     }
 
-    #endregion Merge stuffs
-}
+    #endregion
