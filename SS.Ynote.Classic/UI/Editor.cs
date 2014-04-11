@@ -68,6 +68,7 @@ namespace SS.Ynote.Classic.UI
             codebox.LineInterval = SettingsBase.LineInterval;
             codebox.LeftPadding = SettingsBase.PaddingWidth;
             codebox.VirtualSpace = SettingsBase.EnableVirtualSpace;
+            codebox.WordWrap = SettingsBase.WordWrap;
             codebox.Zoom = SettingsBase.Zoom;
             codebox.HotkeysMapping = HotkeysMapping.Parse(File.ReadAllText(SettingsBase.SettingsDir + "User.ynotekeys"));
             if (SettingsBase.ShowDocumentMap)

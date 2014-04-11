@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SS.Ynote.Classic", "SS.Ynote.Classic\SS.Ynote.Classic.csproj", "{B141123B-C436-45C9-BEE2-B9FEE4352F8B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{08C5FE8E-A1AE-407E-A243-36F6D4EDC5E5} = {08C5FE8E-A1AE-407E-A243-36F6D4EDC5E5}
+		{C75532C4-765B-418E-B09B-46D36B2ABDB1} = {C75532C4-765B-418E-B09B-46D36B2ABDB1}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastColoredTextBox", "FastColoredTextBox-master\FastColoredTextBox.csproj", "{6DD14A85-CCFC-4774-BD26-0F5772512319}"
 EndProject

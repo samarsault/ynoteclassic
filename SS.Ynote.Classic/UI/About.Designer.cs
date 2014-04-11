@@ -70,7 +70,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(235, 34);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Copyright (C) 2014 Samarjeet Singh\r\nv2.7.0.0";
+            this.label2.Text = "Copyright (C) 2014 Samarjeet Singh\r\nv2.7.1.0";
             // 
             // textBox1
             // 

@@ -164,7 +164,6 @@ namespace SS.Ynote.Classic.UI
     }
 
     #region Merge stuffs
-
     namespace DiffMergeStuffs
     {
         public class SimpleDiff<T>
@@ -218,25 +217,25 @@ namespace SS.Ynote.Classic.UI
             }
 
             /// <summary>
-                    ///     This method is an optimization that
-                    ///     skips matching elements at the end of the
-                    ///     two arrays being diff'ed.
-                    ///     Care's taken so that this will never
-                    ///     overlap with the pre-skip.
-                    /// </summary>
-                    ///     overlap with the pre-skip.
-                    /// </summary>
-                private void CalculatePostSkip()
-                    {
-                        var leftLen = _left.Count;
-                        var rightLen = _right.Count;
-                        while (_postSkip < leftLen && _postSkip < rightLen &&
-                               _postSkip < (leftLen - _preSkip) &&
-                               _compareFunc(_left[leftLen - _postSkip - 1], _right[rightLen - _postSkip - 1]))
-                        {
-                            _preSkip++;
-                        }
-                    }
+            ///     This method is an optimization that
+            ///     skips matching elements at the end of the
+            ///     two arrays being diff'ed.
+            ///     Care's taken so that this will never
+            ///     overlap with the pre-skip.
+            /// </summary>
+            ///     overlap with the pre-skip.
+            /// </summary>
+            private void CalculatePostSkip()
+            {
+                var leftLen = _left.Count;
+                var rightLen = _right.Count;
+                while (_postSkip < leftLen && _postSkip < rightLen &&
+                       _postSkip < (leftLen - _preSkip) &&
+                       _compareFunc(_left[leftLen - _postSkip - 1], _right[rightLen - _postSkip - 1]))
+                {
+                    _preSkip++;
+                }
+            }
 
             /// <summary>
             ///     This method is an optimization that
@@ -281,8 +280,8 @@ namespace SS.Ynote.Classic.UI
                         FireLineUpdate(DiffType.Deleted, _preSkip + leftIndex - 1, -1);
                     }
                 }
-            } 
-                private void CreateLCSMatrix()
+            }
+            private void CreateLCSMatrix()
             {
                 var totalSkip = _preSkip + _postSkip;
                 if (totalSkip >= _left.Count || totalSkip >= _right.Count)
@@ -330,7 +329,7 @@ namespace SS.Ynote.Classic.UI
             private void InitializeCompareFunc()
             {
                 // Special case for String types
-                if (typeof (T) == typeof (String))
+                if (typeof(T) == typeof(String))
                 {
                     _compareFunc = StringCompare;
                 }
@@ -358,41 +357,41 @@ namespace SS.Ynote.Classic.UI
             Inserted = 1,
             Deleted = 2
         }
-           public class Line
+        public class Line
+        {
+            public readonly string line;
+            public DiffType state;
+            public Lines subLines;
+
+            public Line(string line)
             {
-                public readonly string line;
-                public DiffType state;
-                public Lines subLines;
-
-                public Line(string line)
-                {
-                    this.line = line;
-                }
-                /// <summary>
-                ///     Equals
-                /// </summary>    /// <summary>
-                ///     Equals
-                /// </summary>
-                public override bool Equals(object obj)
-                {
-                    return Equals(line, ((Line)obj).line);
-                }
-
-                public static bool operator ==(Line line1, Line line2)
-                {
-                    return Equals(line1.line, line2.line);
-                }
-
-                public static bool operator !=(Line line1, Line line2)
-                {
-                    return !Equals(line1.line, line2.line);
-                }
-
-                public override string ToString()
-                {
-                    return line;
-                }
+                this.line = line;
             }
+            /// <summary>
+            ///     Equals
+            /// </summary>    /// <summary>
+            ///     Equals
+            /// </summary>
+            public override bool Equals(object obj)
+            {
+                return Equals(line, ((Line)obj).line);
+            }
+
+            public static bool operator ==(Line line1, Line line2)
+            {
+                return Equals(line1.line, line2.line);
+            }
+
+            public static bool operator !=(Line line1, Line line2)
+            {
+                return !Equals(line1.line, line2.line);
+            }
+
+            public override string ToString()
+            {
+                return line;
+            }
+        }
         public class DiffEventArgs<T> : EventArgs
         {
             public DiffEventArgs(DiffType diffType, T lineValue, int leftIndex, int rightIndex)
@@ -414,151 +413,151 @@ namespace SS.Ynote.Classic.UI
         }
 
         /// <summary>
-            ///     File as list of lines
-            /// </summary>
-            public class Lines : List<Line>, IEquatable<Lines>
+        ///     File as list of lines
+        /// </summary>
+        public class Lines : List<Line>, IEquatable<Lines>
+        {
+            //??? ?????? ????? ??? ???????? ?????, ??????????? ? ????? ??????, ?? ?????? ?????? ????????? ?????
+            private readonly Line _fictiveLine = new Line("===fictive line===") { state = DiffType.Deleted };
+
+            private Lines()
             {
-                //??? ?????? ????? ??? ???????? ?????, ??????????? ? ????? ??????, ?? ?????? ?????? ????????? ?????
-                private readonly Line _fictiveLine = new Line("===fictive line===") {state = DiffType.Deleted};
+            }
 
-                private Lines()
+            private Lines(int capacity)
+                : base(capacity)
+            {
+            }
+
+            private Line this[int i]
+            {
+                get
                 {
+                    return i == -1 ? _fictiveLine : base[i];
                 }
 
-                private Lines(int capacity)
-                    : base(capacity)
-                {
-                }
+                /*
+                            set
+                            {
+                                if (i == -1) fictiveLine = value;
+     /// <summary>
+        ///     Is lines equal?
+        /// </summary>
+            */
+            }
 
-                private Line this[int i]
-                {
-                    get
-                    {
-                        return i == -1 ? _fictiveLine : base[i];
-                    }
-
-                    /*
-                                set
-                                {
-                                    if (i == -1) fictiveLine = value;
-         /// <summary>
+            /// <summary>
             ///     Is lines equal?
             /// </summary>
-                */
-                }
-
-                /// <summary>
-                ///     Is lines equal?
-                /// </summary>
-                public bool Equals(Lines other)
-                {
-                    if (Count != other.Count)
+            public bool Equals(Lines other)
+            {
+                if (Count != other.Count)
+                    return false;
+                for (var i = 0; i < Count; i++)
+                    if (this[i] != other[i])
                         return false;
-                    for (var i = 0; i < Count; i++)
-                        if (this[i] != other[i])
-                            return false;
-                    return true;
-                }
+                return true;
+            }
 
-                public static Lines Load(string fileName)
+            public static Lines Load(string fileName)
+            {
+                return Load(fileName, Encoding.Default);
+            }
+
+            /// <summary>
+            ///     Load from file
+            /// </summary>
+            private static Lines Load(string fileName, Encoding enc)
+            {
+                var lines = new Lines();
+                lines.AddRange(File.ReadAllLines(fileName, enc ?? Encoding.Default).Select(line => new Line(line)));
+                return lines;
+            }
+
+            /// <summary>
+            ///     Merge lines
+            /// </summary>
+            public void Merge(Lines lines)
+            {
+                var diff = new SimpleDiff<Line>(this, lines);
+                var iLine = -1;
+
+                diff.LineUpdate += (o, e) =>
                 {
-                    return Load(fileName, Encoding.Default);
-                }
-
-                /// <summary>
-                ///     Load from file
-                /// </summary>
-                private static Lines Load(string fileName, Encoding enc)
-                {
-                    var lines = new Lines();
-                    lines.AddRange(File.ReadAllLines(fileName, enc ?? Encoding.Default).Select(line => new Line(line)));
-                    return lines;
-                }
-
-                /// <summary>
-                ///     Merge lines
-                /// </summary>
-                public void Merge(Lines lines)
-                {
-                    var diff = new SimpleDiff<Line>(this, lines);
-                    var iLine = -1;
-
-                    diff.LineUpdate += (o, e) =>
+                    if (e.DiffType == DiffType.Inserted)
                     {
-                        if (e.DiffType == DiffType.Inserted)
-                        {
-                            if (this[iLine].subLines == null)
-                                this[iLine].subLines = new Lines();
-                            e.LineValue.state = DiffType.Inserted;
-                            this[iLine].subLines.Add(e.LineValue);
-                        }
-                        else
-                        {
-                            iLine++;
-                            this[iLine].state = e.DiffType;
-                            if (iLine > 0 &&
-                                this[iLine - 1].state == DiffType.Deleted &&
-                                this[iLine - 1].subLines == null &&
-                                e.DiffType == DiffType.None)
-                                this[iLine - 1].subLines = new Lines();
-                        }
-                    };
-                    //?????/// <summary>
-                    diff.RunDiff();
-                }
-
-                /// <summary>
-                ///     Clone
-                /// </summary>
-                public Lines Clone()
-                {
-                    var result = new Lines(Count);
-                    result.AddRange(this.Select(line => new Line(line.line)));
-                    //TODO:Recheck
-                    return result;
-                }
-
-                private IEnumerable<Line> Expand()
-                {
-                    return Expand(-1, Count - 1);
-                }
-
-                /// <summary>
-                ///     Transform tree to list
-                /// </summary>
-                private IEnumerable<Line> Expand(int from, int to)
-                {
-                    var result = new Lines();
-                    for (var i = from; i <= to; i++)
-                    {
-                        if (this[i].state != DiffType.Deleted)
-                            result.Add(this[i]);
-                        if (this[i].subLines != null)
-                            result.AddRange(this[i].subLines.Expand());
+                        if (this[iLine].subLines == null)
+                            this[iLine].subLines = new Lines();
+                        e.LineValue.state = DiffType.Inserted;
+                        this[iLine].subLines.Add(e.LineValue);
                     }
+                    else
+                    {
+                        iLine++;
+                        this[iLine].state = e.DiffType;
+                        if (iLine > 0 &&
+                            this[iLine - 1].state == DiffType.Deleted &&
+                            this[iLine - 1].subLines == null &&
+                            e.DiffType == DiffType.None)
+                            this[iLine - 1].subLines = new Lines();
+                    }
+                };
+                //?????/// <summary>
+                diff.RunDiff();
+            }
 
-                    return result;
+            /// <summary>
+            ///     Clone
+            /// </summary>
+            public Lines Clone()
+            {
+                var result = new Lines(Count);
+                result.AddRange(this.Select(line => new Line(line.line)));
+                //TODO:Recheck
+                return result;
+            }
+
+            private IEnumerable<Line> Expand()
+            {
+                return Expand(-1, Count - 1);
+            }
+
+            /// <summary>
+            ///     Transform tree to list
+            /// </summary>
+            private IEnumerable<Line> Expand(int from, int to)
+            {
+                var result = new Lines();
+                for (var i = from; i <= to; i++)
+                {
+                    if (this[i].state != DiffType.Deleted)
+                        result.Add(this[i]);
+                    if (this[i].subLines != null)
+                        result.AddRange(this[i].subLines.Expand());
+                }
+
+                return result;
+            }
+        }
+    }
+
+    /*
+            /// <summary>
+            ///     ??????, ?????????? ????????? ??????????? ??????
+            /// </summary>
+            public class ConflictedLine : Line
+            {
+                public readonly Lines version1;
+                public readonly Lines version2;
+
+                public ConflictedLine(Lines version1, Lines version2)
+                    : base("?")
+                {
+                    this.version1 = version1;
+                    this.version2 = version2;
                 }
             }
-    }
-
-        /*
-                /// <summary>
-                ///     ??????, ?????????? ????????? ??????????? ??????
-                /// </summary>
-                public class ConflictedLine : Line
-                {
-                    public readonly Lines version1;
-                    public readonly Lines version2;
-
-                    public ConflictedLine(Lines version1, Lines version2)
-                        : base("?")
-                    {
-                        this.version1 = version1;
-                        this.version2 = version2;
-                    }
-                }
-        */
-    }
+    */
+}
 
     #endregion

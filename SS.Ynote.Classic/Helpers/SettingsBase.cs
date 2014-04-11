@@ -2,7 +2,7 @@
 //
 // Copyright (C) 2014 Samarjeet Singh (singh.samarjeet.27@gmail.com)
 // 
-//#define PORTABLE
+#define PORTABLE
 using System.IO;
 using FastColoredTextBoxNS;
 using Nini.Config;
@@ -131,6 +131,14 @@ public static class SettingsBase
     ///     Loads Settings
     /// </summary>
     internal static bool AutoCompleteBrackets { get; set; }
+    /// <summary>
+    ///     Checks if WordWrap is on
+    /// </summary>
+    internal static bool WordWrap { get; set; }
+    /// <summary>
+    /// Gets The Default Encoding for Saving Document
+    /// </summary>
+    internal static int DefaultEncoding { get; set; }
 
     /// <summary>
     ///     Loads Settings
@@ -158,9 +166,11 @@ public static class SettingsBase
                 HighlightFolding = source.Configs["Ynote"].GetBoolean("HighlightFolding");
                 PaddingWidth = source.Configs["Ynote"].GetInt("PaddingWidth");
                 LineInterval = source.Configs["Ynote"].GetInt("LineInterval");
+                DefaultEncoding = source.Configs["Ynote"].GetInt("Encoding");
                 ShowStatusBar = source.Configs["Ynote"].GetBoolean("StatusBar");
                 ShowMenuBar = source.Configs["Ynote"].GetBoolean("MenuBar");
                 FontFamily = source.Configs["Ynote"].Get("FontFamily");
+                WordWrap = source.Configs["Ynote"].GetBoolean("Wordwrap");
                 FontSize = source.Configs["Ynote"].GetFloat("FontSize");
                 TabSize = source.Configs["Ynote"].GetInt("TabSize");
                 RecentFileNumber = source.Configs["Ynote"].GetInt("RecentFilesNo");
@@ -203,6 +213,8 @@ public static class SettingsBase
         source.Configs["Ynote"].Set("MenuBar", ShowMenuBar);
         source.Configs["Ynote"].Set("FontFamily", FontFamily);
         source.Configs["Ynote"].Set("FontSize", FontSize);
+        source.Configs["Ynote"].Set("Encoding", DefaultEncoding);
+        source.Configs["Ynote"].Set("Wordwrap", WordWrap);
         source.Configs["Ynote"].Set("Zoom", Zoom);
         source.Save();
     }
@@ -216,7 +228,7 @@ public static class SettingsBase
         config.Set("DocumentStyle", DocumentStyle.DockingMdi);
         config.Set("TabLocation", DocumentTabStripLocation.Top);
         config.Set("BracketStrategy", BracketsHighlightStrategy.Strategy2);
-        source.Configs["Ynote"].Set("FoldingStrategy", FindEndOfFoldingBlockStrategy.Strategy1);
+        config.Set("FoldingStrategy", FindEndOfFoldingBlockStrategy.Strategy1);
         config.Set("ShowCaret", true);
         config.Set("ShowDocumentMap", true);
         config.Set("ShowRuler", false);
@@ -231,6 +243,8 @@ public static class SettingsBase
         config.Set("RecentFilesNo", 15);
         config.Set("MenuBar", true);
         config.Set("StatusBar", true);
+        config.Set("Wordwrap", false);
+        config.Set("Encoding", System.Text.Encoding.Default.CodePage);
         config.Set("FontFamily", "Consolas");
         config.Set("FontSize", 9.75F);
         config.Set("TabSize", 4);

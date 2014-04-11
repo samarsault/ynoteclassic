@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
 using Nini.Config;
@@ -44,8 +45,18 @@ namespace SS.Ynote.Classic.UI
             tabsize.Value = SettingsBase.TabSize;
             cbruler.Checked = SettingsBase.ShowRuler;
             numrecent.Value = SettingsBase.RecentFileNumber;
+            BuildEncodingList();
         }
 
+        void BuildEncodingList()
+        {
+            foreach (var encoding in Encoding.GetEncodings())
+            {
+                if (encoding.CodePage == Encoding.GetEncoding(SettingsBase.DefaultEncoding).CodePage)
+                    lblencoding.Text = encoding.DisplayName;
+                lstencs.Items.Add(new EncodingItem(encoding));
+            }
+        }
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             switch (e.Node.Text)
@@ -65,7 +76,8 @@ namespace SS.Ynote.Classic.UI
                 case "File Extensions":
                     tabcontrol.SelectTab(FileExtensionsPage);
                     break;
-
+                case "Encoding":tabcontrol.SelectTab(encodingpage);
+                    break;
                 case "Manage":
                     tabcontrol.SelectTab(ClearPage);
                     break;
@@ -278,6 +290,27 @@ namespace SS.Ynote.Classic.UI
                 MessageBox.Show("Error Clearing Recent Files \r\n Message : " + ex.Message, null,
                     MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
+        }
+
+        private void lstencs_Click(object sender, EventArgs e)
+        {
+            if (lstencs.SelectedItem == null) return;
+            var item = lstencs.SelectedItem as EncodingItem;
+            SettingsBase.DefaultEncoding = item.EncodingInfo.CodePage;
+            lblencoding.Text = item.EncodingInfo.DisplayName;
+        }
+    }
+
+    internal class EncodingItem
+    {
+        internal EncodingItem(EncodingInfo info)
+        {
+            EncodingInfo = info;
+        }
+        internal EncodingInfo EncodingInfo { get; set; }
+        public override string ToString()
+        {
+            return EncodingInfo.DisplayName;
         }
     }
 }

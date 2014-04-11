@@ -31,7 +31,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.MenuStrip = new System.Windows.Forms.MainMenu(components);
+            this.MenuStrip = new System.Windows.Forms.MainMenu(this.components);
             this.filemenu = new System.Windows.Forms.MenuItem();
             this.NewMenuItem = new System.Windows.Forms.MenuItem();
             this.OpenMenuItem = new System.Windows.Forms.MenuItem();
@@ -246,7 +246,7 @@
             this.infolabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.gapfiller1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.langmenu = new System.Windows.Forms.ToolStripDropDownButton();
-            this.gapfiller3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblEncoding = new System.Windows.Forms.ToolStripStatusLabel();
             this.zoom = new System.Windows.Forms.ToolStripDropDownButton();
             this.mizoom500 = new System.Windows.Forms.ToolStripMenuItem();
             this.mizoom400 = new System.Windows.Forms.ToolStripMenuItem();
@@ -1485,8 +1485,8 @@
             // miexecfile
             // 
             this.miexecfile.Index = 6;
+            this.miexecfile.Shortcut = System.Windows.Forms.Shortcut.F5;
             this.miexecfile.Text = "Execute File";
-            this.miexecfile.Shortcut = Shortcut.F5;
             this.miexecfile.Click += new System.EventHandler(this.menuItem30_Click);
             // 
             // mirunscripts
@@ -1718,7 +1718,7 @@
             this.infolabel,
             this.gapfiller1,
             this.langmenu,
-            this.gapfiller3,
+            this.lblEncoding,
             this.zoom});
             this.status.Location = new System.Drawing.Point(0, 338);
             this.status.Name = "status";
@@ -1734,7 +1734,7 @@
             // gapfiller2
             // 
             this.gapfiller2.Name = "gapfiller2";
-            this.gapfiller2.Size = new System.Drawing.Size(206, 17);
+            this.gapfiller2.Size = new System.Drawing.Size(196, 17);
             this.gapfiller2.Spring = true;
             // 
             // infolabel
@@ -1746,7 +1746,7 @@
             // 
             this.gapfiller1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.gapfiller1.Name = "gapfiller1";
-            this.gapfiller1.Size = new System.Drawing.Size(206, 17);
+            this.gapfiller1.Size = new System.Drawing.Size(196, 17);
             this.gapfiller1.Spring = true;
             // 
             // langmenu
@@ -1759,12 +1759,12 @@
             this.langmenu.Click += new System.EventHandler(this.langmenu_Click);
             this.langmenu.MouseEnter += new System.EventHandler(this.langmenu_MouseEnter);
             // 
-            // gapfiller3
+            // lblEncoding
             // 
-            this.gapfiller3.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
-            this.gapfiller3.Name = "gapfiller3";
-            this.gapfiller3.Size = new System.Drawing.Size(206, 17);
-            this.gapfiller3.Spring = true;
+            this.lblEncoding.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.lblEncoding.Name = "lblEncoding";
+            this.lblEncoding.Size = new System.Drawing.Size(196, 17);
+            this.lblEncoding.Spring = true;
             // 
             // zoom
             // 
@@ -1824,24 +1824,19 @@
             this.mizoom50.Name = "mizoom50";
             this.mizoom50.Size = new System.Drawing.Size(92, 22);
             this.mizoom50.Text = "50";
-            // 
-            // dock
-            // 
-            this.Panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Panel.DockBottomPortion = 0.4D;
-            this.Panel.Location = new System.Drawing.Point(0, 0);
-            this.Panel.Name = "Panel";
-            this.Panel.Size = new System.Drawing.Size(767, 338);
-            this.Panel.TabIndex = 0;
-            this.Panel.ActiveDocumentChanged += new System.EventHandler(this.dock_ActiveDocumentChanged);
+            //
+            // Panel
+            //
+            this.Panel.Dock = DockStyle.Fill;
+            this.Panel.ActiveDocumentChanged += dock_ActiveDocumentChanged;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(767, 360);
-            this.Controls.Add(this.Panel);
             this.Controls.Add(this.status);
+            this.Controls.Add(this.Panel);
             this.Icon = global::SS.Ynote.Classic.Properties.Resources.ynote_favicon;
             this.IsMdiContainer = true;
             this.Menu = this.MenuStrip;
@@ -2031,7 +2026,7 @@
         private System.Windows.Forms.MenuItem mikeymapeditor;
         private System.Windows.Forms.ToolStripStatusLabel mistats;
         private System.Windows.Forms.MenuItem miscripts;
-        private System.Windows.Forms.ToolStripStatusLabel gapfiller3;
+        private System.Windows.Forms.ToolStripStatusLabel lblEncoding;
         private System.Windows.Forms.MenuItem mirun;
         private System.Windows.Forms.MenuItem mieditor;
         private System.Windows.Forms.ToolStripDropDownButton langmenu;
@@ -2053,32 +2048,32 @@
         private System.Windows.Forms.MenuItem migreenmark;
         private System.Windows.Forms.MenuItem mimarkyellow;
         private System.Windows.Forms.MenuItem seperator17;
-        private MenuItem misortlength;
-        private MenuItem seperator28;
-        private MenuItem misnippets;
-        private MenuItem seperator29;
-        private MenuItem seperator11;
-        private MenuItem miselectiontohex;
-        private MenuItem miselectiontoascii;
-        private MenuItem miupdates;
-        private MenuItem miwebsearch;
-        private MenuItem migoogle;
-        private MenuItem miwiki;
-        private ToolStripStatusLabel gapfiller2;
-        private MenuItem seperator7;
-        private MenuItem micomparewith;
-        private MenuItem seperator3;
-        private MenuItem micopyas;
-        private MenuItem micopyhtml;
-        private MenuItem micopyrtf;
-        private MenuItem menuItem1;
-        private MenuItem minewsnippet;
-        private MenuItem minewscript;
-        private MenuItem midocinfo;
-        private MenuItem miclose;
-        private MenuItem miprojpage;
-        private MenuItem mibugreport;
-        private MenuItem miforum;
+        private System.Windows.Forms.MenuItem misortlength;
+        private System.Windows.Forms.MenuItem seperator28;
+        private System.Windows.Forms.MenuItem misnippets;
+        private System.Windows.Forms.MenuItem seperator29;
+        private System.Windows.Forms.MenuItem seperator11;
+        private System.Windows.Forms.MenuItem miselectiontohex;
+        private System.Windows.Forms.MenuItem miselectiontoascii;
+        private System.Windows.Forms.MenuItem miupdates;
+        private System.Windows.Forms.MenuItem miwebsearch;
+        private System.Windows.Forms.MenuItem migoogle;
+        private System.Windows.Forms.MenuItem miwiki;
+        private System.Windows.Forms.ToolStripStatusLabel gapfiller2;
+        private System.Windows.Forms.MenuItem seperator7;
+        private System.Windows.Forms.MenuItem micomparewith;
+        private System.Windows.Forms.MenuItem seperator3;
+        private System.Windows.Forms.MenuItem micopyas;
+        private System.Windows.Forms.MenuItem micopyhtml;
+        private System.Windows.Forms.MenuItem micopyrtf;
+        private System.Windows.Forms.MenuItem menuItem1;
+        private System.Windows.Forms.MenuItem minewsnippet;
+        private System.Windows.Forms.MenuItem minewscript;
+        private System.Windows.Forms.MenuItem midocinfo;
+        private System.Windows.Forms.MenuItem miclose;
+        private System.Windows.Forms.MenuItem miprojpage;
+        private System.Windows.Forms.MenuItem mibugreport;
+        private System.Windows.Forms.MenuItem miforum;
     }
 }
 

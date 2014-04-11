@@ -30,20 +30,22 @@ namespace SS.Ynote.Classic.UI
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Tabs");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Environment", new System.Windows.Forms.TreeNode[] {
-            treeNode10});
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("General");
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("MISC");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Text Editor", new System.Windows.Forms.TreeNode[] {
-            treeNode12,
-            treeNode13});
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("File Extensions");
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Files", new System.Windows.Forms.TreeNode[] {
-            treeNode15});
-            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Manage");
-            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Data", new System.Windows.Forms.TreeNode[] {
-            treeNode17});
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Tabs");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Environment", new System.Windows.Forms.TreeNode[] {
+            treeNode1});
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("General");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("MISC");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Text Editor", new System.Windows.Forms.TreeNode[] {
+            treeNode3,
+            treeNode4});
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("File Extensions");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Encoding");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Files", new System.Windows.Forms.TreeNode[] {
+            treeNode6,
+            treeNode7});
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Manage");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Data", new System.Windows.Forms.TreeNode[] {
+            treeNode9});
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -51,6 +53,9 @@ namespace SS.Ynote.Classic.UI
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabcontrol = new SS.Ynote.Classic.UI.Controls.WizardTabControl();
             this.tabsettingpage = new System.Windows.Forms.TabPage();
+            this.groupOther = new System.Windows.Forms.GroupBox();
+            this.numrecent = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cbdockstyle = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -92,11 +97,15 @@ namespace SS.Ynote.Classic.UI
             this.btnScriptCache = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
-            this.groupOther = new System.Windows.Forms.GroupBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.numrecent = new System.Windows.Forms.NumericUpDown();
+            this.encodingpage = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lblencoding = new System.Windows.Forms.Label();
+            this.lstencs = new System.Windows.Forms.ListBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.tabcontrol.SuspendLayout();
             this.tabsettingpage.SuspendLayout();
+            this.groupOther.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numrecent)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.GeneralPage.SuspendLayout();
             this.groupBox7.SuspendLayout();
@@ -107,8 +116,8 @@ namespace SS.Ynote.Classic.UI
             this.groupBox16.SuspendLayout();
             this.ClearPage.SuspendLayout();
             this.groupBox14.SuspendLayout();
-            this.groupOther.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numrecent)).BeginInit();
+            this.encodingpage.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeView1
@@ -118,30 +127,32 @@ namespace SS.Ynote.Classic.UI
             this.treeView1.Indent = 27;
             this.treeView1.Location = new System.Drawing.Point(9, 36);
             this.treeView1.Name = "treeView1";
-            treeNode10.Name = "TabsNode";
-            treeNode10.Text = "Tabs";
-            treeNode11.Name = "EnvironmentNode";
-            treeNode11.Text = "Environment";
-            treeNode12.Name = "TextEditorGeneralNode";
-            treeNode12.Text = "General";
-            treeNode13.Name = "TextEditorEditing";
-            treeNode13.Text = "MISC";
-            treeNode14.Name = "TextEditorNode";
-            treeNode14.Text = "Text Editor";
-            treeNode15.Name = "FileExtensionsNode";
-            treeNode15.Text = "File Extensions";
-            treeNode16.Name = "Node21";
-            treeNode16.Text = "Files";
-            treeNode17.Checked = true;
-            treeNode17.Name = "ClearDataNode";
-            treeNode17.Text = "Manage";
-            treeNode18.Name = "DataNode";
-            treeNode18.Text = "Data";
+            treeNode1.Name = "TabsNode";
+            treeNode1.Text = "Tabs";
+            treeNode2.Name = "EnvironmentNode";
+            treeNode2.Text = "Environment";
+            treeNode3.Name = "TextEditorGeneralNode";
+            treeNode3.Text = "General";
+            treeNode4.Name = "TextEditorEditing";
+            treeNode4.Text = "MISC";
+            treeNode5.Name = "TextEditorNode";
+            treeNode5.Text = "Text Editor";
+            treeNode6.Name = "FileExtensionsNode";
+            treeNode6.Text = "File Extensions";
+            treeNode7.Name = "EncodingNode";
+            treeNode7.Text = "Encoding";
+            treeNode8.Name = "Node21";
+            treeNode8.Text = "Files";
+            treeNode9.Checked = true;
+            treeNode9.Name = "ClearDataNode";
+            treeNode9.Text = "Manage";
+            treeNode10.Name = "DataNode";
+            treeNode10.Text = "Data";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode11,
-            treeNode14,
-            treeNode16,
-            treeNode18});
+            treeNode2,
+            treeNode5,
+            treeNode8,
+            treeNode10});
             this.treeView1.ShowLines = false;
             this.treeView1.Size = new System.Drawing.Size(169, 313);
             this.treeView1.TabIndex = 0;
@@ -193,6 +204,7 @@ namespace SS.Ynote.Classic.UI
             this.tabcontrol.Controls.Add(this.EditingPage);
             this.tabcontrol.Controls.Add(this.FileExtensionsPage);
             this.tabcontrol.Controls.Add(this.ClearPage);
+            this.tabcontrol.Controls.Add(this.encodingpage);
             this.tabcontrol.Location = new System.Drawing.Point(180, 4);
             this.tabcontrol.Multiline = true;
             this.tabcontrol.Name = "tabcontrol";
@@ -211,6 +223,33 @@ namespace SS.Ynote.Classic.UI
             this.tabsettingpage.Size = new System.Drawing.Size(447, 319);
             this.tabsettingpage.TabIndex = 0;
             this.tabsettingpage.Text = "Tabs";
+            // 
+            // groupOther
+            // 
+            this.groupOther.Controls.Add(this.numrecent);
+            this.groupOther.Controls.Add(this.label6);
+            this.groupOther.Location = new System.Drawing.Point(122, 183);
+            this.groupOther.Name = "groupOther";
+            this.groupOther.Size = new System.Drawing.Size(234, 91);
+            this.groupOther.TabIndex = 9;
+            this.groupOther.TabStop = false;
+            this.groupOther.Text = "Other";
+            // 
+            // numrecent
+            // 
+            this.numrecent.Location = new System.Drawing.Point(149, 37);
+            this.numrecent.Name = "numrecent";
+            this.numrecent.Size = new System.Drawing.Size(47, 20);
+            this.numrecent.TabIndex = 1;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(36, 39);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(107, 13);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "No. of Recent Files : ";
             // 
             // groupBox1
             // 
@@ -664,32 +703,54 @@ namespace SS.Ynote.Classic.UI
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
-            // groupOther
+            // encodingpage
             // 
-            this.groupOther.Controls.Add(this.numrecent);
-            this.groupOther.Controls.Add(this.label6);
-            this.groupOther.Location = new System.Drawing.Point(122, 183);
-            this.groupOther.Name = "groupOther";
-            this.groupOther.Size = new System.Drawing.Size(234, 91);
-            this.groupOther.TabIndex = 9;
-            this.groupOther.TabStop = false;
-            this.groupOther.Text = "Other";
+            this.encodingpage.BackColor = System.Drawing.SystemColors.Control;
+            this.encodingpage.Controls.Add(this.groupBox2);
+            this.encodingpage.Location = new System.Drawing.Point(4, 22);
+            this.encodingpage.Name = "encodingpage";
+            this.encodingpage.Padding = new System.Windows.Forms.Padding(3);
+            this.encodingpage.Size = new System.Drawing.Size(447, 319);
+            this.encodingpage.TabIndex = 8;
+            this.encodingpage.Text = "Encoding";
             // 
-            // label6
+            // groupBox2
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(36, 39);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(107, 13);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "No. of Recent Files : ";
+            this.groupBox2.Controls.Add(this.lblencoding);
+            this.groupBox2.Controls.Add(this.lstencs);
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Location = new System.Drawing.Point(26, 23);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(390, 263);
+            this.groupBox2.TabIndex = 2;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Encoding Settings";
             // 
-            // numrecent
+            // lblencoding
             // 
-            this.numrecent.Location = new System.Drawing.Point(149, 37);
-            this.numrecent.Name = "numrecent";
-            this.numrecent.Size = new System.Drawing.Size(47, 20);
-            this.numrecent.TabIndex = 1;
+            this.lblencoding.AutoSize = true;
+            this.lblencoding.Location = new System.Drawing.Point(131, 39);
+            this.lblencoding.Name = "lblencoding";
+            this.lblencoding.Size = new System.Drawing.Size(0, 13);
+            this.lblencoding.TabIndex = 2;
+            // 
+            // lstencs
+            // 
+            this.lstencs.FormattingEnabled = true;
+            this.lstencs.Location = new System.Drawing.Point(30, 74);
+            this.lstencs.Name = "lstencs";
+            this.lstencs.Size = new System.Drawing.Size(336, 173);
+            this.lstencs.TabIndex = 1;
+            this.lstencs.DoubleClick += new System.EventHandler(this.lstencs_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(27, 39);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(98, 13);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "Default Encoding : ";
             // 
             // Options
             // 
@@ -707,6 +768,9 @@ namespace SS.Ynote.Classic.UI
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.tabcontrol.ResumeLayout(false);
             this.tabsettingpage.ResumeLayout(false);
+            this.groupOther.ResumeLayout(false);
+            this.groupOther.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numrecent)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.GeneralPage.ResumeLayout(false);
@@ -721,9 +785,9 @@ namespace SS.Ynote.Classic.UI
             this.groupBox16.PerformLayout();
             this.ClearPage.ResumeLayout(false);
             this.groupBox14.ResumeLayout(false);
-            this.groupOther.ResumeLayout(false);
-            this.groupOther.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numrecent)).EndInit();
+            this.encodingpage.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -792,5 +856,10 @@ namespace SS.Ynote.Classic.UI
         private System.Windows.Forms.GroupBox groupOther;
         private System.Windows.Forms.NumericUpDown numrecent;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TabPage encodingpage;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ListBox lstencs;
+        private System.Windows.Forms.Label lblencoding;
     }
 }

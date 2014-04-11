@@ -58,7 +58,7 @@ namespace SS.Ynote.Classic
         /// <summary>
         ///     Default Constructor
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="fn"></param>
         public MainForm(string fn)
         {
             InitializeComponent();
@@ -132,41 +132,23 @@ namespace SS.Ynote.Classic
             }
         }
 
-        /// <summary>
-        ///     SaveEditor without encoding
-        /// </summary>
-        /// <param name="edit"></param>
-        public void SaveEditor(Editor edit)
-        {
-            SaveEditor(edit, Encoding.Default);
-        }
-
-        private void OpenFileAsync(string name)
-        {
-            BeginInvoke((MethodInvoker) (() => OpenFile(name)));
-        }
-
         private void OpenFile(string name, Encoding encoding)
         {
-            if (!File.Exists(name))
+            while (true)
             {
-                var result =
-                    MessageBox.Show(
-                        string.Format("The File {0} does not exist.\r\nWould you like to create it ?", name),
-                        "Ynote Classic", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result != DialogResult.Yes) return;
-                File.WriteAllText(name, null);
-                OpenFile(name, encoding);
-            }
-            else
-            {
+                if (!File.Exists(name))
+                {
+                    var result = MessageBox.Show(string.Format("The File {0} does not exist.\r\nWould you like to create it ?", name), "Ynote Classic", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result != DialogResult.Yes) return;
+                    File.WriteAllText(name, null);
+                    continue;
+                }
                 if (Panel.Documents.Cast<DockContent>().Any(doc => doc is Editor && doc.Name == name))
                     return;
                 var edit = new Editor {Text = Path.GetFileName(name), Name = name};
                 if (FileExtensions.FileExtensionsDictionary == null)
                     FileExtensions.BuildDictionary();
-                var lang = FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary,
-                    Path.GetExtension(name));
+                var lang = FileExtensions.GetLanguage(FileExtensions.FileExtensionsDictionary, Path.GetExtension(name));
                 if (lang.IsBase)
                 {
                     edit.Highlighter.HighlightSyntax(lang.SyntaxBase, new TextChangedEventArgs(edit.Tb.Range));
@@ -184,9 +166,49 @@ namespace SS.Ynote.Classic
                 else
                     edit.Tb.OpenFile(name, encoding);
                 edit.Tb.ReadOnly = info.IsReadOnly;
+                break;
             }
         }
 
+        private void OpenFileAsync(string name)
+        {
+            BeginInvoke((MethodInvoker)(() => OpenFile(name)));
+        }
+        /// <summary>
+        ///     SaveEditor without encoding
+        /// </summary>
+        /// <param name="edit"></param>
+        public void SaveEditor(Editor edit)
+        {
+            SaveEditor(edit, Encoding.GetEncoding(SettingsBase.DefaultEncoding));
+        }
+
+        static string BuildDialogFilter(Language lang, FileDialog dlg)
+        {
+            var builder = new StringBuilder();
+            builder.Append("All Files (*.*)|*.*|Text Files (*.txt)|*.txt");
+            if (FileExtensions.FileExtensionsDictionary == null)
+                FileExtensions.BuildDictionary();
+            for (int i = 0; i < FileExtensions.FileExtensionsDictionary.Count();i++)
+            {
+                string keyval = "*" + FileExtensions.FileExtensionsDictionary.Keys.ElementAt(i).ElementAt(0);
+                builder.AppendFormat("|{0} Files ({1})|{1}", FileExtensions.FileExtensionsDictionary.Values.ElementAt(i), keyval);
+                if (lang == FileExtensions.FileExtensionsDictionary.Values.ElementAt(i))
+                    dlg.FilterIndex = i + 3;
+            }
+            if (lang == Language.Text)
+                dlg.FilterIndex = 2;
+            // foreach (var extension in FileExtensions.FileExtensionsDictionary)
+            // {
+            //     string keyval = null;
+            //     keyval += "*" + extension.Key.ElementAt(0);
+            //     builder.AppendFormat("|{0} Files ({1})|{1}", extension.Value, keyval);
+            // }
+#if DEBUG
+            Debug.WriteLine(builder.ToString());
+#endif
+            return builder.ToString();
+        }
         /// <summary>
         ///     Save a typeof(Editor), with encoding.getEncoding( "name")
         /// </summary>
@@ -200,9 +222,9 @@ namespace SS.Ynote.Classic
                 {
                     using (var s = new SaveFileDialog())
                     {
-                        s.Filter = "All Files(*.*)|*.*";
-                        s.ShowDialog();
-                        if (s.FileName == "") return;
+                        s.Filter = BuildDialogFilter(edit.Tb.Language, s);
+                        //TODO:FilterIndex
+                        if (s.ShowDialog() != DialogResult.OK) return;
                         edit.Tb.SaveToFile(s.FileName, encoding);
                         edit.Text = Path.GetFileName(s.FileName);
                         edit.Name = s.FileName;
@@ -212,7 +234,6 @@ namespace SS.Ynote.Classic
                 {
                     edit.Tb.SaveToFile(edit.Name, encoding);
                     edit.Text = Path.GetFileName(edit.Name);
-                    edit.Name = edit.Name;
                 }
             }
             catch (Exception ex)
@@ -448,11 +469,9 @@ namespace SS.Ynote.Classic
         /// </summary>
         private void InitTimer()
         {
-            using (var infotimer = new Timer {Interval = 200})
-            {
-                infotimer.Tick += (sender, args) => UpdateDocumentInfo();
-                infotimer.Start();
-            }
+            var infotimer = new Timer {Interval = 200};
+            infotimer.Tick += (sender, args) => UpdateDocumentInfo();
+            infotimer.Start();
         }
 
         /// <summary>
@@ -959,16 +978,9 @@ namespace SS.Ynote.Classic
 
         private void wordwrapmenu_Click(object sender, EventArgs e)
         {
-            if (wordwrapmenu.Checked)
-            {
-                wordwrapmenu.Checked = false;
-                ActiveEditor.Tb.WordWrap = false;
-            }
-            else
-            {
-                wordwrapmenu.Checked = true;
-                ActiveEditor.Tb.WordWrap = true;
-            }
+            wordwrapmenu.Checked = !wordwrapmenu.Checked;
+            ActiveEditor.Tb.WordWrap = wordwrapmenu.Checked;
+            SettingsBase.WordWrap = wordwrapmenu.Checked;
         }
 
         private void aboutmenu_Click(object sender, EventArgs e)
@@ -1018,23 +1030,19 @@ namespace SS.Ynote.Classic
 
         private void misaveas_Click(object sender, EventArgs e)
         {
+            if (ActiveEditor == null) return;
             using (var sf = new SaveFileDialog())
             {
-                sf.Filter = "All Files (*.*)|*.*";
-                sf.ShowDialog();
-                if (sf.FileName == "") return;
-                if (ActiveEditor != null)
-                {
-                    ActiveEditor.Tb.SaveToFile(sf.FileName, Encoding.Default);
-                    ActiveEditor.Text = Path.GetFileName(sf.FileName);
-                    ActiveEditor.Name = sf.FileName;
-                }
+                sf.Filter = BuildDialogFilter(ActiveEditor.Tb.Language, sf);
+                if (sf.ShowDialog() != DialogResult.OK) return;
+                ActiveEditor.Tb.SaveToFile(sf.FileName, Encoding.GetEncoding(SettingsBase.DefaultEncoding));
+                ActiveEditor.Text = Path.GetFileName(sf.FileName);
+                ActiveEditor.Name = sf.FileName;
             }
         }
 
         private void misaveall_Click(object sender, EventArgs e)
         {
-            //TODO:Check If Working
             foreach (Editor doc in Panel.Documents)
                 BeginInvoke((MethodInvoker)(() => SaveEditor(doc)));
         }
@@ -1755,13 +1763,30 @@ namespace SS.Ynote.Classic
 
         private void midocinfo_Click(object sender, EventArgs e)
         {
+            if (!(Panel.ActiveDocument is Editor) || ActiveEditor == null) return;
             var allwords = Regex.Matches(ActiveEditor.Tb.Text, @"[\S]+");
             var selectionWords = Regex.Matches(ActiveEditor.Tb.SelectedText, @"[\S]+");
-            var message =
-                string.Format(
-                    "Words : {0}\r\nSelected Words : {1}\r\nLines : {2}\r\nColumn : {3}", allwords.Count,
-                    selectionWords.Count
-                    , ActiveEditor.Tb.LinesCount, ActiveEditor.Tb.Selection.Start.iChar + 1);
+            string message = string.Empty;
+            var startline = ActiveEditor.Tb.Selection.Start.iLine;
+            var endlines = ActiveEditor.Tb.Selection.End.iLine;
+            var sellines = endlines - startline + 1;
+            if (ActiveEditor.IsSaved)
+            {
+                var enc = EncodingDetector.DetectTextFileEncoding(ActiveEditor.Name) ?? Encoding.Default;
+                message =
+                    string.Format(
+                        "Encoding : {4}\r\nWords : {0}\r\nSelected Words : {1}\r\nLines : {2}\r\nSelected Lines : {5}\r\nColumn : {3}",
+                        allwords.Count, selectionWords.Count, ActiveEditor.Tb.LinesCount,
+                        ActiveEditor.Tb.Selection.Start.iChar + 1,
+                        enc.EncodingName, sellines);
+
+            }
+            else
+                message =
+                    string.Format(
+                        "Words : {0}\r\nSelected Words : {1}\r\nLines : {2}\r\nSelected Lines : {4}\r\nColumn : {3}",
+                        allwords.Count, selectionWords.Count, ActiveEditor.Tb.LinesCount,
+                        ActiveEditor.Tb.Selection.Start.iChar + 1, sellines);
             MessageBox.Show(message, "Document Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 

@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Ynote Classic - Open Source Text, Source Code and Multi-Purpose Editor")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Samarjeet Singh")]
-[assembly: AssemblyProduct("Ynote Classic 2.7")]
+[assembly: AssemblyProduct("Ynote Classic 2.7.1")]
 [assembly: AssemblyCopyright("Copyright © Samarjeet Singh 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -35,5 +35,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("2.7.0.0")]
-[assembly: AssemblyFileVersion("2.7.0.0")]
+[assembly: AssemblyVersion("2.7.1.0")]
+[assembly: AssemblyFileVersion("2.7.1.0")]
