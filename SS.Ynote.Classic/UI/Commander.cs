@@ -197,7 +197,7 @@ namespace SS.Ynote.Classic.UI
                     break;
 
                 case "Script":
-                    YnoteScript.RunScript(_ynote, SettingsBase.SettingsDir + @"Scripts\" + c.Value + ". ys");
+                    YnoteScript.RunScript(_ynote, string.Format(@"{0}Scripts\{1}.ys", SettingsBase.SettingsDir, c.Value));
                     break;
 
                 case "Indent":

@@ -196,8 +196,6 @@ namespace SS.Ynote.Classic
                 if (lang == FileExtensions.FileExtensionsDictionary.Values.ElementAt(i))
                     dlg.FilterIndex = i + 3;
             }
-            if (lang == Language.Text)
-                dlg.FilterIndex = 2;
             // foreach (var extension in FileExtensions.FileExtensionsDictionary)
             // {
             //     string keyval = null;

@@ -1835,8 +1835,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(767, 360);
-            this.Controls.Add(this.status);
             this.Controls.Add(this.Panel);
+            this.Controls.Add(this.status);
             this.Icon = global::SS.Ynote.Classic.Properties.Resources.ynote_favicon;
             this.IsMdiContainer = true;
             this.Menu = this.MenuStrip;

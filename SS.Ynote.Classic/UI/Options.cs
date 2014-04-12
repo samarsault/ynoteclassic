@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml;
 using FastColoredTextBoxNS;
 using Nini.Config;
 using SS.Ynote.Classic.Features.Syntax;
@@ -187,48 +188,20 @@ namespace SS.Ynote.Classic.UI
 
         private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(SettingsBase.SettingsDir + "Extensions.ini");
+            Process.Start(SettingsBase.SettingsDir + "Extensions.xml");
         }
 
         private static IDictionary<string, string[]> BuildReverseDictionary()
         {
             var dic = new Dictionary<string, string[]>();
-            IConfigSource source = new IniConfigSource(SettingsBase.SettingsDir + "Extensions.ini");
-            dic.Add("Text", new[] {".txt"});
-            dic.Add("CSharp", source.Configs["Extensions"].Get("CSharp").Split('|'));
-            dic.Add("VB", source.Configs["Extensions"].Get("VB").Split('|'));
-            dic.Add("Javascript", source.Configs["Extensions"].Get("Javascript").Split('|'));
-            dic.Add("Java", source.Configs["Extensions"].Get("Java").Split('|'));
-            dic.Add("HTML", source.Configs["Extensions"].Get("HTML").Split('|'));
-            dic.Add("CSS", source.Configs["Extensions"].Get("CSS").Split('|'));
-            dic.Add("CPP", source.Configs["Extensions"].Get("CPP").Split('|'));
-            dic.Add("PHP", source.Configs["Extensions"].Get("PHP").Split('|'));
-            dic.Add("Lua", source.Configs["Extensions"].Get("Lua").Split('|'));
-            dic.Add("Ruby", source.Configs["Extensions"].Get("Ruby").Split('|'));
-            dic.Add("Python", source.Configs["Extensions"].Get("Python").Split('|'));
-            dic.Add("Pascal", source.Configs["Extensions"].Get("Pascal").Split('|'));
-            dic.Add("Lisp", source.Configs["Extensions"].Get("Lisp").Split('|'));
-            dic.Add("Batch", source.Configs["Extensions"].Get("Batch").Split('|'));
-            dic.Add("C", source.Configs["Extensions"].Get("C").Split('|'));
-            dic.Add("Xml", source.Configs["Extensions"].Get("Xml").Split('|'));
-            dic.Add("ASP", source.Configs["Extensions"].Get("ASP").Split('|'));
-            dic.Add("Actionscript", source.Configs["Extensions"].Get("Actionscript").Split('|'));
-            dic.Add("Assembly", source.Configs["Extensions"].Get("Assembly").Split('|'));
-            dic.Add("Antlr", source.Configs["Extensions"].Get("Antlr").Split('|'));
-            dic.Add("Diff", source.Configs["Extensions"].Get("Diff").Split('|'));
-            dic.Add("D", source.Configs["Extensions"].Get("D").Split('|'));
-            dic.Add("FSharp", source.Configs["Extensions"].Get("FSharp").Split('|'));
-            dic.Add("JSON", source.Configs["Extensions"].Get("JSON").Split('|'));
-            dic.Add("Makefile", source.Configs["Extensions"].Get("MakeFile").Split('|'));
-            dic.Add("Objective_C", source.Configs["Extensions"].Get("ObjectiveC").Split('|'));
-            dic.Add("Perl", source.Configs["Extensions"].Get("Perl").Split('|'));
-            dic.Add("QBasic", source.Configs["Extensions"].Get("QBasic").Split('|'));
-            dic.Add("SQL", source.Configs["Extensions"].Get("SQL").Split('|'));
-            dic.Add("Shell", source.Configs["Extensions"].Get("Shell").Split('|'));
-            dic.Add("Scala", source.Configs["Extensions"].Get("Scala").Split('|'));
-            dic.Add("Scheme", source.Configs["Extensions"].Get("Scheme").Split('|'));
-            dic.Add("INI", source.Configs["Extensions"].Get("INI").Split('|'));
-            dic.Add("Yaml", source.Configs["Extensions"].Get("Yaml").Split('|'));
+            using (var reader = XmlReader.Create(SettingsBase.SettingsDir + "Extensions.xml"))
+            {
+                while (reader.Read())
+                {
+                    if (reader.IsStartElement() && reader.Name == "Key")
+                        dic.Add(reader["Language"], reader["Extensions"].Split('|'));
+                }
+            }
             foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes.Where(syntax => syntax.SysPath != null))
                 dic.Add(Path.GetFileNameWithoutExtension(syntax.SysPath), syntax.Extensions);
             return dic;

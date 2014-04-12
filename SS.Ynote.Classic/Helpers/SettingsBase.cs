@@ -1,7 +1,8 @@
 //==================================
 //
 // Copyright (C) 2014 Samarjeet Singh (singh.samarjeet.27@gmail.com)
-// 
+//
+//===================================
 #define PORTABLE
 using System.IO;
 using FastColoredTextBoxNS;
