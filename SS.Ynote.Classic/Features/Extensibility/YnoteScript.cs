@@ -8,7 +8,7 @@ namespace SS.Ynote.Classic.Features.Extensibility
 {
     public static class YnoteScript
     {
-        private static string[] GetReferences()
+        internal static string[] GetReferences()
         {
             return new[]
             {

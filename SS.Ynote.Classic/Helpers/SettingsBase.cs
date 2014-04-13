@@ -3,8 +3,9 @@
 // Copyright (C) 2014 Samarjeet Singh (singh.samarjeet.27@gmail.com)
 //
 //===================================
-#define PORTABLE
+//#define PORTABLE
 using System.IO;
+using System.Text;
 using FastColoredTextBoxNS;
 using Nini.Config;
 using WeifenLuo.WinFormsUI.Docking;
@@ -140,7 +141,10 @@ public static class SettingsBase
     /// Gets The Default Encoding for Saving Document
     /// </summary>
     internal static int DefaultEncoding { get; set; }
-
+    /// <summary>
+    /// Show the Tool Bar
+    /// </summary>
+    internal static bool ShowToolBar { get; set; }
     /// <summary>
     ///     Loads Settings
     /// </summary>
@@ -169,6 +173,7 @@ public static class SettingsBase
                 LineInterval = source.Configs["Ynote"].GetInt("LineInterval");
                 DefaultEncoding = source.Configs["Ynote"].GetInt("Encoding");
                 ShowStatusBar = source.Configs["Ynote"].GetBoolean("StatusBar");
+                ShowToolBar = source.Configs["Ynote"].GetBoolean("ToolBar");
                 ShowMenuBar = source.Configs["Ynote"].GetBoolean("MenuBar");
                 FontFamily = source.Configs["Ynote"].Get("FontFamily");
                 WordWrap = source.Configs["Ynote"].GetBoolean("Wordwrap");
@@ -211,6 +216,7 @@ public static class SettingsBase
         source.Configs["Ynote"].Set("LineInterval", LineInterval);
         source.Configs["Ynote"].Set("RecentFilesNo", RecentFileNumber);
         source.Configs["Ynote"].Set("StatusBar", ShowStatusBar);
+        source.Configs["Ynote"].Set("ToolBar", ShowToolBar);
         source.Configs["Ynote"].Set("MenuBar", ShowMenuBar);
         source.Configs["Ynote"].Set("FontFamily", FontFamily);
         source.Configs["Ynote"].Set("FontSize", FontSize);
@@ -235,7 +241,6 @@ public static class SettingsBase
         config.Set("ShowRuler", false);
         config.Set("ShowFoldingLines", true);
         config.Set("ShowLineNumbers", true);
-        config.Set("ShowChangedLine", false);
         config.Set("AutocompleteBrackets", true);
         config.Set("EnableVirtualSpace", false);
         config.Set("HighlightFolding", true);
@@ -244,8 +249,9 @@ public static class SettingsBase
         config.Set("RecentFilesNo", 15);
         config.Set("MenuBar", true);
         config.Set("StatusBar", true);
+        config.Set("ToolBar", false);
         config.Set("Wordwrap", false);
-        config.Set("Encoding", System.Text.Encoding.Default.CodePage);
+        config.Set("Encoding", Encoding.Default.CodePage);
         config.Set("FontFamily", "Consolas");
         config.Set("FontSize", 9.75F);
         config.Set("TabSize", 4);

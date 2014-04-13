@@ -1,12 +1,17 @@
+#define TEST
+
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using CSScriptLibrary;
 using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Extensibility;
 using SS.Ynote.Classic.Features.Snippets;
 using SS.Ynote.Classic.Features.Syntax;
 using WeifenLuo.WinFormsUI.Docking;
@@ -286,11 +291,6 @@ namespace SS.Ynote.Classic.UI
                 doc.Close();
         }
 
-        private void menuItem10_Click(object sender, EventArgs e)
-        {
-            codebox.CollapseBlock(codebox.Selection.Start.iLine, codebox.Selection.End.iLine);
-        }
-
         private void menuItem9_Click(object sender, EventArgs e)
         {
             Close();
@@ -304,6 +304,29 @@ namespace SS.Ynote.Classic.UI
 
         private void BuildContextMenu()
         {
+            var file = SettingsBase.SettingsDir + "ContextMenu.ys";
+            var asm =  file + ".cache";
+            CSScript.GlobalSettings.TargetFramework = "v3.5";
+            try
+            {
+                // var helper =
+                //     new AsmHelper(CSScript.LoadMethod(File.ReadAllText(ysfile), GetReferences()));
+                // helper.Invoke("*.Run", ynote);
+                var assembly = !File.Exists(asm)
+                    ? CSScript.LoadMethod(File.ReadAllText(file), asm, false, YnoteScript.GetReferences())
+                    : Assembly.LoadFrom(asm);
+                using (var execManager = new AsmHelper(assembly))
+                {
+                    var items = (MenuItem[]) (execManager.Invoke("*.BuildContextMenu", codebox));
+                    contextmenu.MenuItems.AddRange(items);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("There was an Error running the script : \r\n" + ex.Message, "YnoteScript Host",
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+/* Added Extensible Context Menu
             var cutmenu = new MenuItem {Index = 0, Text = "Cut"};
             cutmenu.Click += (sender, args) => codebox.Cut();
             var copymenu = new MenuItem {Index = 1, Text = "Copy"};
@@ -337,6 +360,7 @@ namespace SS.Ynote.Classic.UI
                 selectallmenu,
                 foldselectedmenu
             });
+#endif*/
         }
 
         private void menuItem2_Click(object sender, EventArgs e)

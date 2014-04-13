@@ -7,7 +7,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using FastColoredTextBoxNS;
-using Nini.Config;
 using SS.Ynote.Classic.Features.Syntax;
 using WeifenLuo.WinFormsUI.Docking;
 

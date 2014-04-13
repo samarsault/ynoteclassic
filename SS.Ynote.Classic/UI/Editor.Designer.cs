@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.contextmenu = new System.Windows.Forms.ContextMenu();
             this.codebox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.tabcontext = new System.Windows.Forms.ContextMenu();
             this.miclose = new System.Windows.Forms.MenuItem();
@@ -39,12 +38,9 @@
             this.menuItem1 = new System.Windows.Forms.MenuItem();
             this.menuItem2 = new System.Windows.Forms.MenuItem();
             this.menuItem3 = new System.Windows.Forms.MenuItem();
+            this.contextmenu = new System.Windows.Forms.ContextMenu();
             ((System.ComponentModel.ISupportInitialize)(this.codebox)).BeginInit();
             this.SuspendLayout();
-            // 
-            // contextmenu
-            // 
-            this.contextmenu.Popup += new System.EventHandler(this.contextmenu_Popup);
             // 
             // codebox
             // 
@@ -55,13 +51,13 @@
             this.codebox.CharWidth = 8;
             this.codebox.ContextMenu = this.contextmenu;
             this.codebox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.codebox.DisabledColor = System.Drawing.Color.FromArgb(100,100,100,180);
+            this.codebox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(180)))));
             this.codebox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.codebox.IsReplaceMode = false;
             this.codebox.Location = new System.Drawing.Point(0, 0);
             this.codebox.Name = "codebox";
             this.codebox.Paddings = new System.Windows.Forms.Padding(0);
-            this.codebox.SelectionColor = System.Drawing.Color.FromArgb(60,0,0,255);
+            this.codebox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.codebox.Size = new System.Drawing.Size(284, 262);
             this.codebox.TabIndex = 0;
             this.codebox.Zoom = 100;
@@ -118,6 +114,10 @@
             this.menuItem3.Text = "Copy Full File Path to Clipboard";
             this.menuItem3.Click += new System.EventHandler(this.menuItem3_Click);
             // 
+            // contextmenu
+            // 
+            this.contextmenu.Popup += new System.EventHandler(this.contextmenu_Popup);
+            // 
             // Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -133,10 +133,9 @@
             this.ResumeLayout(false);
 
         }
-        private FastColoredTextBoxNS.FastColoredTextBox codebox;
-        private System.Windows.Forms.ContextMenu contextmenu;
         #endregion
 
+        private FastColoredTextBoxNS.FastColoredTextBox codebox;
         private System.Windows.Forms.ContextMenu tabcontext;
         private System.Windows.Forms.MenuItem miclose;
         private System.Windows.Forms.MenuItem micloseallbutthis;
@@ -145,6 +144,7 @@
         private System.Windows.Forms.MenuItem menuItem1;
         private System.Windows.Forms.MenuItem menuItem2;
         private System.Windows.Forms.MenuItem menuItem3;
+        private System.Windows.Forms.ContextMenu contextmenu;
 
     }
 }

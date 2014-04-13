@@ -1,0 +1,3 @@
+-> Added Extensible Context Menu
+-> Added Clipboard History
+-> Added File Protector

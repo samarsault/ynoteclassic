@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -66,11 +66,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CSScriptLibrary.v3.5">
-    <HintPath>..\Binary-Debug\CSScriptLibrary.v3.5.dll</HintPath>
+      <HintPath>..\Binary-Debug\CSScriptLibrary.v3.5.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition">
-    <HintPath>..\Binary-Debug\System.ComponentModel.Composition.dll</HintPath>
+      <HintPath>..\Binary-Debug\System.ComponentModel.Composition.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -120,6 +120,8 @@
     <Compile Include="Features\Snippets\YnoteSnippet.cs" />
     <Compile Include="Features\Syntax\Framework\Rules.cs" />
     <Compile Include="Features\Syntax\Framework\SyntaxBase.cs" />
+    <Compile Include="Helpers\CommanderHelper.cs" />
+    <Compile Include="Helpers\EncryptionHelper.cs" />
     <Compile Include="Helpers\FileExtensions.cs" />
     <Compile Include="Helpers\NativeMethods.cs" />
     <Compile Include="Helpers\Extensions.cs" />
@@ -146,7 +148,7 @@
     <Compile Include="Features\Project\ProjectWizard.Designer.cs">
       <DependentUpon>ProjectWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Features\Project\YnoteProj.cs" />
+    <Compile Include="Features\Project\YnoteProject.cs" />
     <Compile Include="Helpers\SettingsBase.cs" />
     <Compile Include="Features\Syntax\SyntaxHighlighter.cs" />
     <Compile Include="Features\Syntax\Theme\YnoteThemeReader.cs" />
@@ -200,11 +202,23 @@
     <Compile Include="UI\Controls\WizardTabControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\ClipboardHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ClipboardHistory.Designer.cs">
+      <DependentUpon>ClipboardHistory.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\MacroExecDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\MacroExecDialog.Designer.cs">
       <DependentUpon>MacroExecDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\PasswordDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\PasswordDialog.Designer.cs">
+      <DependentUpon>PasswordDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SwitchFile.cs">
       <SubType>Form</SubType>
@@ -291,17 +305,8 @@
     <EmbeddedResource Include="UI\Editor.resx">
       <DependentUpon>Editor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\MacroExecDialog.resx">
-      <DependentUpon>MacroExecDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\SwitchFile.resx">
-      <DependentUpon>SwitchFile.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\UtilDialog.resx">
       <DependentUpon>UtilDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Options.resx">
-      <DependentUpon>Options.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Features\RunScript\RunDialog.resx">
       <DependentUpon>RunDialog.cs</DependentUpon>

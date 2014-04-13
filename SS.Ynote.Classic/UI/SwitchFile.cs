@@ -21,7 +21,7 @@ namespace SS.Ynote.Classic.UI
         private void BuildAutoComplete()
         {
             var items = (from DockContent doc in _ynote.Panel.Documents
-                where doc.GetType() == typeof (Editor)
+                where doc is Editor
                 select new AutocompleteItem(doc.Text)).ToList();
             SetAutoComplete(items, completemenu, textBox1);
         }

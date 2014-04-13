@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.Composition.Hosting;
 using System.Diagnostics;
 using System.Drawing;
@@ -27,14 +28,21 @@ namespace SS.Ynote.Classic
     {
         #region Private Fields
 
+        /// <summary>
+        /// Incremental Searcher
+        /// </summary>
         private IncrementalSearcher _incrementalSearcher;
 
         /// <summary>
-        ///     _mru list
+        /// Recent Files List
         /// </summary>
         private Queue<string> _mru;
+        /// <summary>
+        /// Clipboard History List
+        /// </summary>
+        private IList<string> clipHistoryList; 
 
-        #endregion Private Fields
+        #endregion
 
         #region Properties
 
@@ -43,11 +51,11 @@ namespace SS.Ynote.Classic
         /// </summary>
         private Editor ActiveEditor
         {
-            get { return Panel.ActiveDocument as Editor; }
+            get { return dock.ActiveDocument as Editor; }
         }
 
         /// <summary>
-        ///     Panel
+        ///     dock
         /// </summary>
         public DockPanel Panel { get; private set; }
 
@@ -59,16 +67,25 @@ namespace SS.Ynote.Classic
         ///     Default Constructor
         /// </summary>
         /// <param name="fn"></param>
-        public MainForm(string fn)
+        public MainForm(string file)
         {
+#if DEBUG
+            var sp = new Stopwatch();
+            sp.Start();
+#endif
             InitializeComponent();
             InitSettings();
+            Panel = dock;
             LoadPlugins();
-            if (string.IsNullOrEmpty(fn))
+            if (string.IsNullOrEmpty(file))
                 CreateNewDoc();
             else
-                OpenFile(fn);
+                OpenFile(file);
             InitTimer();
+#if DEBUG
+            sp.Stop();
+            Debug.WriteLine(string.Format("Form Construction Time : {0} ms", sp.ElapsedMilliseconds));
+#endif
         }
 
         #endregion Constructor
@@ -122,7 +139,7 @@ namespace SS.Ynote.Classic
                 }
                 edit.Show(Panel);
                 var info = new FileInfo(name);
-                var encoding = EncodingDetector.DetectTextFileEncoding(name) ?? Encoding.Default;
+                var encoding = EncodingDetector.DetectTextFileEncoding(name) ?? Encoding.GetEncoding(SettingsBase.DefaultEncoding);
                 if (info.Length > 9242800) // if greather than approx 10mb
                     edit.Tb.OpenBindingFile(name, encoding);
                 else
@@ -189,9 +206,9 @@ namespace SS.Ynote.Classic
             builder.Append("All Files (*.*)|*.*|Text Files (*.txt)|*.txt");
             if (FileExtensions.FileExtensionsDictionary == null)
                 FileExtensions.BuildDictionary();
-            for (int i = 0; i < FileExtensions.FileExtensionsDictionary.Count();i++)
+            for (var i = 0; i < FileExtensions.FileExtensionsDictionary.Count();i++)
             {
-                string keyval = "*" + FileExtensions.FileExtensionsDictionary.Keys.ElementAt(i).ElementAt(0);
+                var keyval = "*" + FileExtensions.FileExtensionsDictionary.Keys.ElementAt(i).ElementAt(0);
                 builder.AppendFormat("|{0} Files ({1})|{1}", FileExtensions.FileExtensionsDictionary.Values.ElementAt(i), keyval);
                 if (lang == FileExtensions.FileExtensionsDictionary.Values.ElementAt(i))
                     dlg.FilterIndex = i + 3;
@@ -221,7 +238,6 @@ namespace SS.Ynote.Classic
                     using (var s = new SaveFileDialog())
                     {
                         s.Filter = BuildDialogFilter(edit.Tb.Language, s);
-                        //TODO:FilterIndex
                         if (s.ShowDialog() != DialogResult.OK) return;
                         edit.Tb.SaveToFile(s.FileName, encoding);
                         edit.Text = Path.GetFileName(s.FileName);
@@ -239,6 +255,15 @@ namespace SS.Ynote.Classic
                 MessageBox.Show("Error Saving File !!" + ex.Message, null, MessageBoxButtons.OK,
                     MessageBoxIcon.Exclamation);
             }
+        }
+        /// <summary>
+        /// Reverts the File to the Original State
+        /// </summary>
+        private void RevertFile()
+        {
+            if (ActiveEditor == null || !ActiveEditor.IsSaved) return;
+            ActiveEditor.Tb.OpenFile(ActiveEditor.Name);
+            ActiveEditor.Text = Path.GetFileName(ActiveEditor.Name);
         }
 
         #endregion
@@ -273,7 +298,7 @@ namespace SS.Ynote.Classic
         /// </summary>
         void LoadRecentList()
         {
-            string rfPath = SettingsBase.SettingsDir + "Recent.info";
+            var rfPath = SettingsBase.SettingsDir + "Recent.info";
             if (!Directory.Exists(SettingsBase.SettingsDir))
                 Directory.CreateDirectory(SettingsBase.SettingsDir);
             if(!File.Exists(rfPath))
@@ -456,14 +481,15 @@ namespace SS.Ynote.Classic
         {
             SettingsBase.LoadSettings();
             if (!SettingsBase.ShowMenuBar) Menu = null;
-            Panel.DocumentStyle = SettingsBase.DocumentStyle;
-            Panel.DocumentTabStripLocation = SettingsBase.TabLocation;
+            dock.DocumentStyle = SettingsBase.DocumentStyle;
+            dock.DocumentTabStripLocation = SettingsBase.TabLocation;
             mihiddenchars.Checked = SettingsBase.HiddenChars;
             status.Visible = statusbarmenuitem.Checked = SettingsBase.ShowStatusBar;
+            toolStrip1.Visible = menuItem2.Checked = SettingsBase.ShowToolBar;
         }
 
         /// <summary>
-        ///     Initialize Information Timer
+        ///  Initializes Custom Controls
         /// </summary>
         private void InitTimer()
         {
@@ -471,13 +497,12 @@ namespace SS.Ynote.Classic
             infotimer.Tick += (sender, args) => UpdateDocumentInfo();
             infotimer.Start();
         }
-
         /// <summary>
         ///     Updates the Document Info
         /// </summary>
         private void UpdateDocumentInfo()
         {
-            if (!(Panel.ActiveDocument is Editor) || ActiveEditor == null) return;
+            if (!(dock.ActiveDocument is Editor) || ActiveEditor == null) return;
             var nCol = ActiveEditor.Tb.Selection.Start.iChar + 1;
             var line = ActiveEditor.Tb.Selection.Start.iLine + 1;
             infolabel.Text = string.Format(" Line : {0} Col : {1} Size : {2} bytes Selected : {3}", line, nCol,
@@ -557,7 +582,7 @@ namespace SS.Ynote.Classic
 
         #region Overrides
 
-        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        protected override void OnClosing(CancelEventArgs e)
         {
             SaveRecentFiles();
             base.OnClosing(e);
@@ -611,7 +636,7 @@ namespace SS.Ynote.Classic
         private void CommandPrompt_Click(object sender, EventArgs e)
         {
             var cmd = new Cmd("cmd.exe", null);
-            cmd.Show(Panel, DockState.DockBottom);
+            cmd.Show(dock, DockState.DockBottom);
         }
 
         private void findmenu_Click(object sender, EventArgs e)
@@ -726,7 +751,7 @@ namespace SS.Ynote.Classic
         private void findinfilesmenu_Click(object sender, EventArgs e)
         {
             var findinfiles = new FindInFiles(this);
-            findinfiles.Show(Panel, DockState.DockBottom);
+            findinfiles.Show(dock, DockState.DockBottom);
         }
 
         private void replacemode_Click(object sender, EventArgs e)
@@ -880,7 +905,7 @@ namespace SS.Ynote.Classic
                 edit.Tb.Text = ConvertToText(File.ReadAllText(o.FileName));
                 edit.Name = o.FileName;
                 edit.Text = Path.GetFileName(o.FileName);
-                edit.Show(Panel, DockState.Document);
+                edit.Show(dock, DockState.Document);
             }
         }
 
@@ -979,6 +1004,7 @@ namespace SS.Ynote.Classic
             wordwrapmenu.Checked = !wordwrapmenu.Checked;
             ActiveEditor.Tb.WordWrap = wordwrapmenu.Checked;
             SettingsBase.WordWrap = wordwrapmenu.Checked;
+            SettingsBase.SaveConfiguration();
         }
 
         private void aboutmenu_Click(object sender, EventArgs e)
@@ -1010,7 +1036,7 @@ namespace SS.Ynote.Classic
         private void CompareMenu_Click(object sender, EventArgs e)
         {
             var diff = new Diff();
-            diff.Show(Panel, DockState.Document);
+            diff.Show(dock, DockState.Document);
         }
 
         private void pluginmanagermenu_Click(object sender, EventArgs e)
@@ -1041,7 +1067,7 @@ namespace SS.Ynote.Classic
 
         private void misaveall_Click(object sender, EventArgs e)
         {
-            foreach (Editor doc in Panel.Documents)
+            foreach (Editor doc in dock.Documents)
                 BeginInvoke((MethodInvoker)(() => SaveEditor(doc)));
         }
 
@@ -1100,6 +1126,14 @@ namespace SS.Ynote.Classic
             }
         }
 
+        private void menuItem2_Click(object sender, EventArgs e)
+        {
+            menuItem2.Checked = !menuItem2.Checked;
+            toolStrip1.Visible = menuItem2.Checked;
+            SettingsBase.ShowToolBar = menuItem2.Checked;
+            SettingsBase.SaveConfiguration();
+        }
+
         private void statusbarmenuitem_Click(object sender, EventArgs e)
         {
             status.Visible = !statusbarmenuitem.Checked;
@@ -1135,9 +1169,7 @@ namespace SS.Ynote.Classic
 
         private void mirevert_Click(object sender, EventArgs e)
         {
-            if (ActiveEditor == null || !ActiveEditor.IsSaved) return;
-            ActiveEditor.Tb.OpenFile(ActiveEditor.Name);
-            ActiveEditor.Text = Path.GetFileName(ActiveEditor.Name);
+            RevertFile();
         }
 
         private void miprint_Click(object sender, EventArgs e)
@@ -1364,7 +1396,7 @@ namespace SS.Ynote.Classic
                 File.WriteAllText(filename, ActiveEditor.Tb.Text);
                 var diff = new Diff(ActiveEditor.Name, filename);
                 diff.DoCompare();
-                diff.Show(Panel, DockState.Document);
+                diff.Show(dock, DockState.Document);
             }
             else
             {
@@ -1456,7 +1488,7 @@ namespace SS.Ynote.Classic
         private void menuItem95_Click(object sender, EventArgs e)
         {
             var manager = new ProjectPanel(this);
-            manager.Show(Panel, DockState.DockLeft);
+            manager.Show(dock, DockState.DockLeft);
         }
 
         private void mimacros_Select(object sender, EventArgs e)
@@ -1562,7 +1594,7 @@ namespace SS.Ynote.Classic
             if (ActiveEditor == null) return;
             if (ActiveEditor.IsSaved)
             {
-                var run = new RunDialog(ActiveEditor.Name, Panel);
+                var run = new RunDialog(ActiveEditor.Name, dock);
                 run.Show();
             }
             else
@@ -1727,7 +1759,7 @@ namespace SS.Ynote.Classic
                 if (ok)
                 {
                     var diff = new Diff(ActiveEditor.Name, ofd.FileName);
-                    diff.Show(Panel, DockState.Document);
+                    diff.Show(dock, DockState.Document);
                 }
             }
         }
@@ -1761,10 +1793,10 @@ namespace SS.Ynote.Classic
 
         private void midocinfo_Click(object sender, EventArgs e)
         {
-            if (!(Panel.ActiveDocument is Editor) || ActiveEditor == null) return;
+            if (!(dock.ActiveDocument is Editor) || ActiveEditor == null) return;
             var allwords = Regex.Matches(ActiveEditor.Tb.Text, @"[\S]+");
             var selectionWords = Regex.Matches(ActiveEditor.Tb.SelectedText, @"[\S]+");
-            string message = string.Empty;
+            var message = string.Empty;
             var startline = ActiveEditor.Tb.Selection.Start.iLine;
             var endlines = ActiveEditor.Tb.Selection.End.iLine;
             var sellines = endlines - startline + 1;
@@ -1849,6 +1881,66 @@ namespace SS.Ynote.Classic
             }
         }
 
-        #endregion Events
+        private void miprotectfile_Click(object sender, EventArgs e)
+        {
+            if (ActiveEditor == null || !ActiveEditor.IsSaved)
+            {
+                MessageBox.Show("Error : Document not saved !", null, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            using (var dlg = new PasswordDialog())
+            {
+                var result = dlg.ShowDialog(this);
+                if (result == DialogResult.OK)
+                {
+                    var bytes = Encryption.Encrypt(File.ReadAllBytes(ActiveEditor.Name), dlg.Password);
+                    if(bytes != null)
+                        File.WriteAllBytes(ActiveEditor.Name, bytes);
+                }
+            }
+            RevertFile();
+        }
+
+        private void midecryptfile_Click(object sender, EventArgs e)
+        {
+            if (ActiveEditor == null || !ActiveEditor.IsSaved)
+            {
+                MessageBox.Show("Error : Document not saved !", null, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            using (var dlg = new PasswordDialog())
+            {
+                var result = dlg.ShowDialog(this);
+                if (result == DialogResult.OK)
+                {
+                    var bytes = Encryption.Decrypt(File.ReadAllBytes(ActiveEditor.Name), dlg.Password);
+                    if (bytes != null)
+                        File.WriteAllBytes(ActiveEditor.Name, bytes);
+                }
+            }
+            RevertFile();
+        }
+        private void minewsyntax_Click(object sender, EventArgs e)
+        {
+            CreateNewDoc();
+            ActiveEditor.Text = "SyntaxFile";
+            ActiveEditor.Tb.Text =
+                "<?xml version=\"1.0\"?>\r\n\t<YnoteSyntax>\r\n\t\t<Syntax CommentPrefix=\"\" Extensions=\"\"/>\r\n\t\t<Brackets Left=\"\" Right=\"\"/>\r\n\t\t<Rule Type=\"\" Regex=\"\"/>\r\n\t\t<Folding Start=\"\" End=\"\"/>\r\n\t</YnoteSyntax>";
+            ActiveEditor.Highlighter.HighlightSyntax(Language.Xml, new TextChangedEventArgs(ActiveEditor.Tb.Range));
+            ActiveEditor.Tb.Language = Language.Xml;
+        }
+
+        private void miinscliphis_Click(object sender, EventArgs e)
+        {
+            var lst = new List<string>();
+            foreach (Editor doc in dock.Documents.OfType<Editor>())
+                lst.AddRange(doc.Tb.ClipboardHistory);
+            using (var his = new ClipboardHistory(lst, ActiveEditor.Tb))
+            {
+                his.StartPosition = FormStartPosition.CenterParent;
+                his.ShowDialog(this);
+            }
+        }
+        #endregion
     }
 }

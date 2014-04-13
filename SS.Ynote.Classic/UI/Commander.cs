@@ -535,30 +535,10 @@ namespace SS.Ynote.Classic.UI
                     edit.Close();
         }
     }
-
     public class SCommand
     {
         public string Key { get; set; }
 
         public string Value { get; set; }
     }
-
-    /*
-     * version 2.8 , suppose
-    /// <summary>
-    /// ICommand
-    /// </summary>
-    public interface ICommand
-    {
-        /// <summary>
-        /// Command Key eg : Macro
-        /// </summary>
-        string Key { get; }
-        /// <summary>
-        /// Possible Commands
-        /// </summary>
-        string[] Commands { get; }
-        void ProcessCommand(string val);
-    }
-     */
 }

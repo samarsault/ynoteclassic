@@ -118,7 +118,7 @@ namespace SS.Ynote.Classic.Features.Packages
         {
             // Generate CRC32 table
             CrcTable = new UInt32[256];
-            for (int i = 0; i < CrcTable.Length; i++)
+            for (var i = 0; i < CrcTable.Length; i++)
             {
                 var c = (UInt32) i;
                 for (var j = 0; j < 8; j++)

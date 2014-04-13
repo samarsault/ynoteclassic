@@ -56,7 +56,7 @@ namespace FastColoredTextBoxNS
 
                 case Language.Javascript:
                     CSharpAutoIndentNeeded(sender, args);
-                    break; //JS like C#
+                    break;
                 case Language.CPP:
                     CSharpAutoIndentNeeded(sender, args);
                     break;

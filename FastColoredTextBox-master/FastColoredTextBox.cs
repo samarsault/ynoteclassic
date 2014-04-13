@@ -141,7 +141,8 @@ namespace FastColoredTextBoxNS
         private bool wordWrap;
         private WordWrapMode wordWrapMode = WordWrapMode.WordWrapControlWidth;
         private int zoom = 100;
-
+        // Clipboard History
+        private IList<string> clipHistory; 
         /// <summary>
         ///     Constructor
         /// </summary>
@@ -223,6 +224,7 @@ namespace FastColoredTextBoxNS
             HotkeysMapping = new HotkeysMapping();
             WordWrapAutoIndent = true;
             FoldedBlocks = new Dictionary<int, int>();
+            clipHistory = new List<string>();
             base.AutoScroll = true;
             timer.Tick += timer_Tick;
             timer2.Tick += timer2_Tick;
@@ -277,7 +279,11 @@ namespace FastColoredTextBoxNS
             get { return macrosManager; }
         }
 
-        /// <summary>
+        public IEnumerable<string> ClipboardHistory
+        {
+            get { return clipHistory; }
+        }
+            /// <summary>
         ///     Allows drag and drop
         /// </summary>
         [DefaultValue(true)]
@@ -3011,6 +3017,8 @@ namespace FastColoredTextBoxNS
                 data.SetData(DataFormats.UnicodeText, true, Selection.Text);
                 data.SetData(DataFormats.Html, PrepareHtmlForClipboard(html));
                 data.SetData(DataFormats.Rtf, new ExportToRTF().GetRtf(Selection.Clone()));
+                //Add To Clipboard History list
+                clipHistory.Add(data.GetText());
                 //
                 var thread = new Thread(() => SetClipboard(data));
                 thread.SetApartmentState(ApartmentState.STA);

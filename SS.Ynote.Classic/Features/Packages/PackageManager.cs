@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
@@ -64,7 +65,7 @@ namespace SS.Ynote.Classic.Features.Packages
                 Process.Start(info);
             }
         }
-        private void PackageManager_HelpButtonClicked(object sender, System.ComponentModel.CancelEventArgs e)
+        private void PackageManager_HelpButtonClicked(object sender, CancelEventArgs e)
         {
             Process.Start("http://ynoteclassic.codeplex.com/wikipage?title=Ynote%20Packages");
         }
