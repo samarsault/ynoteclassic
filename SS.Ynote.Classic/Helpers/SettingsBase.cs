@@ -25,56 +25,56 @@ public static class SettingsBase
 #else
     internal static readonly string SettingsDir = Application.StartupPath + @"\User\";
 #endif
-/// <summary>
-    ///     Show Hidden Chars
+    /// <summary>
+    /// Theme File
     /// </summary>
     public static string ThemeFile { get; set; }
 
     /// <summary>
-    ///     Document Style
-    /// </summary>ry>
+    ///     Show Hidden Chars
+    /// </summary>
     public static bool HiddenChars { get; set; }
+
+    /// <summary>
+    ///     Document Style
+    /// </summary>
+    internal static DocumentStyle DocumentStyle { get; set; }
 
     ///<summary>
     ///     Get the Tab Location
     ///</summary>
-    internal static DocumentStyle DocumentStyle { get; set; }
-
-    /// <summary>
-    ///   /// <summary>
-    ///     Show Folding Lines
     internal static DocumentTabStripLocation TabLocation { get; set; }
 
-    /// <sum/// <summary>
-    ///     Show Caret
+    /// <summary>
+    ///     Show Folding Lines
     /// </summary>
     internal static bool ShowFoldingLines { get; set; }
-/// <summary>
-    ///     Highlight Folding
+    /// <summary>
+    /// Show Caret
     /// </summary>
     internal static bool ShowCaret { get; set; }
-
-    /// </// <summary>
-    ///     Show Document Map
+    /// <summary>
+    ///     Highlight Folding
+    /// </summary>
     public static bool HighlightFolding { get; set; }
+    /// <summary>
+    ///     Show Document Map
+    /// </summary>
+    public static bool ShowDocumentMap { get; set; }
 
     /// /// <summary>
     ///     Show Ruler
     /// </summary>ry>
-    public static bool ShowDocumentMap { get; set; }
-
-    /// <summary>
-    ///     Whether to Show Line Numbers
     internal static bool ShowRuler { get; set; }
 
     /// <summary>
-  /// <summary>
-    ///     Whether to Enable Virtual Space
+    ///     Whether to Show Line Numbers
+    /// </summary>
     internal static bool ShowLineNumbers { get; set; }
 
     /// <summary>
-    /// /// <summary>
-    ///     Folding Strategy
+    /// Enable Virtual Space
+    /// <summary>
     internal static bool EnableVirtualSpace { get; set; }
     /// <summary>
     ///     Foldi/// <summary>
@@ -146,6 +146,14 @@ public static class SettingsBase
     /// </summary>
     internal static bool ShowToolBar { get; set; }
     /// <summary>
+    /// Whether to Minimize app to System Tray
+    /// </summary>
+    internal static bool MinimizeToTray { get; set; }
+    /// <summary>
+    /// Whether to Highlight Same Words
+    /// </summary>
+    internal static bool HighlightSameWords { get; set; }
+    /// <summary>
     ///     Loads Settings
     /// </summary>
     internal static void LoadSettings()
@@ -178,8 +186,10 @@ public static class SettingsBase
                 FontFamily = source.Configs["Ynote"].Get("FontFamily");
                 WordWrap = source.Configs["Ynote"].GetBoolean("Wordwrap");
                 FontSize = source.Configs["Ynote"].GetFloat("FontSize");
+                HighlightSameWords = source.Configs["Ynote"].GetBoolean("HighlightSameWords");
                 TabSize = source.Configs["Ynote"].GetInt("TabSize");
                 RecentFileNumber = source.Configs["Ynote"].GetInt("RecentFilesNo");
+                MinimizeToTray = source.Configs["Ynote"].GetBoolean("MinimizeToTray");
                 Zoom = source.Configs["Ynote"].GetInt("Zoom");
             }
             else
@@ -217,11 +227,13 @@ public static class SettingsBase
         source.Configs["Ynote"].Set("RecentFilesNo", RecentFileNumber);
         source.Configs["Ynote"].Set("StatusBar", ShowStatusBar);
         source.Configs["Ynote"].Set("ToolBar", ShowToolBar);
+        source.Configs["Ynote"].Set("HighlightSameWords", HighlightSameWords);
         source.Configs["Ynote"].Set("MenuBar", ShowMenuBar);
         source.Configs["Ynote"].Set("FontFamily", FontFamily);
         source.Configs["Ynote"].Set("FontSize", FontSize);
         source.Configs["Ynote"].Set("Encoding", DefaultEncoding);
         source.Configs["Ynote"].Set("Wordwrap", WordWrap);
+        source.Configs["Ynote"].Set("MinimizeToTray", MinimizeToTray);
         source.Configs["Ynote"].Set("Zoom", Zoom);
         source.Save();
     }
@@ -250,6 +262,8 @@ public static class SettingsBase
         config.Set("MenuBar", true);
         config.Set("StatusBar", true);
         config.Set("ToolBar", false);
+        config.Set("MinimizeToTray", false);
+        config.Set("HighlightSameWords", true);
         config.Set("Wordwrap", false);
         config.Set("Encoding", Encoding.Default.CodePage);
         config.Set("FontFamily", "Consolas");

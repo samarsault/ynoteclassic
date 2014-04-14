@@ -1,0 +1,9 @@
+<macros>
+<item char='13' key='Ctrl+None' />
+<item char='13' key='Ctrl+None' />
+<item char='13' key='Ctrl+None' />
+<item key='End' />
+<item key='Enter' />
+<item char='13' key='None' />
+<item key='Ctrl+ControlKey' />
+</macros>

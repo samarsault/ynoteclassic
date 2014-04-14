@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+    <YnoteSnippet>
+        <Snippet>Public Class ^\r\n\r\nEnd Class</Snippet>
+        <Snippet>Public Sub ^\r\n\r\nEnd Sub</Snippet>
+        <Snippet>Dim var as ^</Snippet>
+        <Snippet>If ^ Then\r\n\r\nEnd If</Snippet>
+        <Snippet>Select Case ^ \r\n\r\nEnd Select</Snippet>
+        <Snippet>Return ^</Snippet>
+        <Snippet>For ^\r\n' loop body\r\nNext</Snippet>
+    </YnoteSnippet>

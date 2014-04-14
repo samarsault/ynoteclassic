@@ -278,11 +278,17 @@ namespace FastColoredTextBoxNS
         {
             get { return macrosManager; }
         }
-
+        /// <summary>
+        /// Clipboard History of the Current TextArea
+        /// </summary>
         public IEnumerable<string> ClipboardHistory
         {
             get { return clipHistory; }
         }
+        /// <summary>
+        /// Same Words Style
+        /// </summary>
+        public Style SameWordsStyle { get; set; }
             /// <summary>
         ///     Allows drag and drop
         /// </summary>

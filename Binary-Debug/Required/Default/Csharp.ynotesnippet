@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+    <YnoteSnippet>
+        <Snippet>using ^;</Snippet>
+        <Snippet>namespace ^ \r\n{\r\n\r\n}</Snippet>
+        <Snippet>if(^){\r\n\r\n}</Snippet>
+        <Snippet>if(^){\r\n\r\n}else{\r\n\r\n}</Snippet>
+        <Snippet>for(int i=0;i &lt; ^;i++){\r\n\r\n}</Snippet>
+        <Snippet>foreach(var item in ^)\r\n{\r\n\r\n}</Snippet>
+        <Snippet>while(^)\r\n{\r\n;\r\n}</Snippet>
+        <Snippet>switch(^)\r\n{\r\ncase : break;\r\n}</Snippet>
+        <Snippet>public class ^\r\n{\r\n}</Snippet>
+        <Snippet>static class ^\r\n{\r\n}</Snippet>
+        <Snippet>internal class ^\r\n{\r\n}</Snippet>
+        <Snippet>class ^\r\n{\r\n}</Snippet>
+        <Snippet>public void ^()\r\n{\r\n;\r\n}</Snippet>
+        <Snippet>private void ^()\r\n{\r\n;\r\n}</Snippet>
+        <Snippet>static void ^()\r\n{\r\n;\r\n}</Snippet>
+        <Snippet>internal void ^()\r\n{\r\n;\r\n}</Snippet>
+        <Snippet>protected override void ^()\r\n{\r\n;\r\n}</Snippet>
+    </YnoteSnippet>

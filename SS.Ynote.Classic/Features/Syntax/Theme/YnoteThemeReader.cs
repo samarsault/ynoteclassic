@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Xml;
 using FastColoredTextBoxNS;
 
@@ -45,7 +46,6 @@ namespace SS.Ynote.Classic.Features.Syntax
         private static void InitKey(FastColoredTextBox tb, string name, string value)
         {
             var keyval = GetColorFromHexVal(value);
-            ISyntaxHighlighter h;
             switch (name)
             {
                 case "BackColor":
@@ -94,6 +94,9 @@ namespace SS.Ynote.Classic.Features.Syntax
 
                 case "ServicesLineColor":
                     tb.ServiceLinesColor = keyval;
+                    break;
+                case "SameWords":
+                    tb.SameWordsStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(40, keyval)));
                     break;
             }
         }

@@ -305,6 +305,9 @@
     <EmbeddedResource Include="UI\Editor.resx">
       <DependentUpon>Editor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Options.resx">
+      <DependentUpon>Options.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\UtilDialog.resx">
       <DependentUpon>UtilDialog.cs</DependentUpon>
     </EmbeddedResource>

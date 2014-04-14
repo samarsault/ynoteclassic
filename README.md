@@ -16,7 +16,7 @@ Features
   - Automatic Encoding Detection with more than 100 encodings supported.
   - WYSWYIG Printing
   - MDI and SDI
-  - Plugins, Macros, Color Schemes, Syntax Files, Scripts and much more.
+  - Extensible with Plugins, Macros, Color Schemes, Syntax Files, Scripts and much more.
 
 Version
 ----

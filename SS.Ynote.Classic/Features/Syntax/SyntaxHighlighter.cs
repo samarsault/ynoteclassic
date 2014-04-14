@@ -141,6 +141,7 @@ namespace SS.Ynote.Classic.Features.Syntax
         ///     Python/Ruby Class Name Style
         /// </summary>
         public Style ClassNameStyle2 { get; set; }
+        
 
         #endregion Properties
 
@@ -244,6 +245,9 @@ namespace SS.Ynote.Classic.Features.Syntax
 
                 case Language.Perl:
                     PerlSyntaxHighlight(range);
+                    break;
+                case Language.PowerShell:
+                    PowerShellSyntaxHighligth(range);
                     break;
 
                 case Language.Ruby:
@@ -2033,6 +2037,17 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.SetStyle(KeywordStyle3, @"(?<=@)(.*?)(?=@)|@|@", RegexOptions.Multiline);
         }
 
+        private void PowerShellSyntaxHighligth(TextChangedEventArgs e)
+        {
+            e.ChangedRange.tb.LeftBracket = '(';
+            e.ChangedRange.tb.RightBracket = ')';
+            e.ChangedRange.ClearStyle(CommentStyle, StringStyle, KeywordStyle, KeywordStyle2, NumberStyle);
+            e.ChangedRange.SetStyle(CommentStyle, @"#.*$", RegexOptions.Multiline);
+            e.ChangedRange.SetStyle(StringStyle, @"""""|''|"".*?[^\\]""|'.*?[^\\]'");
+            e.ChangedRange.SetStyle(KeywordStyle, @"\b(at|break|continue|do|else|elseif|filter|for|foreach|if|in|return|until|where|while)\b");
+            e.ChangedRange.SetStyle(KeywordStyle2, @"\b(cat|cd|chdir|cls|copy|date|del|diff|dir|echo|erase|exit|fc|find|findstr|format|get|goto|h|history|select|kill|label|lp|ls|md|mkdir|mode|mount|move|new|param|path|pause|popd|print|prompt|ps|pushd|pwd|r|rd|rm|recover|rem|ren|rename|replace|restore|rmdir|set|setlocal|shift|sleep|sort|start|subst|tee|throw|time|title|trap|tree|type|ver|verify|vol|write|xcopy)\b");
+            e.ChangedRange.SetStyle(NumberStyle, @"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
+        }
         #endregion Private Methods
 
         #region Performance Test
@@ -2068,29 +2083,30 @@ namespace SS.Ynote.Classic.Features.Syntax
          */
 
         #endregion Performance Test
+
     }
 
-    public class XmlTag
+    internal class XmlTag
     {
         /// <summary>
         ///     XmlTag id
         /// </summary>
-        public int Id;
+        internal int Id;
 
         /// <summary>
         ///     XmlTag Name
         /// </summary>
-        public string Name;
+        internal string Name;
 
         /// <summary>
         ///     XmlTag StartLine
         /// </summary>
-        public int StartLine;
+        internal int StartLine;
 
         /// <summary>
         ///     XmlTag Marker
         /// </summary>
-        public string Marker
+        internal string Marker
         {
             get { return Name + Id; }
         }

@@ -245,6 +245,7 @@ namespace FastColoredTextBoxNS
         Objective_C,
         Pascal,
         Perl,
+        PowerShell,
         Python,
         Ruby,
         Scala,

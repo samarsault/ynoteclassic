@@ -8,3 +8,9 @@ rem installs the default ynote package
 rem Create App Data Directories
 md %appdata%\Ynote_Classic\Syntaxes
 md %appdata%\Ynote_Classic\Plugins
+
+for(int i=0;i < 100;i++){
+    if(true){
+        print('h');
+    }
+}

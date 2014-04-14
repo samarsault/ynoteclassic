@@ -587,6 +587,30 @@ namespace SS.Ynote.Classic
             SaveRecentFiles();
             base.OnClosing(e);
         }
+        protected override void OnResize(EventArgs e)
+        {
+            if (SettingsBase.MinimizeToTray)
+            {
+                var nicon = new NotifyIcon();
+                nicon.Icon = this.Icon;
+                nicon.DoubleClick += delegate
+                { Show();WindowState = FormWindowState.Normal; };
+                nicon.BalloonTipIcon = ToolTipIcon.Info;
+                nicon.BalloonTipTitle = "Ynote Classic";
+                nicon.BalloonTipText = "Ynote Classic has minimized to the System Tray";
+                if (FormWindowState.Minimized == WindowState)
+                {
+                    nicon.Visible = true;
+                    nicon.ShowBalloonTip(500);
+                    Hide();
+                }
+                else if (FormWindowState.Normal == WindowState)
+                {
+                    nicon.Visible = false;
+                }
+            }
+            base.OnResize(e);
+        }
         #endregion
 
         #region Events

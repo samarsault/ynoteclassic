@@ -6,42 +6,42 @@ namespace SS.Ynote.Classic.Features.Syntax
     /// <summary>
     ///     Syntax Rule
     /// </summary>
-    public sealed class SyntaxRule
+    internal sealed class SyntaxRule
     {
         /// <summary>
         ///     The Regex Options
         /// </summary>
-        public RegexOptions Options;
+        internal RegexOptions Options;
 
         /// <summary>
         ///     Regex To Highlight
         /// </summary>
-        public string Regex;
+        internal string Regex;
 
         /// <summary>
         ///     The Style of the Rule eg. -> CommentStyle
         /// </summary>
-        public Style Type;
+        internal Style Type;
     }
 
     /// <summary>
     ///     Folding Rule
     /// </summary>
-    public sealed class FoldingRule
+    internal sealed class FoldingRule
     {
         /// <summary>
         ///     The Folding End Marker
         /// </summary>
-        public string FoldingEndMarker;
+        internal string FoldingEndMarker;
 
         /// <summary>
         ///     The Folding Start Marker
         /// </summary>
-        public string FoldingStartMarker;
+        internal string FoldingStartMarker;
 
         /// <summary>
         ///     The RegexOptions
         /// </summary>
-        public RegexOptions Options;
+        internal RegexOptions Options;
     }
 }

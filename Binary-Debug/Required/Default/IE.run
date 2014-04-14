@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+	<YnoteRun>
+		<Config Name="IE" Process="iexplore.exe" Args="$source" Directory=""/>
+	</YnoteRun>

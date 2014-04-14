@@ -37,7 +37,6 @@ namespace SS.Ynote.Classic.UI
         {
             completemenu.Show(textBox1, true);
         }
-
         private void DoKeyDownFunction(string text)
         {
             // updated : using LINQ

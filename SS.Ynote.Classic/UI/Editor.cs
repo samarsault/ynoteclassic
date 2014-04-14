@@ -20,12 +20,33 @@ namespace SS.Ynote.Classic.UI
 {
     public partial class Editor : DockContent
     {
+        // start brace completion
+        /// <summary>
+        /// True if the last typed character is an opening bracket.
+        /// </summary>
+        private bool lastCharIsOpenBracket = false;
+
+        /// <summary>
+        /// remember position
+        /// </summary>
+        private bool hasPosition = false;
+        /// <summary>
+        /// remember where the caret is before inserting extra stuff
+        /// </summary>
+        private Place caretPosition = Place.Empty;
+
+        private bool doCompletionOnEnter = false;
+
+        // end brace completion 
         /// <summary>
         ///     Syntax Highligher
         /// </summary>
         public readonly ISyntaxHighlighter Highlighter;
 
         public SyntaxBase Syntax;
+        /// <summary>
+        /// Invisible Char Style
+        /// </summary>
         private Style _invisibleCharsStyle;
 
         /// <summary>
@@ -115,7 +136,103 @@ namespace SS.Ynote.Classic.UI
                 (sender, e) =>
                     e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
             codebox.LanguageChanged += (sender, args) => BuildAutoCompleteMenu();
-            codebox.AutoIndentNeeded += codebox_AutoIndentNeeded;
+
+            if (SettingsBase.AutoCompleteBrackets)
+                codebox.AutoIndentNeeded += codebox_AutoIndentNeeded;
+            if (SettingsBase.HighlightSameWords)
+                codebox.SelectionChangedDelayed += codebox_SelectionChangedDelayed;
+        }
+
+        void codebox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+            if (lastCharIsOpenBracket)
+            {
+                // remember where the caret is after inserting the {
+                this.hasPosition = true;
+                caretPosition = this.codebox.Selection.Start;
+            }
+            else
+            {
+                this.hasPosition = false;
+                this.caretPosition = Place.Empty;
+            }
+
+            if (doCompletionOnEnter)
+            {
+                doCompletionOnEnter = false;
+                var beforeInsertPos = codebox.Selection.Start;
+
+                int currentLevelIndent = this.codebox.CalcAutoIndent(beforeInsertPos.iLine);
+                string indent = new string(' ', currentLevelIndent);
+                codebox.InsertText("\r\n}");
+                // we need to auto indent the closing bracket
+
+                var afterInsertPos = codebox.Selection.Start;
+                int closeSpaces = this.codebox.CalcAutoIndent(afterInsertPos.iLine);
+                this.codebox.InsertLinePrefix(new string(' ', closeSpaces));
+                codebox.Selection.Start = beforeInsertPos;
+            }
+
+        }
+
+        void codebox_TextChanging(object sender, TextChangingEventArgs e)
+        {
+            if (e.InsertingText != null && e.InsertingText.Length == 1)
+            {
+                char c = e.InsertingText[0];
+                if (c == '{')
+                {
+                    lastCharIsOpenBracket = true; // TODO: Ignore when we are inside a string
+                    doCompletionOnEnter = false;
+                }
+                else if (c == '\n' && lastCharIsOpenBracket)
+                {
+                    if (this.hasPosition && this.caretPosition == codebox.Selection.Start)
+                    {
+                        // only do bracket completion on enter when the caret position is the same
+                        lastCharIsOpenBracket = false; // don't trigger again
+                        doCompletionOnEnter = true;
+                    }
+                    this.hasPosition = false;
+                    this.caretPosition = Place.Empty;
+
+                    // do stuff, but do it in the Changed
+                    /*
+                    args.InsertingText += "\n}";
+
+                    lastCharIsOpenBracket = false; // don't trigger again
+
+                    // because we added more text the caret will be placed at the end of that, make sure we put the caret position back
+                    resetPosition = true;
+                    caretPosition = this.fastColoredTextBox1.Selection.Start;
+                    */
+
+                }
+                else
+                {
+                    lastCharIsOpenBracket = false;
+                    doCompletionOnEnter = false;
+                }
+            }
+        }
+
+        void codebox_SelectionChangedDelayed(object sender, EventArgs e)
+        {
+            codebox.VisibleRange.ClearStyle(codebox.SameWordsStyle);
+            if (!codebox.Selection.IsEmpty)
+                return;//user selected diapason
+
+            //get fragment around caret
+            var fragment = codebox.Selection.GetFragment(@"\w");
+            string text = fragment.Text;
+            if (text.Length == 0)
+                return;
+            //highlight same words
+            var ranges = codebox.VisibleRange.GetRanges("\\b" + text + "\\b").ToArray();
+            if (ranges.Length > 1)
+                foreach (var r in ranges)
+                    r.SetStyle(codebox.SameWordsStyle);
         }
 
         private void codebox_AutoIndentNeeded(object sender, AutoIndentEventArgs args)

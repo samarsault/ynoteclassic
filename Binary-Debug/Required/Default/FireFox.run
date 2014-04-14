@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+    <YnoteRun>
+        <Config Name="FireFox" Process="firefox.exe" Args="$source" Directory=""/>
+    </YnoteRun>

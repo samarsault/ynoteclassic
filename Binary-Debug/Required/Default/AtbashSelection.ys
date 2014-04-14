@@ -1,0 +1,62 @@
+using FastColoredTextBoxNS;
+using SS.Ynote.Classic.UI;
+
+static void Main(IYnote ynote)
+{
+    // Ynote Script to Encode HTML
+    var self = ynote.Panel.ActiveDocument as Editor;
+    if(self.Tb.Selection == null)return;
+    InitTable();
+    self.Tb.SelectedText = Transform(self.Tb.SelectedText);
+}
+
+/// <summary>
+/// Lookup table to shift characters.
+/// </summary>
+static char[] _shift = new char[char.MaxValue];
+/// <summary>
+/// Generates the lookup table.
+/// </summary>
+public static void InitTable()
+{
+    // Set these as the same.
+    for (int i = 0; i < char.MaxValue; i++)
+    {
+        _shift[i] = (char)i;
+    }
+    // Reverse order of capital letters.
+    for (char c = 'A'; c <= 'Z'; c++)
+    {
+        _shift[(int)c] = (char)('Z' + 'A' - c);
+    }
+    // Reverse order of lowercase letters.
+    for (char c = 'a'; c <= 'z'; c++)
+    {
+        _shift[(int)c] = (char)('z' + 'a' - c);
+    }
+}
+
+/// <summary>
+/// Apply the ATbash cipher.
+/// </summary>
+public static string Transform(string value)
+{
+    try
+    {
+        // Convert to char array
+        char[] a = value.ToCharArray();
+        // Shift each letter.
+        for (int i = 0; i < a.Length; i++)
+        {
+            int t = (int)a[i];
+            a[i] = _shift[t];
+        }
+        // Return new string.
+        return new string(a);
+    }
+    catch
+    {
+        // Just return original value on failure.
+        return value;
+    }
+}

@@ -19,7 +19,7 @@ namespace SS.Ynote.Classic.UI
             InitializeComponent();
             if (!Directory.Exists(SettingsBase.SettingsDir))
                 Directory.CreateDirectory(SettingsBase.SettingsDir);
-            treeView1.ExpandAll();
+            tvBrowser.ExpandAll();
             InitSettings();
             BuildLangList();
         }
@@ -45,6 +45,8 @@ namespace SS.Ynote.Classic.UI
             tabsize.Value = SettingsBase.TabSize;
             cbruler.Checked = SettingsBase.ShowRuler;
             numrecent.Value = SettingsBase.RecentFileNumber;
+            cbSysTray.Checked = SettingsBase.MinimizeToTray;
+            cbHighlightSameWords.Checked = SettingsBase.HighlightSameWords;
             BuildEncodingList();
         }
 
@@ -64,7 +66,9 @@ namespace SS.Ynote.Classic.UI
                 case "Tabs":
                     tabcontrol.SelectTab(tabsettingpage);
                     break;
-
+                case "Other":
+                    tabcontrol.SelectTab(tpOther);
+                    break;
                 case "General":
                     tabcontrol.SelectTab(GeneralPage);
                     break;
@@ -270,6 +274,16 @@ namespace SS.Ynote.Classic.UI
             var item = lstencs.SelectedItem as EncodingItem;
             SettingsBase.DefaultEncoding = item.EncodingInfo.CodePage;
             lblencoding.Text = item.EncodingInfo.DisplayName;
+        }
+
+        private void cbSysTray_CheckedChanged(object sender, EventArgs e)
+        {
+            SettingsBase.MinimizeToTray = cbSysTray.Checked;
+        }
+
+        private void cbHighlightSameWords_CheckedChanged(object sender, EventArgs e)
+        {
+            SettingsBase.HighlightSameWords = cbHighlightSameWords.Checked;
         }
     }
 
