@@ -1286,7 +1286,10 @@ namespace FastColoredTextBoxNS
 
         [Browsable(false)]
         public ReplaceForm replaceForm { get; private set; }
-
+        /// <summary>
+        /// Gets Whether Caret Should draw like a block
+        /// </summary>
+        public bool BlockCaret { get; set; }
         /// <summary>
         ///     Do not change this property
         /// </summary>
@@ -5509,7 +5512,7 @@ namespace FastColoredTextBoxNS
 
             if ((Focused || IsDragDrop) && car.X >= LeftIndent && CaretVisible)
             {
-                var carWidth = IsReplaceMode ? CharWidth : 1;
+                var carWidth = IsReplaceMode || BlockCaret ? CharWidth : 1;
                 CreateCaret(Handle, 0, carWidth, CharHeight + 1);
                 SetCaretPos(car.X, car.Y);
                 ShowCaret(Handle);

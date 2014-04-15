@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -179,6 +181,28 @@ namespace FastColoredTextBoxNS
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+        private List<Range> FindAll(string pattern)
+        {
+            var opt = cbMatchCase.Checked ? RegexOptions.None : RegexOptions.IgnoreCase;
+            if (!cbRegex.Checked)
+                pattern = Regex.Escape(pattern);
+            if (cbWholeWord.Checked)
+                pattern = "\\b" + pattern + "\\b";
+            //
+            var range = tb.Selection.IsEmpty ? tb.Range.Clone() : tb.Selection.Clone();
+            //
+            var list = new List<Range>();
+            foreach (var r in range.GetRanges(pattern, opt))
+                list.Add(r);
+
+            return list;
+        }
+        private void btHighlightAll_Click(object sender, EventArgs e)
+        {
+            string pattern = tbFind.Text;
+            MessageBox.Show(FindAll(pattern).Count + " Occurrence(s) Found.");
+
         }
     }
 }

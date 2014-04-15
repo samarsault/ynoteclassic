@@ -1,4 +1,4 @@
-﻿namespace SS.Ynote.Classic.UI
+﻿namespace SS.Ynote.Classic
 {
     partial class Commander
     {

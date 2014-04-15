@@ -247,6 +247,7 @@ namespace FastColoredTextBoxNS
         Perl,
         PowerShell,
         Python,
+        R,
         Ruby,
         Scala,
         Scheme,

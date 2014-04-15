@@ -104,7 +104,7 @@ public static class SettingsBase
    /// <summary>
    /// Show MenuBar
    /// </summary>
-    internal static bool ShowMenuBar { get; private set; }
+    internal static bool ShowMenuBar { get; set; }
 
     /// <summary>
     /// Font-Family
@@ -154,6 +154,14 @@ public static class SettingsBase
     /// </summary>
     internal static bool HighlightSameWords { get; set; }
     /// <summary>
+    /// Whether IME mode is on
+    /// </summary>
+    internal static bool IMEMode { get; set; }
+    /// <summary>
+    /// Block Cursor is On
+    /// </summary>
+    internal static bool BlockCursor { get; set; }
+    /// <summary>
     ///     Loads Settings
     /// </summary>
     internal static void LoadSettings()
@@ -183,6 +191,7 @@ public static class SettingsBase
                 ShowStatusBar = source.Configs["Ynote"].GetBoolean("StatusBar");
                 ShowToolBar = source.Configs["Ynote"].GetBoolean("ToolBar");
                 ShowMenuBar = source.Configs["Ynote"].GetBoolean("MenuBar");
+                BlockCursor = source.Configs["Ynote"].GetBoolean("BlockCursor");
                 FontFamily = source.Configs["Ynote"].Get("FontFamily");
                 WordWrap = source.Configs["Ynote"].GetBoolean("Wordwrap");
                 FontSize = source.Configs["Ynote"].GetFloat("FontSize");
@@ -190,6 +199,7 @@ public static class SettingsBase
                 TabSize = source.Configs["Ynote"].GetInt("TabSize");
                 RecentFileNumber = source.Configs["Ynote"].GetInt("RecentFilesNo");
                 MinimizeToTray = source.Configs["Ynote"].GetBoolean("MinimizeToTray");
+                IMEMode = source.Configs["Ynote"].GetBoolean("IMEMode");
                 Zoom = source.Configs["Ynote"].GetInt("Zoom");
             }
             else
@@ -231,9 +241,11 @@ public static class SettingsBase
         source.Configs["Ynote"].Set("MenuBar", ShowMenuBar);
         source.Configs["Ynote"].Set("FontFamily", FontFamily);
         source.Configs["Ynote"].Set("FontSize", FontSize);
+        source.Configs["Ynote"].Set("BlockCursor", BlockCursor);
         source.Configs["Ynote"].Set("Encoding", DefaultEncoding);
         source.Configs["Ynote"].Set("Wordwrap", WordWrap);
         source.Configs["Ynote"].Set("MinimizeToTray", MinimizeToTray);
+        source.Configs["Ynote"].Set("IMEMode", IMEMode);
         source.Configs["Ynote"].Set("Zoom", Zoom);
         source.Save();
     }
@@ -249,6 +261,7 @@ public static class SettingsBase
         config.Set("BracketStrategy", BracketsHighlightStrategy.Strategy2);
         config.Set("FoldingStrategy", FindEndOfFoldingBlockStrategy.Strategy1);
         config.Set("ShowCaret", true);
+        config.Set("BlockCursor", false);
         config.Set("ShowDocumentMap", true);
         config.Set("ShowRuler", false);
         config.Set("ShowFoldingLines", true);
@@ -265,6 +278,7 @@ public static class SettingsBase
         config.Set("MinimizeToTray", false);
         config.Set("HighlightSameWords", true);
         config.Set("Wordwrap", false);
+        config.Set("IMEMode", false);
         config.Set("Encoding", Encoding.Default.CodePage);
         config.Set("FontFamily", "Consolas");
         config.Set("FontSize", 9.75F);

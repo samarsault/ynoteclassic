@@ -247,9 +247,11 @@ namespace SS.Ynote.Classic.Features.Syntax
                     PerlSyntaxHighlight(range);
                     break;
                 case Language.PowerShell:
-                    PowerShellSyntaxHighligth(range);
+                    PowerShellSyntaxHighligt(range);
                     break;
-
+                case Language.R:
+                    RSyntaxHighlight(range);
+                    break;
                 case Language.Ruby:
                     RubySyntaxHighlight(range);
                     break;
@@ -2037,7 +2039,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.SetStyle(KeywordStyle3, @"(?<=@)(.*?)(?=@)|@|@", RegexOptions.Multiline);
         }
 
-        private void PowerShellSyntaxHighligth(TextChangedEventArgs e)
+        private void PowerShellSyntaxHighligt(TextChangedEventArgs e)
         {
             e.ChangedRange.tb.LeftBracket = '(';
             e.ChangedRange.tb.RightBracket = ')';
@@ -2048,41 +2050,21 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.SetStyle(KeywordStyle2, @"\b(cat|cd|chdir|cls|copy|date|del|diff|dir|echo|erase|exit|fc|find|findstr|format|get|goto|h|history|select|kill|label|lp|ls|md|mkdir|mode|mount|move|new|param|path|pause|popd|print|prompt|ps|pushd|pwd|r|rd|rm|recover|rem|ren|rename|replace|restore|rmdir|set|setlocal|shift|sleep|sort|start|subst|tee|throw|time|title|trap|tree|type|ver|verify|vol|write|xcopy)\b");
             e.ChangedRange.SetStyle(NumberStyle, @"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
         }
-        #endregion Private Methods
 
-        #region Performance Test
-
-        /*
-         #if DEBUG
-         public void Dispose()
+        private void RSyntaxHighlight(TextChangedEventArgs e)
         {
-            if(CommentStyle != null)CommentStyle.Dispose();
-            if (CommentTagStyle != null) CommentTagStyle.Dispose();
-            if (StringStyle != null) StringStyle.Dispose();
-            if (NumberStyle != null) NumberStyle.Dispose();
-            if(KeywordStyle !=null)KeywordStyle.Dispose();
-            if (KeywordStyle2 != null) KeywordStyle2.Dispose();
-            if (KeywordStyle3 != null) KeywordStyle3.Dispose();
-            if (PreprocessorStyle != null) PreprocessorStyle.Dispose();
-            if (ClassNameStyle != null) ClassNameStyle.Dispose();
-            if (ClassNameStyle2 != null) ClassNameStyle2.Dispose();
-            if (AttributeStyle != null) AttributeStyle.Dispose();
-            if (AttributeValueStyle != null) AttributeValueStyle.Dispose();
-            if (HtmlEntityStyle != null) HtmlEntityStyle.Dispose();
-            if (TagNameStyle != null) TagNameStyle.Dispose();
-            if (TagBracketStyle != null) TagBracketStyle.Dispose();
-            if (StatementsStyle != null) StatementsStyle.Dispose();
-            if (TypesStyle != null) TypesStyle.Dispose();
-            if (FunctionsStyle != null) FunctionsStyle.Dispose();
-            if (VariableStyle != null) VariableStyle.Dispose();
-            if (CSSSelectorStyle != null) CSSSelectorStyle.Dispose();
-            if (CSSPropertyStyle != null) CSSPropertyStyle.Dispose();
-            if (CharStyle != null) CharStyle.Dispose();
+            e.ChangedRange.tb.LeftBracket = '(';
+            e.ChangedRange.tb.RightBracket = ')';
+            e.ChangedRange.tb.LeftBracket2 = '[';
+            e.ChangedRange.tb.RightBracket2 = ']';
+            e.ChangedRange.ClearStyle(CommentStyle, StringStyle, KeywordStyle, KeywordStyle2, NumberStyle);
+            e.ChangedRange.SetStyle(CommentStyle, @"#.*$", RegexOptions.Multiline);
+            e.ChangedRange.SetStyle(StringStyle, @"""""|''|"".*?[^\\]""|'.*?[^\\]'");
+            e.ChangedRange.SetStyle(KeywordStyle, @"\b(if|else|for|while|repeat|breaknext|var|in|TRUE|NULL|NA|NaN|FALSE|function|Inf)\b");
+            e.ChangedRange.SetStyle(KeywordStyle2, @"\b(abbreviate|abline|abs|acos|acosh|aggregate|alias|alist|all|anova|any|aov|aperm|append|apply|approx|approxfun|apropos|args|array|arrows|asin|asinh|assign|assocplot|atan|atanh|attach|attr|attributes|autoload|autoloader|ave|axis|backsolve|barplot|basename|beta|binomial|bitmap|bmp|body|box|boxplot|browser|builtins|bxp|by|bzfile|c|call|capabilities|casefold|cat|cbind|ceiling|character|charmatch|chartr|chol|choose|chull|class|close|cm|codes|coef|coefficients|col|colnames|colors|colours|comment|complex|conflicts|contour|contrasts|contributors|convolve|coplot|cor|cos|cosh|cov|covratio|crossprod|cummax|cummin|cumprod|cumsum|curve|cut|cycle|data|dataentry|date|dbeta|dbinom|dcauchy|dchisq|de|debug|debugger|delay|deltat|demo|density|deparse|deriv|det|detach|deviance|dexp|df|dfbetas|dffits|dgamma|dgeom|dget|dhyper|diag|diff|difftime|digamma|dim|dimnames|dir|dirname|dlnorm|dlogis|dnbinom|dnorm|dotchart|double|dpois|dput|drop|dsignrank|dt|dump|dunif|duplicated|dweibull|dwilcox|edit|effects|eigen|emacs|end|environment|eval|evalq|example|exists|exp|expression|factor|family|fft|fifo|file|find|fitted|fivenum|fix|floor|formals|format|formula|forwardsolve|fourfoldplot|frame|frequency|ftable|gamma|gaussian|gc|gcinfo|gctorture|get|geterrmessage|getwd|gl|glm|globalenv|gray|grep|grey|grid|gsub|gzfile|hat|help|hist|history|hsv|identical|identify|ifelse|image|inherits|integer|integrate|interaction|interactive|intersect|invisible|jitter|jpeg|julian|kappa|kronecker|labels|lapply|layout|lbeta|lchoose|lcm|legend|length|letters|levels|lgamma|library|licence|license|lines|list|lm|load|loadhistory|local|locator|log|logb|logical|loglin|lowess|ls|lsfit|machine|mad|mahalanobis|makepredictcall|manova|match|matlines|matplot|matpoints|matrix|max|mean|median|menu|merge|methods|min|missing|mode|months|mosaicplot|mtext|mvfft|names|napredict|naprint|naresid|nargs|nchar|ncol|nextn|nlevels|nlm|noquote|nrow|numeric|object.size|objects|offset|open|optim|optimise|optimize|options|order|ordered|outer|page|pairlist|pairs|palette|par|parse|paste|pbeta|pbinom|pbirthday|pcauchy|pchisq|pdf|pentagamma|persp|pexp|pf|pgamma|pgeom|phyper|pi|pico|pictex|pie|piechart|pipe|PlantGrowth|Platform|plnorm|plogis|plotmath|pmatch|pmax|pmin|pnbinom|png|pnorm|points|plot|print|formula|Poisson|poisson|poly|polygon|polym|polyroot|postscript|power|ppoints|ppois|predict|preplot|pretty|print|prmatrix|prod|profile|proj|prompt|psignrank|pt|ptukey|punif|pweibull|pwilcox|q|qbeta|qbinom|qbirthday|qcauchy|qchisq|qexp|qf|qgamma|qgeom|qhyper|qlnorm|qlogis|qnbinom|qnorm|qpois|qqline|qqnorm|qqplot|qr|qsignrank|qt|qtukey|quantile|quarters|quasi|quasibinomial|quasipoisson|quit|qunif|quote|qweibull|qwilcox|rainbow|range|rank|rbeta|rbind|rbinom|rcauchy|rchisq|readline|real|recover|rect|reformulate|regexpr|relevel|remove|rep|replace|replications|require|reshape|resid|residuals|restart|return|rev|rexp|rf|rgamma|rgb|rgeom|rhyper|rle|rlnorm|rlogis|rm|rnbinom|rnorm|round|row|rownames|rowsum|rpois|rsignrank|rstandard|rstudent|rt|rug|runif|rweibull|rwilcox|sample|sapply|save|savehistory|scale|scan|screen|sd|search|searchpaths|seek|segments|seq|sequence|setdiff|setequal|setwd|shell|sign|signif|sin|single|sinh|sink|solve|sort|source|spline|splinefun|split|sprintf|sqrt|stack|stars|start|stderr|stdin|stdout|stem|step|stop|stopifnot|str|strftime|strheight|stripchart|strptime|strsplit|structure|strwidth|strwrap|sub|subset|substitute|substr|substring|sum|summary|sunflowerplot|svd|sweep|switch|symbols|symnum|system|t|table|tabulate|tan|tanh|tapply|tempfile|termplot|terms|tetragamma|text|time|title|tolower|toupper|trace|traceback|transform|trigamma|trunc|truncate|try|ts|tsp|typeof|unclass|undebug|union|unique|uniroot|unix|unlink|unlist|unname|unsplit|unstack|untrace|unz|update|upgrade|url|vector|version|vi|warning|warnings|weekdays|weights|which|window|windows|with|write|xedit|xemacs|xfig|xinch|xor|xtabs|xyinch|yinch|zapsmall|confint|vcov)\b");
+            e.ChangedRange.SetStyle(NumberStyle, @"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
         }
-         #endif
-         */
-
-        #endregion Performance Test
+        #endregion
 
     }
 

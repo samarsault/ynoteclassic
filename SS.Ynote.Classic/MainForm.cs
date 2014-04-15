@@ -81,7 +81,8 @@ namespace SS.Ynote.Classic
                 CreateNewDoc();
             else
                 OpenFile(file);
-            InitTimer();
+            if(SettingsBase.ShowStatusBar)
+                InitTimer();
 #if DEBUG
             sp.Stop();
             Debug.WriteLine(string.Format("Form Construction Time : {0} ms", sp.ElapsedMilliseconds));
@@ -480,12 +481,16 @@ namespace SS.Ynote.Classic
         private void InitSettings()
         {
             SettingsBase.LoadSettings();
-            if (!SettingsBase.ShowMenuBar) Menu = null;
+            if (!SettingsBase.ShowMenuBar)
+            {
+                foreach (MenuItem menu in Menu.MenuItems)
+                    menu.Visible = false;
+            }
             dock.DocumentStyle = SettingsBase.DocumentStyle;
             dock.DocumentTabStripLocation = SettingsBase.TabLocation;
             mihiddenchars.Checked = SettingsBase.HiddenChars;
             status.Visible = statusbarmenuitem.Checked = SettingsBase.ShowStatusBar;
-            toolStrip1.Visible = menuItem2.Checked = SettingsBase.ShowToolBar;
+            toolBar.Visible = menuItem2.Checked = SettingsBase.ShowToolBar;
         }
 
         /// <summary>
@@ -493,7 +498,7 @@ namespace SS.Ynote.Classic
         /// </summary>
         private void InitTimer()
         {
-            var infotimer = new Timer {Interval = 200};
+            var infotimer = new Timer {Interval = 500};
             infotimer.Tick += (sender, args) => UpdateDocumentInfo();
             infotimer.Start();
         }
@@ -502,11 +507,15 @@ namespace SS.Ynote.Classic
         /// </summary>
         private void UpdateDocumentInfo()
         {
-            if (!(dock.ActiveDocument is Editor) || ActiveEditor == null) return;
-            var nCol = ActiveEditor.Tb.Selection.Start.iChar + 1;
-            var line = ActiveEditor.Tb.Selection.Start.iLine + 1;
-            infolabel.Text = string.Format(" Line : {0} Col : {1} Size : {2} bytes Selected : {3}", line, nCol,
-                ActiveEditor.Tb.Text.Length, ActiveEditor.Tb.SelectedText.Length);
+            //TODO:Check function ThreadSafe
+            BeginInvoke((MethodInvoker)(() =>
+            {
+                if (!(dock.ActiveDocument is Editor) || ActiveEditor == null) return;
+                var nCol = ActiveEditor.Tb.Selection.Start.iChar + 1;
+                var line = ActiveEditor.Tb.Selection.Start.iLine + 1;
+                infolabel.Text = string.Format(" Line : {0} Col : {1} Size : {2} bytes Selected : {3}", line, nCol,
+                    ActiveEditor.Tb.Text.Length, ActiveEditor.Tb.SelectedText.Length);
+            }));
         }
 
         /// <summary>
@@ -1153,7 +1162,7 @@ namespace SS.Ynote.Classic
         private void menuItem2_Click(object sender, EventArgs e)
         {
             menuItem2.Checked = !menuItem2.Checked;
-            toolStrip1.Visible = menuItem2.Checked;
+            toolBar.Visible = menuItem2.Checked;
             SettingsBase.ShowToolBar = menuItem2.Checked;
             SettingsBase.SaveConfiguration();
         }
@@ -1965,6 +1974,18 @@ namespace SS.Ynote.Classic
                 his.ShowDialog(this);
             }
         }
+
+        private void addbookmark_Click(object sender, EventArgs e)
+        {
+            if (ActiveEditor != null) ActiveEditor.Tb.Bookmarks.Add(ActiveEditor.Tb.Selection.Start.iLine);
+        }
+
+        private void removebookmark_Click(object sender, EventArgs e)
+        {
+
+            if (ActiveEditor != null) ActiveEditor.Tb.Bookmarks.Remove(ActiveEditor.Tb.Selection.Start.iLine);
+        }
+
         #endregion
     }
 }

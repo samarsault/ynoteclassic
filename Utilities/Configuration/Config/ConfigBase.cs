@@ -239,7 +239,7 @@ namespace Nini.Config
 
             if (text == null)
             {
-                throw new ArgumentException("Value not found: " + key);
+                System.Windows.Forms.MessageBox.Show("Value not found: " + key);
             }
 
             return GetBooleanAlias(text);

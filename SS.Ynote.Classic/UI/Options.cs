@@ -22,6 +22,7 @@ namespace SS.Ynote.Classic.UI
             tvBrowser.ExpandAll();
             InitSettings();
             BuildLangList();
+            tvBrowser.SelectedNode = tvBrowser.Nodes["TabsNode"];
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace SS.Ynote.Classic.UI
         private void InitSettings()
         {
             cbdockstyle.Text = SettingsBase.DocumentStyle.ToString();
-            comboBox2.Text = SettingsBase.BracketsStrategy.ToString();
+            comboBox2.Text = SettingsBase.BracketsStrategy == BracketsHighlightStrategy.Strategy2 ? "Inside" : "Outside";
             tablocation.Text = SettingsBase.TabLocation.ToString();
             checkBox1.Checked = SettingsBase.ShowDocumentMap;
             cbBrackets.Checked = SettingsBase.AutoCompleteBrackets;
@@ -46,7 +47,11 @@ namespace SS.Ynote.Classic.UI
             cbruler.Checked = SettingsBase.ShowRuler;
             numrecent.Value = SettingsBase.RecentFileNumber;
             cbSysTray.Checked = SettingsBase.MinimizeToTray;
+            cbmenu.Checked = SettingsBase.ShowMenuBar;
+            cbtool.Checked = SettingsBase.ShowToolBar;
+            cbstatus.Checked = SettingsBase.ShowStatusBar;
             cbHighlightSameWords.Checked = SettingsBase.HighlightSameWords;
+            cbIME.Checked = SettingsBase.IMEMode;
             BuildEncodingList();
         }
 
@@ -149,10 +154,11 @@ namespace SS.Ynote.Classic.UI
         {
             try
             {
-                SettingsBase.BracketsStrategy = comboBox2.Text.ToEnum<BracketsHighlightStrategy>();
+                SettingsBase.BracketsStrategy = comboBox2.Text == "Inside" ? BracketsHighlightStrategy.Strategy2 : BracketsHighlightStrategy.Strategy1;
             }
             catch
             {
+                ;
             }
         }
 
@@ -285,6 +291,31 @@ namespace SS.Ynote.Classic.UI
         {
             SettingsBase.HighlightSameWords = cbHighlightSameWords.Checked;
         }
+
+        private void cbIME_CheckedChanged(object sender, EventArgs e)
+        {
+            SettingsBase.IMEMode = cbIME.Checked;
+        }
+
+        private void cbBlockCursor_CheckedChanged(object sender, EventArgs e)
+        {
+            SettingsBase.BlockCursor = cbBlockCursor.Checked;
+        }
+
+        private void cbmenu_CheckedChanged(object sender, EventArgs e)
+        {
+            SettingsBase.ShowMenuBar = cbmenu.Checked;
+        }
+
+        private void cbtool_CheckedChanged(object sender, EventArgs e)
+        {
+            SettingsBase.ShowToolBar = cbmenu.Checked;
+        }
+
+        private void cbstatus_CheckedChanged(object sender, EventArgs e)
+        {
+            SettingsBase.ShowStatusBar = cbmenu.Checked;
+        }
     }
 
     internal class EncodingItem
@@ -293,7 +324,14 @@ namespace SS.Ynote.Classic.UI
         {
             EncodingInfo = info;
         }
-        internal EncodingInfo EncodingInfo { get; set; }
+        /// <summary>
+        /// Encoding Info 
+        /// </summary>
+        internal EncodingInfo EncodingInfo { get; private set; }
+        /// <summary>
+        /// To String Override
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return EncodingInfo.DisplayName;

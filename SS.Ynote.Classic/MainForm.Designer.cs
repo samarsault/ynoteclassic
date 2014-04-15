@@ -262,7 +262,7 @@
             this.mizoom100 = new System.Windows.Forms.ToolStripMenuItem();
             this.mizoom50 = new System.Windows.Forms.ToolStripMenuItem();
             this.dock = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolBar = new System.Windows.Forms.ToolStrip();
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -272,9 +272,12 @@
             this.copyToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.pasteToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.addbookmark = new System.Windows.Forms.ToolStripButton();
+            this.removebookmark = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.status.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
+            this.toolBar.SuspendLayout();
             this.SuspendLayout();
             // 
             // MenuStrip
@@ -1154,6 +1157,7 @@
             // gotobookmark
             // 
             this.gotobookmark.Index = 2;
+            this.gotobookmark.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftG;
             this.gotobookmark.Text = "Go To Bookmark";
             this.gotobookmark.Click += new System.EventHandler(this.gotobookmark_Click);
             // 
@@ -1487,7 +1491,7 @@
             // mikeymapeditor
             // 
             this.mikeymapeditor.Index = 3;
-            this.mikeymapeditor.Text = "Keymap Editor";
+            this.mikeymapeditor.Text = "Hotkeys Editor";
             this.mikeymapeditor.Click += new System.EventHandler(this.menuItem100_Click);
             // 
             // seperator8
@@ -1501,7 +1505,7 @@
             this.miprotector.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.miprotectfile,
             this.midecryptfile});
-            this.miprotector.Text = "Protector";
+            this.miprotector.Text = "Protection";
             // 
             // miprotectfile
             // 
@@ -1887,9 +1891,9 @@
             this.dock.Size = new System.Drawing.Size(767, 313);
             this.dock.TabIndex = 0;
             // 
-            // toolStrip1
+            // toolBar
             // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripButton,
             this.openToolStripButton,
             this.saveToolStripButton,
@@ -1899,13 +1903,16 @@
             this.copyToolStripButton,
             this.pasteToolStripButton,
             this.toolStripSeparator1,
+            this.addbookmark,
+            this.removebookmark,
+            this.toolStripSeparator2,
             this.helpToolStripButton});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(767, 25);
-            this.toolStrip1.TabIndex = 5;
-            this.toolStrip1.Text = "toolStrip1";
+            this.toolBar.Location = new System.Drawing.Point(0, 0);
+            this.toolBar.Name = "toolBar";
+            this.toolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolBar.Size = new System.Drawing.Size(767, 25);
+            this.toolBar.TabIndex = 5;
+            this.toolBar.Text = "ToolBar";
             // 
             // newToolStripButton
             // 
@@ -1980,6 +1987,31 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
+            // addbookmark
+            // 
+            this.addbookmark.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.addbookmark.Image = global::SS.Ynote.Classic.Properties.Resources.add;
+            this.addbookmark.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.addbookmark.Name = "addbookmark";
+            this.addbookmark.Size = new System.Drawing.Size(23, 22);
+            this.addbookmark.Text = "Add Bookmark";
+            this.addbookmark.Click += new System.EventHandler(this.addbookmark_Click);
+            // 
+            // removebookmark
+            // 
+            this.removebookmark.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.removebookmark.Image = global::SS.Ynote.Classic.Properties.Resources.delete;
+            this.removebookmark.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.removebookmark.Name = "removebookmark";
+            this.removebookmark.Size = new System.Drawing.Size(23, 22);
+            this.removebookmark.Text = "toolStripButton2";
+            this.removebookmark.Click += new System.EventHandler(this.removebookmark_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
             // helpToolStripButton
             // 
             this.helpToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -1995,7 +2027,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(767, 360);
             this.Controls.Add(this.dock);
-            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.toolBar);
             this.Controls.Add(this.status);
             this.Icon = global::SS.Ynote.Classic.Properties.Resources.ynote_favicon;
             this.IsMdiContainer = true;
@@ -2004,15 +2036,15 @@
             this.Text = "Ynote Classic";
             this.status.ResumeLayout(false);
             this.status.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.toolBar.ResumeLayout(false);
+            this.toolBar.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
-        private System.Windows.Forms.MainMenu MenuStrip;
         #endregion
 
+        private System.Windows.Forms.MainMenu MenuStrip;
         private System.Windows.Forms.MenuItem filemenu;
         private System.Windows.Forms.MenuItem editmenu;
         private System.Windows.Forms.MenuItem viewmenu;
@@ -2236,7 +2268,7 @@
         private System.Windows.Forms.MenuItem mibugreport;
         private System.Windows.Forms.MenuItem miforum;
         private WeifenLuo.WinFormsUI.Docking.DockPanel dock;
-        private ToolStrip toolStrip1;
+        private ToolStrip toolBar;
         private ToolStripButton newToolStripButton;
         private ToolStripButton openToolStripButton;
         private ToolStripButton saveToolStripButton;
@@ -2253,6 +2285,9 @@
         private MenuItem midecryptfile;
         private MenuItem minewsyntax;
         private MenuItem miinscliphis;
+        private ToolStripButton addbookmark;
+        private ToolStripButton removebookmark;
+        private ToolStripSeparator toolStripSeparator2;
     }
 }
 

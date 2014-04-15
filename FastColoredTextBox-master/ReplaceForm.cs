@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -45,11 +46,7 @@ namespace FastColoredTextBoxNS
             //
             var range = tb.Selection.IsEmpty ? tb.Range.Clone() : tb.Selection.Clone();
             //
-            var list = new List<Range>();
-            foreach (var r in range.GetRanges(pattern, opt))
-                list.Add(r);
-
-            return list;
+            return range.GetRanges(pattern, opt).ToList();
         }
 
         public bool Find(string pattern)

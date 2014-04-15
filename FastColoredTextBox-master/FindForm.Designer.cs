@@ -37,6 +37,7 @@
             this.cbWholeWord = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.cmbFindIn = new System.Windows.Forms.ComboBox();
+            this.btHighlightAll = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btClose
@@ -51,7 +52,7 @@
             // 
             // btFindNext
             // 
-            this.btFindNext.Location = new System.Drawing.Point(192, 112);
+            this.btFindNext.Location = new System.Drawing.Point(100, 112);
             this.btFindNext.Name = "btFindNext";
             this.btFindNext.Size = new System.Drawing.Size(75, 23);
             this.btFindNext.TabIndex = 4;
@@ -131,11 +132,22 @@
             this.cmbFindIn.Size = new System.Drawing.Size(285, 21);
             this.cmbFindIn.TabIndex = 7;
             // 
+            // btHighlightAll
+            // 
+            this.btHighlightAll.Location = new System.Drawing.Point(181, 112);
+            this.btHighlightAll.Name = "btHighlightAll";
+            this.btHighlightAll.Size = new System.Drawing.Size(86, 23);
+            this.btHighlightAll.TabIndex = 8;
+            this.btHighlightAll.Text = "Count";
+            this.btHighlightAll.UseVisualStyleBackColor = true;
+            this.btHighlightAll.Click += new System.EventHandler(this.btHighlightAll_Click);
+            // 
             // FindForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(360, 147);
+            this.Controls.Add(this.btHighlightAll);
             this.Controls.Add(this.cmbFindIn);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cbWholeWord);
@@ -169,5 +181,6 @@
         public System.Windows.Forms.TextBox tbFind;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmbFindIn;
+        private System.Windows.Forms.Button btHighlightAll;
     }
 }

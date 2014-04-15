@@ -30,24 +30,24 @@ namespace SS.Ynote.Classic.UI
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Tabs");
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Other");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("General", new System.Windows.Forms.TreeNode[] {
-            treeNode12,
-            treeNode13});
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("General");
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("MISC");
-            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Text Editor", new System.Windows.Forms.TreeNode[] {
-            treeNode15,
-            treeNode16});
-            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("File Extensions");
-            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Encoding");
-            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Files", new System.Windows.Forms.TreeNode[] {
-            treeNode18,
-            treeNode19});
-            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("Manage");
-            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("Data", new System.Windows.Forms.TreeNode[] {
-            treeNode21});
+            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("Tabs");
+            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("Other");
+            System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("UI", new System.Windows.Forms.TreeNode[] {
+            treeNode23,
+            treeNode24});
+            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("General");
+            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("MISC");
+            System.Windows.Forms.TreeNode treeNode28 = new System.Windows.Forms.TreeNode("Text Editor", new System.Windows.Forms.TreeNode[] {
+            treeNode26,
+            treeNode27});
+            System.Windows.Forms.TreeNode treeNode29 = new System.Windows.Forms.TreeNode("File Extensions");
+            System.Windows.Forms.TreeNode treeNode30 = new System.Windows.Forms.TreeNode("Encoding");
+            System.Windows.Forms.TreeNode treeNode31 = new System.Windows.Forms.TreeNode("Files", new System.Windows.Forms.TreeNode[] {
+            treeNode29,
+            treeNode30});
+            System.Windows.Forms.TreeNode treeNode32 = new System.Windows.Forms.TreeNode("Manage");
+            System.Windows.Forms.TreeNode treeNode33 = new System.Windows.Forms.TreeNode("Data", new System.Windows.Forms.TreeNode[] {
+            treeNode32});
             this.tvBrowser = new System.Windows.Forms.TreeView();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -62,6 +62,9 @@ namespace SS.Ynote.Classic.UI
             this.tablocation = new System.Windows.Forms.ComboBox();
             this.GeneralPage = new System.Windows.Forms.TabPage();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.cbBlockCursor = new System.Windows.Forms.CheckBox();
+            this.cbIME = new System.Windows.Forms.CheckBox();
+            this.cbHighlightSameWords = new System.Windows.Forms.CheckBox();
             this.cbBrackets = new System.Windows.Forms.CheckBox();
             this.cbruler = new System.Windows.Forms.CheckBox();
             this.virtualspace = new System.Windows.Forms.CheckBox();
@@ -108,7 +111,10 @@ namespace SS.Ynote.Classic.UI
             this.groupOther = new System.Windows.Forms.GroupBox();
             this.numrecent = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
-            this.cbHighlightSameWords = new System.Windows.Forms.CheckBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.cbmenu = new System.Windows.Forms.CheckBox();
+            this.cbtool = new System.Windows.Forms.CheckBox();
+            this.cbstatus = new System.Windows.Forms.CheckBox();
             this.tabcontrol.SuspendLayout();
             this.tabsettingpage.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -127,6 +133,7 @@ namespace SS.Ynote.Classic.UI
             this.groupBox3.SuspendLayout();
             this.groupOther.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numrecent)).BeginInit();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tvBrowser
@@ -136,34 +143,34 @@ namespace SS.Ynote.Classic.UI
             this.tvBrowser.Indent = 27;
             this.tvBrowser.Location = new System.Drawing.Point(9, 36);
             this.tvBrowser.Name = "tvBrowser";
-            treeNode12.Name = "TabsNode";
-            treeNode12.Text = "Tabs";
-            treeNode13.Name = "otherNode";
-            treeNode13.Text = "Other";
-            treeNode14.Name = "EnvironmentNode";
-            treeNode14.Text = "General";
-            treeNode15.Name = "TextEditorGeneralNode";
-            treeNode15.Text = "General";
-            treeNode16.Name = "TextEditorEditing";
-            treeNode16.Text = "MISC";
-            treeNode17.Name = "TextEditorNode";
-            treeNode17.Text = "Text Editor";
-            treeNode18.Name = "FileExtensionsNode";
-            treeNode18.Text = "File Extensions";
-            treeNode19.Name = "EncodingNode";
-            treeNode19.Text = "Encoding";
-            treeNode20.Name = "Node21";
-            treeNode20.Text = "Files";
-            treeNode21.Checked = true;
-            treeNode21.Name = "ClearDataNode";
-            treeNode21.Text = "Manage";
-            treeNode22.Name = "DataNode";
-            treeNode22.Text = "Data";
+            treeNode23.Name = "TabsNode";
+            treeNode23.Text = "Tabs";
+            treeNode24.Name = "otherNode";
+            treeNode24.Text = "Other";
+            treeNode25.Name = "EnvironmentNode";
+            treeNode25.Text = "UI";
+            treeNode26.Name = "TextEditorGeneralNode";
+            treeNode26.Text = "General";
+            treeNode27.Name = "TextEditorEditing";
+            treeNode27.Text = "MISC";
+            treeNode28.Name = "TextEditorNode";
+            treeNode28.Text = "Text Editor";
+            treeNode29.Name = "FileExtensionsNode";
+            treeNode29.Text = "File Extensions";
+            treeNode30.Name = "EncodingNode";
+            treeNode30.Text = "Encoding";
+            treeNode31.Name = "Node21";
+            treeNode31.Text = "Files";
+            treeNode32.Checked = true;
+            treeNode32.Name = "ClearDataNode";
+            treeNode32.Text = "Manage";
+            treeNode33.Name = "DataNode";
+            treeNode33.Text = "Data";
             this.tvBrowser.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode14,
-            treeNode17,
-            treeNode20,
-            treeNode22});
+            treeNode25,
+            treeNode28,
+            treeNode31,
+            treeNode33});
             this.tvBrowser.ShowLines = false;
             this.tvBrowser.Size = new System.Drawing.Size(169, 313);
             this.tvBrowser.TabIndex = 0;
@@ -305,6 +312,8 @@ namespace SS.Ynote.Classic.UI
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.cbBlockCursor);
+            this.groupBox7.Controls.Add(this.cbIME);
             this.groupBox7.Controls.Add(this.cbHighlightSameWords);
             this.groupBox7.Controls.Add(this.cbBrackets);
             this.groupBox7.Controls.Add(this.cbruler);
@@ -324,6 +333,39 @@ namespace SS.Ynote.Classic.UI
             this.groupBox7.TabIndex = 3;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Text Editor";
+            // 
+            // cbBlockCursor
+            // 
+            this.cbBlockCursor.AutoSize = true;
+            this.cbBlockCursor.Location = new System.Drawing.Point(20, 149);
+            this.cbBlockCursor.Name = "cbBlockCursor";
+            this.cbBlockCursor.Size = new System.Drawing.Size(81, 17);
+            this.cbBlockCursor.TabIndex = 24;
+            this.cbBlockCursor.Text = "Block Caret";
+            this.cbBlockCursor.UseVisualStyleBackColor = true;
+            this.cbBlockCursor.CheckedChanged += new System.EventHandler(this.cbBlockCursor_CheckedChanged);
+            // 
+            // cbIME
+            // 
+            this.cbIME.AutoSize = true;
+            this.cbIME.Location = new System.Drawing.Point(193, 125);
+            this.cbIME.Name = "cbIME";
+            this.cbIME.Size = new System.Drawing.Size(75, 17);
+            this.cbIME.TabIndex = 23;
+            this.cbIME.Text = "IME Mode";
+            this.cbIME.UseVisualStyleBackColor = true;
+            this.cbIME.CheckedChanged += new System.EventHandler(this.cbIME_CheckedChanged);
+            // 
+            // cbHighlightSameWords
+            // 
+            this.cbHighlightSameWords.AutoSize = true;
+            this.cbHighlightSameWords.Location = new System.Drawing.Point(20, 125);
+            this.cbHighlightSameWords.Name = "cbHighlightSameWords";
+            this.cbHighlightSameWords.Size = new System.Drawing.Size(131, 17);
+            this.cbHighlightSameWords.TabIndex = 22;
+            this.cbHighlightSameWords.Text = "Highlight Same Words";
+            this.cbHighlightSameWords.UseVisualStyleBackColor = true;
+            this.cbHighlightSameWords.CheckedChanged += new System.EventHandler(this.cbHighlightSameWords_CheckedChanged);
             // 
             // cbBrackets
             // 
@@ -391,9 +433,9 @@ namespace SS.Ynote.Classic.UI
             this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox2.FormattingEnabled = true;
             this.comboBox2.Items.AddRange(new object[] {
-            "Strategy1",
-            "Strategy2"});
-            this.comboBox2.Location = new System.Drawing.Point(162, 200);
+            "Inside",
+            "Outside"});
+            this.comboBox2.Location = new System.Drawing.Point(162, 221);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(179, 21);
             this.comboBox2.TabIndex = 16;
@@ -402,7 +444,7 @@ namespace SS.Ynote.Classic.UI
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(17, 203);
+            this.label5.Location = new System.Drawing.Point(17, 224);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(139, 13);
             this.label5.TabIndex = 15;
@@ -415,7 +457,7 @@ namespace SS.Ynote.Classic.UI
             this.comboBox1.Items.AddRange(new object[] {
             "Strategy1",
             "Strategy2"});
-            this.comboBox1.Location = new System.Drawing.Point(125, 163);
+            this.comboBox1.Location = new System.Drawing.Point(125, 184);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(216, 21);
             this.comboBox1.TabIndex = 14;
@@ -424,7 +466,7 @@ namespace SS.Ynote.Classic.UI
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(17, 166);
+            this.label10.Location = new System.Drawing.Point(17, 187);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(92, 13);
             this.label10.TabIndex = 13;
@@ -472,6 +514,7 @@ namespace SS.Ynote.Classic.UI
             // EditingPage
             // 
             this.EditingPage.BackColor = System.Drawing.SystemColors.Control;
+            this.EditingPage.Controls.Add(this.groupOther);
             this.EditingPage.Controls.Add(this.groupBox10);
             this.EditingPage.Location = new System.Drawing.Point(4, 22);
             this.EditingPage.Name = "EditingPage";
@@ -492,7 +535,7 @@ namespace SS.Ynote.Classic.UI
             this.groupBox10.Controls.Add(this.label16);
             this.groupBox10.Location = new System.Drawing.Point(15, 10);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(398, 148);
+            this.groupBox10.Size = new System.Drawing.Size(398, 147);
             this.groupBox10.TabIndex = 10;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "MISC";
@@ -751,8 +794,8 @@ namespace SS.Ynote.Classic.UI
             // tpOther
             // 
             this.tpOther.BackColor = System.Drawing.SystemColors.Control;
+            this.tpOther.Controls.Add(this.groupBox4);
             this.tpOther.Controls.Add(this.groupBox3);
-            this.tpOther.Controls.Add(this.groupOther);
             this.tpOther.Location = new System.Drawing.Point(4, 22);
             this.tpOther.Name = "tpOther";
             this.tpOther.Padding = new System.Windows.Forms.Padding(3);
@@ -763,7 +806,7 @@ namespace SS.Ynote.Classic.UI
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.cbSysTray);
-            this.groupBox3.Location = new System.Drawing.Point(97, 30);
+            this.groupBox3.Location = new System.Drawing.Point(101, 130);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(224, 100);
             this.groupBox3.TabIndex = 11;
@@ -785,10 +828,10 @@ namespace SS.Ynote.Classic.UI
             // 
             this.groupOther.Controls.Add(this.numrecent);
             this.groupOther.Controls.Add(this.label6);
-            this.groupOther.Location = new System.Drawing.Point(97, 154);
+            this.groupOther.Location = new System.Drawing.Point(99, 177);
             this.groupOther.Name = "groupOther";
             this.groupOther.Size = new System.Drawing.Size(234, 91);
-            this.groupOther.TabIndex = 10;
+            this.groupOther.TabIndex = 11;
             this.groupOther.TabStop = false;
             this.groupOther.Text = "Recent Files";
             // 
@@ -808,16 +851,50 @@ namespace SS.Ynote.Classic.UI
             this.label6.TabIndex = 0;
             this.label6.Text = "No. of Recent Files : ";
             // 
-            // cbHighlightSameWords
+            // groupBox4
             // 
-            this.cbHighlightSameWords.AutoSize = true;
-            this.cbHighlightSameWords.Location = new System.Drawing.Point(20, 125);
-            this.cbHighlightSameWords.Name = "cbHighlightSameWords";
-            this.cbHighlightSameWords.Size = new System.Drawing.Size(131, 17);
-            this.cbHighlightSameWords.TabIndex = 22;
-            this.cbHighlightSameWords.Text = "Highlight Same Words";
-            this.cbHighlightSameWords.UseVisualStyleBackColor = true;
-            this.cbHighlightSameWords.CheckedChanged += new System.EventHandler(this.cbHighlightSameWords_CheckedChanged);
+            this.groupBox4.Controls.Add(this.cbstatus);
+            this.groupBox4.Controls.Add(this.cbtool);
+            this.groupBox4.Controls.Add(this.cbmenu);
+            this.groupBox4.Location = new System.Drawing.Point(101, 10);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(224, 114);
+            this.groupBox4.TabIndex = 12;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Bars";
+            // 
+            // cbmenu
+            // 
+            this.cbmenu.AutoSize = true;
+            this.cbmenu.Location = new System.Drawing.Point(23, 30);
+            this.cbmenu.Name = "cbmenu";
+            this.cbmenu.Size = new System.Drawing.Size(99, 17);
+            this.cbmenu.TabIndex = 0;
+            this.cbmenu.Text = "Show MenuBar";
+            this.cbmenu.UseVisualStyleBackColor = true;
+            this.cbmenu.CheckedChanged += new System.EventHandler(this.cbmenu_CheckedChanged);
+            // 
+            // cbtool
+            // 
+            this.cbtool.AutoSize = true;
+            this.cbtool.Location = new System.Drawing.Point(23, 53);
+            this.cbtool.Name = "cbtool";
+            this.cbtool.Size = new System.Drawing.Size(93, 17);
+            this.cbtool.TabIndex = 1;
+            this.cbtool.Text = "Show ToolBar";
+            this.cbtool.UseVisualStyleBackColor = true;
+            this.cbtool.CheckedChanged += new System.EventHandler(this.cbtool_CheckedChanged);
+            // 
+            // cbstatus
+            // 
+            this.cbstatus.AutoSize = true;
+            this.cbstatus.Location = new System.Drawing.Point(23, 76);
+            this.cbstatus.Name = "cbstatus";
+            this.cbstatus.Size = new System.Drawing.Size(97, 17);
+            this.cbstatus.TabIndex = 2;
+            this.cbstatus.Text = "Show StatuBar";
+            this.cbstatus.UseVisualStyleBackColor = true;
+            this.cbstatus.CheckedChanged += new System.EventHandler(this.cbstatus_CheckedChanged);
             // 
             // Options
             // 
@@ -858,6 +935,8 @@ namespace SS.Ynote.Classic.UI
             this.groupOther.ResumeLayout(false);
             this.groupOther.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numrecent)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -932,9 +1011,15 @@ namespace SS.Ynote.Classic.UI
         private System.Windows.Forms.TabPage tpOther;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.CheckBox cbSysTray;
+        private System.Windows.Forms.CheckBox cbHighlightSameWords;
+        private System.Windows.Forms.CheckBox cbIME;
+        private System.Windows.Forms.CheckBox cbBlockCursor;
         private System.Windows.Forms.GroupBox groupOther;
         private System.Windows.Forms.NumericUpDown numrecent;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.CheckBox cbHighlightSameWords;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.CheckBox cbstatus;
+        private System.Windows.Forms.CheckBox cbtool;
+        private System.Windows.Forms.CheckBox cbmenu;
     }
 }
