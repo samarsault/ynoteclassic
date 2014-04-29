@@ -52,6 +52,7 @@ namespace SS.Ynote.Classic.UI
             cbstatus.Checked = SettingsBase.ShowStatusBar;
             cbHighlightSameWords.Checked = SettingsBase.HighlightSameWords;
             cbIME.Checked = SettingsBase.IMEMode;
+            cbBlockCursor.Checked = SettingsBase.BlockCursor;
             BuildEncodingList();
         }
 
