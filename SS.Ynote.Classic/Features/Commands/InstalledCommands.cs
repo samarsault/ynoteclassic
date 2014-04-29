@@ -108,7 +108,7 @@ internal class ScriptCommand : ICommand
         get
         {
             return
-                Directory.GetFiles(SettingsBase.SettingsDir + "Scripts", "*.ymc")
+                Directory.GetFiles(SettingsBase.SettingsDir + "Scripts", "*.ys")
                     .Select(directory => "Script:" + Path.GetFileNameWithoutExtension(directory))
                     .ToArray();
         }
