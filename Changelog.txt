@@ -1,3 +1,6 @@
--> Added Extensible Context Menu
+﻿-> Added Extensible Context Menu
 -> Added Clipboard History
 -> Added File Protector
+-> Added New Color Schemes - Cobalt and Vibrant ink
+-> Enhanced Syntax Highlighting
+-> Shell can be defined as buffer

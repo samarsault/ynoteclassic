@@ -1,5 +1,0 @@
-Changes for Default.ypk
-
-->PowerShell.ynotesnippet
-->PowerShell File Extension in Extensions.xml
-->Color Scheme Edit to Add SameWordsStyle

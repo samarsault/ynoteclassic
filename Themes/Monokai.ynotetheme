@@ -129,4 +129,8 @@
   <Key
     Name="BracketStyle2"
     Value="#FFD600" />
+   <Key
+    Name="SameWords"
+    Value="#D3D3D3"
+    />
 </YnoteTheme>

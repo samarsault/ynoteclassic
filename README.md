@@ -4,25 +4,37 @@ Ynote Classic
 Ynote Classic Ynote Classic is an easy to use, open and versatile Text and Source Code Editor. It can deal with a variety of tasks ranging from writing to programming. It makes editing a more easier and comfortable task with it's powerful editing operations, syntax highlighting, code folding, indentation, autocompletion and plugins.
 http://ynoteclassic.codeplex.com
 
-[id]: http://download-codeplex.sec.s-msft.com/Download?ProjectName=ynoteclassic&DownloadId=826766  "Ynote Classic"
-
 Features
 ----
   - Multi-Level Undo/Redo
-  - Syntax Highlighting, Code Folding, Auto-Indent, Auto-Completion
-  - Powerful Search and Replace using Regular Expressions in document, files and selection.
+  - Syntax Highlighting, Code Folding, Auto-Indent, Auto-Completion for almost 40 languages with user defined support
+  - Powerful Search and Replace using Regular Expressions in document and multiple files
   - Powerful Project Management
-  - Diff Utility
-  - Automatic Encoding Detection with more than 100 encodings supported.
+  - Clipboard History
+  - File Merge and Compare
+  - Automatic Encoding Detection with all codepages on the system supported
   - WYSWYIG Printing
   - MDI and SDI
   - Extensible with Plugins, Macros, Color Schemes, Syntax Files, Scripts and much more.
 
+Building
+----
+Run the Following command from the command line to get the code
+```sh
+git clone https://github.com/samarjeet27/ynoteclassic.git
+```
+See Building.txt for more information
+
+Screenshot
+----
+![Ynote](http://download-codeplex.sec.s-msft.com/Download?ProjectName=ynoteclassic&DownloadId=826766 "Ynote Classic")
+
 Version
 ----
- 2.7.1
+ 2.8 Build 129
 
 License
 ----
 
 GNU GPL v3
+
