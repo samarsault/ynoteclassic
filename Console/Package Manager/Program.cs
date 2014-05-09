@@ -2,7 +2,7 @@
 using System.IO;
 using SS.Ynote.Classic.Features.Packages;
 
-namespace pkmgr
+namespace pkmgr // Package Manager
 {
     internal class Program
     {
