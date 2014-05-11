@@ -5,11 +5,12 @@ namespace SS.Ynote.Classic.Features.RunScript
 {
     public partial class NewRun : Form
     {
-        public RunConfiguration Configuration { get; set; }
         public NewRun()
         {
             InitializeComponent();
         }
+
+        public RunConfiguration Configuration { get; set; }
 
         private void button3_Click(object sender, EventArgs e)
         {

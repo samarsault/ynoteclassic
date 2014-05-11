@@ -1,19 +1,20 @@
-﻿
-using System;
+﻿using System;
 using System.Windows.Forms;
 
 public class YnoteCommand
 {
     /// <summary>
-    /// Key of the Command
+    ///     Key of the Command
     /// </summary>
     public string Key { get; set; }
+
     /// <summary>
-    /// Value of the Command
+    ///     Value of the Command
     /// </summary>
     public string Value { get; set; }
+
     /// <summary>
-    /// Creates a YnoteCommand from String
+    ///     Creates a YnoteCommand from String
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>

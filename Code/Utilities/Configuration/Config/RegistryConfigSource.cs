@@ -1,20 +1,9 @@
-#region Copyright
-
-//
-// Nini Configuration Project.
-// Copyright (C) 2006 Brent R. Matzelle.  All rights reserved.
-//
-// This software is published under the terms of the MIT X11 license, a copy of
-// which has been included with this distribution in the LICENSE.txt file.
-//
-
-#endregion Copyright
-
-using Microsoft.Win32;
 using System;
+using Microsoft.Win32;
 
 namespace Nini.Config
 {
+
     #region RegistryRecurse enumeration
 
     /// <include file='RegistryConfigSource.xml' path='//Enum[@name="RegistryRecurse"]/docs/*' />
@@ -96,8 +85,8 @@ namespace Nini.Config
 
         /// <include file='RegistryConfigSource.xml' path='//Method[@name="AddMappingRecurse"]/docs/*' />
         public void AddMapping(RegistryKey registryKey,
-                                string path,
-                                RegistryRecurse recurse)
+            string path,
+            RegistryRecurse recurse)
         {
             var key = registryKey.OpenSubKey(path, true);
 
@@ -145,7 +134,7 @@ namespace Nini.Config
                 // New merged configs are not RegistryConfigs
                 if (Configs[i] is RegistryConfig)
                 {
-                    var config = (RegistryConfig)Configs[i];
+                    var config = (RegistryConfig) Configs[i];
                     var keys = config.GetKeys();
 
                     for (var j = 0; j < keys.Length; j++)
@@ -167,7 +156,7 @@ namespace Nini.Config
         #region Private methods
 
         /// <summary>
-        /// Loads all values from the registry key.
+        ///     Loads all values from the registry key.
         /// </summary>
         private void LoadKeyValues(RegistryKey key, string keyName)
         {
@@ -183,8 +172,8 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Merges all of the configs from the config collection into the
-        /// registry.
+        ///     Merges all of the configs from the config collection into the
+        ///     registry.
         /// </summary>
         private void MergeConfigsIntoDocument()
         {
@@ -192,7 +181,7 @@ namespace Nini.Config
             {
                 if (config is RegistryConfig)
                 {
-                    var registryConfig = (RegistryConfig)config;
+                    var registryConfig = (RegistryConfig) config;
 
                     if (registryConfig.ParentKey)
                     {
@@ -212,7 +201,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Reloads all keys.
+        ///     Reloads all keys.
         /// </summary>
         private void ReloadKeys()
         {
@@ -220,7 +209,7 @@ namespace Nini.Config
 
             for (var i = 0; i < keys.Length; i++)
             {
-                keys[i] = ((RegistryConfig)Configs[i]).Key;
+                keys[i] = ((RegistryConfig) Configs[i]).Key;
             }
 
             Configs.Clear();
@@ -231,7 +220,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Removes all keys not present in the current config.
+        ///     Removes all keys not present in the current config.
         /// </summary>
         private void RemoveKeys(RegistryConfig config)
         {
@@ -245,8 +234,8 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Returns the key name without the fully qualified path.
-        /// e.g. no HKEY_LOCAL_MACHINE\\MyKey, just MyKey
+        ///     Returns the key name without the fully qualified path.
+        ///     e.g. no HKEY_LOCAL_MACHINE\\MyKey, just MyKey
         /// </summary>
         private string ShortKeyName(RegistryKey key)
         {
@@ -258,7 +247,7 @@ namespace Nini.Config
         #region RegistryConfig class
 
         /// <summary>
-        /// Registry Config class.
+        ///     Registry Config class.
         /// </summary>
         private class RegistryConfig : ConfigBase
         {
@@ -272,7 +261,7 @@ namespace Nini.Config
             #region Constructor
 
             /// <summary>
-            /// Constructor.
+            ///     Constructor.
             /// </summary>
             public RegistryConfig(string name, IConfigSource source)
                 : base(name, source)
@@ -284,7 +273,7 @@ namespace Nini.Config
             #region Public properties
 
             /// <summary>
-            /// Gets or sets whether the key is a parent key.
+            ///     Gets or sets whether the key is a parent key.
             /// </summary>
             public bool ParentKey
             {
@@ -293,7 +282,7 @@ namespace Nini.Config
             }
 
             /// <summary>
-            /// Registry key for the Config.
+            ///     Registry key for the Config.
             /// </summary>
             public RegistryKey Key
             {

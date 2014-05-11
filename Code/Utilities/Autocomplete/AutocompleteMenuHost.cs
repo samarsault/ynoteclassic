@@ -6,7 +6,19 @@ namespace AutocompleteMenuNS
 {
     internal class AutocompleteMenuHost : ToolStripDropDown
     {
+        public readonly AutocompleteMenu Menu;
         private IAutocompleteListView listView;
+
+        public AutocompleteMenuHost(AutocompleteMenu menu)
+        {
+            AutoClose = false;
+            AutoSize = false;
+            Margin = Padding.Empty;
+            Padding = Padding.Empty;
+
+            Menu = menu;
+            ListView = new AutocompleteListView();
+        }
 
         public ToolStripControlHost Host { get; set; }
 
@@ -43,36 +55,20 @@ namespace AutocompleteMenuNS
             }
         }
 
-        public readonly AutocompleteMenu Menu;
-
-        public AutocompleteMenuHost(AutocompleteMenu menu)
+        public override RightToLeft RightToLeft
         {
-            AutoClose = false;
-            AutoSize = false;
-            Margin = Padding.Empty;
-            Padding = Padding.Empty;
-
-            Menu = menu;
-            ListView = new AutocompleteListView();
+            get { return base.RightToLeft; }
+            set
+            {
+                base.RightToLeft = value;
+                (ListView as Control).RightToLeft = value;
+            }
         }
 
         internal void CalcSize()
         {
             Host.Size = (ListView as Control).Size;
             Size = new Size((ListView as Control).Size.Width + 4, (ListView as Control).Size.Height + 4);
-        }
-
-        public override RightToLeft RightToLeft
-        {
-            get
-            {
-                return base.RightToLeft;
-            }
-            set
-            {
-                base.RightToLeft = value;
-                (ListView as Control).RightToLeft = value;
-            }
         }
     }
 }

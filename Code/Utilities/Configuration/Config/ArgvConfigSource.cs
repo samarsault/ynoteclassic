@@ -1,17 +1,5 @@
-#region Copyright
-
-//
-// Nini Configuration Project.
-// Copyright (C) 2006 Brent R. Matzelle.  All rights reserved.
-//
-// This software is published under the terms of the MIT X11 license, a copy of
-// which has been included with this distribution in the LICENSE.txt file.
-//
-
-#endregion Copyright
-
-using Nini.Util;
 using System;
+using Nini.Util;
 
 namespace Nini.Config
 {
@@ -20,8 +8,8 @@ namespace Nini.Config
     {
         #region Private variables
 
-        private readonly ArgvParser parser;
         private readonly string[] arguments;
+        private readonly ArgvParser parser;
 
         #endregion Private variables
 
@@ -62,7 +50,7 @@ namespace Nini.Config
 
         /// <include file='ArgvConfigSource.xml' path='//Method[@name="AddSwitchShort"]/docs/*' />
         public void AddSwitch(string configName, string longName,
-                                string shortName)
+            string shortName)
         {
             var config = GetConfig(configName);
 
@@ -97,7 +85,7 @@ namespace Nini.Config
         #region Private methods
 
         /// <summary>
-        /// Returns an IConfig.  If it does not exist then it is added.
+        ///     Returns an IConfig.  If it does not exist then it is added.
         /// </summary>
         private IConfig GetConfig(string name)
         {

@@ -1,21 +1,11 @@
-#region Copyright
-
-//
-// Nini Configuration Project.
-// Copyright (C) 2006 Brent R. Matzelle.  All rights reserved.
-//
-// This software is published under the terms of the MIT X11 license, a copy of
-// which has been included with this distribution in the LICENSE.txt file.
-//
-
-#endregion Copyright
-
-using Nini.Util;
 using System;
 using System.Globalization;
+using System.Windows.Forms;
+using Nini.Util;
 
 namespace Nini.Config
 {
+
     #region ConfigKeyEventArgs class
 
     /// <include file='ConfigKeyEventArgs.xml' path='//Delegate[@name="ConfigKeyEventHandler"]/docs/*' />
@@ -54,10 +44,10 @@ namespace Nini.Config
     {
         #region Private variables
 
-        private string configName;
-        private readonly IConfigSource configSource;
         private readonly AliasText aliasText;
+        private readonly IConfigSource configSource;
         private readonly IFormatProvider format = NumberFormatInfo.CurrentInfo;
+        private string configName;
 
         #endregion Private variables
 
@@ -192,8 +182,8 @@ namespace Nini.Config
             var result = Get(key);
 
             return (result == null)
-                    ? defaultValue
-                    : Convert.ToInt32(result, format);
+                ? defaultValue
+                : Convert.ToInt32(result, format);
         }
 
         /// <include file='IConfig.xml' path='//Method[@name="GetIntDefaultAlias"]/docs/*' />
@@ -228,8 +218,8 @@ namespace Nini.Config
             var result = Get(key);
 
             return (result == null)
-                    ? defaultValue
-                    : Convert.ToInt64(result, format);
+                ? defaultValue
+                : Convert.ToInt64(result, format);
         }
 
         /// <include file='IConfig.xml' path='//Method[@name="GetBoolean"]/docs/*' />
@@ -239,7 +229,7 @@ namespace Nini.Config
 
             if (text == null)
             {
-                System.Windows.Forms.MessageBox.Show("Value not found: " + key);
+                MessageBox.Show("Value not found: " + key);
             }
 
             return GetBooleanAlias(text);
@@ -272,8 +262,8 @@ namespace Nini.Config
             var result = Get(key);
 
             return (result == null)
-                    ? defaultValue
-                    : Convert.ToSingle(result, format);
+                ? defaultValue
+                : Convert.ToSingle(result, format);
         }
 
         /// <include file='IConfig.xml' path='//Method[@name="GetDouble"]/docs/*' />
@@ -295,8 +285,8 @@ namespace Nini.Config
             var result = Get(key);
 
             return (result == null)
-                    ? defaultValue
-                    : Convert.ToDouble(result, format);
+                ? defaultValue
+                : Convert.ToDouble(result, format);
         }
 
         /// <include file='IConfig.xml' path='//Method[@name="GetKeys"]/docs/*' />
@@ -317,12 +307,6 @@ namespace Nini.Config
             keys.Values.CopyTo(result, 0);
 
             return result;
-        }
-
-        /// <include file='ConfigBase.xml' path='//Method[@name="Add"]/docs/*' />
-        public void Add(string key, string value)
-        {
-            keys.Add(key, value);
         }
 
         /// <include file='IConfig.xml' path='//Method[@name="Set"]/docs/*' />
@@ -371,6 +355,12 @@ namespace Nini.Config
             }
         }
 
+        /// <include file='ConfigBase.xml' path='//Method[@name="Add"]/docs/*' />
+        public void Add(string key, string value)
+        {
+            keys.Add(key, value);
+        }
+
         #endregion Public methods
 
         #region Public events
@@ -408,7 +398,7 @@ namespace Nini.Config
         #region Private methods
 
         /// <summary>
-        /// Renames the config to the new name.
+        ///     Renames the config to the new name.
         /// </summary>
         private void Rename(string name)
         {
@@ -418,8 +408,8 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Returns the integer alias first from this IConfig then
-        /// the parent if there is none.
+        ///     Returns the integer alias first from this IConfig then
+        ///     the parent if there is none.
         /// </summary>
         private int GetIntAlias(string key, string alias)
         {
@@ -438,8 +428,8 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Returns the boolean alias first from this IConfig then
-        /// the parent if there is none.
+        ///     Returns the boolean alias first from this IConfig then
+        ///     the parent if there is none.
         /// </summary>
         private bool GetBooleanAlias(string key)
         {
@@ -458,8 +448,8 @@ namespace Nini.Config
                 else
                 {
                     throw new ArgumentException
-                                ("Alias value not found: " + key
-                                + ". Add it to the Alias property.");
+                        ("Alias value not found: " + key
+                         + ". Add it to the Alias property.");
                 }
             }
 

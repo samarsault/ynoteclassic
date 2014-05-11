@@ -1,15 +1,3 @@
-#region Copyright
-
-//
-// Nini Configuration Project.
-// Copyright (C) 2006 Brent R. Matzelle.  All rights reserved.
-//
-// This software is published under the terms of the MIT X11 license, a copy of
-// which has been included with this distribution in the LICENSE.txt file.
-//
-
-#endregion Copyright
-
 using System;
 using System.Collections;
 
@@ -44,7 +32,7 @@ namespace Nini.Config
         {
             if (intAlias.Contains(key))
             {
-                var keys = (Hashtable)intAlias[key];
+                var keys = (Hashtable) intAlias[key];
 
                 keys[alias] = value;
             }
@@ -86,7 +74,7 @@ namespace Nini.Config
 
             if (intAlias.Contains(key))
             {
-                var keys = (Hashtable)intAlias[key];
+                var keys = (Hashtable) intAlias[key];
                 result = (keys.Contains(alias));
             }
 
@@ -101,7 +89,7 @@ namespace Nini.Config
                 throw new ArgumentException("Alias does not exist for text");
             }
 
-            return (bool)booleanAlias[key];
+            return (bool) booleanAlias[key];
         }
 
         /// <include file='AliasText.xml' path='//Method[@name="GetInt"]/docs/*' />
@@ -112,15 +100,15 @@ namespace Nini.Config
                 throw new ArgumentException("Alias does not exist for key");
             }
 
-            var keys = (Hashtable)intAlias[key];
+            var keys = (Hashtable) intAlias[key];
 
             if (!keys.Contains(alias))
             {
                 throw new ArgumentException("Config value does not match a " +
-                                             "supplied alias");
+                                            "supplied alias");
             }
 
-            return (int)keys[alias];
+            return (int) keys[alias];
         }
 
         #endregion Public methods
@@ -128,7 +116,7 @@ namespace Nini.Config
         #region Private methods
 
         /// <summary>
-        /// Loads the default alias values.
+        ///     Loads the default alias values.
         /// </summary>
         private void DefaultAliasLoad()
         {
@@ -140,12 +128,12 @@ namespace Nini.Config
 #else
 
         /// <summary>
-        /// Extracts and sets the alias types from an enumeration.
+        ///     Extracts and sets the alias types from an enumeration.
         /// </summary>
         private void SetAliasTypes(string key, Enum enumAlias)
         {
             var names = Enum.GetNames(enumAlias.GetType());
-            var values = (int[])Enum.GetValues(enumAlias.GetType());
+            var values = (int[]) Enum.GetValues(enumAlias.GetType());
 
             for (var i = 0; i < names.Length; i++)
             {
@@ -156,12 +144,12 @@ namespace Nini.Config
 #endif
 
         /// <summary>
-        /// Returns a case insensitive hashtable.
+        ///     Returns a case insensitive hashtable.
         /// </summary>
         private Hashtable InsensitiveHashtable()
         {
             return new Hashtable(CaseInsensitiveHashCodeProvider.Default,
-                                  CaseInsensitiveComparer.Default);
+                CaseInsensitiveComparer.Default);
         }
 
         #endregion Private methods

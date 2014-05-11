@@ -38,7 +38,7 @@ namespace SS.Ynote.Classic.UI
             InitializeComponent();
             InitEvents();
             Highlighter = new SyntaxHighlighter();
-            YnoteThemeReader.ApplyTheme(SettingsBase.ThemeFile, Highlighter, codebox);
+            YnoteThemeReader.ApplyTheme(Settings.ThemeFile, Highlighter, codebox);
             InitSettings();
             if (SyntaxHighlighter.LoadedSyntaxes.Any()) return;
             Highlighter.LoadAllSyntaxes();
@@ -54,34 +54,56 @@ namespace SS.Ynote.Classic.UI
             get { return codebox; }
         }
 
+        /// <summary>
+        ///     Whether the Document is saved
+        /// </summary>
         public bool IsSaved
         {
             get { return Name != "Editor"; }
         }
 
+        /// <summary>
+        ///     Highlights Syntax
+        /// </summary>
+        /// <param name="syntax"></param>
+        public void HighlightSyntax(SyntaxDesc syntax)
+        {
+            var args = new TextChangedEventArgs(codebox.Range);
+            if (syntax.SyntaxBase == null)
+            {
+                Highlighter.HighlightSyntax(syntax.Language, args);
+                syntax.Language = syntax.Language;
+            }
+            else
+            {
+                Highlighter.HighlightSyntax(syntax.SyntaxBase, args);
+                syntax.SyntaxBase = syntax.SyntaxBase;
+            }
+        }
+
         private void InitSettings()
         {
             codebox.AllowDrop = true;
-            codebox.AutoCompleteBrackets = SettingsBase.AutoCompleteBrackets;
-            codebox.TabLength = SettingsBase.TabSize;
-            codebox.Font = new Font(SettingsBase.FontFamily, SettingsBase.FontSize);
-            codebox.ShowFoldingLines = SettingsBase.ShowFoldingLines;
-            codebox.ShowLineNumbers = SettingsBase.ShowLineNumbers;
-            codebox.HighlightFoldingIndicator = SettingsBase.HighlightFolding;
-            codebox.FindEndOfFoldingBlockStrategy = SettingsBase.FoldingStrategy;
-            codebox.BracketsHighlightStrategy = SettingsBase.BracketsStrategy;
-            codebox.CaretVisible = SettingsBase.ShowCaret;
-            codebox.ShowFoldingLines = SettingsBase.ShowFoldingLines;
-            codebox.LineInterval = SettingsBase.LineInterval;
-            codebox.LeftPadding = SettingsBase.PaddingWidth;
-            codebox.VirtualSpace = SettingsBase.EnableVirtualSpace;
-            codebox.WideCaret = SettingsBase.BlockCaret;
-            codebox.WordWrap = SettingsBase.WordWrap;
-            codebox.Zoom = SettingsBase.Zoom;
-            codebox.HotkeysMapping = HotkeysMapping.Parse(File.ReadAllText(SettingsBase.SettingsDir + "User.ynotekeys"));
-            if (SettingsBase.IMEMode)
+            codebox.AutoCompleteBrackets = Settings.AutoCompleteBrackets;
+            codebox.TabLength = Settings.TabSize;
+            codebox.Font = new Font(Settings.FontFamily, Settings.FontSize);
+            codebox.ShowFoldingLines = Settings.ShowFoldingLines;
+            codebox.ShowLineNumbers = Settings.ShowLineNumbers;
+            codebox.HighlightFoldingIndicator = Settings.HighlightFolding;
+            codebox.FindEndOfFoldingBlockStrategy = Settings.FoldingStrategy;
+            codebox.BracketsHighlightStrategy = Settings.BracketsStrategy;
+            codebox.CaretVisible = Settings.ShowCaret;
+            codebox.ShowFoldingLines = Settings.ShowFoldingLines;
+            codebox.LineInterval = Settings.LineInterval;
+            codebox.LeftPadding = Settings.PaddingWidth;
+            codebox.VirtualSpace = Settings.EnableVirtualSpace;
+            codebox.WideCaret = Settings.BlockCaret;
+            codebox.WordWrap = Settings.WordWrap;
+            codebox.Zoom = Settings.Zoom;
+            codebox.HotkeysMapping = HotkeysMapping.Parse(File.ReadAllText(Settings.SettingsDir + "User.ynotekeys"));
+            if (Settings.IMEMode)
                 codebox.ImeMode = ImeMode.On;
-            if (SettingsBase.ShowDocumentMap)
+            if (Settings.ShowDocumentMap)
             {
                 var map = new DocumentMap
                 {
@@ -97,7 +119,7 @@ namespace SS.Ynote.Classic.UI
                 };
                 Controls.Add(map);
             }
-            if (!SettingsBase.ShowRuler) return;
+            if (!Settings.ShowRuler) return;
             var ruler = new Ruler
             {
                 Dock = DockStyle.Top,
@@ -121,11 +143,12 @@ namespace SS.Ynote.Classic.UI
                     e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
             codebox.LanguageChanged += (sender, args) => BuildAutoCompleteMenu();
 
-            if (SettingsBase.AutoCompleteBrackets)
+            if (Settings.AutoCompleteBrackets)
                 codebox.AutoIndentNeeded += codebox_AutoIndentNeeded;
-            if (SettingsBase.HighlightSameWords)
+            if (Settings.HighlightSameWords)
                 codebox.SelectionChangedDelayed += codebox_SelectionChangedDelayed;
         }
+
         private void codebox_SelectionChangedDelayed(object sender, EventArgs e)
         {
             codebox.VisibleRange.ClearStyle(codebox.SameWordsStyle);
@@ -196,16 +219,7 @@ namespace SS.Ynote.Classic.UI
             if (FileTypes.FileTypesDictionary == null)
                 FileTypes.BuildDictionary();
             var lang = FileTypes.GetLanguage(FileTypes.FileTypesDictionary, Path.GetExtension(file));
-            if (lang.IsBase)
-            {
-                edit.Highlighter.HighlightSyntax(lang.SyntaxBase, new TextChangedEventArgs(edit.Tb.Range));
-                edit.Syntax = lang.SyntaxBase;
-            }
-            else
-            {
-                edit.Highlighter.HighlightSyntax(lang.Language, new TextChangedEventArgs(edit.Tb.Range));
-                edit.Tb.Language = lang.Language;
-            }
+            edit.HighlightSyntax(lang);
             edit.Show(DockPanel, DockState.Document);
             edit.Tb.OpenFile(file);
         }
@@ -216,7 +230,7 @@ namespace SS.Ynote.Classic.UI
         /// <param name="r"></param>
         private void DoFormatting(Range r)
         {
-            if (!SettingsBase.HiddenChars) return;
+            if (!Settings.HiddenChars) return;
             if (_invisibleCharsStyle == null)
                 _invisibleCharsStyle = new InvisibleCharsRenderer(Pens.Gray);
             r.ClearStyle(_invisibleCharsStyle);
@@ -330,7 +344,7 @@ namespace SS.Ynote.Classic.UI
 
         private void BuildContextMenu()
         {
-            var file = SettingsBase.SettingsDir + "ContextMenu.ys";
+            var file = Settings.SettingsDir + "ContextMenu.ys";
             var asm = file + ".cache";
             CSScript.GlobalSettings.TargetFramework = "v3.5";
             try
@@ -352,41 +366,6 @@ namespace SS.Ynote.Classic.UI
                 MessageBox.Show("There was an Error running the script : \r\n" + ex.Message, "YnoteScript Host",
                     MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-/* Added Extensible Context Menu
-            var cutmenu = new MenuItem {Index = 0, Text = "Cut"};
-            cutmenu.Click += (sender, args) => codebox.Cut();
-            var copymenu = new MenuItem {Index = 1, Text = "Copy"};
-            copymenu.Click += (sender, args) => codebox.Copy();
-            var pastemenu = new MenuItem {Index = 2, Text = "Paste"};
-            pastemenu.Click += (sender, args) => codebox.Paste();
-            var seperator = new MenuItem("-") {Index = 3};
-            var undomenu = new MenuItem {Index = 4, Text = "Undo"};
-            undomenu.Click += (sender, args) => codebox.Undo();
-            var redomenu = new MenuItem {Index = 5, Text = "Redo"};
-            redomenu.Click += (sender, args) => codebox.Redo();
-            var seperator2 = new MenuItem("-") {Index = 6};
-            var selectallmenu = new MenuItem {Index = 7, Text = "Select All"};
-            selectallmenu.Click += (sender, args) => codebox.SelectAll();
-            var foldselectedmenu = new MenuItem
-            {
-                Index = 8,
-                Shortcut = Shortcut.F4,
-                Text = "Fold Selected"
-            };
-            foldselectedmenu.Click += menuItem10_Click;
-            contextmenu.MenuItems.AddRange(new[]
-            {
-                cutmenu,
-                copymenu,
-                pastemenu,
-                seperator,
-                undomenu,
-                redomenu,
-                seperator2,
-                selectallmenu,
-                foldselectedmenu
-            });
-#endif*/
         }
 
         private void menuItem2_Click(object sender, EventArgs e)

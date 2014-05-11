@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 using AutocompleteMenuNS;
 
@@ -9,13 +8,16 @@ namespace SS.Ynote.Classic
     public partial class Commander : Form
     {
         /// <summary>
-        ///  Installed Commands
+        ///     Installed Commands
         /// </summary>
-        private static IList<ICommand> Commands; 
+        private static IList<ICommand> Commands;
+
         /// <summary>
-        /// IYnote interface
+        ///     IYnote interface
         /// </summary>
         private readonly IYnote _ynote;
+
+        internal ToolStripDropDownButton LangMenu;
 
         private bool _addedText;
 
@@ -45,8 +47,6 @@ namespace SS.Ynote.Classic
             BuildAutoComplete();
         }
 
-        internal ToolStripDropDownButton LangMenu { private get; set; }
-
         public void AddText(string text)
         {
             tbcommand.Text = text;
@@ -56,10 +56,10 @@ namespace SS.Ynote.Classic
 
         private void BuildAutoComplete()
         {
-            // foreach (var cmd in Commands)
-            //     foreach (var command in cmd.Commands)
-            //         items.Add(new AutocompleteItem(command));
-            var items = (from cmd in Commands from command in cmd.Commands select new AutocompleteItem(command)).ToList();
+            IList<AutocompleteItem> items = new List<AutocompleteItem>();
+            foreach (var cmd in Commands)
+                foreach (var command in cmd.Commands)
+                    items.Add(new AutocompleteItem(command));
             completemenu.SetAutocompleteMenu(tbcommand, completemenu);
             completemenu.SetAutocompleteItems(items);
         }
@@ -89,6 +89,7 @@ namespace SS.Ynote.Classic
                 Close();
             }
         }
+
         private void RunCommand(YnoteCommand c)
         {
             try

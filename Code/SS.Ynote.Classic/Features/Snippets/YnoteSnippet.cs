@@ -15,7 +15,7 @@ namespace SS.Ynote.Classic.Features.Snippets
 
         private static string GetSnippetFile(Language lang)
         {
-            return string.Format(@"{0}Snippets\{1}.ynotesnippet", SettingsBase.SettingsDir, lang);
+            return string.Format(@"{0}Snippets\{1}.ynotesnippet", Settings.SettingsDir, lang);
         }
 
         public static IEnumerable<YnoteSnippet> Read(Language lang)

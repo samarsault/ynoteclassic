@@ -1,15 +1,3 @@
-#region Copyright
-
-//
-// Nini Configuration Project.
-// Copyright (C) 2006 Brent R. Matzelle.  All rights reserved.
-//
-// This software is published under the terms of the MIT X11 license, a copy of
-// which has been included with this distribution in the LICENSE.txt file.
-//
-
-#endregion Copyright
-
 using System;
 using System.Collections;
 
@@ -20,10 +8,10 @@ namespace Nini.Config
     {
         #region Private variables
 
-        private readonly ArrayList sourceList = new ArrayList();
-        private readonly ConfigCollection configList;
-        private bool autoSave;
         private readonly AliasText alias = new AliasText();
+        private readonly ConfigCollection configList;
+        private readonly ArrayList sourceList = new ArrayList();
+        private bool autoSave;
 
         #endregion Private variables
 
@@ -158,7 +146,7 @@ namespace Nini.Config
         #region Private methods
 
         /// <summary>
-        /// Expands key values from the given IConfig.
+        ///     Expands key values from the given IConfig.
         /// </summary>
         private string Expand(IConfig config, string key, bool setValue)
         {
@@ -166,7 +154,7 @@ namespace Nini.Config
             if (result == null)
             {
                 throw new ArgumentException(String.Format("[{0}] not found in [{1}]",
-                                        key, config.Name));
+                    key, config.Name));
             }
 
             while (true)
@@ -184,7 +172,7 @@ namespace Nini.Config
                 }
 
                 var search = result.Substring(startIndex + 2,
-                                                  endIndex - (startIndex + 2));
+                    endIndex - (startIndex + 2));
 
                 if (search == key)
                 {
@@ -207,7 +195,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Returns the replacement value of a config.
+        ///     Returns the replacement value of a config.
         /// </summary>
         private string ExpandValue(IConfig config, string search)
         {
@@ -221,13 +209,13 @@ namespace Nini.Config
                 if (newConfig == null)
                 {
                     throw new ArgumentException("Expand config not found: "
-                                                 + replaces[0]);
+                                                + replaces[0]);
                 }
                 result = newConfig.Get(replaces[1]);
                 if (result == null)
                 {
                     throw new ArgumentException("Expand key not found: "
-                                                 + replaces[1]);
+                                                + replaces[1]);
                 }
             }
             else

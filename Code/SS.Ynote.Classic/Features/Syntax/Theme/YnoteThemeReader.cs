@@ -109,8 +109,8 @@ namespace SS.Ynote.Classic.Features.Syntax
                     sh.CommentStyle = tcstyle;
                     break;
 
-                case "CommentTag":
-                    sh.CommentTagStyle = tcstyle;
+                case "Comment2":
+                    sh.CommentStyle2 = tcstyle;
                     break;
 
                 case "String":
@@ -149,20 +149,12 @@ namespace SS.Ynote.Classic.Features.Syntax
                     sh.TagNameStyle = tcstyle;
                     break;
 
-                case "Types":
-                    sh.TypesStyle = tcstyle;
-                    break;
-
-                case "Functions":
-                    sh.FunctionsStyle = tcstyle;
-                    break;
-
                 case "ClassName":
                     sh.ClassNameStyle = tcstyle;
                     break;
 
-                case "ClassName2":
-                    sh.ClassNameStyle2 = tcstyle;
+                case "FunctionName":
+                    sh.FunctionNameStyle = tcstyle;
                     break;
 
                 case "Char":
@@ -191,10 +183,6 @@ namespace SS.Ynote.Classic.Features.Syntax
 
                 case "Preprocessor":
                     sh.PreprocessorStyle = tcstyle;
-                    break;
-
-                case "Statements":
-                    sh.StatementsStyle = tcstyle;
                     break;
             }
         }

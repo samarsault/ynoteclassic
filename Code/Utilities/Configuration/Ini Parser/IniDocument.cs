@@ -1,21 +1,10 @@
-#region Copyright
-
-//
-// Nini Configuration Project.
-// Copyright (C) 2006 Brent R. Matzelle.  All rights reserved.
-//
-// This software is published under the terms of the MIT X11 license, a copy of
-// which has been included with this distribution in the LICENSE.txt file.
-//
-
-#endregion Copyright
-
 using System;
 using System.Collections;
 using System.IO;
 
 namespace Nini.Ini
 {
+
     #region IniFileType enumeration
 
     /// <include file='IniDocument.xml' path='//Enum[@name="IniFileType"]/docs/*' />
@@ -44,8 +33,8 @@ namespace Nini.Ini
     {
         #region Private variables
 
-        private readonly IniSectionCollection sections = new IniSectionCollection();
         private readonly ArrayList initialComment = new ArrayList();
+        private readonly IniSectionCollection sections = new IniSectionCollection();
         private IniFileType fileType = IniFileType.Standard;
 
         #endregion Private variables
@@ -121,6 +110,12 @@ namespace Nini.Ini
 
         #region Public methods
 
+        /// <include file='IniSection.xml' path='//Property[@name="Comment"]/docs/*' />
+        public IniSectionCollection Sections
+        {
+            get { return sections; }
+        }
+
         /// <include file='IniDocument.xml' path='//Method[@name="LoadPath"]/docs/*' />
         public void Load(string filePath)
         {
@@ -143,12 +138,6 @@ namespace Nini.Ini
         public void Load(IniReader reader)
         {
             LoadReader(reader);
-        }
-
-        /// <include file='IniSection.xml' path='//Property[@name="Comment"]/docs/*' />
-        public IniSectionCollection Sections
-        {
-            get { return sections; }
         }
 
         /// <include file='IniDocument.xml' path='//Method[@name="SaveTextWriter"]/docs/*' />
@@ -205,7 +194,7 @@ namespace Nini.Ini
         #region Private methods
 
         /// <summary>
-        /// Loads the file not saving comments.
+        ///     Loads the file not saving comments.
         /// </summary>
         private void LoadReader(IniReader reader)
         {
@@ -264,7 +253,7 @@ namespace Nini.Ini
         }
 
         /// <summary>
-        /// Returns a proper INI reader depending upon the type parameter.
+        ///     Returns a proper INI reader depending upon the type parameter.
         /// </summary>
         private IniReader GetIniReader(TextReader reader, IniFileType type)
         {
@@ -278,21 +267,21 @@ namespace Nini.Ini
 
                 case IniFileType.PythonStyle:
                     result.AcceptCommentAfterKey = false;
-                    result.SetCommentDelimiters(new[] { ';', '#' });
-                    result.SetAssignDelimiters(new[] { ':' });
+                    result.SetCommentDelimiters(new[] {';', '#'});
+                    result.SetAssignDelimiters(new[] {':'});
                     break;
 
                 case IniFileType.SambaStyle:
                     result.AcceptCommentAfterKey = false;
-                    result.SetCommentDelimiters(new[] { ';', '#' });
+                    result.SetCommentDelimiters(new[] {';', '#'});
                     result.LineContinuation = true;
                     break;
 
                 case IniFileType.MysqlStyle:
                     result.AcceptCommentAfterKey = false;
                     result.AcceptNoAssignmentOperator = true;
-                    result.SetCommentDelimiters(new[] { '#' });
-                    result.SetAssignDelimiters(new[] { ':', '=' });
+                    result.SetCommentDelimiters(new[] {'#'});
+                    result.SetAssignDelimiters(new[] {':', '='});
                     break;
 
                 case IniFileType.WindowsStyle:
@@ -304,7 +293,7 @@ namespace Nini.Ini
         }
 
         /// <summary>
-        /// Returns a proper IniWriter depending upon the type parameter.
+        ///     Returns a proper IniWriter depending upon the type parameter.
         /// </summary>
         private IniWriter GetIniWriter(TextWriter reader, IniFileType type)
         {

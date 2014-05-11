@@ -11,7 +11,7 @@ internal static class FileTypes
     internal static void BuildDictionary()
     {
         FileTypesDictionary = new Dictionary<IEnumerable<string>, Language>();
-        using (var reader = XmlReader.Create(SettingsBase.SettingsDir + "Extensions.xml"))
+        using (var reader = XmlReader.Create(Settings.SettingsDir + "Extensions.xml"))
         {
             while (reader.Read())
             {
@@ -20,6 +20,7 @@ internal static class FileTypes
             }
         }
     }
+
     internal static SyntaxDesc GetLanguage(IDictionary<IEnumerable<string>, Language> dic, string extension)
     {
         var desc = new SyntaxDesc();
@@ -40,26 +41,5 @@ internal static class FileTypes
             }
         }
         return desc;
-    }
-}
-
-internal class SyntaxDesc
-{
-    /// <summary>
-    ///     if IsBase = false Value of Language
-    /// </summary>
-    internal Language Language;
-
-    /// <summary>
-    ///     Syntax Base
-    /// </summary>
-    internal SyntaxBase SyntaxBase;
-
-    /// <summary>
-    ///     Is a Syntax Base
-    /// </summary>
-    internal bool IsBase
-    {
-        get { return SyntaxBase != null; }
     }
 }

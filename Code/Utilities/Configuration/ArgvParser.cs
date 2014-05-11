@@ -1,17 +1,3 @@
-#region Copyright
-
-//
-// Nini Configuration Project.
-// Copyright (C) 2006 Brent R. Matzelle.  All rights reserved.
-//
-// This software is published under the terms of the MIT X11 license, a copy of
-// which has been included with this distribution in the LICENSE.txt file.
-//
-// Original code written by: R. LOPES (GriffonRL)
-// Article: http://thecodeproject.com/csharp/command_line.asp
-
-#endregion Copyright
-
 using System.Collections.Specialized;
 using System.Text.RegularExpressions;
 
@@ -32,7 +18,7 @@ namespace Nini.Util
         public ArgvParser(string args)
         {
             var Extractor = new Regex(@"(['""][^""]+['""])\s*|([^\s]+)\s*",
-                                        RegexOptions.Compiled);
+                RegexOptions.Compiled);
             MatchCollection matches;
             string[] parts;
 
@@ -60,10 +46,7 @@ namespace Nini.Util
         /// <include file='ArgvParser.xml' path='//Property[@name="this"]/docs/*' />
         public string this[string param]
         {
-            get
-            {
-                return parameters[param];
-            }
+            get { return parameters[param]; }
         }
 
         #endregion Public properties
@@ -75,8 +58,8 @@ namespace Nini.Util
         {
             parameters = new StringDictionary();
             var splitter = new Regex(@"^([/-]|--){1}(?<name>\w+)([:=])?(?<value>.+)?$",
-                                        RegexOptions.Compiled);
-            char[] trimChars = { '"', '\'' };
+                RegexOptions.Compiled);
+            char[] trimChars = {'"', '\''};
             string parameter = null;
             Match part;
 
@@ -99,7 +82,7 @@ namespace Nini.Util
                     // Matched a name, optionally with inline value
                     parameter = part.Groups["name"].Value;
                     parameters.Add(parameter,
-                                    part.Groups["value"].Value.Trim(trimChars));
+                        part.Groups["value"].Value.Trim(trimChars));
                 }
             }
         }

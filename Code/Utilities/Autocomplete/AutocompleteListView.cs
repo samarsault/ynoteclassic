@@ -8,26 +8,12 @@ namespace AutocompleteMenuNS
 {
     public class AutocompleteListView : UserControl, IAutocompleteListView
     {
-        private readonly ToolTip toolTip = new ToolTip();
         private const int hoveredItemIndex = -1;
+        private readonly ToolTip toolTip = new ToolTip();
+        private int itemHeight;
         private int oldItemCount;
         private int selectedItemIndex = -1;
         private IList<AutocompleteItem> visibleItems;
-
-        /// <summary>
-        /// Duration (ms) of tooltip showing
-        /// </summary>
-        public int ToolTipDuration { get; set; }
-
-        /// <summary>
-        /// Occurs when user selected item for inserting into text
-        /// </summary>
-        public event EventHandler ItemSelected;
-
-        /// <summary>
-        /// Occurs when current hovered item is changing
-        /// </summary>
-        public event EventHandler<HoveredEventArgs> ItemHovered;
 
         internal AutocompleteListView()
         {
@@ -40,17 +26,6 @@ namespace AutocompleteMenuNS
             LeftPadding = 18;
             ToolTipDuration = 3000;
         }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                toolTip.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private int itemHeight;
 
         public int ItemHeight
         {
@@ -75,6 +50,21 @@ namespace AutocompleteMenuNS
         }
 
         public int LeftPadding { get; set; }
+
+        /// <summary>
+        ///     Duration (ms) of tooltip showing
+        /// </summary>
+        public int ToolTipDuration { get; set; }
+
+        /// <summary>
+        ///     Occurs when user selected item for inserting into text
+        /// </summary>
+        public event EventHandler ItemSelected;
+
+        /// <summary>
+        ///     Occurs when current hovered item is changing
+        /// </summary>
+        public event EventHandler<HoveredEventArgs> ItemHovered;
 
         public ImageList ImageList { get; set; }
 
@@ -101,7 +91,7 @@ namespace AutocompleteMenuNS
 
                 selectedItemIndex = value;
 
-                OnItemHovered(new HoveredEventArgs { Item = item });
+                OnItemHovered(new HoveredEventArgs {Item = item});
 
                 if (item != null)
                 {
@@ -111,6 +101,47 @@ namespace AutocompleteMenuNS
 
                 Invalidate();
             }
+        }
+
+        public Rectangle GetItemRectangle(int itemIndex)
+        {
+            var y = itemIndex*ItemHeight - VerticalScroll.Value;
+            return new Rectangle(0, y, ClientSize.Width - 1, ItemHeight - 1);
+        }
+
+        public void ShowToolTip(AutocompleteItem autocompleteItem, Control control = null)
+        {
+            var title = autocompleteItem.ToolTipTitle;
+            var text = autocompleteItem.ToolTipText;
+            if (control == null)
+                control = this;
+
+            if (string.IsNullOrEmpty(title))
+            {
+                toolTip.ToolTipTitle = null;
+                toolTip.SetToolTip(control, null);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(text))
+            {
+                toolTip.ToolTipTitle = null;
+                toolTip.Show(title, control, Width + 3, 0, ToolTipDuration);
+            }
+            else
+            {
+                toolTip.ToolTipTitle = title;
+                toolTip.Show(text, control, Width + 3, 0, ToolTipDuration);
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                toolTip.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
         private void OnItemHovered(HoveredEventArgs e)
@@ -126,7 +157,7 @@ namespace AutocompleteMenuNS
             if (oldItemCount == VisibleItems.Count)
                 return;
 
-            var needHeight = ItemHeight * VisibleItems.Count + 1;
+            var needHeight = ItemHeight*VisibleItems.Count + 1;
             Height = Math.Min(needHeight, MaximumSize.Height);
             AutoScrollMinSize = new Size(0, needHeight);
             oldItemCount = VisibleItems.Count;
@@ -134,35 +165,29 @@ namespace AutocompleteMenuNS
 
         private void ScrollToSelected()
         {
-            var y = SelectedItemIndex * ItemHeight - VerticalScroll.Value;
+            var y = SelectedItemIndex*ItemHeight - VerticalScroll.Value;
             if (y < 0)
-                VerticalScroll.Value = SelectedItemIndex * ItemHeight;
+                VerticalScroll.Value = SelectedItemIndex*ItemHeight;
             if (y > ClientSize.Height - ItemHeight)
                 VerticalScroll.Value = Math.Min(VerticalScroll.Maximum,
-                                                SelectedItemIndex * ItemHeight - ClientSize.Height + ItemHeight);
+                    SelectedItemIndex*ItemHeight - ClientSize.Height + ItemHeight);
             //some magic for update scrolls
             AutoScrollMinSize -= new Size(1, 0);
             AutoScrollMinSize += new Size(1, 0);
-        }
-
-        public Rectangle GetItemRectangle(int itemIndex)
-        {
-            var y = itemIndex * ItemHeight - VerticalScroll.Value;
-            return new Rectangle(0, y, ClientSize.Width - 1, ItemHeight - 1);
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
             var rtl = RightToLeft == RightToLeft.Yes;
             AdjustScroll();
-            var startI = VerticalScroll.Value / ItemHeight - 1;
-            var finishI = (VerticalScroll.Value + ClientSize.Height) / ItemHeight + 1;
+            var startI = VerticalScroll.Value/ItemHeight - 1;
+            var finishI = (VerticalScroll.Value + ClientSize.Height)/ItemHeight + 1;
             startI = Math.Max(startI, 0);
             finishI = Math.Min(finishI, VisibleItems.Count);
 
             for (var i = startI; i < finishI; i++)
             {
-                var y = i * ItemHeight - VerticalScroll.Value;
+                var y = i*ItemHeight - VerticalScroll.Value;
 
                 if (ImageList != null && VisibleItems[i].ImageIndex >= 0)
                     if (rtl)
@@ -177,7 +202,7 @@ namespace AutocompleteMenuNS
                 if (i == SelectedItemIndex)
                 {
                     Brush selectedBrush = new LinearGradientBrush(new Point(0, y - 3), new Point(0, y + ItemHeight),
-                                                                  Color.White, Color.Orange);
+                        Color.White, Color.Orange);
                     e.Graphics.FillRectangle(selectedBrush, textRect);
                     e.Graphics.DrawRectangle(Pens.Orange, textRect);
                 }
@@ -189,13 +214,13 @@ namespace AutocompleteMenuNS
                     sf.FormatFlags = StringFormatFlags.DirectionRightToLeft;
 
                 var args = new PaintItemEventArgs(e.Graphics, e.ClipRectangle)
-                               {
-                                   Font = Font,
-                                   TextRect = new RectangleF(textRect.Location, textRect.Size),
-                                   StringFormat = sf,
-                                   IsSelected = i == SelectedItemIndex,
-                                   IsHovered = i == hoveredItemIndex
-                               };
+                {
+                    Font = Font,
+                    TextRect = new RectangleF(textRect.Location, textRect.Size),
+                    StringFormat = sf,
+                    IsSelected = i == SelectedItemIndex,
+                    IsHovered = i == hoveredItemIndex
+                };
                 //call drawing
                 VisibleItems[i].OnPaint(args);
             }
@@ -235,14 +260,14 @@ namespace AutocompleteMenuNS
 
         private int PointToItemIndex(Point p)
         {
-            return (p.Y + VerticalScroll.Value) / ItemHeight;
+            return (p.Y + VerticalScroll.Value)/ItemHeight;
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             var host = Parent as AutocompleteMenuHost;
             if (host != null)
-                if (host.Menu.ProcessKey((char)keyData, Keys.None))
+                if (host.Menu.ProcessKey((char) keyData, Keys.None))
                     return true;
 
             return base.ProcessCmdKey(ref msg, keyData);
@@ -261,32 +286,6 @@ namespace AutocompleteMenuNS
             SelectedItemIndex = -1;
             AdjustScroll();
             Invalidate();
-        }
-
-        public void ShowToolTip(AutocompleteItem autocompleteItem, Control control = null)
-        {
-            var title = autocompleteItem.ToolTipTitle;
-            var text = autocompleteItem.ToolTipText;
-            if (control == null)
-                control = this;
-
-            if (string.IsNullOrEmpty(title))
-            {
-                toolTip.ToolTipTitle = null;
-                toolTip.SetToolTip(control, null);
-                return;
-            }
-
-            if (string.IsNullOrEmpty(text))
-            {
-                toolTip.ToolTipTitle = null;
-                toolTip.Show(title, control, Width + 3, 0, ToolTipDuration);
-            }
-            else
-            {
-                toolTip.ToolTipTitle = title;
-                toolTip.Show(text, control, Width + 3, 0, ToolTipDuration);
-            }
         }
     }
 }

@@ -1,25 +1,14 @@
-#region Copyright
-
-//
-// Nini Configuration Project.
-// Copyright (C) 2006 Brent R. Matzelle.  All rights reserved.
-//
-// This software is published under the terms of the MIT X11 license, a copy of
-// which has been included with this distribution in the LICENSE.txt file.
-//
-
-#endregion Copyright
-
 using System;
 using System.IO;
 using System.Text;
 
 namespace Nini.Ini
 {
+
     #region IniWriteState enumeration
 
     /// <include file='IniWriter.xml' path='//Enum[@name="IniWriteState"]/docs/*' />
-    public enum IniWriteState : int
+    public enum IniWriteState
     {
         /// <include file='IniWriter.xml' path='//Enum[@name="IniWriteState"]/Value[@name="Start"]/docs/*' />
         Start,
@@ -41,16 +30,16 @@ namespace Nini.Ini
     {
         #region Private variables
 
+        private const string eol = "\r\n";
+        private readonly Stream baseStream;
+        private readonly StringBuilder indentationBuffer = new StringBuilder();
+        private readonly TextWriter textWriter;
+        private char assignDelimiter = '=';
+        private char commentDelimiter = ';';
+        private bool disposed;
         private int indentation;
         private bool useValueQuotes;
         private IniWriteState writeState = IniWriteState.Start;
-        private char commentDelimiter = ';';
-        private char assignDelimiter = '=';
-        private readonly TextWriter textWriter;
-        private const string eol = "\r\n";
-        private readonly StringBuilder indentationBuffer = new StringBuilder();
-        private readonly Stream baseStream;
-        private bool disposed;
 
         #endregion Private variables
 
@@ -136,6 +125,12 @@ namespace Nini.Ini
 
         #region Public methods
 
+        /// <include file='IniWriter.xml' path='//Method[@name="Dispose"]/docs/*' />
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
         /// <include file='IniWriter.xml' path='//Method[@name="Close"]/docs/*' />
         public void Close()
         {
@@ -214,12 +209,6 @@ namespace Nini.Ini
             }
         }
 
-        /// <include file='IniWriter.xml' path='//Method[@name="Dispose"]/docs/*' />
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
         #endregion Public methods
 
         #region Protected methods
@@ -245,7 +234,7 @@ namespace Nini.Ini
         #region Private methods
 
         /// <summary>
-        /// Destructor.
+        ///     Destructor.
         /// </summary>
         ~IniWriter()
         {
@@ -253,7 +242,7 @@ namespace Nini.Ini
         }
 
         /// <summary>
-        /// Returns the value of a key.
+        ///     Returns the value of a key.
         /// </summary>
         private string GetKeyValue(string text)
         {
@@ -272,7 +261,7 @@ namespace Nini.Ini
         }
 
         /// <summary>
-        /// Validates whether a key can be written.
+        ///     Validates whether a key can be written.
         /// </summary>
         private void ValidateStateKey()
         {
@@ -289,7 +278,7 @@ namespace Nini.Ini
         }
 
         /// <summary>
-        /// Validates the state to determine if the item can be written.
+        ///     Validates the state to determine if the item can be written.
         /// </summary>
         private void ValidateState()
         {
@@ -300,7 +289,7 @@ namespace Nini.Ini
         }
 
         /// <summary>
-        /// Returns a formatted comment.
+        ///     Returns a formatted comment.
         /// </summary>
         private string Comment(string text)
         {
@@ -308,7 +297,7 @@ namespace Nini.Ini
         }
 
         /// <summary>
-        /// Writes data to the writer.
+        ///     Writes data to the writer.
         /// </summary>
         private void Write(string value)
         {
@@ -316,7 +305,7 @@ namespace Nini.Ini
         }
 
         /// <summary>
-        /// Writes a full line to the writer.
+        ///     Writes a full line to the writer.
         /// </summary>
         private void WriteLine(string value)
         {
@@ -324,8 +313,8 @@ namespace Nini.Ini
         }
 
         /// <summary>
-        /// Fixes the incoming value to prevent illegal characters from
-        /// hurting the integrity of the INI file.
+        ///     Fixes the incoming value to prevent illegal characters from
+        ///     hurting the integrity of the INI file.
         /// </summary>
         private string MassageValue(string text)
         {

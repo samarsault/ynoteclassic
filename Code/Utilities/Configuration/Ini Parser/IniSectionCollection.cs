@@ -1,18 +1,6 @@
-#region Copyright
-
-//
-// Nini Configuration Project.
-// Copyright (C) 2006 Brent R. Matzelle.  All rights reserved.
-//
-// This software is published under the terms of the MIT X11 license, a copy of
-// which has been included with this distribution in the LICENSE.txt file.
-//
-
-#endregion Copyright
-
-using Nini.Util;
 using System;
 using System.Collections;
+using Nini.Util;
 
 namespace Nini.Ini
 {
@@ -30,13 +18,13 @@ namespace Nini.Ini
         /// <include file='IniSectionCollection.xml' path='//Property[@name="ItemIndex"]/docs/*' />
         public IniSection this[int index]
         {
-            get { return (IniSection)list[index]; }
+            get { return (IniSection) list[index]; }
         }
 
         /// <include file='IniSectionCollection.xml' path='//Property[@name="ItemName"]/docs/*' />
         public IniSection this[string configName]
         {
-            get { return (IniSection)list[configName]; }
+            get { return (IniSection) list[configName]; }
         }
 
         /// <include file='IniSectionCollection.xml' path='//Property[@name="Count"]/docs/*' />
@@ -61,6 +49,18 @@ namespace Nini.Ini
 
         #region Public methods
 
+        /// <include file='IniSectionCollection.xml' path='//Method[@name="CopyTo"]/docs/*' />
+        public void CopyTo(Array array, int index)
+        {
+            list.CopyTo(array, index);
+        }
+
+        /// <include file='IniSectionCollection.xml' path='//Method[@name="GetEnumerator"]/docs/*' />
+        public IEnumerator GetEnumerator()
+        {
+            return list.GetEnumerator();
+        }
+
         /// <include file='IniSectionCollection.xml' path='//Method[@name="Add"]/docs/*' />
         public void Add(IniSection section)
         {
@@ -78,22 +78,10 @@ namespace Nini.Ini
             list.Remove(config);
         }
 
-        /// <include file='IniSectionCollection.xml' path='//Method[@name="CopyTo"]/docs/*' />
-        public void CopyTo(Array array, int index)
-        {
-            list.CopyTo(array, index);
-        }
-
         /// <include file='IniSectionCollection.xml' path='//Method[@name="CopyToStrong"]/docs/*' />
         public void CopyTo(IniSection[] array, int index)
         {
-            ((ICollection)list).CopyTo(array, index);
-        }
-
-        /// <include file='IniSectionCollection.xml' path='//Method[@name="GetEnumerator"]/docs/*' />
-        public IEnumerator GetEnumerator()
-        {
-            return list.GetEnumerator();
+            ((ICollection) list).CopyTo(array, index);
         }
 
         #endregion Public methods

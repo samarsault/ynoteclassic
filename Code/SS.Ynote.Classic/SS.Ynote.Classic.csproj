@@ -125,13 +125,19 @@
     <Compile Include="Features\RunScript\NewRun.Designer.cs">
       <DependentUpon>NewRun.cs</DependentUpon>
     </Compile>
+    <Compile Include="Features\Search\FindInFiles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Features\Search\FindInFiles.Designer.cs">
+      <DependentUpon>FindInFiles.cs</DependentUpon>
+    </Compile>
     <Compile Include="Features\Snippets\YnoteSnippet.cs" />
     <Compile Include="Features\Syntax\Framework\Rules.cs" />
     <Compile Include="Features\Syntax\Framework\SyntaxBase.cs" />
     <Compile Include="Features\Commands\ICommand.cs" />
+    <Compile Include="Features\Syntax\SyntaxDesc.cs" />
     <Compile Include="Helpers\Encryptor.cs" />
     <Compile Include="Helpers\FileTypes.cs" />
-    <Compile Include="Helpers\IYnoteBuffer.cs" />
     <Compile Include="Helpers\NativeMethods.cs" />
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Features\RunScript\RunScriptEditor.cs">
@@ -158,7 +164,7 @@
       <DependentUpon>ProjectWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="Features\Project\YnoteProject.cs" />
-    <Compile Include="Helpers\SettingsBase.cs" />
+    <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Features\Syntax\SyntaxHighlighter.cs" />
     <Compile Include="Features\Syntax\Theme\YnoteThemeReader.cs" />
     <Compile Include="Features\Extensibility\YnotePlugin.cs" />
@@ -178,6 +184,7 @@
     <Compile Include="UI\BookmarksInfos.Designer.cs">
       <DependentUpon>BookmarksInfos.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Controls\FuzzyAutoCompleteItem.cs" />
     <Compile Include="UI\Shell.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -241,11 +248,11 @@
     <Compile Include="UI\Editor.Designer.cs">
       <DependentUpon>Editor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Features\Search\FindInFiles.cs">
+    <Compile Include="Features\Search\SearchResults.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Features\Search\FindInFiles.designer.cs">
-      <DependentUpon>FindInFiles.cs</DependentUpon>
+    <Compile Include="Features\Search\SearchResults.designer.cs">
+      <DependentUpon>SearchResults.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\UtilDialog.cs">
       <SubType>Form</SubType>
@@ -288,6 +295,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Features\Project\ProjectWizard.resx">
       <DependentUpon>ProjectWizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Features\Search\FindInFiles.resx">
+      <DependentUpon>FindInFiles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Features\Search\SearchResults.resx">
+      <DependentUpon>SearchResults.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -350,11 +363,11 @@
     <None Include="Resources\ynote-favicon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DockPanelSuite\WinFormsUI.csproj">
+    <ProjectReference Include="..\Docking\WinFormsUI.csproj">
       <Project>{c75532c4-765b-418e-b09b-46d36b2abdb1}</Project>
       <Name>WinFormsUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FastColoredTextBox-master\FastColoredTextBox.csproj">
+    <ProjectReference Include="..\FastColoredTextBox\FastColoredTextBox.csproj">
       <Project>{6dd14a85-ccfc-4774-bd26-0f5772512319}</Project>
       <Name>FastColoredTextBox</Name>
     </ProjectReference>

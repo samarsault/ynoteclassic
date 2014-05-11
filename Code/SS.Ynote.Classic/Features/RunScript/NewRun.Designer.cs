@@ -157,7 +157,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "NewRun";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "New Run Script";
+            this.Text = "New External Tool";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -270,6 +270,7 @@
             this.removebookmark = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.menuItem3 = new System.Windows.Forms.MenuItem();
             this.status.SuspendLayout();
             this.toolBar.SuspendLayout();
             this.SuspendLayout();
@@ -499,6 +500,8 @@
             this.selectallmenu,
             this.seperator23,
             this.miinsert,
+            this.miinscliphis,
+            this.menuItem3,
             this.misearch,
             this.miindent,
             this.commentmenu,
@@ -595,7 +598,6 @@
             this.mifilename,
             this.mifullfilename,
             this.seperator52,
-            this.miinscliphis,
             this.miemptycolumns,
             this.miemptylines});
             this.miinsert.Text = "Insert";
@@ -644,26 +646,26 @@
             // 
             // miinscliphis
             // 
-            this.miinscliphis.Index = 7;
+            this.miinscliphis.Index = 11;
             this.miinscliphis.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftV;
-            this.miinscliphis.Text = "From Clipboard History";
+            this.miinscliphis.Text = "Insert From Clipboard History";
             this.miinscliphis.Click += new System.EventHandler(this.miinscliphis_Click);
             // 
             // miemptycolumns
             // 
-            this.miemptycolumns.Index = 8;
+            this.miemptycolumns.Index = 7;
             this.miemptycolumns.Text = "Empty Columns";
             this.miemptycolumns.Click += new System.EventHandler(this.emptycolumns_Click);
             // 
             // miemptylines
             // 
-            this.miemptylines.Index = 9;
+            this.miemptylines.Index = 8;
             this.miemptylines.Text = "Empty Lines";
             this.miemptylines.Click += new System.EventHandler(this.emptylines_Click);
             // 
             // misearch
             // 
-            this.misearch.Index = 11;
+            this.misearch.Index = 13;
             this.misearch.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.findmenu,
             this.mifindnext,
@@ -713,12 +715,12 @@
             // 
             this.findinfilesmenu.Index = 6;
             this.findinfilesmenu.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftF;
-            this.findinfilesmenu.Text = "Find/Replace In Files";
+            this.findinfilesmenu.Text = "Find In Files";
             this.findinfilesmenu.Click += new System.EventHandler(this.findinfilesmenu_Click);
             // 
             // miindent
             // 
-            this.miindent.Index = 12;
+            this.miindent.Index = 14;
             this.miindent.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.increaseindent,
             this.decreaseindent,
@@ -745,7 +747,7 @@
             // 
             // commentmenu
             // 
-            this.commentmenu.Index = 13;
+            this.commentmenu.Index = 15;
             this.commentmenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.commentline,
             this.uncommentline});
@@ -766,7 +768,7 @@
             // 
             // minav
             // 
-            this.minav.Index = 14;
+            this.minav.Index = 16;
             this.minav.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.migotol,
             this.miswitchfile,
@@ -888,7 +890,7 @@
             // 
             // miline
             // 
-            this.miline.Index = 15;
+            this.miline.Index = 17;
             this.miline.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.movelineup,
             this.movelinedown,
@@ -985,7 +987,7 @@
             // 
             // mifolding
             // 
-            this.mifolding.Index = 16;
+            this.mifolding.Index = 18;
             this.mifolding.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.foldallmenu,
             this.unfoldmenu,
@@ -1025,7 +1027,7 @@
             // 
             // miblankops
             // 
-            this.miblankops.Index = 17;
+            this.miblankops.Index = 19;
             this.miblankops.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.mitts,
             this.mitls,
@@ -1081,7 +1083,7 @@
             // 
             // micase
             // 
-            this.micase.Index = 18;
+            this.micase.Index = 20;
             this.micase.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.caseuppermenu,
             this.caselowermenu,
@@ -1116,7 +1118,7 @@
             // 
             // mibookmarks
             // 
-            this.mibookmarks.Index = 19;
+            this.mibookmarks.Index = 21;
             this.mibookmarks.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.Addbookmarkmenu,
             this.removebookmarkmenu,
@@ -1151,7 +1153,7 @@
             // 
             // miconversions
             // 
-            this.miconversions.Index = 20;
+            this.miconversions.Index = 22;
             this.miconversions.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.mispacestotab,
             this.mitabtospaces,
@@ -1191,12 +1193,12 @@
             // 
             // seperator13
             // 
-            this.seperator13.Index = 21;
+            this.seperator13.Index = 23;
             this.seperator13.Text = "-";
             // 
             // replacemode
             // 
-            this.replacemode.Index = 22;
+            this.replacemode.Index = 24;
             this.replacemode.Text = "Switch Editing Mode        [Ins]";
             this.replacemode.Click += new System.EventHandler(this.replacemode_Click);
             // 
@@ -1507,7 +1509,7 @@
             this.mirunscripts.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.mirun,
             this.mieditor});
-            this.mirunscripts.Text = "Run Scripts";
+            this.mirunscripts.Text = "External Tools";
             // 
             // mirun
             // 
@@ -1843,6 +1845,7 @@
             this.dock.Location = new System.Drawing.Point(0, 25);
             this.dock.Name = "dock";
             this.dock.Size = new System.Drawing.Size(767, 313);
+            this.dock.ActiveDocumentChanged += dock_ActiveDocumentChanged;
             this.dock.TabIndex = 0;
             // 
             // toolBar
@@ -1949,7 +1952,7 @@
             this.addbookmark.Name = "addbookmark";
             this.addbookmark.Size = new System.Drawing.Size(23, 22);
             this.addbookmark.Text = "Add Bookmark";
-            this.addbookmark.Click += new System.EventHandler(this.addbookmark_Click);
+            this.addbookmark.Click += new System.EventHandler(this.Addbookmarkmenu_Click);
             // 
             // removebookmark
             // 
@@ -1959,7 +1962,7 @@
             this.removebookmark.Name = "removebookmark";
             this.removebookmark.Size = new System.Drawing.Size(23, 22);
             this.removebookmark.Text = "toolStripButton2";
-            this.removebookmark.Click += new System.EventHandler(this.removebookmark_Click);
+            this.removebookmark.Click += new System.EventHandler(this.removebookmarkmenu_Click);
             // 
             // toolStripSeparator2
             // 
@@ -1974,6 +1977,11 @@
             this.helpToolStripButton.Name = "helpToolStripButton";
             this.helpToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.helpToolStripButton.Text = "He&lp";
+            // 
+            // menuItem3
+            // 
+            this.menuItem3.Index = 12;
+            this.menuItem3.Text = "-";
             // 
             // MainForm
             // 
@@ -2236,6 +2244,7 @@
         private ToolStripButton addbookmark;
         private ToolStripButton removebookmark;
         private ToolStripSeparator toolStripSeparator2;
+        private MenuItem menuItem3;
     }
 }
 

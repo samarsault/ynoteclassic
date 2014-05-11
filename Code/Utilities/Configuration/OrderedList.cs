@@ -9,17 +9,44 @@ namespace Nini.Util
     {
         #region Private variables
 
-        private readonly Hashtable table = new Hashtable();
         private readonly ArrayList list = new ArrayList();
+        private readonly Hashtable table = new Hashtable();
 
         #endregion Private variables
 
         #region Public properties
 
+        /// <include file='OrderedList.xml' path='//Property[@name="ItemIndex"]/docs/*' />
+        public object this[int index]
+        {
+            get { return ((DictionaryEntry) list[index]).Value; }
+            set
+            {
+                if (index < 0 || index >= Count)
+                    throw new ArgumentOutOfRangeException("index");
+
+                var key = ((DictionaryEntry) list[index]).Key;
+                list[index] = new DictionaryEntry(key, value);
+                table[key] = value;
+            }
+        }
+
         /// <include file='OrderedList.xml' path='//Property[@name="Count"]/docs/*' />
         public int Count
         {
             get { return list.Count; }
+        }
+
+        /// <include file='OrderedList.xml' path='//Property[@name="IsSynchronized"]/docs/*' />
+        public bool IsSynchronized
+        {
+            get { return false; }
+        }
+
+        /// <include file='OrderedList.xml' path='//Property[@name="SyncRoot"]/docs/*' />
+        public object SyncRoot
+        {
+            get { return this; }
         }
 
         /// <include file='OrderedList.xml' path='//Property[@name="IsFixedSize"]/docs/*' />
@@ -32,27 +59,6 @@ namespace Nini.Util
         public bool IsReadOnly
         {
             get { return false; }
-        }
-
-        /// <include file='OrderedList.xml' path='//Property[@name="IsSynchronized"]/docs/*' />
-        public bool IsSynchronized
-        {
-            get { return false; }
-        }
-
-        /// <include file='OrderedList.xml' path='//Property[@name="ItemIndex"]/docs/*' />
-        public object this[int index]
-        {
-            get { return ((DictionaryEntry)list[index]).Value; }
-            set
-            {
-                if (index < 0 || index >= Count)
-                    throw new ArgumentOutOfRangeException("index");
-
-                var key = ((DictionaryEntry)list[index]).Key;
-                list[index] = new DictionaryEntry(key, value);
-                table[key] = value;
-            }
         }
 
         /// <include file='OrderedList.xml' path='//Property[@name="ItemKey"]/docs/*' />
@@ -79,7 +85,7 @@ namespace Nini.Util
                 var retList = new ArrayList();
                 for (var i = 0; i < list.Count; i++)
                 {
-                    retList.Add(((DictionaryEntry)list[i]).Key);
+                    retList.Add(((DictionaryEntry) list[i]).Key);
                 }
                 return retList;
             }
@@ -93,21 +99,27 @@ namespace Nini.Util
                 var retList = new ArrayList();
                 for (var i = 0; i < list.Count; i++)
                 {
-                    retList.Add(((DictionaryEntry)list[i]).Value);
+                    retList.Add(((DictionaryEntry) list[i]).Value);
                 }
                 return retList;
             }
         }
 
-        /// <include file='OrderedList.xml' path='//Property[@name="SyncRoot"]/docs/*' />
-        public object SyncRoot
-        {
-            get { return this; }
-        }
-
         #endregion Public properties
 
         #region Public methods
+
+        /// <include file='OrderedList.xml' path='//Method[@name="CopyTo"]/docs/*' />
+        public void CopyTo(Array array, int index)
+        {
+            table.CopyTo(array, index);
+        }
+
+        /// <include file='OrderedList.xml' path='//Method[@name="GetIEnumerator"]/docs/*' />
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new OrderedListEnumerator(list);
+        }
 
         /// <include file='OrderedList.xml' path='//Method[@name="Add"]/docs/*' />
         public void Add(object key, object value)
@@ -129,10 +141,17 @@ namespace Nini.Util
             return table.Contains(key);
         }
 
-        /// <include file='OrderedList.xml' path='//Method[@name="CopyTo"]/docs/*' />
-        public void CopyTo(Array array, int index)
+        /// <include file='OrderedList.xml' path='//Method[@name="Remove"]/docs/*' />
+        public void Remove(object key)
         {
-            table.CopyTo(array, index);
+            table.Remove(key);
+            list.RemoveAt(IndexOf(key));
+        }
+
+        /// <include file='OrderedList.xml' path='//Method[@name="GetDictionaryEnumerator"]/docs/*' />
+        IDictionaryEnumerator IDictionary.GetEnumerator()
+        {
+            return new OrderedListEnumerator(list);
         }
 
         /// <include file='OrderedList.xml' path='//Method[@name="CopyToStrong"]/docs/*' />
@@ -151,37 +170,18 @@ namespace Nini.Util
             list.Insert(index, new DictionaryEntry(key, value));
         }
 
-        /// <include file='OrderedList.xml' path='//Method[@name="Remove"]/docs/*' />
-        public void Remove(object key)
-        {
-            table.Remove(key);
-            list.RemoveAt(IndexOf(key));
-        }
-
         /// <include file='OrderedList.xml' path='//Method[@name="RemoveAt"]/docs/*' />
         public void RemoveAt(int index)
         {
             if (index >= Count)
                 throw new ArgumentOutOfRangeException("index");
 
-            table.Remove(((DictionaryEntry)list[index]).Key);
+            table.Remove(((DictionaryEntry) list[index]).Key);
             list.RemoveAt(index);
         }
 
         /// <include file='OrderedList.xml' path='//Method[@name="GetEnumerator"]/docs/*' />
         public IEnumerator GetEnumerator()
-        {
-            return new OrderedListEnumerator(list);
-        }
-
-        /// <include file='OrderedList.xml' path='//Method[@name="GetDictionaryEnumerator"]/docs/*' />
-        IDictionaryEnumerator IDictionary.GetEnumerator()
-        {
-            return new OrderedListEnumerator(list);
-        }
-
-        /// <include file='OrderedList.xml' path='//Method[@name="GetIEnumerator"]/docs/*' />
-        IEnumerator IEnumerable.GetEnumerator()
         {
             return new OrderedListEnumerator(list);
         }
@@ -194,7 +194,7 @@ namespace Nini.Util
         {
             for (var i = 0; i < list.Count; i++)
             {
-                if (((DictionaryEntry)list[i]).Key.Equals(key))
+                if (((DictionaryEntry) list[i]).Key.Equals(key))
                 {
                     return i;
                 }

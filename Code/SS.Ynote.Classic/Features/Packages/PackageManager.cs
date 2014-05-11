@@ -21,8 +21,8 @@ namespace SS.Ynote.Classic.Features.Packages
 
         private void PopulatePackageList()
         {
-            foreach (var file in Directory.GetFiles(SettingsBase.SettingsDir + "Packages"))
-                listView1.Items.Add(new ListViewItem(new[] { Path.GetFileNameWithoutExtension(file), file }));
+            foreach (var file in Directory.GetFiles(Settings.SettingsDir + "Packages"))
+                listView1.Items.Add(new ListViewItem(new[] {Path.GetFileNameWithoutExtension(file), file}));
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -32,14 +32,14 @@ namespace SS.Ynote.Classic.Features.Packages
                 ofd.Filter = "Ynote Packages (*.ypk)|*.ypk";
                 ofd.ShowDialog();
                 if (string.IsNullOrEmpty(ofd.FileName)) return;
-                var installer = new PackageInstaller(ofd.FileName) { StartPosition = FormStartPosition.CenterParent };
+                var installer = new PackageInstaller(ofd.FileName) {StartPosition = FormStartPosition.CenterParent};
                 installer.ShowDialog();
             }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            var packager = new PackageMaker { StartPosition = FormStartPosition.CenterParent };
+            var packager = new PackageMaker {StartPosition = FormStartPosition.CenterParent};
             packager.ShowDialog(this);
         }
 
@@ -65,6 +65,7 @@ namespace SS.Ynote.Classic.Features.Packages
                 Process.Start(info);
             }
         }
+
         private void PackageManager_HelpButtonClicked(object sender, CancelEventArgs e)
         {
             Process.Start("http://ynoteclassic.codeplex.com/wikipage?title=Ynote%20Packages");

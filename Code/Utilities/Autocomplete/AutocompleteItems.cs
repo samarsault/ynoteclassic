@@ -4,12 +4,12 @@ using System.Drawing;
 namespace AutocompleteMenuNS
 {
     /// <summary>
-    /// This autocomplete item appears after dot
+    ///     This autocomplete item appears after dot
     /// </summary>
     public class MethodAutocompleteItem : AutocompleteItem
     {
-        private string firstPart;
         private readonly string lowercaseText;
+        private string firstPart;
 
         public MethodAutocompleteItem(string text)
             : base(text)
@@ -41,7 +41,7 @@ namespace AutocompleteMenuNS
     }
 
     /// <summary>
-    /// Autocomplete item for code snippets
+    ///     Autocomplete item for code snippets
     /// </summary>
     /// <remarks>Snippet can contain special char ^ for caret position.</remarks>
     public class SnippetAutocompleteItem : AutocompleteItem
@@ -81,12 +81,12 @@ namespace AutocompleteMenuNS
         }
 
         /// <summary>
-        /// Compares fragment text with this item
+        ///     Compares fragment text with this item
         /// </summary>
         public override CompareResult Compare(string fragmentText)
         {
             if (Text.StartsWith(fragmentText, StringComparison.InvariantCultureIgnoreCase) &&
-                   Text != fragmentText)
+                Text != fragmentText)
                 return CompareResult.Visible;
 
             return CompareResult.Hidden;
@@ -94,12 +94,12 @@ namespace AutocompleteMenuNS
     }
 
     /// <summary>
-    /// This class finds items by substring
+    ///     This class finds items by substring
     /// </summary>
     public class SubstringAutocompleteItem : AutocompleteItem
     {
-        protected readonly string lowercaseText;
         protected readonly bool ignoreCase;
+        protected readonly string lowercaseText;
 
         public SubstringAutocompleteItem(string text, bool ignoreCase = true)
             : base(text)
@@ -127,22 +127,23 @@ namespace AutocompleteMenuNS
     }
 
     /// <summary>
-    /// This item draws multicolumn menu
+    ///     This item draws multicolumn menu
     /// </summary>
     public class MulticolumnAutocompleteItem : SubstringAutocompleteItem
     {
-        public bool CompareBySubstring { get; set; }
-
-        public string[] MenuTextByColumns { get; set; }
-
-        public int[] ColumnWidth { get; set; }
-
-        public MulticolumnAutocompleteItem(string[] menuTextByColumns, string insertingText, bool compareBySubstring = true, bool ignoreCase = true)
+        public MulticolumnAutocompleteItem(string[] menuTextByColumns, string insertingText,
+            bool compareBySubstring = true, bool ignoreCase = true)
             : base(insertingText, ignoreCase)
         {
             CompareBySubstring = compareBySubstring;
             MenuTextByColumns = menuTextByColumns;
         }
+
+        public bool CompareBySubstring { get; set; }
+
+        public string[] MenuTextByColumns { get; set; }
+
+        public int[] ColumnWidth { get; set; }
 
         public override CompareResult Compare(string fragmentText)
         {
@@ -154,9 +155,8 @@ namespace AutocompleteMenuNS
                 if (Text.StartsWith(fragmentText, StringComparison.InvariantCultureIgnoreCase))
                     return CompareResult.VisibleAndSelected;
             }
-            else
-                if (Text.StartsWith(fragmentText))
-                    return CompareResult.VisibleAndSelected;
+            else if (Text.StartsWith(fragmentText))
+                return CompareResult.VisibleAndSelected;
 
             return CompareResult.Hidden;
         }
@@ -170,9 +170,9 @@ namespace AutocompleteMenuNS
             if (columnWidth == null)
             {
                 columnWidth = new int[MenuTextByColumns.Length];
-                var step = e.TextRect.Width / MenuTextByColumns.Length;
+                var step = e.TextRect.Width/MenuTextByColumns.Length;
                 for (var i = 0; i < MenuTextByColumns.Length; i++)
-                    columnWidth[i] = (int)step;
+                    columnWidth[i] = (int) step;
             }
 
             //draw columns

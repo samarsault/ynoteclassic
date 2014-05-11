@@ -5,19 +5,21 @@ namespace SS.Ynote.Classic.UI
 {
     public partial class PasswordDialog : Form
     {
-        public string Password
-        {
-            get { return tbPass.Text; } 
-        }
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         public PasswordDialog()
         {
             InitializeComponent();
         }
+
+        public string Password
+        {
+            get { return tbPass.Text; }
+        }
+
         /// <summary>
-        /// CbShowPassword
+        ///     CbShowPassword
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -25,8 +27,9 @@ namespace SS.Ynote.Classic.UI
         {
             tbPass.PasswordChar = cbShowPass.Checked ? '\0' : '●';
         }
+
         /// <summary>
-        /// OK
+        ///     OK
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

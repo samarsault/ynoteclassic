@@ -40,10 +40,10 @@ namespace SS.Ynote.Classic.Features.Packages
                             }
                         }
                     }
-                    if (!Directory.Exists(SettingsBase.SettingsDir + "Packages"))
-                        Directory.CreateDirectory(SettingsBase.SettingsDir + "Packages");
+                    if (!Directory.Exists(Settings.SettingsDir + "Packages"))
+                        Directory.CreateDirectory(Settings.SettingsDir + "Packages");
                     File.Copy(pack,
-                        string.Format("{0}\\Packages\\{1}", SettingsBase.SettingsDir, Path.GetFileName(pack)), true);
+                        string.Format("{0}\\Packages\\{1}", Settings.SettingsDir, Path.GetFileName(pack)), true);
                     return true;
                 }
             }
@@ -120,7 +120,7 @@ namespace SS.Ynote.Classic.Features.Packages
             return
                 dic.Values.Select(
                     item =>
-                        item.Replace("$ynotedata", SettingsBase.SettingsDir)
+                        item.Replace("$ynotedata", Settings.SettingsDir)
                             .Replace("$ynotedir", Application.StartupPath)).ToArray();
         }
 

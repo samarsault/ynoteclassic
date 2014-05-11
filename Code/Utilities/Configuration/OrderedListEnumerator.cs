@@ -8,15 +8,15 @@ namespace Nini.Util
     {
         #region Private variables
 
-        private int index = -1;
         private readonly ArrayList list;
+        private int index = -1;
 
         #endregion Private variables
 
         #region Constructors
 
         /// <summary>
-        /// Instantiates an ordered list enumerator with an ArrayList.
+        ///     Instantiates an ordered list enumerator with an ArrayList.
         /// </summary>
         internal OrderedListEnumerator(ArrayList arrayList)
         {
@@ -27,6 +27,18 @@ namespace Nini.Util
 
         #region Public properties
 
+        /// <include file='OrderedListEnumerator.xml' path='//Property[@name="CurrentStrong"]/docs/*' />
+        public DictionaryEntry Current
+        {
+            get
+            {
+                if (index < 0 || index >= list.Count)
+                    throw new InvalidOperationException();
+
+                return (DictionaryEntry) list[index];
+            }
+        }
+
         /// <include file='OrderedListEnumerator.xml' path='//Property[@name="Current"]/docs/*' />
         object IEnumerator.Current
         {
@@ -36,18 +48,6 @@ namespace Nini.Util
                     throw new InvalidOperationException();
 
                 return list[index];
-            }
-        }
-
-        /// <include file='OrderedListEnumerator.xml' path='//Property[@name="CurrentStrong"]/docs/*' />
-        public DictionaryEntry Current
-        {
-            get
-            {
-                if (index < 0 || index >= list.Count)
-                    throw new InvalidOperationException();
-
-                return (DictionaryEntry)list[index];
             }
         }
 

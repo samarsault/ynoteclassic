@@ -27,7 +27,7 @@ namespace SS.Ynote.Classic
                             break;
                         case '\0':
                             point = tb.PlaceToPoint(place);
-                            gr.DrawString("~",tb.Font, brush, point.X, point.Y);
+                            gr.DrawString("~", tb.Font, brush, point.X, point.Y);
                             break;
                     }
 

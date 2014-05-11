@@ -12,7 +12,7 @@ namespace SS.Ynote.Classic.UI
         public MacroExecDialog(FastColoredTextBox tb)
         {
             InitializeComponent();
-            foreach (var item in Directory.GetFiles(SettingsBase.SettingsDir + @"\Macros", "*.ymc"))
+            foreach (var item in Directory.GetFiles(Settings.SettingsDir + @"\Macros", "*.ymc"))
                 cmbMacros.Items.Add(Path.GetFileNameWithoutExtension(item));
             cmbMacros.SelectedIndex = 0;
             fctb = tb;
@@ -20,7 +20,7 @@ namespace SS.Ynote.Classic.UI
 
         private void btnExec_Click(object sender, EventArgs e)
         {
-            var macro = Path.Combine(SettingsBase.SettingsDir + @"\Macros", cmbMacros.Text + ".ymc");
+            var macro = Path.Combine(Settings.SettingsDir + @"\Macros", cmbMacros.Text + ".ymc");
             var i = 0;
             while (i < times.Value)
             {

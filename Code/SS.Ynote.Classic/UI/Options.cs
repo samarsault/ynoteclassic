@@ -17,8 +17,8 @@ namespace SS.Ynote.Classic.UI
         public Options()
         {
             InitializeComponent();
-            if (!Directory.Exists(SettingsBase.SettingsDir))
-                Directory.CreateDirectory(SettingsBase.SettingsDir);
+            if (!Directory.Exists(Settings.SettingsDir))
+                Directory.CreateDirectory(Settings.SettingsDir);
             tvBrowser.ExpandAll();
             InitSettings();
             BuildLangList();
@@ -30,42 +30,43 @@ namespace SS.Ynote.Classic.UI
         /// </summary>
         private void InitSettings()
         {
-            cbdockstyle.Text = SettingsBase.DocumentStyle.ToString();
-            comboBox2.Text = SettingsBase.BracketsStrategy == BracketsHighlightStrategy.Strategy2 ? "Inside" : "Outside";
-            tablocation.Text = SettingsBase.TabLocation.ToString();
-            checkBox1.Checked = SettingsBase.ShowDocumentMap;
-            cbBrackets.Checked = SettingsBase.AutoCompleteBrackets;
-            ShowLineNumber.Checked = SettingsBase.ShowLineNumbers;
-            showcaret.Checked = SettingsBase.ShowCaret;
-            showfoldinglines.Checked = SettingsBase.ShowFoldingLines;
-            virtualspace.Checked = SettingsBase.EnableVirtualSpace;
-            highlightfoliding.Checked = SettingsBase.HighlightFolding;
-            tbpaddingwidth.Text = SettingsBase.PaddingWidth.ToString();
-            tblineinterval.Text = SettingsBase.LineInterval.ToString();
-            comboBox1.Text = SettingsBase.FoldingStrategy.ToString();
-            tabsize.Value = SettingsBase.TabSize;
-            cbruler.Checked = SettingsBase.ShowRuler;
-            numrecent.Value = SettingsBase.RecentFileNumber;
-            cbSysTray.Checked = SettingsBase.MinimizeToTray;
-            cbmenu.Checked = SettingsBase.ShowMenuBar;
-            cbtool.Checked = SettingsBase.ShowToolBar;
-            cbstatus.Checked = SettingsBase.ShowStatusBar;
-            cbHighlightSameWords.Checked = SettingsBase.HighlightSameWords;
-            cbIME.Checked = SettingsBase.IMEMode;
-            cbBlockCursor.Checked = SettingsBase.BlockCaret;
-            cbTabs.Checked = SettingsBase.UseTabs;
+            cbdockstyle.Text = Settings.DocumentStyle.ToString();
+            comboBox2.Text = Settings.BracketsStrategy == BracketsHighlightStrategy.Strategy2 ? "Inside" : "Outside";
+            tablocation.Text = Settings.TabLocation.ToString();
+            checkBox1.Checked = Settings.ShowDocumentMap;
+            cbBrackets.Checked = Settings.AutoCompleteBrackets;
+            ShowLineNumber.Checked = Settings.ShowLineNumbers;
+            showcaret.Checked = Settings.ShowCaret;
+            showfoldinglines.Checked = Settings.ShowFoldingLines;
+            virtualspace.Checked = Settings.EnableVirtualSpace;
+            highlightfoliding.Checked = Settings.HighlightFolding;
+            tbpaddingwidth.Text = Settings.PaddingWidth.ToString();
+            tblineinterval.Text = Settings.LineInterval.ToString();
+            comboBox1.Text = Settings.FoldingStrategy.ToString();
+            tabsize.Value = Settings.TabSize;
+            cbruler.Checked = Settings.ShowRuler;
+            numrecent.Value = Settings.RecentFileNumber;
+            cbSysTray.Checked = Settings.MinimizeToTray;
+            cbmenu.Checked = Settings.ShowMenuBar;
+            cbtool.Checked = Settings.ShowToolBar;
+            cbstatus.Checked = Settings.ShowStatusBar;
+            cbHighlightSameWords.Checked = Settings.HighlightSameWords;
+            cbIME.Checked = Settings.IMEMode;
+            cbBlockCursor.Checked = Settings.BlockCaret;
+            cbTabs.Checked = Settings.UseTabs;
             BuildEncodingList();
         }
 
-        void BuildEncodingList()
+        private void BuildEncodingList()
         {
             foreach (var encoding in Encoding.GetEncodings())
             {
-                if (encoding.CodePage == Encoding.GetEncoding(SettingsBase.DefaultEncoding).CodePage)
+                if (encoding.CodePage == Encoding.GetEncoding(Settings.DefaultEncoding).CodePage)
                     lblencoding.Text = encoding.DisplayName;
                 lstencs.Items.Add(new EncodingItem(encoding));
             }
         }
+
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             switch (e.Node.Text)
@@ -87,7 +88,8 @@ namespace SS.Ynote.Classic.UI
                 case "File Extensions":
                     tabcontrol.SelectTab(FileTypesPage);
                     break;
-                case "Encoding":tabcontrol.SelectTab(encodingpage);
+                case "Encoding":
+                    tabcontrol.SelectTab(encodingpage);
                     break;
                 case "Manage":
                     tabcontrol.SelectTab(ClearPage);
@@ -102,7 +104,7 @@ namespace SS.Ynote.Classic.UI
         {
             try
             {
-                SettingsBase.TabLocation = tablocation.Text.ToEnum<DocumentTabStripLocation>();
+                Settings.TabLocation = tablocation.Text.ToEnum<DocumentTabStripLocation>();
             }
             catch
             {
@@ -113,7 +115,7 @@ namespace SS.Ynote.Classic.UI
         {
             try
             {
-                SettingsBase.DocumentStyle = cbdockstyle.Text.ToEnum<DocumentStyle>();
+                Settings.DocumentStyle = cbdockstyle.Text.ToEnum<DocumentStyle>();
             }
             catch
             {
@@ -122,44 +124,46 @@ namespace SS.Ynote.Classic.UI
 
         private void showfoldinglines_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsBase.ShowFoldingLines = showfoldinglines.Checked;
+            Settings.ShowFoldingLines = showfoldinglines.Checked;
         }
 
         private void showcaret_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsBase.ShowCaret = showcaret.Checked;
+            Settings.ShowCaret = showcaret.Checked;
         }
 
         private void ShowLineNumber_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsBase.ShowLineNumbers = ShowLineNumber.Checked;
+            Settings.ShowLineNumbers = ShowLineNumber.Checked;
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsBase.ShowDocumentMap = checkBox1.Checked;
+            Settings.ShowDocumentMap = checkBox1.Checked;
         }
 
         private void highlightfoliding_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsBase.HighlightFolding = highlightfoliding.Checked;
+            Settings.HighlightFolding = highlightfoliding.Checked;
         }
 
         private void virtualspace_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsBase.EnableVirtualSpace = virtualspace.Checked;
+            Settings.EnableVirtualSpace = virtualspace.Checked;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SettingsBase.FoldingStrategy = comboBox1.Text.ToEnum<FindEndOfFoldingBlockStrategy>();
+            Settings.FoldingStrategy = comboBox1.Text.ToEnum<FindEndOfFoldingBlockStrategy>();
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
-                SettingsBase.BracketsStrategy = comboBox2.Text == "Inside" ? BracketsHighlightStrategy.Strategy2 : BracketsHighlightStrategy.Strategy1;
+                Settings.BracketsStrategy = comboBox2.Text == "Inside"
+                    ? BracketsHighlightStrategy.Strategy2
+                    : BracketsHighlightStrategy.Strategy1;
             }
             catch
             {
@@ -169,11 +173,11 @@ namespace SS.Ynote.Classic.UI
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            SettingsBase.PaddingWidth = tbpaddingwidth.IntValue;
-            SettingsBase.LineInterval = tblineinterval.IntValue;
-            SettingsBase.TabSize = Convert.ToInt32(tabsize.Value);
-            SettingsBase.RecentFileNumber = Convert.ToInt32(numrecent.Value);
-            SettingsBase.SaveConfiguration();
+            Settings.PaddingWidth = tbpaddingwidth.IntValue;
+            Settings.LineInterval = tblineinterval.IntValue;
+            Settings.TabSize = Convert.ToInt32(tabsize.Value);
+            Settings.RecentFileNumber = Convert.ToInt32(numrecent.Value);
+            Settings.SaveConfiguration();
             Close();
         }
 
@@ -190,25 +194,25 @@ namespace SS.Ynote.Classic.UI
                     "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                File.Delete(SettingsBase.SettingsDir + "Settings.ini");
+                File.Delete(Settings.SettingsDir + "Settings.ini");
                 Application.Restart();
             }
         }
 
         private void cbruler_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsBase.ShowRuler = cbruler.Checked;
+            Settings.ShowRuler = cbruler.Checked;
         }
 
         private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(SettingsBase.SettingsDir + "Extensions.xml");
+            Process.Start(Settings.SettingsDir + "Extensions.xml");
         }
 
         private static IDictionary<string, string[]> BuildReverseDictionary()
         {
             var dic = new Dictionary<string, string[]>();
-            using (var reader = XmlReader.Create(SettingsBase.SettingsDir + "Extensions.xml"))
+            using (var reader = XmlReader.Create(Settings.SettingsDir + "Extensions.xml"))
             {
                 while (reader.Read())
                 {
@@ -245,14 +249,14 @@ namespace SS.Ynote.Classic.UI
 
         private void cbBrackets_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsBase.AutoCompleteBrackets = cbBrackets.Checked;
+            Settings.AutoCompleteBrackets = cbBrackets.Checked;
         }
 
         private void btnScriptCache_Click(object sender, EventArgs e)
         {
             try
             {
-                foreach (var file in Directory.GetFiles(SettingsBase.SettingsDir + @"Scripts\", "*.cache"))
+                foreach (var file in Directory.GetFiles(Settings.SettingsDir + @"Scripts\", "*.cache"))
                     File.Delete(file);
                 MessageBox.Show("Script Cache Successfully Cleared !", "Ynote Classic", MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
@@ -268,7 +272,7 @@ namespace SS.Ynote.Classic.UI
         {
             try
             {
-                File.Delete(SettingsBase.SettingsDir + "Recent.info");
+                File.Delete(Settings.SettingsDir + "Recent.info");
                 MessageBox.Show("Recent Files Successfully cleared. Changes will take place after restart.", null,
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -283,43 +287,43 @@ namespace SS.Ynote.Classic.UI
         {
             if (lstencs.SelectedItem == null) return;
             var item = lstencs.SelectedItem as EncodingItem;
-            SettingsBase.DefaultEncoding = item.EncodingInfo.CodePage;
+            Settings.DefaultEncoding = item.EncodingInfo.CodePage;
             lblencoding.Text = item.EncodingInfo.DisplayName;
         }
 
         private void cbSysTray_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsBase.MinimizeToTray = cbSysTray.Checked;
+            Settings.MinimizeToTray = cbSysTray.Checked;
         }
 
         private void cbHighlightSameWords_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsBase.HighlightSameWords = cbHighlightSameWords.Checked;
+            Settings.HighlightSameWords = cbHighlightSameWords.Checked;
         }
 
         private void cbIME_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsBase.IMEMode = cbIME.Checked;
+            Settings.IMEMode = cbIME.Checked;
         }
 
         private void cbBlockCursor_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsBase.BlockCaret = cbBlockCursor.Checked;
+            Settings.BlockCaret = cbBlockCursor.Checked;
         }
 
         private void cbmenu_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsBase.ShowMenuBar = cbmenu.Checked;
+            Settings.ShowMenuBar = cbmenu.Checked;
         }
 
         private void cbtool_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsBase.ShowToolBar = cbmenu.Checked;
+            Settings.ShowToolBar = cbmenu.Checked;
         }
 
         private void cbstatus_CheckedChanged(object sender, EventArgs e)
         {
-            SettingsBase.ShowStatusBar = cbmenu.Checked;
+            Settings.ShowStatusBar = cbmenu.Checked;
         }
     }
 
@@ -329,12 +333,14 @@ namespace SS.Ynote.Classic.UI
         {
             EncodingInfo = info;
         }
+
         /// <summary>
-        /// Encoding Info 
+        ///     Encoding Info
         /// </summary>
         internal EncodingInfo EncodingInfo { get; private set; }
+
         /// <summary>
-        /// To String Override
+        ///     To String Override
         /// </summary>
         /// <returns></returns>
         public override string ToString()

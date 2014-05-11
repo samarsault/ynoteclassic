@@ -3,4 +3,9 @@
 -> Added File Protector
 -> Added New Color Schemes - Cobalt and Vibrant ink
 -> Enhanced Syntax Highlighting
--> Shell can be defined as buffer
+-> Shell can be defined as a buffer and come's in switch list
+-> Fixed Color Scheme Scopes to give clearer definition
+-> Improvised Search and Replace functions and GUI
+-> Renamed RunScripts to External Tools for convinience
+-> Added CoffeeScript Syntax Highlight
+-> Merfed Latest FastColoredTextBox and DockPanelSuite

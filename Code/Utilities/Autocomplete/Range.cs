@@ -2,16 +2,16 @@
 {
     public class Range
     {
+        public Range(ITextBoxWrapper targetWrapper)
+        {
+            TargetWrapper = targetWrapper;
+        }
+
         public ITextBoxWrapper TargetWrapper { get; private set; }
 
         public int Start { get; set; }
 
         public int End { get; set; }
-
-        public Range(ITextBoxWrapper targetWrapper)
-        {
-            TargetWrapper = targetWrapper;
-        }
 
         public string Text
         {

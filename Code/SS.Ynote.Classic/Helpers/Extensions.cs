@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using FastColoredTextBoxNS;
 using SS.Ynote.Classic.Features.Snippets;
 
-internal static class HelperMethods
+internal static class Helpers
 {
     /// <summary>
     ///     Determines whether the source string contains the specified value.

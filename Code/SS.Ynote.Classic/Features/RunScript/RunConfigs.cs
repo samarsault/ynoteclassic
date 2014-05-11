@@ -28,7 +28,7 @@ namespace SS.Ynote.Classic.Features.RunScript
 
         public static IEnumerable<string> GetConfigurations()
         {
-            return Directory.GetFiles(SettingsBase.SettingsDir + @"RunScripts\");
+            return Directory.GetFiles(Settings.SettingsDir + @"RunScripts\");
         }
 
         public static RunConfiguration ToRunConfig(string file)
@@ -52,7 +52,7 @@ namespace SS.Ynote.Classic.Features.RunScript
 
         public string GetPath()
         {
-            return string.Format(@"{0}\RunScripts\{1}.run", SettingsBase.SettingsDir, Name);
+            return string.Format(@"{0}\RunScripts\{1}.run", Settings.SettingsDir, Name);
         }
 
         internal void ProcessConfiguration(string filename)
@@ -70,7 +70,7 @@ namespace SS.Ynote.Classic.Features.RunScript
             Arguments = args;
             CmdDir = dir;
             Process = proc;
-            File.WriteAllText(string.Format("{0}\\RunScripts\\{1}.run", SettingsBase.SettingsDir, name), str);
+            File.WriteAllText(string.Format("{0}\\RunScripts\\{1}.run", Settings.SettingsDir, name), str);
         }
 
         internal string ToBatch()

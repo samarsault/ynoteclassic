@@ -15,8 +15,8 @@ namespace SS.Ynote.Classic.UI
 {
     public partial class Diff : DockContent
     {
-        private readonly SyntaxHighlighter _highlighter;
         private readonly Style _greenStyle;
+        private readonly SyntaxHighlighter _highlighter;
         private readonly Style _redStyle;
         private int _updating;
 
@@ -26,8 +26,8 @@ namespace SS.Ynote.Classic.UI
             _greenStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(50, Color.Lime)));
             _redStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(50, Color.Red)));
             _highlighter = new SyntaxHighlighter();
-            YnoteThemeReader.ApplyTheme(SettingsBase.SettingsDir + @"\Themes\Default.ynotetheme", _highlighter, fctb1);
-            YnoteThemeReader.ApplyTheme(SettingsBase.SettingsDir + @"\Themes\Default.ynotetheme", _highlighter, fctb2);
+            YnoteThemeReader.ApplyTheme(Settings.SettingsDir + @"\Themes\Default.ynotetheme", _highlighter, fctb1);
+            YnoteThemeReader.ApplyTheme(Settings.SettingsDir + @"\Themes\Default.ynotetheme", _highlighter, fctb2);
         }
 
         public Diff(string firstfile, string secondfile)
@@ -38,8 +38,8 @@ namespace SS.Ynote.Classic.UI
             tbFirstFile.Text = firstfile;
             tbSecondFile.Text = secondfile;
             _highlighter = new SyntaxHighlighter();
-            YnoteThemeReader.ApplyTheme(SettingsBase.SettingsDir + @"\Themes\Default.ynotetheme", _highlighter, fctb1);
-            YnoteThemeReader.ApplyTheme(SettingsBase.SettingsDir + @"\Themes\Default.ynotetheme", _highlighter, fctb2);
+            YnoteThemeReader.ApplyTheme(Settings.SettingsDir + @"\Themes\Default.ynotetheme", _highlighter, fctb1);
+            YnoteThemeReader.ApplyTheme(Settings.SettingsDir + @"\Themes\Default.ynotetheme", _highlighter, fctb2);
         }
 
         private void btSecond_Click(object sender, EventArgs e)
@@ -114,8 +114,8 @@ namespace SS.Ynote.Classic.UI
                 FileTypes.GetLanguage(FileTypes.FileTypesDictionary, Path.GetExtension(tbFirstFile.Text))
                     .Language;
             var lang2 =
-              FileTypes.GetLanguage(FileTypes.FileTypesDictionary, Path.GetExtension(tbSecondFile.Text))
-                  .Language;
+                FileTypes.GetLanguage(FileTypes.FileTypesDictionary, Path.GetExtension(tbSecondFile.Text))
+                    .Language;
             source1.Merge(source2);
 
             BeginUpdate();
@@ -164,6 +164,7 @@ namespace SS.Ynote.Classic.UI
     }
 
     #region Merge stuffs
+
     namespace DiffMergeStuffs
     {
         public class SimpleDiff<T>
@@ -188,7 +189,8 @@ namespace SS.Ynote.Classic.UI
             ///     This is the sole public method and it initializes
             ///     the LCS matrix the first time it's called, and
             ///     proceeds to fire a series of LineUpdate events
-            /// </summary> proceeds to fire a series of LineUpdate events
+            /// </summary>
+            /// proceeds to fire a series of LineUpdate events
             /// </summary>
             public event EventHandler<DiffEventArgs<T>> LineUpdate;
 
@@ -223,7 +225,7 @@ namespace SS.Ynote.Classic.UI
             ///     Care's taken so that this will never
             ///     overlap with the pre-skip.
             /// </summary>
-            ///     overlap with the pre-skip.
+            /// overlap with the pre-skip.
             /// </summary>
             private void CalculatePostSkip()
             {
@@ -241,8 +243,9 @@ namespace SS.Ynote.Classic.UI
             ///     This method is an optimization that
             ///     skips matching elements at the start of
             ///     the arrays being diff'ed
-            /// </summary>f
-            ///     the arrays being diff'ed
+            /// </summary>
+            /// f
+            /// the arrays being diff'ed
             /// </summary>
             private void CalculatePreSkip()
             {
@@ -281,6 +284,7 @@ namespace SS.Ynote.Classic.UI
                     }
                 }
             }
+
             private void CreateLCSMatrix()
             {
                 var totalSkip = _preSkip + _postSkip;
@@ -329,7 +333,7 @@ namespace SS.Ynote.Classic.UI
             private void InitializeCompareFunc()
             {
                 // Special case for String types
-                if (typeof(T) == typeof(String))
+                if (typeof (T) == typeof (String))
                 {
                     _compareFunc = StringCompare;
                 }
@@ -357,6 +361,7 @@ namespace SS.Ynote.Classic.UI
             Inserted = 1,
             Deleted = 2
         }
+
         public class Line
         {
             public readonly string line;
@@ -367,14 +372,17 @@ namespace SS.Ynote.Classic.UI
             {
                 this.line = line;
             }
+
             /// <summary>
             ///     Equals
-            /// </summary>    /// <summary>
+            /// </summary>
+            /// ///
+            /// <summary>
             ///     Equals
             /// </summary>
             public override bool Equals(object obj)
             {
-                return Equals(line, ((Line)obj).line);
+                return Equals(line, ((Line) obj).line);
             }
 
             public static bool operator ==(Line line1, Line line2)
@@ -392,6 +400,7 @@ namespace SS.Ynote.Classic.UI
                 return line;
             }
         }
+
         public class DiffEventArgs<T> : EventArgs
         {
             public DiffEventArgs(DiffType diffType, T lineValue, int leftIndex, int rightIndex)
@@ -409,7 +418,6 @@ namespace SS.Ynote.Classic.UI
             private int LeftIndex { get; set; }
             //TODO: Check RIght Index
             private int RightIndex { get; set; }
-
         }
 
         /// <summary>
@@ -418,7 +426,7 @@ namespace SS.Ynote.Classic.UI
         public class Lines : List<Line>, IEquatable<Lines>
         {
             //??? ?????? ????? ??? ???????? ?????, ??????????? ? ????? ??????, ?? ?????? ?????? ????????? ?????
-            private readonly Line _fictiveLine = new Line("===fictive line===") { state = DiffType.Deleted };
+            private readonly Line _fictiveLine = new Line("===fictive line===") {state = DiffType.Deleted};
 
             private Lines()
             {
@@ -431,10 +439,7 @@ namespace SS.Ynote.Classic.UI
 
             private Line this[int i]
             {
-                get
-                {
-                    return i == -1 ? _fictiveLine : base[i];
-                }
+                get { return i == -1 ? _fictiveLine : base[i]; }
 
                 /*
                             set
@@ -560,4 +565,4 @@ namespace SS.Ynote.Classic.UI
     */
 }
 
-    #endregion
+#endregion

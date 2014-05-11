@@ -5,12 +5,12 @@ using System.Text;
 using System.Windows.Forms;
 
 /// <summary>
-/// Encryption
+///     Encryption
 /// </summary>
 internal static class Encryption
 {
     /// <summary>
-    ///  Encrypt a byte array into a byte array using a key and an IV 
+    ///     Encrypt a byte array into a byte array using a key and an IV
     /// </summary>
     /// <param name="clearData"></param>
     /// <param name="Key"></param>
@@ -50,7 +50,7 @@ internal static class Encryption
         // writing data to the stream and the output will be written
         // in the MemoryStream we have provided. 
         var cs = new CryptoStream(ms,
-           alg.CreateEncryptor(), CryptoStreamMode.Write);
+            alg.CreateEncryptor(), CryptoStreamMode.Write);
 
         // Write the data and make it do the encryption 
         cs.Write(clearData, 0, clearData.Length);
@@ -77,15 +77,18 @@ internal static class Encryption
     {
         // First we need to turn the input string into a byte array. 
         var clearBytes =
-          Encoding.Unicode.GetBytes(clearText);
+            Encoding.Unicode.GetBytes(clearText);
 
         // Then, we need to turn the password into Key and IV 
         // We are using salt to make it harder to guess our key
         // using a dictionary attack - 
         // trying to guess a password by enumerating all possible words. 
         var pdb = new PasswordDeriveBytes(Password,
-            new byte[] {0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 
-            0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76});
+            new byte[]
+            {
+                0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d,
+                0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76
+            });
 
         // Now get the key/IV and do the encryption using the
         // function that accepts byte arrays. 
@@ -100,7 +103,7 @@ internal static class Encryption
         // You can also read KeySize/BlockSize properties off
         // the algorithm to find out the sizes. 
         var encryptedData = Encrypt(clearBytes,
-                 pdb.GetBytes(32), pdb.GetBytes(16));
+            pdb.GetBytes(32), pdb.GetBytes(16));
 
         // Now we need to turn the resulting byte array into a string. 
         // A common mistake would be to use an Encoding class for that.
@@ -109,7 +112,6 @@ internal static class Encryption
         // We are going to be using Base64 encoding that is designed
         //exactly for what we are trying to do. 
         return Convert.ToBase64String(encryptedData);
-
     }
 
     // Encrypt bytes into bytes using a password 
@@ -122,8 +124,11 @@ internal static class Encryption
         // using a dictionary attack - 
         // trying to guess a password by enumerating all possible words. 
         var pdb = new PasswordDeriveBytes(Password,
-            new byte[] {0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 
-            0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76});
+            new byte[]
+            {
+                0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d,
+                0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76
+            });
 
         // Now get the key/IV and do the encryption using the function
         // that accepts byte arrays. 
@@ -138,14 +143,12 @@ internal static class Encryption
         // You can also read KeySize/BlockSize properties off the
         // algorithm to find out the sizes. 
         return Encrypt(clearData, pdb.GetBytes(32), pdb.GetBytes(16));
-
     }
 
     // Encrypt a file into another file using a password 
     internal static void Encrypt(string fileIn,
-                string fileOut, string Password)
+        string fileOut, string Password)
     {
-
         // First we are going to open the file streams 
         var fsIn = new FileStream(fileIn,
             FileMode.Open, FileAccess.Read);
@@ -155,8 +158,11 @@ internal static class Encryption
         // Then we are going to derive a Key and an IV from the
         // Password and create an algorithm 
         var pdb = new PasswordDeriveBytes(Password,
-            new byte[] {0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 
-            0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76});
+            new byte[]
+            {
+                0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d,
+                0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76
+            });
 
         var alg = Rijndael.Create();
         alg.Key = pdb.GetBytes(32);
@@ -194,7 +200,7 @@ internal static class Encryption
 
     // Decrypt a byte array into a byte array using a key and an IV 
     internal static byte[] Decrypt(byte[] cipherData,
-                                byte[] Key, byte[] IV)
+        byte[] Key, byte[] IV)
     {
         try
         {
@@ -202,7 +208,6 @@ internal static class Encryption
             // decrypted bytes 
             using (var ms = new MemoryStream())
             {
-
                 // Create a symmetric algorithm. 
                 // We are going to use Rijndael because it is strong and
                 // available on all platforms. 
@@ -272,8 +277,11 @@ internal static class Encryption
         // using a dictionary attack - 
         // trying to guess a password by enumerating all possible words. 
         var pdb = new PasswordDeriveBytes(Password,
-            new byte[] {0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 
-            0x64, 0x76, 0x65, 0x64, 0x65, 0x76});
+            new byte[]
+            {
+                0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65,
+                0x64, 0x76, 0x65, 0x64, 0x65, 0x76
+            });
 
         // Now get the key/IV and do the decryption using
         // the function that accepts byte arrays. 
@@ -309,8 +317,11 @@ internal static class Encryption
         // using a dictionary attack - 
         // trying to guess a password by enumerating all possible words. 
         var pdb = new PasswordDeriveBytes(Password,
-            new byte[] {0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 
-            0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76});
+            new byte[]
+            {
+                0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d,
+                0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76
+            });
 
         // Now get the key/IV and do the Decryption using the 
         //function that accepts byte arrays. 
@@ -330,20 +341,22 @@ internal static class Encryption
 
     // Decrypt a file into another file using a password 
     internal static void Decrypt(string fileIn,
-                string fileOut, string Password)
+        string fileOut, string Password)
     {
-
         // First we are going to open the file streams 
         var fsIn = new FileStream(fileIn,
-                    FileMode.Open, FileAccess.Read);
+            FileMode.Open, FileAccess.Read);
         var fsOut = new FileStream(fileOut,
-                    FileMode.OpenOrCreate, FileAccess.Write);
+            FileMode.OpenOrCreate, FileAccess.Write);
 
         // Then we are going to derive a Key and an IV from
         // the Password and create an algorithm 
         var pdb = new PasswordDeriveBytes(Password,
-            new byte[] {0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 
-            0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76});
+            new byte[]
+            {
+                0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d,
+                0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76
+            });
         var alg = Rijndael.Create();
 
         alg.Key = pdb.GetBytes(32);
@@ -370,7 +383,6 @@ internal static class Encryption
 
             // Decrypt it 
             cs.Write(buffer, 0, bytesRead);
-
         } while (bytesRead != 0);
 
         // close everything 

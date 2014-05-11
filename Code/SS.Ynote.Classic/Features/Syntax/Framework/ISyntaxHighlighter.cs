@@ -30,6 +30,11 @@ namespace SS.Ynote.Classic.Features.Syntax
         Style ClassNameStyle { get; set; }
 
         /// <summary>
+        ///     Other Name Style
+        /// </summary>
+        Style FunctionNameStyle { get; set; }
+
+        /// <summary>
         ///     Char Style
         /// </summary>
         Style CharStyle { get; set; }
@@ -42,7 +47,7 @@ namespace SS.Ynote.Classic.Features.Syntax
         /// <summary>
         ///     Style of tags in comments of C#
         /// </summary>
-        Style CommentTagStyle { get; set; }
+        Style CommentStyle2 { get; set; }
 
         /// <summary>
         ///     HTML attribute value style
@@ -80,24 +85,10 @@ namespace SS.Ynote.Classic.Features.Syntax
         Style KeywordStyle2 { get; set; }
 
         /// <summary>
-        ///     Specific PHP keyword style
+        ///     Keywords 3
         /// </summary>
         Style KeywordStyle3 { get; set; }
 
-        /// <summary>
-        ///     SQL Statements style
-        /// </summary>
-        Style StatementsStyle { get; set; }
-
-        /// <summary>
-        ///     SQL Functions style
-        /// </summary>
-        Style FunctionsStyle { get; set; }
-
-        /// <summary>
-        ///     SQL Types style
-        /// </summary>
-        Style TypesStyle { get; set; }
 
         /// <summary>
         ///     CSS Selector Style
@@ -113,11 +104,6 @@ namespace SS.Ynote.Classic.Features.Syntax
         ///     CSS Property Value Style
         /// </summary>
         Style CSSPropertyValueStyle { get; set; }
-
-        /// <summary>
-        ///     Other Name Style
-        /// </summary>
-        Style ClassNameStyle2 { get; set; }
 
         /// <summary>
         ///     Highlight Syntax

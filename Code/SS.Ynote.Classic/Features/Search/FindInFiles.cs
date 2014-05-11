@@ -1,305 +1,61 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using SS.Ynote.Classic.Features.Syntax;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace SS.Ynote.Classic.UI
+namespace SS.Ynote.Classic.Features.Search
 {
-    public partial class FindInFiles : DockContent
+    public partial class FindInFiles : Form
     {
-        private readonly IYnote _ynote;
-
-        public FindInFiles(IYnote ynote)
+        public FindInFiles()
         {
             InitializeComponent();
-            cmbsearchoptions.DataSource = cbSearchIn.DataSource = Enum.GetValues(typeof (SearchOption));
-            cmbsearchoptions.SelectedIndex = 1;
-            cbSearchIn.SelectedIndex = 1;
-            _ynote = ynote;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e)
         {
-            using (var f = new FolderBrowserDialog())
-            {
-                f.ShowDialog();
-                if (!string.IsNullOrEmpty(f.SelectedPath))
-                    txtdir.Text = f.SelectedPath;
-            }
+            Close();
+        }
+
+        private void btnFind_Click(object sender, EventArgs e)
+        {
+            var ynote = Application.OpenForms[1] as IYnote;
+            var results = new SearchResults(ynote);
+            results.Show(ynote.Panel, DockState.DockBottom);
+            results.FindAll(tbdir.Text, cbRegex.Checked, cbCase.Checked, tbFind.Text, tbFilter.Text, cbsubdir.Checked);
+            Close();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            lvresults.Items.Clear();
-            if (txtdir.Text == "$docs")
-            {
-                var files =
-                    (from Editor doc in _ynote.Panel.Documents where doc.IsSaved select doc.Name).ToArray();
-                if (cbRegex.Checked)
-                {
-                    var options = cbCase.Checked ? RegexOptions.IgnoreCase : RegexOptions.None;
-                    FindInDocumentsWithRegex(files, txtstring.Text, options);
-                }
-                else
-                    FindInDocuments(files, txtstring.Text, cbCase.Checked);
-            }
-            else
-            {
-                if (cbRegex.Checked)
-                    FindReferencesWithRegex(txtdir.Text, txtstring.Text, textBox5.Text,
-                        (SearchOption) cmbsearchoptions.SelectedItem);
-                else
-                    FindReferences(txtdir.Text, txtstring.Text, textBox5.Text,
-                        (SearchOption) cmbsearchoptions.SelectedItem);
-            }
-            tabControl1.SelectedIndex = 2;
+            var ynote = Application.OpenForms[1] as IYnote;
+            var results = new SearchResults(ynote);
+            results.Show(ynote.Panel, DockState.DockBottom);
+            results.ReplaceAll(tbdir.Text, tbFilter.Text, cbRegex.Checked, cbCase.Checked, tbFind.Text, tbReplace.Text,
+                cbsubdir.Checked);
+            Close();
         }
 
-        private static bool FileExists(IYnote ynote, string file)
+        private void button1_Click(object sender, EventArgs e)
         {
-            try
+            using (var browserdlg = new FolderBrowserDialog())
             {
-                return ynote.Panel.Documents.Cast<Editor>().Any(doc => doc.Name == file);
-            }
-            catch
-            {
-            }
-            return false;
-        }
-
-        private void FindInDocuments(IEnumerable<string> files, string searchString, bool ignoreCase)
-        {
-            foreach (var file in files)
-            {
-                using (var reader = new StreamReader(file))
-                {
-                    var lineNumber = 1;
-                    string line;
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        var comparison = ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
-                        if (line.Contains(searchString, comparison))
-                        {
-                            lvresults.Items.Add(
-                                new ListViewItem(new[]
-                                {file, lineNumber.ToString(), FileExists(_ynote, file).ToString()}));
-                        }
-
-                        lineNumber++;
-                    }
-                }
+                var result = browserdlg.ShowDialog();
+                if (result == DialogResult.OK)
+                    tbdir.Text = browserdlg.SelectedPath;
             }
         }
 
-        private void FindInDocumentsWithRegex(IEnumerable<string> files, string searchString, RegexOptions options)
+        private void tbFind_KeyDown(object sender, KeyEventArgs e)
         {
-            foreach (var file in files)
+            if (e.KeyData == Keys.Enter)
             {
-                using (var reader = new StreamReader(file))
-                {
-                    var lineNumber = 1;
-                    string line;
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        if (Regex.IsMatch(line, searchString, options))
-                        {
-                            lvresults.Items.Add(
-                                new ListViewItem(new[]
-                                {file, lineNumber.ToString(), FileExists(_ynote, file).ToString()}));
-                        }
-
-                        lineNumber++;
-                    }
-                }
+                btnFind_Click(null, e);
             }
-        }
-
-        /// <summary>
-        ///     Finds References in Directory
-        /// </summary>
-        /// <param name="searchPath"></param>
-        /// <param name="searchString"></param>
-        /// <param name="searchpattern"></param>
-        /// <param name="option"></param>
-        private void FindReferences(string searchPath, string searchString,
-            string searchpattern, SearchOption option)
-        {
-            if (searchPath != "$docs" && Directory.Exists(searchPath))
+            else if (e.KeyData == Keys.Escape)
             {
-                //searchpattern = "*.*";
-                var files = Directory.GetFiles(searchPath, searchpattern, option);
-
-                // Loop through all the files in the specified directory & in all sub-directories
-                foreach (var file in files)
-                {
-                    using (var reader = new StreamReader(file))
-                    {
-                        var lineNumber = 1;
-                        string line;
-                        while ((line = reader.ReadLine()) != null)
-                        {
-                            if (line.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-                            {
-                                lvresults.Items.Add(
-                                    new ListViewItem(new[]
-                                    {file, lineNumber.ToString(), FileExists(_ynote, file).ToString()}));
-                            }
-
-                            lineNumber++;
-                        }
-                    }
-                }
+                Close();
             }
-        }
-
-        private void FindReferencesWithRegex(string searchPath, string regex,
-            string searchpattern, SearchOption option)
-        {
-            if (searchPath != "$docs" && Directory.Exists(searchPath))
-            {
-                //searchpattern = "*.*";
-                var files = Directory.GetFiles(searchPath, searchpattern, option);
-
-                // Loop through all the files in the specified directory & in all sub-directories
-                foreach (var file in files)
-                {
-                    using (var reader = new StreamReader(file))
-                    {
-                        var lineNumber = 1;
-                        string line;
-                        while ((line = reader.ReadLine()) != null)
-                        {
-                            if (Regex.IsMatch(line, regex))
-                            {
-                                lvresults.Items.Add(
-                                    new ListViewItem(new[]
-                                    {file, lineNumber.ToString(), FileExists(_ynote, file).ToString()}));
-                            }
-
-                            lineNumber++;
-                        }
-                    }
-                }
-            }
-        }
-
-        private void lvresults_DoubleClick(object sender, EventArgs e)
-        {
-            try
-            {
-                if (lvresults.SelectedItems[0].SubItems[2].Text == "False")
-                {
-                    _ynote.OpenFile(lvresults.SelectedItems[0].SubItems[0].Text);
-                    var editor = (Editor) (_ynote.Panel.ActiveDocument);
-                    editor.Tb.Navigate(Convert.ToInt32(lvresults.SelectedItems[0].SubItems[1].Text) - 1);
-                }
-                else
-                {
-                    foreach (
-                        var document in
-                            _ynote.Panel.Documents.Cast<Editor>()
-                                .Where(document => document.Name == lvresults.SelectedItems[0].SubItems[0].Text))
-                    {
-                        document.Show();
-                        document.Tb.Navigate(lvresults.SelectedItems[0].SubItems[1].Text.ToInt() - 1);
-                    }
-                }
-            }
-            catch
-            {
-                _ynote.OpenFile(lvresults.SelectedItems[0].SubItems[0].Text);
-                ((Editor) (_ynote.Panel.ActiveDocument)).Tb.Navigate(
-                    lvresults.SelectedItems[0].SubItems[1].Text.ToInt() - 1);
-            }
-        }
-
-        private void ReplaceInFiles(IEnumerable<string> filePaths, string searchText, string replaceText,
-            bool ignoreCase)
-        {
-            try
-            {
-                foreach (var file in filePaths)
-                {
-                    var lines = File.ReadAllLines(file);
-                    var comparison = ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
-                    for (var i = 0; i < lines.Length; i++)
-                    {
-                        if (lines[i].Contains(searchText, comparison))
-                        {
-                            lines[i] = lines[i].Replace(searchText, replaceText);
-                            lvresults.Items.Add(
-                                new ListViewItem(new[] {file, i.ToString(), FileExists(_ynote, file).ToString()}));
-                        }
-                    }
-                    File.WriteAllLines(file, lines);
-                }
-            }
-            catch
-            {
-            }
-        }
-
-        private void ReplaceInFilesWithRegex(IEnumerable<string> filePaths, string searchText, string replaceText,
-            RegexOptions options)
-        {
-            try
-            {
-                foreach (var file in filePaths)
-                {
-                    var lines = File.ReadAllLines(file);
-                    for (var i = 0; i < lines.Length; i++)
-                    {
-                        if (Regex.IsMatch(lines[i], searchText, options))
-                        {
-                            lines[i] = Regex.Replace(lines[i], searchText, replaceText);
-                            lvresults.Items.Add(
-                                new ListViewItem(new[] {file, i.ToString(), FileExists(_ynote, file).ToString()}));
-                        }
-                    }
-                    File.WriteAllLines(file, lines);
-                }
-            }
-            catch
-            {
-            }
-        }
-
-        private void btnBrowse_Click(object sender, EventArgs e)
-        {
-            using (var browser = new FolderBrowserDialog())
-            {
-                var ok = browser.ShowDialog() == DialogResult.OK;
-                if (ok)
-                    tbReplaceDir.Text = browser.SelectedPath;
-            }
-        }
-
-        private void btnReplace_Click(object sender, EventArgs e)
-        {
-            if (tbReplaceFilter.Text == "*.*")
-            {
-                MessageBox.Show(
-                    "Error : Invalid Filter\r\n The Filter is not accepted as it can cause performance and system problems\r\nPlease specify a valid file filter",
-                    "Ynote Classic", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
-            }
-            var files = tbReplaceDir.Text == "$docs"
-                ? (from Editor doc in _ynote.Panel.Documents where doc.IsSaved select doc.Name).ToArray()
-                : Directory.GetFiles(tbReplaceDir.Text, tbReplaceFilter.Text, cbSearchIn.Text.ToEnum<SearchOption>());
-            BeginInvoke((MethodInvoker) (() =>
-            {
-                if (cbRegex.Checked)
-                {
-                    var options = cbReplaceICase.Checked ? RegexOptions.IgnoreCase : RegexOptions.None;
-                    ReplaceInFilesWithRegex(files, tbReplaceFind.Text, tbReplaceWith.Text, options);
-                }
-                else
-                    ReplaceInFiles(files, tbReplaceFind.Text, tbReplaceWith.Text, cbReplaceICase.Checked);
-            }));
-            tabControl1.SelectedIndex = 2;
         }
     }
 }

@@ -3,19 +3,19 @@
 namespace ConsoleControl
 {
     /// <summary>
-    /// The ConsoleEventArgs are arguments for a console event.
+    ///     The ConsoleEventArgs are arguments for a console event.
     /// </summary>
     public class ConsoleEventArgs : EventArgs
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConsoleEventArgs"/> class.
+        ///     Initializes a new instance of the <see cref="ConsoleEventArgs" /> class.
         /// </summary>
         public ConsoleEventArgs()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConsoleEventArgs"/> class.
+        ///     Initializes a new instance of the <see cref="ConsoleEventArgs" /> class.
         /// </summary>
         /// <param name="content">The content.</param>
         public ConsoleEventArgs(string content)
@@ -25,12 +25,8 @@ namespace ConsoleControl
         }
 
         /// <summary>
-        /// Gets the content.
+        ///     Gets the content.
         /// </summary>
-        public string Content
-        {
-            get;
-            private set;
-        }
+        public string Content { get; private set; }
     }
 }

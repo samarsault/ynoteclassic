@@ -13,13 +13,16 @@ namespace SS.Ynote.Classic.Features.Project
             _project = project;
         }
 
+        public YnoteProject ResultingProject { get; set; }
+
         private void button3_Click(object sender, EventArgs e)
         {
-            var dialog = new SaveFileDialog { Filter = "Ynote Project Files (*.ynoteproj)|*.ynoteproj" };
+            var dialog = new SaveFileDialog {Filter = "Ynote Project Files (*.ynoteproj)|*.ynoteproj"};
             dialog.ShowDialog();
             if (string.IsNullOrEmpty(dialog.FileName)) return;
             txtfilename.Text = dialog.FileName;
         }
+
         private void button2_Click(object sender, EventArgs e)
         {
             using (var dialog = new OpenFileDialog
@@ -53,7 +56,7 @@ namespace SS.Ynote.Classic.Features.Project
             proj.MakeProjectFile();
             ResultingProject = proj;
         }
-        public YnoteProject ResultingProject { get; set; }
+
         private void button1_Click(object sender, EventArgs e)
         {
             BuildProject();

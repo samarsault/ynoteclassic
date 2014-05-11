@@ -1,17 +1,5 @@
-#region Copyright
-
-//
-// Nini Configuration Project.
-// Copyright (C) 2006 Brent R. Matzelle.  All rights reserved.
-//
-// This software is published under the terms of the MIT X11 license, a copy of
-// which has been included with this distribution in the LICENSE.txt file.
-//
-
-#endregion Copyright
-
-using Nini.Util;
 using System.Collections;
+using Nini.Util;
 
 namespace Nini.Ini
 {
@@ -20,9 +8,9 @@ namespace Nini.Ini
     {
         #region Private variables
 
+        private readonly string comment;
         private readonly OrderedList configList = new OrderedList();
         private readonly string name = "";
-        private readonly string comment;
         private int commentCount;
 
         #endregion Private variables
@@ -75,7 +63,7 @@ namespace Nini.Ini
 
             if (Contains(key))
             {
-                var item = (IniItem)configList[key];
+                var item = (IniItem) configList[key];
                 result = item.Value;
             }
 
@@ -85,7 +73,7 @@ namespace Nini.Ini
         /// <include file='IniSection.xml' path='//Method[@name="GetItem"]/docs/*' />
         public IniItem GetItem(int index)
         {
-            return (IniItem)configList[index];
+            return (IniItem) configList[index];
         }
 
         /// <include file='IniSection.xml' path='//Method[@name="GetKeys"]/docs/*' />
@@ -96,7 +84,7 @@ namespace Nini.Ini
 
             for (var i = 0; i < configList.Count; i++)
             {
-                item = (IniItem)configList[i];
+                item = (IniItem) configList[i];
                 if (item.Type == IniType.Key)
                 {
                     list.Add(item.Name);
@@ -121,7 +109,7 @@ namespace Nini.Ini
 
             if (Contains(key))
             {
-                item = (IniItem)configList[key];
+                item = (IniItem) configList[key];
                 item.Value = value;
                 item.Comment = comment;
             }
@@ -143,7 +131,7 @@ namespace Nini.Ini
         {
             var name = "#comment" + commentCount;
             var item = new IniItem(name, null,
-                                        IniType.Empty, comment);
+                IniType.Empty, comment);
             configList.Add(name, item);
 
             commentCount++;

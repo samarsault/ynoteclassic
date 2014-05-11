@@ -1,15 +1,3 @@
-#region Copyright
-
-//
-// Nini Configuration Project.
-// Copyright (C) 2006 Brent R. Matzelle.  All rights reserved.
-//
-// This software is published under the terms of the MIT X11 license, a copy of
-// which has been included with this distribution in the LICENSE.txt file.
-//
-
-#endregion Copyright
-
 using System;
 using System.Globalization;
 using System.Runtime.Serialization;
@@ -20,7 +8,6 @@ namespace Nini.Ini
     /// <include file='IniException.xml' path='//Class[@name="IniException"]/docs/*' />
 #if (NET_COMPACT_1_0)
 #else
-
     [Serializable]
 #endif
     public class IniException : SystemException /*, ISerializable */
@@ -37,19 +24,13 @@ namespace Nini.Ini
         /// <include file='IniException.xml' path='//Property[@name="LinePosition"]/docs/*' />
         public int LinePosition
         {
-            get
-            {
-                return (iniReader == null) ? 0 : iniReader.LinePosition;
-            }
+            get { return (iniReader == null) ? 0 : iniReader.LinePosition; }
         }
 
         /// <include file='IniException.xml' path='//Property[@name="LineNumber"]/docs/*' />
         public int LineNumber
         {
-            get
-            {
-                return (iniReader == null) ? 0 : iniReader.LineNumber;
-            }
+            get { return (iniReader == null) ? 0 : iniReader.LineNumber; }
         }
 
         /// <include file='IniException.xml' path='//Property[@name="Message"]/docs/*' />
@@ -63,7 +44,7 @@ namespace Nini.Ini
                 }
 
                 return String.Format(CultureInfo.InvariantCulture, "{0} - Line: {1}, Position: {2}.",
-                                        message, LineNumber, LinePosition);
+                    message, LineNumber, LinePosition);
             }
         }
 
@@ -73,7 +54,6 @@ namespace Nini.Ini
 
         /// <include file='IniException.xml' path='//Constructor[@name="Constructor"]/docs/*' />
         public IniException()
-            : base()
         {
             message = "An error has occurred";
         }
@@ -120,7 +100,7 @@ namespace Nini.Ini
         /// <include file='IniException.xml' path='//Method[@name="GetObjectData"]/docs/*' />
         [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         public override void GetObjectData(SerializationInfo info,
-                                            StreamingContext context)
+            StreamingContext context)
         {
             base.GetObjectData(info, context);
             if (iniReader != null)

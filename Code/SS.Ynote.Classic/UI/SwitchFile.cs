@@ -20,7 +20,9 @@ namespace SS.Ynote.Classic.UI
 
         private void BuildAutoComplete()
         {
-            var items = (from DockContent dockContent in _ynote.Panel.Documents select new AutocompleteItem(dockContent.Text)).ToList();
+            var items =
+                (from DockContent dockContent in _ynote.Panel.Documents select new AutocompleteItem(dockContent.Text))
+                    .ToList();
             SetAutoComplete(items, completemenu, textBox1);
         }
 
@@ -35,11 +37,12 @@ namespace SS.Ynote.Classic.UI
         {
             completemenu.Show(textBox1, true);
         }
+
         private void DoKeyDownFunction(string text)
         {
             // updated : using LINQ
-            foreach(DockContent content in _ynote.Panel.Documents)
-                if(content.Text == text)
+            foreach (DockContent content in _ynote.Panel.Documents)
+                if (content.Text == text)
                     content.Show(_ynote.Panel);
             // foreach (Editor edit in ynote.Panel.Documents)
             //     if (edit.Text == text)
@@ -52,7 +55,10 @@ namespace SS.Ynote.Classic.UI
             if (e.KeyCode != Keys.Enter) return;
             DoKeyDownFunction(textBox1.Text);
             if (!IsDisposed)
+            {
+                completemenu.Items = null;
                 Close();
+            }
         }
 
         protected override void OnShown(EventArgs e)

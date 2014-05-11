@@ -1,15 +1,3 @@
-#region Copyright
-
-//
-// Nini Configuration Project.
-// Copyright (C) 2006 Brent R. Matzelle.  All rights reserved.
-//
-// This software is published under the terms of the MIT X11 license, a copy of
-// which has been included with this distribution in the LICENSE.txt file.
-//
-
-#endregion Copyright
-
 using System;
 using System.Collections.Specialized;
 using System.Configuration;
@@ -149,7 +137,7 @@ namespace Nini.Config
             if (savePath == null)
             {
                 throw new ArgumentException("Error reloading: You must have "
-                            + "the loaded the source from a file");
+                                            + "the loaded the source from a file");
             }
 
             configDoc = new XmlDocument();
@@ -184,8 +172,8 @@ namespace Nini.Config
         #region Private methods
 
         /// <summary>
-        /// Merges all of the configs from the config collection into the
-        /// XmlDocument.
+        ///     Merges all of the configs from the config collection into the
+        ///     XmlDocument.
         /// </summary>
         private void MergeConfigsIntoDocument()
         {
@@ -209,7 +197,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Loads all collection classes.
+        ///     Loads all collection classes.
         /// </summary>
         private void Load()
         {
@@ -219,14 +207,14 @@ namespace Nini.Config
             Merge(this); // required for SaveAll
             for (var i = 0; i < sections.Length; i++)
             {
-                LoadCollection(sections[i], (NameValueCollection)ConfigurationSettings
-                                .GetConfig(sections[i]));
+                LoadCollection(sections[i], (NameValueCollection) ConfigurationSettings
+                    .GetConfig(sections[i]));
             }
 #endif
         }
 
         /// <summary>
-        /// Loads all sections and keys.
+        ///     Loads all sections and keys.
         /// </summary>
         private void PerformLoad(XmlDocument document)
         {
@@ -243,7 +231,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Loads all configuration sections.
+        ///     Loads all configuration sections.
         /// </summary>
         private void LoadSections(XmlNode rootNode)
         {
@@ -264,7 +252,7 @@ namespace Nini.Config
                     && node.Name == "section")
                 {
                     config = new ConfigBase
-                            (node.Attributes["name"].Value, this);
+                        (node.Attributes["name"].Value, this);
 
                     Configs.Add(config);
                     LoadKeys(rootNode, config);
@@ -273,8 +261,8 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Loads special sections that are not loaded in the configSections
-        /// node.  This includes such sections such as appSettings.
+        ///     Loads special sections that are not loaded in the configSections
+        ///     node.  This includes such sections such as appSettings.
         /// </summary>
         private void LoadOtherSection(XmlNode rootNode, string nodeName)
         {
@@ -291,7 +279,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Loads all keys for a config.
+        ///     Loads all keys for a config.
         /// </summary>
         private void LoadKeys(XmlNode rootNode, ConfigBase config)
         {
@@ -303,13 +291,13 @@ namespace Nini.Config
                     && node.Name == "add")
                 {
                     config.Add(node.Attributes["key"].Value,
-                                node.Attributes["value"].Value);
+                        node.Attributes["value"].Value);
                 }
             }
         }
 
         /// <summary>
-        /// Removes all XML sections that were removed as configs.
+        ///     Removes all XML sections that were removed as configs.
         /// </summary>
         private void RemoveSections()
         {
@@ -352,7 +340,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Removes all XML keys that were removed as config keys.
+        ///     Removes all XML keys that were removed as config keys.
         /// </summary>
         private void RemoveKeys(string sectionName)
         {
@@ -384,7 +372,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Sets an XML key.  If it does not exist then it is created.
+        ///     Sets an XML key.  If it does not exist then it is created.
         /// </summary>
         private void SetKey(XmlNode sectionNode, string key, string value)
         {
@@ -401,7 +389,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Gets an XML key by it's name. Returns null if it does not exist.
+        ///     Gets an XML key by it's name. Returns null if it does not exist.
         /// </summary>
         private XmlNode GetKey(XmlNode sectionNode, string keyName)
         {
@@ -422,7 +410,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Creates a key node and adds it to the collection at the end.
+        ///     Creates a key node and adds it to the collection at the end.
         /// </summary>
         private void CreateKey(XmlNode sectionNode, string key, string value)
         {
@@ -439,7 +427,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Loads a collection class.
+        ///     Loads a collection class.
         /// </summary>
         private void LoadCollection(string name, NameValueCollection collection)
         {
@@ -462,7 +450,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Returns a new section node.
+        ///     Returns a new section node.
         /// </summary>
         private XmlNode SectionNode(string name)
         {
@@ -487,7 +475,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Returns true if this instance is savable.
+        ///     Returns true if this instance is savable.
         /// </summary>
         private bool IsSavable()
         {
@@ -496,7 +484,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Returns the single named child element.
+        ///     Returns the single named child element.
         /// </summary>
         private XmlNode GetChildElement(XmlNode parentNode, string name)
         {
@@ -516,7 +504,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Returns a child element from the XmlDocument.DocumentElement.
+        ///     Returns a child element from the XmlDocument.DocumentElement.
         /// </summary>
         private XmlNode GetChildElement(string name)
         {
@@ -524,8 +512,8 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Merges the XmlDocument into the Configs when the document is
-        /// reloaded.
+        ///     Merges the XmlDocument into the Configs when the document is
+        ///     reloaded.
         /// </summary>
         private void MergeDocumentIntoConfigs()
         {
@@ -560,7 +548,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Removes all configs that are not in the newly loaded XmlDocument.
+        ///     Removes all configs that are not in the newly loaded XmlDocument.
         /// </summary>
         private void RemoveConfigs()
         {
@@ -577,7 +565,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Removes all XML keys that were removed as config keys.
+        ///     Removes all XML keys that were removed as config keys.
         /// </summary>
         private void RemoveConfigKeys(IConfig config)
         {
@@ -601,7 +589,7 @@ namespace Nini.Config
                     && node.Name == "add")
                 {
                     config.Set(node.Attributes["key"].Value,
-                                node.Attributes["value"].Value);
+                        node.Attributes["value"].Value);
                 }
             }
         }

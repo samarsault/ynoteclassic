@@ -3,20 +3,20 @@
 namespace ConsoleControl
 {
     /// <summary>
-    /// A KeyMapping defines how a key combination should
-    /// be mapped to a SendKeys message.
+    ///     A KeyMapping defines how a key combination should
+    ///     be mapped to a SendKeys message.
     /// </summary>
     public class KeyMapping
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="KeyMapping"/> class.
+        ///     Initializes a new instance of the <see cref="KeyMapping" /> class.
         /// </summary>
         public KeyMapping()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="KeyMapping"/> class.
+        ///     Initializes a new instance of the <see cref="KeyMapping" /> class.
         /// </summary>
         /// <param name="control">if set to <c>true</c> [control].</param>
         /// <param name="alt">if set to <c>true</c> [alt].</param>
@@ -36,75 +36,51 @@ namespace ConsoleControl
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this instance is control pressed.
+        ///     Gets or sets a value indicating whether this instance is control pressed.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if this instance is control pressed; otherwise, <c>false</c>.
+        ///     <c>true</c> if this instance is control pressed; otherwise, <c>false</c>.
         /// </value>
-        public bool IsControlPressed
-        {
-            get;
-            set;
-        }
+        public bool IsControlPressed { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether alt is pressed.
+        ///     Gets or sets a value indicating whether alt is pressed.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if this instance is alt pressed; otherwise, <c>false</c>.
+        ///     <c>true</c> if this instance is alt pressed; otherwise, <c>false</c>.
         /// </value>
-        public bool IsAltPressed
-        {
-            get;
-            set;
-        }
+        public bool IsAltPressed { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this instance is shift pressed.
+        ///     Gets or sets a value indicating whether this instance is shift pressed.
         /// </summary>
         /// <value>
-        /// 	<c>true</c> if this instance is shift pressed; otherwise, <c>false</c>.
+        ///     <c>true</c> if this instance is shift pressed; otherwise, <c>false</c>.
         /// </value>
-        public bool IsShiftPressed
-        {
-            get;
-            set;
-        }
+        public bool IsShiftPressed { get; set; }
 
         /// <summary>
-        /// Gets or sets the key code.
+        ///     Gets or sets the key code.
         /// </summary>
         /// <value>
-        /// The key code.
+        ///     The key code.
         /// </value>
-        public Keys KeyCode
-        {
-            get;
-            set;
-        }
+        public Keys KeyCode { get; set; }
 
         /// <summary>
-        /// Gets or sets the send keys mapping.
+        ///     Gets or sets the send keys mapping.
         /// </summary>
         /// <value>
-        /// The send keys mapping.
+        ///     The send keys mapping.
         /// </value>
-        public string SendKeysMapping
-        {
-            get;
-            set;
-        }
+        public string SendKeysMapping { get; set; }
 
         /// <summary>
-        /// Gets or sets the stream mapping.
+        ///     Gets or sets the stream mapping.
         /// </summary>
         /// <value>
-        /// The stream mapping.
+        ///     The stream mapping.
         /// </value>
-        public string StreamMapping
-        {
-            get;
-            set;
-        }
+        public string StreamMapping { get; set; }
     }
 }

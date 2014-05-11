@@ -4,7 +4,7 @@ using SS.Ynote.Classic.Features.Packages;
 
 namespace pkmgr // Package Manager
 {
-    internal class Program
+    static class Program
     {
         private static void Main(string[] args)
         {

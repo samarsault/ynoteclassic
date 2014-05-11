@@ -1,18 +1,6 @@
-#region Copyright
-
-//
-// Nini Configuration Project.
-// Copyright (C) 2006 Brent R. Matzelle.  All rights reserved.
-//
-// This software is published under the terms of the MIT X11 license, a copy of
-// which has been included with this distribution in the LICENSE.txt file.
-//
-
-#endregion Copyright
-
-using Nini.Ini;
 using System;
 using System.IO;
+using Nini.Ini;
 
 namespace Nini.Config
 {
@@ -21,9 +9,9 @@ namespace Nini.Config
     {
         #region Private variables
 
+        private bool caseSensitive = true;
         private IniDocument iniDocument;
         private string savePath;
-        private bool caseSensitive = true;
 
         #endregion Private variables
 
@@ -158,7 +146,7 @@ namespace Nini.Config
             if (savePath == null)
             {
                 throw new ArgumentException("Error reloading: You must have "
-                            + "the loaded the source from a file");
+                                            + "the loaded the source from a file");
             }
 
             iniDocument = new IniDocument(savePath);
@@ -181,8 +169,8 @@ namespace Nini.Config
         #region Private methods
 
         /// <summary>
-        /// Merges all of the configs from the config collection into the
-        /// IniDocument before it is saved.
+        ///     Merges all of the configs from the config collection into the
+        ///     IniDocument before it is saved.
         /// </summary>
         private void MergeConfigsIntoDocument()
         {
@@ -207,7 +195,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Removes all INI sections that were removed as configs.
+        ///     Removes all INI sections that were removed as configs.
         /// </summary>
         private void RemoveSections()
         {
@@ -223,7 +211,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Removes all INI keys that were removed as config keys.
+        ///     Removes all INI keys that were removed as config keys.
         /// </summary>
         private void RemoveKeys(string sectionName)
         {
@@ -242,7 +230,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Loads the configuration file.
+        ///     Loads the configuration file.
         /// </summary>
         private void Load()
         {
@@ -270,8 +258,8 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Merges the IniDocument into the Configs when the document is
-        /// reloaded.
+        ///     Merges the IniDocument into the Configs when the document is
+        ///     reloaded.
         /// </summary>
         private void MergeDocumentIntoConfigs()
         {
@@ -295,7 +283,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Removes all configs that are not in the newly loaded INI doc.
+        ///     Removes all configs that are not in the newly loaded INI doc.
         /// </summary>
         private void RemoveConfigs()
         {
@@ -312,7 +300,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Removes all INI keys that were removed as config keys.
+        ///     Removes all INI keys that were removed as config keys.
         /// </summary>
         private void RemoveConfigKeys(IConfig config)
         {
@@ -339,7 +327,7 @@ namespace Nini.Config
         }
 
         /// <summary>
-        /// Returns true if this instance is savable.
+        ///     Returns true if this instance is savable.
         /// </summary>
         private bool IsSavable()
         {

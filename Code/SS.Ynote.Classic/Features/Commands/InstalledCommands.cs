@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 using System.Xml;
 using FastColoredTextBoxNS;
 using SS.Ynote.Classic;
 using SS.Ynote.Classic.Features.Extensibility;
 using SS.Ynote.Classic.Features.RunScript;
+using SS.Ynote.Classic.Features.Syntax;
 using SS.Ynote.Classic.UI;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -22,7 +25,7 @@ internal class SetSyntaxCommand : ICommand
         get
         {
             return
-                (from object language in Enum.GetValues(typeof(Language)) select "SetSyntax:" + language).ToArray();
+                (from object language in Enum.GetValues(typeof (Language)) select "SetSyntax:" + language).ToArray();
         }
     }
 
@@ -48,20 +51,20 @@ internal class SetSyntaxFile : ICommand
     {
         get
         {
-            return Directory.GetFiles(SettingsBase.SettingsDir + "Syntaxes", "*.xml")
-                  .Select(directory => "SetSyntaxFile:" + Path.GetFileNameWithoutExtension(directory))
-                  .ToArray();
+            return Directory.GetFiles(Settings.SettingsDir + "Syntaxes", "*.xml")
+                .Select(directory => "SetSyntaxFile:" + Path.GetFileNameWithoutExtension(directory))
+                .ToArray();
         }
     }
 
     public void ProcessCommand(string val, IYnote ynote)
     {
         var ActiveEditor = ynote.Panel.ActiveDocument as Editor;
-        foreach (var syntax in SS.Ynote.Classic.Features.Syntax.SyntaxHighlighter.LoadedSyntaxes.Where(syntax => syntax.SysPath ==
-                                                                                        string.Format(
-                                                                                            "{0}\\Syntaxes\\{1}.xml",
-                                                                                            SettingsBase.SettingsDir,
-                                                                                            val)))
+        foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes.Where(syntax => syntax.SysPath ==
+                                                                                string.Format(
+                                                                                    "{0}\\Syntaxes\\{1}.xml",
+                                                                                    Settings.SettingsDir,
+                                                                                    val)))
         {
             ActiveEditor.Highlighter.HighlightSyntax(syntax, new TextChangedEventArgs(ActiveEditor.Tb.Range));
             ActiveEditor.Syntax = syntax;
@@ -81,7 +84,7 @@ internal class MacroCommand : ICommand
         get
         {
             return
-                Directory.GetFiles(SettingsBase.SettingsDir + "Macros", "*.ymc")
+                Directory.GetFiles(Settings.SettingsDir + "Macros", "*.ymc")
                     .Select(directory => "Macro:" + Path.GetFileNameWithoutExtension(directory))
                     .ToArray();
         }
@@ -90,7 +93,7 @@ internal class MacroCommand : ICommand
     public void ProcessCommand(string val, IYnote ynote)
     {
         var edit = ynote.Panel.ActiveDocument as Editor;
-        edit.Tb.MacrosManager.ExecuteMacros(string.Format(@"{0}Macros\{1}.ymc", SettingsBase.SettingsDir,
+        edit.Tb.MacrosManager.ExecuteMacros(string.Format(@"{0}Macros\{1}.ymc", Settings.SettingsDir,
             val));
     }
 }
@@ -107,7 +110,7 @@ internal class ScriptCommand : ICommand
         get
         {
             return
-                Directory.GetFiles(SettingsBase.SettingsDir + "Scripts", "*.ys")
+                Directory.GetFiles(Settings.SettingsDir + "Scripts", "*.ys")
                     .Select(directory => "Script:" + Path.GetFileNameWithoutExtension(directory))
                     .ToArray();
         }
@@ -115,7 +118,7 @@ internal class ScriptCommand : ICommand
 
     public void ProcessCommand(string val, IYnote ynote)
     {
-        YnoteScript.RunScript(ynote, string.Format(@"{0}Scripts\{1}.ys", SettingsBase.SettingsDir, val));
+        YnoteScript.RunScript(ynote, string.Format(@"{0}Scripts\{1}.ys", Settings.SettingsDir, val));
     }
 }
 
@@ -131,7 +134,7 @@ internal class RunScriptCommand : ICommand
         get
         {
             return
-                Directory.GetFiles(SettingsBase.SettingsDir + "RunScripts", "*.run")
+                Directory.GetFiles(Settings.SettingsDir + "RunScripts", "*.run")
                     .Select(directory => "Run:" + Path.GetFileNameWithoutExtension(directory))
                     .ToArray();
         }
@@ -140,7 +143,7 @@ internal class RunScriptCommand : ICommand
     public void ProcessCommand(string val, IYnote ynote)
     {
         var edit = ynote.Panel.ActiveDocument as Editor;
-        var item = RunConfiguration.ToRunConfig(SettingsBase.SettingsDir + @"RunScripts\" + val + ".run");
+        var item = RunConfiguration.ToRunConfig(Settings.SettingsDir + @"RunScripts\" + val + ".run");
         if (item == null) return;
         if (edit != null) item.ProcessConfiguration(edit.Name);
         var temp = Path.GetTempFileName() + ".bat";
@@ -159,7 +162,7 @@ internal class LineCommand : ICommand
 
     public string[] Commands
     {
-        get { return new[] { "Line:MoveUp", "Line:MoveDown", "Line:Join", "Line:Sort", "Line:Duplicate" }; }
+        get { return new[] {"Line:MoveUp", "Line:MoveDown", "Line:Join", "Line:Sort", "Line:Duplicate"}; }
     }
 
     public void ProcessCommand(string val, IYnote ynote)
@@ -179,17 +182,17 @@ internal class LineCommand : ICommand
                 activeEditor.Tb.DuplicateLine(activeEditor.Tb.Selection.Start.iLine);
                 break;
             case "Join":
-                var lns = activeEditor.Tb.SelectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                var lns = activeEditor.Tb.SelectedText.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
                 activeEditor.Tb.SelectedText = string.Join(" ", lns);
                 break;
             case "Sort":
                 var fctb = activeEditor.Tb;
                 string[] lines;
                 if (string.IsNullOrEmpty(fctb.SelectedText))
-                    lines = fctb.Text.Split(new[] { Environment.NewLine },
+                    lines = fctb.Text.Split(new[] {Environment.NewLine},
                         StringSplitOptions.RemoveEmptyEntries);
                 else
-                    lines = fctb.SelectedText.Split(new[] { Environment.NewLine },
+                    lines = fctb.SelectedText.Split(new[] {Environment.NewLine},
                         StringSplitOptions.RemoveEmptyEntries);
                 Array.Reverse(lines);
                 var formedtext = lines.Aggregate<string, string>(null, (current, line) => current + (line + "\r\n"));
@@ -208,7 +211,7 @@ internal class IndentCommand : ICommand
 
     public string[] Commands
     {
-        get { return new[] { "Indent:Increase", "Indent:Decrease", "Indent:Do" }; }
+        get { return new[] {"Indent:Increase", "Indent:Decrease", "Indent:Do"}; }
     }
 
     public void ProcessCommand(string value, IYnote ynote)
@@ -284,7 +287,7 @@ internal class NavigateCommand : ICommand
 
     public string[] Commands
     {
-        get { return new[] { "Navigate:Back", "Navigate:Forward", "Navigate:GoLeftBracket", "Navigate:GoRightBracket" }; }
+        get { return new[] {"Navigate:Back", "Navigate:Forward", "Navigate:GoLeftBracket", "Navigate:GoRightBracket"}; }
     }
 
     public void ProcessCommand(string val, IYnote ynote)
@@ -293,7 +296,8 @@ internal class NavigateCommand : ICommand
         if (activeEditor == null) return;
         switch (val)
         {
-            case "Back": activeEditor.Tb.NavigateBackward();
+            case "Back":
+                activeEditor.Tb.NavigateBackward();
                 break;
             case "Forward":
                 activeEditor.Tb.NavigateForward();
@@ -318,7 +322,14 @@ internal class SelectionCommand : ICommand
 
     public string[] Commands
     {
-        get { return new[] { "Selection:GoWordRight", "Selection:GoWordLeft", "Selection:Expand", "Selection:Readable", "Selection:Writeable" }; }
+        get
+        {
+            return new[]
+            {
+                "Selection:GoWordRight", "Selection:GoWordLeft", "Selection:Expand", "Selection:Readable",
+                "Selection:Writeable"
+            };
+        }
     }
 
     public void ProcessCommand(string val, IYnote ynote)
@@ -343,7 +354,6 @@ internal class SelectionCommand : ICommand
 
 internal class CodeFoldingCommand : ICommand
 {
-
     public string Key
     {
         get { return "CodeFolding"; }
@@ -351,7 +361,7 @@ internal class CodeFoldingCommand : ICommand
 
     public string[] Commands
     {
-        get { return new[] { "CodeFolding:FoldAll", "CodeFolding:ExpandAll", "CodeFolding:FoldSelection" }; }
+        get { return new[] {"CodeFolding:FoldAll", "CodeFolding:ExpandAll", "CodeFolding:FoldSelection"}; }
     }
 
     public void ProcessCommand(string val, IYnote ynote)
@@ -368,7 +378,6 @@ internal class CodeFoldingCommand : ICommand
 
 internal class FileCommand : ICommand
 {
-
     public string Key
     {
         get { return "File"; }
@@ -400,10 +409,10 @@ internal class FileCommand : ICommand
                 ynote.CreateNewDoc();
                 break;
             case "Open":
-                using (var dlg = new System.Windows.Forms.OpenFileDialog())
+                using (var dlg = new OpenFileDialog())
                 {
                     dlg.Filter = "All Files (*.*)|*.*";
-                    if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    if (dlg.ShowDialog() == DialogResult.OK)
                         ynote.OpenFile(dlg.FileName);
                 }
                 break;
@@ -439,14 +448,15 @@ internal class GoogleCommand : ICommand
 
     public string[] Commands
     {
-        get { return new []{"Google:"}; }
+        get { return new[] {"Google:"}; }
     }
 
     public void ProcessCommand(string val, IYnote ynote)
     {
-        System.Diagnostics.Process.Start("http://google.com/search?q=" + val);
+        Process.Start("http://google.com/search?q=" + val);
     }
 }
+
 internal class WikipediaCommand : ICommand
 {
     public string Key
@@ -456,11 +466,11 @@ internal class WikipediaCommand : ICommand
 
     public string[] Commands
     {
-        get { return new[] { "Wikipedia:" }; }
+        get { return new[] {"Wikipedia:"}; }
     }
 
     public void ProcessCommand(string val, IYnote ynote)
     {
-        System.Diagnostics.Process.Start("http://en.wikipedia.org/w/index.php?search=" + val);
+        Process.Start("http://en.wikipedia.org/w/index.php?search=" + val);
     }
 }

@@ -15,7 +15,7 @@ namespace SS.Ynote.Classic.Features.Packages
                 var command in
                     lines.Select(
                         line =>
-                            YnoteCommand.FromString(line.Replace("$ynotedata", SettingsBase.SettingsDir)
+                            YnoteCommand.FromString(line.Replace("$ynotedata", Settings.SettingsDir)
                                 .Replace("$ynotedir", Application.StartupPath))))
                 dic.Add(command.Key, command.Value);
             //foreach (var line in lines)

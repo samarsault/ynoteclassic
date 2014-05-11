@@ -3,19 +3,19 @@
 namespace ConsoleControlAPI
 {
     /// <summary>
-    /// The ProcessEventArgs are arguments for a console event.
+    ///     The ProcessEventArgs are arguments for a console event.
     /// </summary>
     public class ProcessEventArgs : EventArgs
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProcessEventArgs"/> class.
+        ///     Initializes a new instance of the <see cref="ProcessEventArgs" /> class.
         /// </summary>
         public ProcessEventArgs()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProcessEventArgs"/> class.
+        ///     Initializes a new instance of the <see cref="ProcessEventArgs" /> class.
         /// </summary>
         /// <param name="content">The content.</param>
         public ProcessEventArgs(string content)
@@ -25,7 +25,7 @@ namespace ConsoleControlAPI
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProcessEventArgs"/> class.
+        ///     Initializes a new instance of the <see cref="ProcessEventArgs" /> class.
         /// </summary>
         /// <param name="code">The code.</param>
         public ProcessEventArgs(int code)
@@ -35,7 +35,7 @@ namespace ConsoleControlAPI
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProcessEventArgs"/> class.
+        ///     Initializes a new instance of the <see cref="ProcessEventArgs" /> class.
         /// </summary>
         /// <param name="content">The content.</param>
         /// <param name="code">The code.</param>
@@ -47,15 +47,15 @@ namespace ConsoleControlAPI
         }
 
         /// <summary>
-        /// Gets the content.
+        ///     Gets the content.
         /// </summary>
         public string Content { get; private set; }
 
         /// <summary>
-        /// Gets or sets the code.
+        ///     Gets or sets the code.
         /// </summary>
         /// <value>
-        /// The code.
+        ///     The code.
         /// </value>
         public int? Code { get; private set; }
     }
