@@ -112,12 +112,12 @@
     <Compile Include="Features\Packages\YnotePackage.cs" />
     <Compile Include="Features\Packages\YnotePackageManager.cs" />
     <Compile Include="Features\Packages\ZipStorer.cs" />
-    <Compile Include="Features\Project\Common.cs" />
-    <Compile Include="Features\Project\ProjectUtils.cs">
+    <Compile Include="Features\Folder\Common.cs" />
+    <Compile Include="Features\Folder\FolderUtils.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Features\Project\ProjectUtils.Designer.cs">
-      <DependentUpon>ProjectUtils.cs</DependentUpon>
+    <Compile Include="Features\Folder\FolderUtils.Designer.cs">
+      <DependentUpon>FolderUtils.cs</DependentUpon>
     </Compile>
     <Compile Include="Features\RunScript\NewRun.cs">
       <SubType>Form</SubType>
@@ -150,20 +150,12 @@
     <Compile Include="Features\RunScript\RunConfigs.cs" />
     <Compile Include="Features\Extensibility\YnoteScript.cs" />
     <Compile Include="Features\Packages\YnotePackageMaker.cs" />
-    <Compile Include="Features\Project\Framework\IProject.cs" />
-    <Compile Include="Features\Project\ProjectPanel.cs">
+    <Compile Include="Features\Folder\FolderPanel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Features\Project\ProjectPanel.Designer.cs">
-      <DependentUpon>ProjectPanel.cs</DependentUpon>
+    <Compile Include="Features\Folder\FolderPanel.Designer.cs">
+      <DependentUpon>FolderPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Features\Project\ProjectWizard.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Features\Project\ProjectWizard.Designer.cs">
-      <DependentUpon>ProjectWizard.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Features\Project\YnoteProject.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Features\Syntax\SyntaxHighlighter.cs" />
     <Compile Include="Features\Syntax\Theme\YnoteThemeReader.cs" />
@@ -281,8 +273,8 @@
     <EmbeddedResource Include="Features\Packages\PackageMaker.resx">
       <DependentUpon>PackageMaker.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Features\Project\ProjectUtils.resx">
-      <DependentUpon>ProjectUtils.cs</DependentUpon>
+    <EmbeddedResource Include="Features\Folder\FolderUtils.resx">
+      <DependentUpon>FolderUtils.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Features\RunScript\NewRun.resx">
       <DependentUpon>NewRun.cs</DependentUpon>
@@ -290,11 +282,8 @@
     <EmbeddedResource Include="Features\RunScript\RunScriptEditor.resx">
       <DependentUpon>RunScriptEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Features\Project\ProjectPanel.resx">
-      <DependentUpon>ProjectPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Features\Project\ProjectWizard.resx">
-      <DependentUpon>ProjectWizard.cs</DependentUpon>
+    <EmbeddedResource Include="Features\Folder\FolderPanel.resx">
+      <DependentUpon>FolderPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Features\Search\FindInFiles.resx">
       <DependentUpon>FindInFiles.cs</DependentUpon>

@@ -20,6 +20,7 @@ namespace AutocompleteMenuNS
         int SelectionStart { get; set; }
 
         bool Readonly { get; }
+
         Point GetPositionFromCharIndex(int pos);
 
         event EventHandler LostFocus;

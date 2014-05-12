@@ -12,7 +12,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             {
                 if (_resourceManager == null)
                     _resourceManager = new ResourceManager("WeifenLuo.WinFormsUI.Docking.Strings",
-                        typeof (ResourceHelper).Assembly);
+                        typeof(ResourceHelper).Assembly);
                 return _resourceManager;
             }
         }

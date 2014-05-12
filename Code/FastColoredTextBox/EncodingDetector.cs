@@ -33,7 +33,6 @@ namespace FastColoredTextBoxNS
 
             InputFileStream.Position = 0;
 
-
             //First read only what we need for BOM detection
             byte[] bomBytes = new byte[InputFileStream.Length > 4 ? 4 : InputFileStream.Length];
             InputFileStream.Read(bomBytes, 0, bomBytes.Length);
@@ -46,7 +45,6 @@ namespace FastColoredTextBoxNS
                 HasBOM = true;
                 return encodingFound;
             }
-
 
             //BOM Detection failed, going for heuristics now.
             //  create sample byte array and populate it
@@ -112,8 +110,8 @@ namespace FastColoredTextBoxNS
             long suspiciousUTF8BytesTotal = 0;
             long likelyUSASCIIBytesInSample = 0;
 
-            //Cycle through, keeping count of binary null positions, possible UTF-8 
-            //  sequences from upper ranges of Windows-1252, and probable US-ASCII 
+            //Cycle through, keeping count of binary null positions, possible UTF-8
+            //  sequences from upper ranges of Windows-1252, and probable US-ASCII
             //  character counts.
 
             long currentPos = 0;
@@ -124,7 +122,7 @@ namespace FastColoredTextBoxNS
                 //binary null distribution
                 if (SampleBytes[currentPos] == 0)
                 {
-                    if (currentPos%2 == 0)
+                    if (currentPos % 2 == 0)
                         evenBinaryNullsInSample++;
                     else
                         oddBinaryNullsInSample++;
@@ -154,32 +152,30 @@ namespace FastColoredTextBoxNS
                 currentPos++;
             }
 
-            //1: UTF-16 LE - in english / european environments, this is usually characterized by a 
-            //  high proportion of odd binary nulls (starting at 0), with (as this is text) a low 
+            //1: UTF-16 LE - in english / european environments, this is usually characterized by a
+            //  high proportion of odd binary nulls (starting at 0), with (as this is text) a low
             //  proportion of even binary nulls.
             //  The thresholds here used (less than 20% nulls where you expect non-nulls, and more than
             //  60% nulls where you do expect nulls) are completely arbitrary.
 
-            if (((evenBinaryNullsInSample*2.0)/SampleBytes.Length) < 0.2
-                && ((oddBinaryNullsInSample*2.0)/SampleBytes.Length) > 0.6
+            if (((evenBinaryNullsInSample * 2.0) / SampleBytes.Length) < 0.2
+                && ((oddBinaryNullsInSample * 2.0) / SampleBytes.Length) > 0.6
                 )
                 return Encoding.Unicode;
 
-
-            //2: UTF-16 BE - in english / european environments, this is usually characterized by a 
-            //  high proportion of even binary nulls (starting at 0), with (as this is text) a low 
+            //2: UTF-16 BE - in english / european environments, this is usually characterized by a
+            //  high proportion of even binary nulls (starting at 0), with (as this is text) a low
             //  proportion of odd binary nulls.
             //  The thresholds here used (less than 20% nulls where you expect non-nulls, and more than
             //  60% nulls where you do expect nulls) are completely arbitrary.
 
-            if (((oddBinaryNullsInSample*2.0)/SampleBytes.Length) < 0.2
-                && ((evenBinaryNullsInSample*2.0)/SampleBytes.Length) > 0.6
+            if (((oddBinaryNullsInSample * 2.0) / SampleBytes.Length) < 0.2
+                && ((evenBinaryNullsInSample * 2.0) / SampleBytes.Length) > 0.6
                 )
                 return Encoding.BigEndianUnicode;
 
-
-            //3: UTF-8 - Martin Dürst outlines a method for detecting whether something CAN be UTF-8 content 
-            //  using regexp, in his w3c.org unicode FAQ entry: 
+            //3: UTF-8 - Martin Dürst outlines a method for detecting whether something CAN be UTF-8 content
+            //  using regexp, in his w3c.org unicode FAQ entry:
             //  http://www.w3.org/International/questions/qa-forms-utf-8
             //  adapted here for C#.
             string potentiallyMangledString = Encoding.ASCII.GetString(SampleBytes);
@@ -200,27 +196,27 @@ namespace FastColoredTextBoxNS
                 //If some of the characters were in the upper range (western accented characters), however, they would likely be mangled to 2-byte by the UTF-8 encoding process.
                 // So, we need to play stats.
 
-                // The "Random" likelihood of any pair of randomly generated characters being one 
+                // The "Random" likelihood of any pair of randomly generated characters being one
                 //   of these "suspicious" character sequences is:
                 //     128 / (256 * 256) = 0.2%.
                 //
-                // In western text data, that is SIGNIFICANTLY reduced - most text data stays in the <127 
-                //   character range, so we assume that more than 1 in 500,000 of these character 
+                // In western text data, that is SIGNIFICANTLY reduced - most text data stays in the <127
+                //   character range, so we assume that more than 1 in 500,000 of these character
                 //   sequences indicates UTF-8. The number 500,000 is completely arbitrary - so sue me.
                 //
                 // We can only assume these character sequences will be rare if we ALSO assume that this
-                //   IS in fact western text - in which case the bulk of the UTF-8 encoded data (that is 
-                //   not already suspicious sequences) should be plain US-ASCII bytes. This, I 
-                //   arbitrarily decided, should be 80% (a random distribution, eg binary data, would yield 
-                //   approx 40%, so the chances of hitting this threshold by accident in random data are 
-                //   VERY low). 
+                //   IS in fact western text - in which case the bulk of the UTF-8 encoded data (that is
+                //   not already suspicious sequences) should be plain US-ASCII bytes. This, I
+                //   arbitrarily decided, should be 80% (a random distribution, eg binary data, would yield
+                //   approx 40%, so the chances of hitting this threshold by accident in random data are
+                //   VERY low).
 
-                if ((suspiciousUTF8SequenceCount*500000.0/SampleBytes.Length >= 1) //suspicious sequences
+                if ((suspiciousUTF8SequenceCount * 500000.0 / SampleBytes.Length >= 1) //suspicious sequences
                     && (
-                        //all suspicious, so cannot evaluate proportion of US-Ascii
+                    //all suspicious, so cannot evaluate proportion of US-Ascii
                         SampleBytes.Length - suspiciousUTF8BytesTotal == 0
                         ||
-                        likelyUSASCIIBytesInSample*1.0/(SampleBytes.Length - suspiciousUTF8BytesTotal) >= 0.8
+                        likelyUSASCIIBytesInSample * 1.0 / (SampleBytes.Length - suspiciousUTF8BytesTotal) >= 0.8
                         )
                     )
                     return Encoding.UTF8;

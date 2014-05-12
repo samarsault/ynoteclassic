@@ -34,7 +34,7 @@ namespace FastColoredTextBoxNS
 
         public override bool Equals(object obj)
         {
-            return (obj is Place) && Equals((Place) obj);
+            return (obj is Place) && Equals((Place)obj);
         }
 
         public override int GetHashCode()

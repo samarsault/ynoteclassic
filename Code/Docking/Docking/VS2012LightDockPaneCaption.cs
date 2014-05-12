@@ -29,7 +29,8 @@ namespace WeifenLuo.WinFormsUI.Docking
         private InertButton m_buttonClose;
         private InertButton m_buttonOptions;
 
-        public VS2012LightDockPaneCaption(DockPane pane) : base(pane)
+        public VS2012LightDockPaneCaption(DockPane pane)
+            : base(pane)
         {
             SuspendLayout();
 
@@ -224,8 +225,8 @@ namespace WeifenLuo.WinFormsUI.Docking
                 {
                     Blend blend = new Blend(2);
 
-                    blend.Factors = new[] {0.5F, 1.0F};
-                    blend.Positions = new[] {0.0F, 1.0F};
+                    blend.Factors = new[] { 0.5F, 1.0F };
+                    blend.Positions = new[] { 0.0F, 1.0F };
                     _activeBackColorGradientBlend = blend;
                 }
 
@@ -339,7 +340,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 colorText, TextFormat);
 
             Rectangle rectDotsStrip = rectCaptionText;
-            int textLength = (int) g.MeasureString(DockPane.CaptionText, TextFont).Width + TextGapLeft;
+            int textLength = (int)g.MeasureString(DockPane.CaptionText, TextFont).Width + TextGapLeft;
             rectDotsStrip.X += textLength;
             rectDotsStrip.Width -= textLength;
             rectDotsStrip.Height = ClientRectangle.Height;
@@ -361,8 +362,8 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             var penDots = new Pen(colorDots, 1);
             penDots.DashStyle = DashStyle.Custom;
-            penDots.DashPattern = new float[] {1, 3};
-            int positionY = rectStrip.Height/2;
+            penDots.DashPattern = new float[] { 1, 3 };
+            int positionY = rectStrip.Height / 2;
 
             g.DrawLine(penDots, rectStrip.X + 2, positionY, rectStrip.X + rectStrip.Width - 2, positionY);
 
@@ -404,7 +405,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             int height = rectCaption.Height - ButtonGapTop - ButtonGapBottom;
             if (buttonHeight < height)
             {
-                buttonWidth = buttonWidth*(height/buttonHeight);
+                buttonWidth = buttonWidth * (height / buttonHeight);
                 buttonHeight = height;
             }
             Size buttonSize = new Size(buttonWidth, buttonHeight);
@@ -504,6 +505,6 @@ namespace WeifenLuo.WinFormsUI.Docking
         private const int _ButtonGapLeft = 1;
         private const int _ButtonGapRight = 2;
 
-        #endregion
+        #endregion consts
     }
 }

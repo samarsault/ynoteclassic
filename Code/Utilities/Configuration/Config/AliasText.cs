@@ -32,7 +32,7 @@ namespace Nini.Config
         {
             if (intAlias.Contains(key))
             {
-                var keys = (Hashtable) intAlias[key];
+                var keys = (Hashtable)intAlias[key];
 
                 keys[alias] = value;
             }
@@ -74,7 +74,7 @@ namespace Nini.Config
 
             if (intAlias.Contains(key))
             {
-                var keys = (Hashtable) intAlias[key];
+                var keys = (Hashtable)intAlias[key];
                 result = (keys.Contains(alias));
             }
 
@@ -89,7 +89,7 @@ namespace Nini.Config
                 throw new ArgumentException("Alias does not exist for text");
             }
 
-            return (bool) booleanAlias[key];
+            return (bool)booleanAlias[key];
         }
 
         /// <include file='AliasText.xml' path='//Method[@name="GetInt"]/docs/*' />
@@ -100,7 +100,7 @@ namespace Nini.Config
                 throw new ArgumentException("Alias does not exist for key");
             }
 
-            var keys = (Hashtable) intAlias[key];
+            var keys = (Hashtable)intAlias[key];
 
             if (!keys.Contains(alias))
             {
@@ -108,7 +108,7 @@ namespace Nini.Config
                                             "supplied alias");
             }
 
-            return (int) keys[alias];
+            return (int)keys[alias];
         }
 
         #endregion Public methods
@@ -133,7 +133,7 @@ namespace Nini.Config
         private void SetAliasTypes(string key, Enum enumAlias)
         {
             var names = Enum.GetNames(enumAlias.GetType());
-            var values = (int[]) Enum.GetValues(enumAlias.GetType());
+            var values = (int[])Enum.GetValues(enumAlias.GetType());
 
             for (var i = 0; i < names.Length; i++)
             {

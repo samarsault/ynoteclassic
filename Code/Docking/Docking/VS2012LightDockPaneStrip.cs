@@ -151,7 +151,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         private GraphicsPath GetOutline_Document(int index)
         {
             Rectangle rectTab = GetTabRectangle(index);
-            rectTab.X -= rectTab.Height/2;
+            rectTab.X -= rectTab.Height / 2;
             rectTab.Intersect(TabsRectangle);
             rectTab = RectangleToScreen(DrawHelper.RtlTransform(this, rectTab));
             Rectangle rectPaneClient = DockPane.RectangleToScreen(DockPane.ClientRectangle);
@@ -224,9 +224,9 @@ namespace WeifenLuo.WinFormsUI.Docking
             bool anyWidthWithinAverage = true;
             int totalWidth = rectTabStrip.Width - ToolWindowStripGapLeft - ToolWindowStripGapRight;
             int totalAllocatedWidth = 0;
-            int averageWidth = totalWidth/countTabs;
+            int averageWidth = totalWidth / countTabs;
             int remainedTabs = countTabs;
-            for (anyWidthWithinAverage = true; anyWidthWithinAverage && remainedTabs > 0;)
+            for (anyWidthWithinAverage = true; anyWidthWithinAverage && remainedTabs > 0; )
             {
                 anyWidthWithinAverage = false;
                 foreach (TabVS2012Light tab in Tabs)
@@ -244,13 +244,13 @@ namespace WeifenLuo.WinFormsUI.Docking
                     }
                 }
                 if (remainedTabs != 0)
-                    averageWidth = (totalWidth - totalAllocatedWidth)/remainedTabs;
+                    averageWidth = (totalWidth - totalAllocatedWidth) / remainedTabs;
             }
 
             // If any tab width not set yet, set it to the average width
             if (remainedTabs > 0)
             {
-                int roundUpWidth = (totalWidth - totalAllocatedWidth) - (averageWidth*remainedTabs);
+                int roundUpWidth = (totalWidth - totalAllocatedWidth) - (averageWidth * remainedTabs);
                 foreach (TabVS2012Light tab in Tabs)
                 {
                     if (tab.Flag)
@@ -511,14 +511,14 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             Rectangle rectTabStrip = TabStripRectangle;
 
-            TabVS2012Light tab = (TabVS2012Light) (Tabs[index]);
+            TabVS2012Light tab = (TabVS2012Light)(Tabs[index]);
             return new Rectangle(tab.TabX, rectTabStrip.Y, tab.TabWidth, rectTabStrip.Height);
         }
 
         private Rectangle GetTabRectangle_Document(int index)
         {
             Rectangle rectTabStrip = TabStripRectangle;
-            var tab = (TabVS2012Light) Tabs[index];
+            var tab = (TabVS2012Light)Tabs[index];
 
             Rectangle rect = new Rectangle();
             rect.X = tab.TabX;
@@ -593,7 +593,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             Rectangle rectTab = DrawHelper.RtlTransform(this, rect);
             rectText = DrawHelper.RtlTransform(this, rectText);
             rectIcon = DrawHelper.RtlTransform(this, rectIcon);
-            if (DockPane.ActiveContent == tab.Content && ((DockContent) tab.Content).IsActivated)
+            if (DockPane.ActiveContent == tab.Content && ((DockContent)tab.Content).IsActivated)
             {
                 Color startColor =
                     DockPane.DockPanel.Skin.DockPaneStripSkin.ToolWindowGradient.ActiveTabGradient.StartColor;
@@ -769,7 +769,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             ToolStripMenuItem item = sender as ToolStripMenuItem;
             if (item != null)
             {
-                IDockContent content = (IDockContent) item.Tag;
+                IDockContent content = (IDockContent)item.Tag;
                 DockPane.ActiveContent = content;
             }
         }
@@ -815,7 +815,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             int height = rectTabStrip.Height - DocumentButtonGapTop - DocumentButtonGapBottom;
             if (buttonHeight < height)
             {
-                buttonWidth = buttonWidth*(height/buttonHeight);
+                buttonWidth = buttonWidth * (height / buttonHeight);
                 buttonHeight = height;
             }
             Size buttonSize = new Size(buttonWidth, buttonHeight);
@@ -1039,7 +1039,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         private const int _DocumentIconWidth = 16;
         private const int _DocumentTextGapRight = 6;
 
-        #endregion
+        #endregion Constants
 
         #region Members
 
@@ -1062,7 +1062,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         private Font m_font;
         private int m_startDisplayingTab;
 
-        #endregion
+        #endregion Members
 
         #region Properties
 
@@ -1115,7 +1115,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                          DocumentButtonGapRight +
                          ButtonClose.Width +
                          ButtonWindowList.Width +
-                         2*DocumentButtonGapBetween;
+                         2 * DocumentButtonGapBetween;
 
                 return new Rectangle(x, y, width, height);
             }
@@ -1476,8 +1476,8 @@ namespace WeifenLuo.WinFormsUI.Docking
             get { return SystemPens.GrayText; }
         }
 
-        #endregion
+        #endregion Customizable Properties
 
-        #endregion
+        #endregion Properties
     }
 }

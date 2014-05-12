@@ -1,6 +1,6 @@
+using Nini.Ini;
 using System;
 using System.IO;
-using Nini.Ini;
 
 namespace Nini.Config
 {

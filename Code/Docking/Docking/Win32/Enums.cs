@@ -348,7 +348,7 @@ namespace WeifenLuo.WinFormsUI.Docking.Win32
         GWL_EXSTYLE = -20
     }
 
-    // Hook Types  
+    // Hook Types
     internal enum HookType
     {
         WH_JOURNALRECORD = 0,

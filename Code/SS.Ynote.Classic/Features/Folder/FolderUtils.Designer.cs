@@ -1,6 +1,6 @@
 ﻿namespace SS.Ynote.Classic.Features.Project
 {
-    partial class ProjectUtils
+    partial class FolderUtils
     {
         /// <summary>
         /// Required designer variable.

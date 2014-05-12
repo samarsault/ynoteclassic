@@ -89,7 +89,6 @@ namespace SS.Ynote.Classic.Features.Syntax
         /// </summary>
         Style KeywordStyle3 { get; set; }
 
-
         /// <summary>
         ///     CSS Selector Style
         /// </summary>

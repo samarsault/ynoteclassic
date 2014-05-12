@@ -84,7 +84,7 @@ namespace FastColoredTextBoxNS
                 }
 #if debug
             Console.WriteLine("UnloadUnusedLines: " + count);
-            #endif
+#endif
         }
 
         public void OpenFile(string fileName, Encoding enc)
@@ -101,7 +101,7 @@ namespace FastColoredTextBoxNS
             enc = DefineEncoding(enc, fs);
             int shift = DefineShift(enc);
             //first line
-            sourceFileLinePositions.Add((int) fs.Position);
+            sourceFileLinePositions.Add((int)fs.Position);
             base.lines.Add(null);
             //other lines
             while (fs.Position < length)
@@ -109,7 +109,7 @@ namespace FastColoredTextBoxNS
                 var b = fs.ReadByte();
                 if (b == 10) // char \n
                 {
-                    sourceFileLinePositions.Add((int) (fs.Position) + shift);
+                    sourceFileLinePositions.Add((int)(fs.Position) + shift);
                     base.lines.Add(null);
                 }
             }
@@ -120,19 +120,17 @@ namespace FastColoredTextBoxNS
             base.lines.TrimExcess();
             base.lines.RemoveRange(c, temp.Length);
 
-
             int[] temp2 = new int[100];
             c = base.lines.Count;
             sourceFileLinePositions.AddRange(temp2);
             sourceFileLinePositions.TrimExcess();
             sourceFileLinePositions.RemoveRange(c, temp.Length);
 
-
             fileEncoding = enc;
 
             OnLineInserted(0, Count);
             //load first lines for calc width of the text
-            var linesCount = Math.Min(lines.Count, CurrentTB.ClientRectangle.Height/CurrentTB.CharHeight);
+            var linesCount = Math.Min(lines.Count, CurrentTB.ClientRectangle.Height / CurrentTB.CharHeight);
             for (int i = 0; i < linesCount; i++)
                 LoadLineFromSourceFile(i);
             //
@@ -227,7 +225,7 @@ namespace FastColoredTextBoxNS
 
                 for (int i = 0; i < Count; i++)
                 {
-                    newLinePos.Add((int) tempFs.Length);
+                    newLinePos.Add((int)tempFs.Length);
 
                     var sourceLine = ReadLine(sr, i); //read line from source file
                     string line;
@@ -379,6 +377,7 @@ namespace FastColoredTextBoxNS
         }
 
         public string SourceLineText { get; private set; }
+
         public int DisplayedLineIndex { get; private set; }
 
         /// <summary>
@@ -398,6 +397,7 @@ namespace FastColoredTextBoxNS
         }
 
         public string SourceLineText { get; private set; }
+
         public int DisplayedLineIndex { get; private set; }
 
         /// <summary>

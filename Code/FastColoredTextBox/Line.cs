@@ -20,6 +20,7 @@ namespace FastColoredTextBoxNS
         }
 
         public string FoldingStartMarker { get; set; }
+
         public string FoldingEndMarker { get; set; }
 
         /// <summary>
@@ -200,8 +201,10 @@ namespace FastColoredTextBoxNS
         internal int bottomPadding;
 
         private List<int> cutOffPositions;
+
         //Y coordinate of line on screen
         internal int startY;
+
         //indent of secondary wordwrap strings (in chars)
         internal int wordWrapIndent;
 
@@ -240,8 +243,10 @@ namespace FastColoredTextBoxNS
                         if (cutOffPositions == null)
                             return 1;
                         return cutOffPositions.Count + 1;
+
                     case VisibleState.Hidden:
                         return 0;
+
                     case VisibleState.StartOfHiddenBlock:
                         return 1;
                 }

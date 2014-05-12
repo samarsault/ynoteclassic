@@ -16,8 +16,11 @@ namespace FastColoredTextBoxNS
         }
 
         public Color BackColor2 { get; set; }
+
         public Color BorderColor { get; set; }
+
         public new string Text { get; set; }
+
         public StringAlignment TextAlignment { get; set; }
 
         protected override void OnPaint(PaintEventArgs e)

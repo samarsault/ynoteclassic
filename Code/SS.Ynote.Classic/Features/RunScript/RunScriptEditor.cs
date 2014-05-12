@@ -20,7 +20,7 @@ namespace SS.Ynote.Classic.Features.RunScript
                 var tn in
                     RunConfiguration.GetConfigurations()
                         .Select(RunConfiguration.ToRunConfig)
-                        .Select(config => new TreeNode(config.Name) {Tag = config}))
+                        .Select(config => new TreeNode(config.Name) { Tag = config }))
                 node.Nodes.Add(tn);
             configTree.Nodes.Add(node);
             configTree.ExpandAll();

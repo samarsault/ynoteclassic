@@ -15,7 +15,7 @@ namespace SS.Ynote.Classic.Features.RunScript
         [DllImport("user32.dll")]
         private static extern bool ShowCaret(IntPtr hWnd);
 
-        #endregion
+        #endregion WinAPI
 
         public Shell(string proc, string args)
         {

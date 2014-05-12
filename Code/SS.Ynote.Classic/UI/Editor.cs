@@ -1,3 +1,8 @@
+using CSScriptLibrary;
+using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Extensibility;
+using SS.Ynote.Classic.Features.Snippets;
+using SS.Ynote.Classic.Features.Syntax;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -7,11 +12,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
-using CSScriptLibrary;
-using FastColoredTextBoxNS;
-using SS.Ynote.Classic.Features.Extensibility;
-using SS.Ynote.Classic.Features.Snippets;
-using SS.Ynote.Classic.Features.Syntax;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace SS.Ynote.Classic.UI
@@ -72,12 +72,12 @@ namespace SS.Ynote.Classic.UI
             if (syntax.SyntaxBase == null)
             {
                 Highlighter.HighlightSyntax(syntax.Language, args);
-                syntax.Language = syntax.Language;
+                codebox.Language = syntax.Language;
             }
             else
             {
                 Highlighter.HighlightSyntax(syntax.SyntaxBase, args);
-                syntax.SyntaxBase = syntax.SyntaxBase;
+                Syntax = syntax.SyntaxBase;
             }
         }
 
@@ -205,14 +205,14 @@ namespace SS.Ynote.Classic.UI
 
         private void codebox_DragDrop(object sender, DragEventArgs e)
         {
-            var fileList = (string[]) e.Data.GetData(DataFormats.FileDrop, false);
+            var fileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             foreach (var file in fileList)
-                BeginInvoke((MethodInvoker) (() => OpenFile(file)));
+                BeginInvoke((MethodInvoker)(() => OpenFile(file)));
         }
 
         private void OpenFile(string file)
         {
-            var edit = new Editor {Name = file, Text = Path.GetFileName(file)};
+            var edit = new Editor { Name = file, Text = Path.GetFileName(file) };
             edit.Tb.IsChanged = false;
             edit.Tb.ClearUndo();
             //edit.ChangeLang(FileTypes.GetLanguage(FileTypes.BuildDictionary(), Path.GetExtension(file)));
@@ -296,7 +296,6 @@ namespace SS.Ynote.Classic.UI
             }
         }
 
-
         private void menuItem13_Click(object sender, EventArgs e)
         {
             if (!IsSaved) return;
@@ -357,7 +356,7 @@ namespace SS.Ynote.Classic.UI
                     : Assembly.LoadFrom(asm);
                 using (var execManager = new AsmHelper(assembly))
                 {
-                    var items = (MenuItem[]) (execManager.Invoke("*.BuildContextMenu", codebox));
+                    var items = (MenuItem[])(execManager.Invoke("*.BuildContextMenu", codebox));
                     contextmenu.MenuItems.AddRange(items);
                 }
             }

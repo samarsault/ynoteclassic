@@ -1,8 +1,8 @@
-﻿using System;
+﻿using FastColoredTextBoxNS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using FastColoredTextBoxNS;
 using AutocompleteItem = AutocompleteMenuNS.AutocompleteItem;
 using AutocompleteMenu = AutocompleteMenuNS.AutocompleteMenu;
 

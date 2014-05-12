@@ -1,6 +1,6 @@
+using Nini.Util;
 using System;
 using System.Collections;
-using Nini.Util;
 
 namespace Nini.Ini
 {
@@ -18,13 +18,13 @@ namespace Nini.Ini
         /// <include file='IniSectionCollection.xml' path='//Property[@name="ItemIndex"]/docs/*' />
         public IniSection this[int index]
         {
-            get { return (IniSection) list[index]; }
+            get { return (IniSection)list[index]; }
         }
 
         /// <include file='IniSectionCollection.xml' path='//Property[@name="ItemName"]/docs/*' />
         public IniSection this[string configName]
         {
-            get { return (IniSection) list[configName]; }
+            get { return (IniSection)list[configName]; }
         }
 
         /// <include file='IniSectionCollection.xml' path='//Property[@name="Count"]/docs/*' />
@@ -81,7 +81,7 @@ namespace Nini.Ini
         /// <include file='IniSectionCollection.xml' path='//Method[@name="CopyToStrong"]/docs/*' />
         public void CopyTo(IniSection[] array, int index)
         {
-            ((ICollection) list).CopyTo(array, index);
+            ((ICollection)list).CopyTo(array, index);
         }
 
         #endregion Public methods

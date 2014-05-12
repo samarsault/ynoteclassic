@@ -29,7 +29,8 @@ namespace WeifenLuo.WinFormsUI.Docking
         private InertButton m_buttonClose;
         private InertButton m_buttonOptions;
 
-        public VS2005DockPaneCaption(DockPane pane) : base(pane)
+        public VS2005DockPaneCaption(DockPane pane)
+            : base(pane)
         {
             SuspendLayout();
 
@@ -224,8 +225,8 @@ namespace WeifenLuo.WinFormsUI.Docking
                 {
                     Blend blend = new Blend(2);
 
-                    blend.Factors = new[] {0.5F, 1.0F};
-                    blend.Positions = new[] {0.0F, 1.0F};
+                    blend.Factors = new[] { 0.5F, 1.0F };
+                    blend.Positions = new[] { 0.0F, 1.0F };
                     _activeBackColorGradientBlend = blend;
                 }
 
@@ -394,7 +395,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             int height = rectCaption.Height - ButtonGapTop - ButtonGapBottom;
             if (buttonHeight < height)
             {
-                buttonWidth = buttonWidth*(height/buttonHeight);
+                buttonWidth = buttonWidth * (height / buttonHeight);
                 buttonHeight = height;
             }
             Size buttonSize = new Size(buttonWidth, buttonHeight);
@@ -494,6 +495,6 @@ namespace WeifenLuo.WinFormsUI.Docking
         private const int _ButtonGapLeft = 1;
         private const int _ButtonGapRight = 2;
 
-        #endregion
+        #endregion consts
     }
 }

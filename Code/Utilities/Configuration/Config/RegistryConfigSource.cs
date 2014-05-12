@@ -1,9 +1,8 @@
-using System;
 using Microsoft.Win32;
+using System;
 
 namespace Nini.Config
 {
-
     #region RegistryRecurse enumeration
 
     /// <include file='RegistryConfigSource.xml' path='//Enum[@name="RegistryRecurse"]/docs/*' />
@@ -134,7 +133,7 @@ namespace Nini.Config
                 // New merged configs are not RegistryConfigs
                 if (Configs[i] is RegistryConfig)
                 {
-                    var config = (RegistryConfig) Configs[i];
+                    var config = (RegistryConfig)Configs[i];
                     var keys = config.GetKeys();
 
                     for (var j = 0; j < keys.Length; j++)
@@ -181,7 +180,7 @@ namespace Nini.Config
             {
                 if (config is RegistryConfig)
                 {
-                    var registryConfig = (RegistryConfig) config;
+                    var registryConfig = (RegistryConfig)config;
 
                     if (registryConfig.ParentKey)
                     {
@@ -209,7 +208,7 @@ namespace Nini.Config
 
             for (var i = 0; i < keys.Length; i++)
             {
-                keys[i] = ((RegistryConfig) Configs[i]).Key;
+                keys[i] = ((RegistryConfig)Configs[i]).Key;
             }
 
             Configs.Clear();

@@ -377,7 +377,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     yield return this[i];
             }
 
-            #endregion
+            #endregion IEnumerable Members
 
             private class AutoHideState
             {
@@ -492,7 +492,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     yield return this[i];
             }
 
-            #endregion
+            #endregion IEnumerable Members
 
             private readonly DockPane m_dockPane;
 

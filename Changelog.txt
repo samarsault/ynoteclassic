@@ -8,4 +8,7 @@
 -> Improvised Search and Replace functions and GUI
 -> Renamed RunScripts to External Tools for convinience
 -> Added CoffeeScript Syntax Highlight
--> Merfed Latest FastColoredTextBox and DockPanelSuite
+-> Merged Latest FastColoredTextBox and DockPanelSuite
+-> Changed Project to Folder Manager
+-> Added @ ruby variable highlighting
+-> Fixed syntax highlight on file_open when text changes error

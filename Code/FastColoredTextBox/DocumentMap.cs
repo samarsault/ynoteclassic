@@ -135,7 +135,7 @@ namespace FastColoredTextBoxNS
             if (target == null)
                 return;
 
-            var zoom = Scale*100/target.Zoom;
+            var zoom = Scale * 100 / target.Zoom;
 
             if (zoom <= float.Epsilon)
                 return;
@@ -147,7 +147,7 @@ namespace FastColoredTextBoxNS
             else
             {
                 var endP = target.PlaceToPoint(r.End);
-                endP.Offset(0, -(int) (ClientSize.Height/zoom) + target.CharHeight);
+                endP.Offset(0, -(int)(ClientSize.Height / zoom) + target.CharHeight);
                 var pp = target.PointToPlace(endP);
                 if (pp.iLine > startPlace.iLine)
                     startPlace.iLine = pp.iLine;
@@ -155,13 +155,13 @@ namespace FastColoredTextBoxNS
             startPlace.iChar = 0;
             //calc scroll pos
             var linesCount = target.Lines.Count;
-            var sp1 = (float) r.Start.iLine/linesCount;
-            var sp2 = (float) r.End.iLine/linesCount;
+            var sp1 = (float)r.Start.iLine / linesCount;
+            var sp2 = (float)r.End.iLine / linesCount;
 
             //scale graphics
             e.Graphics.ScaleTransform(zoom, zoom);
             //draw text
-            var size = new SizeF(ClientSize.Width/zoom, ClientSize.Height/zoom);
+            var size = new SizeF(ClientSize.Width / zoom, ClientSize.Height / zoom);
             target.DrawText(e.Graphics, startPlace, size.ToSize());
 
             //draw visible rect
@@ -174,9 +174,9 @@ namespace FastColoredTextBoxNS
             e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
 
             using (var brush = new SolidBrush(Color.FromArgb(50, ForeColor)))
-            using (var pen = new Pen(brush, 1/zoom))
+            using (var pen = new Pen(brush, 1 / zoom))
             {
-                var rect = new Rectangle(0, y1, (int) ((ClientSize.Width - 1)/zoom), y2 - y1);
+                var rect = new Rectangle(0, y1, (int)((ClientSize.Width - 1) / zoom), y2 - y1);
                 e.Graphics.FillRectangle(brush, rect);
                 e.Graphics.DrawRectangle(pen, rect);
             }
@@ -189,8 +189,8 @@ namespace FastColoredTextBoxNS
 
                 using (var brush = new SolidBrush(Color.FromArgb(200, ForeColor)))
                 {
-                    var rect = new RectangleF(ClientSize.Width - 3, ClientSize.Height*sp1, 2,
-                        ClientSize.Height*(sp2 - sp1));
+                    var rect = new RectangleF(ClientSize.Width - 3, ClientSize.Height * sp1, 2,
+                        ClientSize.Height * (sp2 - sp1));
                     e.Graphics.FillRectangle(brush, rect);
                 }
             }
@@ -217,16 +217,16 @@ namespace FastColoredTextBoxNS
             if (target == null)
                 return;
 
-            var zoom = Scale*100/target.Zoom;
+            var zoom = Scale * 100 / target.Zoom;
 
             if (zoom <= float.Epsilon)
                 return;
 
             var p0 = target.PlaceToPoint(startPlace);
-            p0 = new Point(0, p0.Y + (int) (point.Y/zoom));
+            p0 = new Point(0, p0.Y + (int)(point.Y / zoom));
             var pp = target.PointToPlace(p0);
             target.DoRangeVisible(new Range(target, pp, pp), true);
-            BeginInvoke((MethodInvoker) OnScroll);
+            BeginInvoke((MethodInvoker)OnScroll);
         }
 
         private void OnScroll()

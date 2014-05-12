@@ -3,12 +3,12 @@ using System.Windows.Forms;
 
 namespace SS.Ynote.Classic.Features.Project
 {
-    public partial class ProjectUtils : Form
+    public partial class FolderUtils : Form
     {
         /// <summary>
         ///     Constructor
         /// </summary>
-        public ProjectUtils()
+        public FolderUtils()
         {
             InitializeComponent();
         }

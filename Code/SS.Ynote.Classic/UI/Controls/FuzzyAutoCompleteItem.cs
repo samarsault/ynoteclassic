@@ -1,5 +1,5 @@
-﻿using System;
-using AutocompleteMenuNS;
+﻿using AutocompleteMenuNS;
+using System;
 
 public class FuzzyAutoCompleteItem : AutocompleteItem
 {
@@ -59,8 +59,8 @@ public class FuzzyAutoCompleteItem : AutocompleteItem
             }
         }
 
-        var dist = (float) d[str1.Length, str2.Length];
+        var dist = (float)d[str1.Length, str2.Length];
 
-        return 1 - dist/Math.Max(str1.Length, str2.Length);
+        return 1 - dist / Math.Max(str1.Length, str2.Length);
     }
 }

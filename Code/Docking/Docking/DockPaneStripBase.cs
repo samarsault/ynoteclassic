@@ -105,8 +105,8 @@ namespace WeifenLuo.WinFormsUI.Docking
             if (e.Button == MouseButtons.Left)
             {
                 var dragSize = SystemInformation.DragSize;
-                _dragBox = new Rectangle(new Point(e.X - (dragSize.Width/2),
-                    e.Y - (dragSize.Height/2)), dragSize);
+                _dragBox = new Rectangle(new Point(e.X - (dragSize.Width / 2),
+                    e.Y - (dragSize.Height / 2)), dragSize);
             }
         }
 
@@ -138,7 +138,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         protected override void WndProc(ref Message m)
         {
-            if (m.Msg == (int) Msgs.WM_LBUTTONDBLCLK)
+            if (m.Msg == (int)Msgs.WM_LBUTTONDBLCLK)
             {
                 base.WndProc(ref m);
 
@@ -222,7 +222,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     yield return this[i];
             }
 
-            #endregion
+            #endregion IEnumerable Members
 
             private readonly DockPane m_dockPane;
 

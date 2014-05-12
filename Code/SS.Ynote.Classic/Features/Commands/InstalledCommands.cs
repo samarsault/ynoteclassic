@@ -1,16 +1,16 @@
-﻿using System;
+﻿using FastColoredTextBoxNS;
+using SS.Ynote.Classic;
+using SS.Ynote.Classic.Features.Extensibility;
+using SS.Ynote.Classic.Features.RunScript;
+using SS.Ynote.Classic.Features.Syntax;
+using SS.Ynote.Classic.UI;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-using FastColoredTextBoxNS;
-using SS.Ynote.Classic;
-using SS.Ynote.Classic.Features.Extensibility;
-using SS.Ynote.Classic.Features.RunScript;
-using SS.Ynote.Classic.Features.Syntax;
-using SS.Ynote.Classic.UI;
 using WeifenLuo.WinFormsUI.Docking;
 
 internal class SetSyntaxCommand : ICommand
@@ -25,7 +25,7 @@ internal class SetSyntaxCommand : ICommand
         get
         {
             return
-                (from object language in Enum.GetValues(typeof (Language)) select "SetSyntax:" + language).ToArray();
+                (from object language in Enum.GetValues(typeof(Language)) select language.ToString()).ToArray();
         }
     }
 
@@ -52,7 +52,7 @@ internal class SetSyntaxFile : ICommand
         get
         {
             return Directory.GetFiles(Settings.SettingsDir + "Syntaxes", "*.xml")
-                .Select(directory => "SetSyntaxFile:" + Path.GetFileNameWithoutExtension(directory))
+                .Select(Path.GetFileNameWithoutExtension)
                 .ToArray();
         }
     }
@@ -111,7 +111,7 @@ internal class ScriptCommand : ICommand
         {
             return
                 Directory.GetFiles(Settings.SettingsDir + "Scripts", "*.ys")
-                    .Select(directory => "Script:" + Path.GetFileNameWithoutExtension(directory))
+                    .Select(Path.GetFileNameWithoutExtension)
                     .ToArray();
         }
     }
@@ -135,7 +135,7 @@ internal class RunScriptCommand : ICommand
         {
             return
                 Directory.GetFiles(Settings.SettingsDir + "RunScripts", "*.run")
-                    .Select(directory => "Run:" + Path.GetFileNameWithoutExtension(directory))
+                    .Select(Path.GetFileNameWithoutExtension)
                     .ToArray();
         }
     }
@@ -162,7 +162,7 @@ internal class LineCommand : ICommand
 
     public string[] Commands
     {
-        get { return new[] {"Line:MoveUp", "Line:MoveDown", "Line:Join", "Line:Sort", "Line:Duplicate"}; }
+        get { return new[] { "MoveUp", "MoveDown", "Join", "Sort", "Duplicate" }; }
     }
 
     public void ProcessCommand(string val, IYnote ynote)
@@ -170,29 +170,31 @@ internal class LineCommand : ICommand
         var activeEditor = ynote.Panel.ActiveDocument as Editor;
         switch (val)
         {
-            case "MoveLineDown":
+            case "MoveDown":
                 activeEditor.Tb.MoveSelectedLinesDown();
                 break;
 
-            case "MoveLineUp":
+            case "MoveUp":
                 activeEditor.Tb.MoveSelectedLinesUp();
                 break;
 
             case "Duplicate":
                 activeEditor.Tb.DuplicateLine(activeEditor.Tb.Selection.Start.iLine);
                 break;
+
             case "Join":
-                var lns = activeEditor.Tb.SelectedText.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
+                var lns = activeEditor.Tb.SelectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                 activeEditor.Tb.SelectedText = string.Join(" ", lns);
                 break;
+
             case "Sort":
                 var fctb = activeEditor.Tb;
                 string[] lines;
                 if (string.IsNullOrEmpty(fctb.SelectedText))
-                    lines = fctb.Text.Split(new[] {Environment.NewLine},
+                    lines = fctb.Text.Split(new[] { Environment.NewLine },
                         StringSplitOptions.RemoveEmptyEntries);
                 else
-                    lines = fctb.SelectedText.Split(new[] {Environment.NewLine},
+                    lines = fctb.SelectedText.Split(new[] { Environment.NewLine },
                         StringSplitOptions.RemoveEmptyEntries);
                 Array.Reverse(lines);
                 var formedtext = lines.Aggregate<string, string>(null, (current, line) => current + (line + "\r\n"));
@@ -211,7 +213,7 @@ internal class IndentCommand : ICommand
 
     public string[] Commands
     {
-        get { return new[] {"Indent:Increase", "Indent:Decrease", "Indent:Do"}; }
+        get { return new[] { "Increase", "Decrease", "Do" }; }
     }
 
     public void ProcessCommand(string value, IYnote ynote)
@@ -287,7 +289,7 @@ internal class NavigateCommand : ICommand
 
     public string[] Commands
     {
-        get { return new[] {"Navigate:Back", "Navigate:Forward", "Navigate:GoLeftBracket", "Navigate:GoRightBracket"}; }
+        get { return new[] { "Back", "Forward", "GoLeftBracket", "GoRightBracket" }; }
     }
 
     public void ProcessCommand(string val, IYnote ynote)
@@ -299,9 +301,11 @@ internal class NavigateCommand : ICommand
             case "Back":
                 activeEditor.Tb.NavigateBackward();
                 break;
+
             case "Forward":
                 activeEditor.Tb.NavigateForward();
                 break;
+
             case "GoLeftBracket":
                 activeEditor.Tb.GoLeftBracket('(', ')');
                 break;
@@ -326,8 +330,8 @@ internal class SelectionCommand : ICommand
         {
             return new[]
             {
-                "Selection:GoWordRight", "Selection:GoWordLeft", "Selection:Expand", "Selection:Readable",
-                "Selection:Writeable"
+                "GoWordRight", "GoWordLeft", "Expand", "Readable",
+                "Writeable"
             };
         }
     }
@@ -361,7 +365,7 @@ internal class CodeFoldingCommand : ICommand
 
     public string[] Commands
     {
-        get { return new[] {"CodeFolding:FoldAll", "CodeFolding:ExpandAll", "CodeFolding:FoldSelection"}; }
+        get { return new[] { "FoldAll", "ExpandAll", "FoldSelection" }; }
     }
 
     public void ProcessCommand(string val, IYnote ynote)
@@ -389,13 +393,13 @@ internal class FileCommand : ICommand
         {
             return new[]
             {
-                "File:New",
-                "File:Open",
-                "File:Save",
-                "File:Revert",
-                "File:Properties",
-                "File:Close",
-                "File:CloseAll"
+                "New",
+                "Open",
+                "Save",
+                "Revert",
+                "Properties",
+                "Close",
+                "CloseAll"
             };
         }
     }
@@ -408,6 +412,7 @@ internal class FileCommand : ICommand
             case "New":
                 ynote.CreateNewDoc();
                 break;
+
             case "Open":
                 using (var dlg = new OpenFileDialog())
                 {
@@ -416,21 +421,26 @@ internal class FileCommand : ICommand
                         ynote.OpenFile(dlg.FileName);
                 }
                 break;
+
             case "Save":
                 ynote.SaveEditor(ynote.Panel.ActiveDocument as Editor);
                 break;
+
             case "Properties":
                 if (edit.IsSaved)
                     NativeMethods.ShowFileProperties(edit.Name);
                 break;
+
             case "Revert":
                 if (edit == null || !edit.IsSaved) return;
                 edit.Tb.OpenFile(edit.Name);
                 edit.Text = Path.GetFileName(edit.Name);
                 break;
+
             case "Close":
                 edit.Close();
                 break;
+
             case "CloseAll":
                 foreach (Editor doc in ynote.Panel.Documents.OfType<Editor>())
                     doc.Close();
@@ -448,7 +458,7 @@ internal class GoogleCommand : ICommand
 
     public string[] Commands
     {
-        get { return new[] {"Google:"}; }
+        get { return new[] { "" }; }
     }
 
     public void ProcessCommand(string val, IYnote ynote)
@@ -466,7 +476,7 @@ internal class WikipediaCommand : ICommand
 
     public string[] Commands
     {
-        get { return new[] {"Wikipedia:"}; }
+        get { return new[] { "" }; }
     }
 
     public void ProcessCommand(string val, IYnote ynote)

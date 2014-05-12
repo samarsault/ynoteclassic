@@ -61,7 +61,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         protected override void WndProc(ref Message m)
         {
             // eat the WM_MOUSEACTIVATE message
-            if (m.Msg == (int) Msgs.WM_MOUSEACTIVATE)
+            if (m.Msg == (int)Msgs.WM_MOUSEACTIVATE)
                 return;
 
             base.WndProc(ref m);

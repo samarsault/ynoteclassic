@@ -1,8 +1,8 @@
-﻿using System;
+﻿using AutocompleteMenuNS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using AutocompleteMenuNS;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace SS.Ynote.Classic.UI

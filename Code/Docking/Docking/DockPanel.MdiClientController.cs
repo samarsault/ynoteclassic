@@ -138,7 +138,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 set
                 {
                     // Error-check the enum.
-                    if (!Enum.IsDefined(typeof (BorderStyle), value))
+                    if (!Enum.IsDefined(typeof(BorderStyle), value))
                         throw new InvalidEnumArgumentException();
 
                     m_borderStyle = value;
@@ -164,31 +164,31 @@ namespace WeifenLuo.WinFormsUI.Docking
                     if (!Win32Helper.IsRunningOnMono)
                     {
                         // Get styles using Win32 calls
-                        int style = NativeMethods.GetWindowLong(MdiClient.Handle, (int) GetWindowLongIndex.GWL_STYLE);
-                        int exStyle = NativeMethods.GetWindowLong(MdiClient.Handle, (int) GetWindowLongIndex.GWL_EXSTYLE);
+                        int style = NativeMethods.GetWindowLong(MdiClient.Handle, (int)GetWindowLongIndex.GWL_STYLE);
+                        int exStyle = NativeMethods.GetWindowLong(MdiClient.Handle, (int)GetWindowLongIndex.GWL_EXSTYLE);
 
                         // Add or remove style flags as necessary.
                         switch (m_borderStyle)
                         {
                             case BorderStyle.Fixed3D:
-                                exStyle |= (int) WindowExStyles.WS_EX_CLIENTEDGE;
-                                style &= ~((int) WindowStyles.WS_BORDER);
+                                exStyle |= (int)WindowExStyles.WS_EX_CLIENTEDGE;
+                                style &= ~((int)WindowStyles.WS_BORDER);
                                 break;
 
                             case BorderStyle.FixedSingle:
-                                exStyle &= ~((int) WindowExStyles.WS_EX_CLIENTEDGE);
-                                style |= (int) WindowStyles.WS_BORDER;
+                                exStyle &= ~((int)WindowExStyles.WS_EX_CLIENTEDGE);
+                                style |= (int)WindowStyles.WS_BORDER;
                                 break;
 
                             case BorderStyle.None:
-                                style &= ~((int) WindowStyles.WS_BORDER);
-                                exStyle &= ~((int) WindowExStyles.WS_EX_CLIENTEDGE);
+                                style &= ~((int)WindowStyles.WS_BORDER);
+                                exStyle &= ~((int)WindowExStyles.WS_EX_CLIENTEDGE);
                                 break;
                         }
 
                         // Set the styles using Win32 calls
-                        NativeMethods.SetWindowLong(MdiClient.Handle, (int) GetWindowLongIndex.GWL_STYLE, style);
-                        NativeMethods.SetWindowLong(MdiClient.Handle, (int) GetWindowLongIndex.GWL_EXSTYLE, exStyle);
+                        NativeMethods.SetWindowLong(MdiClient.Handle, (int)GetWindowLongIndex.GWL_STYLE, style);
+                        NativeMethods.SetWindowLong(MdiClient.Handle, (int)GetWindowLongIndex.GWL_EXSTYLE, exStyle);
                     }
 
                     // Cause an update of the non-client area.
@@ -253,7 +253,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
                     // If the component is dropped onto a form during design-time,
                     // set the ParentForm property.
-                    IDesignerHost host = (value.GetService(typeof (IDesignerHost)) as IDesignerHost);
+                    IDesignerHost host = (value.GetService(typeof(IDesignerHost)) as IDesignerHost);
                     if (host != null)
                     {
                         Form parent = host.RootComponent as Form;
@@ -324,14 +324,14 @@ namespace WeifenLuo.WinFormsUI.Docking
             {
                 switch (m.Msg)
                 {
-                    case (int) Msgs.WM_NCCALCSIZE:
+                    case (int)Msgs.WM_NCCALCSIZE:
                         // If AutoScroll is set to false, hide the scrollbars when the control
                         // calculates its non-client area.
                         if (!AutoScroll)
                         {
                             if (!Win32Helper.IsRunningOnMono)
                             {
-                                NativeMethods.ShowScrollBar(m.HWnd, (int) ScrollBars.SB_BOTH, 0 /*false*/);
+                                NativeMethods.ShowScrollBar(m.HWnd, (int)ScrollBars.SB_BOTH, 0 /*false*/);
                             }
                         }
 

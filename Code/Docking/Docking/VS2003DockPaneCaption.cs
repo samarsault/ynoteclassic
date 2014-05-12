@@ -19,14 +19,15 @@ namespace WeifenLuo.WinFormsUI.Docking
         private const int _ButtonGapLeft = 1;
         private const int _ButtonGapRight = 2;
 
-        #endregion
+        #endregion consts
 
         private readonly InertButton m_buttonAutoHide;
         private readonly InertButton m_buttonClose;
 
         /// <include file='CodeDoc/DockPaneCaptionVS2003.xml'
         ///     path='//CodeDoc/Class[@name="DockPaneCaptionVS2003"]/Construct[@name="(DockPane)"]/*' />
-        protected internal VS2003DockPaneCaption(DockPane pane) : base(pane)
+        protected internal VS2003DockPaneCaption(DockPane pane)
+            : base(pane)
         {
             SuspendLayout();
 
@@ -43,7 +44,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             m_buttonAutoHide.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             m_buttonAutoHide.Click += AutoHide_Click;
 
-            Controls.AddRange(new Control[] {m_buttonClose, m_buttonAutoHide});
+            Controls.AddRange(new Control[] { m_buttonClose, m_buttonAutoHide });
 
             ResumeLayout();
         }
@@ -253,7 +254,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             get { return _textFormat; }
         }
 
-        #endregion
+        #endregion Customizable Properties
 
         private bool ShouldShowCloseButton
         {
@@ -359,7 +360,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             int height = rectCaption.Height - ButtonGapTop - ButtonGapBottom;
             if (buttonHeight < height)
             {
-                buttonWidth = buttonWidth*(height/buttonHeight);
+                buttonWidth = buttonWidth * (height / buttonHeight);
                 buttonHeight = height;
             }
             m_buttonClose.SuspendLayout();

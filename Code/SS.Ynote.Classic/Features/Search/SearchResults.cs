@@ -1,10 +1,10 @@
-﻿using System;
+﻿using SS.Ynote.Classic.UI;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using SS.Ynote.Classic.UI;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace SS.Ynote.Classic.Features.Syntax
@@ -86,8 +86,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                         if (line.Contains(searchString, comparison))
                         {
                             lvresults.Items.Add(
-                                new ListViewItem(new[]
-                                {file, lineNumber.ToString(), FileExists(_ynote, file).ToString()}));
+                                new ListViewItem(new[] { file, lineNumber.ToString(), FileExists(_ynote, file).ToString() }));
                         }
 
                         lineNumber++;
@@ -109,8 +108,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                         if (Regex.IsMatch(line, searchString, options))
                         {
                             lvresults.Items.Add(
-                                new ListViewItem(new[]
-                                {file, lineNumber.ToString(), FileExists(_ynote, file).ToString()}));
+                                new ListViewItem(new[] { file, lineNumber.ToString(), FileExists(_ynote, file).ToString() }));
                         }
 
                         lineNumber++;
@@ -146,8 +144,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                             if (line.Contains(searchString, StringComparison.OrdinalIgnoreCase))
                             {
                                 lvresults.Items.Add(
-                                    new ListViewItem(new[]
-                                    {file, lineNumber.ToString(), FileExists(_ynote, file).ToString()}));
+                                    new ListViewItem(new[] { file, lineNumber.ToString(), FileExists(_ynote, file).ToString() }));
                             }
 
                             lineNumber++;
@@ -177,8 +174,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                             if (Regex.IsMatch(line, regex))
                             {
                                 lvresults.Items.Add(
-                                    new ListViewItem(new[]
-                                    {file, lineNumber.ToString(), FileExists(_ynote, file).ToString()}));
+                                    new ListViewItem(new[] { file, lineNumber.ToString(), FileExists(_ynote, file).ToString() }));
                             }
 
                             lineNumber++;
@@ -195,7 +191,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                 if (lvresults.SelectedItems[0].SubItems[2].Text == "False")
                 {
                     _ynote.OpenFile(lvresults.SelectedItems[0].SubItems[0].Text);
-                    var editor = (Editor) (_ynote.Panel.ActiveDocument);
+                    var editor = (Editor)(_ynote.Panel.ActiveDocument);
                     editor.Tb.Navigate(Convert.ToInt32(lvresults.SelectedItems[0].SubItems[1].Text) - 1);
                 }
                 else
@@ -213,7 +209,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             catch
             {
                 _ynote.OpenFile(lvresults.SelectedItems[0].SubItems[0].Text);
-                ((Editor) (_ynote.Panel.ActiveDocument)).Tb.Navigate(
+                ((Editor)(_ynote.Panel.ActiveDocument)).Tb.Navigate(
                     lvresults.SelectedItems[0].SubItems[1].Text.ToInt() - 1);
             }
         }
@@ -233,7 +229,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                         {
                             lines[i] = lines[i].Replace(searchText, replaceText);
                             lvresults.Items.Add(
-                                new ListViewItem(new[] {file, i.ToString(), FileExists(_ynote, file).ToString()}));
+                                new ListViewItem(new[] { file, i.ToString(), FileExists(_ynote, file).ToString() }));
                         }
                     }
                     File.WriteAllLines(file, lines);
@@ -258,7 +254,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                         {
                             lines[i] = Regex.Replace(lines[i], searchText, replaceText);
                             lvresults.Items.Add(
-                                new ListViewItem(new[] {file, i.ToString(), FileExists(_ynote, file).ToString()}));
+                                new ListViewItem(new[] { file, i.ToString(), FileExists(_ynote, file).ToString() }));
                         }
                     }
                     File.WriteAllLines(file, lines);
@@ -285,7 +281,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                 var files = dir == "$docs"
                     ? (from Editor doc in _ynote.Panel.Documents where doc.IsSaved select doc.Name).ToArray()
                     : Directory.GetFiles(dir, filter, GetOption(subdirs));
-                BeginInvoke((MethodInvoker) (() =>
+                BeginInvoke((MethodInvoker)(() =>
                 {
                     if (regex)
                     {

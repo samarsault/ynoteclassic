@@ -146,7 +146,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             get { return SystemPens.GrayText; }
         }
 
-        #endregion
+        #endregion Customizable Properties
 
         private TabVS2012Light lastSelectedTab;
 
@@ -224,8 +224,8 @@ namespace WeifenLuo.WinFormsUI.Docking
             if (dockState == DockState.DockLeftAutoHide || dockState == DockState.DockRightAutoHide)
             {
                 Matrix matrixRotated = new Matrix();
-                matrixRotated.RotateAt(90, new PointF(rectTabStrip.X + (float) rectTabStrip.Height/2,
-                    rectTabStrip.Y + (float) rectTabStrip.Height/2));
+                matrixRotated.RotateAt(90, new PointF(rectTabStrip.X + (float)rectTabStrip.Height / 2,
+                    rectTabStrip.Y + (float)rectTabStrip.Height / 2));
                 g.Transform = matrixRotated;
             }
 
@@ -252,7 +252,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             int imageHeight = rectTabStrip.Height - ImageGapTop - ImageGapBottom;
             int imageWidth = ImageWidth;
             if (imageHeight > ImageHeight)
-                imageWidth = ImageWidth*(imageHeight/ImageHeight);
+                imageWidth = ImageWidth * (imageHeight / ImageHeight);
 
             int x = TabGapLeft + rectTabStrip.X;
             foreach (Pane pane in GetPanes(dockState))
@@ -336,14 +336,14 @@ namespace WeifenLuo.WinFormsUI.Docking
             int imageHeight = rectTabOrigin.Height - ImageGapTop - ImageGapBottom;
             int imageWidth = ImageWidth;
             if (imageHeight > ImageHeight)
-                imageWidth = ImageWidth*(imageHeight/ImageHeight);
+                imageWidth = ImageWidth * (imageHeight / ImageHeight);
             rectImage.Height = imageHeight;
             rectImage.Width = imageWidth;
             rectImage = GetTransformedRectangle(dockState, rectImage);
 
             if (dockState == DockState.DockLeftAutoHide || dockState == DockState.DockRightAutoHide)
             {
-                // The DockState is DockLeftAutoHide or DockRightAutoHide, so rotate the image 90 degrees to the right. 
+                // The DockState is DockLeftAutoHide or DockRightAutoHide, so rotate the image 90 degrees to the right.
                 Rectangle rectTransform = RtlTransform(rectImage, dockState);
                 Point[] rotationPoints =
                 {
@@ -352,7 +352,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     new Point(rectTransform.X, rectTransform.Y)
                 };
 
-                using (Icon rotatedIcon = new Icon(((Form) content).Icon, 16, 16))
+                using (Icon rotatedIcon = new Icon(((Form)content).Icon, 16, 16))
                 {
                     g.DrawImage(rotatedIcon.ToBitmap(), rotationPoints);
                 }
@@ -360,7 +360,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             else
             {
                 // Draw the icon normally without any rotation.
-                g.DrawIcon(((Form) content).Icon, RtlTransform(rectImage, dockState));
+                g.DrawIcon(((Form)content).Icon, RtlTransform(rectImage, dockState));
             }
 
             // Draw the text
@@ -476,18 +476,18 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             PointF[] pts = new PointF[1];
             // the center of the rectangle
-            pts[0].X = rect.X + (float) rect.Width/2;
-            pts[0].Y = rect.Y + (float) rect.Height/2;
+            pts[0].X = rect.X + (float)rect.Width / 2;
+            pts[0].Y = rect.Y + (float)rect.Height / 2;
             Rectangle rectTabStrip = GetLogicalTabStripRectangle(dockState);
             using (var matrix = new Matrix())
             {
-                matrix.RotateAt(90, new PointF(rectTabStrip.X + (float) rectTabStrip.Height/2,
-                    rectTabStrip.Y + (float) rectTabStrip.Height/2));
+                matrix.RotateAt(90, new PointF(rectTabStrip.X + (float)rectTabStrip.Height / 2,
+                    rectTabStrip.Y + (float)rectTabStrip.Height / 2));
                 matrix.TransformPoints(pts);
             }
 
-            return new Rectangle((int) (pts[0].X - (float) rect.Height/2 + .5F),
-                (int) (pts[0].Y - (float) rect.Width/2 + .5F),
+            return new Rectangle((int)(pts[0].X - (float)rect.Height / 2 + .5F),
+                (int)(pts[0].Y - (float)rect.Width / 2 + .5F),
                 rect.Height, rect.Width);
         }
 
@@ -524,7 +524,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         protected override void OnMouseHover(EventArgs e)
         {
-            var tab = (TabVS2012Light) TabHitTest(PointToClient(MousePosition));
+            var tab = (TabVS2012Light)TabHitTest(PointToClient(MousePosition));
             if (tab != null)
             {
                 tab.IsMouseOver = true;

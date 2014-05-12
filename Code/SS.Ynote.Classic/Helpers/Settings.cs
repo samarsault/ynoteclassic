@@ -5,9 +5,11 @@ using System.Text;
 using FastColoredTextBoxNS;
 using Nini.Config;
 using WeifenLuo.WinFormsUI.Docking;
+
 #if PORTABLE
     using System.Windows.Forms;
 #else
+
 using System;
 
 #endif
@@ -18,13 +20,17 @@ using System;
 public static class Settings
 {
 #if !PORTABLE
+
     internal static readonly string SettingsDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
                                                   @"\Ynote_Classic\";
+
 #else
     internal static readonly string SettingsDir = Application.StartupPath + @"\User\";
 #endif
 #if DEVBUILD
+
     internal static int BuildNumber { get; set; }
+
 #endif
 
     /// <summary>

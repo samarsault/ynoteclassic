@@ -19,13 +19,13 @@ namespace Nini.Util
         /// <include file='OrderedList.xml' path='//Property[@name="ItemIndex"]/docs/*' />
         public object this[int index]
         {
-            get { return ((DictionaryEntry) list[index]).Value; }
+            get { return ((DictionaryEntry)list[index]).Value; }
             set
             {
                 if (index < 0 || index >= Count)
                     throw new ArgumentOutOfRangeException("index");
 
-                var key = ((DictionaryEntry) list[index]).Key;
+                var key = ((DictionaryEntry)list[index]).Key;
                 list[index] = new DictionaryEntry(key, value);
                 table[key] = value;
             }
@@ -85,7 +85,7 @@ namespace Nini.Util
                 var retList = new ArrayList();
                 for (var i = 0; i < list.Count; i++)
                 {
-                    retList.Add(((DictionaryEntry) list[i]).Key);
+                    retList.Add(((DictionaryEntry)list[i]).Key);
                 }
                 return retList;
             }
@@ -99,7 +99,7 @@ namespace Nini.Util
                 var retList = new ArrayList();
                 for (var i = 0; i < list.Count; i++)
                 {
-                    retList.Add(((DictionaryEntry) list[i]).Value);
+                    retList.Add(((DictionaryEntry)list[i]).Value);
                 }
                 return retList;
             }
@@ -176,7 +176,7 @@ namespace Nini.Util
             if (index >= Count)
                 throw new ArgumentOutOfRangeException("index");
 
-            table.Remove(((DictionaryEntry) list[index]).Key);
+            table.Remove(((DictionaryEntry)list[index]).Key);
             list.RemoveAt(index);
         }
 
@@ -194,7 +194,7 @@ namespace Nini.Util
         {
             for (var i = 0; i < list.Count; i++)
             {
-                if (((DictionaryEntry) list[i]).Key.Equals(key))
+                if (((DictionaryEntry)list[i]).Key.Equals(key))
                 {
                     return i;
                 }

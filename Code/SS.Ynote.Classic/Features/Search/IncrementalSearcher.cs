@@ -1,8 +1,8 @@
+using FastColoredTextBoxNS;
 using System;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using FastColoredTextBoxNS;
 
 namespace SS.Ynote.Classic.Features.Search
 {
@@ -80,7 +80,7 @@ namespace SS.Ynote.Classic.Features.Search
 
         internal void FocusTextBox()
         {
-            BeginInvoke((MethodInvoker) delegate
+            BeginInvoke((MethodInvoker)delegate
             {
                 ResetSerach();
                 tbFind.Focus();
@@ -110,7 +110,7 @@ namespace SS.Ynote.Classic.Features.Search
 
         private void tbFind_TextChanged(object sender, EventArgs e)
         {
-            BeginInvoke((MethodInvoker) delegate
+            BeginInvoke((MethodInvoker)delegate
             {
                 ResetSerach();
                 tbFind.BackColor = Color.White;

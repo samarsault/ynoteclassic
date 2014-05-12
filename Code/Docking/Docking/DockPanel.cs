@@ -21,7 +21,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
     [LocalizedDescription("DockPanel_Description")]
     [Designer("System.Windows.Forms.Design.ControlDesigner, System.Design")]
-    [ToolboxBitmap(typeof (resfinder), "WeifenLuo.WinFormsUI.Docking.DockPanel.bmp")]
+    [ToolboxBitmap(typeof(resfinder), "WeifenLuo.WinFormsUI.Docking.DockPanel.bmp")]
     [DefaultProperty("DocumentStyle")]
     [DefaultEvent("ActiveContentChanged")]
     public partial class DockPanel : Panel
@@ -444,7 +444,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 if (value == m_documentStyle)
                     return;
 
-                if (!Enum.IsDefined(typeof (DocumentStyle), value))
+                if (!Enum.IsDefined(typeof(DocumentStyle), value))
                     throw new InvalidEnumArgumentException();
 
                 if (value == DocumentStyle.SystemMdi && DockWindows[DockState.Document].VisibleNestedPanes.Count > 0)
@@ -660,10 +660,10 @@ namespace WeifenLuo.WinFormsUI.Docking
             if (dockState == DockState.DockLeft || dockState == DockState.DockRight)
             {
                 int width = ClientRectangle.Width - DockPadding.Left - DockPadding.Right;
-                int dockLeftSize = m_dockLeftPortion >= 1 ? (int) m_dockLeftPortion : (int) (width*m_dockLeftPortion);
+                int dockLeftSize = m_dockLeftPortion >= 1 ? (int)m_dockLeftPortion : (int)(width * m_dockLeftPortion);
                 int dockRightSize = m_dockRightPortion >= 1
-                    ? (int) m_dockRightPortion
-                    : (int) (width*m_dockRightPortion);
+                    ? (int)m_dockRightPortion
+                    : (int)(width * m_dockRightPortion);
 
                 if (dockLeftSize < MeasurePane.MinSize)
                     dockLeftSize = MeasurePane.MinSize;
@@ -673,8 +673,8 @@ namespace WeifenLuo.WinFormsUI.Docking
                 if (dockLeftSize + dockRightSize > width - MeasurePane.MinSize)
                 {
                     int adjust = (dockLeftSize + dockRightSize) - (width - MeasurePane.MinSize);
-                    dockLeftSize -= adjust/2;
-                    dockRightSize -= adjust/2;
+                    dockLeftSize -= adjust / 2;
+                    dockRightSize -= adjust / 2;
                 }
 
                 return dockState == DockState.DockLeft ? dockLeftSize : dockRightSize;
@@ -682,10 +682,10 @@ namespace WeifenLuo.WinFormsUI.Docking
             if (dockState == DockState.DockTop || dockState == DockState.DockBottom)
             {
                 int height = ClientRectangle.Height - DockPadding.Top - DockPadding.Bottom;
-                int dockTopSize = m_dockTopPortion >= 1 ? (int) m_dockTopPortion : (int) (height*m_dockTopPortion);
+                int dockTopSize = m_dockTopPortion >= 1 ? (int)m_dockTopPortion : (int)(height * m_dockTopPortion);
                 int dockBottomSize = m_dockBottomPortion >= 1
-                    ? (int) m_dockBottomPortion
-                    : (int) (height*m_dockBottomPortion);
+                    ? (int)m_dockBottomPortion
+                    : (int)(height * m_dockBottomPortion);
 
                 if (dockTopSize < MeasurePane.MinSize)
                     dockTopSize = MeasurePane.MinSize;
@@ -695,8 +695,8 @@ namespace WeifenLuo.WinFormsUI.Docking
                 if (dockTopSize + dockBottomSize > height - MeasurePane.MinSize)
                 {
                     int adjust = (dockTopSize + dockBottomSize) - (height - MeasurePane.MinSize);
-                    dockTopSize -= adjust/2;
-                    dockBottomSize -= adjust/2;
+                    dockTopSize -= adjust / 2;
+                    dockBottomSize -= adjust / 2;
                 }
 
                 return dockState == DockState.DockTop ? dockTopSize : dockBottomSize;
@@ -948,7 +948,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         private void UpdateWindowRegion_EmptyDocumentArea()
         {
             Rectangle rect = DocumentWindowBounds;
-            SetRegion(new[] {rect});
+            SetRegion(new[] { rect });
         }
 
         private void UpdateWindowRegion_ClipContent()
@@ -959,7 +959,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 if (!pane.Visible || pane.DockState != DockState.Document)
                     continue;
 
-                count ++;
+                count++;
             }
 
             if (count == 0)
@@ -1054,7 +1054,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         protected virtual void OnActiveAutoHideContentChanged(EventArgs e)
         {
-            EventHandler handler = (EventHandler) Events[ActiveAutoHideContentChangedEvent];
+            EventHandler handler = (EventHandler)Events[ActiveAutoHideContentChangedEvent];
             if (handler != null)
                 handler(this, e);
         }
@@ -1063,7 +1063,6 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             OnActiveAutoHideContentChanged(e);
         }
-
 
         [LocalizedCategory("Category_DockingNotification")]
         [LocalizedDescription("DockPanel_ContentAdded_Description")]
@@ -1075,7 +1074,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         protected virtual void OnContentAdded(DockContentEventArgs e)
         {
-            EventHandler<DockContentEventArgs> handler = (EventHandler<DockContentEventArgs>) Events[ContentAddedEvent];
+            EventHandler<DockContentEventArgs> handler = (EventHandler<DockContentEventArgs>)Events[ContentAddedEvent];
             if (handler != null)
                 handler(this, e);
         }
@@ -1091,7 +1090,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         protected virtual void OnContentRemoved(DockContentEventArgs e)
         {
             EventHandler<DockContentEventArgs> handler =
-                (EventHandler<DockContentEventArgs>) Events[ContentRemovedEvent];
+                (EventHandler<DockContentEventArgs>)Events[ContentRemovedEvent];
             if (handler != null)
                 handler(this, e);
         }

@@ -17,7 +17,8 @@ namespace FastColoredTextBoxNS
         /// </summary>
         /// <param name="tb">Underlaying textbox</param>
         /// <param name="c">Inserting char</param>
-        public InsertCharCommand(TextSource ts, char c) : base(ts)
+        public InsertCharCommand(TextSource ts, char c)
+            : base(ts)
         {
             this.c = c;
         }
@@ -33,8 +34,10 @@ namespace FastColoredTextBoxNS
                 case '\n':
                     MergeLines(sel.Start.iLine, ts);
                     break;
+
                 case '\r':
                     break;
+
                 case '\b':
                     ts.CurrentTB.Selection.Start = lastSel.Start;
                     char cc = '\x0';
@@ -44,6 +47,7 @@ namespace FastColoredTextBoxNS
                         InsertChar(deletedChar, ref cc, ts);
                     }
                     break;
+
                 default:
                     ts.CurrentTB.ExpandBlock(sel.Start.iLine);
                     ts[sel.Start.iLine].RemoveAt(sel.Start.iChar);
@@ -70,7 +74,6 @@ namespace FastColoredTextBoxNS
             if (String.IsNullOrEmpty(s))
                 throw new ArgumentOutOfRangeException();
 
-
             if (ts.Count == 0)
                 InsertLine(ts);
             InsertChar(c, ref deletedChar, ts);
@@ -93,8 +96,10 @@ namespace FastColoredTextBoxNS
                         InsertLine(ts);
                     InsertLine(ts);
                     break;
+
                 case '\r':
                     break;
+
                 case '\b': //backspace
                     if (tb.Selection.Start.iChar == 0 && tb.Selection.Start.iLine == 0)
                         return;
@@ -114,8 +119,9 @@ namespace FastColoredTextBoxNS
                         tb.Selection.Start = new Place(tb.Selection.Start.iChar - 1, tb.Selection.Start.iLine);
                     }
                     break;
+
                 case '\t':
-                    int spaceCountNextTabStop = tb.TabLength - (tb.Selection.Start.iChar%tb.TabLength);
+                    int spaceCountNextTabStop = tb.TabLength - (tb.Selection.Start.iChar % tb.TabLength);
                     if (spaceCountNextTabStop == 0)
                         spaceCountNextTabStop = tb.TabLength;
 
@@ -125,6 +131,7 @@ namespace FastColoredTextBoxNS
                     tb.Selection.Start = new Place(tb.Selection.Start.iChar + spaceCountNextTabStop,
                         tb.Selection.Start.iLine);
                     break;
+
                 default:
                     ts[tb.Selection.Start.iLine].Insert(tb.Selection.Start.iChar, new Char(c));
                     tb.Selection.Start = new Place(tb.Selection.Start.iChar + 1, tb.Selection.Start.iLine);
@@ -204,7 +211,8 @@ namespace FastColoredTextBoxNS
         /// </summary>
         /// <param name="tb">Underlaying textbox</param>
         /// <param name="insertedText">Text for inserting</param>
-        public InsertTextCommand(TextSource ts, string insertedText) : base(ts)
+        public InsertTextCommand(TextSource ts, string insertedText)
+            : base(ts)
         {
             this.insertedText = insertedText;
         }
@@ -392,7 +400,8 @@ namespace FastColoredTextBoxNS
         ///     Construstor
         /// </summary>
         /// <param name="tb">Underlaying textbox</param>
-        public ClearSelectedCommand(TextSource ts) : base(ts)
+        public ClearSelectedCommand(TextSource ts)
+            : base(ts)
         {
         }
 
@@ -547,6 +556,7 @@ namespace FastColoredTextBoxNS
         public class ReplaceRange
         {
             public Range ReplacedRange { get; set; }
+
             public String ReplaceText { get; set; }
         }
     }
@@ -654,7 +664,8 @@ namespace FastColoredTextBoxNS
         private readonly List<UndoableCommand> commandsByRanges = new List<UndoableCommand>();
         private readonly Range range;
 
-        public MultiRangeCommand(UndoableCommand command) : base(command.ts)
+        public MultiRangeCommand(UndoableCommand command)
+            : base(command.ts)
         {
             cmd = command;
             range = ts.CurrentTB.Selection.Clone();
@@ -710,7 +721,7 @@ namespace FastColoredTextBoxNS
                 var lineIsEmpty = r.End < r.Start && line.StartSpacesCount == line.Count;
                 if (!lineIsEmpty)
                 {
-                    var insertedText = lines[iLine%lines.Length];
+                    var insertedText = lines[iLine % lines.Length];
                     if (r.End < r.Start && insertedText != "")
                     {
                         //add forwarding spaces
@@ -772,7 +783,8 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class SelectCommand : UndoableCommand
     {
-        public SelectCommand(TextSource ts) : base(ts)
+        public SelectCommand(TextSource ts)
+            : base(ts)
         {
         }
 

@@ -1,3 +1,6 @@
+using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Syntax;
+using SS.Ynote.Classic.UI.DiffMergeStuffs;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -5,9 +8,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using FastColoredTextBoxNS;
-using SS.Ynote.Classic.Features.Syntax;
-using SS.Ynote.Classic.UI.DiffMergeStuffs;
 using WeifenLuo.WinFormsUI.Docking;
 using Line = SS.Ynote.Classic.UI.DiffMergeStuffs.Line;
 
@@ -333,7 +333,7 @@ namespace SS.Ynote.Classic.UI
             private void InitializeCompareFunc()
             {
                 // Special case for String types
-                if (typeof (T) == typeof (String))
+                if (typeof(T) == typeof(String))
                 {
                     _compareFunc = StringCompare;
                 }
@@ -382,7 +382,7 @@ namespace SS.Ynote.Classic.UI
             /// </summary>
             public override bool Equals(object obj)
             {
-                return Equals(line, ((Line) obj).line);
+                return Equals(line, ((Line)obj).line);
             }
 
             public static bool operator ==(Line line1, Line line2)
@@ -416,6 +416,7 @@ namespace SS.Ynote.Classic.UI
             public T LineValue { get; private set; }
 
             private int LeftIndex { get; set; }
+
             //TODO: Check RIght Index
             private int RightIndex { get; set; }
         }
@@ -426,7 +427,7 @@ namespace SS.Ynote.Classic.UI
         public class Lines : List<Line>, IEquatable<Lines>
         {
             //??? ?????? ????? ??? ???????? ?????, ??????????? ? ????? ??????, ?? ?????? ?????? ????????? ?????
-            private readonly Line _fictiveLine = new Line("===fictive line===") {state = DiffType.Deleted};
+            private readonly Line _fictiveLine = new Line("===fictive line===") { state = DiffType.Deleted };
 
             private Lines()
             {
@@ -565,4 +566,4 @@ namespace SS.Ynote.Classic.UI
     */
 }
 
-#endregion
+    #endregion Merge stuffs

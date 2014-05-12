@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using FastColoredTextBoxNS;
+using System.Collections.Generic;
 using System.Xml;
-using FastColoredTextBoxNS;
 
 namespace SS.Ynote.Classic.Features.Snippets
 {

@@ -19,7 +19,7 @@ namespace FastColoredTextBoxNS
 
         public AutocompleteMenu(FastColoredTextBox tb)
         {
-            // create a new popup and add the list view to it 
+            // create a new popup and add the list view to it
             AutoClose = false;
             AutoSize = false;
             Margin = Padding.Empty;
@@ -71,7 +71,7 @@ namespace FastColoredTextBoxNS
         /// <summary>
         ///     Back color of selected item
         /// </summary>
-        [DefaultValue(typeof (Color), "Orange")]
+        [DefaultValue(typeof(Color), "Orange")]
         public Color SelectedColor
         {
             get { return listView.SelectedColor; }
@@ -81,7 +81,7 @@ namespace FastColoredTextBoxNS
         /// <summary>
         ///     Border color of hovered item
         /// </summary>
-        [DefaultValue(typeof (Color), "Red")]
+        [DefaultValue(typeof(Color), "Red")]
         public Color HoveredColor
         {
             get { return listView.HoveredColor; }
@@ -256,6 +256,7 @@ namespace FastColoredTextBoxNS
         }
 
         internal bool AllowTabKey { get; set; }
+
         public ImageList ImageList { get; set; }
 
         internal int AppearInterval
@@ -267,6 +268,7 @@ namespace FastColoredTextBoxNS
         internal int ToolTipDuration { get; set; }
 
         public Color SelectedColor { get; set; }
+
         public Color HoveredColor { get; set; }
 
         public int FocussedItemIndex
@@ -354,7 +356,7 @@ namespace FastColoredTextBoxNS
                            && tb.Selection.IsEmpty /*pops up only if selected range is empty*/
                            &&
                            (tb.Selection.Start > fragment.Start || text.Length == 0
-                               /*pops up only if caret is after first letter*/)))
+                /*pops up only if caret is after first letter*/)))
             {
                 Menu.Fragment = fragment;
                 bool foundSelected = false;
@@ -400,7 +402,7 @@ namespace FastColoredTextBoxNS
         {
             /*
             FastColoredTextBox tb = sender as FastColoredTextBox;
-            
+
             if (Math.Abs(prevSelection.iChar - tb.Selection.Start.iChar) > 1 ||
                         prevSelection.iLine != tb.Selection.Start.iLine)
                 Menu.Close();
@@ -459,7 +461,7 @@ namespace FastColoredTextBoxNS
             if (oldItemCount == visibleItems.Count)
                 return;
 
-            int needHeight = itemHeight*visibleItems.Count + 1;
+            int needHeight = itemHeight * visibleItems.Count + 1;
             Height = Math.Min(needHeight, MaximumSize.Height);
             Menu.CalcSize();
 
@@ -470,15 +472,15 @@ namespace FastColoredTextBoxNS
         protected override void OnPaint(PaintEventArgs e)
         {
             AdjustScroll();
-            int startI = VerticalScroll.Value/itemHeight - 1;
-            int finishI = (VerticalScroll.Value + ClientSize.Height)/itemHeight + 1;
+            int startI = VerticalScroll.Value / itemHeight - 1;
+            int finishI = (VerticalScroll.Value + ClientSize.Height) / itemHeight + 1;
             startI = Math.Max(startI, 0);
             finishI = Math.Min(finishI, visibleItems.Count);
             int y = 0;
             int leftPadding = 18;
             for (int i = startI; i < finishI; i++)
             {
-                y = i*itemHeight - VerticalScroll.Value;
+                y = i * itemHeight - VerticalScroll.Value;
 
                 var item = visibleItems[i];
 
@@ -611,7 +613,7 @@ namespace FastColoredTextBoxNS
 
         private int PointToItemIndex(Point p)
         {
-            return (p.Y + VerticalScroll.Value)/itemHeight;
+            return (p.Y + VerticalScroll.Value) / itemHeight;
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -629,23 +631,29 @@ namespace FastColoredTextBoxNS
                     case Keys.Down:
                         SelectNext(+1);
                         return true;
+
                     case Keys.PageDown:
                         SelectNext(+10);
                         return true;
+
                     case Keys.Up:
                         SelectNext(-1);
                         return true;
+
                     case Keys.PageUp:
                         SelectNext(-10);
                         return true;
+
                     case Keys.Enter:
                         OnSelecting();
                         return true;
+
                     case Keys.Tab:
                         if (!AllowTabKey)
                             break;
                         OnSelecting();
                         return true;
+
                     case Keys.Escape:
                         Menu.Close();
                         return true;
@@ -667,12 +675,12 @@ namespace FastColoredTextBoxNS
             if (FocussedItem != null)
                 SetToolTip(FocussedItem);
 
-            var y = FocussedItemIndex*itemHeight - VerticalScroll.Value;
+            var y = FocussedItemIndex * itemHeight - VerticalScroll.Value;
             if (y < 0)
-                VerticalScroll.Value = FocussedItemIndex*itemHeight;
+                VerticalScroll.Value = FocussedItemIndex * itemHeight;
             if (y > ClientSize.Height - itemHeight)
                 VerticalScroll.Value = Math.Min(VerticalScroll.Maximum,
-                    FocussedItemIndex*itemHeight - ClientSize.Height + itemHeight);
+                    FocussedItemIndex * itemHeight - ClientSize.Height + itemHeight);
             //some magic for update scrolls
             AutoScrollMinSize -= new Size(1, 0);
             AutoScrollMinSize += new Size(1, 0);
@@ -722,14 +730,18 @@ namespace FastColoredTextBoxNS
     public class SelectingEventArgs : EventArgs
     {
         public AutocompleteItem Item { get; internal set; }
+
         public bool Cancel { get; set; }
+
         public int SelectedIndex { get; set; }
+
         public bool Handled { get; set; }
     }
 
     public class SelectedEventArgs : EventArgs
     {
         public AutocompleteItem Item { get; internal set; }
+
         public FastColoredTextBox Tb { get; set; }
     }
 }

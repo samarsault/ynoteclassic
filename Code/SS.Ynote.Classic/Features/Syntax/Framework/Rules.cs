@@ -1,5 +1,5 @@
-﻿using System.Text.RegularExpressions;
-using FastColoredTextBoxNS;
+﻿using FastColoredTextBoxNS;
+using System.Text.RegularExpressions;
 
 namespace SS.Ynote.Classic.Features.Syntax
 {

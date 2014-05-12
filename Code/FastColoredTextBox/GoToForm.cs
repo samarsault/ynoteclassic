@@ -11,6 +11,7 @@ namespace FastColoredTextBoxNS
         }
 
         public int SelectedLineNumber { get; set; }
+
         public int SelectedColumnNumber { get; set; }
 
         public int TotalLineCount { get; set; }

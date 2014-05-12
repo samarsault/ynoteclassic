@@ -1,5 +1,5 @@
-using System;
 using Nini.Util;
+using System;
 
 namespace Nini.Config
 {

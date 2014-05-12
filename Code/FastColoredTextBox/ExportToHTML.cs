@@ -110,15 +110,19 @@ namespace FastColoredTextBoxNS
 
                         tempSB.Append("&nbsp;");
                         break;
+
                     case '<':
                         tempSB.Append("&lt;");
                         break;
+
                     case '>':
                         tempSB.Append("&gt;");
                         break;
+
                     case '&':
                         tempSB.Append("&amp;");
                         break;
+
                     default:
                         hasNonSpace = true;
                         tempSB.Append(c.c);
@@ -157,7 +161,7 @@ namespace FastColoredTextBoxNS
             bool hasTextStyle = false;
             for (int i = 0; i < tb.Styles.Length; i++)
             {
-                if (tb.Styles[i] != null && ((int) styleIndex & mask) != 0)
+                if (tb.Styles[i] != null && ((int)styleIndex & mask) != 0)
                     if (tb.Styles[i].IsExportable)
                     {
                         var style = tb.Styles[i];
@@ -187,7 +191,7 @@ namespace FastColoredTextBoxNS
             }
             //add no TextStyle css
             foreach (var style in styles)
-//            if (style != textStyle)
+                //            if (style != textStyle)
                 if (!(style is TextStyle))
                     result += style.GetCSS();
 

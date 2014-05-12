@@ -1,10 +1,10 @@
-﻿using System;
+﻿using ConsoleControlAPI;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using ConsoleControlAPI;
 
 namespace ConsoleControl
 {
@@ -18,7 +18,7 @@ namespace ConsoleControl
     /// <summary>
     ///     The Console Control allows you to embed a basic console in your application.
     /// </summary>
-    [ToolboxBitmap(typeof (Resfinder), "ConsoleControl.ConsoleControl.bmp")]
+    [ToolboxBitmap(typeof(Resfinder), "ConsoleControl.ConsoleControl.bmp")]
     public partial class ConsoleControl : UserControl
     {
         /// <summary>
@@ -274,7 +274,7 @@ namespace ConsoleControl
             if (!IsHandleCreated)
                 return;
             //  Read only again.
-            Invoke((Action) (() => { richTextBoxConsole.ReadOnly = true; }));
+            Invoke((Action)(() => { richTextBoxConsole.ReadOnly = true; }));
         }
 
         /// <summary>
@@ -301,12 +301,12 @@ namespace ConsoleControl
             {
                 //  Get key mappings for this key event?
                 var mappings = from k in keyMappings
-                    where
-                        (k.KeyCode == e.KeyCode &&
-                         k.IsAltPressed == e.Alt &&
-                         k.IsControlPressed == e.Control &&
-                         k.IsShiftPressed == e.Shift)
-                    select k;
+                               where
+                                   (k.KeyCode == e.KeyCode &&
+                                    k.IsAltPressed == e.Alt &&
+                                    k.IsControlPressed == e.Control &&
+                                    k.IsShiftPressed == e.Shift)
+                               select k;
 
                 //  Go through each mapping, send the message.
                 /*  foreach (var mapping in mappings)
@@ -365,7 +365,7 @@ namespace ConsoleControl
             if (!IsHandleCreated)
                 return;
 
-            Invoke((Action) (() =>
+            Invoke((Action)(() =>
             {
                 //  Write the output.
                 richTextBoxConsole.SelectionColor = color;
@@ -391,7 +391,7 @@ namespace ConsoleControl
         /// <param name="echo">if set to <c>true</c> echo the input.</param>
         public void WriteInput(string input, Color color, bool echo)
         {
-            Invoke((Action) (() =>
+            Invoke((Action)(() =>
             {
                 //  Are we echoing?
                 if (echo)

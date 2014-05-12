@@ -246,7 +246,7 @@ namespace FastColoredTextBoxNS
                 foreach (var style in tb.Styles)
                     if (style is ReadOnlyStyle)
                     {
-                        readonlyStyle = (ReadOnlyStyle) style;
+                        readonlyStyle = (ReadOnlyStyle)style;
                         break;
                     }
 
@@ -296,7 +296,7 @@ namespace FastColoredTextBoxNS
                 foreach (var style in tb.Styles)
                     if (style is ReadOnlyStyle)
                     {
-                        readonlyStyle = (ReadOnlyStyle) style;
+                        readonlyStyle = (ReadOnlyStyle)style;
                         break;
                     }
 
@@ -442,7 +442,7 @@ namespace FastColoredTextBoxNS
             int fromChar = FromX;
             int toChar = ToX;
 
-            StringBuilder sb = new StringBuilder((toLine - fromLine)*50);
+            StringBuilder sb = new StringBuilder((toLine - fromLine) * 50);
             charIndexToPlace = new List<Place>(sb.Capacity);
             if (fromLine >= 0)
             {
@@ -477,7 +477,7 @@ namespace FastColoredTextBoxNS
         /// <returns></returns>
         public Range Clone()
         {
-            return (Range) MemberwiseClone();
+            return (Range)MemberwiseClone();
         }
 
         /// <summary>
@@ -661,7 +661,7 @@ namespace FastColoredTextBoxNS
                               tb.LineInfos[start.iLine].GetWordWrapStringStartPosition(
                                   tb.LineInfos[start.iLine].GetWordWrapStringIndex(start.iChar));
 
-            int pageHeight = tb.ClientRectangle.Height/tb.CharHeight - 1;
+            int pageHeight = tb.ClientRectangle.Height / tb.CharHeight - 1;
 
             for (int i = 0; i < pageHeight; i++)
             {
@@ -741,7 +741,7 @@ namespace FastColoredTextBoxNS
                               tb.LineInfos[start.iLine].GetWordWrapStringStartPosition(
                                   tb.LineInfos[start.iLine].GetWordWrapStringIndex(start.iChar));
 
-            int pageHeight = tb.ClientRectangle.Height/tb.CharHeight - 1;
+            int pageHeight = tb.ClientRectangle.Height / tb.CharHeight - 1;
 
             for (int i = 0; i < pageHeight; i++)
             {
@@ -842,7 +842,6 @@ namespace FastColoredTextBoxNS
             StyleIndex layer = ToStyleIndex(tb.GetOrSetStyleLayerIndex(style));
             SetStyle(layer, regex);
         }
-
 
         /// <summary>
         ///     Set style for given regex pattern
@@ -1237,7 +1236,7 @@ namespace FastColoredTextBoxNS
         /// <returns>Range of found fragment</returns>
         public Range GetFragment(Style style, bool allowLineBreaks)
         {
-            var mask = tb.GetStyleIndexMask(new[] {style});
+            var mask = tb.GetStyleIndexMask(new[] { style });
             //
             Range r = new Range(tb);
             r.Start = Start;
@@ -1405,7 +1404,7 @@ namespace FastColoredTextBoxNS
 
         public static StyleIndex ToStyleIndex(int i)
         {
-            return (StyleIndex) (1 << i);
+            return (StyleIndex)(1 << i);
         }
 
         public IEnumerable<Range> GetSubRanges(bool includeEmpty)
@@ -1569,7 +1568,7 @@ namespace FastColoredTextBoxNS
                 End = new Place(End.iChar - 1, End.iLine);
         }
 
-        #endregion
+        #endregion ColumnSelectionMode
     }
 
     public struct RangeRect

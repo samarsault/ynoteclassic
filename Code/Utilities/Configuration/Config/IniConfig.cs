@@ -15,7 +15,7 @@ namespace Nini.Config
         public IniConfig(string name, IConfigSource source)
             : base(name, source)
         {
-            parent = (IniConfigSource) source;
+            parent = (IniConfigSource)source;
         }
 
         #endregion Constructors

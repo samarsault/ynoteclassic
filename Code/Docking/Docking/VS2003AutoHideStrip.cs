@@ -162,7 +162,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             get { return SystemBrushes.FromSystemColor(SystemColors.ControlDarkDark); }
         }
 
-        #endregion
+        #endregion Customizable Properties
 
         static VS2003AutoHideStrip()
         {
@@ -175,7 +175,8 @@ namespace WeifenLuo.WinFormsUI.Docking
             _dockStates[3] = DockState.DockBottomAutoHide;
         }
 
-        public VS2003AutoHideStrip(DockPanel panel) : base(panel)
+        public VS2003AutoHideStrip(DockPanel panel)
+            : base(panel)
         {
             SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.UserPaint, true);
@@ -226,8 +227,8 @@ namespace WeifenLuo.WinFormsUI.Docking
             if (dockState == DockState.DockLeftAutoHide || dockState == DockState.DockRightAutoHide)
             {
                 Matrix matrixRotated = new Matrix();
-                matrixRotated.RotateAt(90, new PointF(rectTabStrip.X + (float) rectTabStrip.Height/2,
-                    rectTabStrip.Y + (float) rectTabStrip.Height/2));
+                matrixRotated.RotateAt(90, new PointF(rectTabStrip.X + (float)rectTabStrip.Height / 2,
+                    rectTabStrip.Y + (float)rectTabStrip.Height / 2));
                 g.Transform = matrixRotated;
             }
 
@@ -254,7 +255,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             int imageHeight = rectTabStrip.Height - ImageGapTop - ImageGapBottom;
             int imageWidth = ImageWidth;
             if (imageHeight > ImageHeight)
-                imageWidth = ImageWidth*(imageHeight/ImageHeight);
+                imageWidth = ImageWidth * (imageHeight / ImageHeight);
 
             using (Graphics g = CreateGraphics())
             {
@@ -265,7 +266,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     foreach (TabVS2003 tab in pane.AutoHideTabs)
                     {
                         int width = imageWidth + ImageGapLeft + ImageGapRight +
-                                    (int) g.MeasureString(tab.Content.DockHandler.TabText, Font).Width + 1 +
+                                    (int)g.MeasureString(tab.Content.DockHandler.TabText, Font).Width + 1 +
                                     TextGapLeft + TextGapRight;
                         if (width > maxWidth)
                             maxWidth = width;
@@ -320,11 +321,11 @@ namespace WeifenLuo.WinFormsUI.Docking
             int imageHeight = rectTab.Height - ImageGapTop - ImageGapBottom;
             int imageWidth = ImageWidth;
             if (imageHeight > ImageHeight)
-                imageWidth = ImageWidth*(imageHeight/ImageHeight);
+                imageWidth = ImageWidth * (imageHeight / ImageHeight);
             rectImage.Height = imageHeight;
             rectImage.Width = imageWidth;
             rectImage = GetTransformedRectangle(dockState, rectImage);
-            g.DrawIcon(((Form) content).Icon, rectImage);
+            g.DrawIcon(((Form)content).Icon, rectImage);
 
             // Draw the text
             if (content == content.DockHandler.Pane.ActiveContent)
@@ -436,18 +437,18 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             PointF[] pts = new PointF[1];
             // the center of the rectangle
-            pts[0].X = rect.X + (float) rect.Width/2;
-            pts[0].Y = rect.Y + (float) rect.Height/2;
+            pts[0].X = rect.X + (float)rect.Width / 2;
+            pts[0].Y = rect.Y + (float)rect.Height / 2;
             Rectangle rectTabStrip = GetLogicalTabStripRectangle(dockState);
             using (Matrix matrix = new Matrix())
             {
-                matrix.RotateAt(90, new PointF(rectTabStrip.X + (float) rectTabStrip.Height/2,
-                    rectTabStrip.Y + (float) rectTabStrip.Height/2));
+                matrix.RotateAt(90, new PointF(rectTabStrip.X + (float)rectTabStrip.Height / 2,
+                    rectTabStrip.Y + (float)rectTabStrip.Height / 2));
                 matrix.TransformPoints(pts);
             }
 
-            return new Rectangle((int) (pts[0].X - (float) rect.Height/2 + .5F),
-                (int) (pts[0].Y - (float) rect.Width/2 + .5F),
+            return new Rectangle((int)(pts[0].X - (float)rect.Height / 2 + .5F),
+                (int)(pts[0].Y - (float)rect.Width / 2 + .5F),
                 rect.Height, rect.Width);
         }
 

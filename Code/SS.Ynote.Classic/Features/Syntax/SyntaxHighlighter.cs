@@ -1,9 +1,9 @@
-﻿using System;
+﻿using FastColoredTextBoxNS;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml;
-using FastColoredTextBoxNS;
 
 namespace SS.Ynote.Classic.Features.Syntax
 {
@@ -202,9 +202,11 @@ namespace SS.Ynote.Classic.Features.Syntax
                 case Language.CSharp:
                     CSharpSyntaxHighlight(args);
                     break;
+
                 case Language.CoffeeScript:
                     CoffeeScriptSyntaxHighlight(args);
                     break;
+
                 case Language.D:
                     DSyntaxHighlight(args);
                     break;
@@ -232,12 +234,15 @@ namespace SS.Ynote.Classic.Features.Syntax
                 case Language.Perl:
                     PerlSyntaxHighlight(args);
                     break;
+
                 case Language.PowerShell:
                     PowerShellSyntaxHighligt(args);
                     break;
+
                 case Language.R:
                     RSyntaxHighlight(args);
                     break;
+
                 case Language.Ruby:
                     RubySyntaxHighlight(args);
                     break;
@@ -305,12 +310,15 @@ namespace SS.Ynote.Classic.Features.Syntax
                 case Language.Yaml:
                     YamlSyntaxHighlight(args);
                     break;
+
                 case Language.LaTeX:
                     LaTeXSyntaxHighlight(args);
                     break;
+
                 case Language.Haskell:
                     HaskellSyntaxHighlight(args);
                     break;
+
                 case Language.MATLAB:
                     MATLABSyntaxHighlight(args);
                     break;
@@ -342,7 +350,7 @@ namespace SS.Ynote.Classic.Features.Syntax
         /// <returns></returns>
         private SyntaxBase GenerateBase(string descFile)
         {
-            var synbase = new SyntaxBase {SysPath = descFile};
+            var synbase = new SyntaxBase { SysPath = descFile };
             using (var reader = XmlReader.Create(descFile))
             {
                 while (reader.Read())
@@ -356,14 +364,14 @@ namespace SS.Ynote.Classic.Features.Syntax
                                 break;
 
                             case "Rule":
-                            {
-                                var type = reader["Type"];
-                                var options = reader["Options"];
-                                var regex = reader["Regex"];
-                                synbase.Rules.Add(InitRule(type, regex, options));
-                                // if (reader.Read())
-                                //     synbase.Rules.Add(InitRule(type, regex, options));
-                            }
+                                {
+                                    var type = reader["Type"];
+                                    var options = reader["Options"];
+                                    var regex = reader["Regex"];
+                                    synbase.Rules.Add(InitRule(type, regex, options));
+                                    // if (reader.Read())
+                                    //     synbase.Rules.Add(InitRule(type, regex, options));
+                                }
                                 break;
 
                             case "Folding":
@@ -400,17 +408,17 @@ namespace SS.Ynote.Classic.Features.Syntax
             if (options == null)
                 rule.Options = RegexOptions.None;
             else
-                rule.Options = (RegexOptions) Enum.Parse(typeof (RegexOptions), options);
+                rule.Options = (RegexOptions)Enum.Parse(typeof(RegexOptions), options);
             return rule;
         }
 
         private SyntaxRule InitRule(string type, string regex, string options)
         {
-            var rule = new SyntaxRule {Type = GetStyleFromName(type), Regex = regex};
+            var rule = new SyntaxRule { Type = GetStyleFromName(type), Regex = regex };
             if (options == null)
                 rule.Options = RegexOptions.None;
             else
-                rule.Options = (RegexOptions) Enum.Parse(typeof (RegexOptions), options);
+                rule.Options = (RegexOptions)Enum.Parse(typeof(RegexOptions), options);
             return rule;
         }
 
@@ -481,7 +489,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             return null;
         }
 
-        #endregion
+        #endregion From File
 
         #region Private Variables
 
@@ -931,7 +939,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                     if (tagName[0] != '/')
                     {
                         // ...push into stack
-                        var tag = new XmlTag {Name = tagName, Id = id++, StartLine = r.Start.iLine};
+                        var tag = new XmlTag { Name = tagName, Id = id++, StartLine = r.Start.iLine };
                         stack.Push(tag);
                         // if this line has no markers - set marker
                         if (string.IsNullOrEmpty(fctb[iLine].FoldingStartMarker))
@@ -1181,10 +1189,10 @@ namespace SS.Ynote.Classic.Features.Syntax
                 RegexOptions.ExplicitCapture | RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace |
                 RegexCompiledOption
                 ));
-            e.ChangedRange.SetStyle(VariableStyle, @"\$[a-zA-Z_\d]*\b", RegexCompiledOption);
+            e.ChangedRange.SetStyle(VariableStyle, @"\$[a-zA-Z_\d]*\b|@[a-zA-Z_\d]*\b", RegexCompiledOption);
             e.ChangedRange.SetStyle(KeywordStyle,
                 @"\b(__FILE__|__LINE__|alias|and|begin|break|case|class|def|defined|do|else|elsif|end|ensure|for|foreach|if|in|module|next|not|or|redo|rescue|retry|return|require|super|then|undef|unless|until|when|while|yield)\b");
-            e.ChangedRange.SetStyle(KeywordStyle2, @"\b(self|puts|true|false|nil)\b");
+            e.ChangedRange.SetStyle(KeywordStyle2, @"\b(self|puts|true|false|nil)\b|\:[a-zA-Z_\d]*\b|@[a-zA-Z_\d]*\b");
             e.ChangedRange.SetStyle(NumberStyle, @"\b\\d+[\\.]?\\d*([eE]\\-?\\d+)?[lLdDfF]?\b|\b0x[a-fA-F\\d]+\b");
             e.ChangedRange.SetStyle(CharStyle, @"\[|\]|\*|\?|\(|\)|\^|\!|\;|\,|\.|\:");
             PythonFold(e.ChangedRange.tb);
@@ -2140,7 +2148,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.SetStyle(NumberStyle, @"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
         }
 
-        #endregion
+        #endregion Private Variables
     }
 
     internal class XmlTag

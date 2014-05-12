@@ -297,6 +297,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         public interface IFloatWindowFactory
         {
             FloatWindow CreateFloatWindow(DockPanel dockPanel, DockPane pane);
+
             FloatWindow CreateFloatWindow(DockPanel dockPanel, DockPane pane, Rectangle bounds);
         }
 
@@ -336,7 +337,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        #endregion
+        #endregion DefaultDockPaneFactory
 
         #region DefaultDockPaneSplitterControlFactory
 
@@ -348,7 +349,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        #endregion
+        #endregion DefaultDockPaneSplitterControlFactory
 
         #region DefaultDockWindowSplitterControlFactory
 
@@ -360,7 +361,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        #endregion
+        #endregion DefaultDockWindowSplitterControlFactory
 
         #region DefaultFloatWindowFactory
 
@@ -377,7 +378,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        #endregion
+        #endregion DefaultFloatWindowFactory
 
         #region DefaultDockWindowFactory
 
@@ -389,7 +390,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        #endregion
+        #endregion DefaultDockWindowFactory
 
         #region DefaultDockPaneCaptionFactory
 
@@ -401,7 +402,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        #endregion
+        #endregion DefaultDockPaneCaptionFactory
 
         #region DefaultDockPaneTabStripFactory
 
@@ -413,7 +414,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        #endregion
+        #endregion DefaultDockPaneTabStripFactory
 
         #region DefaultAutoHideStripFactory
 
@@ -425,7 +426,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        #endregion
+        #endregion DefaultAutoHideStripFactory
 
         #region DefaultAutoHideWindowFactory
 
@@ -437,6 +438,6 @@ namespace WeifenLuo.WinFormsUI.Docking
             }
         }
 
-        #endregion
+        #endregion DefaultAutoHideWindowFactory
     }
 }

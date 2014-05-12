@@ -1,5 +1,5 @@
-using System.Collections;
 using Nini.Util;
+using System.Collections;
 
 namespace Nini.Ini
 {
@@ -63,7 +63,7 @@ namespace Nini.Ini
 
             if (Contains(key))
             {
-                var item = (IniItem) configList[key];
+                var item = (IniItem)configList[key];
                 result = item.Value;
             }
 
@@ -73,7 +73,7 @@ namespace Nini.Ini
         /// <include file='IniSection.xml' path='//Method[@name="GetItem"]/docs/*' />
         public IniItem GetItem(int index)
         {
-            return (IniItem) configList[index];
+            return (IniItem)configList[index];
         }
 
         /// <include file='IniSection.xml' path='//Method[@name="GetKeys"]/docs/*' />
@@ -84,7 +84,7 @@ namespace Nini.Ini
 
             for (var i = 0; i < configList.Count; i++)
             {
-                item = (IniItem) configList[i];
+                item = (IniItem)configList[i];
                 if (item.Type == IniType.Key)
                 {
                     list.Add(item.Name);
@@ -109,7 +109,7 @@ namespace Nini.Ini
 
             if (Contains(key))
             {
-                item = (IniItem) configList[key];
+                item = (IniItem)configList[key];
                 item.Value = value;
                 item.Comment = comment;
             }

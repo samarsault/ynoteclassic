@@ -3,7 +3,6 @@ using System.Collections;
 
 namespace Nini.Config
 {
-
     #region ConfigEventHandler class
 
     /// <include file='ConfigEventArgs.xml' path='//Delegate[@name="ConfigEventHandler"]/docs/*' />
@@ -54,7 +53,7 @@ namespace Nini.Config
         /// <include file='ConfigCollection.xml' path='//Property[@name="ItemIndex"]/docs/*' />
         public IConfig this[int index]
         {
-            get { return (IConfig) configList[index]; }
+            get { return (IConfig)configList[index]; }
         }
 
         /// <include file='ConfigCollection.xml' path='//Property[@name="ItemName"]/docs/*' />
@@ -147,13 +146,13 @@ namespace Nini.Config
         public void Remove(object config)
         {
             configList.Remove(config);
-            OnConfigRemoved(new ConfigEventArgs((IConfig) config));
+            OnConfigRemoved(new ConfigEventArgs((IConfig)config));
         }
 
         /// <include file='ConfigCollection.xml' path='//Method[@name="RemoveAt"]/docs/*' />
         public void RemoveAt(int index)
         {
-            var config = (IConfig) configList[index];
+            var config = (IConfig)configList[index];
             configList.RemoveAt(index);
             OnConfigRemoved(new ConfigEventArgs(config));
         }
@@ -236,7 +235,7 @@ namespace Nini.Config
         /// <include file='ConfigCollection.xml' path='//Method[@name="CopyToStrong"]/docs/*' />
         public void CopyTo(IConfig[] array, int index)
         {
-            ((ICollection) configList).CopyTo(array, index);
+            ((ICollection)configList).CopyTo(array, index);
         }
 
         #endregion Public methods

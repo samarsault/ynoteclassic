@@ -5,13 +5,8 @@ namespace SS.Ynote.Classic.Features.Project
     /// <summary>
     ///     ProjectNodeType
     /// </summary>
-    public enum ProjectNodeType
+    public enum FolderNodeType
     {
-        /// <summary>
-        ///     The Node type is a Project
-        /// </summary>
-        Project,
-
         /// <summary>
         ///     The Node Type is a Folder
         /// </summary>
@@ -30,7 +25,7 @@ namespace SS.Ynote.Classic.Features.Project
     {
         public ExTreeNode(string text, string name,
             int imageIndex, int selimageindex,
-            object tag, ProjectNodeType projectNodeType)
+            object tag, FolderNodeType projectNodeType)
         {
             Text = text;
             Tag = tag;
@@ -43,6 +38,6 @@ namespace SS.Ynote.Classic.Features.Project
         /// <summary>
         ///     The Node Type
         /// </summary>
-        public ProjectNodeType Type { get; private set; }
+        public FolderNodeType Type { get; private set; }
     }
 }

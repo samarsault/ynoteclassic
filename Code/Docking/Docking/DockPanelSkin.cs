@@ -6,7 +6,6 @@ using System.Globalization;
 
 namespace WeifenLuo.WinFormsUI.Docking
 {
-
     #region DockPanelSkin classes
 
     /// <summary>
@@ -14,7 +13,7 @@ namespace WeifenLuo.WinFormsUI.Docking
     ///     The skin allows custom gradient color schemes to be used when drawing the
     ///     DockStrips and Tabs.
     /// </summary>
-    [TypeConverter(typeof (DockPanelSkinConverter))]
+    [TypeConverter(typeof(DockPanelSkinConverter))]
     public class DockPanelSkin
     {
         private AutoHideStripSkin m_autoHideStripSkin = new AutoHideStripSkin();
@@ -42,7 +41,7 @@ namespace WeifenLuo.WinFormsUI.Docking
     /// <summary>
     ///     The skin used to display the auto hide strip and tabs.
     /// </summary>
-    [TypeConverter(typeof (AutoHideStripConverter))]
+    [TypeConverter(typeof(AutoHideStripConverter))]
     public class AutoHideStripSkin
     {
         private TabGradient m_TabGradient = new TabGradient();
@@ -70,7 +69,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         /// <summary>
         ///     Font used in AutoHideStrip elements.
         /// </summary>
-        [DefaultValue(typeof (SystemFonts), "MenuFont")]
+        [DefaultValue(typeof(SystemFonts), "MenuFont")]
         public Font TextFont
         {
             get { return m_textFont; }
@@ -81,7 +80,7 @@ namespace WeifenLuo.WinFormsUI.Docking
     /// <summary>
     ///     The skin used to display the document and tool strips and tabs.
     /// </summary>
-    [TypeConverter(typeof (DockPaneStripConverter))]
+    [TypeConverter(typeof(DockPaneStripConverter))]
     public class DockPaneStripSkin
     {
         private DockPaneStripGradient m_DocumentGradient = new DockPaneStripGradient();
@@ -109,7 +108,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         /// <summary>
         ///     Font used in DockPaneStrip elements.
         /// </summary>
-        [DefaultValue(typeof (SystemFonts), "MenuFont")]
+        [DefaultValue(typeof(SystemFonts), "MenuFont")]
         public Font TextFont
         {
             get { return m_textFont; }
@@ -120,7 +119,7 @@ namespace WeifenLuo.WinFormsUI.Docking
     /// <summary>
     ///     The skin used to display the DockPane ToolWindow strip and tab.
     /// </summary>
-    [TypeConverter(typeof (DockPaneStripGradientConverter))]
+    [TypeConverter(typeof(DockPaneStripGradientConverter))]
     public class DockPaneStripToolWindowGradient : DockPaneStripGradient
     {
         private TabGradient m_activeCaptionGradient = new TabGradient();
@@ -148,7 +147,7 @@ namespace WeifenLuo.WinFormsUI.Docking
     /// <summary>
     ///     The skin used to display the DockPane strip and tab.
     /// </summary>
-    [TypeConverter(typeof (DockPaneStripGradientConverter))]
+    [TypeConverter(typeof(DockPaneStripGradientConverter))]
     public class DockPaneStripGradient
     {
         private TabGradient m_activeTabGradient = new TabGradient();
@@ -186,7 +185,7 @@ namespace WeifenLuo.WinFormsUI.Docking
     /// <summary>
     ///     The skin used to display the dock pane tab
     /// </summary>
-    [TypeConverter(typeof (DockPaneTabGradientConverter))]
+    [TypeConverter(typeof(DockPaneTabGradientConverter))]
     public class TabGradient : DockPanelGradient
     {
         private Color m_textColor = SystemColors.ControlText;
@@ -194,7 +193,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         /// <summary>
         ///     The text color.
         /// </summary>
-        [DefaultValue(typeof (SystemColors), "ControlText")]
+        [DefaultValue(typeof(SystemColors), "ControlText")]
         public Color TextColor
         {
             get { return m_textColor; }
@@ -205,7 +204,7 @@ namespace WeifenLuo.WinFormsUI.Docking
     /// <summary>
     ///     The gradient color skin.
     /// </summary>
-    [TypeConverter(typeof (DockPanelGradientConverter))]
+    [TypeConverter(typeof(DockPanelGradientConverter))]
     public class DockPanelGradient
     {
         private Color m_endColor = SystemColors.Control;
@@ -215,7 +214,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         /// <summary>
         ///     The beginning gradient color.
         /// </summary>
-        [DefaultValue(typeof (SystemColors), "Control")]
+        [DefaultValue(typeof(SystemColors), "Control")]
         public Color StartColor
         {
             get { return m_startColor; }
@@ -225,7 +224,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         /// <summary>
         ///     The ending gradient color.
         /// </summary>
-        [DefaultValue(typeof (SystemColors), "Control")]
+        [DefaultValue(typeof(SystemColors), "Control")]
         public Color EndColor
         {
             get { return m_endColor; }
@@ -243,7 +242,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
     }
 
-    #endregion
+    #endregion DockPanelSkin classes
 
     #region Converters
 
@@ -251,7 +250,7 @@ namespace WeifenLuo.WinFormsUI.Docking
     {
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
         {
-            if (destinationType == typeof (DockPanelSkin))
+            if (destinationType == typeof(DockPanelSkin))
                 return true;
 
             return base.CanConvertTo(context, destinationType);
@@ -260,7 +259,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value,
             Type destinationType)
         {
-            if (destinationType == typeof (String) && value is DockPanelSkin)
+            if (destinationType == typeof(String) && value is DockPanelSkin)
             {
                 return "DockPanelSkin";
             }
@@ -272,7 +271,7 @@ namespace WeifenLuo.WinFormsUI.Docking
     {
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
         {
-            if (destinationType == typeof (DockPanelGradient))
+            if (destinationType == typeof(DockPanelGradient))
                 return true;
 
             return base.CanConvertTo(context, destinationType);
@@ -281,7 +280,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value,
             Type destinationType)
         {
-            if (destinationType == typeof (String) && value is DockPanelGradient)
+            if (destinationType == typeof(String) && value is DockPanelGradient)
             {
                 return "DockPanelGradient";
             }
@@ -293,7 +292,7 @@ namespace WeifenLuo.WinFormsUI.Docking
     {
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
         {
-            if (destinationType == typeof (AutoHideStripSkin))
+            if (destinationType == typeof(AutoHideStripSkin))
                 return true;
 
             return base.CanConvertTo(context, destinationType);
@@ -302,7 +301,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value,
             Type destinationType)
         {
-            if (destinationType == typeof (String) && value is AutoHideStripSkin)
+            if (destinationType == typeof(String) && value is AutoHideStripSkin)
             {
                 return "AutoHideStripSkin";
             }
@@ -314,7 +313,7 @@ namespace WeifenLuo.WinFormsUI.Docking
     {
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
         {
-            if (destinationType == typeof (DockPaneStripSkin))
+            if (destinationType == typeof(DockPaneStripSkin))
                 return true;
 
             return base.CanConvertTo(context, destinationType);
@@ -323,7 +322,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value,
             Type destinationType)
         {
-            if (destinationType == typeof (String) && value is DockPaneStripSkin)
+            if (destinationType == typeof(String) && value is DockPaneStripSkin)
             {
                 return "DockPaneStripSkin";
             }
@@ -335,7 +334,7 @@ namespace WeifenLuo.WinFormsUI.Docking
     {
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
         {
-            if (destinationType == typeof (DockPaneStripGradient))
+            if (destinationType == typeof(DockPaneStripGradient))
                 return true;
 
             return base.CanConvertTo(context, destinationType);
@@ -344,7 +343,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value,
             Type destinationType)
         {
-            if (destinationType == typeof (String) && value is DockPaneStripGradient)
+            if (destinationType == typeof(String) && value is DockPaneStripGradient)
             {
                 return "DockPaneStripGradient";
             }
@@ -356,7 +355,7 @@ namespace WeifenLuo.WinFormsUI.Docking
     {
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
         {
-            if (destinationType == typeof (TabGradient))
+            if (destinationType == typeof(TabGradient))
                 return true;
 
             return base.CanConvertTo(context, destinationType);
@@ -366,7 +365,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             Type destinationType)
         {
             TabGradient val = value as TabGradient;
-            if (destinationType == typeof (String) && val != null)
+            if (destinationType == typeof(String) && val != null)
             {
                 return "DockPaneTabGradient";
             }
@@ -374,5 +373,5 @@ namespace WeifenLuo.WinFormsUI.Docking
         }
     }
 
-    #endregion
+    #endregion Converters
 }

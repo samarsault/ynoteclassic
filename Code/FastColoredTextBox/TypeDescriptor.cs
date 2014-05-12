@@ -17,7 +17,6 @@ namespace FastColoredTextBoxNS
             return TypeDescriptor.GetProvider(type);
         }
 
-
         public override ICustomTypeDescriptor GetTypeDescriptor(Type objectType, object instance)
         {
             ICustomTypeDescriptor defaultDescriptor = base.GetTypeDescriptor(objectType, instance);
@@ -67,12 +66,12 @@ namespace FastColoredTextBoxNS
 
         public override Type ComponentType
         {
-            get { return typeof (FastColoredTextBox); }
+            get { return typeof(FastColoredTextBox); }
         }
 
         public override Type EventType
         {
-            get { return typeof (EventHandler); }
+            get { return typeof(EventHandler); }
         }
 
         public override bool IsMulticast

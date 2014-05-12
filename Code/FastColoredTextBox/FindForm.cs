@@ -150,7 +150,7 @@ namespace FastColoredTextBoxNS
             ResetSerach();
         }
 
-        /*    
+        /*
              private Range _originalSelection;
           private void FindNextInSelection(string pattern)
              {

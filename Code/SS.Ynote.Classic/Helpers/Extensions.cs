@@ -1,8 +1,8 @@
-﻿using System;
+﻿using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Snippets;
+using System;
 using System.Linq;
 using System.Windows.Forms;
-using FastColoredTextBoxNS;
-using SS.Ynote.Classic.Features.Snippets;
 
 internal static class Helpers
 {
@@ -39,7 +39,7 @@ internal static class Helpers
     /// <returns></returns>
     public static T ToEnum<T>(this string str)
     {
-        return ((T) Enum.Parse(typeof (T), str));
+        return ((T)Enum.Parse(typeof(T), str));
     }
 
     /// <summary>

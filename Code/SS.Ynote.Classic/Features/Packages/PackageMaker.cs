@@ -52,7 +52,7 @@ namespace SS.Ynote.Classic.Features.Packages
             {
                 var show = dlg.ShowDialog();
                 if (show == DialogResult.OK)
-                    lstfiles.Items.Add(new ListViewItem(new[] {dlg.Input, dlg.Output}));
+                    lstfiles.Items.Add(new ListViewItem(new[] { dlg.Input, dlg.Output }));
             }
         }
 

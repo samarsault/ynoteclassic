@@ -48,7 +48,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         private static class Persistor
         {
             private const string ConfigFileVersion = "1.0";
-            private static readonly string[] CompatibleConfigFileVersions = {};
+            private static readonly string[] CompatibleConfigFileVersions = { };
 
             public static void SaveAsXml(DockPanel dockPanel, string fileName)
             {
@@ -281,7 +281,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             private static PaneStruct[] LoadPanes(XmlTextReader xmlIn)
             {
-                EnumConverter dockStateConverter = new EnumConverter(typeof (DockState));
+                EnumConverter dockStateConverter = new EnumConverter(typeof(DockState));
                 int countOfPanes = Convert.ToInt32(xmlIn.GetAttribute("Count"), CultureInfo.InvariantCulture);
                 PaneStruct[] panes = new PaneStruct[countOfPanes];
                 MoveToNextElement(xmlIn);
@@ -291,7 +291,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     if (xmlIn.Name != "Pane" || id != i)
                         throw new ArgumentException(Strings.DockPanel_LoadFromXml_InvalidXmlFormat);
 
-                    panes[i].DockState = (DockState) dockStateConverter.ConvertFrom(xmlIn.GetAttribute("DockState"));
+                    panes[i].DockState = (DockState)dockStateConverter.ConvertFrom(xmlIn.GetAttribute("DockState"));
                     panes[i].IndexActiveContent = Convert.ToInt32(xmlIn.GetAttribute("ActiveContent"),
                         CultureInfo.InvariantCulture);
                     panes[i].ZOrderIndex = -1;
@@ -319,8 +319,8 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             private static DockWindowStruct[] LoadDockWindows(XmlTextReader xmlIn, DockPanel dockPanel)
             {
-                EnumConverter dockStateConverter = new EnumConverter(typeof (DockState));
-                EnumConverter dockAlignmentConverter = new EnumConverter(typeof (DockAlignment));
+                EnumConverter dockStateConverter = new EnumConverter(typeof(DockState));
+                EnumConverter dockAlignmentConverter = new EnumConverter(typeof(DockAlignment));
                 int countOfDockWindows = dockPanel.DockWindows.Count;
                 DockWindowStruct[] dockWindows = new DockWindowStruct[countOfDockWindows];
                 MoveToNextElement(xmlIn);
@@ -331,7 +331,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                         throw new ArgumentException(Strings.DockPanel_LoadFromXml_InvalidXmlFormat);
 
                     dockWindows[i].DockState =
-                        (DockState) dockStateConverter.ConvertFrom(xmlIn.GetAttribute("DockState"));
+                        (DockState)dockStateConverter.ConvertFrom(xmlIn.GetAttribute("DockState"));
                     dockWindows[i].ZOrderIndex = Convert.ToInt32(xmlIn.GetAttribute("ZOrderIndex"),
                         CultureInfo.InvariantCulture);
                     MoveToNextElement(xmlIn);
@@ -350,7 +350,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                         dockWindows[i].NestedPanes[j].IndexPrevPane = Convert.ToInt32(xmlIn.GetAttribute("PrevPane"),
                             CultureInfo.InvariantCulture);
                         dockWindows[i].NestedPanes[j].Alignment =
-                            (DockAlignment) dockAlignmentConverter.ConvertFrom(xmlIn.GetAttribute("Alignment"));
+                            (DockAlignment)dockAlignmentConverter.ConvertFrom(xmlIn.GetAttribute("Alignment"));
                         dockWindows[i].NestedPanes[j].Proportion = Convert.ToDouble(xmlIn.GetAttribute("Proportion"),
                             CultureInfo.InvariantCulture);
                         MoveToNextElement(xmlIn);
@@ -362,7 +362,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             private static FloatWindowStruct[] LoadFloatWindows(XmlTextReader xmlIn)
             {
-                EnumConverter dockAlignmentConverter = new EnumConverter(typeof (DockAlignment));
+                EnumConverter dockAlignmentConverter = new EnumConverter(typeof(DockAlignment));
                 RectangleConverter rectConverter = new RectangleConverter();
                 int countOfFloatWindows = Convert.ToInt32(xmlIn.GetAttribute("Count"), CultureInfo.InvariantCulture);
                 FloatWindowStruct[] floatWindows = new FloatWindowStruct[countOfFloatWindows];
@@ -374,7 +374,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                         throw new ArgumentException(Strings.DockPanel_LoadFromXml_InvalidXmlFormat);
 
                     floatWindows[i].Bounds =
-                        (Rectangle) rectConverter.ConvertFromInvariantString(xmlIn.GetAttribute("Bounds"));
+                        (Rectangle)rectConverter.ConvertFromInvariantString(xmlIn.GetAttribute("Bounds"));
                     floatWindows[i].ZOrderIndex = Convert.ToInt32(xmlIn.GetAttribute("ZOrderIndex"),
                         CultureInfo.InvariantCulture);
                     MoveToNextElement(xmlIn);
@@ -393,7 +393,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                         floatWindows[i].NestedPanes[j].IndexPrevPane = Convert.ToInt32(xmlIn.GetAttribute("PrevPane"),
                             CultureInfo.InvariantCulture);
                         floatWindows[i].NestedPanes[j].Alignment =
-                            (DockAlignment) dockAlignmentConverter.ConvertFrom(xmlIn.GetAttribute("Alignment"));
+                            (DockAlignment)dockAlignmentConverter.ConvertFrom(xmlIn.GetAttribute("Alignment"));
                         floatWindows[i].NestedPanes[j].Proportion = Convert.ToDouble(xmlIn.GetAttribute("Proportion"),
                             CultureInfo.InvariantCulture);
                         MoveToNextElement(xmlIn);
@@ -414,7 +414,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 PaneStruct[] panes;
                 DockWindowStruct[] dockWindows;
                 FloatWindowStruct[] floatWindows;
-                using (var xmlIn = new XmlTextReader(stream) {WhitespaceHandling = WhitespaceHandling.None})
+                using (var xmlIn = new XmlTextReader(stream) { WhitespaceHandling = WhitespaceHandling.None })
                 {
                     xmlIn.MoveToContent();
 

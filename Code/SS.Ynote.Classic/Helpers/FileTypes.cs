@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Syntax;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using FastColoredTextBoxNS;
-using SS.Ynote.Classic.Features.Syntax;
 
 internal static class FileTypes
 {

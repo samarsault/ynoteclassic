@@ -1,8 +1,8 @@
 #region
 
+using FastColoredTextBoxNS;
 using System;
 using System.Windows.Forms;
-using FastColoredTextBoxNS;
 
 #endregion
 
@@ -51,7 +51,7 @@ namespace SS.Ynote.Classic.UI
         private void ProcessKeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter &&
-                ((TextBox) (sender)).Text != null)
+                ((TextBox)(sender)).Text != null)
                 Process();
         }
 

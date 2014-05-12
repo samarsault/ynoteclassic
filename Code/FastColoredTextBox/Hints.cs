@@ -178,8 +178,8 @@ namespace FastColoredTextBoxNS
             {
                 var p1 = tb.PlaceToPoint(hint.Range.Start);
                 var p2 = tb.PlaceToPoint(hint.Range.End);
-                var cx = (p1.X + p2.X)/2;
-                hint.HostPanel.Left = Math.Max(tb.LeftIndent, cx - hint.HostPanel.Width/2);
+                var cx = (p1.X + p2.X) / 2;
+                hint.HostPanel.Left = Math.Max(tb.LeftIndent, cx - hint.HostPanel.Width / 2);
             }
         }
     }

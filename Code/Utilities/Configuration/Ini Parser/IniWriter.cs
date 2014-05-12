@@ -4,7 +4,6 @@ using System.Text;
 
 namespace Nini.Ini
 {
-
     #region IniWriteState enumeration
 
     /// <include file='IniWriter.xml' path='//Enum[@name="IniWriteState"]/docs/*' />

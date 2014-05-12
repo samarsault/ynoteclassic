@@ -1,7 +1,7 @@
+using AutocompleteMenuNS;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using AutocompleteMenuNS;
 
 namespace SS.Ynote.Classic
 {
@@ -59,11 +59,10 @@ namespace SS.Ynote.Classic
             IList<AutocompleteItem> items = new List<AutocompleteItem>();
             foreach (var cmd in Commands)
                 foreach (var command in cmd.Commands)
-                    items.Add(new AutocompleteItem(command));
+                    items.Add(new AutocompleteItem(cmd.Key + ":" + command));
             completemenu.SetAutocompleteMenu(tbcommand, completemenu);
             completemenu.SetAutocompleteItems(items);
         }
-
 
         protected override void OnShown(EventArgs e)
         {

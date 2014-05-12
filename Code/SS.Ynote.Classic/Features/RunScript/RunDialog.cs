@@ -1,8 +1,8 @@
+using SS.Ynote.Classic.Features.RunScript;
 using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using SS.Ynote.Classic.Features.RunScript;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace SS.Ynote.Classic
@@ -144,7 +144,7 @@ namespace SS.Ynote.Classic
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            var form = new RunScriptEditor {StartPosition = FormStartPosition.CenterScreen};
+            var form = new RunScriptEditor { StartPosition = FormStartPosition.CenterScreen };
             form.ShowDialog();
             Close();
         }

@@ -24,7 +24,8 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         internal class DefaultSplitterControl : SplitterControlBase
         {
-            public DefaultSplitterControl(DockPane pane) : base(pane)
+            public DefaultSplitterControl(DockPane pane)
+                : base(pane)
             {
             }
 
@@ -114,15 +115,15 @@ namespace WeifenLuo.WinFormsUI.Docking
                 {
                     NestedDockingStatus status = DockPane.NestedDockingStatus;
                     Rectangle rectLimit = Parent.RectangleToScreen(status.LogicalBounds);
-                    if (((ISplitterDragSource) this).IsVertical)
+                    if (((ISplitterDragSource)this).IsVertical)
                     {
                         rectLimit.X += MeasurePane.MinSize;
-                        rectLimit.Width -= 2*MeasurePane.MinSize;
+                        rectLimit.Width -= 2 * MeasurePane.MinSize;
                     }
                     else
                     {
                         rectLimit.Y += MeasurePane.MinSize;
-                        rectLimit.Height -= 2*MeasurePane.MinSize;
+                        rectLimit.Height -= 2 * MeasurePane.MinSize;
                     }
 
                     return rectLimit;
@@ -136,13 +137,13 @@ namespace WeifenLuo.WinFormsUI.Docking
                 if (status.LogicalBounds.Width <= 0 || status.LogicalBounds.Height <= 0)
                     return;
                 if (status.DisplayingAlignment == DockAlignment.Left)
-                    proportion += offset/(double) status.LogicalBounds.Width;
+                    proportion += offset / (double)status.LogicalBounds.Width;
                 else if (status.DisplayingAlignment == DockAlignment.Right)
-                    proportion -= offset/(double) status.LogicalBounds.Width;
+                    proportion -= offset / (double)status.LogicalBounds.Width;
                 else if (status.DisplayingAlignment == DockAlignment.Top)
-                    proportion += offset/(double) status.LogicalBounds.Height;
+                    proportion += offset / (double)status.LogicalBounds.Height;
                 else
-                    proportion -= offset/(double) status.LogicalBounds.Height;
+                    proportion -= offset / (double)status.LogicalBounds.Height;
 
                 DockPane.SetNestedDockingProportion(proportion);
             }
@@ -154,9 +155,9 @@ namespace WeifenLuo.WinFormsUI.Docking
                 get { return this; }
             }
 
-            #endregion
+            #endregion IDragSource Members
 
-            #endregion
+            #endregion ISplitterDragSource Members
         }
     }
 }

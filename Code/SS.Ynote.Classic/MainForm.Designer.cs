@@ -36,6 +36,7 @@
             this.filemenu = new System.Windows.Forms.MenuItem();
             this.NewMenuItem = new System.Windows.Forms.MenuItem();
             this.OpenMenuItem = new System.Windows.Forms.MenuItem();
+            this.openFolderMenu = new System.Windows.Forms.MenuItem();
             this.revertMenu = new System.Windows.Forms.MenuItem();
             this.seperator19 = new System.Windows.Forms.MenuItem();
             this.recentfilesmenu = new System.Windows.Forms.MenuItem();
@@ -51,9 +52,7 @@
             this.seperator21 = new System.Windows.Forms.MenuItem();
             this.miprint = new System.Windows.Forms.MenuItem();
             this.seperator22 = new System.Windows.Forms.MenuItem();
-            this.miimport = new System.Windows.Forms.MenuItem();
             this.fromrtf = new System.Windows.Forms.MenuItem();
-            this.mifromdir = new System.Windows.Forms.MenuItem();
             this.miexport = new System.Windows.Forms.MenuItem();
             this.pngexport = new System.Windows.Forms.MenuItem();
             this.rtfExport = new System.Windows.Forms.MenuItem();
@@ -82,9 +81,10 @@
             this.mifilename = new System.Windows.Forms.MenuItem();
             this.mifullfilename = new System.Windows.Forms.MenuItem();
             this.seperator52 = new System.Windows.Forms.MenuItem();
-            this.miinscliphis = new System.Windows.Forms.MenuItem();
             this.miemptycolumns = new System.Windows.Forms.MenuItem();
             this.miemptylines = new System.Windows.Forms.MenuItem();
+            this.miinscliphis = new System.Windows.Forms.MenuItem();
+            this.menuItem3 = new System.Windows.Forms.MenuItem();
             this.misearch = new System.Windows.Forms.MenuItem();
             this.findmenu = new System.Windows.Forms.MenuItem();
             this.mifindnext = new System.Windows.Forms.MenuItem();
@@ -270,7 +270,6 @@
             this.removebookmark = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.menuItem3 = new System.Windows.Forms.MenuItem();
             this.status.SuspendLayout();
             this.toolBar.SuspendLayout();
             this.SuspendLayout();
@@ -291,6 +290,7 @@
             this.filemenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.NewMenuItem,
             this.OpenMenuItem,
+            this.openFolderMenu,
             this.revertMenu,
             this.seperator19,
             this.recentfilesmenu,
@@ -306,7 +306,7 @@
             this.seperator21,
             this.miprint,
             this.seperator22,
-            this.miimport,
+            this.fromrtf,
             this.miexport,
             this.seperator25,
             this.miclose,
@@ -328,121 +328,113 @@
             this.OpenMenuItem.Text = "Open";
             this.OpenMenuItem.Click += new System.EventHandler(this.OpenMenuItem_Click);
             // 
+            // openFolderMenu
+            // 
+            this.openFolderMenu.Index = 2;
+            this.openFolderMenu.Text = "Open Folder";
+            this.openFolderMenu.Click += new System.EventHandler(this.openFolderMenu_Click);
+            // 
             // revertMenu
             // 
-            this.revertMenu.Index = 2;
+            this.revertMenu.Index = 3;
             this.revertMenu.Shortcut = System.Windows.Forms.Shortcut.CtrlF5;
             this.revertMenu.Text = "Revert";
             this.revertMenu.Click += new System.EventHandler(this.mirevert_Click);
             // 
             // seperator19
             // 
-            this.seperator19.Index = 3;
+            this.seperator19.Index = 4;
             this.seperator19.Text = "-";
             // 
             // recentfilesmenu
             // 
-            this.recentfilesmenu.Index = 4;
+            this.recentfilesmenu.Index = 5;
             this.recentfilesmenu.Text = "Recent Files";
             // 
             // reopenclosedtab
             // 
-            this.reopenclosedtab.Index = 5;
+            this.reopenclosedtab.Index = 6;
             this.reopenclosedtab.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftT;
             this.reopenclosedtab.Text = "Reopen Latest File";
             this.reopenclosedtab.Click += new System.EventHandler(this.reopenclosedtab_Click);
             // 
             // seperator1
             // 
-            this.seperator1.Index = 6;
+            this.seperator1.Index = 7;
             this.seperator1.Text = "-";
             // 
             // savemenu
             // 
-            this.savemenu.Index = 7;
+            this.savemenu.Index = 8;
             this.savemenu.Shortcut = System.Windows.Forms.Shortcut.CtrlS;
             this.savemenu.Text = "Save";
             this.savemenu.Click += new System.EventHandler(this.savemenu_Click);
             // 
             // misaveas
             // 
-            this.misaveas.Index = 8;
+            this.misaveas.Index = 9;
             this.misaveas.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftS;
             this.misaveas.Text = "Save As";
             this.misaveas.Click += new System.EventHandler(this.misaveas_Click);
             // 
             // misaveall
             // 
-            this.misaveall.Index = 9;
+            this.misaveall.Index = 10;
             this.misaveall.Text = "Save All";
             this.misaveall.Click += new System.EventHandler(this.misaveall_Click);
             // 
             // seperator20
             // 
-            this.seperator20.Index = 10;
+            this.seperator20.Index = 11;
             this.seperator20.Text = "-";
             // 
             // miproperties
             // 
-            this.miproperties.Index = 11;
+            this.miproperties.Index = 12;
             this.miproperties.Shortcut = System.Windows.Forms.Shortcut.AltF1;
             this.miproperties.Text = "Properties";
             this.miproperties.Click += new System.EventHandler(this.miproperties_Click);
             // 
             // miopencontaining
             // 
-            this.miopencontaining.Index = 12;
+            this.miopencontaining.Index = 13;
             this.miopencontaining.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftO;
             this.miopencontaining.Text = "Open Containing Folder";
             this.miopencontaining.Click += new System.EventHandler(this.miopencontaining_Click);
             // 
             // midelete
             // 
-            this.midelete.Index = 13;
+            this.midelete.Index = 14;
             this.midelete.Shortcut = System.Windows.Forms.Shortcut.AltBksp;
             this.midelete.Text = "Move To Recycle Bin";
             this.midelete.Click += new System.EventHandler(this.midelete_Click);
             // 
             // seperator21
             // 
-            this.seperator21.Index = 14;
+            this.seperator21.Index = 15;
             this.seperator21.Text = "-";
             // 
             // miprint
             // 
-            this.miprint.Index = 15;
+            this.miprint.Index = 16;
             this.miprint.Shortcut = System.Windows.Forms.Shortcut.CtrlP;
             this.miprint.Text = "Print";
             this.miprint.Click += new System.EventHandler(this.miprint_Click);
             // 
             // seperator22
             // 
-            this.seperator22.Index = 16;
+            this.seperator22.Index = 17;
             this.seperator22.Text = "-";
-            // 
-            // miimport
-            // 
-            this.miimport.Index = 17;
-            this.miimport.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.fromrtf,
-            this.mifromdir});
-            this.miimport.Text = "Import";
             // 
             // fromrtf
             // 
-            this.fromrtf.Index = 0;
-            this.fromrtf.Text = "From Rich Text";
+            this.fromrtf.Index = 18;
+            this.fromrtf.Text = "Import From RTF";
             this.fromrtf.Click += new System.EventHandler(this.fromrtf_Click);
-            // 
-            // mifromdir
-            // 
-            this.mifromdir.Index = 1;
-            this.mifromdir.Text = "Open Directory";
-            this.mifromdir.Click += new System.EventHandler(this.mifromdir_Click);
             // 
             // miexport
             // 
-            this.miexport.Index = 18;
+            this.miexport.Index = 19;
             this.miexport.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.pngexport,
             this.rtfExport,
@@ -469,19 +461,19 @@
             // 
             // seperator25
             // 
-            this.seperator25.Index = 19;
+            this.seperator25.Index = 20;
             this.seperator25.Text = "-";
             // 
             // miclose
             // 
-            this.miclose.Index = 20;
+            this.miclose.Index = 21;
             this.miclose.Shortcut = System.Windows.Forms.Shortcut.CtrlW;
             this.miclose.Text = "Close";
             this.miclose.Click += new System.EventHandler(this.miclose_Click);
             // 
             // ExitMenu
             // 
-            this.ExitMenu.Index = 21;
+            this.ExitMenu.Index = 22;
             this.ExitMenu.Text = "Exit";
             this.ExitMenu.Click += new System.EventHandler(this.ExitMenu_Click);
             // 
@@ -644,13 +636,6 @@
             this.seperator52.Index = 6;
             this.seperator52.Text = "-";
             // 
-            // miinscliphis
-            // 
-            this.miinscliphis.Index = 11;
-            this.miinscliphis.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftV;
-            this.miinscliphis.Text = "Insert From Clipboard History";
-            this.miinscliphis.Click += new System.EventHandler(this.miinscliphis_Click);
-            // 
             // miemptycolumns
             // 
             this.miemptycolumns.Index = 7;
@@ -662,6 +647,18 @@
             this.miemptylines.Index = 8;
             this.miemptylines.Text = "Empty Lines";
             this.miemptylines.Click += new System.EventHandler(this.emptylines_Click);
+            // 
+            // miinscliphis
+            // 
+            this.miinscliphis.Index = 11;
+            this.miinscliphis.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftV;
+            this.miinscliphis.Text = "Insert From Clipboard History";
+            this.miinscliphis.Click += new System.EventHandler(this.miinscliphis_Click);
+            // 
+            // menuItem3
+            // 
+            this.menuItem3.Index = 12;
+            this.menuItem3.Text = "-";
             // 
             // misearch
             // 
@@ -1388,7 +1385,7 @@
             // miprojectmanager
             // 
             this.miprojectmanager.Index = 16;
-            this.miprojectmanager.Text = "Project Manager";
+            this.miprojectmanager.Text = "Folder Manager";
             this.miprojectmanager.Click += new System.EventHandler(this.menuItem95_Click);
             // 
             // seperator26
@@ -1978,11 +1975,6 @@
             this.helpToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.helpToolStripButton.Text = "He&lp";
             // 
-            // menuItem3
-            // 
-            this.menuItem3.Index = 12;
-            this.menuItem3.Text = "-";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2037,9 +2029,7 @@
         private System.Windows.Forms.MenuItem miprint;
         private System.Windows.Forms.MenuItem misaveall;
         private System.Windows.Forms.MenuItem seperator22;
-        private System.Windows.Forms.MenuItem miimport;
         private System.Windows.Forms.MenuItem fromrtf;
-        private System.Windows.Forms.MenuItem mifromdir;
         private System.Windows.Forms.MenuItem miexport;
         private System.Windows.Forms.MenuItem rtfExport;
         private System.Windows.Forms.MenuItem pngexport;
@@ -2245,6 +2235,7 @@
         private ToolStripButton removebookmark;
         private ToolStripSeparator toolStripSeparator2;
         private MenuItem menuItem3;
+        private MenuItem openFolderMenu;
     }
 }
 

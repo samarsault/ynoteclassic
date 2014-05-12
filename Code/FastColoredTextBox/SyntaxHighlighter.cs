@@ -17,7 +17,6 @@ namespace FastColoredTextBoxNS
             }
         }
 
-
         public virtual void AutoIndentNeeded(object sender, AutoIndentEventArgs args)
         {
             var tb = (sender as FastColoredTextBox);
@@ -27,18 +26,23 @@ namespace FastColoredTextBoxNS
                 case Language.CSharp:
                     CSharpAutoIndentNeeded(sender, args);
                     break;
+
                 case Language.VB:
                     VBAutoIndentNeeded(sender, args);
                     break;
+
                 case Language.HTML:
                     HTMLAutoIndentNeeded(sender, args);
                     break;
+
                 case Language.SQL:
                     SQLAutoIndentNeeded(sender, args);
                     break;
+
                 case Language.PHP:
                     PHPAutoIndentNeeded(sender, args);
                     break;
+
                 case Language.Javascript:
                     CSharpAutoIndentNeeded(sender, args);
                     break; //JS like C#
@@ -157,7 +161,7 @@ namespace FastColoredTextBoxNS
             //some statements: case, default
             if (Regex.IsMatch(args.LineText, @"^\s*(case|default)\b.*:\s*($|//)"))
             {
-                args.Shift = -args.TabLength/2;
+                args.Shift = -args.TabLength / 2;
                 return;
             }
             //is unclosed operator in previous line ?

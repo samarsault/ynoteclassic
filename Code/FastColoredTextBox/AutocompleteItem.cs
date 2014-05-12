@@ -15,7 +15,6 @@ namespace FastColoredTextBoxNS
         private string toolTipText;
         private string toolTipTitle;
 
-
         public AutocompleteItem()
         {
         }
@@ -256,7 +255,8 @@ namespace FastColoredTextBoxNS
     /// </summary>
     public class SuggestItem : AutocompleteItem
     {
-        public SuggestItem(string text, int imageIndex) : base(text, imageIndex)
+        public SuggestItem(string text, int imageIndex)
+            : base(text, imageIndex)
         {
         }
 

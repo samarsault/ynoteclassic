@@ -226,7 +226,7 @@ namespace ConsoleControlAPI
             //  Specify redirection.
 
             //  Create the process.
-            process = new Process {EnableRaisingEvents = true, StartInfo = processStartInfo};
+            process = new Process { EnableRaisingEvents = true, StartInfo = processStartInfo };
             process.Exited += currentProcess_Exited;
 
             //  Start the process.
@@ -314,19 +314,19 @@ namespace ConsoleControlAPI
                 theEvent(this, new ProcessEventArgs(content));
         }
 
-/*
-        /// <summary>
-        /// Fires the process input event.
-        /// </summary>
-        /// <param name="content">The content.</param>
-        private void FireProcessInputEvent(string content)
-        {
-            //  Get the event and fire it.
-            var theEvent = OnProcessInput;
-            if (theEvent != null)
-                theEvent(this, new ProcessEventArgs(content));
-        }
-*/
+        /*
+                /// <summary>
+                /// Fires the process input event.
+                /// </summary>
+                /// <param name="content">The content.</param>
+                private void FireProcessInputEvent(string content)
+                {
+                    //  Get the event and fire it.
+                    var theEvent = OnProcessInput;
+                    if (theEvent != null)
+                        theEvent(this, new ProcessEventArgs(content));
+                }
+        */
 
         /// <summary>
         ///     Fires the process exit event.

@@ -59,7 +59,7 @@ namespace Nini.Util
             parameters = new StringDictionary();
             var splitter = new Regex(@"^([/-]|--){1}(?<name>\w+)([:=])?(?<value>.+)?$",
                 RegexOptions.Compiled);
-            char[] trimChars = {'"', '\''};
+            char[] trimChars = { '"', '\'' };
             string parameter = null;
             Match part;
 

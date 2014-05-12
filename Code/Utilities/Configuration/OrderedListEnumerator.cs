@@ -35,7 +35,7 @@ namespace Nini.Util
                 if (index < 0 || index >= list.Count)
                     throw new InvalidOperationException();
 
-                return (DictionaryEntry) list[index];
+                return (DictionaryEntry)list[index];
             }
         }
 

@@ -44,7 +44,8 @@ namespace WeifenLuo.WinFormsUI.Docking
         private string m_toolTipText;
         private DockState m_visibleState = DockState.Unknown;
 
-        public DockContentHandler(Form form) : this(form, null)
+        public DockContentHandler(Form form)
+            : this(form, null)
         {
         }
 
@@ -425,7 +426,6 @@ namespace WeifenLuo.WinFormsUI.Docking
             set { m_getPersistStringCallback = value; }
         }
 
-
         public bool HideOnClose
         {
             get { return m_hideOnClose; }
@@ -626,7 +626,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 return;
         }
 
-        #endregion
+        #endregion IDockDragSource Members
 
         #region Events
 
@@ -640,12 +640,12 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         protected virtual void OnDockStateChanged(EventArgs e)
         {
-            EventHandler handler = (EventHandler) Events[DockStateChangedEvent];
+            EventHandler handler = (EventHandler)Events[DockStateChangedEvent];
             if (handler != null)
                 handler(this, e);
         }
 
-        #endregion
+        #endregion Events
 
         public void Dispose()
         {
@@ -709,12 +709,12 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         private void SuspendSetDockState()
         {
-            m_countSetDockState ++;
+            m_countSetDockState++;
         }
 
         private void ResumeSetDockState()
         {
-            m_countSetDockState --;
+            m_countSetDockState--;
             if (m_countSetDockState < 0)
                 m_countSetDockState = 0;
         }
@@ -834,14 +834,17 @@ namespace WeifenLuo.WinFormsUI.Docking
                 case DockState.DockTopAutoHide:
                     AutoHidePortion = DockPanel.DockTopPortion;
                     break;
+
                 case DockState.DockLeft:
                 case DockState.DockLeftAutoHide:
                     AutoHidePortion = DockPanel.DockLeftPortion;
                     break;
+
                 case DockState.DockBottom:
                 case DockState.DockBottomAutoHide:
                     AutoHidePortion = DockPanel.DockBottomPortion;
                     break;
+
                 case DockState.DockRight:
                 case DockState.DockRightAutoHide:
                     AutoHidePortion = DockPanel.DockRightPortion;
@@ -958,7 +961,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             // Workaround of .Net Framework bug:
             // Change the parent of a control with focus may result in the first
-            // MDI child form get activated. 
+            // MDI child form get activated.
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             bool bRestoreFocus = false;
             if (Form.ContainsFocus)
@@ -984,7 +987,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             // Workaround of .Net Framework bug:
             // Change the parent of a control with focus may result in the first
-            // MDI child form get activated. 
+            // MDI child form get activated.
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             if (bRestoreFocus)
                 Activate();

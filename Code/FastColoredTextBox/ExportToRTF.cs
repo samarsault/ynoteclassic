@@ -78,15 +78,18 @@ namespace FastColoredTextBoxNS
                     case '\\':
                         tempSB.Append(@"\\");
                         break;
+
                     case '{':
                         tempSB.Append(@"\{");
                         break;
+
                     case '}':
                         tempSB.Append(@"\}");
                         break;
+
                     default:
                         var ch = c.c;
-                        var code = (int) ch;
+                        var code = (int)ch;
                         if (code < 128)
                             tempSB.Append(c.c);
                         else
@@ -112,7 +115,7 @@ namespace FastColoredTextBoxNS
             if (UseOriginalFont)
             {
                 sb.Insert(0, string.Format(@"{{\fonttbl{{\f0\fmodern {0};}}}}{{\fs{1} ",
-                    tb.Font.Name, (int) (2*tb.Font.SizeInPoints), tb.CharHeight));
+                    tb.Font.Name, (int)(2 * tb.Font.SizeInPoints), tb.CharHeight));
                 sb.AppendLine(@"}");
             }
 
@@ -133,7 +136,7 @@ namespace FastColoredTextBoxNS
             bool hasTextStyle = false;
             for (int i = 0; i < tb.Styles.Length; i++)
             {
-                if (tb.Styles[i] != null && ((int) styleIndex & mask) != 0)
+                if (tb.Styles[i] != null && ((int)styleIndex & mask) != 0)
                     if (tb.Styles[i].IsExportable)
                     {
                         var style = tb.Styles[i];
@@ -211,7 +214,9 @@ namespace FastColoredTextBoxNS
     public class RTFStyleDescriptor
     {
         public Color ForeColor { get; set; }
+
         public Color BackColor { get; set; }
+
         public string AdditionalTags { get; set; }
     }
 }
