@@ -56,14 +56,14 @@ namespace WeifenLuo.WinFormsUI.Docking
             if (Count != 0 || Container.DockState != DockState.Float)
                 return;
 
-            FloatWindow floatWindow = (FloatWindow)Container;
+            FloatWindow floatWindow = (FloatWindow) Container;
             if (floatWindow.Disposing || floatWindow.IsDisposed)
                 return;
 
             if (Win32Helper.IsRunningOnMono)
                 return;
 
-            NativeMethods.PostMessage(((FloatWindow)Container).Handle, FloatWindow.WM_CHECKDISPOSE, 0, 0);
+            NativeMethods.PostMessage(((FloatWindow) Container).Handle, FloatWindow.WM_CHECKDISPOSE, 0, 0);
         }
 
         /// <summary>

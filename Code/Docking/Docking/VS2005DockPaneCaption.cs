@@ -225,8 +225,8 @@ namespace WeifenLuo.WinFormsUI.Docking
                 {
                     Blend blend = new Blend(2);
 
-                    blend.Factors = new[] { 0.5F, 1.0F };
-                    blend.Positions = new[] { 0.0F, 1.0F };
+                    blend.Factors = new[] {0.5F, 1.0F};
+                    blend.Positions = new[] {0.0F, 1.0F};
                     _activeBackColorGradientBlend = blend;
                 }
 
@@ -395,7 +395,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             int height = rectCaption.Height - ButtonGapTop - ButtonGapBottom;
             if (buttonHeight < height)
             {
-                buttonWidth = buttonWidth * (height / buttonHeight);
+                buttonWidth = buttonWidth*(height/buttonHeight);
                 buttonHeight = height;
             }
             Size buttonSize = new Size(buttonWidth, buttonHeight);

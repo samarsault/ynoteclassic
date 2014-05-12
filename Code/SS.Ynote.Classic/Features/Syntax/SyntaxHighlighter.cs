@@ -1,9 +1,9 @@
-﻿using FastColoredTextBoxNS;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml;
+using FastColoredTextBoxNS;
 
 namespace SS.Ynote.Classic.Features.Syntax
 {
@@ -350,7 +350,7 @@ namespace SS.Ynote.Classic.Features.Syntax
         /// <returns></returns>
         private SyntaxBase GenerateBase(string descFile)
         {
-            var synbase = new SyntaxBase { SysPath = descFile };
+            var synbase = new SyntaxBase {SysPath = descFile};
             using (var reader = XmlReader.Create(descFile))
             {
                 while (reader.Read())
@@ -364,14 +364,14 @@ namespace SS.Ynote.Classic.Features.Syntax
                                 break;
 
                             case "Rule":
-                                {
-                                    var type = reader["Type"];
-                                    var options = reader["Options"];
-                                    var regex = reader["Regex"];
-                                    synbase.Rules.Add(InitRule(type, regex, options));
-                                    // if (reader.Read())
-                                    //     synbase.Rules.Add(InitRule(type, regex, options));
-                                }
+                            {
+                                var type = reader["Type"];
+                                var options = reader["Options"];
+                                var regex = reader["Regex"];
+                                synbase.Rules.Add(InitRule(type, regex, options));
+                                // if (reader.Read())
+                                //     synbase.Rules.Add(InitRule(type, regex, options));
+                            }
                                 break;
 
                             case "Folding":
@@ -408,17 +408,17 @@ namespace SS.Ynote.Classic.Features.Syntax
             if (options == null)
                 rule.Options = RegexOptions.None;
             else
-                rule.Options = (RegexOptions)Enum.Parse(typeof(RegexOptions), options);
+                rule.Options = (RegexOptions) Enum.Parse(typeof (RegexOptions), options);
             return rule;
         }
 
         private SyntaxRule InitRule(string type, string regex, string options)
         {
-            var rule = new SyntaxRule { Type = GetStyleFromName(type), Regex = regex };
+            var rule = new SyntaxRule {Type = GetStyleFromName(type), Regex = regex};
             if (options == null)
                 rule.Options = RegexOptions.None;
             else
-                rule.Options = (RegexOptions)Enum.Parse(typeof(RegexOptions), options);
+                rule.Options = (RegexOptions) Enum.Parse(typeof (RegexOptions), options);
             return rule;
         }
 
@@ -939,7 +939,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                     if (tagName[0] != '/')
                     {
                         // ...push into stack
-                        var tag = new XmlTag { Name = tagName, Id = id++, StartLine = r.Start.iLine };
+                        var tag = new XmlTag {Name = tagName, Id = id++, StartLine = r.Start.iLine};
                         stack.Push(tag);
                         // if this line has no markers - set marker
                         if (string.IsNullOrEmpty(fctb[iLine].FoldingStartMarker))

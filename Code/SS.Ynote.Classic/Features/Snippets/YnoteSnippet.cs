@@ -1,78 +1,96 @@
-﻿using FastColoredTextBoxNS;
-using System.Collections.Generic;
+﻿#define DEVBUILD
+using System.IO;
 using System.Xml;
+using FastColoredTextBoxNS;
+using SS.Ynote.Classic.UI;
 
 namespace SS.Ynote.Classic.Features.Snippets
 {
     public class YnoteSnippet
     {
-        public string Value { get; set; }
+        /// <summary>
+        ///     Name of the Snippet
+        /// </summary>
+        public string Name { get; set; }
 
         /// <summary>
-        ///     Get The AutoComplete Type
+        ///     Description of the Snippet
         /// </summary>
-        public ApType AutoCompleteType { get; set; }
+        public string Description { get; set; }
 
-        private static string GetSnippetFile(Language lang)
+        /// <summary>
+        ///     Tab Trigger of the Snippet
+        /// </summary>
+        public string Tab { get; set; }
+
+        /// <summary>
+        ///     Content of the Snippet
+        /// </summary>
+        public string Content { get; set; }
+
+        /* YnoteSnippet File Documentation
+           ----------------------
+           Functions
+           ----------------------
+           $file_name - File Name
+           $file_name_extension - File Name with Extension
+           $current_line - Text of Current line
+           $selection - SelectedText
+           ^ - Caret Position
+        -----------------------
+          Snippet File Structure
+         ----------------------
+          <?xml version="1.0"?>
+           <YnoteSnippet Version="1.0">
+               <name></name>
+               <description></description>
+               <tabTrigger></tabTrigger>
+               <content></content>
+           </YnoteSnippet>
+        */
+
+        public static string GetDirectory(Language lang)
         {
-            return string.Format(@"{0}Snippets\{1}.ynotesnippet", Settings.SettingsDir, lang);
+            return Settings.SettingsDir + "Snippets\\" + lang;
         }
 
-        public static IEnumerable<YnoteSnippet> Read(Language lang)
+        public static YnoteSnippet Read(string snippetfile)
         {
-            return Read(GetSnippetFile(lang));
-        }
-
-        //<?xml version="1.0"?>
-        //  <YnoteSnippet">
-        //      <Snippet>for(int i=0;i &lt; ^;i++)</Snippet>
-        //      <Keyword>Class</Keyword>
-        //  </YnoteSnippet>
-        private static IEnumerable<YnoteSnippet> Read(string file)
-        {
-            IList<YnoteSnippet> lst = new List<YnoteSnippet>();
-            using (var reader = XmlReader.Create(file))
+            // TODO: Fix Snippet Read Problem
+            var snippet = new YnoteSnippet();
+            using (var reader = XmlReader.Create(snippetfile))
             {
                 while (reader.Read())
+                {
                     if (reader.IsStartElement())
                     {
-                        if (reader.Name == "Snippet")
+                        switch (reader.Name)
                         {
-                            if (reader.Read())
-                            {
-                                var snippet = new YnoteSnippet
-                                {
-                                    Value = reader.Value.Replace(@"\r\n", "\r\n"),
-                                    AutoCompleteType = ApType.Snippet
-                                };
-                                lst.Add(snippet);
-                            }
-                        }
-                        else if (reader.Name == "Keyword")
-                        {
-                            if (reader.Read())
-                            {
-                                var snippet = new YnoteSnippet
-                                {
-                                    Value = reader.Value,
-                                    AutoCompleteType = ApType.Keyword
-                                };
-                                lst.Add(snippet);
-                            }
+                            case "name":
+                                snippet.Name = reader.ReadElementContentAsString();
+                                break;
+                            case "description":
+                                snippet.Description = reader.ReadElementContentAsString();
+                                break;
+                            case "tabTrigger":
+                                snippet.Tab = reader.ReadElementContentAsString();
+                                break;
+                            case "content":
+                                snippet.Content = reader.ReadElementContentAsString();
+                                break;
                         }
                     }
+                }
             }
-            return lst;
+            return snippet;
         }
-    }
 
-    /// <summary>
-    ///     Getsh the AutoCompletion Type i.e keyword or snippet
-    ///     which are processed in different manners
-    /// </summary>
-    public enum ApType
-    {
-        Keyword,
-        Snippet
+        public void SubstituteContent(Editor edit)
+        {
+            Content = Content.Replace("$selection", edit.Tb.SelectedText);
+            Content = Content.Replace("$current_line", edit.Tb[edit.Tb.Selection.Start.iLine].Text);
+            Content = Content.Replace("$file_name", Path.GetFileNameWithoutExtension(edit.Text));
+            Content = Content.Replace("$file_name_extension", edit.Text);
+        }
     }
 }

@@ -5,11 +5,9 @@ using System.Text;
 using FastColoredTextBoxNS;
 using Nini.Config;
 using WeifenLuo.WinFormsUI.Docking;
-
 #if PORTABLE
     using System.Windows.Forms;
 #else
-
 using System;
 
 #endif
@@ -238,6 +236,7 @@ public static class Settings
         {
             File.WriteAllText(SettingsDir + "Settings.ini", string.Empty);
             RestoreDefault();
+            LoadSettings();
         }
     }
 

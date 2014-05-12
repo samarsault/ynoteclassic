@@ -100,7 +100,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                          m_buttonClose.Width +
                          m_buttonScrollRight.Width +
                          m_buttonScrollLeft.Width +
-                         2 * DocumentButtonGapBetween;
+                         2*DocumentButtonGapBetween;
 
                 return new Rectangle(x, y, width, height);
             }
@@ -570,9 +570,9 @@ namespace WeifenLuo.WinFormsUI.Docking
             bool anyWidthWithinAverage = true;
             int totalWidth = rectTabStrip.Width - ToolWindowStripGapLeft - ToolWindowStripGapRight;
             int totalAllocatedWidth = 0;
-            int averageWidth = totalWidth / countTabs;
+            int averageWidth = totalWidth/countTabs;
             int remainedTabs = countTabs;
-            for (anyWidthWithinAverage = true; anyWidthWithinAverage && remainedTabs > 0; )
+            for (anyWidthWithinAverage = true; anyWidthWithinAverage && remainedTabs > 0;)
             {
                 anyWidthWithinAverage = false;
                 foreach (TabVS2003 tab in Tabs)
@@ -590,13 +590,13 @@ namespace WeifenLuo.WinFormsUI.Docking
                     }
                 }
                 if (remainedTabs != 0)
-                    averageWidth = (totalWidth - totalAllocatedWidth) / remainedTabs;
+                    averageWidth = (totalWidth - totalAllocatedWidth)/remainedTabs;
             }
 
             // If any tab width not set yet, set it to the average width
             if (remainedTabs > 0)
             {
-                int roundUpWidth = (totalWidth - totalAllocatedWidth) - (averageWidth * remainedTabs);
+                int roundUpWidth = (totalWidth - totalAllocatedWidth) - (averageWidth*remainedTabs);
                 foreach (TabVS2003 tab in Tabs)
                 {
                     if (tab.Flag)
@@ -768,14 +768,14 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             Rectangle rectTabStrip = ClientRectangle;
 
-            TabVS2003 tab = (TabVS2003)(Tabs[index]);
+            TabVS2003 tab = (TabVS2003) (Tabs[index]);
             return new Rectangle(tab.TabX, rectTabStrip.Y, tab.TabWidth, rectTabStrip.Height);
         }
 
         private Rectangle GetTabRectangle_Document(int index)
         {
             Rectangle rectTabStrip = ClientRectangle;
-            TabVS2003 tab = (TabVS2003)Tabs[index];
+            TabVS2003 tab = (TabVS2003) Tabs[index];
 
             return new Rectangle(tab.TabX, rectTabStrip.Y + DocumentTabGapTop, tab.TabWidth,
                 rectTabStrip.Height - DocumentTabGapTop);
@@ -855,7 +855,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     Icon icon = (tab.Content as Form).Icon;
                     Rectangle rectIcon = new Rectangle(
                         rect.X + DocumentIconGapLeft,
-                        rect.Y + (rect.Height - DocumentIconHeight) / 2,
+                        rect.Y + (rect.Height - DocumentIconHeight)/2,
                         DocumentIconWidth, DocumentIconHeight);
 
                     g.DrawIcon(tab.ContentForm.Icon, rectIcon);
@@ -885,7 +885,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                     Icon icon = tab.ContentForm.Icon;
                     Rectangle rectIcon = new Rectangle(
                         rect.X + DocumentIconGapLeft,
-                        rect.Y + (rect.Height - DocumentIconHeight) / 2,
+                        rect.Y + (rect.Height - DocumentIconHeight)/2,
                         DocumentIconWidth, DocumentIconHeight);
 
                     g.DrawIcon(tab.ContentForm.Icon, rectIcon);
@@ -985,7 +985,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             int height = rectTabStrip.Height - DocumentButtonGapTop - DocumentButtonGapBottom;
             if (buttonHeight < height)
             {
-                buttonWidth = buttonWidth * (height / buttonHeight);
+                buttonWidth = buttonWidth*(height/buttonHeight);
                 buttonHeight = height;
             }
             Size buttonSize = new Size(buttonWidth, buttonHeight);

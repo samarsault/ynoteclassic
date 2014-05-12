@@ -36,24 +36,19 @@ namespace SS.Ynote.Classic
             public uint fMask;
             private readonly IntPtr hwnd;
 
-            [MarshalAs(UnmanagedType.LPTStr)]
-            public string lpVerb;
+            [MarshalAs(UnmanagedType.LPTStr)] public string lpVerb;
 
-            [MarshalAs(UnmanagedType.LPTStr)]
-            public string lpFile;
+            [MarshalAs(UnmanagedType.LPTStr)] public string lpFile;
 
-            [MarshalAs(UnmanagedType.LPTStr)]
-            private readonly string lpParameters;
+            [MarshalAs(UnmanagedType.LPTStr)] private readonly string lpParameters;
 
-            [MarshalAs(UnmanagedType.LPTStr)]
-            private readonly string lpDirectory;
+            [MarshalAs(UnmanagedType.LPTStr)] private readonly string lpDirectory;
 
             public int nShow;
             private readonly IntPtr hInstApp;
             private readonly IntPtr lpIDList;
 
-            [MarshalAs(UnmanagedType.LPTStr)]
-            private readonly string lpClass;
+            [MarshalAs(UnmanagedType.LPTStr)] private readonly string lpClass;
 
             private readonly IntPtr hkeyClass;
             private readonly uint dwHotKey;

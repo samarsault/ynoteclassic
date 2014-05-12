@@ -12,3 +12,5 @@
 -> Changed Project to Folder Manager
 -> Added @ ruby variable highlighting
 -> Fixed syntax highlight on file_open when text changes error
+-> Added word auto-completion
+-> Extended Snippets with TabTrigger, Description and much more.

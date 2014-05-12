@@ -7,13 +7,15 @@ http://ynoteclassic.codeplex.com
 Features
 ----
   - Multi-Level Undo/Redo
-  - Syntax Highlighting, Code Folding, Auto-Indent, Auto-Completion for almost 40 languages with user defined support
+  - Syntax Highlighting, Code Folding, Indentation
+  - Support for more than 40 languages with user defined language support
   - Powerful Search and Replace using Regular Expressions in document and multiple files
-  - Powerful Project Management
   - Clipboard History
   - File Merge and Compare
+  - Code Snippets Support
   - Automatic Encoding Detection with all codepages on the system supported
   - WYSWYIG Printing
+  - Split Screen
   - MDI and SDI
   - Extensible with Plugins, Macros, Color Schemes, Syntax Files, Scripts and much more.
 
@@ -31,10 +33,10 @@ Screenshot
 
 Version
 ----
- 2.8.5 Build 201
+ 2.8.5 Build 243
 
 License
 ----
 
-GNU GPL v3
+GNU GPL v2
 

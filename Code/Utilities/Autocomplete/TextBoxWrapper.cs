@@ -31,25 +31,25 @@ namespace AutocompleteMenuNS
 
         public virtual string SelectedText
         {
-            get { return (string)selectedText.GetValue(target, null); }
+            get { return (string) selectedText.GetValue(target, null); }
             set { selectedText.SetValue(target, value, null); }
         }
 
         public virtual int SelectionLength
         {
-            get { return (int)selectionLength.GetValue(target, null); }
+            get { return (int) selectionLength.GetValue(target, null); }
             set { selectionLength.SetValue(target, value, null); }
         }
 
         public virtual int SelectionStart
         {
-            get { return (int)selectionStart.GetValue(target, null); }
+            get { return (int) selectionStart.GetValue(target, null); }
             set { selectionStart.SetValue(target, value, null); }
         }
 
         public virtual Point GetPositionFromCharIndex(int pos)
         {
-            return (Point)getPositionFromCharIndex.Invoke(target, new object[] { pos });
+            return (Point) getPositionFromCharIndex.Invoke(target, new object[] {pos});
         }
 
         public virtual event EventHandler LostFocus
@@ -93,7 +93,7 @@ namespace AutocompleteMenuNS
 
         public bool Readonly
         {
-            get { return (bool)readonlyProperty.GetValue(target, null); }
+            get { return (bool) readonlyProperty.GetValue(target, null); }
         }
 
         private event ScrollEventHandler RTBScroll;

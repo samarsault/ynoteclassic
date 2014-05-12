@@ -21,10 +21,10 @@ namespace WeifenLuo.WinFormsUI.Docking
             if (m_ui == null)
                 m_ui = new DockAreasEditorControl();
 
-            m_ui.SetStates((DockAreas)value);
+            m_ui.SetStates((DockAreas) value);
 
             IWindowsFormsEditorService edSvc =
-                (IWindowsFormsEditorService)sp.GetService(typeof(IWindowsFormsEditorService));
+                (IWindowsFormsEditorService) sp.GetService(typeof (IWindowsFormsEditorService));
             edSvc.DropDownControl(m_ui);
 
             return m_ui.DockAreas;

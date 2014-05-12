@@ -48,7 +48,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         internal class VS2012LightDockWindowSplitterControl : SplitterBase
         {
             private static readonly SolidBrush _horizontalBrush = new SolidBrush(Color.FromArgb(0xFF, 204, 206, 219));
-            private static readonly Color[] _verticalSurroundColors = { SystemColors.Control };
+            private static readonly Color[] _verticalSurroundColors = {SystemColors.Control};
 
             protected override int SplitterSize
             {
@@ -77,29 +77,29 @@ namespace WeifenLuo.WinFormsUI.Docking
                 {
                     case DockStyle.Right:
                     case DockStyle.Left:
+                    {
+                        using (var path = new GraphicsPath())
                         {
-                            using (var path = new GraphicsPath())
+                            path.AddRectangle(rect);
+                            using (var brush = new PathGradientBrush(path)
                             {
-                                path.AddRectangle(rect);
-                                using (var brush = new PathGradientBrush(path)
-                                {
-                                    CenterColor = Color.FromArgb(0xFF, 204, 206, 219),
-                                    SurroundColors = _verticalSurroundColors
-                                })
-                                {
-                                    e.Graphics.FillRectangle(brush, rect.X + Measures.SplitterSize / 2 - 1, rect.Y,
-                                        Measures.SplitterSize / 3, rect.Height);
-                                }
+                                CenterColor = Color.FromArgb(0xFF, 204, 206, 219),
+                                SurroundColors = _verticalSurroundColors
+                            })
+                            {
+                                e.Graphics.FillRectangle(brush, rect.X + Measures.SplitterSize/2 - 1, rect.Y,
+                                    Measures.SplitterSize/3, rect.Height);
                             }
                         }
+                    }
                         break;
 
                     case DockStyle.Bottom:
                     case DockStyle.Top:
-                        {
-                            e.Graphics.FillRectangle(_horizontalBrush, rect.X, rect.Y,
-                                rect.Width, Measures.SplitterSize);
-                        }
+                    {
+                        e.Graphics.FillRectangle(_horizontalBrush, rect.X, rect.Y,
+                            rect.Width, Measures.SplitterSize);
+                    }
                         break;
                 }
             }

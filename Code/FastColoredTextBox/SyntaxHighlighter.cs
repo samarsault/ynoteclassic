@@ -161,7 +161,7 @@ namespace FastColoredTextBoxNS
             //some statements: case, default
             if (Regex.IsMatch(args.LineText, @"^\s*(case|default)\b.*:\s*($|//)"))
             {
-                args.Shift = -args.TabLength / 2;
+                args.Shift = -args.TabLength/2;
                 return;
             }
             //is unclosed operator in previous line ?

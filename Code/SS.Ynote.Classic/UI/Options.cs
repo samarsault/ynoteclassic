@@ -1,5 +1,3 @@
-using FastColoredTextBoxNS;
-using SS.Ynote.Classic.Features.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Syntax;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace SS.Ynote.Classic.UI
@@ -232,7 +232,7 @@ namespace SS.Ynote.Classic.UI
 
         private void BuildLangList()
         {
-            foreach (var language in Enum.GetValues(typeof(Language)))
+            foreach (var language in Enum.GetValues(typeof (Language)))
                 lstlang.Items.Add(language);
             foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes.Where(syntax => syntax.SysPath != null))
                 lstlang.Items.Add(Path.GetFileNameWithoutExtension(syntax.SysPath));

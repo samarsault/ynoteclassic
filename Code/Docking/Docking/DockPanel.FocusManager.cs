@@ -74,7 +74,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         protected virtual void OnActiveDocumentChanged(EventArgs e)
         {
-            EventHandler handler = (EventHandler)Events[ActiveDocumentChangedEvent];
+            EventHandler handler = (EventHandler) Events[ActiveDocumentChangedEvent];
             if (handler != null)
                 handler(this, e);
         }
@@ -89,7 +89,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         protected void OnActiveContentChanged(EventArgs e)
         {
-            EventHandler handler = (EventHandler)Events[ActiveContentChangedEvent];
+            EventHandler handler = (EventHandler) Events[ActiveContentChangedEvent];
             if (handler != null)
                 handler(this, e);
         }
@@ -104,7 +104,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         protected virtual void OnActivePaneChanged(EventArgs e)
         {
-            EventHandler handler = (EventHandler)Events[ActivePaneChangedEvent];
+            EventHandler handler = (EventHandler) Events[ActivePaneChangedEvent];
             if (handler != null)
                 handler(this, e);
         }
@@ -112,8 +112,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         private class FocusManagerImpl : Component, IContentFocusManager, IFocusManager
         {
             // Use a static instance of the windows hook to prevent stack overflows in the windows kernel.
-            [ThreadStatic]
-            private static LocalWindowsHook sm_localWindowsHook;
+            [ThreadStatic] private static LocalWindowsHook sm_localWindowsHook;
 
             private readonly DockPanel m_dockPanel;
 
@@ -366,11 +365,11 @@ namespace WeifenLuo.WinFormsUI.Docking
             // Windows hook event handler
             private void HookEventHandler(object sender, HookEventArgs e)
             {
-                Msgs msg = (Msgs)Marshal.ReadInt32(e.lParam, IntPtr.Size * 3);
+                Msgs msg = (Msgs) Marshal.ReadInt32(e.lParam, IntPtr.Size*3);
 
                 if (msg == Msgs.WM_KILLFOCUS)
                 {
-                    IntPtr wParam = Marshal.ReadIntPtr(e.lParam, IntPtr.Size * 2);
+                    IntPtr wParam = Marshal.ReadIntPtr(e.lParam, IntPtr.Size*2);
                     DockPane pane = GetPaneFromHandle(wParam);
                     if (pane == null)
                         RefreshActiveWindow();
@@ -505,13 +504,11 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             private class HookEventArgs : EventArgs
             {
-                [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
-                public int HookCode;
+                [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public int HookCode;
 
                 public IntPtr lParam;
 
-                [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
-                public IntPtr wParam;
+                [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")] public IntPtr wParam;
             }
 
             private class LocalWindowsHook : IDisposable

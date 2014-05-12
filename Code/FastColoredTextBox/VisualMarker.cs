@@ -37,8 +37,8 @@ namespace FastColoredTextBoxNS
             //draw minus
             gr.FillRectangle(Brushes.White, rectangle);
             gr.DrawRectangle(pen, rectangle);
-            gr.DrawLine(pen, rectangle.Left + 2, rectangle.Top + rectangle.Height / 2, rectangle.Right - 2,
-                rectangle.Top + rectangle.Height / 2);
+            gr.DrawLine(pen, rectangle.Left + 2, rectangle.Top + rectangle.Height/2, rectangle.Right - 2,
+                rectangle.Top + rectangle.Height/2);
         }
     }
 
@@ -57,10 +57,10 @@ namespace FastColoredTextBoxNS
             //draw plus
             gr.FillRectangle(Brushes.White, rectangle);
             gr.DrawRectangle(pen, rectangle);
-            gr.DrawLine(Pens.Red, rectangle.Left + 2, rectangle.Top + rectangle.Height / 2, rectangle.Right - 2,
-                rectangle.Top + rectangle.Height / 2);
-            gr.DrawLine(Pens.Red, rectangle.Left + rectangle.Width / 2, rectangle.Top + 2,
-                rectangle.Left + rectangle.Width / 2, rectangle.Bottom - 2);
+            gr.DrawLine(Pens.Red, rectangle.Left + 2, rectangle.Top + rectangle.Height/2, rectangle.Right - 2,
+                rectangle.Top + rectangle.Height/2);
+            gr.DrawLine(Pens.Red, rectangle.Left + rectangle.Width/2, rectangle.Top + 2,
+                rectangle.Left + rectangle.Width/2, rectangle.Bottom - 2);
         }
     }
 

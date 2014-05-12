@@ -20,7 +20,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         internal static uint MakeLong(int low, int high)
         {
-            return (uint)((high << 16) + low);
+            return (uint) ((high << 16) + low);
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using SS.Ynote.Classic.Features.Syntax;
-using System;
+﻿using System;
 using System.Windows.Forms;
+using SS.Ynote.Classic.Features.Syntax;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace SS.Ynote.Classic.Features.Search

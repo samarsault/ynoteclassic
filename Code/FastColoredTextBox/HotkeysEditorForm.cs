@@ -19,7 +19,7 @@ namespace FastColoredTextBoxNS
 
         private int CompereKeys(Keys key1, Keys key2)
         {
-            var res = ((int)key1 & 0xff).CompareTo((int)key2 & 0xff);
+            var res = ((int) key1 & 0xff).CompareTo((int) key2 & 0xff);
             if (res == 0)
                 res = key1.CompareTo(key2);
 
@@ -60,17 +60,18 @@ namespace FastColoredTextBoxNS
             if (cell.Items.Count == 0)
                 foreach (
                     var item in
-                        new[] { "", "Ctrl", "Ctrl + Shift", "Ctrl + Alt", "Shift", "Shift + Alt", "Alt", "Ctrl + Shift + Alt" })
+                        new[]
+                        {"", "Ctrl", "Ctrl + Shift", "Ctrl + Alt", "Shift", "Shift + Alt", "Alt", "Ctrl + Shift + Alt"})
                     cell.Items.Add(item);
 
             cell = (dgv[1, e.RowIndex] as DataGridViewComboBoxCell);
             if (cell.Items.Count == 0)
-                foreach (var item in Enum.GetValues(typeof(Keys)))
+                foreach (var item in Enum.GetValues(typeof (Keys)))
                     cell.Items.Add(item);
 
             cell = (dgv[2, e.RowIndex] as DataGridViewComboBoxCell);
             if (cell.Items.Count == 0)
-                foreach (var item in Enum.GetValues(typeof(FCTBAction)))
+                foreach (var item in Enum.GetValues(typeof (FCTBAction)))
                     cell.Items.Add(item);
         }
 
@@ -113,11 +114,11 @@ namespace FastColoredTextBoxNS
             foreach (var w in wrappers)
                 dic[w.Action] = w.Action;
 
-            foreach (var item in Enum.GetValues(typeof(FCTBAction)))
-                if ((FCTBAction)item != FCTBAction.None)
-                    if (!((FCTBAction)item).ToString().StartsWith("CustomAction"))
+            foreach (var item in Enum.GetValues(typeof (FCTBAction)))
+                if ((FCTBAction) item != FCTBAction.None)
+                    if (!((FCTBAction) item).ToString().StartsWith("CustomAction"))
                     {
-                        if (!dic.ContainsKey((FCTBAction)item))
+                        if (!dic.ContainsKey((FCTBAction) item))
                             sb.Append(item + ", ");
                     }
 

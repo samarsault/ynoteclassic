@@ -38,7 +38,7 @@ namespace FastColoredTextBoxNS
             if (cmd.ts.CurrentTB.Selection.ColumnSelectionMode)
                 if (cmd is UndoableCommand)
                     //make wrapper
-                    cmd = new MultiRangeCommand((UndoableCommand)cmd);
+                    cmd = new MultiRangeCommand((UndoableCommand) cmd);
 
             if (cmd is UndoableCommand)
             {

@@ -1,7 +1,7 @@
-﻿using FastColoredTextBoxNS;
-using System;
+﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using FastColoredTextBoxNS;
 
 namespace SS.Ynote.Classic.UI
 {

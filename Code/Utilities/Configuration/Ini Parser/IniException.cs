@@ -8,7 +8,6 @@ namespace Nini.Ini
     /// <include file='IniException.xml' path='//Class[@name="IniException"]/docs/*' />
 #if (NET_COMPACT_1_0)
 #else
-
     [Serializable]
 #endif
     public class IniException : SystemException /*, ISerializable */

@@ -11,7 +11,7 @@ namespace SS.Ynote.Classic.Features.Packages
         public PackageInstaller(string package)
         {
             InitializeComponent();
-            _time = new Timer { Interval = 10 };
+            _time = new Timer {Interval = 10};
             _time.Tick += _time_Tick;
             _package = package;
             _time.Start();

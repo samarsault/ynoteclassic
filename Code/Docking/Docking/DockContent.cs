@@ -288,7 +288,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             if (DockPanel != null && DockPanel.SupportDeeplyNestedContent && IsHandleCreated)
             {
-                BeginInvoke((MethodInvoker)delegate { base.OnSizeChanged(e); });
+                BeginInvoke((MethodInvoker) delegate { base.OnSizeChanged(e); });
             }
             else
             {
@@ -329,7 +329,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         protected virtual void OnDockStateChanged(EventArgs e)
         {
-            EventHandler handler = (EventHandler)Events[DockStateChangedEvent];
+            EventHandler handler = (EventHandler) Events[DockStateChangedEvent];
             if (handler != null)
                 handler(this, e);
         }

@@ -440,7 +440,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             m_captionControl = DockPanel.DockPaneCaptionFactory.CreateDockPaneCaption(this);
             m_tabStripControl = DockPanel.DockPaneStripFactory.CreateDockPaneStrip(this);
-            Controls.AddRange(new Control[] { m_captionControl, m_tabStripControl });
+            Controls.AddRange(new Control[] {m_captionControl, m_tabStripControl});
 
             DockPanel.SuspendLayout(true);
             if (flagBounds)
@@ -619,7 +619,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 DockPanel.PerformLayout();
             }
             else if (NestedPanesContainer != null)
-                ((Control)NestedPanesContainer).PerformLayout();
+                ((Control) NestedPanesContainer).PerformLayout();
         }
 
         protected override void OnLayout(LayoutEventArgs levent)
@@ -834,7 +834,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         protected virtual void OnDockStateChanged(EventArgs e)
         {
-            EventHandler handler = (EventHandler)Events[DockStateChangedEvent];
+            EventHandler handler = (EventHandler) Events[DockStateChangedEvent];
             if (handler != null)
                 handler(this, e);
         }
@@ -847,7 +847,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         protected virtual void OnIsActivatedChanged(EventArgs e)
         {
-            EventHandler handler = (EventHandler)Events[IsActivatedChangedEvent];
+            EventHandler handler = (EventHandler) Events[IsActivatedChangedEvent];
             if (handler != null)
                 handler(this, e);
         }
@@ -860,7 +860,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         protected virtual void OnIsActiveDocumentPaneChanged(EventArgs e)
         {
-            EventHandler handler = (EventHandler)Events[IsActiveDocumentPaneChangedEvent];
+            EventHandler handler = (EventHandler) Events[IsActiveDocumentPaneChangedEvent];
             if (handler != null)
                 handler(this, e);
         }
@@ -981,7 +981,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             if (oldContainer != null)
             {
-                Control oldContainerControl = (Control)oldContainer;
+                Control oldContainerControl = (Control) oldContainer;
                 if (oldContainer.DockState == oldDockState && !oldContainerControl.IsDisposed)
                     oldContainerControl.PerformLayout();
             }
@@ -989,7 +989,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 DockPanel.RefreshActiveAutoHideContent();
 
             if (NestedPanesContainer.DockState == DockState)
-                ((Control)NestedPanesContainer).PerformLayout();
+                ((Control) NestedPanesContainer).PerformLayout();
             if (DockHelper.IsDockStateAutoHide(DockState))
                 DockPanel.RefreshActiveAutoHideContent();
 
@@ -1059,7 +1059,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             DockPane pane;
             DockPanel.DummyContent.DockPanel = DockPanel;
             if (container.IsFloat)
-                pane = DockPanel.DockPaneFactory.CreateDockPane(DockPanel.DummyContent, (FloatWindow)container, true);
+                pane = DockPanel.DockPaneFactory.CreateDockPane(DockPanel.DummyContent, (FloatWindow) container, true);
             else
                 pane = DockPanel.DockPaneFactory.CreateDockPane(DockPanel.DummyContent, container.DockState, true);
 
@@ -1125,7 +1125,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             NestedDockingStatus.SetStatus(NestedDockingStatus.NestedPanes, NestedDockingStatus.PreviousPane,
                 NestedDockingStatus.Alignment, proportion);
             if (NestedPanesContainer != null)
-                ((Control)NestedPanesContainer).PerformLayout();
+                ((Control) NestedPanesContainer).PerformLayout();
         }
 
         public DockPane Float()
@@ -1198,7 +1198,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         protected override void WndProc(ref Message m)
         {
-            if (m.Msg == (int)Msgs.WM_MOUSEACTIVATE)
+            if (m.Msg == (int) Msgs.WM_MOUSEACTIVATE)
                 Activate();
 
             base.WndProc(ref m);

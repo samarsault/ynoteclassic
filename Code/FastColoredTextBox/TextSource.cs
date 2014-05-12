@@ -29,7 +29,7 @@ namespace FastColoredTextBoxNS
             linesAccessor = new LinesAccessor(this);
             Manager = new CommandManager(this);
 
-            if (Enum.GetUnderlyingType(typeof(StyleIndex)) == typeof(UInt32))
+            if (Enum.GetUnderlyingType(typeof (StyleIndex)) == typeof (UInt32))
                 Styles = new Style[32];
             else
                 Styles = new Style[16];
@@ -296,7 +296,7 @@ namespace FastColoredTextBoxNS
         {
             if (TextChanging != null)
             {
-                var args = new TextChangingEventArgs { InsertingText = text };
+                var args = new TextChangingEventArgs {InsertingText = text};
                 TextChanging(this, args);
                 text = args.InsertingText;
                 if (args.Cancel)

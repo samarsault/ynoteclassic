@@ -40,7 +40,7 @@ namespace FastColoredTextBoxNS
 
         private int LastIndex
         {
-            get { return (start + count - 1) % items.Length; }
+            get { return (start + count - 1)%items.Length; }
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace FastColoredTextBoxNS
         public void Push(T item)
         {
             if (count == items.Length)
-                start = (start + 1) % items.Length;
+                start = (start + 1)%items.Length;
             else
                 count++;
 
@@ -98,7 +98,7 @@ namespace FastColoredTextBoxNS
         {
             T[] result = new T[count];
             for (int i = 0; i < count; i++)
-                result[i] = items[(start + i) % items.Length];
+                result[i] = items[(start + i)%items.Length];
             return result;
         }
     }

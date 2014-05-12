@@ -9,7 +9,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 {
     public class FloatWindow : Form, INestedPanesContainer, IDockDragSource
     {
-        internal const int WM_CHECKDISPOSE = (int)(Msgs.WM_USER + 1);
+        internal const int WM_CHECKDISPOSE = (int) (Msgs.WM_USER + 1);
         private bool m_allowEndUserDocking = true;
         private DockPanel m_dockPanel;
         private bool m_doubleClickTitleBarToDock = true;
@@ -189,43 +189,43 @@ namespace WeifenLuo.WinFormsUI.Docking
         {
             switch (m.Msg)
             {
-                case (int)Msgs.WM_NCLBUTTONDOWN:
-                    {
-                        if (IsDisposed)
-                            return;
-
-                        uint result = Win32Helper.IsRunningOnMono
-                            ? 0
-                            : NativeMethods.SendMessage(Handle, (int)Msgs.WM_NCHITTEST, 0, (uint)m.LParam);
-                        if (result == 2 && DockPanel.AllowEndUserDocking && AllowEndUserDocking) // HITTEST_CAPTION
-                        {
-                            Activate();
-                            m_dockPanel.BeginDrag(this);
-                        }
-                        else
-                            base.WndProc(ref m);
-
+                case (int) Msgs.WM_NCLBUTTONDOWN:
+                {
+                    if (IsDisposed)
                         return;
-                    }
-                case (int)Msgs.WM_NCRBUTTONDOWN:
-                    {
-                        uint result = Win32Helper.IsRunningOnMono
-                            ? 0
-                            : NativeMethods.SendMessage(Handle, (int)Msgs.WM_NCHITTEST, 0, (uint)m.LParam);
-                        if (result == 2) // HITTEST_CAPTION
-                        {
-                            DockPane theOnlyPane = (VisibleNestedPanes.Count == 1) ? VisibleNestedPanes[0] : null;
-                            if (theOnlyPane != null && theOnlyPane.ActiveContent != null)
-                            {
-                                theOnlyPane.ShowTabPageContextMenu(this, PointToClient(MousePosition));
-                                return;
-                            }
-                        }
 
+                    uint result = Win32Helper.IsRunningOnMono
+                        ? 0
+                        : NativeMethods.SendMessage(Handle, (int) Msgs.WM_NCHITTEST, 0, (uint) m.LParam);
+                    if (result == 2 && DockPanel.AllowEndUserDocking && AllowEndUserDocking) // HITTEST_CAPTION
+                    {
+                        Activate();
+                        m_dockPanel.BeginDrag(this);
+                    }
+                    else
                         base.WndProc(ref m);
-                        return;
+
+                    return;
+                }
+                case (int) Msgs.WM_NCRBUTTONDOWN:
+                {
+                    uint result = Win32Helper.IsRunningOnMono
+                        ? 0
+                        : NativeMethods.SendMessage(Handle, (int) Msgs.WM_NCHITTEST, 0, (uint) m.LParam);
+                    if (result == 2) // HITTEST_CAPTION
+                    {
+                        DockPane theOnlyPane = (VisibleNestedPanes.Count == 1) ? VisibleNestedPanes[0] : null;
+                        if (theOnlyPane != null && theOnlyPane.ActiveContent != null)
+                        {
+                            theOnlyPane.ShowTabPageContextMenu(this, PointToClient(MousePosition));
+                            return;
+                        }
                     }
-                case (int)Msgs.WM_CLOSE:
+
+                    base.WndProc(ref m);
+                    return;
+                }
+                case (int) Msgs.WM_CLOSE:
                     if (NestedPanes.Count == 0)
                     {
                         base.WndProc(ref m);
@@ -251,31 +251,31 @@ namespace WeifenLuo.WinFormsUI.Docking
                     }
                     return;
 
-                case (int)Msgs.WM_NCLBUTTONDBLCLK:
+                case (int) Msgs.WM_NCLBUTTONDBLCLK:
+                {
+                    uint result = !DoubleClickTitleBarToDock || Win32Helper.IsRunningOnMono
+                        ? 0
+                        : NativeMethods.SendMessage(Handle, (int) Msgs.WM_NCHITTEST, 0, (uint) m.LParam);
+
+                    if (result != 2) // HITTEST_CAPTION
                     {
-                        uint result = !DoubleClickTitleBarToDock || Win32Helper.IsRunningOnMono
-                            ? 0
-                            : NativeMethods.SendMessage(Handle, (int)Msgs.WM_NCHITTEST, 0, (uint)m.LParam);
-
-                        if (result != 2) // HITTEST_CAPTION
-                        {
-                            base.WndProc(ref m);
-                            return;
-                        }
-
-                        DockPanel.SuspendLayout(true);
-
-                        // Restore to panel
-                        foreach (DockPane pane in NestedPanes)
-                        {
-                            if (pane.DockState != DockState.Float)
-                                continue;
-                            pane.RestoreToPanel();
-                        }
-
-                        DockPanel.ResumeLayout(true, true);
+                        base.WndProc(ref m);
                         return;
                     }
+
+                    DockPanel.SuspendLayout(true);
+
+                    // Restore to panel
+                    foreach (DockPane pane in NestedPanes)
+                    {
+                        if (pane.DockState != DockState.Float)
+                            continue;
+                        pane.RestoreToPanel();
+                    }
+
+                    DockPanel.ResumeLayout(true, true);
+                    return;
+                }
                 case WM_CHECKDISPOSE:
                     if (NestedPanes.Count == 0)
                         Dispose();
@@ -330,8 +330,8 @@ namespace WeifenLuo.WinFormsUI.Docking
                 uint lParam = Win32Helper.MakeLong(ptMouse.X, ptMouse.Y);
                 if (!Win32Helper.IsRunningOnMono)
                 {
-                    if (NativeMethods.SendMessage(Handle, (int)Msgs.WM_NCHITTEST, 0, lParam) ==
-                        (uint)HitTest.HTCAPTION)
+                    if (NativeMethods.SendMessage(Handle, (int) Msgs.WM_NCHITTEST, 0, lParam) ==
+                        (uint) HitTest.HTCAPTION)
                     {
                         dockOutline.Show(VisibleNestedPanes[0], -1);
                     }
@@ -370,19 +370,19 @@ namespace WeifenLuo.WinFormsUI.Docking
 
         Rectangle IDockDragSource.BeginDrag(Point ptMouse)
         {
-            m_preDragExStyle = NativeMethods.GetWindowLong(Handle, (int)GetWindowLongIndex.GWL_EXSTYLE);
+            m_preDragExStyle = NativeMethods.GetWindowLong(Handle, (int) GetWindowLongIndex.GWL_EXSTYLE);
             NativeMethods.SetWindowLong(Handle,
-                (int)GetWindowLongIndex.GWL_EXSTYLE,
-                m_preDragExStyle | (int)(WindowExStyles.WS_EX_TRANSPARENT | WindowExStyles.WS_EX_LAYERED));
+                (int) GetWindowLongIndex.GWL_EXSTYLE,
+                m_preDragExStyle | (int) (WindowExStyles.WS_EX_TRANSPARENT | WindowExStyles.WS_EX_LAYERED));
             return Bounds;
         }
 
         void IDockDragSource.EndDrag()
         {
-            NativeMethods.SetWindowLong(Handle, (int)GetWindowLongIndex.GWL_EXSTYLE, m_preDragExStyle);
+            NativeMethods.SetWindowLong(Handle, (int) GetWindowLongIndex.GWL_EXSTYLE, m_preDragExStyle);
 
             Invalidate(true);
-            NativeMethods.SendMessage(Handle, (int)Msgs.WM_NCPAINT, 1, 0);
+            NativeMethods.SendMessage(Handle, (int) Msgs.WM_NCPAINT, 1, 0);
         }
 
         public void FloatAt(Rectangle floatWindowBounds)

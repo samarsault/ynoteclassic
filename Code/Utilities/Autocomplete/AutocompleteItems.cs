@@ -170,9 +170,9 @@ namespace AutocompleteMenuNS
             if (columnWidth == null)
             {
                 columnWidth = new int[MenuTextByColumns.Length];
-                var step = e.TextRect.Width / MenuTextByColumns.Length;
+                var step = e.TextRect.Width/MenuTextByColumns.Length;
                 for (var i = 0; i < MenuTextByColumns.Length; i++)
-                    columnWidth[i] = (int)step;
+                    columnWidth[i] = (int) step;
             }
 
             //draw columns

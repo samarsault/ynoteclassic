@@ -72,7 +72,7 @@ namespace SS.Ynote.Classic.Features.Project
                 MessageBox.Show(string.Format("Error : Can't find directory : {0}", folder), "Folder Manager",
                     MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             else
-                BeginInvoke((MethodInvoker)(() => projtree.Nodes.Add(ListDirectory(directory))));
+                BeginInvoke((MethodInvoker) (() => projtree.Nodes.Add(ListDirectory(directory))));
             if (!_openFolders.Contains(folder))
                 _openFolders.Add(folder);
         }
@@ -91,7 +91,7 @@ namespace SS.Ynote.Classic.Features.Project
             while (stack.Count > 0)
             {
                 var currentNode = stack.Pop();
-                var directoryInfo = (DirectoryInfo)currentNode.Tag;
+                var directoryInfo = (DirectoryInfo) currentNode.Tag;
                 for (var i = 0; i < directoryInfo.GetDirectories().Length; i++)
                 {
                     var directory = directoryInfo.GetDirectories()[i];

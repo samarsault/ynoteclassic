@@ -6,7 +6,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 {
     [Flags]
     [Serializable]
-    [Editor(typeof(DockAreasEditor), typeof(UITypeEditor))]
+    [Editor(typeof (DockAreasEditor), typeof (UITypeEditor))]
     public enum DockAreas
     {
         Float = 1,

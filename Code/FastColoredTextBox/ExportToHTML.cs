@@ -161,7 +161,7 @@ namespace FastColoredTextBoxNS
             bool hasTextStyle = false;
             for (int i = 0; i < tb.Styles.Length; i++)
             {
-                if (tb.Styles[i] != null && ((int)styleIndex & mask) != 0)
+                if (tb.Styles[i] != null && ((int) styleIndex & mask) != 0)
                     if (tb.Styles[i].IsExportable)
                     {
                         var style = tb.Styles[i];

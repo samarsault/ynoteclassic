@@ -4,6 +4,7 @@ using System.IO;
 
 namespace Nini.Ini
 {
+
     #region IniFileType enumeration
 
     /// <include file='IniDocument.xml' path='//Enum[@name="IniFileType"]/docs/*' />
@@ -266,21 +267,21 @@ namespace Nini.Ini
 
                 case IniFileType.PythonStyle:
                     result.AcceptCommentAfterKey = false;
-                    result.SetCommentDelimiters(new[] { ';', '#' });
-                    result.SetAssignDelimiters(new[] { ':' });
+                    result.SetCommentDelimiters(new[] {';', '#'});
+                    result.SetAssignDelimiters(new[] {':'});
                     break;
 
                 case IniFileType.SambaStyle:
                     result.AcceptCommentAfterKey = false;
-                    result.SetCommentDelimiters(new[] { ';', '#' });
+                    result.SetCommentDelimiters(new[] {';', '#'});
                     result.LineContinuation = true;
                     break;
 
                 case IniFileType.MysqlStyle:
                     result.AcceptCommentAfterKey = false;
                     result.AcceptNoAssignmentOperator = true;
-                    result.SetCommentDelimiters(new[] { '#' });
-                    result.SetAssignDelimiters(new[] { ':', '=' });
+                    result.SetCommentDelimiters(new[] {'#'});
+                    result.SetAssignDelimiters(new[] {':', '='});
                     break;
 
                 case IniFileType.WindowsStyle:

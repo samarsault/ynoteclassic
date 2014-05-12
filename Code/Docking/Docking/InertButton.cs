@@ -449,7 +449,8 @@ namespace WeifenLuo.WinFormsUI.Docking
                         using (Graphics gMono = Graphics.FromImage(bitmapMono))
                         {
                             gMono.DrawImage(image,
-                                new Point[3] { new Point(0, 0), new Point(image.Width - 1, 0), new Point(0, image.Height - 1) }, rect,
+                                new Point[3]
+                                {new Point(0, 0), new Point(image.Width - 1, 0), new Point(0, image.Height - 1)}, rect,
                                 GraphicsUnit.Pixel, imageAttr);
                         }
                     }
@@ -484,8 +485,8 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             rect.X += BorderWidth;
             rect.Y += BorderWidth;
-            rect.Width -= 2 * BorderWidth;
-            rect.Height -= 2 * BorderWidth;
+            rect.Width -= 2*BorderWidth;
+            rect.Height -= 2*BorderWidth;
 
             StringFormat stringFormat = new StringFormat();
 

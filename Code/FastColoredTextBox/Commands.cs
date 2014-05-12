@@ -121,7 +121,7 @@ namespace FastColoredTextBoxNS
                     break;
 
                 case '\t':
-                    int spaceCountNextTabStop = tb.TabLength - (tb.Selection.Start.iChar % tb.TabLength);
+                    int spaceCountNextTabStop = tb.TabLength - (tb.Selection.Start.iChar%tb.TabLength);
                     if (spaceCountNextTabStop == 0)
                         spaceCountNextTabStop = tb.TabLength;
 
@@ -721,7 +721,7 @@ namespace FastColoredTextBoxNS
                 var lineIsEmpty = r.End < r.Start && line.StartSpacesCount == line.Count;
                 if (!lineIsEmpty)
                 {
-                    var insertedText = lines[iLine % lines.Length];
+                    var insertedText = lines[iLine%lines.Length];
                     if (r.End < r.Start && insertedText != "")
                     {
                         //add forwarding spaces

@@ -226,7 +226,7 @@ namespace ConsoleControlAPI
             //  Specify redirection.
 
             //  Create the process.
-            process = new Process { EnableRaisingEvents = true, StartInfo = processStartInfo };
+            process = new Process {EnableRaisingEvents = true, StartInfo = processStartInfo};
             process.Exited += currentProcess_Exited;
 
             //  Start the process.

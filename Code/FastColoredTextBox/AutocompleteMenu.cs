@@ -71,7 +71,7 @@ namespace FastColoredTextBoxNS
         /// <summary>
         ///     Back color of selected item
         /// </summary>
-        [DefaultValue(typeof(Color), "Orange")]
+        [DefaultValue(typeof (Color), "Orange")]
         public Color SelectedColor
         {
             get { return listView.SelectedColor; }
@@ -81,7 +81,7 @@ namespace FastColoredTextBoxNS
         /// <summary>
         ///     Border color of hovered item
         /// </summary>
-        [DefaultValue(typeof(Color), "Red")]
+        [DefaultValue(typeof (Color), "Red")]
         public Color HoveredColor
         {
             get { return listView.HoveredColor; }
@@ -204,7 +204,7 @@ namespace FastColoredTextBoxNS
         private int hoveredItemIndex = -1;
 
         private int oldItemCount;
-        private IEnumerable<AutocompleteItem> sourceItems = new List<AutocompleteItem>();
+        private IList<AutocompleteItem> sourceItems = new List<AutocompleteItem>();
         internal ToolTip toolTip = new ToolTip();
         internal List<AutocompleteItem> visibleItems;
 
@@ -356,7 +356,7 @@ namespace FastColoredTextBoxNS
                            && tb.Selection.IsEmpty /*pops up only if selected range is empty*/
                            &&
                            (tb.Selection.Start > fragment.Start || text.Length == 0
-                /*pops up only if caret is after first letter*/)))
+                               /*pops up only if caret is after first letter*/)))
             {
                 Menu.Fragment = fragment;
                 bool foundSelected = false;
@@ -461,7 +461,7 @@ namespace FastColoredTextBoxNS
             if (oldItemCount == visibleItems.Count)
                 return;
 
-            int needHeight = itemHeight * visibleItems.Count + 1;
+            int needHeight = itemHeight*visibleItems.Count + 1;
             Height = Math.Min(needHeight, MaximumSize.Height);
             Menu.CalcSize();
 
@@ -472,15 +472,15 @@ namespace FastColoredTextBoxNS
         protected override void OnPaint(PaintEventArgs e)
         {
             AdjustScroll();
-            int startI = VerticalScroll.Value / itemHeight - 1;
-            int finishI = (VerticalScroll.Value + ClientSize.Height) / itemHeight + 1;
+            int startI = VerticalScroll.Value/itemHeight - 1;
+            int finishI = (VerticalScroll.Value + ClientSize.Height)/itemHeight + 1;
             startI = Math.Max(startI, 0);
             finishI = Math.Min(finishI, visibleItems.Count);
             int y = 0;
             int leftPadding = 18;
             for (int i = startI; i < finishI; i++)
             {
-                y = i * itemHeight - VerticalScroll.Value;
+                y = i*itemHeight - VerticalScroll.Value;
 
                 var item = visibleItems[i];
 
@@ -613,7 +613,7 @@ namespace FastColoredTextBoxNS
 
         private int PointToItemIndex(Point p)
         {
-            return (p.Y + VerticalScroll.Value) / itemHeight;
+            return (p.Y + VerticalScroll.Value)/itemHeight;
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -675,12 +675,12 @@ namespace FastColoredTextBoxNS
             if (FocussedItem != null)
                 SetToolTip(FocussedItem);
 
-            var y = FocussedItemIndex * itemHeight - VerticalScroll.Value;
+            var y = FocussedItemIndex*itemHeight - VerticalScroll.Value;
             if (y < 0)
-                VerticalScroll.Value = FocussedItemIndex * itemHeight;
+                VerticalScroll.Value = FocussedItemIndex*itemHeight;
             if (y > ClientSize.Height - itemHeight)
                 VerticalScroll.Value = Math.Min(VerticalScroll.Maximum,
-                    FocussedItemIndex * itemHeight - ClientSize.Height + itemHeight);
+                    FocussedItemIndex*itemHeight - ClientSize.Height + itemHeight);
             //some magic for update scrolls
             AutoScrollMinSize -= new Size(1, 0);
             AutoScrollMinSize += new Size(1, 0);
@@ -721,7 +721,13 @@ namespace FastColoredTextBoxNS
             SetAutocompleteItems(list);
         }
 
-        public void SetAutocompleteItems(IEnumerable<AutocompleteItem> items)
+        public void AddItem(AutocompleteItem item)
+        {
+            if (!sourceItems.Contains(item))
+                sourceItems.Add(item);
+        }
+
+        public void SetAutocompleteItems(IList<AutocompleteItem> items)
         {
             sourceItems = items;
         }

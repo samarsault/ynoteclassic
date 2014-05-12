@@ -200,13 +200,13 @@ namespace WeifenLuo.WinFormsUI.Docking
                     {
                         Rectangle rect = pane.DisplayingRectangle;
                         if (dock == DockStyle.Right)
-                            rect.X += rect.Width / 2;
+                            rect.X += rect.Width/2;
                         if (dock == DockStyle.Bottom)
-                            rect.Y += rect.Height / 2;
+                            rect.Y += rect.Height/2;
                         if (dock == DockStyle.Left || dock == DockStyle.Right)
-                            rect.Width -= rect.Width / 2;
+                            rect.Width -= rect.Width/2;
                         if (dock == DockStyle.Top || dock == DockStyle.Bottom)
-                            rect.Height -= rect.Height / 2;
+                            rect.Height -= rect.Height/2;
                         rect.Location = pane.PointToScreen(rect.Location);
 
                         SetDragForm(rect);
@@ -222,11 +222,11 @@ namespace WeifenLuo.WinFormsUI.Docking
                         using (GraphicsPath path = pane.TabStripControl.GetOutline(contentIndex))
                         {
                             RectangleF rectF = path.GetBounds();
-                            Rectangle rect = new Rectangle((int)rectF.X, (int)rectF.Y, (int)rectF.Width,
-                                (int)rectF.Height);
+                            Rectangle rect = new Rectangle((int) rectF.X, (int) rectF.Y, (int) rectF.Width,
+                                (int) rectF.Height);
                             using (
                                 Matrix matrix = new Matrix(rect,
-                                    new[] { new Point(0, 0), new Point(rect.Width, 0), new Point(0, rect.Height) }))
+                                    new[] {new Point(0, 0), new Point(rect.Width, 0), new Point(0, rect.Height)}))
                             {
                                 path.Transform(matrix);
                             }

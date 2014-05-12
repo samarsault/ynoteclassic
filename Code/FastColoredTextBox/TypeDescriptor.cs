@@ -66,12 +66,12 @@ namespace FastColoredTextBoxNS
 
         public override Type ComponentType
         {
-            get { return typeof(FastColoredTextBox); }
+            get { return typeof (FastColoredTextBox); }
         }
 
         public override Type EventType
         {
-            get { return typeof(EventHandler); }
+            get { return typeof (EventHandler); }
         }
 
         public override bool IsMulticast

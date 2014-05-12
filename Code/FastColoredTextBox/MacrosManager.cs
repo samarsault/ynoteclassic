@@ -70,12 +70,12 @@ namespace FastColoredTextBoxNS
                 {
                     if (item is Keys)
                     {
-                        sb.AppendFormat("<item key='{0}' />\r\n", kc.ConvertToString((Keys)item));
+                        sb.AppendFormat("<item key='{0}' />\r\n", kc.ConvertToString((Keys) item));
                     }
                     else if (item is KeyValuePair<char, Keys>)
                     {
-                        var p = (KeyValuePair<char, Keys>)item;
-                        sb.AppendFormat("<item char='{0}' key='{1}' />\r\n", (int)p.Key, kc.ConvertToString(p.Value));
+                        var p = (KeyValuePair<char, Keys>) item;
+                        sb.AppendFormat("<item char='{0}' key='{1}' />\r\n", (int) p.Key, kc.ConvertToString(p.Value));
                     }
                 }
                 sb.AppendLine("</macros>");
@@ -109,12 +109,12 @@ namespace FastColoredTextBoxNS
                         if (ca != null)
                         {
                             if (ka != null)
-                                AddCharToMacros((char)int.Parse(ca.Value), (Keys)kc.ConvertFromString(ka.Value));
+                                AddCharToMacros((char) int.Parse(ca.Value), (Keys) kc.ConvertFromString(ka.Value));
                             else
-                                AddCharToMacros((char)int.Parse(ca.Value), Keys.None);
+                                AddCharToMacros((char) int.Parse(ca.Value), Keys.None);
                         }
                         else if (ka != null)
-                            AddKeyToMacros((Keys)kc.ConvertFromString(ka.Value));
+                            AddKeyToMacros((Keys) kc.ConvertFromString(ka.Value));
                     }
 
                 Thread.CurrentThread.CurrentUICulture = cult;
@@ -135,11 +135,11 @@ namespace FastColoredTextBoxNS
             {
                 if (item is Keys)
                 {
-                    UnderlayingControl.ProcessKey((Keys)item);
+                    UnderlayingControl.ProcessKey((Keys) item);
                 }
                 if (item is KeyValuePair<char, Keys>)
                 {
-                    var p = (KeyValuePair<char, Keys>)item;
+                    var p = (KeyValuePair<char, Keys>) item;
                     UnderlayingControl.ProcessKey(p.Key, p.Value);
                 }
             }

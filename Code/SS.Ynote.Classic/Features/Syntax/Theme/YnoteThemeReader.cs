@@ -1,7 +1,7 @@
-using FastColoredTextBoxNS;
 using System;
 using System.Drawing;
 using System.Xml;
+using FastColoredTextBoxNS;
 
 namespace SS.Ynote.Classic.Features.Syntax
 {

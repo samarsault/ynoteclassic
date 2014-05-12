@@ -1,7 +1,7 @@
-using AutocompleteMenuNS;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using AutocompleteMenuNS;
 
 namespace SS.Ynote.Classic
 {

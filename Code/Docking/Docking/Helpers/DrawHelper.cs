@@ -31,20 +31,20 @@ namespace WeifenLuo.WinFormsUI.Docking
             int curveSize = 6;
             if (upCorner)
             {
-                graphicsPath.AddLine(rect.Left, rect.Bottom, rect.Left, rect.Top + curveSize / 2);
+                graphicsPath.AddLine(rect.Left, rect.Bottom, rect.Left, rect.Top + curveSize/2);
                 graphicsPath.AddArc(new Rectangle(rect.Left, rect.Top, curveSize, curveSize), 180, 90);
-                graphicsPath.AddLine(rect.Left + curveSize / 2, rect.Top, rect.Right - curveSize / 2, rect.Top);
+                graphicsPath.AddLine(rect.Left + curveSize/2, rect.Top, rect.Right - curveSize/2, rect.Top);
                 graphicsPath.AddArc(new Rectangle(rect.Right - curveSize, rect.Top, curveSize, curveSize), -90, 90);
-                graphicsPath.AddLine(rect.Right, rect.Top + curveSize / 2, rect.Right, rect.Bottom);
+                graphicsPath.AddLine(rect.Right, rect.Top + curveSize/2, rect.Right, rect.Bottom);
             }
             else
             {
-                graphicsPath.AddLine(rect.Right, rect.Top, rect.Right, rect.Bottom - curveSize / 2);
+                graphicsPath.AddLine(rect.Right, rect.Top, rect.Right, rect.Bottom - curveSize/2);
                 graphicsPath.AddArc(
                     new Rectangle(rect.Right - curveSize, rect.Bottom - curveSize, curveSize, curveSize), 0, 90);
-                graphicsPath.AddLine(rect.Right - curveSize / 2, rect.Bottom, rect.Left + curveSize / 2, rect.Bottom);
+                graphicsPath.AddLine(rect.Right - curveSize/2, rect.Bottom, rect.Left + curveSize/2, rect.Bottom);
                 graphicsPath.AddArc(new Rectangle(rect.Left, rect.Bottom - curveSize, curveSize, curveSize), 90, 90);
-                graphicsPath.AddLine(rect.Left, rect.Bottom - curveSize / 2, rect.Left, rect.Top);
+                graphicsPath.AddLine(rect.Left, rect.Bottom - curveSize/2, rect.Left, rect.Top);
             }
 
             return graphicsPath;

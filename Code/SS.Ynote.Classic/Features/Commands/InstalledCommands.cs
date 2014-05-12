@@ -1,16 +1,16 @@
-﻿using FastColoredTextBoxNS;
-using SS.Ynote.Classic;
-using SS.Ynote.Classic.Features.Extensibility;
-using SS.Ynote.Classic.Features.RunScript;
-using SS.Ynote.Classic.Features.Syntax;
-using SS.Ynote.Classic.UI;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using FastColoredTextBoxNS;
+using SS.Ynote.Classic;
+using SS.Ynote.Classic.Features.Extensibility;
+using SS.Ynote.Classic.Features.RunScript;
+using SS.Ynote.Classic.Features.Syntax;
+using SS.Ynote.Classic.UI;
 using WeifenLuo.WinFormsUI.Docking;
 
 internal class SetSyntaxCommand : ICommand
@@ -25,7 +25,7 @@ internal class SetSyntaxCommand : ICommand
         get
         {
             return
-                (from object language in Enum.GetValues(typeof(Language)) select language.ToString()).ToArray();
+                (from object language in Enum.GetValues(typeof (Language)) select language.ToString()).ToArray();
         }
     }
 
@@ -162,7 +162,7 @@ internal class LineCommand : ICommand
 
     public string[] Commands
     {
-        get { return new[] { "MoveUp", "MoveDown", "Join", "Sort", "Duplicate" }; }
+        get { return new[] {"MoveUp", "MoveDown", "Join", "Sort", "Duplicate"}; }
     }
 
     public void ProcessCommand(string val, IYnote ynote)
@@ -183,7 +183,7 @@ internal class LineCommand : ICommand
                 break;
 
             case "Join":
-                var lns = activeEditor.Tb.SelectedText.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                var lns = activeEditor.Tb.SelectedText.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
                 activeEditor.Tb.SelectedText = string.Join(" ", lns);
                 break;
 
@@ -191,10 +191,10 @@ internal class LineCommand : ICommand
                 var fctb = activeEditor.Tb;
                 string[] lines;
                 if (string.IsNullOrEmpty(fctb.SelectedText))
-                    lines = fctb.Text.Split(new[] { Environment.NewLine },
+                    lines = fctb.Text.Split(new[] {Environment.NewLine},
                         StringSplitOptions.RemoveEmptyEntries);
                 else
-                    lines = fctb.SelectedText.Split(new[] { Environment.NewLine },
+                    lines = fctb.SelectedText.Split(new[] {Environment.NewLine},
                         StringSplitOptions.RemoveEmptyEntries);
                 Array.Reverse(lines);
                 var formedtext = lines.Aggregate<string, string>(null, (current, line) => current + (line + "\r\n"));
@@ -213,7 +213,7 @@ internal class IndentCommand : ICommand
 
     public string[] Commands
     {
-        get { return new[] { "Increase", "Decrease", "Do" }; }
+        get { return new[] {"Increase", "Decrease", "Do"}; }
     }
 
     public void ProcessCommand(string value, IYnote ynote)
@@ -289,7 +289,7 @@ internal class NavigateCommand : ICommand
 
     public string[] Commands
     {
-        get { return new[] { "Back", "Forward", "GoLeftBracket", "GoRightBracket" }; }
+        get { return new[] {"Back", "Forward", "GoLeftBracket", "GoRightBracket"}; }
     }
 
     public void ProcessCommand(string val, IYnote ynote)
@@ -365,7 +365,7 @@ internal class CodeFoldingCommand : ICommand
 
     public string[] Commands
     {
-        get { return new[] { "FoldAll", "ExpandAll", "FoldSelection" }; }
+        get { return new[] {"FoldAll", "ExpandAll", "FoldSelection"}; }
     }
 
     public void ProcessCommand(string val, IYnote ynote)
@@ -458,7 +458,7 @@ internal class GoogleCommand : ICommand
 
     public string[] Commands
     {
-        get { return new[] { "" }; }
+        get { return new[] {""}; }
     }
 
     public void ProcessCommand(string val, IYnote ynote)
@@ -476,7 +476,7 @@ internal class WikipediaCommand : ICommand
 
     public string[] Commands
     {
-        get { return new[] { "" }; }
+        get { return new[] {""}; }
     }
 
     public void ProcessCommand(string val, IYnote ynote)

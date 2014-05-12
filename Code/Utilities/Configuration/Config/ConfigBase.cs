@@ -1,10 +1,11 @@
-using Nini.Util;
 using System;
 using System.Globalization;
 using System.Windows.Forms;
+using Nini.Util;
 
 namespace Nini.Config
 {
+
     #region ConfigKeyEventArgs class
 
     /// <include file='ConfigKeyEventArgs.xml' path='//Delegate[@name="ConfigKeyEventHandler"]/docs/*' />

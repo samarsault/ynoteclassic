@@ -26,7 +26,7 @@ namespace FastColoredTextBoxNS
             {
                 GetNativeSystemInfo(ref sysInfo);
             }
-            // else use GetSystemInfo
+                // else use GetSystemInfo
             else
             {
                 GetSystemInfo(ref sysInfo);

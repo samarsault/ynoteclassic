@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Nini.Ini
 {
+
     #region IniReadState enumeration
 
     /// <include file='IniReader.xml' path='//Enum[@name="IniReadState"]/docs/*' />
@@ -55,9 +56,9 @@ namespace Nini.Ini
         private readonly StringBuilder value = new StringBuilder();
         private bool acceptCommentAfterKey = true;
         private bool acceptNoAssignmentOperator;
-        private char[] assignDelimiters = { '=' };
+        private char[] assignDelimiters = {'='};
         private int column = 1;
-        private char[] commentDelimiters = { ';' };
+        private char[] commentDelimiters = {';'};
         private bool consumeAllKeyText;
         private bool disposed;
         private bool hasComment;
@@ -391,7 +392,7 @@ namespace Nini.Ini
             do
             {
                 ch = ReadChar();
-                comment.Append((char)ch);
+                comment.Append((char) ch);
             } while (!EndOfLine(ch));
 
             RemoveTrailingWhitespace(comment);
@@ -437,7 +438,7 @@ namespace Nini.Ini
                             assignDelimiters[0]));
                 }
 
-                name.Append((char)ReadChar());
+                name.Append((char) ReadChar());
             }
 
             ReadKeyValue();
@@ -485,13 +486,13 @@ namespace Nini.Ini
                 if (lineContinuation && ch == '\\')
                 {
                     var buffer = new StringBuilder();
-                    buffer.Append((char)ReadChar()); // append '\'
+                    buffer.Append((char) ReadChar()); // append '\'
 
                     while (PeekChar() != '\n' && IsWhitespace(PeekChar()))
                     {
                         if (PeekChar() != '\r')
                         {
-                            buffer.Append((char)ReadChar());
+                            buffer.Append((char) ReadChar());
                         }
                         else
                         {
@@ -524,7 +525,7 @@ namespace Nini.Ini
                     break;
                 }
 
-                value.Append((char)ReadChar());
+                value.Append((char) ReadChar());
             }
 
             if (!foundQuote)
@@ -554,7 +555,7 @@ namespace Nini.Ini
                     throw new IniException(this, "Expected section end (])");
                 }
 
-                name.Append((char)ReadChar());
+                name.Append((char) ReadChar());
             }
 
             ConsumeToEnd(); // all after '[' is garbage

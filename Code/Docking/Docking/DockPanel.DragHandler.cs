@@ -34,8 +34,8 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             protected override sealed bool OnPreFilterMessage(ref Message m)
             {
-                if ((m.Msg == (int)Msgs.WM_KEYDOWN || m.Msg == (int)Msgs.WM_KEYUP) &&
-                    ((int)m.WParam == (int)Keys.ControlKey || (int)m.WParam == (int)Keys.ShiftKey))
+                if ((m.Msg == (int) Msgs.WM_KEYDOWN || m.Msg == (int) Msgs.WM_KEYUP) &&
+                    ((int) m.WParam == (int) Keys.ControlKey || (int) m.WParam == (int) Keys.ShiftKey))
                     OnDragging();
 
                 return base.OnPreFilterMessage(ref m);
@@ -63,13 +63,13 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             bool IMessageFilter.PreFilterMessage(ref Message m)
             {
-                if (m.Msg == (int)Msgs.WM_MOUSEMOVE)
+                if (m.Msg == (int) Msgs.WM_MOUSEMOVE)
                     OnDragging();
-                else if (m.Msg == (int)Msgs.WM_LBUTTONUP)
+                else if (m.Msg == (int) Msgs.WM_LBUTTONUP)
                     EndDrag(false);
-                else if (m.Msg == (int)Msgs.WM_CAPTURECHANGED)
+                else if (m.Msg == (int) Msgs.WM_CAPTURECHANGED)
                     EndDrag(true);
-                else if (m.Msg == (int)Msgs.WM_KEYDOWN && (int)m.WParam == (int)Keys.Escape)
+                else if (m.Msg == (int) Msgs.WM_KEYDOWN && (int) m.WParam == (int) Keys.Escape)
                     EndDrag(true);
 
                 return OnPreFilterMessage(ref m);
@@ -116,7 +116,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             protected override sealed void WndProc(ref Message m)
             {
-                if (m.Msg == (int)Msgs.WM_CANCELMODE || m.Msg == (int)Msgs.WM_CAPTURECHANGED)
+                if (m.Msg == (int) Msgs.WM_CANCELMODE || m.Msg == (int) Msgs.WM_CAPTURECHANGED)
                     EndDrag(true);
 
                 base.WndProc(ref m);

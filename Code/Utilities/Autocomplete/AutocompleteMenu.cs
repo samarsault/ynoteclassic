@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace AutocompleteMenuNS
 {
-    [ProvideProperty("AutocompleteMenu", typeof(Control))]
+    [ProvideProperty("AutocompleteMenu", typeof (Control))]
     public class AutocompleteMenu : Component, IExtenderProvider
     {
         private static readonly Dictionary<Control, AutocompleteMenu> AutocompleteMenuByControls =
@@ -90,7 +90,7 @@ namespace AutocompleteMenuNS
         /// <summary>
         ///     Maximum size of popup menu
         /// </summary>
-        [DefaultValue(typeof(Size), "180, 200")]
+        [DefaultValue(typeof (Size), "180, 200")]
         [Description("Maximum size of popup menu")]
         public Size MaximumSize
         {
@@ -153,7 +153,7 @@ namespace AutocompleteMenuNS
         /// <summary>
         ///     Indicates whether the component should draw right-to-left for RTL languages.
         /// </summary>
-        [DefaultValue(typeof(RightToLeft), "No")]
+        [DefaultValue(typeof (RightToLeft), "No")]
         [Description("Indicates whether the component should draw right-to-left for RTL languages.")]
         public RightToLeft RightToLeft
         {
@@ -408,7 +408,7 @@ namespace AutocompleteMenuNS
 
             if (Host.Visible)
             {
-                if (ProcessKey((char)e.KeyCode, Control.ModifierKeys))
+                if (ProcessKey((char) e.KeyCode, Control.ModifierKeys))
                     e.SuppressKeyPress = true;
                 else if (!backspaceORdel)
                     ResetTimer(1);
@@ -718,9 +718,9 @@ namespace AutocompleteMenuNS
 
         public bool ProcessKey(char c, Keys keyModifiers)
         {
-            var page = Host.Height / (Font.Height + 4);
+            var page = Host.Height/(Font.Height + 4);
             if (keyModifiers == Keys.None)
-                switch ((Keys)c)
+                switch ((Keys) c)
                 {
                     case Keys.Down:
                         SelectNext(+1);

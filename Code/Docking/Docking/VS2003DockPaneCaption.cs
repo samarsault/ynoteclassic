@@ -44,7 +44,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             m_buttonAutoHide.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             m_buttonAutoHide.Click += AutoHide_Click;
 
-            Controls.AddRange(new Control[] { m_buttonClose, m_buttonAutoHide });
+            Controls.AddRange(new Control[] {m_buttonClose, m_buttonAutoHide});
 
             ResumeLayout();
         }
@@ -360,7 +360,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             int height = rectCaption.Height - ButtonGapTop - ButtonGapBottom;
             if (buttonHeight < height)
             {
-                buttonWidth = buttonWidth * (height / buttonHeight);
+                buttonWidth = buttonWidth*(height/buttonHeight);
                 buttonHeight = height;
             }
             m_buttonClose.SuspendLayout();

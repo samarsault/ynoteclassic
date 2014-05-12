@@ -33,46 +33,46 @@ namespace WeifenLuo.WinFormsUI.Docking
                 if (state == DockState.DockLeftAutoHide)
                 {
                     if (autoHideSize < 1)
-                        autoHideSize = rectDockArea.Width * autoHideSize;
+                        autoHideSize = rectDockArea.Width*autoHideSize;
                     if (autoHideSize > rectDockArea.Width - MeasurePane.MinSize)
                         autoHideSize = rectDockArea.Width - MeasurePane.MinSize;
                     rect.X = rectDockArea.X;
                     rect.Y = rectDockArea.Y;
-                    rect.Width = (int)autoHideSize;
+                    rect.Width = (int) autoHideSize;
                     rect.Height = rectDockArea.Height;
                 }
                 else if (state == DockState.DockRightAutoHide)
                 {
                     if (autoHideSize < 1)
-                        autoHideSize = rectDockArea.Width * autoHideSize;
+                        autoHideSize = rectDockArea.Width*autoHideSize;
                     if (autoHideSize > rectDockArea.Width - MeasurePane.MinSize)
                         autoHideSize = rectDockArea.Width - MeasurePane.MinSize;
-                    rect.X = rectDockArea.X + rectDockArea.Width - (int)autoHideSize;
+                    rect.X = rectDockArea.X + rectDockArea.Width - (int) autoHideSize;
                     rect.Y = rectDockArea.Y;
-                    rect.Width = (int)autoHideSize;
+                    rect.Width = (int) autoHideSize;
                     rect.Height = rectDockArea.Height;
                 }
                 else if (state == DockState.DockTopAutoHide)
                 {
                     if (autoHideSize < 1)
-                        autoHideSize = rectDockArea.Height * autoHideSize;
+                        autoHideSize = rectDockArea.Height*autoHideSize;
                     if (autoHideSize > rectDockArea.Height - MeasurePane.MinSize)
                         autoHideSize = rectDockArea.Height - MeasurePane.MinSize;
                     rect.X = rectDockArea.X;
                     rect.Y = rectDockArea.Y;
                     rect.Width = rectDockArea.Width;
-                    rect.Height = (int)autoHideSize;
+                    rect.Height = (int) autoHideSize;
                 }
                 else if (state == DockState.DockBottomAutoHide)
                 {
                     if (autoHideSize < 1)
-                        autoHideSize = rectDockArea.Height * autoHideSize;
+                        autoHideSize = rectDockArea.Height*autoHideSize;
                     if (autoHideSize > rectDockArea.Height - MeasurePane.MinSize)
                         autoHideSize = rectDockArea.Height - MeasurePane.MinSize;
                     rect.X = rectDockArea.X;
-                    rect.Y = rectDockArea.Y + rectDockArea.Height - (int)autoHideSize;
+                    rect.Y = rectDockArea.Y + rectDockArea.Height - (int) autoHideSize;
                     rect.Width = rectDockArea.Width;
-                    rect.Height = (int)autoHideSize;
+                    rect.Height = (int) autoHideSize;
                 }
 
                 return rect;
@@ -254,7 +254,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
             protected virtual void OnActiveContentChanged(EventArgs e)
             {
-                EventHandler handler = (EventHandler)Events[ActiveContentChangedEvent];
+                EventHandler handler = (EventHandler) Events[ActiveContentChangedEvent];
                 if (handler != null)
                     handler(this, e);
             }
@@ -315,10 +315,10 @@ namespace WeifenLuo.WinFormsUI.Docking
                 {
                     DateTime startPerMove = DateTime.Now;
 
-                    rectSource.X += dxLoc * speedFactor;
-                    rectSource.Y += dyLoc * speedFactor;
-                    rectSource.Width += dWidth * speedFactor;
-                    rectSource.Height += dHeight * speedFactor;
+                    rectSource.X += dxLoc*speedFactor;
+                    rectSource.Y += dyLoc*speedFactor;
+                    rectSource.Width += dWidth*speedFactor;
+                    rectSource.Height += dHeight*speedFactor;
                     if (Math.Sign(rectTarget.X - rectSource.X) != Math.Sign(dxLoc))
                         rectSource.X = rectTarget.X;
                     if (Math.Sign(rectTarget.Y - rectSource.Y) != Math.Sign(dyLoc))
@@ -339,13 +339,13 @@ namespace WeifenLuo.WinFormsUI.Docking
                         TimeSpan time = new TimeSpan(0, 0, 0, 0, ANIMATE_TIME);
                         TimeSpan elapsedPerMove = DateTime.Now - startPerMove;
                         TimeSpan elapsedTime = DateTime.Now - startingTime;
-                        if (((int)((time - elapsedTime).TotalMilliseconds)) <= 0)
+                        if (((int) ((time - elapsedTime).TotalMilliseconds)) <= 0)
                         {
                             speedFactor = remainPixels;
                             break;
                         }
-                        speedFactor = remainPixels * (int)elapsedPerMove.TotalMilliseconds /
-                                      (int)((time - elapsedTime).TotalMilliseconds);
+                        speedFactor = remainPixels*(int) elapsedPerMove.TotalMilliseconds/
+                                      (int) ((time - elapsedTime).TotalMilliseconds);
                         if (speedFactor >= 1)
                             break;
                     }
@@ -411,7 +411,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 if (hovertime <= 0)
                     hovertime = 400;
 
-                m_timerMouseTrack.Interval = 2 * hovertime;
+                m_timerMouseTrack.Interval = 2*hovertime;
                 m_timerMouseTrack.Enabled = true;
             }
 
@@ -483,12 +483,12 @@ namespace WeifenLuo.WinFormsUI.Docking
                     if ((this as ISplitterDragSource).IsVertical)
                     {
                         rectLimit.X += MeasurePane.MinSize;
-                        rectLimit.Width -= 2 * MeasurePane.MinSize;
+                        rectLimit.Width -= 2*MeasurePane.MinSize;
                     }
                     else
                     {
                         rectLimit.Y += MeasurePane.MinSize;
-                        rectLimit.Height -= 2 * MeasurePane.MinSize;
+                        rectLimit.Height -= 2*MeasurePane.MinSize;
                     }
 
                     return DockPanel.RectangleToScreen(rectLimit);
@@ -502,28 +502,28 @@ namespace WeifenLuo.WinFormsUI.Docking
                 if (DockState == DockState.DockLeftAutoHide && rectDockArea.Width > 0)
                 {
                     if (content.DockHandler.AutoHidePortion < 1)
-                        content.DockHandler.AutoHidePortion += offset / (double)rectDockArea.Width;
+                        content.DockHandler.AutoHidePortion += offset/(double) rectDockArea.Width;
                     else
                         content.DockHandler.AutoHidePortion = Width + offset;
                 }
                 else if (DockState == DockState.DockRightAutoHide && rectDockArea.Width > 0)
                 {
                     if (content.DockHandler.AutoHidePortion < 1)
-                        content.DockHandler.AutoHidePortion -= offset / (double)rectDockArea.Width;
+                        content.DockHandler.AutoHidePortion -= offset/(double) rectDockArea.Width;
                     else
                         content.DockHandler.AutoHidePortion = Width - offset;
                 }
                 else if (DockState == DockState.DockBottomAutoHide && rectDockArea.Height > 0)
                 {
                     if (content.DockHandler.AutoHidePortion < 1)
-                        content.DockHandler.AutoHidePortion -= offset / (double)rectDockArea.Height;
+                        content.DockHandler.AutoHidePortion -= offset/(double) rectDockArea.Height;
                     else
                         content.DockHandler.AutoHidePortion = Height - offset;
                 }
                 else if (DockState == DockState.DockTopAutoHide && rectDockArea.Height > 0)
                 {
                     if (content.DockHandler.AutoHidePortion < 1)
-                        content.DockHandler.AutoHidePortion += offset / (double)rectDockArea.Height;
+                        content.DockHandler.AutoHidePortion += offset/(double) rectDockArea.Height;
                     else
                         content.DockHandler.AutoHidePortion = Height + offset;
                 }

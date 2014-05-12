@@ -1,9 +1,5 @@
-using CSScriptLibrary;
-using FastColoredTextBoxNS;
-using SS.Ynote.Classic.Features.Extensibility;
-using SS.Ynote.Classic.Features.Snippets;
-using SS.Ynote.Classic.Features.Syntax;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -12,6 +8,11 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using CSScriptLibrary;
+using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Features.Extensibility;
+using SS.Ynote.Classic.Features.Snippets;
+using SS.Ynote.Classic.Features.Syntax;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace SS.Ynote.Classic.UI
@@ -23,12 +24,22 @@ namespace SS.Ynote.Classic.UI
         /// </summary>
         public readonly ISyntaxHighlighter Highlighter;
 
+        /// <summary>
+        ///     Ynote Snippets
+        /// </summary>
+        private IList<YnoteSnippet> Snippets;
+
+        /// <summary>
+        ///     Syntax
+        /// </summary>
         public SyntaxBase Syntax;
 
         /// <summary>
         ///     Invisible Char Style
         /// </summary>
         private Style _invisibleCharsStyle;
+
+        internal AutocompleteMenu autocomplete;
 
         /// <summary>
         ///     Default Constructor
@@ -44,7 +55,6 @@ namespace SS.Ynote.Classic.UI
             Highlighter.LoadAllSyntaxes();
         }
 
-        public AutocompleteMenu AutoCompleteMenu { get; private set; }
 
         /// <summary>
         ///     Get the TB
@@ -78,6 +88,18 @@ namespace SS.Ynote.Classic.UI
             {
                 Highlighter.HighlightSyntax(syntax.SyntaxBase, args);
                 Syntax = syntax.SyntaxBase;
+            }
+        }
+
+        private void LoadSnippets(Language language)
+        {
+            if (Snippets == null)
+                Snippets = new List<YnoteSnippet>();
+            var dir = YnoteSnippet.GetDirectory(language);
+            foreach (var snipfile in Directory.GetFiles(dir))
+            {
+                YnoteSnippet snippet = YnoteSnippet.Read(snipfile);
+                Snippets.Add(snippet);
             }
         }
 
@@ -141,12 +163,57 @@ namespace SS.Ynote.Classic.UI
             codebox.DragEnter +=
                 (sender, e) =>
                     e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
-            codebox.LanguageChanged += (sender, args) => BuildAutoCompleteMenu();
-
-            if (Settings.AutoCompleteBrackets)
-                codebox.AutoIndentNeeded += codebox_AutoIndentNeeded;
+            codebox.KeyDown += codebox_KeyDown;
+            codebox.LanguageChanged += (sender, args) => LoadSnippets(codebox.Language);
+            // if (Settings.AutoCompleteBrackets)
+            //  codebox.AutoIndentNeeded += codebox_AutoIndentNeeded;
             if (Settings.HighlightSameWords)
                 codebox.SelectionChangedDelayed += codebox_SelectionChangedDelayed;
+        }
+
+        private void codebox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Tab)
+            {
+                var fragment = Tb.Selection.GetFragment(@"\w");
+                if (Snippets == null)
+                    LoadSnippets(codebox.Language);
+                foreach (var snippet in Snippets)
+                {
+                    if (snippet.Tab == fragment.Text)
+                    {
+                        codebox.BeginUpdate();
+                        e.Handled = true;
+                        InsertSnippet(snippet, fragment);
+                        codebox.EndUpdate();
+                    }
+                }
+            }
+            if (e.KeyCode == Keys.Space)
+            {
+                if (autocomplete == null)
+                    CreateAutoCompleteMenu();
+                var word = codebox.Selection.GetFragment(@"\w");
+                autocomplete.Items.AddItem(new AutocompleteItem(word.Text));
+            }
+        }
+
+        private void InsertSnippet(YnoteSnippet snippet, Range fragment)
+        {
+            codebox.Selection = fragment;
+            codebox.ClearSelected();
+            codebox.InsertText(snippet.Content);
+            snippet.SubstituteContent(this);
+            PositionCaretTo('^');
+        }
+
+        private void PositionCaretTo(char c)
+        {
+            while (codebox.Selection.CharBeforeStart != c)
+                if (!codebox.Selection.GoLeftThroughFolded())
+                    break;
+            codebox.Selection.GoLeft(true);
+            codebox.ClearSelected();
         }
 
         private void codebox_SelectionChangedDelayed(object sender, EventArgs e)
@@ -167,52 +234,23 @@ namespace SS.Ynote.Classic.UI
                     r.SetStyle(codebox.SameWordsStyle);
         }
 
-        private void codebox_AutoIndentNeeded(object sender, AutoIndentEventArgs args)
+        private void CreateAutoCompleteMenu()
         {
-            // start of a tag
-            // the tag start line look as follows:
-            // TAGNAME VALUES* (ATTR-NAME=ATTR-VALUE)* {
-            // We want to shift the next line when the current line (afte trimming) ends with a { and doesn't start with a comment
-            var trimmedLine = args.LineText.Trim();
-            if (!(trimmedLine.StartsWith(codebox.CommentPrefix))
-                && trimmedLine.EndsWith("{"))
-            {
-                // increase indent
-                args.ShiftNextLines = args.TabLength;
-                return;
-            }
-
-            if (!(trimmedLine.StartsWith(codebox.CommentPrefix))
-                && trimmedLine.EndsWith("}"))
-            {
-                // decrease indent
-                args.Shift = -args.TabLength;
-                args.ShiftNextLines = -args.TabLength;
-            }
-        }
-
-        private void BuildAutoCompleteMenu()
-        {
-            if (AutoCompleteMenu == null)
-                AutoCompleteMenu = new AutocompleteMenu(codebox)
-                {
-                    AppearInterval = 50,
-                    AllowTabKey = true
-                };
-            var items = YnoteSnippet.Read(codebox.Language).Select(snippet => snippet.ToAutoCompleteItem()).ToArray();
-            AutoCompleteMenu.Items.SetAutocompleteItems(items);
+            autocomplete = new AutocompleteMenu(codebox);
+            autocomplete.AppearInterval = 50;
+            autocomplete.AllowTabKey = true;
         }
 
         private void codebox_DragDrop(object sender, DragEventArgs e)
         {
-            var fileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            var fileList = (string[]) e.Data.GetData(DataFormats.FileDrop, false);
             foreach (var file in fileList)
-                BeginInvoke((MethodInvoker)(() => OpenFile(file)));
+                BeginInvoke((MethodInvoker) (() => OpenFile(file)));
         }
 
         private void OpenFile(string file)
         {
-            var edit = new Editor { Name = file, Text = Path.GetFileName(file) };
+            var edit = new Editor {Name = file, Text = Path.GetFileName(file)};
             edit.Tb.IsChanged = false;
             edit.Tb.ClearUndo();
             //edit.ChangeLang(FileTypes.GetLanguage(FileTypes.BuildDictionary(), Path.GetExtension(file)));
@@ -356,7 +394,7 @@ namespace SS.Ynote.Classic.UI
                     : Assembly.LoadFrom(asm);
                 using (var execManager = new AsmHelper(assembly))
                 {
-                    var items = (MenuItem[])(execManager.Invoke("*.BuildContextMenu", codebox));
+                    var items = (MenuItem[]) (execManager.Invoke("*.BuildContextMenu", codebox));
                     contextmenu.MenuItems.AddRange(items);
                 }
             }
