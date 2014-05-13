@@ -436,7 +436,7 @@ namespace SS.Ynote.Classic
         /// </summary>
         private void InitSettings()
         {
-            Settings.LoadSettings();
+            Settings.Load();
             if (!Settings.ShowMenuBar)
             {
                 foreach (MenuItem menu in Menu.MenuItems)
@@ -999,14 +999,6 @@ namespace SS.Ynote.Classic
             if (ActiveEditor != null) ActiveEditor.Tb.Zoom = 100;
         }
 
-        private void menuItem57_Click(object sender, EventArgs e)
-        {
-            var splitedit = new Editor {Name = ActiveEditor.Name, Text = "[Split] " + ActiveEditor.Text};
-            splitedit.Tb.SourceTextBox = ActiveEditor.Tb;
-            splitedit.Tb.ReadOnly = true;
-            splitedit.Show(ActiveEditor.Pane, DockAlignment.Bottom, 0.5);
-        }
-
         private void mitransparent_Click(object sender, EventArgs e)
         {
             mitransparent.Checked = !mitransparent.Checked;
@@ -1034,7 +1026,7 @@ namespace SS.Ynote.Classic
             wordwrapmenu.Checked = !wordwrapmenu.Checked;
             ActiveEditor.Tb.WordWrap = wordwrapmenu.Checked;
             Settings.WordWrap = wordwrapmenu.Checked;
-            Settings.SaveConfiguration();
+            Settings.Save();
         }
 
         private void aboutmenu_Click(object sender, EventArgs e)
@@ -1166,7 +1158,7 @@ namespace SS.Ynote.Classic
             menuItem2.Checked = !menuItem2.Checked;
             toolBar.Visible = menuItem2.Checked;
             Settings.ShowToolBar = menuItem2.Checked;
-            Settings.SaveConfiguration();
+            Settings.Save();
         }
 
         private void statusbarmenuitem_Click(object sender, EventArgs e)
@@ -1174,7 +1166,7 @@ namespace SS.Ynote.Classic
             status.Visible = !statusbarmenuitem.Checked;
             statusbarmenuitem.Checked = !statusbarmenuitem.Checked;
             Settings.ShowStatusBar = statusbarmenuitem.Checked;
-            Settings.SaveConfiguration();
+            Settings.Save();
         }
 
         private void incrementalsearchmenu_Click(object sender, EventArgs e)
@@ -1240,7 +1232,7 @@ namespace SS.Ynote.Classic
             if (m == null) return;
             m.Checked = true;
             Settings.ThemeFile = m.Name;
-            Settings.SaveConfiguration();
+            Settings.Save();
         }
 
         private void colorschememenu_Select(object sender, EventArgs e)
@@ -1477,7 +1469,7 @@ namespace SS.Ynote.Classic
         {
             mihiddenchars.Checked = !mihiddenchars.Checked;
             Settings.HiddenChars = mihiddenchars.Checked; // If hiddenchars is checked
-            Settings.SaveConfiguration();
+            Settings.Save();
         }
 
         private void removelinemenu_Click(object sender, EventArgs e)
@@ -1695,8 +1687,8 @@ namespace SS.Ynote.Classic
 
         private void misnippets_Click(object sender, EventArgs e)
         {
-            //TODO: if (ActiveEditor != null && ActiveEditor.AutoCompleteMenu != null)
-            //TODO:     ActiveEditor.AutoCompleteMenu.Show(true);
+            if (ActiveEditor != null && ActiveEditor.autocomplete != null)
+                ActiveEditor.autocomplete.Show(true);
         }
 
         private void miseltohex_Click(object sender, EventArgs e)
@@ -1940,5 +1932,25 @@ namespace SS.Ynote.Classic
         }
 
         #endregion
+
+        private void misplitbelow_Click(object sender, EventArgs e)
+        {
+            var splitedit = new Editor { Name = ActiveEditor.Name, Text = "[Split] " + ActiveEditor.Text };
+            splitedit.Tb.SourceTextBox = ActiveEditor.Tb;
+            splitedit.Tb.ReadOnly = true;
+            splitedit.Show(ActiveEditor.Pane, DockAlignment.Bottom, 0.5);
+        }
+
+        private void misplitbeside_Click(object sender, EventArgs e)
+        {
+            var splitedit = new Editor { Name = ActiveEditor.Name, Text = "[Split] " + ActiveEditor.Text };
+            splitedit.Tb.SourceTextBox = ActiveEditor.Tb;
+            splitedit.Tb.ReadOnly = true;
+            splitedit.Show(ActiveEditor.Pane, DockAlignment.Right, 0.5);
+        }
+
+        private void mimap_Click(object sender, EventArgs e)
+        {
+        }
     }
 }

@@ -1,0 +1,47 @@
+using System;
+using FastColoredTextBoxNS;
+using SS.Ynote.Classic.UI;
+
+static void Main(IYnote ynote)
+{
+    // Ynote Script to Encode HTML
+    var self = ynote.Panel.ActiveDocument as Editor;
+    if(self.Tb.Selection == null)return;
+    self.Tb.SelectedText = Rot13(self.Tb.SelectedText);
+}
+/// <summary>
+/// Performs the ROT13 character rotation.
+/// </summary>
+public static string Rot13(string value)
+{
+    char[] array = value.ToCharArray();
+    for (int i = 0; i < array.Length; i++)
+    {
+        int number = (int)array[i];
+        
+        if (number >= 'a' && number <= 'z')
+        {
+            if (number > 'm')
+            {
+                number -= 13;
+            }
+            else
+            {
+                number += 13;
+            }
+        }
+        else if (number >= 'A' && number <= 'Z')
+        {
+            if (number > 'M')
+            {
+                number -= 13;
+            }
+            else
+            {
+                number += 13;
+            }
+        }
+        array[i] = (char)number;
+    }
+    return new string(array);
+}

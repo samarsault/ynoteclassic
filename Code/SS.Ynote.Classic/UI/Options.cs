@@ -183,7 +183,7 @@ namespace SS.Ynote.Classic.UI
             Settings.LineInterval = tblineinterval.IntValue;
             Settings.TabSize = Convert.ToInt32(tabsize.Value);
             Settings.RecentFileNumber = Convert.ToInt32(numrecent.Value);
-            Settings.SaveConfiguration();
+            Settings.Save();
             Close();
         }
 

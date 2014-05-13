@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<FileExtensions>
+  <Key Language="Actionscript" Extensions=".as|.AS" />
+  <Key Language="Antlr" Extensions=".g|.G" />
+  <Key Language="ASP" Extensions=".asp|.aspx" />
+  <Key Language="Assembly" Extensions=".asm|.s" />
+  <Key Language="Batch" Extensions=".bat|.cmd|.BAT" />
+  <Key Language="C" Extensions=".c|.C" />
+  <Key Language="CPP" Extensions=".cpp|.h|.H|.CPP|.cc|.CC" />
+  <Key Language="CSharp" Extensions=".cs|.CS|.ys" />
+  <Key Language="Coffee" Extensions=".coffee"/>
+  <Key Language="CSS" Extensions=".css|.CSS" />
+  <Key Language="D" Extensions=".d|.D" />
+  <Key Language="Diff" Extensions=".diff" />
+  <Key Language="FSharp" Extensions=".fs|.FS" />
+  <Key Language="HTML" Extensions=".html|.htm|.HTML|.HTM" />
+  <Key Language="Haskell" Extensions=".hs|.HS" />
+  <Key Language="INI" Extensions=".ini|.inf|.INI" />
+  <Key Language="Java" Extensions=".java|.JAVA" />
+  <Key Language="Javascript" Extensions=".js|.JS" />
+  <Key Language="JSON" Extensions=".json|.JSON" />
+  <Key Language="LaTeX" Extensions=".tex|.TEX" />
+  <Key Language="Lisp" Extensions=".el" />
+  <Key Language="Lua" Extensions=".lua" />
+  <Key Language="Makefile" Extensions=".makefile|.MAKEFILE" />
+  <Key Language="MATLAB" Extensions=".m|.M" />
+  <Key Language="Objective_C" Extensions=".mm" />
+  <Key Language="Pascal" Extensions=".pas" />
+  <Key Language="Perl" Extensions=".pl|.PL|.pm|.t|.pod" />
+  <Key Language="PHP" Extensions=".php|.php3|.phtml" />
+  <Key Language="Python" Extensions=".py" />
+  <Key Language="PowerShell" Extensions=".ps1"/>
+  <Key Language="QBasic" Extensions=".bas|.BAS" />
+  <Key Language="Ruby" Extensions=".rb" />
+  <Key Language="R" Extensions=".r|.R"/>
+  <Key Language="Scala" Extensions=".scala|.SCALA" />
+  <Key Language="Scheme" Extensions=".scheme|.SCHEME" />
+  <Key Language="Shell" Extensions=".sh" />
+  <Key Language="SQL" Extensions=".sql|.SQL" />
+  <Key Language="VB" Extensions=".vb|.VB" />
+  <Key Language="Xml" Extensions=".xml|.xsl|.xshd|.ynotetheme|.ynotesnippet" />
+  <Key Language="Yaml" Extensions=".yaml|.YAML|.yml|.YML" />
+</FileExtensions>

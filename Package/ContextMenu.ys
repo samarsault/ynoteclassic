@@ -1,0 +1,39 @@
+using System.Windows.Forms;
+using FastColoredTextBoxNS;
+
+static MenuItem[] BuildContextMenu(FastColoredTextBox codebox)
+{
+    var cutmenu = new MenuItem {Index = 0, Text = "Cut"};
+    cutmenu.Click += (sender, args) => codebox.Cut();
+    var copymenu = new MenuItem {Index = 1, Text = "Copy"};
+    copymenu.Click += (sender, args) => codebox.Copy();
+    var pastemenu = new MenuItem {Index = 2, Text = "Paste"};
+    pastemenu.Click += (sender, args) => codebox.Paste();
+    var seperator = new MenuItem("-") {Index = 3};
+    var undomenu = new MenuItem {Index = 4, Text = "Undo"};
+    undomenu.Click += (sender, args) => codebox.Undo();
+    var redomenu = new MenuItem {Index = 5, Text = "Redo"};
+    redomenu.Click += (sender, args) => codebox.Redo();
+    var seperator2 = new MenuItem("-") {Index = 6};
+    var selectallmenu = new MenuItem {Index = 7, Text = "Select All"};
+    selectallmenu.Click += (sender, args) => codebox.SelectAll();
+    var foldselectedmenu = new MenuItem
+    {
+        Index = 8,
+        Shortcut = Shortcut.F4,
+        Text = "Fold Selected"
+    };
+    foldselectedmenu.Click +=(sender, args) => codebox.CollapseBlock(codebox.Selection.Start.iLine, codebox.Selection.End.iLine);
+        return new[]
+        {
+            cutmenu,
+            copymenu,
+            pastemenu,
+            seperator,
+            undomenu,
+            redomenu,
+            seperator2,
+            selectallmenu,
+            foldselectedmenu
+        };
+}

@@ -1,0 +1,10 @@
+//DecodeHtml.ys
+using System.Web;
+using SS.Ynote.Classic.UI;
+
+static void Main(IYnote ynote)
+{
+    var edit = ynote.Panel.ActiveDocument as Editor;
+    if(edit.Tb.Selection == null)return;
+    edit.Tb.SelectedText = HttpUtility.HtmlDecode(edit.Tb.SelectedText);
+}

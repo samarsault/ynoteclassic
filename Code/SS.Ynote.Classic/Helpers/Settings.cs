@@ -194,7 +194,7 @@ public static class Settings
     /// <summary>
     ///     Loads Settings
     /// </summary>
-    internal static void LoadSettings()
+    internal static void Load()
     {
         if (File.Exists(SettingsDir + "Settings.ini"))
         {
@@ -236,14 +236,14 @@ public static class Settings
         {
             File.WriteAllText(SettingsDir + "Settings.ini", string.Empty);
             RestoreDefault();
-            LoadSettings();
+            Load();
         }
     }
 
     /// <summary>
     ///     Save Configuration
     /// </summary>
-    public static void SaveConfiguration()
+    public static void Save()
     {
         IConfigSource source = new IniConfigSource(SettingsDir + "Settings.ini");
         IConfig config = source.Configs["Ynote"];
