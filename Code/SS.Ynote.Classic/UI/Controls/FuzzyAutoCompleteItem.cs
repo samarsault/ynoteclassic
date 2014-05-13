@@ -1,6 +1,9 @@
 ﻿using System;
 using AutocompleteMenuNS;
 
+/// <summary>
+///     Fuzzy AutoComplete Menu for Commander and File Switcher
+/// </summary>
 public class FuzzyAutoCompleteItem : AutocompleteItem
 {
     public FuzzyAutoCompleteItem(string text)
@@ -10,11 +13,16 @@ public class FuzzyAutoCompleteItem : AutocompleteItem
 
     public override CompareResult Compare(string fragmentText)
     {
-        var lev = Levenshtein(Text, fragmentText);
-        if (lev > 0.9)
-            return CompareResult.VisibleAndSelected;
-        if (lev > 0.5)
+        if (fragmentText == Text)
             return CompareResult.Visible;
+        var lev = Levenshtein(Text, fragmentText);
+        if (lev > 0.5)
+            return CompareResult.VisibleAndSelected;
+        if (lev > 0.125)
+            return CompareResult.Visible;
+        if (Text.StartsWith(fragmentText, StringComparison.InvariantCultureIgnoreCase) &&
+            Text != fragmentText)
+            return CompareResult.VisibleAndSelected;
         if (string.IsNullOrEmpty(fragmentText))
             return CompareResult.Visible;
         return CompareResult.Hidden;

@@ -93,14 +93,21 @@ namespace SS.Ynote.Classic.UI
 
         private void LoadSnippets(Language language)
         {
-            if (Snippets == null)
-                Snippets = new List<YnoteSnippet>();
+#if DEBUG
+            var sp = new Stopwatch();
+            sp.Start();
+#endif
+            Snippets = new List<YnoteSnippet>();
             var dir = YnoteSnippet.GetDirectory(language);
             foreach (var snipfile in Directory.GetFiles(dir))
             {
                 YnoteSnippet snippet = YnoteSnippet.Read(snipfile);
                 Snippets.Add(snippet);
             }
+#if DEBUG
+            sp.Stop();
+            Debug.WriteLine(sp.ElapsedMilliseconds + " ms LoadSnippets(" + language + ");");
+#endif
         }
 
         private void InitSettings()
@@ -184,7 +191,9 @@ namespace SS.Ynote.Classic.UI
                     {
                         codebox.BeginUpdate();
                         e.Handled = true;
-                        InsertSnippet(snippet, fragment);
+                        codebox.Selection = fragment;
+                        codebox.ClearSelected();
+                        InsertSnippet(snippet);
                         codebox.EndUpdate();
                     }
                 }
@@ -198,12 +207,10 @@ namespace SS.Ynote.Classic.UI
             }
         }
 
-        private void InsertSnippet(YnoteSnippet snippet, Range fragment)
+        public void InsertSnippet(YnoteSnippet snippet)
         {
-            codebox.Selection = fragment;
-            codebox.ClearSelected();
-            codebox.InsertText(snippet.Content);
             snippet.SubstituteContent(this);
+            codebox.InsertText(snippet.Content);
             PositionCaretTo('^');
         }
 
@@ -250,16 +257,7 @@ namespace SS.Ynote.Classic.UI
 
         private void OpenFile(string file)
         {
-            var edit = new Editor {Name = file, Text = Path.GetFileName(file)};
-            edit.Tb.IsChanged = false;
-            edit.Tb.ClearUndo();
-            //edit.ChangeLang(FileTypes.GetLanguage(FileTypes.BuildDictionary(), Path.GetExtension(file)));
-            if (FileTypes.FileTypesDictionary == null)
-                FileTypes.BuildDictionary();
-            var lang = FileTypes.GetLanguage(FileTypes.FileTypesDictionary, Path.GetExtension(file));
-            edit.HighlightSyntax(lang);
-            edit.Show(DockPanel, DockState.Document);
-            edit.Tb.OpenFile(file);
+            (Application.OpenForms[1] as IYnote).OpenFile(file);
         }
 
         /// <summary>

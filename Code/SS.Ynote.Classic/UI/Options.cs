@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -329,6 +330,14 @@ namespace SS.Ynote.Classic.UI
         private void cbstatus_CheckedChanged(object sender, EventArgs e)
         {
             Settings.ShowStatusBar = cbmenu.Checked;
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if(Application.OpenForms[0] is IYnote)
+                (Application.OpenForms[0] as IYnote).OpenFile(Settings.SettingsDir + "Settings.ini");
+            else
+                (Application.OpenForms[1] as IYnote).OpenFile(Settings.SettingsDir + "Settings.ini");
         }
     }
 

@@ -83,31 +83,38 @@ namespace SS.Ynote.Classic.Features.Project
         /// <param name="path"></param>
         private static ExTreeNode ListDirectory(DirectoryInfo rootDirectory)
         {
-            var stack = new Stack<TreeNode>();
             var node = new ExTreeNode(rootDirectory.Name, rootDirectory.FullName, 0, 0, rootDirectory,
                 FolderNodeType.Folder);
-            stack.Push(node);
-
-            while (stack.Count > 0)
+            try
             {
-                var currentNode = stack.Pop();
-                var directoryInfo = (DirectoryInfo) currentNode.Tag;
-                for (var i = 0; i < directoryInfo.GetDirectories().Length; i++)
+                var stack = new Stack<TreeNode>();
+                stack.Push(node);
+
+                while (stack.Count > 0)
                 {
-                    var directory = directoryInfo.GetDirectories()[i];
-                    var childDirectoryNode = new ExTreeNode(directory.Name, directory.FullName, 0, 0, directory,
-                        FolderNodeType.Folder);
-                    currentNode.Nodes.Add(childDirectoryNode);
-                    stack.Push(childDirectoryNode);
-                }
-                for (var i = 0; i < directoryInfo.GetFiles().Length; i++)
-                {
-                    var file = directoryInfo.GetFiles()[i];
-                    if (Path.GetExtension(file.FullName) != ".ynoteproj")
-                        currentNode.Nodes.Add(new ExTreeNode(file.Name, file.FullName, 1, 1, null, FolderNodeType.File));
+                    var currentNode = stack.Pop();
+                    var directoryInfo = (DirectoryInfo) currentNode.Tag;
+                    for (var i = 0; i < directoryInfo.GetDirectories().Length; i++)
+                    {
+                        var directory = directoryInfo.GetDirectories()[i];
+                        var childDirectoryNode = new ExTreeNode(directory.Name, directory.FullName, 0, 0, directory,
+                            FolderNodeType.Folder);
+                        currentNode.Nodes.Add(childDirectoryNode);
+                        stack.Push(childDirectoryNode);
+                    }
+                    for (var i = 0; i < directoryInfo.GetFiles().Length; i++)
+                    {
+                        var file = directoryInfo.GetFiles()[i];
+                        if (Path.GetExtension(file.FullName) != ".ynoteproj")
+                            currentNode.Nodes.Add(new ExTreeNode(file.Name, file.FullName, 1, 1, null,
+                                FolderNodeType.File));
+                    }
                 }
             }
-
+            catch (Exception)
+            {
+                MessageBox.Show("Error! File/ Folder\nCannot be accessed!");
+            }
             return node;
         }
 

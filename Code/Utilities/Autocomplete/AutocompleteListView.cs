@@ -188,13 +188,12 @@ namespace AutocompleteMenuNS
             for (var i = startI; i < finishI; i++)
             {
                 var y = i*ItemHeight - VerticalScroll.Value;
-
+                /*
                 if (ImageList != null && VisibleItems[i].ImageIndex >= 0)
                     if (rtl)
                         e.Graphics.DrawImage(ImageList.Images[VisibleItems[i].ImageIndex], Width - 1 - LeftPadding, y);
                     else
-                        e.Graphics.DrawImage(ImageList.Images[VisibleItems[i].ImageIndex], 1, y);
-
+                        e.Graphics.DrawImage(ImageList.Images[VisibleItems[i].ImageIndex], 1, y);*/
                 var textRect = new Rectangle(LeftPadding, y, ClientSize.Width - 1 - LeftPadding, ItemHeight - 1);
                 if (rtl)
                     textRect = new Rectangle(1, y, ClientSize.Width - 1 - LeftPadding, ItemHeight - 1);
@@ -202,12 +201,12 @@ namespace AutocompleteMenuNS
                 if (i == SelectedItemIndex)
                 {
                     Brush selectedBrush = new LinearGradientBrush(new Point(0, y - 3), new Point(0, y + ItemHeight),
-                        Color.White, Color.Orange);
+                        Color.LightGray, Color.Gray);
                     e.Graphics.FillRectangle(selectedBrush, textRect);
-                    e.Graphics.DrawRectangle(Pens.Orange, textRect);
+                    e.Graphics.DrawRectangle(Pens.Gray, textRect);
                 }
                 if (i == hoveredItemIndex)
-                    e.Graphics.DrawRectangle(Pens.Red, textRect);
+                    e.Graphics.DrawRectangle(Pens.Gray, textRect);
 
                 var sf = new StringFormat();
                 if (rtl)

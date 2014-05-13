@@ -1,5 +1,6 @@
 ﻿#define DEVBUILD
 using System.IO;
+using System.Windows.Forms;
 using System.Xml;
 using FastColoredTextBoxNS;
 using SS.Ynote.Classic.UI;
@@ -56,7 +57,6 @@ namespace SS.Ynote.Classic.Features.Snippets
 
         public static YnoteSnippet Read(string snippetfile)
         {
-            // TODO: Fix Snippet Read Problem
             var snippet = new YnoteSnippet();
             using (var reader = XmlReader.Create(snippetfile))
             {
@@ -87,10 +87,22 @@ namespace SS.Ynote.Classic.Features.Snippets
 
         public void SubstituteContent(Editor edit)
         {
-            Content = Content.Replace("$selection", edit.Tb.SelectedText);
-            Content = Content.Replace("$current_line", edit.Tb[edit.Tb.Selection.Start.iLine].Text);
-            Content = Content.Replace("$file_name", Path.GetFileNameWithoutExtension(edit.Text));
-            Content = Content.Replace("$file_name_extension", edit.Text);
+            Content = Content.Replace("$selection", edit.Tb.SelectedText)
+                .Replace("$current_line", edit.Tb[edit.Tb.Selection.Start.iLine].Text)
+                .
+                Replace("$file_name", Path.GetFileNameWithoutExtension(edit.Text))
+                .Replace("$file_name_extension", edit.Text)
+                .
+                Replace("$eol", "\r\n").Replace("$clipboard", Clipboard.GetText());
+            if (Content.Contains("$choose_file"))
+            {
+                using (var dlg = new OpenFileDialog())
+                {
+                    var result = dlg.ShowDialog();
+                    if (result == DialogResult.OK)
+                        Content = Content.Replace("$choose_file", dlg.FileName);
+                }
+            }
         }
     }
 }

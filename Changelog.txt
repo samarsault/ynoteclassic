@@ -14,3 +14,5 @@
 -> Fixed syntax highlight on file_open when text changes error
 -> Added word auto-completion
 -> Extended Snippets with TabTrigger, Description and much more.
+-> UI Improvements in Commander
+-> Added CommandWindow and removed ClipboardHistory and SwitchFile

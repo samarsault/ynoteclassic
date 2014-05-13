@@ -20,6 +20,7 @@ namespace FastColoredTextBoxNS
     /// <summary>
     ///     Fast colored textbox
     /// </summary>
+    [Guid("FB5B3499-1780-42C6-BBED-DD949FA93DF4")]
     public class FastColoredTextBox : UserControl, ISupportInitialize
     {
         internal const int minLeftIndent = 8;
@@ -4474,11 +4475,11 @@ namespace FastColoredTextBoxNS
                     break;
 
                 case FCTBAction.GoLeftBracket:
-                    GoLeftBracket('(', ')');
+                    GoLeftBracket();
                     break;
 
                 case FCTBAction.GoRightBracket:
-                    GoRightBracket('(', ')');
+                    GoRightBracket();
                     break;
 
                 case FCTBAction.CustomAction7:
@@ -4500,15 +4501,23 @@ namespace FastColoredTextBoxNS
             }
         }
 
-        public void GoLeftBracket(char LeftBracket, char RightBracket)
+        /// <summary>
+        ///     Go's to the right of bracket
+        /// </summary>
+        public void GoLeftBracket()
         {
             var range = Selection.Clone(); //need clone because we will move caret
+            char rb = range.CharBeforeStart;
+            int index = Array.IndexOf(autoCompleteBracketsList, rb) - 1;
+            if (index < 0)
+                return;
+            char lb = autoCompleteBracketsList[index];
             var counter = 0;
             var maxIterations = 2000;
             while (range.GoLeftThroughFolded()) //move caret left
             {
-                if (range.CharAfterStart == LeftBracket) counter++;
-                if (range.CharAfterStart == RightBracket) counter--;
+                if (range.CharAfterStart == lb) counter++;
+                if (range.CharBeforeStart == rb) counter--;
                 if (counter == 1)
                 {
                     //found
@@ -4524,20 +4533,19 @@ namespace FastColoredTextBoxNS
         }
 
         /// <summary>
-        ///     Go Left Bracket
+        ///     Go's to the Right of Bracket
         /// </summary>
-        /// <param name="tb"></param>
-        /// <param name="LeftBracket"></param>
-        /// <param name="RightBracket"></param>
-        public void GoRightBracket(char LeftBracket, char RightBracket)
+        public void GoRightBracket()
         {
             var range = Selection.Clone(); //need clone because we will move caret
+            char lb = range.CharAfterStart;
+            char rb = autoCompleteBracketsList[Array.IndexOf(autoCompleteBracketsList, lb) + 1];
             var counter = 0;
             var maxIterations = 2000;
-            do
+            while (range.GoRightThroughFolded()) //move caret left
             {
-                if (range.CharAfterStart == LeftBracket) counter++;
-                if (range.CharAfterStart == RightBracket) counter--;
+                if (range.CharAfterStart == lb) counter++;
+                if (range.CharBeforeStart == rb) counter--;
                 if (counter == -1)
                 {
                     //found
@@ -4548,8 +4556,7 @@ namespace FastColoredTextBoxNS
                 //
                 maxIterations--;
                 if (maxIterations <= 0) break;
-            } while (range.GoRightThroughFolded()); //move caret right
-
+            }
             Invalidate();
         }
 

@@ -34,6 +34,7 @@ namespace SS.Ynote.Classic
                 new SetSyntaxFile(),
                 new MacroCommand(),
                 new ScriptCommand(),
+                new SnippetCommand(),
                 new RunScriptCommand(),
                 new LineCommand(),
                 new SelectionCommand(),

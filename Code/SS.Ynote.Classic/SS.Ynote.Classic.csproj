@@ -176,6 +176,9 @@
     <Compile Include="UI\BookmarksInfos.Designer.cs">
       <DependentUpon>BookmarksInfos.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Controls\FolderBrowserEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\Controls\FuzzyAutoCompleteItem.cs" />
     <Compile Include="UI\Shell.cs">
       <SubType>Form</SubType>
@@ -204,12 +207,6 @@
     <Compile Include="UI\Controls\WizardTabControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\ClipboardHistory.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\ClipboardHistory.Designer.cs">
-      <DependentUpon>ClipboardHistory.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\MacroExecDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -222,11 +219,11 @@
     <Compile Include="UI\PasswordDialog.Designer.cs">
       <DependentUpon>PasswordDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\SwitchFile.cs">
+    <Compile Include="UI\CommandWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\SwitchFile.Designer.cs">
-      <DependentUpon>SwitchFile.cs</DependentUpon>
+    <Compile Include="UI\CommandWindow.Designer.cs">
+      <DependentUpon>CommandWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Diff.cs">
       <SubType>Form</SubType>
@@ -261,6 +258,9 @@
     <Compile Include="Features\RunScript\RunDialog.cs">
       <SubType>Form</SubType>
     </Compile>
+    <EmbeddedResource Include="Features\Commands\Commander.resx">
+      <DependentUpon>Commander.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Features\Packages\AddPackageFile.resx">
       <DependentUpon>AddPackageFile.cs</DependentUpon>
     </EmbeddedResource>
@@ -312,6 +312,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Options.resx">
       <DependentUpon>Options.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\CommandWindow.resx">
+      <DependentUpon>CommandWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\UtilDialog.resx">
       <DependentUpon>UtilDialog.cs</DependentUpon>

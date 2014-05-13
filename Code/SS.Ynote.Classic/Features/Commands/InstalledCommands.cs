@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -9,6 +10,7 @@ using FastColoredTextBoxNS;
 using SS.Ynote.Classic;
 using SS.Ynote.Classic.Features.Extensibility;
 using SS.Ynote.Classic.Features.RunScript;
+using SS.Ynote.Classic.Features.Snippets;
 using SS.Ynote.Classic.Features.Syntax;
 using SS.Ynote.Classic.UI;
 using WeifenLuo.WinFormsUI.Docking;
@@ -307,11 +309,11 @@ internal class NavigateCommand : ICommand
                 break;
 
             case "GoLeftBracket":
-                activeEditor.Tb.GoLeftBracket('(', ')');
+                activeEditor.Tb.GoLeftBracket();
                 break;
 
             case "GoRightBracket":
-                activeEditor.Tb.GoRightBracket('(', ')');
+                activeEditor.Tb.GoRightBracket();
                 break;
         }
     }
@@ -482,5 +484,43 @@ internal class WikipediaCommand : ICommand
     public void ProcessCommand(string val, IYnote ynote)
     {
         Process.Start("http://en.wikipedia.org/w/index.php?search=" + val);
+    }
+}
+
+internal class SnippetCommand : ICommand
+{
+    public string Key
+    {
+        get { return "Snippet"; }
+    }
+
+    public string[] Commands
+    {
+        get { return GetCommands(); }
+    }
+
+    public void ProcessCommand(string val, IYnote ynote)
+    {
+        var edit = ynote.Panel.ActiveDocument as Editor;
+        var lang = edit.Tb.Language;
+        string file = Path.Combine(YnoteSnippet.GetDirectory(lang), val + ".ynotesnippet");
+        var snippet = YnoteSnippet.Read(file);
+        edit.InsertSnippet(snippet);
+    }
+
+    public string[] GetCommands()
+    {
+        int index = 0;
+        if ((Application.OpenForms[index] as IYnote) == null)
+            index++;
+        IYnote ynote = Application.OpenForms[index] as IYnote;
+        if (ynote.Panel.ActiveDocument == null
+            || !(ynote.Panel.ActiveDocument is Editor))
+            return null;
+        var items = new List<string>();
+        var lang = (ynote.Panel.ActiveDocument as Editor).Tb.Language;
+        foreach (var file in Directory.GetFiles(YnoteSnippet.GetDirectory(lang), "*.ynotesnippet"))
+            items.Add(Path.GetFileNameWithoutExtension(file));
+        return items.ToArray();
     }
 }

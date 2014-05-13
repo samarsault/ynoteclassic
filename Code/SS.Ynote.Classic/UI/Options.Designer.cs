@@ -120,6 +120,7 @@ namespace SS.Ynote.Classic.UI
             this.savingfile = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cbTabs = new System.Windows.Forms.CheckBox();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.tabcontrol.SuspendLayout();
             this.tabsettingpage.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -181,7 +182,7 @@ namespace SS.Ynote.Classic.UI
             treeNode10,
             treeNode12});
             this.tvBrowser.ShowLines = false;
-            this.tvBrowser.Size = new System.Drawing.Size(169, 313);
+            this.tvBrowser.Size = new System.Drawing.Size(169, 284);
             this.tvBrowser.TabIndex = 0;
             this.tvBrowser.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
@@ -219,9 +220,10 @@ namespace SS.Ynote.Classic.UI
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.panel1.Location = new System.Drawing.Point(-2, 351);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 350);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(637, 36);
+            this.panel1.Size = new System.Drawing.Size(635, 36);
             this.panel1.TabIndex = 5;
             // 
             // tabcontrol
@@ -937,11 +939,23 @@ namespace SS.Ynote.Classic.UI
             this.cbTabs.Text = "Use Tabs instead\r\nof Spaces";
             this.cbTabs.UseVisualStyleBackColor = true;
             // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(12, 332);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(98, 13);
+            this.linkLabel1.TabIndex = 6;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Edit Settings.ini File";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
             // Options
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(635, 386);
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
@@ -982,6 +996,7 @@ namespace SS.Ynote.Classic.UI
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1068,5 +1083,6 @@ namespace SS.Ynote.Classic.UI
         private System.Windows.Forms.TabPage savingfile;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.CheckBox cbTabs;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }

@@ -22,6 +22,7 @@ using SS.Ynote.Classic.Features.Search;
 using SS.Ynote.Classic.Features.Syntax;
 using SS.Ynote.Classic.UI;
 using WeifenLuo.WinFormsUI.Docking;
+using AutocompleteItem = AutocompleteMenuNS.AutocompleteItem;
 using Timer = System.Windows.Forms.Timer;
 
 namespace SS.Ynote.Classic
@@ -30,6 +31,14 @@ namespace SS.Ynote.Classic
     {
         #region Private Fields
 
+        /// <summary>
+        /// The index of the diff window
+        /// </summary>
+        private int diff_num;
+        /// <summary>
+        /// The index of the Shell
+        /// </summary>
+        private int shell_num;
         /// <summary>
         ///     Incremental Searcher
         /// </summary>
@@ -534,7 +543,7 @@ namespace SS.Ynote.Classic
 
         #endregion Plugins
 
-        #endregion Methods
+        #endregion
 
         #region Overrides
 
@@ -579,9 +588,6 @@ namespace SS.Ynote.Classic
 
         #region Events
 
-        private int diff_num;
-        private int shell_num;
-
         private void NewMenuItem_Click(object sender, EventArgs e)
         {
             CreateNewDoc();
@@ -592,17 +598,24 @@ namespace SS.Ynote.Classic
             using (var dialog = new OpenFileDialog())
             {
                 dialog.Filter = "All Files (*.*)|*.*";
+                dialog.Multiselect = true;
                 var res = dialog.ShowDialog() == DialogResult.OK;
                 if (!res) return;
-                OpenFileAsync(dialog.FileName);
-                AddRecentFile(dialog.FileName);
+                foreach (var file in dialog.FileNames)
+                {
+                    OpenFileAsync(file);
+                    AddRecentFile(file);
+                }
             }
         }
 
         private void openFolderMenu_Click(object sender, EventArgs e)
         {
-            using (var dlg = new FolderBrowserDialog())
+            using (var dlg = new FolderBrowserDialogEx())
             {
+                dlg.ShowEditBox = true;
+                dlg.ShowFullPathInEditBox = true;
+                dlg.ShowNewFolderButton = true;
                 var result = dlg.ShowDialog();
                 if (result == DialogResult.OK)
                 {
@@ -1405,8 +1418,19 @@ namespace SS.Ynote.Classic
 
         private void menuItem84_Click(object sender, EventArgs e)
         {
-            var fileswitcher = new SwitchFile(this) {StartPosition = FormStartPosition.CenterParent};
+            var items = new List<AutocompleteItem>();
+            foreach (var doc in dock.Documents)
+                items.Add(new FuzzyAutoCompleteItem((doc as DockContent).Text));
+            var fileswitcher = new CommandWindow(items);
+            fileswitcher.ProcessCommand += fileswitcher_ProcessCommand;
             fileswitcher.ShowDialog(this);
+        }
+
+        private void fileswitcher_ProcessCommand(object sender, CommandWindowEventArgs e)
+        {
+            foreach (DockContent content in dock.Documents)
+                if (content.Text == e.Text)
+                    content.Show(dock);
         }
 
         private void mishowunsaved_Click(object sender, EventArgs e)
@@ -1592,32 +1616,32 @@ namespace SS.Ynote.Classic
 
         private void migoleftbracket_Click(object sender, EventArgs e)
         {
-            ActiveEditor.Tb.GoLeftBracket('(', ')');
+            ActiveEditor.Tb.GoLeftBracket();
         }
 
         private void migorightbracket_Click(object sender, EventArgs e)
         {
-            ActiveEditor.Tb.GoRightBracket('(', ')');
+            ActiveEditor.Tb.GoRightBracket();
         }
 
         private void migoleftbracket2_Click(object sender, EventArgs e)
         {
-            ActiveEditor.Tb.GoLeftBracket('{', '}');
+            ActiveEditor.Tb.GoLeftBracket();
         }
 
         private void migorightbracket2_Click(object sender, EventArgs e)
         {
-            ActiveEditor.Tb.GoRightBracket('{', '}');
+            ActiveEditor.Tb.GoRightBracket();
         }
 
         private void migoleftbracket3_Click(object sender, EventArgs e)
         {
-            ActiveEditor.Tb.GoLeftBracket('[', ']');
+            ActiveEditor.Tb.GoLeftBracket();
         }
 
         private void migorightbracket3_Click(object sender, EventArgs e)
         {
-            ActiveEditor.Tb.GoRightBracket('[', ']');
+            ActiveEditor.Tb.GoRightBracket();
         }
 
         private void misortlength_Click(object sender, EventArgs e)
@@ -1904,16 +1928,17 @@ namespace SS.Ynote.Classic
 
         private void miinscliphis_Click(object sender, EventArgs e)
         {
-            var lst = new List<string>();
+            var lst = new List<AutocompleteItem>();
             foreach (Editor doc in dock.Documents.OfType<Editor>())
-                lst.AddRange(doc.Tb.ClipboardHistory);
-            using (var his = new ClipboardHistory(lst, ActiveEditor.Tb))
+                foreach (var historyitem in doc.Tb.ClipboardHistory)
+                    lst.Add(new AutocompleteItem(historyitem));
+            using (var cmw = new CommandWindow(lst))
             {
-                his.StartPosition = FormStartPosition.CenterParent;
-                his.ShowDialog(this);
+                cmw.ProcessCommand += (o, args) => ActiveEditor.Tb.InsertText(args.Text);
+                cmw.ShowDialog(this);
             }
         }
 
-        #endregion Events
+        #endregion
     }
 }
