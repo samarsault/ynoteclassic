@@ -1,4 +1,4 @@
-﻿-> Added Extensible Context Menu
+-> Added Extensible Context Menu
 -> Added Clipboard History
 -> Added File Protector
 -> Added New Color Schemes - Cobalt and Vibrant ink
@@ -27,3 +27,5 @@ Build 355
 -> Incremental Search Highlight Improvements
 Build 360
 -> CSS Highlighter Improvements
+Build 364
+-> Fixed Regex Crucial bug in SyntaxHighlighter
