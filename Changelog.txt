@@ -25,3 +25,5 @@ Build 355
 -> Added SUP Updater
 -> Added FileName to SaveFileDialog
 -> Incremental Search Highlight Improvements
+Build 360
+-> CSS Highlighter Improvements
