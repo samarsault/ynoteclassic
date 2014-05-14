@@ -16,3 +16,4 @@
 -> Extended Snippets with TabTrigger, Description and much more.
 -> UI Improvements in Commander
 -> Added CommandWindow and removed ClipboardHistory and SwitchFile
+-> Improved Snippet Insertion and Brace Completion with Auto-Indentation

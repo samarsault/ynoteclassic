@@ -3,5 +3,5 @@
         <name>Class</name>
         <description>Class Snippet for Ynote</description>
         <tabTrigger>class</tabTrigger>
-        <content>class $file_name {$eol$eol}</content>
+        <content>class ^ {$eol$eol}</content>
     </YnoteSnippet>

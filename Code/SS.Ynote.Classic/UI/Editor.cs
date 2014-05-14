@@ -190,10 +190,12 @@ namespace SS.Ynote.Classic.UI
                     if (snippet.Tab == fragment.Text)
                     {
                         codebox.BeginUpdate();
+                        codebox.Selection.BeginUpdate();
                         e.Handled = true;
                         codebox.Selection = fragment;
                         codebox.ClearSelected();
                         InsertSnippet(snippet);
+                        codebox.Selection.EndUpdate();
                         codebox.EndUpdate();
                     }
                 }
@@ -209,8 +211,16 @@ namespace SS.Ynote.Classic.UI
 
         public void InsertSnippet(YnoteSnippet snippet)
         {
+            var selection = codebox.Selection.Clone();
             snippet.SubstituteContent(this);
             codebox.InsertText(snippet.Content);
+            var nselection = codebox.Selection.Clone();
+            for (int i = selection.Start.iLine; i <= nselection.Start.iLine; i++)
+            {
+                codebox.Selection.Start = new Place(0, i);
+                codebox.DoAutoIndent(i);
+            }
+            codebox.GoEnd();
             PositionCaretTo('^');
         }
 
@@ -257,7 +267,10 @@ namespace SS.Ynote.Classic.UI
 
         private void OpenFile(string file)
         {
-            (Application.OpenForms[1] as IYnote).OpenFile(file);
+            IYnote ynote = Application.OpenForms[1] as IYnote;
+            if (ynote == null)
+                ynote = Application.OpenForms[0] as IYnote;
+            ynote.OpenFile(file);
         }
 
         /// <summary>
@@ -380,7 +393,7 @@ namespace SS.Ynote.Classic.UI
         private void BuildContextMenu()
         {
             var file = Settings.SettingsDir + "ContextMenu.ys";
-            var asm = file + ".cache";
+            var asm = file + "c";
             CSScript.GlobalSettings.TargetFramework = "v3.5";
             try
             {

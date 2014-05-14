@@ -20,6 +20,8 @@ namespace SS.Ynote.Classic.Features.Search
         private void btnFind_Click(object sender, EventArgs e)
         {
             var ynote = Application.OpenForms[1] as IYnote;
+            if (ynote == null)
+                ynote = Application.OpenForms[0] as IYnote;
             var results = new SearchResults(ynote);
             results.Show(ynote.Panel, DockState.DockBottom);
             results.FindAll(tbdir.Text, cbRegex.Checked, cbCase.Checked, tbFind.Text, tbFilter.Text, cbsubdir.Checked);
@@ -29,6 +31,8 @@ namespace SS.Ynote.Classic.Features.Search
         private void button2_Click(object sender, EventArgs e)
         {
             var ynote = Application.OpenForms[1] as IYnote;
+            if (ynote == null)
+                ynote = Application.OpenForms[0] as IYnote;
             var results = new SearchResults(ynote);
             results.Show(ynote.Panel, DockState.DockBottom);
             results.ReplaceAll(tbdir.Text, tbFilter.Text, cbRegex.Checked, cbCase.Checked, tbFind.Text, tbReplace.Text,

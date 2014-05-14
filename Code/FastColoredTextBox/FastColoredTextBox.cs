@@ -4890,12 +4890,18 @@ namespace FastColoredTextBoxNS
         /// </summary>
         public virtual bool ProcessKey(char c, Keys modifiers)
         {
-            if (c == (char) Keys.Enter)
+            if (c == '\r')
             {
                 if (Selection.CharBeforeStart == '{' && Selection.CharAfterStart == '}')
                 {
-                    InsertText("\r\n\r\n");
+                    int currentLevelIndent = CalcAutoIndent(Selection.Start.iLine);
+                    string indent = new string(' ', currentLevelIndent);
+                    string indent2 = new string(' ', currentLevelIndent + TabLength);
+                    Selection.GoRight(true);
+                    ClearSelected();
+                    InsertText(string.Format("\n\n{0}}}", indent));
                     Selection.GoUp(false);
+                    InsertText(indent2);
                     return true;
                 }
             }

@@ -32,14 +32,6 @@ namespace SS.Ynote.Classic
         #region Private Fields
 
         /// <summary>
-        /// The index of the diff window
-        /// </summary>
-        private int diff_num;
-        /// <summary>
-        /// The index of the Shell
-        /// </summary>
-        private int shell_num;
-        /// <summary>
         ///     Incremental Searcher
         /// </summary>
         private IncrementalSearcher _incrementalSearcher;
@@ -48,6 +40,16 @@ namespace SS.Ynote.Classic
         ///     Recent Files List
         /// </summary>
         private Queue<string> _mru;
+
+        /// <summary>
+        ///     The index of the diff window
+        /// </summary>
+        private int diff_num;
+
+        /// <summary>
+        ///     The index of the Shell
+        /// </summary>
+        private int shell_num;
 
         #endregion Private Fields
 
@@ -1935,7 +1937,7 @@ namespace SS.Ynote.Classic
 
         private void misplitbelow_Click(object sender, EventArgs e)
         {
-            var splitedit = new Editor { Name = ActiveEditor.Name, Text = "[Split] " + ActiveEditor.Text };
+            var splitedit = new Editor {Name = ActiveEditor.Name, Text = "[Split] " + ActiveEditor.Text};
             splitedit.Tb.SourceTextBox = ActiveEditor.Tb;
             splitedit.Tb.ReadOnly = true;
             splitedit.Show(ActiveEditor.Pane, DockAlignment.Bottom, 0.5);
@@ -1943,7 +1945,7 @@ namespace SS.Ynote.Classic
 
         private void misplitbeside_Click(object sender, EventArgs e)
         {
-            var splitedit = new Editor { Name = ActiveEditor.Name, Text = "[Split] " + ActiveEditor.Text };
+            var splitedit = new Editor {Name = ActiveEditor.Name, Text = "[Split] " + ActiveEditor.Text};
             splitedit.Tb.SourceTextBox = ActiveEditor.Tb;
             splitedit.Tb.ReadOnly = true;
             splitedit.Show(ActiveEditor.Pane, DockAlignment.Right, 0.5);

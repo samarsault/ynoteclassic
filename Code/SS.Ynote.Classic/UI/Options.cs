@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -262,7 +261,7 @@ namespace SS.Ynote.Classic.UI
         {
             try
             {
-                foreach (var file in Directory.GetFiles(Settings.SettingsDir + @"Scripts\", "*.cache"))
+                foreach (var file in Directory.GetFiles(Settings.SettingsDir + @"Scripts\", "*.ysc"))
                     File.Delete(file);
                 MessageBox.Show("Script Cache Successfully Cleared !", "Ynote Classic", MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
@@ -334,7 +333,7 @@ namespace SS.Ynote.Classic.UI
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if(Application.OpenForms[0] is IYnote)
+            if (Application.OpenForms[0] is IYnote)
                 (Application.OpenForms[0] as IYnote).OpenFile(Settings.SettingsDir + "Settings.ini");
             else
                 (Application.OpenForms[1] as IYnote).OpenFile(Settings.SettingsDir + "Settings.ini");

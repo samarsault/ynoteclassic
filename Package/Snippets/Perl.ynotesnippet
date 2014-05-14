@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+    <YnoteSnippet>
+        <Snippet >if (^) {\r\n\r\n}</Snippet>
+        <Snippet >eval {\r\n^\r\n}if ($@) {\r\n\r\n</Snippet>
+        <Snippet >unless (^) {\r\n\r\n}</Snippet>
+        <Snippet >sub ^ {\r\n\r\n}</Snippet>
+        <Snippet >for (my $i = 0; $i &lt; ^; $i++) {\r\n\r\n}</Snippet>
+    </YnoteSnippet>

@@ -20,7 +20,7 @@ namespace SS.Ynote.Classic.Features.Extensibility
 
         public static void RunScript(IYnote ynote, string ysfile)
         {
-            var assemblyFileName = ysfile + ".cache";
+            var assemblyFileName = ysfile + "c";
             CSScript.GlobalSettings.TargetFramework = "v3.5";
             try
             {

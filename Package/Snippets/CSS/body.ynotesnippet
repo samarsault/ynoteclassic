@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <YnoteSnippet>
-	<name>body</name>
-	<description>Body Snippet for CSS</description>
-	<content>body$eol{$eol$eol}</content>
-	<tabTrigger>body</tabTrigger>
+    <name>body</name>
+    <description>Body Snippet for CSS</description>
+    <content>body$eol{$eol^$eol}</content>
+    <tabTrigger>body</tabTrigger>
 </YnoteSnippet>

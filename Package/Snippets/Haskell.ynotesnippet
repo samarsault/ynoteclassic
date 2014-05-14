@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+    <YnoteSnippet>
+        <Snippet>#!/usr/bin/env</Snippet>
+        <Snippet>echo ^</Snippet>
+        <Snippet>title ^</Snippet>
+        <Snippet>cd ^</Snippet>
+    </YnoteSnippet>

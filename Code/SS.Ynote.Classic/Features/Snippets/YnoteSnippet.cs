@@ -1,5 +1,6 @@
 ﻿#define DEVBUILD
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using FastColoredTextBoxNS;
@@ -89,11 +90,9 @@ namespace SS.Ynote.Classic.Features.Snippets
         {
             Content = Content.Replace("$selection", edit.Tb.SelectedText)
                 .Replace("$current_line", edit.Tb[edit.Tb.Selection.Start.iLine].Text)
-                .
-                Replace("$file_name", Path.GetFileNameWithoutExtension(edit.Text))
                 .Replace("$file_name_extension", edit.Text)
-                .
-                Replace("$eol", "\r\n").Replace("$clipboard", Clipboard.GetText());
+                .Replace("$file_name", Path.GetFileNameWithoutExtension(edit.Text))
+                .Replace("$eol", "\r\n").Replace("$clipboard", Clipboard.GetText());
             if (Content.Contains("$choose_file"))
             {
                 using (var dlg = new OpenFileDialog())

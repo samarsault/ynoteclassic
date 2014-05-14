@@ -3,5 +3,5 @@
   <name>Link</name>
   <description>Inserts a link element a with href</description>
   <content><![CDATA[<a href="^"></a>]]></content>
-  <tabTrigger>img</tabTrigger>
+  <tabTrigger>a</tabTrigger>
 </YnoteSnippet>
