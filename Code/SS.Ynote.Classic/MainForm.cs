@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -195,9 +194,6 @@ namespace SS.Ynote.Classic
             //     keyval += "*" + extension.Key.ElementAt(0);
             //     builder.AppendFormat("|{0} Files ({1})|{1}", extension.Value, keyval);
             // }
-#if DEBUG
-            Debug.WriteLine(builder.ToString());
-#endif
             return builder.ToString();
         }
 
@@ -205,7 +201,7 @@ namespace SS.Ynote.Classic
         ///     Save a typeof(Editor), with encoding.getEncoding( "name")
         /// </summary>
         /// <param name="edit"></param>
-        /// <param name="name"></param>
+        /// <param name="encoding"></param>
         private static void SaveEditor(Editor edit, Encoding encoding)
         {
             try
@@ -215,6 +211,7 @@ namespace SS.Ynote.Classic
                 {
                     using (var s = new SaveFileDialog())
                     {
+                        s.Title = "Save " + edit.Text;
                         s.Filter = BuildDialogFilter(edit.Tb.Language, s);
                         if (s.ShowDialog() != DialogResult.OK) return;
                         fileName = s.FileName;
@@ -488,37 +485,6 @@ namespace SS.Ynote.Classic
                 orderby s.Length ascending
                 select s;
             return sorted;
-        }
-
-        /// <summary>
-        ///     Simple Update Method
-        ///     Designed to be as simple as it could be
-        /// </summary>
-        /// <returns></returns>
-        private static bool CheckForUpdates()
-        {
-            const string url = "https://raw.githubusercontent.com/samarjeet27/ynoteclassic/master/updates.xml";
-            return RemoteFileExists(url);
-        }
-
-        private static bool RemoteFileExists(string url)
-        {
-            var bResult = false;
-            using (var client = new WebClient())
-            {
-                try
-                {
-                    client.UseDefaultCredentials = true;
-                    var stream = client.OpenRead(url);
-                    if (stream != null)
-                        bResult = true;
-                }
-                catch
-                {
-                    bResult = false;
-                }
-            }
-            return bResult;
         }
 
         #endregion MISC
@@ -947,38 +913,6 @@ namespace SS.Ynote.Classic
                 NativeMethods.ShowFileProperties(ActiveEditor.Name);
             else
                 MessageBox.Show("File Not Saved!", "Ynote Classic");
-        }
-
-        private void midelete_Click(object sender, EventArgs e)
-        {
-            if (ActiveEditor != null && ActiveEditor.IsSaved)
-            {
-                var result =
-                    MessageBox.Show(string.Format("Are you sure you want to delete {0} ?", ActiveEditor.Text),
-                        "Delete File", MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes)
-                {
-                    File.Delete(ActiveEditor.Name);
-                    ActiveEditor.Close();
-                }
-            }
-            else
-            {
-                MessageBox.Show("File Is Not Saved!");
-            }
-        }
-
-        private void miopencontaining_Click(object sender, EventArgs e)
-        {
-            if (ActiveEditor != null && ActiveEditor.IsSaved)
-            {
-                var dir = Path.GetDirectoryName(ActiveEditor.Name);
-                if (dir != null) Process.Start(dir);
-            }
-            else
-            {
-                MessageBox.Show("File Not Saved!");
-            }
         }
 
         private void ExitMenu_Click(object sender, EventArgs e)
@@ -1712,17 +1646,9 @@ namespace SS.Ynote.Classic
 
         private void miupdates_Click(object sender, EventArgs e)
         {
-            if (CheckForUpdates())
-            {
-                var result = MessageBox.Show("Updates are available? Would you like to download it ?", "Updater",
-                    MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes)
-                    Process.Start("http://ynoteclassic.codeplex.com");
-            }
-            else
-            {
-                MessageBox.Show("No updates are available till date\r\nPlease check later.");
-            }
+            Process.Start(Application.StartupPath + "\\sup.exe",
+                Application.StartupPath + @"\Config\AppFiles.xml http://updateServer.com/UpdateFiles.xml " +
+                Application.ProductVersion);
         }
 
         private void migoogle_Click(object sender, EventArgs e)
@@ -1951,8 +1877,29 @@ namespace SS.Ynote.Classic
             splitedit.Show(ActiveEditor.Pane, DockAlignment.Right, 0.5);
         }
 
-        private void mimap_Click(object sender, EventArgs e)
+        private void menuItem4_Click(object sender, EventArgs e)
         {
+            var splitedit = new Editor {Name = ActiveEditor.Name, Text = "[Split] " + ActiveEditor.Text};
+            splitedit.Tb.SourceTextBox = ActiveEditor.Tb;
+            splitedit.Tb.ReadOnly = true;
+            ActiveEditor.Tb.VisibleRangeChangedDelayed +=
+                (o, args) =>
+                    UpdateScroll(splitedit.Tb, ActiveEditor.Tb.VerticalScroll.Value,
+                        ActiveEditor.Tb.Selection.Start.iLine);
+            splitedit.Show(ActiveEditor.Pane, DockAlignment.Right, 0.5);
+        }
+
+        private void UpdateScroll(FastColoredTextBox tb, int vPos, int curLine)
+        {
+            //
+            if (vPos <= tb.VerticalScroll.Maximum)
+            {
+                tb.VerticalScroll.Value = vPos;
+                tb.UpdateScrollbars();
+            }
+
+            if (curLine < tb.LinesCount)
+                tb.Selection = new Range(tb, 0, curLine, 0, curLine);
         }
     }
 }

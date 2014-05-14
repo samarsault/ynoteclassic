@@ -108,5 +108,12 @@ namespace SS.Ynote.Classic
                 MessageBox.Show("Error Running Command!");
             }
         }
+
+        public static void RunCommand(IYnote ynote, YnoteCommand command)
+        {
+            foreach (var cmd in Commands)
+                if (cmd.Key == command.Key)
+                    cmd.ProcessCommand(command.Value, ynote);
+        }
     }
 }

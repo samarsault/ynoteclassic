@@ -53,7 +53,7 @@ internal class SetSyntaxFile : ICommand
     {
         get
         {
-            return Directory.GetFiles(Settings.SettingsDir + "Syntaxes", "*.xml")
+            return Directory.GetFiles(Settings.SettingsDir + "Syntaxes", "*.ynotesyntax")
                 .Select(Path.GetFileNameWithoutExtension)
                 .ToArray();
         }
@@ -399,6 +399,7 @@ internal class FileCommand : ICommand
                 "Open",
                 "Save",
                 "Revert",
+                "Delete",
                 "Properties",
                 "Close",
                 "CloseAll"
@@ -446,6 +447,17 @@ internal class FileCommand : ICommand
             case "CloseAll":
                 foreach (Editor doc in ynote.Panel.Documents.OfType<Editor>())
                     doc.Close();
+                break;
+            case "Delete":
+                var filename = edit.Name;
+                if (!edit.IsSaved) return;
+                var result = MessageBox.Show("Are you sure you want to Delete " + edit.Text + " ?", "Confirm",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    File.Delete(filename);
+                    edit.Close();
+                }
                 break;
         }
     }

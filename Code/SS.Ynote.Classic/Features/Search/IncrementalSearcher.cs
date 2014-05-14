@@ -16,7 +16,7 @@ namespace SS.Ynote.Classic.Features.Search
         public IncrementalSearcher()
         {
             InitializeComponent();
-            _style = new TextStyle(Brushes.Red, Brushes.Yellow, FontStyle.Regular);
+            _style = new MarkerStyle(new SolidBrush(Color.FromArgb(120, Color.Yellow)));
             tbFind.Focus();
         }
 
@@ -54,13 +54,13 @@ namespace SS.Ynote.Classic.Features.Search
                     : _startPlace;
                 //
 
-                HighlightAllMatches(Tb.Range, @pattern, cbMatchCase.Checked);
+                HighlightAllMatches(Tb.Range, @pattern, !cbMatchCase.Checked);
                 foreach (var r in range.GetRanges(pattern, opt))
                 {
                     Tb.Selection = r;
                     Tb.DoSelectionVisible();
                     Tb.Invalidate();
-                    HighlightAllMatches(Tb.Range, @pattern, cbMatchCase.Checked);
+                    HighlightAllMatches(Tb.Range, @pattern, !cbMatchCase.Checked);
                     return;
                 }
                 //

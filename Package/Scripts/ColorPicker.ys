@@ -1,0 +1,22 @@
+using System.Drawing;
+using System.Windows.Forms;
+using SS.Ynote.Classic.UI;
+
+static void Main(IYnote ynote)
+{
+    using(var dlg = new ColorDialog()){
+        dlg.FullOpen = true;
+        var result = dlg.ShowDialog();
+        if(result == DialogResult.OK)
+        {
+            var edit = ynote.Panel.ActiveDocument;
+            if(edit is Editor)
+                (edit as Editor).Tb.InsertText(ToHex(dlg.Color));
+        }
+    }
+}
+static string ToHex(Color c)
+{
+    string h = string.Format("0x{0:X8}", c.ToArgb());
+    return "#" + h.Substring(h.Length - 6, 6);
+}

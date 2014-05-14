@@ -26,7 +26,7 @@ namespace SS.Ynote.Classic.Features.RunScript
 
         private void CreateBlockCaret()
         {
-            var size = Convert.ToInt32(shellControl.InternalRichTextBox.Font.Size) + 2;
+            var size = Convert.ToInt32(shellControl.InternalRichTextBox.Font.Size) + 1;
             CreateCaret(shellControl.InternalRichTextBox.Handle, IntPtr.Zero, 10, size);
             ShowCaret(shellControl.InternalRichTextBox.Handle);
         }

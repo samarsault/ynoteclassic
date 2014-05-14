@@ -339,7 +339,8 @@ namespace SS.Ynote.Classic.Features.Syntax
         /// </summary>
         public void LoadAllSyntaxes()
         {
-            foreach (var file in Directory.GetFiles(string.Format(@"{0}\Syntaxes\", Settings.SettingsDir), "*.xml"))
+            foreach (
+                var file in Directory.GetFiles(string.Format(@"{0}\Syntaxes\", Settings.SettingsDir), "*.ynotesyntax"))
                 LoadedSyntaxes.Add(GenerateBase(file));
         }
 
@@ -1433,8 +1434,8 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.CommentPrefix = "//";
             e.ChangedRange.tb.LeftBracket = '(';
             e.ChangedRange.tb.RightBracket = ')';
-            e.ChangedRange.tb.LeftBracket2 = '[';
-            e.ChangedRange.tb.RightBracket2 = ']';
+            e.ChangedRange.tb.LeftBracket2 = '{';
+            e.ChangedRange.tb.RightBracket2 = '}';
             //clear style of changed range
             e.ChangedRange.tb.Range.ClearStyle(CommentStyle);
             e.ChangedRange.ClearStyle(StringStyle, NumberStyle, AttributeStyle, ClassNameStyle, FunctionNameStyle,
@@ -1528,8 +1529,8 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.CommentPrefix = "//";
             e.ChangedRange.tb.LeftBracket = '(';
             e.ChangedRange.tb.RightBracket = ')';
-            e.ChangedRange.tb.LeftBracket2 = '[';
-            e.ChangedRange.tb.RightBracket2 = ']';
+            e.ChangedRange.tb.LeftBracket2 = '{';
+            e.ChangedRange.tb.RightBracket2 = '}';
             //clear style of visible range
             e.ChangedRange.tb.Range.ClearStyle(CommentStyle);
             //clear style of changed range
@@ -1818,6 +1819,10 @@ namespace SS.Ynote.Classic.Features.Syntax
 
         private void ScalaSyntaxHighlight(TextChangedEventArgs e)
         {
+            e.ChangedRange.tb.LeftBracket = '(';
+            e.ChangedRange.tb.RightBracket = ')';
+            e.ChangedRange.tb.LeftBracket2 = '{';
+            e.ChangedRange.tb.RightBracket2 = '}';
             e.ChangedRange.tb.CommentPrefix = "//";
             var commentRegex1 = new Regex(@"//.*$", RegexOptions.Multiline);
             var commentRegex2 = new Regex(@"(/\*.*?\*/)|(/\*.*)", RegexOptions.Singleline);

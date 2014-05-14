@@ -13,7 +13,15 @@
 -> Added @ ruby variable highlighting
 -> Fixed syntax highlight on file_open when text changes error
 -> Added word auto-completion
+Build 343
 -> Extended Snippets with TabTrigger, Description and much more.
+-> Added MultiSelect in OpenFile
 -> UI Improvements in Commander
 -> Added CommandWindow and removed ClipboardHistory and SwitchFile
+Build 355
 -> Improved Snippet Insertion and Brace Completion with Auto-Indentation
+-> Script Loading From Asm Fixed
+-> Changed Ynote Script Cache File to ysc ( Ynote Script Compiled ) file.
+-> Added SUP Updater
+-> Added FileName to SaveFileDialog
+-> Incremental Search Highlight Improvements

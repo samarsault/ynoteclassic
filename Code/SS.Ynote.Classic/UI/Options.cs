@@ -333,10 +333,12 @@ namespace SS.Ynote.Classic.UI
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (Application.OpenForms[0] is IYnote)
-                (Application.OpenForms[0] as IYnote).OpenFile(Settings.SettingsDir + "Settings.ini");
-            else
-                (Application.OpenForms[1] as IYnote).OpenFile(Settings.SettingsDir + "Settings.ini");
+            var ynote = Application.OpenForms[1] as IYnote;
+            if (ynote == null)
+                ynote = Application.OpenForms[0] as IYnote;
+
+            ynote.OpenFile(Settings.SettingsDir + "Settings.ini");
+            Close();
         }
     }
 

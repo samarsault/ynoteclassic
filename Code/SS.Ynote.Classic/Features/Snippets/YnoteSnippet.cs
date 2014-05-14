@@ -1,6 +1,6 @@
 ﻿#define DEVBUILD
+
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using FastColoredTextBoxNS;
@@ -10,11 +10,6 @@ namespace SS.Ynote.Classic.Features.Snippets
 {
     public class YnoteSnippet
     {
-        /// <summary>
-        ///     Name of the Snippet
-        /// </summary>
-        public string Name { get; set; }
-
         /// <summary>
         ///     Description of the Snippet
         /// </summary>
@@ -67,9 +62,6 @@ namespace SS.Ynote.Classic.Features.Snippets
                     {
                         switch (reader.Name)
                         {
-                            case "name":
-                                snippet.Name = reader.ReadElementContentAsString();
-                                break;
                             case "description":
                                 snippet.Description = reader.ReadElementContentAsString();
                                 break;
