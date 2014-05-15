@@ -1,0 +1,17 @@
+//css_ref System.Speech;
+// Ynote Script to Read Text Aloud
+using SS.Ynote.Classic.UI;
+using System.Speech.Synthesis;
+
+static void Main(IYnote ynote)
+{
+    var document = ynote.Panel.ActiveDocument as Editor;
+    if(document == null)
+        return;
+    var speak = new SpeechSynthesizer();
+    speak.Volume = 100;
+    if(string.IsNullOrEmpty(document.Tb.SelectedText))
+        speak.SpeakAsync(document.Tb.Text);
+    else
+        speak.SpeakAsync(document.Tb.SelectedText);
+}

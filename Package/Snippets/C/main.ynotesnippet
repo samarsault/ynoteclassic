@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+    <YnoteSnippet>
+        <description>Main Method for C/C++</description>
+        <tabTrigger>main</tabTrigger>
+        <content><![CDATA[int main(int argc, char const *argv[])$eol{$eol^$eolreturn 0;$eol}]]></content>
+    </YnoteSnippet>
