@@ -29,3 +29,9 @@ Build 360
 -> CSS Highlighter Improvements
 Build 364
 -> Fixed Regex Crucial bug in SyntaxHighlighter
+Build 370
+-> Added CSS and Javascript to Html Syntax Highlight
+Build 373
+-> Added Show Document Map from Menu
+Build 378
+-> Restructured Menu

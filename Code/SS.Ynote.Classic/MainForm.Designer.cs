@@ -47,7 +47,6 @@
             this.misaveall = new System.Windows.Forms.MenuItem();
             this.seperator20 = new System.Windows.Forms.MenuItem();
             this.miproperties = new System.Windows.Forms.MenuItem();
-            this.seperator21 = new System.Windows.Forms.MenuItem();
             this.miprint = new System.Windows.Forms.MenuItem();
             this.seperator22 = new System.Windows.Forms.MenuItem();
             this.fromrtf = new System.Windows.Forms.MenuItem();
@@ -64,11 +63,10 @@
             this.seperator2 = new System.Windows.Forms.MenuItem();
             this.CutMenuItem = new System.Windows.Forms.MenuItem();
             this.CopyMenuItem = new System.Windows.Forms.MenuItem();
-            this.PasteMenuItem = new System.Windows.Forms.MenuItem();
-            this.seperator3 = new System.Windows.Forms.MenuItem();
             this.micopyas = new System.Windows.Forms.MenuItem();
             this.micopyhtml = new System.Windows.Forms.MenuItem();
             this.micopyrtf = new System.Windows.Forms.MenuItem();
+            this.PasteMenuItem = new System.Windows.Forms.MenuItem();
             this.selectallmenu = new System.Windows.Forms.MenuItem();
             this.seperator23 = new System.Windows.Forms.MenuItem();
             this.miinsert = new System.Windows.Forms.MenuItem();
@@ -110,12 +108,6 @@
             this.seperator16 = new System.Windows.Forms.MenuItem();
             this.migotoleftbracket = new System.Windows.Forms.MenuItem();
             this.migotorightbracket = new System.Windows.Forms.MenuItem();
-            this.seperator15 = new System.Windows.Forms.MenuItem();
-            this.mileftbracket2 = new System.Windows.Forms.MenuItem();
-            this.migorightbracket2 = new System.Windows.Forms.MenuItem();
-            this.seperator14 = new System.Windows.Forms.MenuItem();
-            this.migoleftbracket3 = new System.Windows.Forms.MenuItem();
-            this.migorightbracket3 = new System.Windows.Forms.MenuItem();
             this.miline = new System.Windows.Forms.MenuItem();
             this.movelineup = new System.Windows.Forms.MenuItem();
             this.movelinedown = new System.Windows.Forms.MenuItem();
@@ -155,13 +147,8 @@
             this.gotobookmark = new System.Windows.Forms.MenuItem();
             this.navigatethroughbookmarks = new System.Windows.Forms.MenuItem();
             this.miconversions = new System.Windows.Forms.MenuItem();
-            this.mispacestotab = new System.Windows.Forms.MenuItem();
-            this.mitabtospaces = new System.Windows.Forms.MenuItem();
-            this.seperator11 = new System.Windows.Forms.MenuItem();
             this.miselectiontohex = new System.Windows.Forms.MenuItem();
             this.miselectiontoascii = new System.Windows.Forms.MenuItem();
-            this.seperator13 = new System.Windows.Forms.MenuItem();
-            this.replacemode = new System.Windows.Forms.MenuItem();
             this.viewmenu = new System.Windows.Forms.MenuItem();
             this.menuItem2 = new System.Windows.Forms.MenuItem();
             this.statusbarmenuitem = new System.Windows.Forms.MenuItem();
@@ -173,6 +160,7 @@
             this.mitransparent = new System.Windows.Forms.MenuItem();
             this.mifullscreen = new System.Windows.Forms.MenuItem();
             this.seperator27 = new System.Windows.Forms.MenuItem();
+            this.mimap = new System.Windows.Forms.MenuItem();
             this.milanguage = new System.Windows.Forms.MenuItem();
             this.misnippets = new System.Windows.Forms.MenuItem();
             this.seperator29 = new System.Windows.Forms.MenuItem();
@@ -188,7 +176,7 @@
             this.wordwrapmenu = new System.Windows.Forms.MenuItem();
             this.seperator24 = new System.Windows.Forms.MenuItem();
             this.midocinfo = new System.Windows.Forms.MenuItem();
-            this.miprojectmanager = new System.Windows.Forms.MenuItem();
+            this.mifoldermanager = new System.Windows.Forms.MenuItem();
             this.seperator26 = new System.Windows.Forms.MenuItem();
             this.menuItem6 = new System.Windows.Forms.MenuItem();
             this.misplitbelow = new System.Windows.Forms.MenuItem();
@@ -302,7 +290,6 @@
             this.misaveall,
             this.seperator20,
             this.miproperties,
-            this.seperator21,
             this.miprint,
             this.seperator22,
             this.fromrtf,
@@ -373,13 +360,13 @@
             // misaveas
             // 
             this.misaveas.Index = 9;
-            this.misaveas.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftS;
             this.misaveas.Text = "Save As";
             this.misaveas.Click += new System.EventHandler(this.misaveas_Click);
             // 
             // misaveall
             // 
             this.misaveall.Index = 10;
+            this.misaveall.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftS;
             this.misaveall.Text = "Save All";
             this.misaveall.Click += new System.EventHandler(this.misaveall_Click);
             // 
@@ -395,32 +382,27 @@
             this.miproperties.Text = "Properties";
             this.miproperties.Click += new System.EventHandler(this.miproperties_Click);
             // 
-            // seperator21
-            // 
-            this.seperator21.Index = 13;
-            this.seperator21.Text = "-";
-            // 
             // miprint
             // 
-            this.miprint.Index = 14;
+            this.miprint.Index = 13;
             this.miprint.Shortcut = System.Windows.Forms.Shortcut.CtrlP;
             this.miprint.Text = "Print";
             this.miprint.Click += new System.EventHandler(this.miprint_Click);
             // 
             // seperator22
             // 
-            this.seperator22.Index = 15;
+            this.seperator22.Index = 14;
             this.seperator22.Text = "-";
             // 
             // fromrtf
             // 
-            this.fromrtf.Index = 16;
+            this.fromrtf.Index = 15;
             this.fromrtf.Text = "Import From RTF";
             this.fromrtf.Click += new System.EventHandler(this.fromrtf_Click);
             // 
             // miexport
             // 
-            this.miexport.Index = 17;
+            this.miexport.Index = 16;
             this.miexport.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.pngexport,
             this.rtfExport,
@@ -447,19 +429,19 @@
             // 
             // seperator25
             // 
-            this.seperator25.Index = 18;
+            this.seperator25.Index = 17;
             this.seperator25.Text = "-";
             // 
             // miclose
             // 
-            this.miclose.Index = 19;
+            this.miclose.Index = 18;
             this.miclose.Shortcut = System.Windows.Forms.Shortcut.CtrlW;
             this.miclose.Text = "Close";
             this.miclose.Click += new System.EventHandler(this.miclose_Click);
             // 
             // ExitMenu
             // 
-            this.ExitMenu.Index = 20;
+            this.ExitMenu.Index = 19;
             this.ExitMenu.Text = "Exit";
             this.ExitMenu.Click += new System.EventHandler(this.ExitMenu_Click);
             // 
@@ -472,9 +454,8 @@
             this.seperator2,
             this.CutMenuItem,
             this.CopyMenuItem,
-            this.PasteMenuItem,
-            this.seperator3,
             this.micopyas,
+            this.PasteMenuItem,
             this.selectallmenu,
             this.seperator23,
             this.miinsert,
@@ -489,9 +470,7 @@
             this.miblankops,
             this.micase,
             this.mibookmarks,
-            this.miconversions,
-            this.seperator13,
-            this.replacemode});
+            this.miconversions});
             this.editmenu.Text = "Edit";
             // 
             // UndoMenuItem
@@ -523,20 +502,9 @@
             this.CopyMenuItem.Text = "Copy";
             this.CopyMenuItem.Click += new System.EventHandler(this.CopyMenuItem_Click);
             // 
-            // PasteMenuItem
-            // 
-            this.PasteMenuItem.Index = 5;
-            this.PasteMenuItem.Text = "Paste";
-            this.PasteMenuItem.Click += new System.EventHandler(this.PasteMenuItem_Click);
-            // 
-            // seperator3
-            // 
-            this.seperator3.Index = 6;
-            this.seperator3.Text = "-";
-            // 
             // micopyas
             // 
-            this.micopyas.Index = 7;
+            this.micopyas.Index = 5;
             this.micopyas.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.micopyhtml,
             this.micopyrtf});
@@ -554,20 +522,26 @@
             this.micopyrtf.Text = "Rich Text";
             this.micopyrtf.Click += new System.EventHandler(this.micopyrtf_Click);
             // 
+            // PasteMenuItem
+            // 
+            this.PasteMenuItem.Index = 6;
+            this.PasteMenuItem.Text = "Paste";
+            this.PasteMenuItem.Click += new System.EventHandler(this.PasteMenuItem_Click);
+            // 
             // selectallmenu
             // 
-            this.selectallmenu.Index = 8;
+            this.selectallmenu.Index = 7;
             this.selectallmenu.Text = "Select All";
             this.selectallmenu.Click += new System.EventHandler(this.selectallmenu_Click);
             // 
             // seperator23
             // 
-            this.seperator23.Index = 9;
+            this.seperator23.Index = 8;
             this.seperator23.Text = "-";
             // 
             // miinsert
             // 
-            this.miinsert.Index = 10;
+            this.miinsert.Index = 9;
             this.miinsert.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.miinschars,
             this.midatetime,
@@ -636,19 +610,19 @@
             // 
             // miinscliphis
             // 
-            this.miinscliphis.Index = 11;
+            this.miinscliphis.Index = 10;
             this.miinscliphis.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftV;
             this.miinscliphis.Text = "Insert From History";
             this.miinscliphis.Click += new System.EventHandler(this.miinscliphis_Click);
             // 
             // menuItem3
             // 
-            this.menuItem3.Index = 12;
+            this.menuItem3.Index = 11;
             this.menuItem3.Text = "-";
             // 
             // misearch
             // 
-            this.misearch.Index = 13;
+            this.misearch.Index = 12;
             this.misearch.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.findmenu,
             this.mifindnext,
@@ -703,7 +677,7 @@
             // 
             // miindent
             // 
-            this.miindent.Index = 14;
+            this.miindent.Index = 13;
             this.miindent.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.increaseindent,
             this.decreaseindent,
@@ -730,7 +704,7 @@
             // 
             // commentmenu
             // 
-            this.commentmenu.Index = 15;
+            this.commentmenu.Index = 14;
             this.commentmenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.commentline,
             this.uncommentline});
@@ -751,7 +725,7 @@
             // 
             // minav
             // 
-            this.minav.Index = 16;
+            this.minav.Index = 15;
             this.minav.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.migotol,
             this.miswitchfile,
@@ -763,20 +737,14 @@
             this.navbackwardmenu,
             this.seperator16,
             this.migotoleftbracket,
-            this.migotorightbracket,
-            this.seperator15,
-            this.mileftbracket2,
-            this.migorightbracket2,
-            this.seperator14,
-            this.migoleftbracket3,
-            this.migorightbracket3});
+            this.migotorightbracket});
             this.minav.Text = "Navigation";
             // 
             // migotol
             // 
             this.migotol.Index = 0;
             this.migotol.Shortcut = System.Windows.Forms.Shortcut.CtrlG;
-            this.migotol.Text = "Go To Line";
+            this.migotol.Text = "Go To Line / Column";
             this.migotol.Click += new System.EventHandler(this.migotoline_Click);
             // 
             // miswitchfile
@@ -811,13 +779,13 @@
             // navforwardmenu
             // 
             this.navforwardmenu.Index = 6;
-            this.navforwardmenu.Text = "Navigate Forward";
+            this.navforwardmenu.Text = "Go Forward";
             this.navforwardmenu.Click += new System.EventHandler(this.navforwardmenu_Click);
             // 
             // navbackwardmenu
             // 
             this.navbackwardmenu.Index = 7;
-            this.navbackwardmenu.Text = "Navigate Backward";
+            this.navbackwardmenu.Text = "Go Back";
             this.navbackwardmenu.Click += new System.EventHandler(this.navbackwardmenu_Click);
             // 
             // seperator16
@@ -828,52 +796,18 @@
             // migotoleftbracket
             // 
             this.migotoleftbracket.Index = 9;
-            this.migotoleftbracket.Text = "Go to Left Bracket (";
+            this.migotoleftbracket.Text = "Go to Left Bracket";
             this.migotoleftbracket.Click += new System.EventHandler(this.migoleftbracket_Click);
             // 
             // migotorightbracket
             // 
             this.migotorightbracket.Index = 10;
-            this.migotorightbracket.Text = "Go to Right Bracket )";
+            this.migotorightbracket.Text = "Go to Right Bracket";
             this.migotorightbracket.Click += new System.EventHandler(this.migorightbracket_Click);
-            // 
-            // seperator15
-            // 
-            this.seperator15.Index = 11;
-            this.seperator15.Text = "-";
-            // 
-            // mileftbracket2
-            // 
-            this.mileftbracket2.Index = 12;
-            this.mileftbracket2.Text = "Go to Left Bracket {";
-            this.mileftbracket2.Click += new System.EventHandler(this.migoleftbracket2_Click);
-            // 
-            // migorightbracket2
-            // 
-            this.migorightbracket2.Index = 13;
-            this.migorightbracket2.Text = "Go to Right Bracket }";
-            this.migorightbracket2.Click += new System.EventHandler(this.migorightbracket2_Click);
-            // 
-            // seperator14
-            // 
-            this.seperator14.Index = 14;
-            this.seperator14.Text = "-";
-            // 
-            // migoleftbracket3
-            // 
-            this.migoleftbracket3.Index = 15;
-            this.migoleftbracket3.Text = "Go Left Bracket [";
-            this.migoleftbracket3.Click += new System.EventHandler(this.migoleftbracket3_Click);
-            // 
-            // migorightbracket3
-            // 
-            this.migorightbracket3.Index = 16;
-            this.migorightbracket3.Text = "Go Right Bracket ]";
-            this.migorightbracket3.Click += new System.EventHandler(this.migorightbracket3_Click);
             // 
             // miline
             // 
-            this.miline.Index = 17;
+            this.miline.Index = 16;
             this.miline.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.movelineup,
             this.movelinedown,
@@ -970,7 +904,7 @@
             // 
             // mifolding
             // 
-            this.mifolding.Index = 18;
+            this.mifolding.Index = 17;
             this.mifolding.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.foldallmenu,
             this.unfoldmenu,
@@ -1010,7 +944,7 @@
             // 
             // miblankops
             // 
-            this.miblankops.Index = 19;
+            this.miblankops.Index = 18;
             this.miblankops.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.mitts,
             this.mitls,
@@ -1066,7 +1000,7 @@
             // 
             // micase
             // 
-            this.micase.Index = 20;
+            this.micase.Index = 19;
             this.micase.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.caseuppermenu,
             this.caselowermenu,
@@ -1101,7 +1035,7 @@
             // 
             // mibookmarks
             // 
-            this.mibookmarks.Index = 21;
+            this.mibookmarks.Index = 20;
             this.mibookmarks.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.Addbookmarkmenu,
             this.removebookmarkmenu,
@@ -1136,54 +1070,23 @@
             // 
             // miconversions
             // 
-            this.miconversions.Index = 22;
+            this.miconversions.Index = 21;
             this.miconversions.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.mispacestotab,
-            this.mitabtospaces,
-            this.seperator11,
             this.miselectiontohex,
             this.miselectiontoascii});
             this.miconversions.Text = "Conversions";
             // 
-            // mispacestotab
-            // 
-            this.mispacestotab.Index = 0;
-            this.mispacestotab.Text = "Spaces To Tab";
-            this.mispacestotab.Click += new System.EventHandler(this.mispacestotab_Click);
-            // 
-            // mitabtospaces
-            // 
-            this.mitabtospaces.Index = 1;
-            this.mitabtospaces.Text = "Tab To Spaces";
-            this.mitabtospaces.Click += new System.EventHandler(this.mitabtospaces_Click);
-            // 
-            // seperator11
-            // 
-            this.seperator11.Index = 2;
-            this.seperator11.Text = "-";
-            // 
             // miselectiontohex
             // 
-            this.miselectiontohex.Index = 3;
+            this.miselectiontohex.Index = 0;
             this.miselectiontohex.Text = "Selection to Hex";
             this.miselectiontohex.Click += new System.EventHandler(this.miseltohex_Click);
             // 
             // miselectiontoascii
             // 
-            this.miselectiontoascii.Index = 4;
+            this.miselectiontoascii.Index = 1;
             this.miselectiontoascii.Text = "Selection to ASCII";
             this.miselectiontoascii.Click += new System.EventHandler(this.miseltoASCII_Click);
-            // 
-            // seperator13
-            // 
-            this.seperator13.Index = 23;
-            this.seperator13.Text = "-";
-            // 
-            // replacemode
-            // 
-            this.replacemode.Index = 24;
-            this.replacemode.Text = "Switch Editing Mode        [Ins]";
-            this.replacemode.Click += new System.EventHandler(this.replacemode_Click);
             // 
             // viewmenu
             // 
@@ -1196,6 +1099,7 @@
             this.mitransparent,
             this.mifullscreen,
             this.seperator27,
+            this.mimap,
             this.milanguage,
             this.misnippets,
             this.seperator29,
@@ -1205,10 +1109,11 @@
             this.wordwrapmenu,
             this.seperator24,
             this.midocinfo,
-            this.miprojectmanager,
+            this.mifoldermanager,
             this.seperator26,
             this.menuItem6});
             this.viewmenu.Text = "View";
+            this.viewmenu.Select += new System.EventHandler(this.viewmenu_Select);
             // 
             // menuItem2
             // 
@@ -1273,27 +1178,33 @@
             this.seperator27.Index = 6;
             this.seperator27.Text = "-";
             // 
+            // mimap
+            // 
+            this.mimap.Index = 7;
+            this.mimap.Text = "Document Map";
+            this.mimap.Click += new System.EventHandler(this.mimap_Click);
+            // 
             // milanguage
             // 
-            this.milanguage.Index = 7;
+            this.milanguage.Index = 8;
             this.milanguage.Text = "Syntax Highlight";
             this.milanguage.Select += new System.EventHandler(this.milanguage_Select);
             // 
             // misnippets
             // 
-            this.misnippets.Index = 8;
+            this.misnippets.Index = 9;
             this.misnippets.Shortcut = System.Windows.Forms.Shortcut.CtrlK;
             this.misnippets.Text = "Auto Complete";
             this.misnippets.Click += new System.EventHandler(this.misnippets_Click);
             // 
             // seperator29
             // 
-            this.seperator29.Index = 9;
+            this.seperator29.Index = 10;
             this.seperator29.Text = "-";
             // 
             // mimarksel
             // 
-            this.mimarksel.Index = 10;
+            this.mimarksel.Index = 11;
             this.mimarksel.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.miredmark,
             this.mibluemark,
@@ -1341,47 +1252,48 @@
             // 
             // mihiddenchars
             // 
-            this.mihiddenchars.Index = 11;
+            this.mihiddenchars.Index = 12;
             this.mihiddenchars.Text = "Hidden Characters";
             this.mihiddenchars.Click += new System.EventHandler(this.mihiddenchars_Click);
             // 
             // mishowunsaved
             // 
-            this.mishowunsaved.Index = 12;
+            this.mishowunsaved.Index = 13;
             this.mishowunsaved.Text = "Show Unsaved Changes";
             this.mishowunsaved.Click += new System.EventHandler(this.mishowunsaved_Click);
             // 
             // wordwrapmenu
             // 
-            this.wordwrapmenu.Index = 13;
+            this.wordwrapmenu.Index = 14;
             this.wordwrapmenu.Text = "Word Wrap";
             this.wordwrapmenu.Click += new System.EventHandler(this.wordwrapmenu_Click);
             // 
             // seperator24
             // 
-            this.seperator24.Index = 14;
+            this.seperator24.Index = 15;
             this.seperator24.Text = "-";
             // 
             // midocinfo
             // 
-            this.midocinfo.Index = 15;
+            this.midocinfo.Index = 16;
             this.midocinfo.Text = "Document Info";
             this.midocinfo.Click += new System.EventHandler(this.midocinfo_Click);
             // 
-            // miprojectmanager
+            // mifoldermanager
             // 
-            this.miprojectmanager.Index = 16;
-            this.miprojectmanager.Text = "Folder Manager";
-            this.miprojectmanager.Click += new System.EventHandler(this.menuItem95_Click);
+            this.mifoldermanager.Index = 17;
+            this.mifoldermanager.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftB;
+            this.mifoldermanager.Text = "Folder Manager";
+            this.mifoldermanager.Click += new System.EventHandler(this.mifoldermanager_Click);
             // 
             // seperator26
             // 
-            this.seperator26.Index = 17;
+            this.seperator26.Index = 18;
             this.seperator26.Text = "-";
             // 
             // menuItem6
             // 
-            this.menuItem6.Index = 18;
+            this.menuItem6.Index = 19;
             this.menuItem6.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.misplitbelow,
             this.misplitbeside,
@@ -2031,7 +1943,6 @@
         private System.Windows.Forms.MenuItem revertMenu;
         private System.Windows.Forms.MenuItem seperator20;
         private System.Windows.Forms.MenuItem miproperties;
-        private System.Windows.Forms.MenuItem seperator21;
         private System.Windows.Forms.MenuItem miprint;
         private System.Windows.Forms.MenuItem misaveall;
         private System.Windows.Forms.MenuItem seperator22;
@@ -2108,7 +2019,6 @@
         private System.Windows.Forms.MenuItem removebookmarkmenu;
         private System.Windows.Forms.MenuItem gotobookmark;
         private System.Windows.Forms.MenuItem navigatethroughbookmarks;
-        private System.Windows.Forms.MenuItem seperator13;
         private System.Windows.Forms.MenuItem mihiddenchars;
         private System.Windows.Forms.MenuItem wordwrapmenu;
         private System.Windows.Forms.MenuItem seperator24;
@@ -2116,7 +2026,6 @@
         private System.Windows.Forms.MenuItem commentline;
         private System.Windows.Forms.MenuItem uncommentline;
         private System.Windows.Forms.MenuItem doindent;
-        private System.Windows.Forms.MenuItem replacemode;
         private System.Windows.Forms.MenuItem swapcase;
         private System.Windows.Forms.ToolStripStatusLabel infolabel;
         private System.Windows.Forms.ToolStripStatusLabel gapfiller1;
@@ -2162,11 +2071,9 @@
         private System.Windows.Forms.MenuItem mifindnext;
         private System.Windows.Forms.MenuItem mitpunctuation;
         private System.Windows.Forms.MenuItem miconversions;
-        private System.Windows.Forms.MenuItem miprojectmanager;
+        private System.Windows.Forms.MenuItem mifoldermanager;
         private System.Windows.Forms.MenuItem seperator26;
         private System.Windows.Forms.MenuItem mimacros;
-        private System.Windows.Forms.MenuItem mispacestotab;
-        private System.Windows.Forms.MenuItem mitabtospaces;
         private System.Windows.Forms.MenuItem mikeymapeditor;
         private System.Windows.Forms.ToolStripStatusLabel mistats;
         private System.Windows.Forms.MenuItem miscripts;
@@ -2178,12 +2085,6 @@
         private System.Windows.Forms.MenuItem seperator16;
         private System.Windows.Forms.MenuItem migotoleftbracket;
         private System.Windows.Forms.MenuItem migotorightbracket;
-        private System.Windows.Forms.MenuItem seperator15;
-        private System.Windows.Forms.MenuItem mileftbracket2;
-        private System.Windows.Forms.MenuItem migorightbracket2;
-        private System.Windows.Forms.MenuItem seperator14;
-        private System.Windows.Forms.MenuItem migoleftbracket3;
-        private System.Windows.Forms.MenuItem migorightbracket3;
         private System.Windows.Forms.MenuItem mimarksel;
         private System.Windows.Forms.MenuItem miclearmarked;
         private System.Windows.Forms.MenuItem miredmark;
@@ -2196,7 +2097,6 @@
         private System.Windows.Forms.MenuItem seperator28;
         private System.Windows.Forms.MenuItem misnippets;
         private System.Windows.Forms.MenuItem seperator29;
-        private System.Windows.Forms.MenuItem seperator11;
         private System.Windows.Forms.MenuItem miselectiontohex;
         private System.Windows.Forms.MenuItem miselectiontoascii;
         private System.Windows.Forms.MenuItem miupdates;
@@ -2206,7 +2106,6 @@
         private System.Windows.Forms.ToolStripStatusLabel gapfiller2;
         private System.Windows.Forms.MenuItem seperator7;
         private System.Windows.Forms.MenuItem micomparewith;
-        private System.Windows.Forms.MenuItem seperator3;
         private System.Windows.Forms.MenuItem micopyas;
         private System.Windows.Forms.MenuItem micopyhtml;
         private System.Windows.Forms.MenuItem micopyrtf;
@@ -2245,6 +2144,7 @@
         private MenuItem misplitbelow;
         private MenuItem misplitbeside;
         private MenuItem menuItem4;
+        private MenuItem mimap;
     }
 }
 

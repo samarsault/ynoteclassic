@@ -1,4 +1,5 @@
-﻿using System;
+﻿#define Styles32
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -5562,7 +5563,7 @@ namespace FastColoredTextBoxNS
                 SetCaretPos(car.X, car.Y);
                 ShowCaret(Handle);
                 if (WideCaret)
-                    using (var brush = new SolidBrush(CaretColor))
+                    using (var brush = new SolidBrush(Color.FromArgb(150, CaretColor)))
                         e.Graphics.FillRectangle(brush, car.X, car.Y, carWidth, CharHeight + 1);
                 else
                     using (var pen = new Pen(CaretColor))
@@ -8287,7 +8288,7 @@ window.status = ""#print"";
 
 #if Styles32
     /// <summary>
-    /// Style index mask (32 styles)
+    ///     Style index mask (32 styles)
     /// </summary>
     [Flags]
     public enum StyleIndex : uint

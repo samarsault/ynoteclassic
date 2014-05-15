@@ -40,6 +40,7 @@ namespace SS.Ynote.Classic.UI
         private Style _invisibleCharsStyle;
 
         internal AutocompleteMenu autocomplete;
+        private DocumentMap map;
 
         /// <summary>
         ///     Default Constructor
@@ -53,6 +54,27 @@ namespace SS.Ynote.Classic.UI
             InitSettings();
             if (SyntaxHighlighter.LoadedSyntaxes.Any()) return;
             Highlighter.LoadAllSyntaxes();
+        }
+
+        /// <summary>
+        ///     Whether to Show Document Map
+        /// </summary>
+        public bool ShowDocumentMap
+        {
+            get
+            {
+                if (map == null)
+                    return false;
+                if (map != null || map.Visible)
+                    return true;
+                return false;
+            }
+            set
+            {
+                if (map == null) CreateDocumentMap();
+                map.Visible = value;
+                Settings.ShowDocumentMap = value;
+            }
         }
 
 
@@ -93,10 +115,6 @@ namespace SS.Ynote.Classic.UI
 
         private void LoadSnippets(Language language)
         {
-#if DEBUG
-            var sp = new Stopwatch();
-            sp.Start();
-#endif
             Snippets = new List<YnoteSnippet>();
             var dir = YnoteSnippet.GetDirectory(language);
             foreach (var snipfile in Directory.GetFiles(dir))
@@ -104,10 +122,6 @@ namespace SS.Ynote.Classic.UI
                 YnoteSnippet snippet = YnoteSnippet.Read(snipfile);
                 Snippets.Add(snippet);
             }
-#if DEBUG
-            sp.Stop();
-            Debug.WriteLine(sp.ElapsedMilliseconds + " ms LoadSnippets(" + language + ");");
-#endif
         }
 
         private void InitSettings()
@@ -134,19 +148,7 @@ namespace SS.Ynote.Classic.UI
                 codebox.ImeMode = ImeMode.On;
             if (Settings.ShowDocumentMap)
             {
-                var map = new DocumentMap
-                {
-                    Dock = DockStyle.Right,
-                    BackColor = codebox.BackColor,
-                    ForeColor = codebox.SelectionColor,
-                    Location = new Point(144, 0),
-                    ScrollbarVisible = false,
-                    Size = new Size(140, 262),
-                    TabIndex = 2,
-                    Visible = true,
-                    Target = codebox
-                };
-                Controls.Add(map);
+                CreateDocumentMap();
             }
             if (!Settings.ShowRuler) return;
             var ruler = new Ruler
@@ -158,6 +160,21 @@ namespace SS.Ynote.Classic.UI
                 Target = codebox
             };
             Controls.Add(ruler);
+        }
+
+        private void CreateDocumentMap()
+        {
+            map = new DocumentMap();
+            map.Dock = DockStyle.Right;
+            map.BackColor = codebox.BackColor;
+            map.ForeColor = codebox.SelectionColor;
+            map.Location = new Point(144, 0);
+            map.ScrollbarVisible = false;
+            map.Size = new Size(140, 262);
+            map.TabIndex = 2;
+            map.Visible = true;
+            map.Target = codebox;
+            Controls.Add(map);
         }
 
         /// <summary>

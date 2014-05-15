@@ -268,7 +268,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                     break;
 
                 case Language.HTML:
-                    HighlightHtmlCSS(args);
+                    HtmlSyntaxHighlight(args);
                     break;
 
                 case Language.Javascript:
@@ -1362,15 +1362,26 @@ namespace SS.Ynote.Classic.Features.Syntax
             }
         }
 
-        private void HighlightHtmlCSS(TextChangedEventArgs e)
+        private void HtmlSyntaxHighlight(TextChangedEventArgs e)
         {
             HTMLSyntaxHighlight(e);
-            foreach (var r in e.ChangedRange.tb.GetRanges(@"(<style.*?>.*?</style>)", RegexOptions.Singleline))
+            foreach (var range in e.ChangedRange.tb.GetRanges(@"(<style.*?>.*?</style>)", RegexOptions.Singleline))
             {
-                //remove HTML highlighting from this fragment
-                r.ClearStyle(CommentStyle, AttributeStyle, AttributeValueStyle, HtmlEntityStyle);
+                //remove HTML and JS from this fragment
+                range.ClearStyle(CommentStyle, TagBracketStyle, AttributeStyle, AttributeValueStyle,
+                    HtmlEntityStyle, StringStyle, NumberStyle, KeywordStyle, KeywordStyle2, ClassNameStyle,
+                    FunctionNameStyle, CharStyle);
                 //do CSS highlighting
-                CssHighlight(new TextChangedEventArgs(r));
+                CssHighlight(new TextChangedEventArgs(range));
+            }
+            foreach (var r in e.ChangedRange.tb.GetRanges(@"(<script.*?>.*?</script>)", RegexOptions.Singleline))
+            {
+                //remove HTML and CSS highlighting from this fragment
+                r.ClearStyle(CommentStyle, TagBracketStyle,
+                    HtmlEntityStyle, CSSPropertyStyle, CSSSelectorStyle, CSSPropertyValueStyle,
+                    NumberStyle);
+                //do javascript highlighting
+                JScriptSyntaxHighlight(new TextChangedEventArgs(r));
             }
         }
 
@@ -2128,7 +2139,6 @@ namespace SS.Ynote.Classic.Features.Syntax
 
         private void CoffeeScriptSyntaxHighlight(TextChangedEventArgs e)
         {
-            //TODO: Improve CoffeeScript
             e.ChangedRange.tb.CommentPrefix = "#";
             e.ChangedRange.tb.LeftBracket = '(';
             e.ChangedRange.tb.LeftBracket2 = '[';

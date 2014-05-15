@@ -150,8 +150,18 @@ namespace SS.Ynote.Classic
                     File.WriteAllText(file, null);
                     continue;
                 }
-                if (Panel.Documents.Cast<DockContent>().Any(doc => doc is Editor && doc.Name == file))
+                if (dock.Documents.Cast<DockContent>().Any(doc => dock.Name == file))
+                {
+                    dock.Show();
                     return;
+                }
+                // ! LINQ
+                // foreach (DockContent doc in dock.Documents)
+                //     if (dock.Name == file)
+                //     {
+                //         dock.Show();
+                //         return;
+                //     }
                 var edit = new Editor();
                 edit.Text = Path.GetFileName(file);
                 edit.Name = file;
@@ -161,7 +171,7 @@ namespace SS.Ynote.Classic
                 edit.HighlightSyntax(lang);
                 edit.Show(Panel);
                 var info = new FileInfo(file);
-                if (info.Length > 9242800) // if greather than approx 10mb
+                if (info.Length > 5242800) // if greather than approx 5mb
                     edit.Tb.OpenBindingFile(file, encoding);
                 else
                     edit.Tb.OpenFile(file, encoding);
@@ -752,11 +762,6 @@ namespace SS.Ynote.Classic
             }
         }
 
-        private void replacemode_Click(object sender, EventArgs e)
-        {
-            if (ActiveEditor != null) ActiveEditor.Tb.IsReplaceMode = !ActiveEditor.Tb.IsReplaceMode;
-        }
-
         private void movelineup_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null) ActiveEditor.Tb.MoveSelectedLinesUp();
@@ -879,17 +884,6 @@ namespace SS.Ynote.Classic
                 pngs.ShowDialog();
                 if (!string.IsNullOrEmpty(pngs.FileName))
                     bmp.Save(pngs.FileName);
-            }
-        }
-
-        private void mifromdir_Click(object sender, EventArgs e)
-        {
-            using (var fb = new FolderBrowserDialog())
-            {
-                fb.ShowDialog();
-                if (fb.SelectedPath == null) return;
-                foreach (var file in Directory.GetFiles(fb.SelectedPath))
-                    OpenFile(file);
             }
         }
 
@@ -1357,8 +1351,12 @@ namespace SS.Ynote.Classic
         private void fileswitcher_ProcessCommand(object sender, CommandWindowEventArgs e)
         {
             foreach (DockContent content in dock.Documents)
+            {
                 if (content.Text == e.Text)
+                {
                     content.Show(dock);
+                }
+            }
         }
 
         private void mishowunsaved_Click(object sender, EventArgs e)
@@ -1413,7 +1411,7 @@ namespace SS.Ynote.Classic
             ActiveEditor.Tb.ClearCurrentLine();
         }
 
-        private void menuItem95_Click(object sender, EventArgs e)
+        private void mifoldermanager_Click(object sender, EventArgs e)
         {
             var manager = new FolderPanel(this);
             manager.Show(dock, DockState.DockLeft);
@@ -1425,24 +1423,6 @@ namespace SS.Ynote.Classic
             if (item != null) ActiveEditor.Tb.MacrosManager.ExecuteMacros(item.Name);
             /*ActiveEditor.tb.MacrosManager.Macros = File.ReadAllText(item.Name));
             ActiveEditor.tb.MacrosManager.ExecuteMacros();*/
-        }
-
-        private void mispacestotab_Click(object sender, EventArgs e)
-        {
-            var length = ActiveEditor.Tb.TabLength;
-            var builder = new StringBuilder();
-            for (var i = 0; i < length; i++)
-                builder.Append(" ");
-            ActiveEditor.Tb.SelectedText = ActiveEditor.Tb.SelectedText.Replace(builder.ToString(), "\t");
-        }
-
-        private void mitabtospaces_Click(object sender, EventArgs e)
-        {
-            var length = ActiveEditor.Tb.TabLength;
-            var builder = new StringBuilder();
-            for (var i = 0; i < length; i++)
-                builder.Append(" ");
-            ActiveEditor.Tb.SelectedText = ActiveEditor.Tb.SelectedText.Replace("\t", builder.ToString());
         }
 
         private void scriptitem_clicked(object sender, EventArgs e)
@@ -1552,26 +1532,6 @@ namespace SS.Ynote.Classic
             ActiveEditor.Tb.GoRightBracket();
         }
 
-        private void migoleftbracket2_Click(object sender, EventArgs e)
-        {
-            ActiveEditor.Tb.GoLeftBracket();
-        }
-
-        private void migorightbracket2_Click(object sender, EventArgs e)
-        {
-            ActiveEditor.Tb.GoRightBracket();
-        }
-
-        private void migoleftbracket3_Click(object sender, EventArgs e)
-        {
-            ActiveEditor.Tb.GoLeftBracket();
-        }
-
-        private void migorightbracket3_Click(object sender, EventArgs e)
-        {
-            ActiveEditor.Tb.GoRightBracket();
-        }
-
         private void misortlength_Click(object sender, EventArgs e)
         {
             if (ActiveEditor == null) return;
@@ -1646,9 +1606,16 @@ namespace SS.Ynote.Classic
 
         private void miupdates_Click(object sender, EventArgs e)
         {
-            Process.Start(Application.StartupPath + "\\sup.exe",
-                Application.StartupPath + @"\Config\AppFiles.xml http://updateServer.com/UpdateFiles.xml " +
-                Application.ProductVersion);
+            try
+            {
+                Process.Start(Application.StartupPath + "\\sup.exe",
+                    Application.StartupPath + @"\Config\AppFiles.xml http://updateServer.com/UpdateFiles.xml " +
+                    Application.ProductVersion);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error : " + ex.Message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void migoogle_Click(object sender, EventArgs e)
@@ -1900,6 +1867,19 @@ namespace SS.Ynote.Classic
 
             if (curLine < tb.LinesCount)
                 tb.Selection = new Range(tb, 0, curLine, 0, curLine);
+        }
+
+        private void mimap_Click(object sender, EventArgs e)
+        {
+            mimap.Checked = !mimap.Checked;
+            foreach (DockContent content in dock.Documents)
+                if (content is Editor)
+                    (content as Editor).ShowDocumentMap = mimap.Checked;
+        }
+
+        private void viewmenu_Select(object sender, EventArgs e)
+        {
+            mimap.Checked = ActiveEditor.ShowDocumentMap;
         }
     }
 }

@@ -44,6 +44,11 @@ namespace SS.Ynote.Classic.Features.Project
             }
         }
 
+        public string[] Folders
+        {
+            get { return _openFolders.ToArray(); }
+        }
+
         #endregion Constructor
 
         #region Methods
@@ -137,6 +142,7 @@ namespace SS.Ynote.Classic.Features.Project
             }
         }
 
+/*
         /// <summary>
         ///     Finds the root Node
         /// </summary>
@@ -148,6 +154,7 @@ namespace SS.Ynote.Classic.Features.Project
                 treeNode = treeNode.Parent;
             return treeNode;
         }
+*/
 
         /// <summary>
         ///     Delete File/Folder
