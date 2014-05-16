@@ -48,11 +48,14 @@ namespace SS.Ynote.Classic
             BuildAutoComplete();
         }
 
+        public bool IsSnippetMode { get; set; }
+
         public void AddText(string text)
         {
             tbcommand.Text = text;
             tbcommand.Select(tbcommand.Text.Length, 0);
             _addedText = true;
+            completemenu.Show(tbcommand, true);
         }
 
         private void BuildAutoComplete()
@@ -60,13 +63,18 @@ namespace SS.Ynote.Classic
             IList<AutocompleteItem> items = new List<AutocompleteItem>();
             foreach (var cmd in Commands)
                 foreach (var command in cmd.Commands)
-                    items.Add(new AutocompleteItem(cmd.Key + ":" + command));
+                    items.Add(new CommandAutocompleteItem(cmd.Key + ":" + command));
             completemenu.SetAutocompleteMenu(tbcommand, completemenu);
             completemenu.SetAutocompleteItems(items);
         }
 
         protected override void OnShown(EventArgs e)
         {
+            if (IsSnippetMode)
+            {
+                tbcommand.Text = "Snippet:";
+                tbcommand.Select("Snippet:".Length, 0);
+            }
             if (_addedText) return;
             completemenu.Show(tbcommand, true);
             base.OnShown(e);
@@ -109,8 +117,9 @@ namespace SS.Ynote.Classic
             }
         }
 
-        public static void RunCommand(IYnote ynote, YnoteCommand command)
+        public static void RunCommand(IYnote ynote, string commandstr)
         {
+            var command = YnoteCommand.FromString(commandstr);
             foreach (var cmd in Commands)
                 if (cmd.Key == command.Key)
                     cmd.ProcessCommand(command.Value, ynote);

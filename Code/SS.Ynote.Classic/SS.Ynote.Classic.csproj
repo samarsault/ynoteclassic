@@ -177,6 +177,7 @@
     <Compile Include="UI\BookmarksInfos.Designer.cs">
       <DependentUpon>BookmarksInfos.cs</DependentUpon>
     </Compile>
+    <Compile Include="Features\Commands\CommandAutoCompleteItem.cs" />
     <Compile Include="UI\Controls\FolderBrowserEx.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -1881,5 +1881,12 @@ namespace SS.Ynote.Classic
         {
             mimap.Checked = ActiveEditor.ShowDocumentMap;
         }
+
+        private void menuItem5_Click(object sender, EventArgs e)
+        {
+            var console = new Commander(this) {StartPosition = FormStartPosition.CenterParent};
+            console.IsSnippetMode = true;
+            console.ShowDialog(this);
+        }
     }
 }

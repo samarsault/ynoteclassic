@@ -35,3 +35,7 @@ Build 373
 -> Added Show Document Map from Menu
 Build 378
 -> Restructured Menu
+Build 395
+-> Snippets In Menu
+-> Better Command Search
+-> Better Fuzzy Search

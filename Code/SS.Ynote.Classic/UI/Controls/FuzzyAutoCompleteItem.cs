@@ -14,7 +14,7 @@ public class FuzzyAutoCompleteItem : AutocompleteItem
     public override CompareResult Compare(string fragmentText)
     {
         if (fragmentText == Text)
-            return CompareResult.Visible;
+            return CompareResult.VisibleAndSelected;
         var lev = Levenshtein(Text, fragmentText);
         if (lev > 0.5)
             return CompareResult.VisibleAndSelected;
