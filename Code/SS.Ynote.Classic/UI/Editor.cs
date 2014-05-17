@@ -22,7 +22,7 @@ namespace SS.Ynote.Classic.UI
         /// <summary>
         ///     Syntax Highligher
         /// </summary>
-        public readonly ISyntaxHighlighter Highlighter;
+        public readonly SyntaxHighlighter Highlighter;
 
         /// <summary>
         ///     Ynote Snippets

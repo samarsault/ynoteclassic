@@ -57,7 +57,7 @@ namespace SS.Ynote.Classic.Features.RunScript
 
         internal void ProcessConfiguration(string filename)
         {
-            Arguments = Arguments.Replace("$source", filename);
+            Arguments = Arguments.Replace("$source", filename).Replace("$source_dir", Path.GetDirectoryName(filename));
         }
 
         internal void EditConfig(string name, string proc, string args, string dir)

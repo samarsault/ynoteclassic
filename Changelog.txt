@@ -39,3 +39,5 @@ Build 395
 -> Snippets In Menu
 -> Better Command Search
 -> Better Fuzzy Search
+Build 400
+-> Added $source_dir variable to RunScript

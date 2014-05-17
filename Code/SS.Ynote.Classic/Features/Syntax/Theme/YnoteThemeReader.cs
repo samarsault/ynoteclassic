@@ -10,7 +10,7 @@ namespace SS.Ynote.Classic.Features.Syntax
     /// </summary>
     public static class YnoteThemeReader
     {
-        public static void ApplyTheme(string source, ISyntaxHighlighter highlighter, FastColoredTextBox tb)
+        public static void ApplyTheme(string source, SyntaxHighlighter highlighter, FastColoredTextBox tb)
         {
             using (var reader = XmlReader.Create(source))
             {
@@ -24,7 +24,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                             case "Style":
                                 // Search for the attribute name on this current node.
                                 var name = reader["Name"];
-                                var fontstyle = reader["Font"].ToEnum<FontStyle>();
+                                var fontstyle = (FontStyle) Enum.Parse(typeof (FontStyle), reader["Font"]);
                                 var color = reader["Color"];
                                 InitStyle(name, fontstyle, GetColorFromHexVal(color), highlighter);
                                 // if (reader.Read())
@@ -47,11 +47,11 @@ namespace SS.Ynote.Classic.Features.Syntax
             var keyval = GetColorFromHexVal(value);
             switch (name)
             {
-                case "BackColor":
+                case "Background":
                     tb.BackColor = keyval;
                     break;
 
-                case "TextColor":
+                case "Foreground":
                     tb.ForeColor = keyval;
                     break;
 
@@ -63,35 +63,35 @@ namespace SS.Ynote.Classic.Features.Syntax
                     tb.BracketsStyle2 = new MarkerStyle(new SolidBrush(Color.FromArgb(60, GetColorFromHexVal(value))));
                     break;
 
-                case "BookmarkColor":
+                case "Bookmark":
                     tb.BookmarkColor = keyval;
                     break;
 
-                case "CaretColor":
+                case "Caret":
                     tb.CaretColor = keyval;
                     break;
 
-                case "CurrentLineColor":
+                case "CurrentLine":
                     tb.CurrentLineColor = keyval;
                     break;
 
-                case "FoldingIndicationColor":
+                case "FoldingIndication":
                     tb.FoldingIndicatorColor = keyval;
                     break;
 
-                case "LineNumberColor":
+                case "LineNumber":
                     tb.LineNumberColor = keyval;
                     break;
 
-                case "LineNumberPaddingColor":
+                case "LineNumberPadding":
                     tb.IndentBackColor = keyval;
                     break;
 
-                case "SelectionColor":
+                case "Selection":
                     tb.SelectionColor = keyval;
                     break;
 
-                case "ServicesLineColor":
+                case "ServicesLine":
                     tb.ServiceLinesColor = keyval;
                     break;
 
@@ -101,45 +101,37 @@ namespace SS.Ynote.Classic.Features.Syntax
             }
         }
 
-        private static void InitStyle(string name, FontStyle style, Color color, ISyntaxHighlighter sh)
+        private static void InitStyle(string name, FontStyle style, Color color, SyntaxHighlighter sh)
         {
             var tcstyle = new TextStyle(new SolidBrush(color), null, style);
             switch (name)
             {
                 case "Comment":
-                    sh.CommentStyle = tcstyle;
-                    break;
-
-                case "Comment2":
-                    sh.CommentStyle2 = tcstyle;
+                    sh.Comment = tcstyle;
                     break;
 
                 case "String":
-                    sh.StringStyle = tcstyle;
+                    sh.String = tcstyle;
                     break;
 
                 case "Number":
-                    sh.NumberStyle = tcstyle;
+                    sh.Number = tcstyle;
                     break;
 
                 case "Variable":
-                    sh.VariableStyle = tcstyle;
+                    sh.Variable = tcstyle;
                     break;
 
                 case "Keyword":
-                    sh.KeywordStyle = tcstyle;
+                    sh.Keyword = tcstyle;
                     break;
 
-                case "Keyword2":
-                    sh.KeywordStyle2 = tcstyle;
+                case "Constant":
+                    sh.Constant = tcstyle;
                     break;
 
-                case "Keyword3":
-                    sh.KeywordStyle3 = tcstyle;
-                    break;
-
-                case "HtmlEntity":
-                    sh.HtmlEntityStyle = tcstyle;
+                case "Storage":
+                    sh.Storage = tcstyle;
                     break;
 
                 case "TagBracket":
@@ -147,43 +139,52 @@ namespace SS.Ynote.Classic.Features.Syntax
                     break;
 
                 case "TagName":
-                    sh.TagNameStyle = tcstyle;
+                    sh.TagName = tcstyle;
                     break;
 
                 case "ClassName":
-                    sh.ClassNameStyle = tcstyle;
+                    sh.ClassName = tcstyle;
                     break;
 
                 case "FunctionName":
-                    sh.FunctionNameStyle = tcstyle;
+                    sh.FunctionName = tcstyle;
                     break;
-
-                case "Char":
-                    sh.CharStyle = tcstyle;
+                case "FunctionArgument":
+                    sh.FunctionArgument = tcstyle;
                     break;
-
-                case "Attribute":
-                    sh.AttributeStyle = tcstyle;
+                case "Punctuation":
+                    sh.Punctuation = tcstyle;
+                    break;
+                case "AttributeName":
+                    sh.AttributeName = tcstyle;
                     break;
 
                 case "AttributeValue":
-                    sh.AttributeValueStyle = tcstyle;
+                    sh.AttributeValue = tcstyle;
                     break;
 
                 case "CSSProperty":
-                    sh.CSSPropertyStyle = tcstyle;
+                    sh.CSSProperty = tcstyle;
                     break;
 
                 case "CSSSelector":
-                    sh.CSSSelectorStyle = tcstyle;
+                    sh.CSSSelector = tcstyle;
                     break;
 
                 case "CSSPropertyValue":
-                    sh.CSSPropertyValueStyle = tcstyle;
+                    sh.CSSPropertyValue = tcstyle;
                     break;
 
                 case "Preprocessor":
-                    sh.PreprocessorStyle = tcstyle;
+                    sh.Preprocessor = tcstyle;
+                    break;
+
+                case "LibraryClass":
+                    sh.LibraryClass = tcstyle;
+                    break;
+
+                case "LibraryFunction":
+                    sh.LibraryFunction = tcstyle;
                     break;
             }
         }

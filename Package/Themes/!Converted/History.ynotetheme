@@ -6,7 +6,7 @@
     Color="#00FEFF"
     Font="Regular" />
   <Style
-    Name="CommentTag"
+    Name="Comment2"
     Color="#00FEFF"
     Font="Regular" />
   <Style
@@ -58,7 +58,7 @@
     Color="#FF6A00"
     Font="Regular" />
   <Style
-    Name="ClassName2"
+    Name="FunctionName"
     Color="#4681B4"
     Font="Regular" />
   <Style

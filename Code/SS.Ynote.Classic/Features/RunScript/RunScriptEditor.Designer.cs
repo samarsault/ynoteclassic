@@ -231,7 +231,7 @@
             this.Controls.Add(this.configTree);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "RunScriptEditor";
+            this.Name = "ExternalToolsedit";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "External Tools Editor";

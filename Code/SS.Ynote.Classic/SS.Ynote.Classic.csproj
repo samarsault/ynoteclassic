@@ -161,7 +161,6 @@
     <Compile Include="Features\Syntax\SyntaxHighlighter.cs" />
     <Compile Include="Features\Syntax\Theme\YnoteThemeReader.cs" />
     <Compile Include="Features\Extensibility\YnotePlugin.cs" />
-    <Compile Include="Features\Syntax\Framework\ISyntaxHighlighter.cs" />
     <Compile Include="Features\Extensibility\IYnote.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

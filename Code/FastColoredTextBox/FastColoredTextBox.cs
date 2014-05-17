@@ -5563,7 +5563,7 @@ namespace FastColoredTextBoxNS
                 SetCaretPos(car.X, car.Y);
                 ShowCaret(Handle);
                 if (WideCaret)
-                    using (var brush = new SolidBrush(Color.FromArgb(150, CaretColor)))
+                    using (var brush = new SolidBrush(Color.FromArgb(100, CaretColor)))
                         e.Graphics.FillRectangle(brush, car.X, car.Y, carWidth, CharHeight + 1);
                 else
                     using (var pen = new Pen(CaretColor))
