@@ -4893,6 +4893,7 @@ namespace FastColoredTextBoxNS
         {
             if (c == '\r')
             {
+                // insert { bracket
                 if (Selection.CharBeforeStart == '{' && Selection.CharAfterStart == '}')
                 {
                     int currentLevelIndent = CalcAutoIndent(Selection.Start.iLine);

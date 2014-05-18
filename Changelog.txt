@@ -41,3 +41,26 @@ Build 395
 -> Better Fuzzy Search
 Build 400
 -> Added $source_dir variable to RunScript
+Build 403
+-> New Syntax Highlighter and Theme
+Build (Next)
+-> Python Syntax Highlighting Fixed ( will add function argument )
+-> HTML Finalized
+-> Xml Finalized
+-> INI Finalized
+-> CSS Finalized
+-> F# Finalized
+-> Batch Finalized
+-> PowerShell Finalized
+-> Java Finalized
+-> QBasic Finalized
+-> MakeFile Finalized
+-> C# Finalized
+-> Javascript Finalized
+-> PHP Finalized
+-> VB Finalized
+-> SQL Finalized
+-> ASM Finalized
+-> ANTLR Finalized
+-> Actionscript Finalized
+-> Yaml Finalized

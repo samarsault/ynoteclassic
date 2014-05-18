@@ -135,7 +135,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                     break;
 
                 case "TagBracket":
-                    sh.TagBracketStyle = tcstyle;
+                    sh.TagBracket = tcstyle;
                     break;
 
                 case "TagName":

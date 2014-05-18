@@ -101,7 +101,7 @@ namespace SS.Ynote.Classic.Features.Syntax
         /// <summary>
         ///     HTML tag brackets style
         /// </summary>
-        public Style TagBracketStyle { get; set; }
+        public Style TagBracket { get; set; }
 
         /// <summary>
         ///     HTML tag name style
@@ -455,7 +455,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                     return Storage;
 
                 case "TagBracket":
-                    return TagBracketStyle;
+                    return TagBracket;
 
                 case "TagName":
                     return TagName;
@@ -563,6 +563,8 @@ namespace SS.Ynote.Classic.Features.Syntax
         private Regex _javaAttributeRegex,
             _javaClassNameRegex;
 
+        private Regex _javaStorageRegex;
+
         private Regex _javaCommentRegex1,
             _javaCommentRegex2,
             _javaCommentRegex3;
@@ -595,11 +597,7 @@ namespace SS.Ynote.Classic.Features.Syntax
 
         private Regex _phpCommentRegex3;
 
-        private Regex _phpKeywordRegex1;
-
-        private Regex _phpKeywordRegex2;
-
-        private Regex _phpKeywordRegex3;
+        private Regex _phpKeywordRegex;
 
         private Regex _phpNumberRegex;
         private Regex _phpStringRegex;
@@ -621,17 +619,6 @@ namespace SS.Ynote.Classic.Features.Syntax
         private Regex _vbKeywordRegex;
         private Regex _vbNumberRegex;
         private Regex _vbStringRegex;
-
-        private Regex pyClassNameRegex,
-            pyClassNameRegex2;
-
-        private Regex pyCommentRegex,
-            pyCommentRegex2,
-            pyKeywordRegex,
-            pyKeywordRegex2,
-            pyNumberRegex;
-
-        private Regex pyStringRegex;
 
         /// <summary>
         ///     Init CSS Regex
@@ -707,10 +694,10 @@ namespace SS.Ynote.Classic.Features.Syntax
             _javaClassNameRegex = new Regex(@"\b(class|struct|enum|interface)\s+(?<range>\w+?)\b");
             _javaKeywordRegex =
                 new Regex(
-                    @"\b(abstract|break|case|catch|class|continue|default|delegate|do|else|extends|final|finally|for|if|implements|import|instanceof|interface|native|new|null|package|private|protected|public|static|super|switch|this|throw|throws|try|while)\b");
-            _javaKeywordRegex2 =
+                    @"\b(abstract|break|case|catch|class|continue|default|do|else|extends|final|synchronized|return|transient|return|finally|for|if|implements|import|instanceof|interface|native|new|volatile|package|private|protected|public|static|super|switch|this|throw|throws|try|while)\b");
+            _javaStorageRegex =
                 new Regex(
-                    @"\b(void|volatile|double|transient|synchronized|short|long|float|char|boolean|byte|true|false|int|return)\b");
+                    @"\b(void|double|short|long|float|char|boolean|byte|int|String)\b");
             _javaFunctionRegex = new Regex(@"\b(void|extends)\s+(?<range>\w+?)\b");
         }
 
@@ -728,9 +715,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             if (_javaStringRegex == null)
                 InitJavaRegex();
             e.ChangedRange.tb.Range.ClearStyle(Comment);
-            e.ChangedRange.ClearStyle(Preprocessor, String, Number, ClassName, FunctionName, Variable, Keyword, Storage,
-                LibraryClass);
-            e.ChangedRange.SetStyle(String, _cppStringRegex);
+            e.ChangedRange.ClearStyle(Preprocessor, Comment, String, Number, ClassName, FunctionName, Keyword, Storage, Constant, LibraryClass, Punctuation);
             e.ChangedRange.tb.Range.SetStyle(Comment, _javaCommentRegex1);
             e.ChangedRange.tb.Range.SetStyle(Comment, _javaCommentRegex2);
             e.ChangedRange.tb.Range.SetStyle(Comment, _javaCommentRegex3);
@@ -738,8 +723,6 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.SetStyle(Preprocessor, @"#.*$", RegexOptions.Multiline);
             //string
             e.ChangedRange.SetStyle(String, _javaStringRegex);
-            //number highlighting
-            e.ChangedRange.SetStyle(Number, _javaNumberRegex);
             //attribute highlighting
             e.ChangedRange.SetStyle(Comment, _javaAttributeRegex);
             //class name highlighting
@@ -747,11 +730,13 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.SetStyle(FunctionName, _javaFunctionRegex);
             //keyword highlighting
             e.ChangedRange.SetStyle(Keyword, _javaKeywordRegex);
-            e.ChangedRange.SetStyle(Storage, _javaKeywordRegex2);
+            e.ChangedRange.SetStyle(Storage, _javaStorageRegex);
+            e.ChangedRange.SetStyle(Constant, @"\b(true|false|null)\b");
             e.ChangedRange.SetStyle(LibraryClass,
                 new Regex(
                     @"\b(AWTError|AWTEvent|AWTEventListener|AWTEventMulticaster|AWTException|AWTPermission|AbstractCollection|AbstractList|AbstractMap|AbstractMethodError|AbstractSequentialList|AbstractSet|AccessControlContext|AccessControlException|AccessController|AccessException|AccessibleObject|Acl|AclEntry|AclNotFoundException|ActionEvent|ActionListener|Activatable|ActivateFailedException|ActivationDesc|ActivationException|ActivationGroup|ActivationGroupDesc|ActivationGroupID|ActivationGroup_Stub|ActivationID|ActivationInstantiator|ActivationMonitor|ActivationSystem|Activator|ActiveEvent|Adjustable|AdjustmentEvent|AdjustmentListener|Adler32|AffineTransform|AffineTransformOp|AlgorithmParameterGenerator|AlgorithmParameterGeneratorSpi|AlgorithmParameterSpec|AlgorithmParameters|AlgorithmParametersSpi|AllPermission|AllPermissionCollection|AlphaComposite|AlphaCompositeContext|AlreadyBoundException|Annotation|Applet|AppletContext|AppletInitializer|AppletStub|Arc2D|ArcIterator|Area|AreaAveragingScaleFilter|AreaIterator|ArithmeticException|Array|Array|ArrayIndexOutOfBoundsException|ArrayList|ArrayStoreException|Arrays|AttributeEntry|AttributedCharacterIterator|AttributedString|Attributes|AudioClip|Authenticator|Autoscroll|BandCombineOp|BandedSampleModel|BasicPermission|BasicPermissionCollection|BasicStroke|BatchUpdateException|BeanContext|BeanContextChild|BeanContextChildComponentProxy|BeanContextChildSupport|BeanContextContainerProxy|BeanContextEvent|BeanContextMembershipEvent|BeanContextMembershipListener|BeanContextProxy|BeanContextServiceAvailableEvent|BeanContextServiceProvider|BeanContextServiceProviderBeanInfo|BeanContextServiceRevokedEvent|BeanContextServiceRevokedListener|BeanContextServices|BeanContextServicesListener|BeanContextServicesSupport|BeanContextSupport|BeanDescriptor|BeanInfo|Beans|BeansAppletContext|BeansAppletStub|BigDecimal|BigInteger|BindException|BitSet|Blob|Book|Boolean|BorderLayout|BreakIterator|BufferedImage|BufferedImageFilter|BufferedImageOp|BufferedInputStream|BufferedOutputStream|BufferedReader|BufferedWriter|Button|ButtonPeer|Byte|ByteArrayInputStream|ByteArrayOutputStream|ByteLookupTable|CMMException|CRC32|CRL|CRLException|Calendar|CallableStatement|Canvas|CanvasPeer|CardLayout|Certificate|Certificate|CertificateEncodingException|CertificateException|CertificateExpiredException|CertificateFactory|CertificateFactorySpi|CertificateNotYetValidException|CertificateParsingException|CharArrayReader|CharArrayWriter|CharConversionException|Character|CharacterBreakData|CharacterIterator|Checkbox|CheckboxGroup|CheckboxMenuItem|CheckboxMenuItemPeer|CheckboxPeer|CheckedInputStream|CheckedOutputStream|Checksum|Choice|ChoiceFormat|ChoicePeer|Class|ClassCastException|ClassCircularityError|ClassFormatError|ClassLoader|ClassNotFoundException|Clipboard|ClipboardOwner|Clob|CloneNotSupportedException|Cloneable|CodeSource|CollationElementIterator|CollationKey|CollationRules|Collator|Collection|Collections|Color|ColorConvertOp|ColorModel|ColorPaintContext|ColorSpace|CompactByteArray|CompactCharArray|CompactIntArray|CompactShortArray|CompactStringArray|Comparable|Comparator|Compiler|Component|ComponentAdapter|ComponentColorModel|ComponentEvent|ComponentListener|ComponentOrientation|ComponentPeer|ComponentSampleModel|Composite|CompositeContext|ConcurrentModificationException|Conditional|ConnectException|ConnectException|ConnectIOException|Connection|Constructor|Container|ContainerAdapter|ContainerEvent|ContainerListener|ContainerPeer|ContentHandler|ContentHandlerFactory|ContextualRenderedImageFactory|ConvolveOp|CropImageFilter|CubicCurve2D|CubicIterator|Cursor|Customizer|DGC|DSAKey|DSAKeyPairGenerator|DSAParameterSpec|DSAParams|DSAPrivateKey|DSAPrivateKeySpec|DSAPublicKey|DSAPublicKeySpec|DataBuffer|DataBufferByte|DataBufferInt|DataBufferShort|DataBufferUShort|DataFlavor|DataFormatException|DataInput|DataInputStream|DataOutput|DataOutputStream|DataTruncation|DatabaseMetaData|DatagramPacket|DatagramSocket|DatagramSocketImpl|Date|DateFormat|DateFormatSymbols|DateFormatZoneData|DateFormatZoneData_en|DecimalFormat|DecimalFormatSymbols|Deflater|DeflaterOutputStream|DesignMode|Dialog|DialogPeer|Dictionary|DigestException|DigestInputStream|DigestOutputStream|DigitList|Dimension|Dimension2D|DirectColorModel|DnDConstants|Double|DragGestureEvent|DragGestureListener|DragGestureRecognizer|DragSource|DragSourceContext|DragSourceContextPeer|DragSourceDragEvent|DragSourceDropEvent|DragSourceEvent|DragSourceListener|Driver|DriverInfo|DriverManager|DriverPropertyInfo|DropTarget|DropTargetContext|DropTargetContextPeer|DropTargetDragEvent|DropTargetDropEvent|DropTargetEvent|DropTargetListener|DropTargetPeer|EOFException|Ellipse2D|EllipseIterator|EmptyStackException|EncodedKeySpec|EntryPair|Enumeration|Error|Event|EventDispatchThread|EventListener|EventObject|EventQueue|EventQueueItem|EventSetDescriptor|Exception|ExceptionInInitializerError|ExportException|Externalizable|FDBigInt|FactoryURLClassLoader|FeatureDescriptor|Field|FieldPosition|File|FileDescriptor|FileDialog|FileDialogPeer|FileFilter|FileInputStream|FileNameMap|FileNotFoundException|FileOutputStream|FilePermission|FilePermissionCollection|FileReader|FileSystem|FileWriter|FilenameFilter|FilterInputStream|FilterOutputStream|FilterReader|FilterWriter|FilteredImageSource|FinalReference|Finalizer|FlatteningPathIterator|FlavorMap|Float|FloatingDecimal|FlowLayout|FocusAdapter|FocusEvent|FocusListener|FocusManager|Font|FontMetrics|FontPeer|FontRenderContext|Format|Frame|FramePeer|GZIPInputStream|GZIPOutputStream|GeneralPath|GeneralPathIterator|GeneralSecurityException|GenericBeanInfo|GlyphJustificationInfo|GlyphMetrics|GlyphVector|GradientPaint|GradientPaintContext|GraphicAttribute|Graphics|Graphics2D|GraphicsConfigTemplate|GraphicsConfiguration|GraphicsDevice|GraphicsEnvironment|GregorianCalendar|GridBagConstraints|GridBagLayout|GridBagLayoutInfo|GridLayout|Group|Guard|GuardedObject|HashMap|HashSet|Hashtable|HttpURLConnection|ICC_ColorSpace|ICC_Profile|ICC_ProfileGray|ICC_ProfileRGB|IOException|Identity|IdentityScope|IllegalAccessError|IllegalAccessException|IllegalArgumentException|IllegalComponentStateException|IllegalMonitorStateException|IllegalPathStateException|IllegalStateException|IllegalThreadStateException|Image|ImageConsumer|ImageFilter|ImageGraphicAttribute|ImageMediaEntry|ImageObserver|ImageProducer|ImagingOpException|IncompatibleClassChangeError|IndexColorModel|IndexOutOfBoundsException|IndexedPropertyDescriptor|InetAddress|InetAddressImpl|Inflater|InflaterInputStream|InheritableThreadLocal|InputContext|InputEvent|InputMethodEvent|InputMethodHighlight|InputMethodListener|InputMethodRequests|InputStream|InputStreamReader|InputSubset|Insets|InstantiationError|InstantiationException|IntHashtable|Integer|InternalError|InterruptedException|InterruptedIOException|IntrospectionException|Introspector|InvalidAlgorithmParameterException|InvalidClassException|InvalidDnDOperationException|InvalidKeyException|InvalidKeySpecException|InvalidObjectException|InvalidParameterException|InvalidParameterSpecException|InvocationEvent|InvocationTargetException|ItemEvent|ItemListener|ItemSelectable|Iterator|JarEntry|JarException|JarFile|JarInputStream|JarOutputStream|JarURLConnection|JarVerifier|Kernel|Key|KeyAdapter|KeyEvent|KeyException|KeyFactory|KeyFactorySpi|KeyListener|KeyManagementException|KeyPair|KeyPairGenerator|KeyPairGeneratorSpi|KeySpec|KeyStore|KeyStoreException|KeyStoreSpi|Label|LabelPeer|LastOwnerException|LayoutManager|LayoutManager2|Lease|LightweightDispatcher|LightweightPeer|LightweightPeer|Line2D|LineBreakData|LineBreakMeasurer|LineIterator|LineMetrics|LineNumberInputStream|LineNumberReader|LinkageError|LinkedList|List|List|ListIterator|ListPeer|ListResourceBundle|LoaderHandler|Locale|LocaleData|LocaleElements|LocaleElements_en|LocaleElements_en_US|LocateRegistry|LogStream|Long|LookupOp|LookupTable|MalformedURLException|Manifest|Map|MarshalException|MarshalledObject|Math|MediaEntry|MediaTracker|Member|MemoryImageSource|Menu|MenuBar|MenuBarPeer|MenuComponent|MenuComponentPeer|MenuContainer|MenuItem|MenuItemPeer|MenuPeer|MenuShortcut|MergeCollation|MessageDigest|MessageDigestSpi|MessageFormat|Method|MethodDescriptor|MimeType|MimeTypeParameterList|MimeTypeParseException|MissingResourceException|Modifier|MouseAdapter|MouseDragGestureRecognizer|MouseEvent|MouseListener|MouseMotionAdapter|MouseMotionListener|MultiPixelPackedSampleModel|MulticastSocket|MultipleMaster|Naming|NativeLibLoader|NegativeArraySizeException|NetPermission|NoClassDefFoundError|NoRouteToHostException|NoSuchAlgorithmException|NoSuchElementException|NoSuchFieldError|NoSuchFieldException|NoSuchMethodError|NoSuchMethodException|NoSuchObjectException|NoSuchProviderException|NoninvertibleTransformException|Normalizer|NotActiveException|NotBoundException|NotOwnerException|NotSerializableException|NullPointerException|Number|NumberFormat|NumberFormatException|ObjID|Object|ObjectInput|ObjectInputStream|ObjectInputStreamWithLoader|ObjectInputValidation|ObjectOutput|ObjectOutputStream|ObjectStreamClass|ObjectStreamConstants|ObjectStreamException|ObjectStreamField|Observable|Observer|OpenType|Operation|OptionalDataException|OutOfMemoryError|OutputStream|OutputStreamWriter|Owner|PKCS8EncodedKeySpec|Package|PackedColorModel|PageFormat|Pageable|Paint|PaintContext|PaintEvent|Panel|PanelPeer|Paper|ParameterBlock|ParameterDescriptor|ParseException|ParsePosition|PasswordAuthentication|PathIterator|PatternEntry|PeerFixer|Permission|Permission|PermissionCollection|Permissions|PermissionsEnumerator|PermissionsHash|PhantomReference|PipedInputStream|PipedOutputStream|PipedReader|PipedWriter|PixelGrabber|PixelInterleavedSampleModel|PlainDatagramSocketImpl|PlainSocketImpl|Point|Point2D|Policy|Polygon|PopupMenu|PopupMenuPeer|PreparedStatement|Principal|PrintGraphics|PrintJob|PrintStream|PrintWriter|Printable|PrinterAbortException|PrinterException|PrinterGraphics|PrinterIOException|PrinterJob|PrivateKey|PrivilegedAction|PrivilegedActionException|PrivilegedExceptionAction|Process|ProfileDataException|Properties|PropertyChangeEvent|PropertyChangeListener|PropertyChangeSupport|PropertyDescriptor|PropertyEditor|PropertyEditorManager|PropertyEditorSupport|PropertyPermission|PropertyPermissionCollection|PropertyResourceBundle|PropertyVetoException|ProtectionDomain|ProtocolException|Provider|ProviderException|PublicKey|PushbackInputStream|PushbackReader|QuadCurve2D|QuadIterator|Queue|RGBImageFilter|RMIClassLoader|RMIClientSocketFactory|RMIFailureHandler|RMISecurityException|RMISecurityManager|RMIServerSocketFactory|RMISocketFactory|RSAPrivateCrtKey|RSAPrivateCrtKeySpec|RSAPrivateKey|RSAPrivateKeySpec|RSAPublicKey|RSAPublicKeySpec|Random|RandomAccessFile|Raster|RasterFormatException|RasterOp|Reader|RectIterator|Rectangle|Rectangle2D|RectangularShape|Ref|Reference|ReferenceQueue|ReflectPermission|Registry|RegistryHandler|Remote|RemoteCall|RemoteException|RemoteObject|RemoteRef|RemoteServer|RemoteStub|RenderContext|RenderableImage|RenderableImageOp|RenderableImageProducer|RenderedImage|RenderedImageFactory|RenderingHints|ReplicateScaleFilter|RescaleOp|ResourceBundle|ResultSet|ResultSetMetaData|RoundRectIterator|RoundRectangle2D|RuleBasedCollator|Runnable|Runtime|RuntimeException|RuntimePermission|SQLData|SQLException|SQLInput|SQLOutput|SQLWarning|SampleModel|ScrollPane|ScrollPaneAdjustable|ScrollPanePeer|Scrollbar|ScrollbarPeer|SecureClassLoader|SecureRandom|SecureRandomSpi|Security|SecurityException|SecurityManager|SecurityPermission|SentenceBreakData|SequenceInputStream|Serializable|SerializablePermission|ServerCloneException|ServerError|ServerException|ServerNotActiveException|ServerRef|ServerRuntimeException|ServerSocket|Set|Shape|ShapeGraphicAttribute|Short|ShortLookupTable|Signature|SignatureException|SignatureSpi|SignedObject|Signer|SimpleBeanInfo|SimpleDateFormat|SimpleTextBoundary|SimpleTimeZone|SinglePixelPackedSampleModel|Skeleton|SkeletonMismatchException|SkeletonNotFoundException|Socket|SocketException|SocketImpl|SocketImplFactory|SocketInputStream|SocketOptions|SocketOutputStream|SocketPermission|SocketPermissionCollection|SocketSecurityException|SoftReference|SortedMap|SortedSet|SpecialMapping|Stack|StackOverflowError|Statement|StreamCorruptedException|StreamTokenizer|String|StringBuffer|StringBufferInputStream|StringCharacterIterator|StringIndexOutOfBoundsException|StringReader|StringSelection|StringTokenizer|StringWriter|Stroke|Struct|StubNotFoundException|SubList|SyncFailedException|System|SystemColor|SystemFlavorMap|TextArea|TextAreaPeer|TextAttribute|TextBoundaryData|TextComponent|TextComponentPeer|TextEvent|TextField|TextFieldPeer|TextHitInfo|TextJustifier|TextLayout|TextLine|TextListener|TextMeasurer|TexturePaint|TexturePaintContext|Thread|ThreadDeath|ThreadGroup|ThreadLocal|Throwable|TileObserver|Time|TimeZone|TimeZoneData|Timestamp|TooManyListenersException|Toolkit|Transferable|TransformAttribute|Transparency|TreeMap|TreeSet|Types|UID|URL|URLClassLoader|URLConnection|URLDecoder|URLEncoder|URLStreamHandler|URLStreamHandlerFactory|UTFDataFormatException|UnexpectedException|UnicastRemoteObject|UnicodeClassMapping|UnknownContentHandler|UnknownError|UnknownGroupException|UnknownHostException|UnknownHostException|UnknownObjectException|UnknownServiceException|UnmarshalException|UnrecoverableKeyException|Unreferenced|UnresolvedPermission|UnresolvedPermissionCollectio|UnsatisfiedLinkError|UnsupportedClassVersionError|UnsupportedEncodingException|UnsupportedFlavorException|UnsupportedOperationException|Utility|VMID|ValidationCallback|Vector|VerifyError|VetoableChangeListener|VetoableChangeSupport|VirtualMachineError|Visibility|Void|WeakHashMap|WeakReference|Win32FileSystem|Win32Process|Window|WindowAdapter|WindowEvent|WindowListener|WindowPeer|WordBreakData|WordBreakTable|WritableRaster|WritableRenderedImage|WriteAbortedException|Writer|X509CRL|X509CRLEntry|X509Certificate|X509EncodedKeySpec|X509Extension|ZipConstants|ZipEntry|ZipException|ZipFile|ZipInputStream|ZipOutputStream)\b"));
-            //Char Highlighting
+            //number highlighting
+            e.ChangedRange.SetStyle(Number, _javaNumberRegex);
             e.ChangedRange.SetStyle(Punctuation, @"\;|-|>|<|=|\+|\,|\$|\^|\[|\]");
             e.ChangedRange.ClearFoldingMarkers();
             e.ChangedRange.SetFoldingMarkers("{", "}");
@@ -768,10 +753,10 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.LeftBracket2 = '[';
             e.ChangedRange.tb.RightBracket = ')';
             e.ChangedRange.tb.RightBracket2 = ']';
-            e.ChangedRange.ClearStyle(Comment, String, Keyword, Variable, Number);
+            e.ChangedRange.ClearStyle(Comment, String, Keyword,LibraryFunction, Variable, Number);
             e.ChangedRange.SetStyle(Comment, @"\'.*$", RegexOptions.Multiline);
             e.ChangedRange.SetStyle(String, @"""""|@""""|''|@"".*?""|(?<!@)(?<range>"".*?[^\\]"")|'.*?[^\\]'");
-            e.ChangedRange.SetStyle(Keyword,
+            e.ChangedRange.SetStyle(LibraryFunction,
                 @"\b(ABS|AND|AS|ASC|ATN|BASE|BEEP|BLOAD|BSAVE|CDBL|CHR\$|CINT|CIRCLE|CLEAR|CLNG|CLS|COLOR|COM|COMMAND$|CONST|COS|CSNG|CSRLIN|CSRUN|CVD|CVDMBF|CVI|CVL|CVS|CVSMBF|DATA|DATE$|DEF|DEFDBL|DEFINT|DEFLNG|DEFSNG|DEFSTR|DIM|DOUBLE|DRAW|ENVIRON|ENVIRON$|EQV|ERASE|ERDEV|ERDEV$|ERL|ERR|ERROR|EXP|FIX|FN|FRE|HEX$|IMP|INSTR|INT|INTEGER|KEY|LBOUND|LCASE$|LEFT$|LEN|LET|LINE|LIST|LOCATE|LOG|LONG|LPOS|LTRIM$|MID$|MKD$|MKDMBF$|MKI$|MKL$|MKS$|MOD|NOT|OCT$|OFF|ON|OPEN|OPTION|OR|OUT|OUTPUT|PAINT|PALETTE|PCOPY|PEEK|PEN|PLAY|PMAP|POINT|POKE|POS|PRESET|PSET|RANDOMIZE|READ|REDIM|RESTORE|RIGHT$|RND|RTRIM$|SADD|SCREEN|SEEK|SEG|SETMEM|SGN|SIGNAL|SIN|SINGLE|SLEEP|SOUND|SPACE$|SPC|SQR|STATIC|STICK|STOP|STR$|STRIG|STRING|STRING$|SWAP|TAB|TAN|TIME$|TIMER|TROFF|TRON|TYPE|UBOUND|UCASE$|UEVENT|VAL|VARPTR|VARPTR$|VARSEG|VIEW|WIDTH|WINDOW|XOR)\b",
                 RegexOptions.IgnoreCase);
             e.ChangedRange.SetStyle(Keyword,
@@ -782,7 +767,7 @@ namespace SS.Ynote.Classic.Features.Syntax
         }
 
         /// <summary>
-        ///     Init C++ Regex
+        ///     Initializes C++ Regex
         /// </summary>
         private void InitCppRegex()
         {
@@ -899,7 +884,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.RightBracket2 = ')';
             e.ChangedRange.tb.Range.ClearStyle(Comment);
             //clear style of changed range
-            e.ChangedRange.ClearStyle(Keyword, TagBracketStyle, TagName, AttributeName,
+            e.ChangedRange.ClearStyle(Keyword, TagBracket, TagName, AttributeName,
                 AttributeValue);
             //
             if (_htmlTagRegex == null)
@@ -908,7 +893,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.Range.SetStyle(Comment, _htmlCommentRegex1);
             e.ChangedRange.tb.Range.SetStyle(Comment, _htmlCommentRegex2);
             //tag brackets highlighting
-            e.ChangedRange.SetStyle(TagBracketStyle, _htmlTagRegex);
+            e.ChangedRange.SetStyle(TagBracket, _htmlTagRegex);
             //tag name
             e.ChangedRange.SetStyle(TagName, _htmlTagNameRegex);
             //end of tag
@@ -919,7 +904,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.SetStyle(AttributeValue, _htmlAttrValRegex);
             //html entity
             e.ChangedRange.SetStyle(Constant, _htmlEntityRegex);
-            e.ChangedRange.SetStyle(TagBracketStyle, @"\?[a-zA-Z_\d]*\b", RegexOptions.IgnoreCase);
+            e.ChangedRange.SetStyle(TagName, @"\?[a-zA-Z_\d]*\b", RegexOptions.IgnoreCase);
 
             XmlFold(e.ChangedRange.tb);
         }
@@ -976,10 +961,19 @@ namespace SS.Ynote.Classic.Features.Syntax
             }
         }
 
+        private Regex pyStringRegex,
+            pyCommentRegex,
+            pyCommentRegex2,
+            pyLibFunctionRegex,
+            pyKeywordRegex,
+            pyLibClassName,
+            pyNumberRegex,
+            pyClassNameRegex,
+            pyFunctionRegex;
         private void InitPythonRegex()
         {
             pyStringRegex = new Regex(
-                @"
+               @"
                             # Character definitions:
                             '
                             (?> # disable backtracking
@@ -1008,24 +1002,25 @@ namespace SS.Ynote.Classic.Features.Syntax
                             )
                             ""
                         ",
-                RegexOptions.ExplicitCapture | RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace |
-                RegexCompiledOption
-                );
-            pyCommentRegex = new Regex(@"#.*$", RegexOptions.Multiline);
-            pyCommentRegex2 = new Regex(
-                "(\"\"\".*?\"\"\")|(.*\"\"\")|(\'\'\'.*?\'\'\')|(.*\'\'\')",
-                RegexOptions.Singleline | RegexOptions.RightToLeft | RegexOptions.Multiline);
-            pyKeywordRegex =
-                new Regex(
-                    @"\b(and|del|from|not|while|as|elif|global|or|with|assert|else|if|pass|yield|break|except|import|print|class|exec|nonlocal|in|raise|continue|finally|is|return|def|for|lambda|try)\b");
-            pyKeywordRegex2 =
-                new Regex(
-                    @"\b(int|id|callable|dict|open|all|vars|object|iter|enumerate|False|True|sorted|property|super|classmethod|tuple|compile|basestring|map|self|range|ord|isinstance|long|float|format|str|type|hasattr|max|len|repr|getattr|list)\b");
-            pyClassNameRegex = new Regex(@"\b(class)\s+(?<range>\w+?)\b");
-            pyClassNameRegex2 = new Regex(@"\b(def)\s+(?<range>\w+?)\b");
-            pyNumberRegex = new Regex(@"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
-        }
+               RegexOptions.ExplicitCapture | RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace |
+               RegexCompiledOption
+               );
+              pyCommentRegex = new Regex(@"#.*$", RegexOptions.Multiline);
+              pyCommentRegex2 = new Regex(
+              "(\"\"\".*?\"\"\")|(.*\"\"\")|(\'\'\'.*?\'\'\')|(.*\'\'\')",
+              RegexOptions.Singleline | RegexOptions.RightToLeft | RegexOptions.Multiline);
+              pyKeywordRegex =
+              new Regex(
+                  @"\b(and|del|from|not|while|as|elif|global|or|with|assert|else|if|pass|yield|break|except|import|print|exec|in|raise|continue|finally|is|return|for|try)\b");
+              pyLibFunctionRegex =
+              new Regex(
+                  @"\b(id|callable|dict|open|all|vars|iter|enumerate|sorted|property|super|classmethod|tuple|compile|basestring|map|self|range|lambda|ord|isinstance|long|float|format|str|type|hasattr|max|len|repr|getattr|list)\b");
+              pyLibClassName = new Regex(@"\b(bool|buffer|set|slice|unicode|property|enumerate|object|open|dict|int|super|tuple|basestring|long|float|type|list)\b");
+              pyClassNameRegex = new Regex(@"\b(class)\s+(?<range>\w+?)\b");
+              pyFunctionRegex = new Regex(@"\b(def)\s+(?<range>\w+?)\b");
+              pyNumberRegex = new Regex(@"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
 
+        }
         private void PythonSyntaxHighlight(TextChangedEventArgs e)
         {
             e.ChangedRange.tb.CommentPrefix = "#";
@@ -1033,18 +1028,21 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.RightBracket = ')';
             e.ChangedRange.tb.LeftBracket2 = '[';
             e.ChangedRange.tb.RightBracket2 = ']';
-            e.ChangedRange.tb.Range.ClearStyle(Comment, String);
-            e.ChangedRange.ClearStyle(String, ClassName, FunctionName, Keyword, Constant,
-                Number, Punctuation);
-            if (pyCommentRegex == null)
+            if (pyStringRegex == null)
                 InitPythonRegex();
+            e.ChangedRange.tb.Range.ClearStyle(Comment, String);
+            e.ChangedRange.ClearStyle(String, Comment, ClassName, FunctionName, Keyword, Storage, Constant, Variable, LibraryClass, LibraryFunction, Number, Punctuation);
             e.ChangedRange.SetStyle(String, pyStringRegex);
             e.ChangedRange.tb.Range.SetStyle(String, pyCommentRegex2);
             e.ChangedRange.tb.Range.SetStyle(Comment, pyCommentRegex);
             e.ChangedRange.SetStyle(ClassName, pyClassNameRegex);
-            e.ChangedRange.SetStyle(FunctionName, pyClassNameRegex2);
+            e.ChangedRange.SetStyle(FunctionName, pyFunctionRegex);
             e.ChangedRange.SetStyle(Keyword, pyKeywordRegex);
-            e.ChangedRange.SetStyle(Constant, @"\b(True|False)\b");
+            e.ChangedRange.SetStyle(Storage, @"\b(def|global|class)\b");
+            e.ChangedRange.SetStyle(Constant, @"\b(True|False|None|NotImplemented)\b");
+            e.ChangedRange.SetStyle(Variable, @"\bself\b");
+            e.ChangedRange.SetStyle(LibraryClass, pyLibClassName);
+            e.ChangedRange.SetStyle(LibraryFunction, pyLibFunctionRegex);
             e.ChangedRange.SetStyle(Number, pyNumberRegex);
             e.ChangedRange.SetStyle(Punctuation, @"\!|\:|\+|=|\-|\*|@|\.|\=");
             PythonFold(e.ChangedRange.tb);
@@ -1090,7 +1088,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.SetStyle(String, @"""""|@""""|''|@"".*?""|(?<!@)(?<range>"".*?[^\\]"")|'.*?[^\\]'");
             e.ChangedRange.SetStyle(Keyword,
                 @"\b(and|as|begin|do|done|val|stdin|downto|else|mutable|yield|end|exception|for|fun|function|in|if|let|match|module|not|open|of|prefix|raise|rec|struct|then|to|try|type|while|with|override|int|float|ushort|uint|long|byte|sbyte|bool|string|char)\b");
-            e.ChangedRange.SetStyle(Constant, @"\b(true|false)\b");
+            e.ChangedRange.SetStyle(Constant, @"\b(true|false|null)\b");
             e.ChangedRange.SetStyle(Number, @"\b\\d+[\\.]?\\d*([eE]\\-?\\d+)?[lLdDfF]?\b|\b0x[a-fA-F\\d]+\b");
         }
 
@@ -1307,16 +1305,10 @@ namespace SS.Ynote.Classic.Features.Syntax
             _phpCommentRegex3 = new Regex(@"(/\*.*?\*/)|(.*\*/)",
                 RegexOptions.Singleline | RegexOptions.RightToLeft | RegexCompiledOption);
             _phpVarRegex = new Regex(@"\$[a-zA-Z_\d]*\b", RegexCompiledOption);
-            _phpKeywordRegex1 =
+            _phpKeywordRegex =
                 new Regex(
-                    @"\b(die|echo|empty|define|exit|eval|include|include_once|isset|list|require|require_once|return|print|true|false|this|unset)\b",
+                    @"\b(die|exit|include|include_once|namespace|require|require_once|return|abstract|and|as|break|case|catch|const|continue|declare|default|do|else|elseif|enddeclare|endfor|endforeach|endif|endswitch|endwhile|extends|final|for|foreach|global|if|implements|or|private|protected|public|static|switch|throw|try|use|while|xor)\b",
                     RegexCompiledOption);
-            _phpKeywordRegex2 =
-                new Regex(
-                    @"\b(abstract|and|array|as|break|case|catch|cfunction|class|null|clone|const|continue|declare|default|do|else|elseif|enddeclare|endfor|endforeach|endif|endswitch|endwhile|extends|final|for|foreach|function|global|goto|if|implements|instanceof|interface|namespace|new|or|private|protected|public|static|switch|throw|try|use|var|while|xor)\b",
-                    RegexCompiledOption);
-            _phpKeywordRegex3 = new Regex(@"__CLASS__|__DIR__|__FILE__|__LINE__|__FUNCTION__|__METHOD__|__NAMESPACE__",
-                RegexCompiledOption);
         }
 
         /// <summary>
@@ -1332,34 +1324,38 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.RightBracket2 = ']';
             e.ChangedRange.tb.Range.ClearStyle(Comment);
             //clear style of changed range
-            e.ChangedRange.ClearStyle(Number, Variable, Constant, Keyword, Storage, Punctuation);
+            e.ChangedRange.ClearStyle(Number, Variable, Constant, Keyword, Storage, Punctuation, LibraryFunction);
             //
             if (_phpStringRegex == null)
                 InitPHPRegex();
+            e.ChangedRange.tb.Range.ClearStyle(Comment);
             //comment highlighting
             e.ChangedRange.tb.Range.SetStyle(Comment, _phpCommentRegex1);
             e.ChangedRange.tb.Range.SetStyle(Comment, _phpCommentRegex2);
             e.ChangedRange.tb.Range.SetStyle(Comment, _phpCommentRegex3);
             //string highlighting
             e.ChangedRange.SetStyle(String, _phpStringRegex);
-            //number highlighting
-            e.ChangedRange.SetStyle(Number, _phpNumberRegex);
             //var highlighting
             e.ChangedRange.SetStyle(Variable, _phpVarRegex);
             //keyword highlighting
-            e.ChangedRange.SetStyle(Constant, _phpKeywordRegex1);
-            e.ChangedRange.SetStyle(Keyword, _phpKeywordRegex2);
-            e.ChangedRange.SetStyle(Storage, _phpKeywordRegex3);
+            e.ChangedRange.SetStyle(Keyword, _phpKeywordRegex);
+            e.ChangedRange.SetStyle(Constant, @"\b(true|false|null|__CLASS__|__FILE__|__LINE__|__NAMESPACE__|__FUNCTION__|__METHOD__)\b");
+            e.ChangedRange.SetStyle(Storage, @"\b(function|class|var|interface|int|string|array|parent|self)\b");
+            e.ChangedRange.SetStyle(LibraryFunction, @"\b(print|echo|fopen|substr|abs|pow|sqrt|floor|random|isset|unset|array|list)\b");
             e.ChangedRange.SetStyle(Punctuation, @">|\*|-|=|\+|\!|<|\^|\?");
+            //number highlighting
+            e.ChangedRange.SetStyle(Number, _phpNumberRegex);
             //clear folding markers
             e.ChangedRange.ClearFoldingMarkers();
             //set folding markers
             e.ChangedRange.SetFoldingMarkers("{", "}"); //allow to collapse brackets block
             e.ChangedRange.SetFoldingMarkers(@"/\*", @"\*/"); //allow to collapse comment block
+            // TODO : Add Class Name and Function Name Highlighting
         }
 
         private void HighlightPHPHtml(TextChangedEventArgs e)
         {
+            //TODO: Bug when highlight file with only <? tag (opening) and not closing
             HTMLSyntaxHighlight(e);
             foreach (var r in e.ChangedRange.tb.GetRanges(@"(<\?.*?.*?\?>)", RegexOptions.Singleline))
             {
@@ -1376,7 +1372,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             foreach (var range in e.ChangedRange.tb.GetRanges(@"(<style.*?>.*?</style>)", RegexOptions.Singleline))
             {
                 //remove HTML and JS from this fragment
-                range.ClearStyle(Comment, TagBracketStyle, AttributeName, AttributeValue,
+                range.ClearStyle(Comment, TagBracket, AttributeName, AttributeValue,
                     Constant, String, Number, Keyword, ClassName, //TODO:Check if have to remove any other style
                     FunctionName, Punctuation);
                 //do CSS highlighting
@@ -1385,7 +1381,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             foreach (var r in e.ChangedRange.tb.GetRanges(@"(<script.*?>.*?</script>)", RegexOptions.Singleline))
             {
                 //remove HTML and CSS highlighting from this fragment
-                r.ClearStyle(Comment, TagBracketStyle,
+                r.ClearStyle(Comment, TagBracket,
                     Constant, CSSProperty, CSSSelector, CSSPropertyValue,
                     Number);
                 //do javascript highlighting
@@ -1438,10 +1434,10 @@ namespace SS.Ynote.Classic.Features.Syntax
             _cSharpClassNameRegex = new Regex(@"\b(class|struct|enum|interface)\s+(?<range>\w+?)\b", RegexCompiledOption);
             _cSharpKeywordRegex =
                 new Regex(
-                    @"\b(abstract|as|base|using|break|case|catch|char|checked|class|const|continue|decimal|default|delegate|do|else|enum|event|explicit|extern|finally|fixed|float|for|foreach|goto|if|implicit|in|interface|internal|is|this|lock|long|namespace|new|null|object|operator|out|override|params|private|protected|public|readonly|ref|return|sbyte|sealed|short|sizeof|stackalloc|static|struct|switch|throw|try|typeof|unchecked|unsafe|virtual|volatile|while|add|alias|ascending|descending|dynamic|from|get|global|group|into|join|let|orderby|partial|remove|select|set|value|var|where|yield)\b|#region\b|#endregion\b",
+                    @"\b(abstract|as|base|using|break|case|catch|char|checked|class|const|continue|decimal|default|delegate|do|else|enum|event|explicit|extern|finally|fixed|float|for|foreach|goto|if|implicit|in|interface|internal|is|this|lock|long|namespace|new|object|operator|out|override|params|private|protected|public|readonly|ref|return|sbyte|sealed|short|sizeof|stackalloc|static|struct|switch|throw|try|typeof|unchecked|unsafe|virtual|volatile|while|add|alias|ascending|descending|dynamic|from|get|global|group|into|join|let|orderby|partial|remove|select|set|value|var|where|yield)\b|#region\b|#endregion\b",
                     RegexCompiledOption);
             _cSharpKeywordRegex2 =
-                new Regex(@"\b(void|bool|string|int|double|float|byte|uint|ushort|ulong|true|false)\b");
+                new Regex(@"\b(void|bool|string|int|double|float|byte|uint|ushort|ulong)\b");
             _csharpFunctionRegex = new Regex(@"\b(void|int|bool|string|uint|ushort|ulong|byte)\s+(?<range>\w+?)\b");
         }
 
@@ -1454,8 +1450,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.RightBracket2 = '}';
             //clear style of changed range
             e.ChangedRange.tb.Range.ClearStyle(Comment);
-            e.ChangedRange.ClearStyle(String, Number, AttributeName, ClassName, FunctionName,
-                Keyword, Constant, Preprocessor);
+            e.ChangedRange.ClearStyle(String, Number, ClassName, AttributeName, FunctionName, Preprocessor, Keyword, Storage, Constant);
             //
             if (_cSharpStringRegex == null)
                 InitCSharpRegex();
@@ -1465,8 +1460,6 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.Range.SetStyle(Comment, _cSharpCommentRegex1);
             e.ChangedRange.tb.Range.SetStyle(Comment, _cSharpCommentRegex2);
             e.ChangedRange.tb.Range.SetStyle(Comment, _cSharpCommentRegex3);
-            //number highlighting
-            e.ChangedRange.SetStyle(Number, _cSharpNumberRegex);
             //attribute highlighting
             e.ChangedRange.SetStyle(AttributeName, _cSharpAttributeRegex);
             //class name highlighting
@@ -1477,7 +1470,10 @@ namespace SS.Ynote.Classic.Features.Syntax
             //keyword highlighting
             e.ChangedRange.SetStyle(Keyword, _cSharpKeywordRegex);
             //Constant
-            e.ChangedRange.SetStyle(Constant, _cSharpKeywordRegex2);
+            e.ChangedRange.SetStyle(Storage, _cSharpKeywordRegex2);
+            e.ChangedRange.SetStyle(Constant, @"\b(true|false|null)\b");
+            //number highlighting
+            e.ChangedRange.SetStyle(Number, _cSharpNumberRegex);
             e.ChangedRange.ClearFoldingMarkers();
             e.ChangedRange.SetFoldingMarkers("{", "}"); //allow to collapse brackets block
             e.ChangedRange.SetFoldingMarkers("#region", "#endregion");
@@ -1527,17 +1523,16 @@ namespace SS.Ynote.Classic.Features.Syntax
                 RegexCompiledOption);
             _jScriptKeywordRegex =
                 new Regex(
-                    @"\b(break|case|catch|const|continue|default|delete|do|escape|unescape|else|export|for|function|if|in|instanceof|new|null|return|switch|throw|try|var|void|while|with|typeof)\b",
+                    @"\b(break|case|catch|const|continue|default|delete|do|escape|unescape|else|export|for|if|in|instanceof|new|null|return|switch|throw|try|void|while|with|typeof)\b",
                     RegexCompiledOption);
             _jScriptLibraryClass =
                 new Regex(
-                    @"\b(Array|Boolean|Date|Math|Object|String|document|NaN|prototype|true|false|window|navigator|Audio|Sound)\b");
+                    @"\b(Array|Boolean|Date|Math|Object|String|document|NaN|prototype|window|navigator|Audio|Sound)\b");
             _jscriptLibraryFunction =
                 new Regex(
                     @"\b(isFinite|isNaN|parseInt|parseFloat|length|documentElement|getElementsByTagName|getElementsByID|decodeURI|decodeURIComponent|encodeURI|eval|addEventListener|alert|atob|blur|btoa|clearInterval|clearTimeout|close|confirm|dispatchEvent|doNotTrack|find|focus|getComputedStyle|getMatchedCSSRules|getSelection|matchMedia|moveBy|moveTo|open|openDatabase|print|prompt|removeEventListener|resizeBy|resizeTo|scroll|scrollBy|scrollTo|setInterval|setTimeout|showModalDialog|stop)\b");
             _jScriptFunctionRegex = new Regex(@"\b(function)\s+(?<range>\w+?)\b");
             _jScriptFunctionRegex2 = new Regex(@"\b(var)\s+(?<range>\w+?)\b");
-            //TODO:Add 'this' with variable style, true / false and null to constant , function argument
         }
 
         /// <summary>
@@ -1554,8 +1549,8 @@ namespace SS.Ynote.Classic.Features.Syntax
             //clear style of visible range
             e.ChangedRange.tb.Range.ClearStyle(Comment);
             //clear style of changed range
-            e.ChangedRange.ClearStyle(String, Number, Keyword, LibraryClass, ClassName,
-                FunctionName, Punctuation);
+            e.ChangedRange.ClearStyle(String, Number, Keyword, Storage, LibraryClass, ClassName,
+                FunctionName, Punctuation, LibraryFunction);
 
             if (_jScriptStringRegex == null)
                 InitJScriptRegex();
@@ -1571,7 +1566,10 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.SetStyle(FunctionName, _jScriptFunctionRegex2);
             //keyword highlighting
             e.ChangedRange.SetStyle(Keyword, _jScriptKeywordRegex);
+            e.ChangedRange.SetStyle(Storage, @"\b(var|function)\b");
+            e.ChangedRange.SetStyle(LibraryFunction, _jscriptLibraryFunction);
             e.ChangedRange.SetStyle(LibraryClass, _jScriptLibraryClass);
+            e.ChangedRange.SetStyle(Constant, @"\b(true|false|null)\b");
             e.ChangedRange.SetStyle(Punctuation, @"\;|\,|<|>|-|\$|=|\!|\.|\?|\*|\&|\#|\^");
             //clear folding markers
             e.ChangedRange.ClearFoldingMarkers();
@@ -1593,7 +1591,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.RightBracket2 = ')';
             e.ChangedRange.tb.Range.ClearStyle(Comment);
             //clear style of changed range
-            e.ChangedRange.ClearStyle(Comment, TagBracketStyle, TagName, AttributeName, AttributeValue,
+            e.ChangedRange.ClearStyle(Comment, TagBracket, TagName, AttributeName, AttributeValue,
                 Constant);
             //
             if (_htmlTagRegex == null)
@@ -1602,7 +1600,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.Range.SetStyle(Comment, _htmlCommentRegex1);
             e.ChangedRange.tb.Range.SetStyle(Comment, _htmlCommentRegex2);
             //tag brackets highlighting
-            e.ChangedRange.SetStyle(TagBracketStyle, _htmlTagRegex);
+            e.ChangedRange.SetStyle(TagBracket, _htmlTagRegex);
             //tag name
             e.ChangedRange.SetStyle(TagName, _htmlTagNameRegex);
             //end of tag
@@ -1725,9 +1723,10 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.RightBracket2 = '\x0';
             //clear style of changed range
             e.ChangedRange.tb.Range.ClearStyle(Comment);
-            e.ChangedRange.ClearStyle(Comment, String, Number, Variable, Keyword, LibraryFunction, Storage);
+            e.ChangedRange.ClearStyle(Comment, String, Number, Variable, Keyword, LibraryFunction, LibraryClass);
             if (_sqlStringRegex == null)
                 InitSqlRegex();
+            e.ChangedRange.tb.Range.ClearStyle(Comment);
             //string highlighting
             e.ChangedRange.SetStyle(String, _sqlStringRegex);
             //comment highlighting
@@ -1737,7 +1736,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             //number highlighting
             e.ChangedRange.SetStyle(Number, _sqlNumberRegex);
             //types highlighting
-            e.ChangedRange.SetStyle(Storage, _sqlTypesRegex);
+            e.ChangedRange.SetStyle(LibraryClass, _sqlTypesRegex);
             //var highlighting
             e.ChangedRange.SetStyle(Variable, _sqlVarRegex);
             //statements
@@ -1778,7 +1777,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.SetStyle(Keyword,
                 @"\b(AL|AH|AX|EAX|BL|BH|BX|EBX|CL|CH|CX|ECX|DL|DH|DX|EDX|BP|EBP|module|this|SP|ESP|ref|DI|EDI|SI|ESI|ES|CS|SS|DS|GS|FS|CR0|CR2|CR3|CR4|DR0|DR1|DR2|DR3|DR6|DR7|TR3|TR4|TR5|TR6|TR7|ST|MM0|MM1|MM2|MM3|MM4|MM5|MM6|MM7|lock|rep|repe|repne|repnz|repz|offset|seg|__LOCAL_SIZE|near ptr|far ptr|byte ptr|short ptr|int ptr|word ptr|dword ptr|float ptr|double ptr|extended ptr|aaa|aad|aam|aas|adc|add|addpd|addps|addsd|addss|and|andnpd|andnps|andpd|andps|arpl|bound|bsf|bsr|bswap|bt|btc|alias|defined|import|btr|bts|call|cbw|cdq|clc|cld|clflush|cli|clts|cmc|cmova|cmovae|cmovb|cmovbe|cmovc|cmove|cmovg|cmovge|cmovl|cmovle|cmovna|cmovnae|cmovnb|cmovnbe|cmovnc|cmovne|cmovng|cmovnge|cmovnl|cmovnle|cmovno|cmovnp|cmovns|cmovnz|cmovo|cmovp|cmovpe|cmovpo|cmovs|cmovz|cmp|cmppd|cmpps|cmps|cmpsb|cmpsd|cmpss|cmpsw|cmpxch8b|cmpxchg|comisd|comiss|cpuid|cvtdq2pd|cvtdq2ps|cvtpd2dq|cvtpd2pi|cvtpd2ps|cvtpi2pd|cvtpi2ps|cvtps2dq|cvtps2pd|cvtps2pi|cvtsd2si|cvtsd2ss|cvtsi2sd|cvtsi2ss|cvtss2sd|cvtss2si|cvttpd2dq|cvttpd2pi|cvttps2dq|cvttps2pi|cvttsd2si|cvttss2si|cwd|cwde|da|daa|das|db|dd|de|dec|df|di|div|divpd|divps|divsd|divss|dl|dq|ds|dt|dw|emms|enter|f2xm1|fabs|fadd|faddp|fbld|fbstp|fchs|fclex|fcmovb|fcmovbe|fcmove|fcmovnb|fcmovnbe|fcmovne|fcmovnu|fcmovu|fcom|fcomi|fcomip|fcomp|fcompp|fcos|fdecstp|fdisi|fdiv|fdivp|fdivr|fdivrp|feni|ffree|fiadd|ficom|ficomp|fidiv|fidivr|fild|fimul|fincstp|finit|fist|fistp|fisub|fisubr|fld|fld1|fldcw|fldenv|fldl2e|fldl2t|fldlg2|fldln2|fldpi|fldz|fmul|fmulp|fnclex|fndisi|fneni|fninit|fnop|fnsave|fnstcw|fnstenv|fnstsw|fpatan|fprem|fprem1|fptan|frndint|frstor|fsave|fscale|fsetpm|fsin|fsincos|fsqrt|fst|fstcw|fstenv|fstp|fstsw|fsub|fsubp|fsubr|fsubrp|ftst|fucom|fucomi|fucomip|fucomp|fucompp|fwait|fxam|fxch|fxrstor|fxsave|fxtract|fyl2x|fyl2xp1|hlt|idiv|imul|in|inc|ins|insb|insd|insw|int|into|invd|invlpg|iret|iretd|ja|jae|jb|jbe|jc|jcxz|je|jecxz|jg|jge|jl|jle|jmp|jna|jnae|jnb|jnbe|jnc|jne|jng|jnge|jnl|jnle|jno|jnp|jns|jnz|jo|jp|jpe|jpo|js|jz|lahf|lar|ldmxcsr|lds|lea|leave|les|lfence|lfs|lgdt|lgs|lidt|lldt|lmsw|lock|lods|lodsb|lodsd|lodsw|loop|loope|loopne|loopnz|loopz|lsl|lss|ltr|maskmovdqu|maskmovq|maxpd|maxps|maxsd|maxss|mfence|minpd|minps|minsd|minss|mov|movapd|movaps|movd|movdq2q|movdqa|movdqu|movhlps|movhpd|movhps|movlhps|movlpd|movlps|movmskpd|movmskps|movntdq|movnti|movntpd|movntps|movntq|movq|movq2dq|movs|movsb|movsd|movss|movsw|movsx|movupd|movups|movzx|mul|mulpd|mulps|mulsd|mulss|neg|nop|not|or|orpd|orps|out|outs|outsb|outsd|outsw|packssdw|packsswb|packuswb|paddb|paddd|paddq|paddsb|paddsw|paddusb|paddusw|paddw|pand|pandn|pavgb|pavgw|pcmpeqb|pcmpeqd|pcmpeqw|pcmpgtb|pcmpgtd|pcmpgtw|pextrw|pinsrw|pmaddwd|pmaxsw|pmaxub|pminsw|pminub|pmovmskb|pmulhuw|pmulhw|pmullw|pmuludq|pop|popa|popad|popf|popfd|por|prefetchnta|prefetcht0|prefetcht1|prefetcht2|psadbw|pshufd|pshufhw|pshuflw|pshufw|pslld|pslldq|psllq|psllw|psrad|psraw|psrld|psrldq|psrlq|psrlw|psubb|psubd|psubq|psubsb|psubsw|psubusb|psubusw|psubw|punpckhbw|punpckhdq|punpckhqdq|punpckhwd|punpcklbw|punpckldq|punpcklqdq|punpcklwd|push|pusha|pushad|pushf|pushfd|pxor|rcl|rcpps|rcpss|rcr|rdmsr|rdpmc|rdtsc|rep|repe|repne|repnz|repz|ret|retf|rol|ror|rsm|rsqrtps|rsqrtss|sahf|sal|sar|sbb|scas|scasb|scasd|scasw|seta|setae|setb|setbe|setc|sete|setg|setge|setl|setle|setna|setnae|setnb|setnbe|setnc|setne|setng|setnge|setnl|setnle|setno|setnp|setns|setnz|seto|setp|setpe|setpo|sets|setz|sfence|sgdt|shl|shld|shr|shrd|shufpd|shufps|sidt|sldt|smsw|sqrtpd|sqrtps|sqrtsd|sqrtss|stc|std|sti|stmxcsr|stos|stosb|stosd|stosw|str|sub|subpd|subps|subsd|subss|sysenter|sysexit|test|ucomisd|ucomiss|ud2|unpckhpd|unpckhps|unpcklpd|unpcklps|verr|verw|wait|wbinvd|wrmsr|xadd|xchg|xlat|xlatb|xor|xorpd|xorps|pavgusb|pf2id|pfacc|pfadd|pfcmpeq|pfcmpge|pfcmpgt|pfmax|pfmin|pfmul|pfnacc|pfpnacc|pfrcp|pfrcpit1|pfrcpit2|pfrsqit1|pfrsqrt|pfsub|pfsubr|pi2fd|pmulhrw|pswapd|abstract|align|argc|argv|asm|assert|attribute|auto|bit|body|bool|break|byte|case|catch|cent|cfloat|char|class|complex|const|continue|creal|d_time|db|dd|de|debug|default|delete|deprecated|df|dg|di|do|double|ds|dynamic_cast|else|enum|envp|even|explicit|extended|extern|false|final|float|for|fp|friend|function|goto|idouble|if|ifloat|imaginary|in|inline|inout|instance|int|interface|ireal|long|mutable|naked|namespace|new|operator|out|override|private|protected|public|real|register|reinterpret_cast|return|short|signed|sizeof|static|struct|super|switch|synchronized|template|throw|true|try|typedef|typeid|typename|ubyte|ucent|uint|ulong|union|unsigned|ushort|using|version|virtual|void|volatile|wchar|while)\b");
             e.ChangedRange.SetStyle(LibraryClass,
-                @"\b(ClassInfo|E|Exception|FileException|LN10|LN2|LOG10E|LOG2|LOG2E|LOG2T|LocalTimetoUTC|M_1_PI|M_2_PI|M_2_SQRT|Object|OutBuffer|OutOfMemory|PI|PI_2|PI_4|RegExp|SQRT1_2|SQRT2|SliceStream|Stream|StringException|Thread|ThreadError|TicksPerSecond|UTCtoLocalTime|acos|addExt|addRange|addRoot|align2|align4|alignSize|altsep|append|asin|atan|atan2|atof|atoi|bsf|bsr|bt|btc|btr|bts|capitalize|capwords|ceil|center|close|cmp|copyFrom|copysign|cos|cosh|count|create|curdir|data|defaultExt|digits|enable|eof|exec|exp|expandtabs|expml|fabs|fill0|find|floor|fncharmatch|fnmatch|frexp|fullCollect|genCollect|getAll|getAttributes|getbaseName|getDirName|getDrive|getExt|getSize|getState|getThis|getUTCtime|getc|getcw|hdl|hexdigits|hypot|icmp|inp|inpl|inpw|insert|isabs|isalnum|isalpha|isascii|iscntrl|isdigit|isfinite|isgraph|isinf|islower|isnan|isnormal|isprint|ispunct|isspace|issubnormal|isupper|isxdigit|join|ldexp|letters|linesep|ljustify|log|log10|loglp|lowercase|maketrans|match|minimize|modf|octdigits|open|outp|outpl|outpw|pardir|parse|pathsep|pause|pauseAll|position|pow|printf|rand|rand_seed|read|readBlock|readExact|readLine|readString|readStringW|readable|remove|removeRange|removeRoot|rename|replace|replaceOld|replaceSlice|reserve|resume|resumeAll|rfind|rint|rjustify|rndtol|run|scanf|search|seek|seekCur|seekEnd|seekSet|seekable|sep|setPriority|signbit|sin|sinh|size|split|splitlines|spread|sqrt|start|strip|stripl|stripr|tan|tanh|test|thread_hdl|toByte|toBytes|toDateString|toHash|toInt|toLong|toShort|toString|toTimeString|toUbyte|toUint|toUlong|toUshort|tolower|toupper|translate|ungetc|ungetcw|uppercase|vprintf|vscanf|wait|whitespace|write|writeBlock|writeExact|writeLine|writeLineW|writeString|writeStringW|writeable|yield|zfill)\b");
+                @"\b(ClassInfo|E|Exception|FileException|LN10|LN2|LOG10E|LOG2|LOG2E|LOG2T|LocalTimetoUTC||Object|OutBuffer|OutOfMemory|PI|RegExp|SQRT1_2|SQRT2|SliceStream|Stream|StringException|Thread|ThreadError|TicksPerSecond|UTCtoLocalTime|acos|addExt|addRange|addRoot|align2|align4|alignSize|altsep|append|asin|atan|atan2|atof|atoi|bsf|bsr|bt|btc|btr|bts|capitalize|capwords|ceil|center|close|cmp|copyFrom|copysign|cos|cosh|count|create|curdir|data|defaultExt|digits|enable|eof|exec|exp|expandtabs|expml|fabs|fill0|find|floor|fncharmatch|fnmatch|frexp|fullCollect|genCollect|getAll|getAttributes|getbaseName|getDirName|getDrive|getExt|getSize|getState|getThis|getUTCtime|getc|getcw|hdl|hexdigits|hypot|icmp|inp|inpl|inpw|insert|isabs|isalnum|isalpha|isascii|iscntrl|isdigit|isfinite|isgraph|isinf|islower|isnan|isnormal|isprint|ispunct|isspace|issubnormal|isupper|isxdigit|join|ldexp|letters|linesep|ljustify|log|log10|loglp|lowercase|maketrans|match|minimize|modf|octdigits|open|outp|outpl|outpw|pardir|parse|pathsep|pause|pauseAll|position|pow|printf|rand|rand_seed|read|readBlock|readExact|readLine|readString|readStringW|readable|remove|removeRange|removeRoot|rename|replace|replaceOld|replaceSlice|reserve|resume|resumeAll|rfind|rint|rjustify|rndtol|run|scanf|search|seek|seekCur|seekEnd|seekSet|seekable|sep|setPriority|signbit|sin|sinh|size|split|splitlines|spread|sqrt|start|strip|stripl|stripr|tan|tanh|test|thread_hdl|toByte|toBytes|toDateString|toHash|toInt|toLong|toShort|toString|toTimeString|toUbyte|toUint|toUlong|toUshort|tolower|toupper|translate|ungetc|ungetcw|uppercase|vprintf|vscanf|wait|whitespace|write|writeBlock|writeExact|writeLine|writeLineW|writeString|writeStringW|writeable|yield|zfill)\b");
             e.ChangedRange.SetStyle(Number, @"\b\d+[\.]?\d*([eE]\-?\d+)?\b", RegexCompiledOption);
             e.ChangedRange.ClearFoldingMarkers();
             e.ChangedRange.SetFoldingMarkers("{", "}");
@@ -1827,7 +1826,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.SetStyle(Keyword,
                 @"\b(add|addb|addc|addcb|and|andb|bbc|bbs|bc|be|bge|bgt|bh|ble|blt|bmov|bmovi|bnc|bne|bnh|bnst|bnv|bnvt|br|bst|bv|bvt|call|clr|clrb|clrc|clrvt|cmp|cmpb|cmpl|dbnz|dbnzw|dec|decb|di|div|divb|divu|divub|djnz|djnzw|dpst|ei|eq|ext|extb|ge|gt|idlpd|inc|incb|jbc|jbs|jc|je|jge|jgt|jh|jle|jlt|jnc|jne|jnh|jnst|jnv|jnvt|jst|jv|jvt|lcall|ld|ldb|ldbse|ldbze|le|ljmp|lt|mod|mul|mulb|mulu|mulub|ne|neg|negb|nop|norml|not|notb|nul|or|orb|pop|popa|popf|push|pusha|pushf|ret|rst|scall|setc|shl|shlb|shll|shr|shra|shrab|shral|shrb|shrl|sjmp|skip|st|stb|sub|subb|subc|subcb|tijmp|trap|xch|xchb|xor|xorb)\b",
                 RegexOptions.IgnoreCase);
-            e.ChangedRange.SetStyle(Constant,
+            e.ChangedRange.SetStyle(Keyword,
                 @"\b(at|byte|cseg|dcb|dcl|dcp|dcr|dcw|dsb|dseg|dsl|dsp|dsr|dsw|dword|else|end|endif|endm|entry|equ|exitm|exitrn|far|if|irp|irpc|kseg|local|long|macro|main|module|null|org|oseg|pointer|public|rel|rept|rseg|set|stack|stacksize|word)\b",
                 RegexOptions.IgnoreCase);
             e.ChangedRange.SetStyle(Variable, new Regex(@"\$[a-zA-Z_\d]*\b", RegexCompiledOption));
@@ -1963,18 +1962,19 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.LeftBracket2 = '[';
             e.ChangedRange.tb.RightBracket2 = ']';
             e.ChangedRange.tb.Range.ClearStyle(Comment);
-            e.ChangedRange.ClearStyle(String, Keyword, Constant, Storage, Number);
+            e.ChangedRange.ClearStyle(String, Keyword, LibraryClass, LibraryFunction, Number);
             e.ChangedRange.tb.Range.SetStyle(Comment, @"//.*$", RegexOptions.Multiline);
             e.ChangedRange.tb.Range.SetStyle(Comment, @"(/\*.*?\*/)|(/\*.*)", RegexOptions.Singleline);
             e.ChangedRange.tb.Range.SetStyle(Comment, @"(/\*.*?\*/)|(.*\*/)",
                 RegexOptions.Singleline | RegexOptions.RightToLeft);
             e.ChangedRange.SetStyle(String, @"""""|''|"".*?[^\\]""|'.*?[^\\]'");
             e.ChangedRange.SetStyle(Keyword,
-                @"\b(break|case|continue|default|do|while|else|for|foreach|on|in|if|label|return|super|switch|throw|try|catch|finally|while|with|dynamic|final|internal|native|override|private|protected|public|static|class|const|extends|function|get|implements|interface|package|set|var|default|import|include|use|namespace|AS3|flash_proxy|object_proxy|false|null|this|true)\b");
-            e.ChangedRange.SetStyle(Constant,
-                @"\b(Boolean|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|int|isFinite|isNaN|isXMLName|Number|Object|parseFloat|parseInt|String|trace|uint|unescape|XML|XMLList|Infinity|NaN|undefined|void|null)\b");
-            e.ChangedRange.SetStyle(Storage,
-                @"\b(abs|acceptAllClient|acceptAllServer|acceptClient|acceptDragDrop|acceptServer|acknowledge|acos|activate|add|addCallback|addChannel|addChild|addChildAt|addChildSet|addCuePoint|addData|addDragData|addEventListener|addFocusManager|addHaloColors|addHandler|addHeader|addItem|addItemAt|addListenerHandler|addLogger|addNamespace|addObject|addPage|addPopUp|addResponder|addSimpleHeader|addTarget|addToCreationQueue|addToFreeItemRenderers|adjustBrightness|adjustBrightness2|adjustFocusRect|adjustGutters|adjustMinMax|allowDomain|allowInsecureDomain|appendChild|appendText|apply|applyFilter|applyItemRendererProperties|applySelectionEffect|applySeriesSet|applySettings|applyValueToTarget|areInaccessibleObjectsUnderPoint|areSoundsInaccessible|asin|atan|atan2|attachAudio|attachCamera|attachNetStream|attachOverlay|attribute|attributes|begin|beginBitmapFill|beginFill|beginGradientFill|beginInterpolation|beginTween|bindProperty|bindSetter|bringToFront|browse|buildLabelCache|buildMinorTickCache|buildSubSeries|cacheDefaultValues|cacheIndexValues|cacheNamedValues|calculateDropIndex|calculateDropIndicatorY|calculatePreferredSizeFromData|calculateRowHeight|call|callLater|callProperty|canLoadWSDL|canWatch|cancel|captureStartValues|ceil|center|centerPopUp|channelConnectHandler|channelDisconnectHandler|channelFaultHandler|charAt|charCodeAt|chartStateChanged|checkCreate|checkDelete|checkUpdate|child|childIndex|children|childrenCreated|claimStyles|clear|clearHeaders|clearIndicators|clearResult|clearSelected|clearSeparators|clearStyle|clearStyleDeclaration|clickHandler|clone|cloneNode|close|collectTransitions|collectionChangeHandler|colorTransform|comments|commit|commitProperties|compare|completeHandler|compress|computeSpectrum|concat|configureScrollBars|conflict|connect|connectFailed|connectSuccess|connectTimeoutHandler|contains|containsPoint|containsRect|contentToGlobal|contentToLocal|copy|copyChannel|copyPixels|copySelectedItems|cos|count|create|createBorder|createBox|createChildren|createComponentFromDescriptor|createComponentsFromDescriptors|createCursor|createDataID|createElement|createErrorMessage|createEvent|createEventFromMessageFault|createFaultEvent|createGradientBox|createInstance|createInstances|createItem|createItemEditor|createMenu|createNavItem|createPopUp|createReferenceOnParentDocument|createRequestTimeoutErrorMessage|createTextNode|createToolTip|createTween|createUID|createUniqueName|createUpdateEvent|createXMLDocument|curveTo|customizeSeries|dataChanged|dataForFormat|dataToLocal|dateCompare|dateToString|deactivate|debug|decode|decodeXML|defaultCreateMask|defaultFilterFunction|defaultSettings|deleteItem|deleteProperty|deleteReferenceOnParentDocument|deltaTransformPoint|descendants|describeData|describeType|destroyItemEditor|destroyToolTip|determineTextFormatFromStyles|disableAutoUpdate|disablePolling|disconnect|disconnectFailed|disconnectSuccess|dispatchEvent|displayObjectToString|dispose|distance|doConversion|doDrag|doValidation|downArrowButton_buttonDownHandler|download|dragCompleteHandler|dragDropHandler|dragEnterHandler|dragExitHandler|dragOverHandler|dragScroll|draw|drawCaretIndicator|drawCircle|drawColumnBackground|drawEllipse|drawFocus|drawHeaderBackground|drawHighlightIndicator|drawHorizontalLine|drawItem|drawLinesAndColumnBackgrounds|drawRect|drawRoundRect|drawRoundRectComplex|drawRowBackground|drawRowBackgrounds|drawSelectionIndicator|drawSeparators|drawShadow|drawTileBackground|drawTileBackgrounds|drawVerticalLine|easeIn|easeInOut|easeNone|easeOut|effectEndHandler|effectFinished|effectStartHandler|effectStarted|elements|enableAutoUpdate|enablePolling|encodeDate|encodeValue|end|endEdit|endEffectsForTarget|endEffectsStarted|endFill|endInterpolation|endTween|enumerateFonts|equals|error|every|exec|executeBindings|executeChildBindings|exp|expandChildrenOf|expandItem|extractMinInterval|extractMinMax|fatal|fault|fill|fillRect|filter|filterCache|filterInstance|findAny|findDataPoints|findFirst|findFocusManagerComponent|findItem|findKey|findLast|findString|findText|finishEffect|finishKeySelection|finishPrint|finishRepeat|floodFill|floor|flush|focusInHandler|focusOutHandler|forEach|format|formatDataTip|formatDays|formatDecimal|formatForScreen|formatMilliseconds|formatMinutes|formatMonths|formatNegative|formatPrecision|formatRounding|formatRoundingWithPrecision|formatSeconds|formatThousands|formatToString|formatValue|formatYears|fromCharCode|generateFilterRect|getAffectedProperties|getAxis|getBoolean|getBounds|getCacheKey|getCamera|getChannel|getChannelSet|getCharBoundaries|getCharIndexAtPoint|getChildAt|getChildByName|getChildIndex|getChildren|getClassInfo|getClassStyleDeclarations|getColorBoundsRect|getColorName|getColorNames|getComplexProperty|getConflict|getContent|getCuePointByName|getCuePoints|getCurrent|getData|getDate|getDay|getDefinition|getDefinitionByName|getDescendants|getDestination|getDividerAt|getElementBounds|getEvents|getExplicitOrMeasuredHeight|getExplicitOrMeasuredWidth|getFeedback|getFirstCharInParagraph|getFocus|getFullURL|getFullYear|getGroupName|getHeader|getHeaderAt|getHours|getImageReference|getInstance|getItem|getItemAt|getItemIndex|getKeyProperty|getLabelEstimate|getLabels|getLevelString|getLineIndexAtPoint|getLineIndexOfChar|getLineLength|getLineMetrics|getLineOffset|getLineText|getLocal|getLogger|getMenuAt|getMessageResponder|getMicrophone|getMilliseconds|getMinutes|getMissingInterpolationValues|getMonth|getNamespaceForPrefix|getNextFocusManagerComponent|getNumber|getObject|getObjectsUnderPoint|getOperation|getOperationAsString|getParagraphLength|getParentItem|getPendingOperation|getPercentLoaded|getPixel|getPixel32|getPixels|getPort|getPrefixForNamespace|getProperties|getProperty|getProtocol|getRadioButtonAt|getRect|getRemote|getRenderDataForTransition|getRepeaterItem|getResourceBundle|getSOAPAction|getSWFRoot|getSecondAxis|getSeconds|getSelected|getSelectedText|getServerName|getServerNameWithPort|getServiceIdForMessage|getStackTrace|getStartValue|getString|getStringArray|getStyle|getStyleDeclaration|getSubscribeMessage|getTabAt|getText|getTextFormat|getTextRunInfo|getTextStyles|getThumbAt|getTime|getTimezoneOffset|getType|getUID|getUITextFormat|getUTCDate|getUTCDay|getUTCFullYear|getUTCHours|getUTCMilliseconds|getUTCMinutes|getUTCMonth|getUTCSeconds|getUnsubscribeMessage|getValue|getValueFromSource|getValueFromTarget|getViewIndex|globalToContent|globalToLocal|gotoAndPlay|gotoAndStop|guardMinMax|handleResults|hasChildNodes|hasChildren|hasComplexContent|hasDefinition|hasEventListener|hasFormat|hasGlyphs|hasIllegalCharacters|hasMetadata|hasOwnProperty|hasProperty|hasResponder|hasSimpleContent|hide|hideBuiltInItems|hideCursor|hideData|hideDropFeedback|hideFocus|hiliteSelectedNavItem|hitTest|hitTestObject|hitTestPoint|hitTestTextNearPos|horizontalGradientMatrix|identity|inScopeNamespaces|indexOf|indexToColumn|indexToItemRenderer|indexToRow|indicesToIndex|inflate|inflatePoint|info|initChannelSet|initEffect|initInstance|initListData|initMaskEffect|initProgressHandler|initProtoChain|initSecondaryMode|initializationComplete|initialize|initializeAccessibility|initializeInterpolationData|initializeRepeater|initializeRepeaterArrays|initialized|insert|insertBefore|insertChildAfter|insertChildBefore|internalConnect|internalDisconnect|internalSend|interpolate|intersection|intersects|invalidate|invalidateCache|invalidateChildOrder|invalidateData|invalidateDisplayList|invalidateFilter|invalidateList|invalidateMapping|invalidateProperties|invalidateSeries|invalidateSeriesStyles|invalidateSize|invalidateStacking|invalidateTransform|invalidateTransitions|invert|invertTransform|invoke|isAccessible|isAttribute|isBranch|isColorName|isCompensating|isCreate|isDebug|isDefaultPrevented|isDelete|isEmpty|isEmptyUpdate|isEnabled|isError|isFatal|isFocusInaccessible|isFontFaceEmbedded|isHttpURL|isHttpsURL|isInfo|isInheritingStyle|isInheritingTextFormatStyle|isInvalid|isItemHighlighted|isItemOpen|isItemSelected|isItemVisible|isOurFocus|isParentDisplayListInvalidatingStyle|isParentSizeInvalidatingStyle|isPrototypeOf|isRealValue|isSimple|isSizeInvalidatingStyle|isToggled|isTopLevel|isTopLevelWindow|isUpdate|isValidStyleValue|isWarn|isWatching|isWhitespace|itemRendererContains|itemRendererToIndex|itemRendererToIndices|join|keyDownHandler|keyUpHandler|lastIndexOf|layoutChrome|layoutEditor|legendDataChanged|length|lineGradientStyle|lineStyle|lineTo|load|loadBytes|loadPolicyFile|loadState|loadWSDL|localName|localToContent|localToData|localToGlobal|localeCompare|lock|log|logEvent|logout|makeListData|makeRowsAndColumns|map|mapCache|mappingChanged|match|max|measure|measureHTMLText|measureHeightOfItems|measureText|measureWidthOfItems|merge|min|mouseClickHandler|mouseDoubleClickHandler|mouseDownHandler|mouseEventToItemRenderer|mouseMoveHandler|mouseOutHandler|mouseOverHandler|mouseUpHandler|mouseWheelHandler|move|moveDivider|moveNext|movePrevious|moveSelectionHorizontally|moveSelectionVertically|moveTo|name|namespace|namespaceDeclarations|newInstance|nextFrame|nextName|nextNameIndex|nextPage|nextScene|nextValue|nodeKind|noise|normalize|notifyStyleChangeInChildren|numericCompare|offset|offsetPoint|onEffectEnd|onMoveTweenEnd|onMoveTweenUpdate|onScaleTweenEnd|onScaleTweenUpdate|onTweenEnd|onTweenUpdate|open|owns|paletteMap|parent|parentChanged|parse|parseCSS|parseDateString|parseNumberString|parseXML|pause|perlinNoise|pixelDissolve|pixelsToPercent|placeSortArrow|play|polar|pop|popUpMenu|qnameToString|qnamesEqual|random|readBoolean|readByte|readBytes|readDouble|readExternal|readFloat|readInt|readMultiByte|readObject|readShort|readUTF|readUTFBytes|readUnsignedByte|readUnsignedInt|readUnsignedShort|receive|receiveAudio|receiveVideo|reduceLabels|refresh|regenerateStyleCache|register|registerApplication|registerCacheHandler|registerColorName|registerDataTransform|registerEffects|registerFont|registerInheritingStyle|registerParentDisplayListInvalidatingStyle|registerParentSizeInvalidatingStyle|registerSizeInvalidatingStyle|release|releaseCollection|releaseItem|remove|removeAll|removeAllChildren|removeAllCuePoints|removeAllCursors|removeBusyCursor|removeChannel|removeChild|removeChildAt|removeCuePoint|removeCursor|removeEventListener|removeFocusManager|removeHeader|removeIndicators|removeItemAt|removeListenerHandler|removeLogger|removeNamespace|removeNode|removePopUp|removeTarget|replace|replacePort|replaceProtocol|replaceSelectedText|replaceText|replaceTokens|requestTimedOut|reset|resetNavItems|result|resultHandler|resume|resumeBackgroundProcessing|resumeEventHandling|reverse|revertChanges|rgbMultiply|rollOutHandler|rollOverHandler|rotate|rotatedGradientMatrix|round|rslCompleteHandler|rslErrorHandler|rslProgressHandler|save|saveStartValue|saveState|scale|scroll|scrollChildren|scrollHandler|scrollHorizontally|scrollPositionToIndex|scrollToIndex|scrollVertically|search|seek|seekPendingFailureHandler|seekPendingResultHandler|selectItem|send|setActualSize|setAdvancedAntiAliasingTable|setAxis|setBusyCursor|setChildIndex|setChildren|setClipboard|setColor|setCompositionString|setCredentials|setCuePoints|setCurrentState|setCursor|setDate|setDirty|setEmpty|setEnabled|setFocus|setFullYear|setHandler|setHours|setItemAt|setItemIcon|setKeyFrameInterval|setLocalName|setLoopBack|setLoopback|setMenuItemToggled|setMilliseconds|setMinutes|setMode|setMonth|setMotionLevel|setName|setNamespace|setPixel|setPixel32|setPixels|setProgress|setProperty|setPropertyIsEnumerable|setQuality|setRemoteCredentials|setRowCount|setRowHeight|setScrollBarProperties|setScrollProperties|setSecondAxis|setSeconds|setSelectColor|setSelected|setSelection|setSettings|setSilenceLevel|setSize|setStyle|setStyleDeclaration|setTextFormat|setThumbValueAt|setTime|setToggled|setTweenHandlers|setUTCDate|setUTCFullYear|setUTCHours|setUTCMilliseconds|setUTCMinutes|setUTCMonth|setUTCSeconds|setUseEchoSuppression|setVisible|settings|setupPropertyList|shift|show|showCursor|showDisplayForDownloading|showDisplayForInit|showDropFeedback|showFeedback|showFocus|showSettings|simpleType|sin|slice|some|sort|sortOn|splice|split|sqrt|stack|start|startDrag|startDragging|startEffect|status|statusHandler|stop|stopAll|stopDrag|stopDragging|stopImmediatePropagation|stopPropagation|stringCompare|stringToDate|stripNaNs|styleChanged|stylesInitialized|subscribe|substitute|substr|substring|subtract|suspendBackgroundProcessing|suspendEventHandling|swapChildren|swapChildrenAt|tan|test|text|textInput_changeHandler|threshold|toArray|toDateString|toExponential|toFixed|toLocaleDateString|toLocaleLowerCase|toLocaleString|toLocaleTimeString|toLocaleUpperCase|toLowerCase|toPrecision|toString|toTimeString|toUTCString|toUpperCase|toXMLString|togglePause|toolTipShowHandler|transform|transformCache|transformPoint|translate|trim|truncateToFit|tweenEventHandler|uncompress|union|unload|unlock|unregister|unregisterDataTransform|unshift|unsubscribe|unwatch|update|updateAfterEvent|updateBackground|updateData|updateDisplayList|updateFilter|updateList|updateMapping|updateNavItemIcon|updateNavItemLabel|updateProperties|updateStacking|updateTransform|upload|validate|validateAll|validateClient|validateCreditCard|validateCurrency|validateData|validateDate|validateDisplayList|validateEmail|validateNow|validateNumber|validatePhoneNumber|validateProperties|validateSize|validateSocialSecurity|validateString|validateTransform|validateZipCode|validationResultHandler|valueOf|verticalGradientMatrix|warn|watch|willTrigger|writeBoolean|writeByte|writeBytes|writeDouble|writeDynamicProperties|writeDynamicProperty|writeExternal|writeFloat|writeInt|writeMultiByte|writeObject|writeShort|writeUTF|writeUTFBytes|writeUnsignedInt)\b");
+                @"\b(break|case|continue|default|do|while|else|for|foreach|on|in|if|label|return|super|switch|throw|try|catch|finally|while|with|dynamic|final|internal|native|override|private|protected|public|static|class|const|extends|function|get|implements|interface|package|set|var|default|import|include|use|namespace|AS3|flash_proxy|object_proxy|this)\b");
+           e.ChangedRange.SetStyle(Constant, @"\b(true|false|null)\b");
+            e.ChangedRange.SetStyle(LibraryClass,
+                @"\b(Boolean|escape|int|Number|Object|String|uint|unescape|XML|XMLList|Infinity|NaN|undefined|void)\b");
+            e.ChangedRange.SetStyle(LibraryFunction,
+                @"\b(abs|acceptAllClient|acceptAllServer|acceptClient|isFinite|isXMLName|parseFloat|parseInt|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|trace|isNaN|acceptDragDrop|acceptServer|acknowledge|acos|activate|add|addCallback|addChannel|addChild|addChildAt|addChildSet|addCuePoint|addData|addDragData|addEventListener|addFocusManager|addHaloColors|addHandler|addHeader|addItem|addItemAt|addListenerHandler|addLogger|addNamespace|addObject|addPage|addPopUp|addResponder|addSimpleHeader|addTarget|addToCreationQueue|addToFreeItemRenderers|adjustBrightness|adjustBrightness2|adjustFocusRect|adjustGutters|adjustMinMax|allowDomain|allowInsecureDomain|appendChild|appendText|apply|applyFilter|applyItemRendererProperties|applySelectionEffect|applySeriesSet|applySettings|applyValueToTarget|areInaccessibleObjectsUnderPoint|areSoundsInaccessible|asin|atan|atan2|attachAudio|attachCamera|attachNetStream|attachOverlay|attribute|attributes|begin|beginBitmapFill|beginFill|beginGradientFill|beginInterpolation|beginTween|bindProperty|bindSetter|bringToFront|browse|buildLabelCache|buildMinorTickCache|buildSubSeries|cacheDefaultValues|cacheIndexValues|cacheNamedValues|calculateDropIndex|calculateDropIndicatorY|calculatePreferredSizeFromData|calculateRowHeight|call|callLater|callProperty|canLoadWSDL|canWatch|cancel|captureStartValues|ceil|center|centerPopUp|channelConnectHandler|channelDisconnectHandler|channelFaultHandler|charAt|charCodeAt|chartStateChanged|checkCreate|checkDelete|checkUpdate|child|childIndex|children|childrenCreated|claimStyles|clear|clearHeaders|clearIndicators|clearResult|clearSelected|clearSeparators|clearStyle|clearStyleDeclaration|clickHandler|clone|cloneNode|close|collectTransitions|collectionChangeHandler|colorTransform|comments|commit|commitProperties|compare|completeHandler|compress|computeSpectrum|concat|configureScrollBars|conflict|connect|connectFailed|connectSuccess|connectTimeoutHandler|contains|containsPoint|containsRect|contentToGlobal|contentToLocal|copy|copyChannel|copyPixels|copySelectedItems|cos|count|create|createBorder|createBox|createChildren|createComponentFromDescriptor|createComponentsFromDescriptors|createCursor|createDataID|createElement|createErrorMessage|createEvent|createEventFromMessageFault|createFaultEvent|createGradientBox|createInstance|createInstances|createItem|createItemEditor|createMenu|createNavItem|createPopUp|createReferenceOnParentDocument|createRequestTimeoutErrorMessage|createTextNode|createToolTip|createTween|createUID|createUniqueName|createUpdateEvent|createXMLDocument|curveTo|customizeSeries|dataChanged|dataForFormat|dataToLocal|dateCompare|dateToString|deactivate|debug|decode|decodeXML|defaultCreateMask|defaultFilterFunction|defaultSettings|deleteItem|deleteProperty|deleteReferenceOnParentDocument|deltaTransformPoint|descendants|describeData|describeType|destroyItemEditor|destroyToolTip|determineTextFormatFromStyles|disableAutoUpdate|disablePolling|disconnect|disconnectFailed|disconnectSuccess|dispatchEvent|displayObjectToString|dispose|distance|doConversion|doDrag|doValidation|downArrowButton_buttonDownHandler|download|dragCompleteHandler|dragDropHandler|dragEnterHandler|dragExitHandler|dragOverHandler|dragScroll|draw|drawCaretIndicator|drawCircle|drawColumnBackground|drawEllipse|drawFocus|drawHeaderBackground|drawHighlightIndicator|drawHorizontalLine|drawItem|drawLinesAndColumnBackgrounds|drawRect|drawRoundRect|drawRoundRectComplex|drawRowBackground|drawRowBackgrounds|drawSelectionIndicator|drawSeparators|drawShadow|drawTileBackground|drawTileBackgrounds|drawVerticalLine|easeIn|easeInOut|easeNone|easeOut|effectEndHandler|effectFinished|effectStartHandler|effectStarted|elements|enableAutoUpdate|enablePolling|encodeDate|encodeValue|end|endEdit|endEffectsForTarget|endEffectsStarted|endFill|endInterpolation|endTween|enumerateFonts|equals|error|every|exec|executeBindings|executeChildBindings|exp|expandChildrenOf|expandItem|extractMinInterval|extractMinMax|fatal|fault|fill|fillRect|filter|filterCache|filterInstance|findAny|findDataPoints|findFirst|findFocusManagerComponent|findItem|findKey|findLast|findString|findText|finishEffect|finishKeySelection|finishPrint|finishRepeat|floodFill|floor|flush|focusInHandler|focusOutHandler|forEach|format|formatDataTip|formatDays|formatDecimal|formatForScreen|formatMilliseconds|formatMinutes|formatMonths|formatNegative|formatPrecision|formatRounding|formatRoundingWithPrecision|formatSeconds|formatThousands|formatToString|formatValue|formatYears|fromCharCode|generateFilterRect|getAffectedProperties|getAxis|getBoolean|getBounds|getCacheKey|getCamera|getChannel|getChannelSet|getCharBoundaries|getCharIndexAtPoint|getChildAt|getChildByName|getChildIndex|getChildren|getClassInfo|getClassStyleDeclarations|getColorBoundsRect|getColorName|getColorNames|getComplexProperty|getConflict|getContent|getCuePointByName|getCuePoints|getCurrent|getData|getDate|getDay|getDefinition|getDefinitionByName|getDescendants|getDestination|getDividerAt|getElementBounds|getEvents|getExplicitOrMeasuredHeight|getExplicitOrMeasuredWidth|getFeedback|getFirstCharInParagraph|getFocus|getFullURL|getFullYear|getGroupName|getHeader|getHeaderAt|getHours|getImageReference|getInstance|getItem|getItemAt|getItemIndex|getKeyProperty|getLabelEstimate|getLabels|getLevelString|getLineIndexAtPoint|getLineIndexOfChar|getLineLength|getLineMetrics|getLineOffset|getLineText|getLocal|getLogger|getMenuAt|getMessageResponder|getMicrophone|getMilliseconds|getMinutes|getMissingInterpolationValues|getMonth|getNamespaceForPrefix|getNextFocusManagerComponent|getNumber|getObject|getObjectsUnderPoint|getOperation|getOperationAsString|getParagraphLength|getParentItem|getPendingOperation|getPercentLoaded|getPixel|getPixel32|getPixels|getPort|getPrefixForNamespace|getProperties|getProperty|getProtocol|getRadioButtonAt|getRect|getRemote|getRenderDataForTransition|getRepeaterItem|getResourceBundle|getSOAPAction|getSWFRoot|getSecondAxis|getSeconds|getSelected|getSelectedText|getServerName|getServerNameWithPort|getServiceIdForMessage|getStackTrace|getStartValue|getString|getStringArray|getStyle|getStyleDeclaration|getSubscribeMessage|getTabAt|getText|getTextFormat|getTextRunInfo|getTextStyles|getThumbAt|getTime|getTimezoneOffset|getType|getUID|getUITextFormat|getUTCDate|getUTCDay|getUTCFullYear|getUTCHours|getUTCMilliseconds|getUTCMinutes|getUTCMonth|getUTCSeconds|getUnsubscribeMessage|getValue|getValueFromSource|getValueFromTarget|getViewIndex|globalToContent|globalToLocal|gotoAndPlay|gotoAndStop|guardMinMax|handleResults|hasChildNodes|hasChildren|hasComplexContent|hasDefinition|hasEventListener|hasFormat|hasGlyphs|hasIllegalCharacters|hasMetadata|hasOwnProperty|hasProperty|hasResponder|hasSimpleContent|hide|hideBuiltInItems|hideCursor|hideData|hideDropFeedback|hideFocus|hiliteSelectedNavItem|hitTest|hitTestObject|hitTestPoint|hitTestTextNearPos|horizontalGradientMatrix|identity|inScopeNamespaces|indexOf|indexToColumn|indexToItemRenderer|indexToRow|indicesToIndex|inflate|inflatePoint|info|initChannelSet|initEffect|initInstance|initListData|initMaskEffect|initProgressHandler|initProtoChain|initSecondaryMode|initializationComplete|initialize|initializeAccessibility|initializeInterpolationData|initializeRepeater|initializeRepeaterArrays|initialized|insert|insertBefore|insertChildAfter|insertChildBefore|internalConnect|internalDisconnect|internalSend|interpolate|intersection|intersects|invalidate|invalidateCache|invalidateChildOrder|invalidateData|invalidateDisplayList|invalidateFilter|invalidateList|invalidateMapping|invalidateProperties|invalidateSeries|invalidateSeriesStyles|invalidateSize|invalidateStacking|invalidateTransform|invalidateTransitions|invert|invertTransform|invoke|isAccessible|isAttribute|isBranch|isColorName|isCompensating|isCreate|isDebug|isDefaultPrevented|isDelete|isEmpty|isEmptyUpdate|isEnabled|isError|isFatal|isFocusInaccessible|isFontFaceEmbedded|isHttpURL|isHttpsURL|isInfo|isInheritingStyle|isInheritingTextFormatStyle|isInvalid|isItemHighlighted|isItemOpen|isItemSelected|isItemVisible|isOurFocus|isParentDisplayListInvalidatingStyle|isParentSizeInvalidatingStyle|isPrototypeOf|isRealValue|isSimple|isSizeInvalidatingStyle|isToggled|isTopLevel|isTopLevelWindow|isUpdate|isValidStyleValue|isWarn|isWatching|isWhitespace|itemRendererContains|itemRendererToIndex|itemRendererToIndices|join|keyDownHandler|keyUpHandler|lastIndexOf|layoutChrome|layoutEditor|legendDataChanged|length|lineGradientStyle|lineStyle|lineTo|load|loadBytes|loadPolicyFile|loadState|loadWSDL|localName|localToContent|localToData|localToGlobal|localeCompare|lock|log|logEvent|logout|makeListData|makeRowsAndColumns|map|mapCache|mappingChanged|match|max|measure|measureHTMLText|measureHeightOfItems|measureText|measureWidthOfItems|merge|min|mouseClickHandler|mouseDoubleClickHandler|mouseDownHandler|mouseEventToItemRenderer|mouseMoveHandler|mouseOutHandler|mouseOverHandler|mouseUpHandler|mouseWheelHandler|move|moveDivider|moveNext|movePrevious|moveSelectionHorizontally|moveSelectionVertically|moveTo|name|namespace|namespaceDeclarations|newInstance|nextFrame|nextName|nextNameIndex|nextPage|nextScene|nextValue|nodeKind|noise|normalize|notifyStyleChangeInChildren|numericCompare|offset|offsetPoint|onEffectEnd|onMoveTweenEnd|onMoveTweenUpdate|onScaleTweenEnd|onScaleTweenUpdate|onTweenEnd|onTweenUpdate|open|owns|paletteMap|parent|parentChanged|parse|parseCSS|parseDateString|parseNumberString|parseXML|pause|perlinNoise|pixelDissolve|pixelsToPercent|placeSortArrow|play|polar|pop|popUpMenu|qnameToString|qnamesEqual|random|readBoolean|readByte|readBytes|readDouble|readExternal|readFloat|readInt|readMultiByte|readObject|readShort|readUTF|readUTFBytes|readUnsignedByte|readUnsignedInt|readUnsignedShort|receive|receiveAudio|receiveVideo|reduceLabels|refresh|regenerateStyleCache|register|registerApplication|registerCacheHandler|registerColorName|registerDataTransform|registerEffects|registerFont|registerInheritingStyle|registerParentDisplayListInvalidatingStyle|registerParentSizeInvalidatingStyle|registerSizeInvalidatingStyle|release|releaseCollection|releaseItem|remove|removeAll|removeAllChildren|removeAllCuePoints|removeAllCursors|removeBusyCursor|removeChannel|removeChild|removeChildAt|removeCuePoint|removeCursor|removeEventListener|removeFocusManager|removeHeader|removeIndicators|removeItemAt|removeListenerHandler|removeLogger|removeNamespace|removeNode|removePopUp|removeTarget|replace|replacePort|replaceProtocol|replaceSelectedText|replaceText|replaceTokens|requestTimedOut|reset|resetNavItems|result|resultHandler|resume|resumeBackgroundProcessing|resumeEventHandling|reverse|revertChanges|rgbMultiply|rollOutHandler|rollOverHandler|rotate|rotatedGradientMatrix|round|rslCompleteHandler|rslErrorHandler|rslProgressHandler|save|saveStartValue|saveState|scale|scroll|scrollChildren|scrollHandler|scrollHorizontally|scrollPositionToIndex|scrollToIndex|scrollVertically|search|seek|seekPendingFailureHandler|seekPendingResultHandler|selectItem|send|setActualSize|setAdvancedAntiAliasingTable|setAxis|setBusyCursor|setChildIndex|setChildren|setClipboard|setColor|setCompositionString|setCredentials|setCuePoints|setCurrentState|setCursor|setDate|setDirty|setEmpty|setEnabled|setFocus|setFullYear|setHandler|setHours|setItemAt|setItemIcon|setKeyFrameInterval|setLocalName|setLoopBack|setLoopback|setMenuItemToggled|setMilliseconds|setMinutes|setMode|setMonth|setMotionLevel|setName|setNamespace|setPixel|setPixel32|setPixels|setProgress|setProperty|setPropertyIsEnumerable|setQuality|setRemoteCredentials|setRowCount|setRowHeight|setScrollBarProperties|setScrollProperties|setSecondAxis|setSeconds|setSelectColor|setSelected|setSelection|setSettings|setSilenceLevel|setSize|setStyle|setStyleDeclaration|setTextFormat|setThumbValueAt|setTime|setToggled|setTweenHandlers|setUTCDate|setUTCFullYear|setUTCHours|setUTCMilliseconds|setUTCMinutes|setUTCMonth|setUTCSeconds|setUseEchoSuppression|setVisible|settings|setupPropertyList|shift|show|showCursor|showDisplayForDownloading|showDisplayForInit|showDropFeedback|showFeedback|showFocus|showSettings|simpleType|sin|slice|some|sort|sortOn|splice|split|sqrt|stack|start|startDrag|startDragging|startEffect|status|statusHandler|stop|stopAll|stopDrag|stopDragging|stopImmediatePropagation|stopPropagation|stringCompare|stringToDate|stripNaNs|styleChanged|stylesInitialized|subscribe|substitute|substr|substring|subtract|suspendBackgroundProcessing|suspendEventHandling|swapChildren|swapChildrenAt|tan|test|text|textInput_changeHandler|threshold|toArray|toDateString|toExponential|toFixed|toLocaleDateString|toLocaleLowerCase|toLocaleString|toLocaleTimeString|toLocaleUpperCase|toLowerCase|toPrecision|toString|toTimeString|toUTCString|toUpperCase|toXMLString|togglePause|toolTipShowHandler|transform|transformCache|transformPoint|translate|trim|truncateToFit|tweenEventHandler|uncompress|union|unload|unlock|unregister|unregisterDataTransform|unshift|unsubscribe|unwatch|update|updateAfterEvent|updateBackground|updateData|updateDisplayList|updateFilter|updateList|updateMapping|updateNavItemIcon|updateNavItemLabel|updateProperties|updateStacking|updateTransform|upload|validate|validateAll|validateClient|validateCreditCard|validateCurrency|validateData|validateDate|validateDisplayList|validateEmail|validateNow|validateNumber|validatePhoneNumber|validateProperties|validateSize|validateSocialSecurity|validateString|validateTransform|validateZipCode|validationResultHandler|valueOf|verticalGradientMatrix|warn|watch|willTrigger|writeBoolean|writeByte|writeBytes|writeDouble|writeDynamicProperties|writeDynamicProperty|writeExternal|writeFloat|writeInt|writeMultiByte|writeObject|writeShort|writeUTF|writeUTFBytes|writeUnsignedInt)\b");
             e.ChangedRange.SetStyle(Number, @"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
             e.ChangedRange.ClearFoldingMarkers();
             e.ChangedRange.SetFoldingMarkers("{", "}");

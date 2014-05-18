@@ -1682,7 +1682,7 @@ namespace SS.Ynote.Classic
             var message = string.Empty;
             var startline = ActiveEditor.Tb.Selection.Start.iLine;
             var endlines = ActiveEditor.Tb.Selection.End.iLine;
-            var sellines = endlines - startline + 1;
+            var sellines = (endlines - startline) + 1;
             if (ActiveEditor.IsSaved)
             {
                 var enc = EncodingDetector.DetectTextFileEncoding(ActiveEditor.Name) ?? Encoding.Default;

@@ -23,7 +23,7 @@ Building
 ----
 Run the Following command from the command line to get the code
 ```sh
-git clone https://github.com/samarjeet27/ynoteclassic.git
+git clone git://github.com/samarjeet27/ynoteclassic.git
 ```
 See Building.txt for more information
 
@@ -33,7 +33,7 @@ Screenshot
 
 Version
 ----
- 2.8.5 Build 397
+ 2.8.5 Build 416
 
 License
 ----
