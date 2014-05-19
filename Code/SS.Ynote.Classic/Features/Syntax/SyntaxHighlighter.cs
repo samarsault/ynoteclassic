@@ -512,9 +512,8 @@ namespace SS.Ynote.Classic.Features.Syntax
 
         private Regex _cSharpKeywordRegex;
 
-        private Regex _cSharpKeywordRegex2;
-
         private Regex _cSharpNumberRegex;
+        private Regex _cSharpStorageRegex;
         private Regex _cSharpStringRegex;
         private Regex _cppClassNameRegex;
         private Regex _cppCommentRegex1;
@@ -563,8 +562,6 @@ namespace SS.Ynote.Classic.Features.Syntax
         private Regex _javaAttributeRegex,
             _javaClassNameRegex;
 
-        private Regex _javaStorageRegex;
-
         private Regex _javaCommentRegex1,
             _javaCommentRegex2,
             _javaCommentRegex3;
@@ -575,6 +572,7 @@ namespace SS.Ynote.Classic.Features.Syntax
 
         private Regex _javaKeywordRegex2;
         private Regex _javaNumberRegex;
+        private Regex _javaStorageRegex;
         private Regex _javaStringRegex;
         private Regex _jscriptLibraryFunction;
         private Regex _objCClassNameRegex;
@@ -619,6 +617,19 @@ namespace SS.Ynote.Classic.Features.Syntax
         private Regex _vbKeywordRegex;
         private Regex _vbNumberRegex;
         private Regex _vbStringRegex;
+        private Regex pyClassNameRegex;
+
+        private Regex pyCommentRegex,
+            pyCommentRegex2;
+
+        private Regex pyFunctionRegex;
+
+        private Regex pyKeywordRegex,
+            pyLibClassName;
+
+        private Regex pyLibFunctionRegex;
+        private Regex pyNumberRegex;
+        private Regex pyStringRegex;
 
         /// <summary>
         ///     Init CSS Regex
@@ -628,7 +639,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             _cssCommentRegex2 = new Regex(@"(/\*.*?\*/)|(/\*.*)", RegexOptions.Singleline);
             _cssCommentRegex3 = new Regex(@"(/\*.*?\*/)|(.*\*/)", RegexOptions.Singleline | RegexOptions.RightToLeft);
             _cssNumberRegex = new Regex(@"\d+[\.]?\d*(pt|px|\%|em)?");
-            _cssPropertyRegex = new Regex(@"^.*?(?=:)");
+            _cssPropertyRegex = new Regex(@"\b.*:");
             _cssSelectorRegex =
                 new Regex(
                     @"\b(a|abbr|acronym|address|applet|area|article|aside|audio|b|base|basefont|bdi|bdo|big|blockquote|body|br|button|canvas|caption|center|cite|code|col|colgroup|command|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frame|frameset|h1|h2|h3|h4|h5|h6|head|header|hgroup|hr|html|i|iframe|img|input|ins|kbd|keygen|label|legend|li|link|map|mark|menu|meta|meter|nav|noframes|noscript|object|ol|optgroup|option|output|p|param|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|source|span|strike|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video|wbr)\b|[#@\.][\w\-]+\b",
@@ -715,7 +726,8 @@ namespace SS.Ynote.Classic.Features.Syntax
             if (_javaStringRegex == null)
                 InitJavaRegex();
             e.ChangedRange.tb.Range.ClearStyle(Comment);
-            e.ChangedRange.ClearStyle(Preprocessor, Comment, String, Number, ClassName, FunctionName, Keyword, Storage, Constant, LibraryClass, Punctuation);
+            e.ChangedRange.ClearStyle(Preprocessor, Comment, String, Number, ClassName, FunctionName, Keyword, Storage,
+                Constant, LibraryClass, Punctuation);
             e.ChangedRange.tb.Range.SetStyle(Comment, _javaCommentRegex1);
             e.ChangedRange.tb.Range.SetStyle(Comment, _javaCommentRegex2);
             e.ChangedRange.tb.Range.SetStyle(Comment, _javaCommentRegex3);
@@ -753,7 +765,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.LeftBracket2 = '[';
             e.ChangedRange.tb.RightBracket = ')';
             e.ChangedRange.tb.RightBracket2 = ']';
-            e.ChangedRange.ClearStyle(Comment, String, Keyword,LibraryFunction, Variable, Number);
+            e.ChangedRange.ClearStyle(Comment, String, Keyword, LibraryFunction, Variable, Number);
             e.ChangedRange.SetStyle(Comment, @"\'.*$", RegexOptions.Multiline);
             e.ChangedRange.SetStyle(String, @"""""|@""""|''|@"".*?""|(?<!@)(?<range>"".*?[^\\]"")|'.*?[^\\]'");
             e.ChangedRange.SetStyle(LibraryFunction,
@@ -961,19 +973,10 @@ namespace SS.Ynote.Classic.Features.Syntax
             }
         }
 
-        private Regex pyStringRegex,
-            pyCommentRegex,
-            pyCommentRegex2,
-            pyLibFunctionRegex,
-            pyKeywordRegex,
-            pyLibClassName,
-            pyNumberRegex,
-            pyClassNameRegex,
-            pyFunctionRegex;
         private void InitPythonRegex()
         {
             pyStringRegex = new Regex(
-               @"
+                @"
                             # Character definitions:
                             '
                             (?> # disable backtracking
@@ -1002,25 +1005,27 @@ namespace SS.Ynote.Classic.Features.Syntax
                             )
                             ""
                         ",
-               RegexOptions.ExplicitCapture | RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace |
-               RegexCompiledOption
-               );
-              pyCommentRegex = new Regex(@"#.*$", RegexOptions.Multiline);
-              pyCommentRegex2 = new Regex(
-              "(\"\"\".*?\"\"\")|(.*\"\"\")|(\'\'\'.*?\'\'\')|(.*\'\'\')",
-              RegexOptions.Singleline | RegexOptions.RightToLeft | RegexOptions.Multiline);
-              pyKeywordRegex =
-              new Regex(
-                  @"\b(and|del|from|not|while|as|elif|global|or|with|assert|else|if|pass|yield|break|except|import|print|exec|in|raise|continue|finally|is|return|for|try)\b");
-              pyLibFunctionRegex =
-              new Regex(
-                  @"\b(id|callable|dict|open|all|vars|iter|enumerate|sorted|property|super|classmethod|tuple|compile|basestring|map|self|range|lambda|ord|isinstance|long|float|format|str|type|hasattr|max|len|repr|getattr|list)\b");
-              pyLibClassName = new Regex(@"\b(bool|buffer|set|slice|unicode|property|enumerate|object|open|dict|int|super|tuple|basestring|long|float|type|list)\b");
-              pyClassNameRegex = new Regex(@"\b(class)\s+(?<range>\w+?)\b");
-              pyFunctionRegex = new Regex(@"\b(def)\s+(?<range>\w+?)\b");
-              pyNumberRegex = new Regex(@"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
-
+                RegexOptions.ExplicitCapture | RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace |
+                RegexCompiledOption
+                );
+            pyCommentRegex = new Regex(@"#.*$", RegexOptions.Multiline);
+            pyCommentRegex2 = new Regex(
+                "(\"\"\".*?\"\"\")|(.*\"\"\")|(\'\'\'.*?\'\'\')|(.*\'\'\')",
+                RegexOptions.Singleline | RegexOptions.RightToLeft | RegexOptions.Multiline);
+            pyKeywordRegex =
+                new Regex(
+                    @"\b(and|del|from|not|while|as|elif|global|or|with|assert|else|if|pass|yield|break|except|import|print|exec|in|raise|continue|finally|is|return|for|try)\b");
+            pyLibFunctionRegex =
+                new Regex(
+                    @"\b(id|callable|dict|open|all|vars|iter|enumerate|sorted|property|super|classmethod|tuple|compile|basestring|map|self|range|lambda|ord|isinstance|long|float|format|str|type|hasattr|max|len|repr|getattr|list)\b");
+            pyLibClassName =
+                new Regex(
+                    @"\b(bool|buffer|set|slice|unicode|property|enumerate|object|open|dict|int|super|tuple|basestring|long|float|type|list)\b");
+            pyClassNameRegex = new Regex(@"\b(class)\s+(?<range>\w+?)\b");
+            pyFunctionRegex = new Regex(@"\b(def)\s+(?<range>\w+?)\b");
+            pyNumberRegex = new Regex(@"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
         }
+
         private void PythonSyntaxHighlight(TextChangedEventArgs e)
         {
             e.ChangedRange.tb.CommentPrefix = "#";
@@ -1031,7 +1036,8 @@ namespace SS.Ynote.Classic.Features.Syntax
             if (pyStringRegex == null)
                 InitPythonRegex();
             e.ChangedRange.tb.Range.ClearStyle(Comment, String);
-            e.ChangedRange.ClearStyle(String, Comment, ClassName, FunctionName, Keyword, Storage, Constant, Variable, LibraryClass, LibraryFunction, Number, Punctuation);
+            e.ChangedRange.ClearStyle(String, Comment, ClassName, FunctionName, Keyword, Storage, Constant, Variable,
+                LibraryClass, LibraryFunction, Number, Punctuation);
             e.ChangedRange.SetStyle(String, pyStringRegex);
             e.ChangedRange.tb.Range.SetStyle(String, pyCommentRegex2);
             e.ChangedRange.tb.Range.SetStyle(Comment, pyCommentRegex);
@@ -1132,17 +1138,16 @@ namespace SS.Ynote.Classic.Features.Syntax
                 RegexOptions.Singleline | RegexOptions.RightToLeft);
             e.ChangedRange.SetStyle(String, @"""""|@""""|''|@"".*?""|(?<!@)(?<range>"".*?[^\\]"")|'.*?[^\\]'");
             e.ChangedRange.SetStyle(Keyword,
-                @"\b(and|break|do|else|elseif|end|for|function|if|in|local|not|or|repeat|return|then|until|while)\b");
-            e.ChangedRange.SetStyle(Constant,
-                @"\b(false|nil|true)\b");
-            e.ChangedRange.SetStyle(LibraryClass, @"\(bcoroutine|debug|io|math|os|package|string|table)\b");
+                @"\b(and|or|not|break|do|else|for|if|elseif|return|then|repeat|while|until|end|function|local|in)\b");
+            e.ChangedRange.SetStyle(Constant, @"\b(false|nil|true|_G|_VERSION)\b");
+            e.ChangedRange.SetStyle(LibraryClass, @"\b(coroutine|debug|io|math|os|package|string|table|char|byte)\b");
             e.ChangedRange.SetStyle(LibraryFunction,
-                @"\b(assert|collectgarbage|dofile|error|_G|getfenv|getmetatable|gcinfo|ipairs|loadfile|loadstring|module|next|pairs|pcall|print|rawequal|rawget|rawset|require|setfenv|setmetatable|tonumber|tostring|type|unpack|_VERSION|xpcall)\b");
+                @"\b(assert|collectgarbage|dofile|error|getfenv|getmetatable|ipairs|loadfile|loadstring|module|next|pairs|pcall|print|rawequal|rawget|rawset|require|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall)\b");
             e.ChangedRange.SetStyle(Variable, @"\.[a-zA-Z_\d]*\b", RegexCompiledOption);
             e.ChangedRange.SetStyle(Number, @"\b\\d+[\\.]?\\d*([eE]\\-?\\d+)?[lLdDfF]?\b|\b0x[a-fA-F\\d]+\b");
             e.ChangedRange.SetStyle(Punctuation, @"\[|\]|\*|\?|\(|\)|\^|\!|\;|\,|\.|\:");
             e.ChangedRange.ClearFoldingMarkers();
-            e.ChangedRange.SetFoldingMarkers(@"function", @"end function");
+            e.ChangedRange.SetFoldingMarkers(@"function\b", @"end\b");
         }
 
         private void RubySyntaxHighlight(TextChangedEventArgs e)
@@ -1154,7 +1159,8 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.RightBracket2 = ']';
             e.ChangedRange.tb.Range.ClearStyle(Comment);
             e.ChangedRange.ClearStyle(Keyword, String, Number, ClassName, Punctuation,
-                FunctionName, Variable);
+                FunctionName, Variable, LibraryClass);
+            // comment highlighting
             e.ChangedRange.tb.Range.SetStyle(Comment, @"#.*$", RegexOptions.Multiline);
             e.ChangedRange.tb.Range.SetStyle(Comment, @"(=begin.*?=end)|(.*=end)",
                 RegexOptions.IgnoreCase | RegexOptions.RightToLeft | RegexOptions.Singleline);
@@ -1192,11 +1198,13 @@ namespace SS.Ynote.Classic.Features.Syntax
                         ",
                 RegexOptions.ExplicitCapture | RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace |
                 RegexCompiledOption
-                ));
-            e.ChangedRange.SetStyle(Variable, @"\$[a-zA-Z_\d]*\b|@[a-zA-Z_\d]*\b", RegexCompiledOption);
+                )); //TODO: Add Def Keyword
+            e.ChangedRange.SetStyle(Variable, @"\$[a-zA-Z_\d]*\b|@[a-zA-Z_\d]*\b|\b(__(FILE|LINE)__|self)\b",
+                RegexCompiledOption);
             e.ChangedRange.SetStyle(Keyword,
-                @"\b(__FILE__|__LINE__|alias|and|begin|break|case|class|def|defined|do|else|elsif|end|ensure|for|foreach|if|in|module|next|not|or|redo|rescue|retry|return|require|super|then|undef|unless|until|when|while|yield)\b");
-            e.ChangedRange.SetStyle(Constant, @"\b(self|puts|true|false|nil)\b|\:[a-zA-Z_\d]*\b|@[a-zA-Z_\d]*\b");
+                @"\b(require|require_relative|gem|BEGIN|begin|case|class|else|elsif|END|end|ensure|for|if|in|module|rescue|then|unless|until|do|when|while|and|or|not|alias|alias_method|break|next|redo|retry|return|super|undef|yield|initialize|new|loop|include|extend|prepend|raise|attr_reader|attr_writer|attr_accessor|attr|catch|throw|private|module_function|public|protected|def)\b");
+            e.ChangedRange.SetStyle(Constant, @"\b(puts|true|false|nil)\b|\:[a-zA-Z_\d]*\b|@[a-zA-Z_\d]*\b");
+            e.ChangedRange.SetStyle(LibraryClass, @"\b[a-zA-Z_\d]*\.");
             e.ChangedRange.SetStyle(Number, @"\b\\d+[\\.]?\\d*([eE]\\-?\\d+)?[lLdDfF]?\b|\b0x[a-fA-F\\d]+\b");
             e.ChangedRange.SetStyle(Punctuation, @"\[|\]|\*|\?|\(|\)|\^|\!|\;|\,|\.|\:");
             PythonFold(e.ChangedRange.tb);
@@ -1209,10 +1217,10 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.RightBracket = ')';
             e.ChangedRange.tb.LeftBracket2 = '{';
             e.ChangedRange.tb.RightBracket2 = '}';
-            e.ChangedRange.ClearStyle(Comment, String, Number, Keyword, Punctuation);
+            e.ChangedRange.ClearStyle(Comment, String, Number, Constant, Punctuation);
             e.ChangedRange.SetStyle(Comment, new Regex(@"//.*$"));
             e.ChangedRange.SetStyle(String, "\".*?[^\\\\]\"|\"\"|\'.*?[^\\\\]\'|\'\'");
-            e.ChangedRange.SetStyle(Keyword, "true|false", RegexOptions.IgnoreCase);
+            e.ChangedRange.SetStyle(Constant, "\b(true|false|null)\b", RegexOptions.IgnoreCase);
             e.ChangedRange.SetStyle(Number, @"\b\d+[\.]?\d*([eE]\-?\d+)?\b");
             e.ChangedRange.SetStyle(Punctuation, "\\W|_");
             e.ChangedRange.ClearFoldingMarkers();
@@ -1244,20 +1252,22 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.LeftBracket2 = '[';
             e.ChangedRange.tb.RightBracket2 = ']';
             e.ChangedRange.tb.Range.ClearStyle(Comment);
-            e.ChangedRange.ClearStyle(String, Variable, Keyword, Constant, Storage,
-                Number);
-            e.ChangedRange.tb.Range.SetStyle(Comment, "#.*$", RegexOptions.Multiline);
+            e.ChangedRange.ClearStyle(String, Variable, Keyword, Storage, Constant, LibraryFunction, Number);
+            e.ChangedRange.SetStyle(Punctuation, @"=>");
+            e.ChangedRange.tb.AddStyle(Comment);
+            e.ChangedRange.tb.Range.SetStyle(Comment, @"#.*$", RegexOptions.Multiline);
+            e.ChangedRange.tb.Range.SetStyle(Comment, @"(=begin.*?=cut)|(=begin.*)",
+                RegexOptions.Singleline | RegexCompiledOption);
             e.ChangedRange.tb.Range.SetStyle(Comment, @"(=begin.*?=cut)|(.*=cut)",
-                RegexOptions.IgnoreCase | RegexOptions.RightToLeft | RegexOptions.Singleline);
+                RegexOptions.Singleline | RegexOptions.RightToLeft | RegexCompiledOption);
             e.ChangedRange.SetStyle(String, @"""""|''|"".*?[^\\]""|'.*?[^\\]'", RegexCompiledOption);
             e.ChangedRange.SetStyle(Variable, @"\$[a-zA-Z_\d]*\b|%[a-zA-Z_\d]*\b", RegexCompiledOption);
             e.ChangedRange.SetStyle(Keyword,
-                @"\b(use|my|last|scalar|for|foreach|elsif|require|package|continue|goto|next|until|unless|while|our|sub|if|no|else|local|return)\b");
-            e.ChangedRange.SetStyle(Constant,
-                @"\b(bless|close|closedir|die|eval|exit|grep|map|open|opendir|print|return|splice|split|sysopen|warn|do|each|values|BEGIN|CORE|DESTROY|END|STDERR|STDIN|STDOUT|abs|accept|alarm|and|atan2|bind|binmode|caller|chdir|chmod|chomp|chop|chown|chr|chroot|cmp|connect|cos|crypt|dbmclose|dbmopen|default|defined|delete|dump|endgrent|endhostent|endnetent|endprotoent|endpwent|endservent|eof|eq|exec|exists|exp|fcntl|fileno|flock|fork|formline|ge|getc|getgrent|getgrgid|getgrnam|gethostbyad|gethostbyna|gethostent|getlogin|getnetbyadd|getnetbynam|getnetent|getpeername|getpgrp|getppid|getpriority|getprotobyn|getprotobyn|getprotoent|getpwent|getpwnam|getpwuid|getservbyna|getservbypo|getservent|getsockname|getsockopt|glob|gmtime|gt|hex|import|index|int|ioctl|join|keys|kill|lc|lcfirst|le|length|link|listen|localtime|log|lstat|lt|m|mkdir|msgctl|msgget|msgrcv|msgsnd|ne|new|ne|not|oct|or|ord|pack|pipe|pop|pos|printf|q|qq|quotemeta|qw|qx|rand|read|readdir|readlink|readpipe|recv|ref|rename|reset|reverse|rewinddir|rindex|rmdir|s|seek|seekdir|select|semctl|semget|semop|send|setgrent|sethostent|setnetent|setpgrp|setpriority|setprotoent|setpwent|setservent|setsockopt|shift|shmctl|shmget|shmread|shmwrite|shutdown|sin|sleep|socket|socketpair|sort|split|sprintf|sqrt|srand|stat|study|substr|switch|symlink|syscall|sysread|system|system|syswrite|tell|telldir|time|times|tr|truncate|uc|ucfirst|umask|undef|unlink|unpack|unshift|untie|utime|vec|wait|waitpid|wantarray|write|x|xor|y)\b");
-            e.ChangedRange.SetStyle(Storage,
-                @"\b(\-a|\-e|\-b|\-c|\-d|\-k|\-f|\-g|\-l|\-m|\-OpenFile|\-p|\-r|\-s|\-t|\-u|\-w|\-x|\-z)\b",
-                RegexOptions.IgnoreCase);
+                @"\b(sub|continue|die|do|else|elsif|exit|for|foreach|goto|if|last|next|redo|return|select|unless|until|wait|while|switch|case|package|require|use|eval|and|or|xor|as)\b");
+            e.ChangedRange.SetStyle(Storage, @"\b(my|our|local)\b");
+            e.ChangedRange.SetStyle(Constant, @"\b(__FILE__|__LINE__|__PACKAGE__)\b");
+            e.ChangedRange.SetStyle(LibraryFunction,
+                @"\b(ARGV|DATA|ENV|SIG|STDERR|STDIN|STDOUT|atan2|bind|binmode|bless|caller|chdir|chmod|chomp|chop|chown|chr|chroot|close|closedir|cmp|connect|cos|crypt|dbmclose|dbmopen|defined|delete|dump|each|endgrent|endhostent|endnetent|endprotoent|endpwent|endservent|eof|eq|exec|exists|exp|fcntl|fileno|flock|fork|format|formline|ge|getc|getgrent|getgrgid|getgrnam|gethostbyaddr|gethostbyname|gethostent|getlogin|getnetbyaddr|getnetbyname|getnetent|getpeername|getpgrp|getppid|getpriority|getprotobyname|getprotobynumber|getprotoent|getpwent|getpwnam|getpwuid|getservbyname|getservbyport|getservent|getsockname|getsockopt|glob|gmtime|grep|gt|hex|import|index|int|ioctl|join|keys|kill|lc|lcfirst|le|length|link|listen|localtime|log|lstat|lt|m|map|mkdir|msgctl|msgget|msgrcv|msgsnd|ne|no|oct|open|opendir|ord|pack|pipe|pop|pos|print|printf|push|q|qq|quotemeta|qw|qx|rand|read|readdir|readlink|recv|ref|rename|reset|reverse|rewinddir|rindex|rmdir|s|scalar|seek|seekdir|semctl|semget|semop|send|setgrent|sethostent|setnetent|setpgrp|setpriority|setprotoent|setpwent|setservent|setsockopt|shift|shmctl|shmget|shmread|shmwrite|shutdown|sin|sleep|socket|socketpair|sort|splice|split|sprintf|sqrt|srand|stat|study|substr|symlink|syscall|sysopen|sysread|system|syswrite|tell|telldir|tie|tied|time|times|tr|truncate|uc|ucfirst|umask|undef|unlink|unpack|unshift|untie|utime|values|vec|waitpid|wantarray|warn|write|y|q|qw|qq|qx)\b");
             e.ChangedRange.SetStyle(Number, @"\b\d+[\.]?\d*\b", RegexCompiledOption);
             e.ChangedRange.ClearFoldingMarkers();
             e.ChangedRange.SetFoldingMarkers("=begin", "=cut");
@@ -1339,9 +1349,11 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.SetStyle(Variable, _phpVarRegex);
             //keyword highlighting
             e.ChangedRange.SetStyle(Keyword, _phpKeywordRegex);
-            e.ChangedRange.SetStyle(Constant, @"\b(true|false|null|__CLASS__|__FILE__|__LINE__|__NAMESPACE__|__FUNCTION__|__METHOD__)\b");
+            e.ChangedRange.SetStyle(Constant,
+                @"\b(true|false|null|__CLASS__|__FILE__|__LINE__|__NAMESPACE__|__FUNCTION__|__METHOD__)\b");
             e.ChangedRange.SetStyle(Storage, @"\b(function|class|var|interface|int|string|array|parent|self)\b");
-            e.ChangedRange.SetStyle(LibraryFunction, @"\b(print|echo|fopen|substr|abs|pow|sqrt|floor|random|isset|unset|array|list)\b");
+            e.ChangedRange.SetStyle(LibraryFunction,
+                @"\b(print|echo|fopen|substr|abs|pow|sqrt|floor|random|isset|unset|array|list)\b");
             e.ChangedRange.SetStyle(Punctuation, @">|\*|-|=|\+|\!|<|\^|\?");
             //number highlighting
             e.ChangedRange.SetStyle(Number, _phpNumberRegex);
@@ -1434,10 +1446,10 @@ namespace SS.Ynote.Classic.Features.Syntax
             _cSharpClassNameRegex = new Regex(@"\b(class|struct|enum|interface)\s+(?<range>\w+?)\b", RegexCompiledOption);
             _cSharpKeywordRegex =
                 new Regex(
-                    @"\b(abstract|as|base|using|break|case|catch|char|checked|class|const|continue|decimal|default|delegate|do|else|enum|event|explicit|extern|finally|fixed|float|for|foreach|goto|if|implicit|in|interface|internal|is|this|lock|long|namespace|new|object|operator|out|override|params|private|protected|public|readonly|ref|return|sbyte|sealed|short|sizeof|stackalloc|static|struct|switch|throw|try|typeof|unchecked|unsafe|virtual|volatile|while|add|alias|ascending|descending|dynamic|from|get|global|group|into|join|let|orderby|partial|remove|select|set|value|var|where|yield)\b|#region\b|#endregion\b",
+                    @"\b(abstract|as|base|using|break|case|catch|char|checked|const|continue|decimal|default|delegate|do|else|enum|event|explicit|extern|finally|fixed|float|for|foreach|goto|if|implicit|in|interface|internal|is|this|lock|long|namespace|new|object|operator|out|override|params|private|protected|public|readonly|ref|return|sbyte|sealed|short|sizeof|stackalloc|static|struct|switch|throw|try|typeof|unchecked|unsafe|virtual|volatile|while|add|alias|ascending|descending|dynamic|from|get|global|group|into|join|let|orderby|partial|remove|select|set|value|var|where|yield)\b|#region\b|#endregion\b",
                     RegexCompiledOption);
-            _cSharpKeywordRegex2 =
-                new Regex(@"\b(void|bool|string|int|double|float|byte|uint|ushort|ulong)\b");
+            _cSharpStorageRegex =
+                new Regex(@"\b(class|void|bool|string|int|double|float|byte|uint|ushort|ulong)\b");
             _csharpFunctionRegex = new Regex(@"\b(void|int|bool|string|uint|ushort|ulong|byte)\s+(?<range>\w+?)\b");
         }
 
@@ -1450,7 +1462,8 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.RightBracket2 = '}';
             //clear style of changed range
             e.ChangedRange.tb.Range.ClearStyle(Comment);
-            e.ChangedRange.ClearStyle(String, Number, ClassName, AttributeName, FunctionName, Preprocessor, Keyword, Storage, Constant);
+            e.ChangedRange.ClearStyle(String, Number, ClassName, AttributeName, FunctionName, Preprocessor, Keyword,
+                Storage, Constant);
             //
             if (_cSharpStringRegex == null)
                 InitCSharpRegex();
@@ -1470,13 +1483,13 @@ namespace SS.Ynote.Classic.Features.Syntax
             //keyword highlighting
             e.ChangedRange.SetStyle(Keyword, _cSharpKeywordRegex);
             //Constant
-            e.ChangedRange.SetStyle(Storage, _cSharpKeywordRegex2);
+            e.ChangedRange.SetStyle(Storage, _cSharpStorageRegex);
             e.ChangedRange.SetStyle(Constant, @"\b(true|false|null)\b");
             //number highlighting
             e.ChangedRange.SetStyle(Number, _cSharpNumberRegex);
             e.ChangedRange.ClearFoldingMarkers();
             e.ChangedRange.SetFoldingMarkers("{", "}"); //allow to collapse brackets block
-            e.ChangedRange.SetFoldingMarkers("#region", "#endregion");
+            e.ChangedRange.SetFoldingMarkers(@"#region\b", @"#endregion\b");
             e.ChangedRange.SetFoldingMarkers(@"/\*", @"\*/"); //allow to collapse comment block
         }
 
@@ -1523,7 +1536,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                 RegexCompiledOption);
             _jScriptKeywordRegex =
                 new Regex(
-                    @"\b(break|case|catch|const|continue|default|delete|do|escape|unescape|else|export|for|if|in|instanceof|new|null|return|switch|throw|try|void|while|with|typeof)\b",
+                    @"\b(break|case|catch|const|continue|default|delete|do|escape|unescape|else|export|for|if|in|instanceof|new|return|switch|throw|try|void|while|with|typeof)\b",
                     RegexCompiledOption);
             _jScriptLibraryClass =
                 new Regex(
@@ -1566,6 +1579,8 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.SetStyle(FunctionName, _jScriptFunctionRegex2);
             //keyword highlighting
             e.ChangedRange.SetStyle(Keyword, _jScriptKeywordRegex);
+            // e.ChangedRange.SetStyle(FunctionArgument, new Regex(@"\((?<range>[!\w:]+)"));
+            // e.ChangedRange.SetStyle(FunctionArgument, new Regex(@"</(?<range>[\w:]+)\)"));
             e.ChangedRange.SetStyle(Storage, @"\b(var|function)\b");
             e.ChangedRange.SetStyle(LibraryFunction, _jscriptLibraryFunction);
             e.ChangedRange.SetStyle(LibraryClass, _jScriptLibraryClass);
@@ -1970,7 +1985,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.SetStyle(String, @"""""|''|"".*?[^\\]""|'.*?[^\\]'");
             e.ChangedRange.SetStyle(Keyword,
                 @"\b(break|case|continue|default|do|while|else|for|foreach|on|in|if|label|return|super|switch|throw|try|catch|finally|while|with|dynamic|final|internal|native|override|private|protected|public|static|class|const|extends|function|get|implements|interface|package|set|var|default|import|include|use|namespace|AS3|flash_proxy|object_proxy|this)\b");
-           e.ChangedRange.SetStyle(Constant, @"\b(true|false|null)\b");
+            e.ChangedRange.SetStyle(Constant, @"\b(true|false|null)\b");
             e.ChangedRange.SetStyle(LibraryClass,
                 @"\b(Boolean|escape|int|Number|Object|String|uint|unescape|XML|XMLList|Infinity|NaN|undefined|void)\b");
             e.ChangedRange.SetStyle(LibraryFunction,
@@ -2096,11 +2111,10 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.RightBracket = ')';
             e.ChangedRange.tb.LeftBracket2 = '{';
             e.ChangedRange.tb.RightBracket2 = '}';
-            e.ChangedRange.ClearStyle(Comment, String, Keyword, Storage, Number);
+            e.ChangedRange.ClearStyle(Comment, String, Keyword, Number);
             e.ChangedRange.SetStyle(Comment, @"%.*$", RegexOptions.Multiline);
             e.ChangedRange.SetStyle(String, @"""""|''|"".*?[^\\]""|'.*?[^\\]'");
             e.ChangedRange.SetStyle(Keyword, @"\\[a-zA-Z_\d]*\b");
-            e.ChangedRange.SetStyle(Storage, @"\\if[a-zA-Z_\d]*\b|\\else");
             e.ChangedRange.SetStyle(Number, @"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
         }
 

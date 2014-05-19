@@ -69,6 +69,9 @@ namespace FastColoredTextBoxNS
                 case Language.Java:
                     CSharpAutoIndentNeeded(sender, args);
                     break;
+                case Language.Perl:
+                    CSharpAutoIndentNeeded(sender, args);
+                    break;
             }
         }
 
