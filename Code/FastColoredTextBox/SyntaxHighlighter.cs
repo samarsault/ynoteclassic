@@ -47,29 +47,10 @@ namespace FastColoredTextBoxNS
                     PHPAutoIndentNeeded(sender, args);
                     break;
 
-                case Language.Javascript:
-                    CSharpAutoIndentNeeded(sender, args);
+                case Language.Python:
+                    PythonAutoIndentNeeded(sender, args);
                     break;
-                case Language.CPP:
-                    CSharpAutoIndentNeeded(sender, args);
-                    break;
-
-                case Language.Objective_C:
-                    CSharpAutoIndentNeeded(sender, args);
-                    break;
-
-                case Language.Actionscript:
-                    CSharpAutoIndentNeeded(sender, args);
-                    break;
-
-                case Language.Scala:
-                    CSharpAutoIndentNeeded(sender, args);
-                    break;
-
-                case Language.Java:
-                    CSharpAutoIndentNeeded(sender, args);
-                    break;
-                case Language.Perl:
+                default:
                     CSharpAutoIndentNeeded(sender, args);
                     break;
             }
@@ -195,6 +176,15 @@ namespace FastColoredTextBoxNS
                     args.Shift = args.TabLength;
                 }
         }
+
+        protected void PythonAutoIndentNeeded(object sender, AutoIndentEventArgs e)
+        {
+            if (Regex.IsMatch(e.LineText, @"^[^""']*\:"))
+            {
+                e.ShiftNextLines = e.TabLength;
+                return;
+            }
+        }
     }
 
     /// <summary>
@@ -214,7 +204,6 @@ namespace FastColoredTextBoxNS
         JSON,
         Actionscript,
         Antlr,
-        Assembly,
         C,
         CPP,
         CoffeeScript,

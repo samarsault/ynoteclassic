@@ -78,10 +78,6 @@ namespace SS.Ynote.Classic.Features.Snippets
             return snippet;
         }
 
-        public void InsertSnippet(Editor edit)
-        {
-        }
-
         public void SubstituteContent(Editor edit)
         {
             Content = Content.Replace("$selection", edit.Tb.SelectedText)

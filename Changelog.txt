@@ -45,6 +45,7 @@ Build 403
 -> New Syntax Highlighter and Theme
 Build 432
 TODO : Add FunctionArgument to Python, Ruby and Javascript
+TODO : Extend Punctuation Highlighting
 -> Python Finalized
 -> HTML Finalized
 -> Xml Finalized
@@ -70,7 +71,23 @@ TODO : Add FunctionArgument to Python, Ruby and Javascript
 -> LaTeX Finalized
 -> Lua Finalized
 -> Perl Finalized
-
 Build 430
 
 - Fixed Lua Code Folding Bug
+
+Build 439
+
+-> Pascal Finalized
+-> C++
+-> C Finalized
+-> Lisp Finalized
+-> SQL FINALIZED
+
+Build 445
+
+-> Added Python Auto Indent
+
+Build 447
+
+-> Scala Finalized
+TODOL : C++ Macro Define Function Highlight
