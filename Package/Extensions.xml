@@ -34,8 +34,7 @@
   <Key Language="Ruby" Extensions=".rb" />
   <Key Language="R" Extensions=".r|.R"/>
   <Key Language="Scala" Extensions=".scala|.SCALA" />
-  <Key Language="Scheme" Extensions=".scheme|.SCHEME" />
-  <Key Language="Shell" Extensions=".sh" />
+  <Key Language="ShellScript" Extensions=".sh" />
   <Key Language="SQL" Extensions=".sql|.SQL" />
   <Key Language="VB" Extensions=".vb|.VB" />
   <Key Language="Xml" Extensions=".xml|.xsl|.xshd|.ynotetheme|.ynotesnippet" />
