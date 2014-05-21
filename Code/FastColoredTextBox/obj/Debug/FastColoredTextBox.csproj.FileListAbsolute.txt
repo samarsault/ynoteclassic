@@ -1,0 +1,10 @@
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\FastColoredTextBox\bin\Debug\FastColoredTextBox.XML
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\FastColoredTextBox\bin\Debug\FastColoredTextBox.dll
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\FastColoredTextBox\bin\Debug\FastColoredTextBox.pdb
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\FastColoredTextBox\obj\Debug\FastColoredTextBoxNS.FastColoredTextBox.resources
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\FastColoredTextBox\obj\Debug\FastColoredTextBoxNS.FindForm.resources
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\FastColoredTextBox\obj\Debug\FastColoredTextBoxNS.GoToForm.resources
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\FastColoredTextBox\obj\Debug\FastColoredTextBoxNS.HotkeysEditorForm.resources
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\FastColoredTextBox\obj\Debug\FastColoredTextBox.csproj.GenerateResource.Cache
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\FastColoredTextBox\obj\Debug\FastColoredTextBox.dll
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\FastColoredTextBox\obj\Debug\FastColoredTextBox.pdb

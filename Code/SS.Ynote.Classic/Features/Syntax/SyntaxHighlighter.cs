@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
 using FastColoredTextBoxNS;
@@ -281,11 +282,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                     SqlSyntaxHighlight(args);
                     break;
 
-                case Language.Scheme:
-                    SchemeSyntaxHighlight(args);
-                    break;
-
-                case Language.Shell:
+                case Language.ShellScript:
                     ShellSyntaxHighlight(args);
                     break;
 
@@ -1019,7 +1016,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                     @"\b(id|callable|dict|open|all|vars|iter|enumerate|sorted|property|super|classmethod|tuple|compile|basestring|map|self|range|lambda|ord|isinstance|long|float|format|str|type|hasattr|max|len|repr|getattr|list)\b");
             pyLibClassName =
                 new Regex(
-                    @"\b(bool|buffer|set|slice|unicode|property|enumerate|object|open|dict|int|super|tuple|basestring|long|float|type|list)\b");
+                    @"\b(bool|buffer|set|slice|unicode|property|enumerate|object|open|dict|int|tuple|basestring|long|float|type|list)\b");
             pyClassNameRegex = new Regex(@"\b(class)\s+(?<range>\w+?)\b");
             pyFunctionRegex = new Regex(@"\b(def)\s+(?<range>\w+?)\b");
             pyNumberRegex = new Regex(@"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
@@ -1219,7 +1216,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.ClearStyle(Comment, String, Number, Constant, Punctuation);
             e.ChangedRange.SetStyle(Comment, new Regex(@"//.*$"));
             e.ChangedRange.SetStyle(String, "\".*?[^\\\\]\"|\"\"|\'.*?[^\\\\]\'|\'\'");
-            e.ChangedRange.SetStyle(Constant, "\b(true|false|null)\b", RegexOptions.IgnoreCase);
+            e.ChangedRange.SetStyle(Constant, @"\b(true|false|null)\b", RegexOptions.IgnoreCase);
             e.ChangedRange.SetStyle(Number, @"\b\d+[\.]?\d*([eE]\-?\d+)?\b");
             e.ChangedRange.SetStyle(Punctuation, "\\W|_");
             e.ChangedRange.ClearFoldingMarkers();
@@ -1229,13 +1226,21 @@ namespace SS.Ynote.Classic.Features.Syntax
         private void LispSyntaxHighlight(TextChangedEventArgs e)
         {
             e.ChangedRange.tb.CommentPrefix = ";";
-            e.ChangedRange.ClearStyle(Comment, String, Keyword, Number, Punctuation, FunctionName);
+            e.ChangedRange.tb.LeftBracket = '(';
+            e.ChangedRange.tb.RightBracket = ')';
+            e.ChangedRange.tb.LeftBracket2 = '[';
+            e.ChangedRange.tb.RightBracket2 = ']';
+            e.ChangedRange.ClearStyle(Comment, String, Keyword, Constant, Storage, LibraryFunction, FunctionName, Number , Punctuation);
             e.ChangedRange.SetStyle(Comment, @"\;.*$", RegexOptions.Multiline);
             e.ChangedRange.SetStyle(String, @"""""|''|"".*?[^\\]""|'.*?[^\\]'", RegexCompiledOption);
-            e.ChangedRange.SetStyle(Keyword, @"\b(and|eval|else|nil|if|lambda|or|set|defun)\b");
+            e.ChangedRange.SetStyle(FunctionName, @"\b(defun|defmethod|defmacro|defvar|defconst)\s+(?<range>\w+)\b");
+            e.ChangedRange.SetStyle(Keyword, @"\b(case|do|let|loop|if|else|when|eq|neq|and|or)\b");
+            e.ChangedRange.SetStyle(Storage, @"\b(defun|defmethod|defmacro|defvar|defconst)\b");
+            e.ChangedRange.SetStyle(Constant, @"\b(null|nil)\b");
+            e.ChangedRange.SetStyle(LibraryFunction, @"\b(cons|car|cdr|cond|lambda|format|setq|setf|quote|eval|append|list|listp|memberp|t|load|progn)\b");
             e.ChangedRange.SetStyle(Number, @"\b\d+[\.]?\d*\b", RegexCompiledOption);
             e.ChangedRange.SetStyle(Punctuation, @"\;|\!|#|\:|\*|\&|\@|\(|\)|\-|=|\?|\\");
-            foreach (var range in e.ChangedRange.tb.GetRanges(@"\b(defun|DEFUN)\s+(?<range>\w+)\b"))
+            foreach (var range in e.ChangedRange.tb.GetRanges(@"\b(defun)\s+(?<range>\w+)\b"))
                 e.ChangedRange.SetStyle(FunctionName, @"\b" + range.Text + @"\b");
         }
 
@@ -1780,7 +1785,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.LeftBracket2 = '{';
             e.ChangedRange.tb.RightBracket2 = '}';
             e.ChangedRange.tb.Range.ClearStyle(Comment);
-            e.ChangedRange.ClearStyle(String, Keyword, LibraryFunction, Number);
+            e.ChangedRange.ClearStyle(String, Keyword, FunctionName,Constant, Storage, LibraryClass, Number);
             e.ChangedRange.tb.Range.SetStyle(Comment, @"//.*$");
             e.ChangedRange.tb.Range.SetStyle(Comment,
                 new Regex(@"(/\*.*?\*/)|(/\*.*)", RegexOptions.Singleline | RegexCompiledOption));
@@ -1788,10 +1793,11 @@ namespace SS.Ynote.Classic.Features.Syntax
                 new Regex(@"(/\*.*?\*/)|(.*\*/)",
                     RegexOptions.Singleline | RegexOptions.RightToLeft | RegexCompiledOption));
             e.ChangedRange.SetStyle(String, @"""""|''|"".*?[^\\]""|'.*?[^\\]'", RegexCompiledOption);
-            e.ChangedRange.SetStyle(Keyword,
-                @"\b(AL|AH|AX|EAX|BL|BH|BX|EBX|CL|CH|CX|ECX|DL|DH|DX|EDX|BP|EBP|module|this|SP|ESP|ref|DI|EDI|SI|ESI|ES|CS|SS|DS|GS|FS|CR0|CR2|CR3|CR4|DR0|DR1|DR2|DR3|DR6|DR7|TR3|TR4|TR5|TR6|TR7|ST|MM0|MM1|MM2|MM3|MM4|MM5|MM6|MM7|lock|rep|repe|repne|repnz|repz|offset|seg|__LOCAL_SIZE|near ptr|far ptr|byte ptr|short ptr|int ptr|word ptr|dword ptr|float ptr|double ptr|extended ptr|aaa|aad|aam|aas|adc|add|addpd|addps|addsd|addss|and|andnpd|andnps|andpd|andps|arpl|bound|bsf|bsr|bswap|bt|btc|alias|defined|import|btr|bts|call|cbw|cdq|clc|cld|clflush|cli|clts|cmc|cmova|cmovae|cmovb|cmovbe|cmovc|cmove|cmovg|cmovge|cmovl|cmovle|cmovna|cmovnae|cmovnb|cmovnbe|cmovnc|cmovne|cmovng|cmovnge|cmovnl|cmovnle|cmovno|cmovnp|cmovns|cmovnz|cmovo|cmovp|cmovpe|cmovpo|cmovs|cmovz|cmp|cmppd|cmpps|cmps|cmpsb|cmpsd|cmpss|cmpsw|cmpxch8b|cmpxchg|comisd|comiss|cpuid|cvtdq2pd|cvtdq2ps|cvtpd2dq|cvtpd2pi|cvtpd2ps|cvtpi2pd|cvtpi2ps|cvtps2dq|cvtps2pd|cvtps2pi|cvtsd2si|cvtsd2ss|cvtsi2sd|cvtsi2ss|cvtss2sd|cvtss2si|cvttpd2dq|cvttpd2pi|cvttps2dq|cvttps2pi|cvttsd2si|cvttss2si|cwd|cwde|da|daa|das|db|dd|de|dec|df|di|div|divpd|divps|divsd|divss|dl|dq|ds|dt|dw|emms|enter|f2xm1|fabs|fadd|faddp|fbld|fbstp|fchs|fclex|fcmovb|fcmovbe|fcmove|fcmovnb|fcmovnbe|fcmovne|fcmovnu|fcmovu|fcom|fcomi|fcomip|fcomp|fcompp|fcos|fdecstp|fdisi|fdiv|fdivp|fdivr|fdivrp|feni|ffree|fiadd|ficom|ficomp|fidiv|fidivr|fild|fimul|fincstp|finit|fist|fistp|fisub|fisubr|fld|fld1|fldcw|fldenv|fldl2e|fldl2t|fldlg2|fldln2|fldpi|fldz|fmul|fmulp|fnclex|fndisi|fneni|fninit|fnop|fnsave|fnstcw|fnstenv|fnstsw|fpatan|fprem|fprem1|fptan|frndint|frstor|fsave|fscale|fsetpm|fsin|fsincos|fsqrt|fst|fstcw|fstenv|fstp|fstsw|fsub|fsubp|fsubr|fsubrp|ftst|fucom|fucomi|fucomip|fucomp|fucompp|fwait|fxam|fxch|fxrstor|fxsave|fxtract|fyl2x|fyl2xp1|hlt|idiv|imul|in|inc|ins|insb|insd|insw|int|into|invd|invlpg|iret|iretd|ja|jae|jb|jbe|jc|jcxz|je|jecxz|jg|jge|jl|jle|jmp|jna|jnae|jnb|jnbe|jnc|jne|jng|jnge|jnl|jnle|jno|jnp|jns|jnz|jo|jp|jpe|jpo|js|jz|lahf|lar|ldmxcsr|lds|lea|leave|les|lfence|lfs|lgdt|lgs|lidt|lldt|lmsw|lock|lods|lodsb|lodsd|lodsw|loop|loope|loopne|loopnz|loopz|lsl|lss|ltr|maskmovdqu|maskmovq|maxpd|maxps|maxsd|maxss|mfence|minpd|minps|minsd|minss|mov|movapd|movaps|movd|movdq2q|movdqa|movdqu|movhlps|movhpd|movhps|movlhps|movlpd|movlps|movmskpd|movmskps|movntdq|movnti|movntpd|movntps|movntq|movq|movq2dq|movs|movsb|movsd|movss|movsw|movsx|movupd|movups|movzx|mul|mulpd|mulps|mulsd|mulss|neg|nop|not|or|orpd|orps|out|outs|outsb|outsd|outsw|packssdw|packsswb|packuswb|paddb|paddd|paddq|paddsb|paddsw|paddusb|paddusw|paddw|pand|pandn|pavgb|pavgw|pcmpeqb|pcmpeqd|pcmpeqw|pcmpgtb|pcmpgtd|pcmpgtw|pextrw|pinsrw|pmaddwd|pmaxsw|pmaxub|pminsw|pminub|pmovmskb|pmulhuw|pmulhw|pmullw|pmuludq|pop|popa|popad|popf|popfd|por|prefetchnta|prefetcht0|prefetcht1|prefetcht2|psadbw|pshufd|pshufhw|pshuflw|pshufw|pslld|pslldq|psllq|psllw|psrad|psraw|psrld|psrldq|psrlq|psrlw|psubb|psubd|psubq|psubsb|psubsw|psubusb|psubusw|psubw|punpckhbw|punpckhdq|punpckhqdq|punpckhwd|punpcklbw|punpckldq|punpcklqdq|punpcklwd|push|pusha|pushad|pushf|pushfd|pxor|rcl|rcpps|rcpss|rcr|rdmsr|rdpmc|rdtsc|rep|repe|repne|repnz|repz|ret|retf|rol|ror|rsm|rsqrtps|rsqrtss|sahf|sal|sar|sbb|scas|scasb|scasd|scasw|seta|setae|setb|setbe|setc|sete|setg|setge|setl|setle|setna|setnae|setnb|setnbe|setnc|setne|setng|setnge|setnl|setnle|setno|setnp|setns|setnz|seto|setp|setpe|setpo|sets|setz|sfence|sgdt|shl|shld|shr|shrd|shufpd|shufps|sidt|sldt|smsw|sqrtpd|sqrtps|sqrtsd|sqrtss|stc|std|sti|stmxcsr|stos|stosb|stosd|stosw|str|sub|subpd|subps|subsd|subss|sysenter|sysexit|test|ucomisd|ucomiss|ud2|unpckhpd|unpckhps|unpcklpd|unpcklps|verr|verw|wait|wbinvd|wrmsr|xadd|xchg|xlat|xlatb|xor|xorpd|xorps|pavgusb|pf2id|pfacc|pfadd|pfcmpeq|pfcmpge|pfcmpgt|pfmax|pfmin|pfmul|pfnacc|pfpnacc|pfrcp|pfrcpit1|pfrcpit2|pfrsqit1|pfrsqrt|pfsub|pfsubr|pi2fd|pmulhrw|pswapd|abstract|align|argc|argv|asm|assert|attribute|auto|bit|body|bool|break|byte|case|catch|cent|cfloat|char|class|complex|const|continue|creal|d_time|db|dd|de|debug|default|delete|deprecated|df|dg|di|do|double|ds|dynamic_cast|else|enum|envp|even|explicit|extended|extern|false|final|float|for|fp|friend|function|goto|idouble|if|ifloat|imaginary|in|inline|inout|instance|int|interface|ireal|long|mutable|naked|namespace|new|operator|out|override|private|protected|public|real|register|reinterpret_cast|return|short|signed|sizeof|static|struct|super|switch|synchronized|template|throw|true|try|typedef|typeid|typename|ubyte|ucent|uint|ulong|union|unsigned|ushort|using|version|virtual|void|volatile|wchar|while)\b");
-            e.ChangedRange.SetStyle(LibraryClass,
-                @"\b(ClassInfo|E|Exception|FileException|LN10|LN2|LOG10E|LOG2|LOG2E|LOG2T|LocalTimetoUTC||Object|OutBuffer|OutOfMemory|PI|RegExp|SQRT1_2|SQRT2|SliceStream|Stream|StringException|Thread|ThreadError|TicksPerSecond|UTCtoLocalTime|acos|addExt|addRange|addRoot|align2|align4|alignSize|altsep|append|asin|atan|atan2|atof|atoi|bsf|bsr|bt|btc|btr|bts|capitalize|capwords|ceil|center|close|cmp|copyFrom|copysign|cos|cosh|count|create|curdir|data|defaultExt|digits|enable|eof|exec|exp|expandtabs|expml|fabs|fill0|find|floor|fncharmatch|fnmatch|frexp|fullCollect|genCollect|getAll|getAttributes|getbaseName|getDirName|getDrive|getExt|getSize|getState|getThis|getUTCtime|getc|getcw|hdl|hexdigits|hypot|icmp|inp|inpl|inpw|insert|isabs|isalnum|isalpha|isascii|iscntrl|isdigit|isfinite|isgraph|isinf|islower|isnan|isnormal|isprint|ispunct|isspace|issubnormal|isupper|isxdigit|join|ldexp|letters|linesep|ljustify|log|log10|loglp|lowercase|maketrans|match|minimize|modf|octdigits|open|outp|outpl|outpw|pardir|parse|pathsep|pause|pauseAll|position|pow|printf|rand|rand_seed|read|readBlock|readExact|readLine|readString|readStringW|readable|remove|removeRange|removeRoot|rename|replace|replaceOld|replaceSlice|reserve|resume|resumeAll|rfind|rint|rjustify|rndtol|run|scanf|search|seek|seekCur|seekEnd|seekSet|seekable|sep|setPriority|signbit|sin|sinh|size|split|splitlines|spread|sqrt|start|strip|stripl|stripr|tan|tanh|test|thread_hdl|toByte|toBytes|toDateString|toHash|toInt|toLong|toShort|toString|toTimeString|toUbyte|toUint|toUlong|toUshort|tolower|toupper|translate|ungetc|ungetcw|uppercase|vprintf|vscanf|wait|whitespace|write|writeBlock|writeExact|writeLine|writeLineW|writeString|writeStringW|writeable|yield|zfill)\b");
+            e.ChangedRange.SetStyle(FunctionName, @"\b(void|int)\s+(?<range>\w+?)\b");
+            e.ChangedRange.SetStyle(Keyword, @"\b(module|auto|class|interface|enum|union|template|struct|pragma|import|deprecated|unittest|debug|package|extern|new|delete|typeof|typeid|cast|align|is|this|super|alias|typedef|asm|mixin|delegate|out|body|scope|version|public|private|protected|static|lazy|final|native|synchronized|abstract|with|iftype|goto|threadsafe|transient|export|return|break|case|continue|default|do|while|for|foreach|switch|if|else)\b");
+            e.ChangedRange.SetStyle(Storage, @"\b(void|boolean|byte|char|short|int|float|long|double|ushort|int|uint|long|ulong|float|void|byte|ubyte|double|bit|char|wchar|ucent|cent|short|bool|dchar|real|ireal|ifloat|idouble|creal|cfloat|cdouble)\b");
+            e.ChangedRange.SetStyle(Constant, @"\b(__FILE__|__LINE__|__DATE__|__TIME__|__TIMESTAMP__|null|true|false)\b");
+            e.ChangedRange.SetStyle(LibraryClass, @"\b\p{Lu}[a-zA-Z_\d]*\b");
             e.ChangedRange.SetStyle(Number, @"\b\d+[\.]?\d*([eE]\-?\d+)?\b", RegexCompiledOption);
             e.ChangedRange.ClearFoldingMarkers();
             e.ChangedRange.SetFoldingMarkers("{", "}");
@@ -1819,7 +1825,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.SetStyle(Keyword,
                 @"\b(absolute|abstract|all|and|and_then|array|as|asm|attribute|begin|bindable|case|class|const|constructor|destructor|div|do|do|else|end|except|export|exports|external|far|file|finalization|finally|for|forward|goto|if|implementation|import|in|inherited|initialization|interface|interrupt|is|label|library|mod|module|name|near|nil|not|object|of|only|operator|or|or_else|otherwise|packed|pow|private|program|property|protected|public|published|qualified|record|repeat|resident|restricted|segment|set|shl|shr|then|to|try|type|unit|until|uses|value|var|view|virtual|while|with|xor)\b", RegexOptions.IgnoreCase);
            e.ChangedRange.SetStyle(Storage, @"\b(function|procedure)\b", RegexOptions.IgnoreCase);
-           e.ChangedRange.SetStyle(FunctionName, @"\b(function|procedure)\s+(?<range>\w+?)\b");
+           e.ChangedRange.SetStyle(FunctionName, @"\b(function|procedure)\s+(?<range>\w+?)\b", RegexOptions.IgnoreCase);
             e.ChangedRange.SetStyle(Number, @"\b\d+[\.]?\d*([eE]\-?\d+)?\b");
             e.ChangedRange.SetStyle(Punctuation, @"\:|\?|\*|%|=|\+|\!|\^|#|\,|\.|\\|@|\|");
             e.ChangedRange.ClearFoldingMarkers();
@@ -1904,16 +1910,12 @@ namespace SS.Ynote.Classic.Features.Syntax
             _objCCommentRegex2 = new Regex(@"(/\*.*?\*/)|(/\*.*)", RegexOptions.Singleline);
             _objCCommentRegex3 = new Regex(@"(/\*.*?\*/)|(.*\*/)", RegexOptions.Singleline | RegexOptions.RightToLeft);
             _objCNumberRegex = new Regex(@"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
-            _objCKeywordRegex =
-                new Regex(
-                    @"\b(__asm|__based|__cdecl|__cplusplus|__emit|__export|__far|__fastcall|__fortran|__huge|__inline|__interrupt|__loadds|__near|__pascal|__saveregs|__segment|__segname|__self|__stdcall|__asm|__syscall|argc|argv|auto|break|case|char|const|continue|default|do|double|else|enum|envp|extern|float|for|goto|if|int|long|main|register|return|short|private|protected|public|signed|sizeof|static|struct|switch|typedef|union|unsigned|void|volatile|wchar_t|while|wmain|id|in|out|inout|bycopy|byref|self|super)\b");
+            _objCKeywordRegex = new Regex(@"\b(while|for|do|if|else|switch|enumerate|return|NS_DURING|NS_HANDLER|NS_ENDHANDLER)\b|(@)(synthesize|dynamic|try|catch|finally|throw|synchronized|required|optional)\b");
             _objCClassNameRegex = new Regex(@"\b(class|struct|enum|interface)\s+(?<range>\w+?)\b");
             _objCStringRegex2 = new Regex(@"(?<=\<)(.*?)(?=\>)|\<|\>");
             _objCFunctionsRegex = new Regex(@"\b(int|void)\s+(?<range>\w+?)\b");
             _objCPreprocessorRegex = new Regex(@"#[a-zA-Z_\d]*\b", RegexCompiledOption);
-            _objCKeywordRegex2 =
-                new Regex(
-                    @"\b(bool|catch|class|const_cast|delete|dynamic_cast|explicit|false|friend|inline|mutable|namespace|new|operator|reinterpret_cast|static_cast|template|this|throw|true|try|typeid|typename|using|virtual)\b|@[a-zA-Z_\d]*\b");
+         
         }
 
         private void ObjectiveCHighlight(TextChangedEventArgs e)
@@ -1931,13 +1933,20 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.Range.SetStyle(Comment, _objCCommentRegex1);
             e.ChangedRange.tb.Range.SetStyle(Comment, _objCCommentRegex2);
             e.ChangedRange.tb.Range.SetStyle(Comment, _objCCommentRegex3);
+            // preprocessor match
             e.ChangedRange.SetStyle(Preprocessor, _objCPreprocessorRegex);
+            // string highlight
             e.ChangedRange.SetStyle(String, _objCStringRegex2);
             e.ChangedRange.SetStyle(String, _objCStringRegex);
+            // class name
             e.ChangedRange.SetStyle(ClassName, _objCClassNameRegex);
             e.ChangedRange.SetStyle(FunctionName, _objCFunctionsRegex);
+            // keyword
             e.ChangedRange.SetStyle(Keyword, _objCKeywordRegex);
-            e.ChangedRange.SetStyle(Constant, _objCKeywordRegex2);
+            e.ChangedRange.SetStyle(Storage, @"(@)(implementation|class|interface|protocol)\b|\b(id|IBOutlet|IBAction|BOOL|SEL|id|void|unichar|IMP|Class|instancetype)\b"); // todo word boundaries
+            e.ChangedRange.SetStyle(Constant, @"\b(NULL|NIL|SELF|TRUE|YES|FALSE|NO|FIRST|LAST|SIZE|ALL|ANY|SOME|NONE)\b", RegexOptions.IgnoreCase);
+            e.ChangedRange.SetStyle(LibraryClass, @"\bNS(RuleEditor|G(arbageCollector|radient)|MapTable|HashTable|Co(ndition|llectionView(Item))|T(oolbarItemGroup|extInputClient|r(eeNode|ackingArea))|InvocationOperation|Operation(Queue)|D(ictionaryController|ockTile)|P(ointer(Functions|Array)|athC(o(ntrol(Delegate)|mponentCell)|ell(Delegate))|r(intPanelAccessorizing|edicateEditor(RowTemplate)))|ViewController|FastEnumeration|Animat(ionContext|ablePropertyContainer))\b");
+            e.ChangedRange.SetStyle(LibraryFunction, @"\b(NS(Rect(ToCGRect|FromCGRect)|MakeCollectable|S(tringFromProtocol|ize(ToCGSize|FromCGSize))|Draw(NinePartImage|ThreePartImage)|P(oint(ToCGPoint|FromCGPoint)|rotocolFromString)|EventMaskFromType|Value))\b");
             e.ChangedRange.SetStyle(Number, _objCNumberRegex);
             e.ChangedRange.ClearFoldingMarkers();
             e.ChangedRange.SetFoldingMarkers("{", "}");
@@ -1970,31 +1979,6 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.SetFoldingMarkers("{", "}");
             e.ChangedRange.SetFoldingMarkers(@"/\*", @"\*/"); //allow to collapse comment block
         }
-
-        private void SchemeSyntaxHighlight(TextChangedEventArgs e)
-        {
-            e.ChangedRange.tb.CommentPrefix = ";";
-            e.ChangedRange.tb.LeftBracket = '(';
-            e.ChangedRange.tb.LeftBracket2 = '[';
-            e.ChangedRange.tb.RightBracket = ')';
-            e.ChangedRange.tb.RightBracket2 = ']';
-            e.ChangedRange.ClearStyle(Comment, String, Number, Preprocessor, Keyword,
-                Constant, Storage);
-            e.ChangedRange.SetStyle(Comment, @"\;.*$", RegexOptions.Multiline);
-            e.ChangedRange.SetStyle(String, new Regex(@"""""|''|"".*?[^\\]""|'.*?[^\\]'"));
-            e.ChangedRange.SetStyle(Preprocessor, @"#\:[a-zA-Z_\d]*\b");
-            e.ChangedRange.SetStyle(Keyword,
-                @"\b(and|begin|case|cond|define|delay|do|else|if|lambda|let|letrec|or|quasiquote|quote|set!|unquote|unquote-splicing|apply|map|for-each|force|call-with-current-continuation)\b",
-                RegexOptions.IgnoreCase);
-            e.ChangedRange.SetStyle(Constant,
-                @"\b(not|boolean|eqv|eq|equal|pair|null|list|symbol|number|complex|real|rational|integer|exact|inexact|zero|positive|negative|odd|even|char|char-alphabetic|char-numeric|char-whitespace|char-upper-case|char-lower-case|string|vector|procedure|input-port|output-port|eof-object|char-ready)\b",
-                RegexOptions.IgnoreCase);
-            e.ChangedRange.SetStyle(Storage,
-                @"\b(abs|quotient|remainder|modulo|gcd|lcm|numerator|denominator|floor|ceiling|truncate|round|rationalize|exp|log|sin|cos|tan|asin|acos|atan|sqrt|expt|make-rectangular|make-polar|real-part|imag-part|magnitude|angle|call-with-input-file|call-with-output-file|current-input-port|current-output-port|with-input-from-file|with-output-to-file|open-input-file|open-output-file|close-input-port|close-output-port|read|read-char|peek-char|write|display|newline|write-char|load|transcript-on|transcript-of)\b",
-                RegexOptions.IgnoreCase);
-            e.ChangedRange.SetStyle(Number, @"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
-        }
-
         private void ShellSyntaxHighlight(TextChangedEventArgs e)
         {
             e.ChangedRange.tb.CommentPrefix = "#";
@@ -2002,15 +1986,14 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.LeftBracket2 = '[';
             e.ChangedRange.tb.RightBracket = ')';
             e.ChangedRange.tb.RightBracket2 = ']';
-            e.ChangedRange.ClearStyle(Comment, String, Constant, Constant, Variable,
-                Number);
+            e.ChangedRange.ClearStyle(Comment, String, Keyword, Storage, FunctionName, Variable, Number, LibraryFunction);
             e.ChangedRange.SetStyle(Comment, @"#.*$", RegexOptions.Multiline);
             e.ChangedRange.SetStyle(String, new Regex(@"""""|''|"".*?[^\\]""|'.*?[^\\]'"));
-            e.ChangedRange.SetStyle(Keyword,
-                @"\b(alias|bg|break|breaksw|case|cd|chdir|continue|default|dirs|echo|end|endif|eval|exec|exit|fg|foreach|glob|goto|hashstat|history|if|jobs|kill|limit|login|logout|nice|nohup|notify|onintr|popd|pushd|rehash|repeat|set|setenv|shift|source|stop|suspend|switch|time|type|umask|unalias|unhash|unlimit|unset|unsetenv|wait|while)\b");
-            e.ChangedRange.SetStyle(Constant,
-                @"\b(admin|apropos|ar|as|at|atq|atrm|awk|banner|basename|batch|bc|bdiff|bfs|cal|calender|cancel|cat|cb|cc|cdc|cflow|chgrp|chkey|chmod|chown|clear|cmp|cof2elf|col|comb|comm|compress|cp|cpio|crontab|crypt|cscope|csh|csplit|ctags|ctrace|cu|cut|cxref|date|dbx|dc|dd|delta|deroff|df|diff|diff3|diffmk|dircmp|dirname|dis|download|dpost|dpost|du|ed|edit|egrep|env|eqn|ex|expr|exstr|face|factor|false|fgrep|file|find|finger|fmli|fmt|fmtmsg|fold|ftp|gcore|gencat|get|getopts|gettxt|gprof|grep|groups|head|help|hostid|hostname|iconv|id|install|ipcrm|ipcs|ismpx|join|jsh|jterm|jwin|keylogin|keylogout|ksh|layers|ld|ldd|lex|line|lint|ln|logname|lorder|lp|lpq|lpr|lprm|lprof|lpstat|lptest|ls|m4|mail|mailalias|mailx|make|makekey|man|mcs|mesg|mkdir|mkmsgs|more|mv|nawk|newform|newgrp|news|nl|nm|nroff|od|openwin|pack|page|passwd|paste|pcat|pg|pic|pr|printenv|printf|prof|prs|ps|ptx|pwd|rcp|red|regcmp|relogin|reset|rksh|rlogin|rm|rmdel|rmdir|rsh|ruptime|rwho|sact|sccs|sccsdiff|script|sdb|sdiff|sed|sh|shl|shutdown|size|sleep|soelim|sort|spell|split|srchtxt|strings|strip|stty|su|sum|tabs|tail|talk|tar|tbl|tee|telnet|test|timex|touch|tput|tr|troff|true|truss|tset|tsort|tty|uname|uncompress|unget|uniq|units|unpack|uptime|users|uucp|uudecode|uuencode|uuglist|uulog|uuname|uupick|uustat|uuto|uux|vacation|val|vc|vedit|vi|view|w|wall|wc|what|whatis|which|who|whoami|whois|write|xargs|yacc|zcat)\b");
-            e.ChangedRange.SetStyle(Variable, @"\b(HOME|PATH|TERM|USER|EXITIN|LOGNAME|MAIL|PWD|SHELL|TERMCAP)\b");
+            e.ChangedRange.SetStyle(FunctionName, @"\b(function)\s+(?<range>\w+?)\b");
+            e.ChangedRange.SetStyle(Keyword, @"\b(if|then|else|elif|fi|for|in|do|done|select|case|continue|esac|while|until|return)\b");
+            e.ChangedRange.SetStyle(Storage, @"\bfunction\b");
+            e.ChangedRange.SetStyle(LibraryFunction, @"\b(alias|bg|bind|break|builtin|caller|cd|command|compgen|complete|dirs|disown|echo|enable|eval|exec|exit|false|fc|fg|getopts|hash|help|history|jobs|kill|let|logout|popd|printf|pushd|pwd|read|readonly|set|shift|shopt|source|suspend|test|times|trap|true|type|ulimit|umask|unalias|unset|wait)\b");
+            e.ChangedRange.SetStyle(Variable, new Regex(@"\$[a-zA-Z_\d]*\b", RegexCompiledOption));
             e.ChangedRange.SetStyle(Number, @"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
         }
 
@@ -2070,14 +2053,17 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.RightBracket = ')';
             e.ChangedRange.tb.LeftBracket2 = '[';
             e.ChangedRange.tb.RightBracket2 = ']';
-            e.ChangedRange.ClearStyle(Comment, String, Keyword, Constant, Number);
+            e.ChangedRange.ClearStyle(Comment, String, Keyword, Constant, LibraryFunction,FunctionArgument, Number);
             e.ChangedRange.SetStyle(Comment, @"#.*$", RegexOptions.Multiline);
             e.ChangedRange.SetStyle(String, @"""""|''|"".*?[^\\]""|'.*?[^\\]'");
             e.ChangedRange.SetStyle(Keyword,
-                @"\b(if|else|for|while|repeat|breaknext|var|in|TRUE|NULL|NA|NaN|FALSE|function|Inf)\b");
-            e.ChangedRange.SetStyle(Constant,
-                @"\b(abbreviate|abline|abs|acos|acosh|aggregate|alias|alist|all|anova|any|aov|aperm|append|apply|approx|approxfun|apropos|args|array|arrows|asin|asinh|assign|assocplot|atan|atanh|attach|attr|attributes|autoload|autoloader|ave|axis|backsolve|barplot|basename|beta|binomial|bitmap|bmp|body|box|boxplot|browser|builtins|bxp|by|bzfile|c|call|capabilities|casefold|cat|cbind|ceiling|character|charmatch|chartr|chol|choose|chull|class|close|cm|codes|coef|coefficients|col|colnames|colors|colours|comment|complex|conflicts|contour|contrasts|contributors|convolve|coplot|cor|cos|cosh|cov|covratio|crossprod|cummax|cummin|cumprod|cumsum|curve|cut|cycle|data|dataentry|date|dbeta|dbinom|dcauchy|dchisq|de|debug|debugger|delay|deltat|demo|density|deparse|deriv|det|detach|deviance|dexp|df|dfbetas|dffits|dgamma|dgeom|dget|dhyper|diag|diff|difftime|digamma|dim|dimnames|dir|dirname|dlnorm|dlogis|dnbinom|dnorm|dotchart|double|dpois|dput|drop|dsignrank|dt|dump|dunif|duplicated|dweibull|dwilcox|edit|effects|eigen|emacs|end|environment|eval|evalq|example|exists|exp|expression|factor|family|fft|fifo|file|find|fitted|fivenum|fix|floor|formals|format|formula|forwardsolve|fourfoldplot|frame|frequency|ftable|gamma|gaussian|gc|gcinfo|gctorture|get|geterrmessage|getwd|gl|glm|globalenv|gray|grep|grey|grid|gsub|gzfile|hat|help|hist|history|hsv|identical|identify|ifelse|image|inherits|integer|integrate|interaction|interactive|intersect|invisible|jitter|jpeg|julian|kappa|kronecker|labels|lapply|layout|lbeta|lchoose|lcm|legend|length|letters|levels|lgamma|library|licence|license|lines|list|lm|load|loadhistory|local|locator|log|logb|logical|loglin|lowess|ls|lsfit|machine|mad|mahalanobis|makepredictcall|manova|match|matlines|matplot|matpoints|matrix|max|mean|median|menu|merge|methods|min|missing|mode|months|mosaicplot|mtext|mvfft|names|napredict|naprint|naresid|nargs|nchar|ncol|nextn|nlevels|nlm|noquote|nrow|numeric|object.size|objects|offset|open|optim|optimise|optimize|options|order|ordered|outer|page|pairlist|pairs|palette|par|parse|paste|pbeta|pbinom|pbirthday|pcauchy|pchisq|pdf|pentagamma|persp|pexp|pf|pgamma|pgeom|phyper|pi|pico|pictex|pie|piechart|pipe|PlantGrowth|Platform|plnorm|plogis|plotmath|pmatch|pmax|pmin|pnbinom|png|pnorm|points|plot|print|formula|Poisson|poisson|poly|polygon|polym|polyroot|postscript|power|ppoints|ppois|predict|preplot|pretty|print|prmatrix|prod|profile|proj|prompt|psignrank|pt|ptukey|punif|pweibull|pwilcox|q|qbeta|qbinom|qbirthday|qcauchy|qchisq|qexp|qf|qgamma|qgeom|qhyper|qlnorm|qlogis|qnbinom|qnorm|qpois|qqline|qqnorm|qqplot|qr|qsignrank|qt|qtukey|quantile|quarters|quasi|quasibinomial|quasipoisson|quit|qunif|quote|qweibull|qwilcox|rainbow|range|rank|rbeta|rbind|rbinom|rcauchy|rchisq|readline|real|recover|rect|reformulate|regexpr|relevel|remove|rep|replace|replications|require|reshape|resid|residuals|restart|return|rev|rexp|rf|rgamma|rgb|rgeom|rhyper|rle|rlnorm|rlogis|rm|rnbinom|rnorm|round|row|rownames|rowsum|rpois|rsignrank|rstandard|rstudent|rt|rug|runif|rweibull|rwilcox|sample|sapply|save|savehistory|scale|scan|screen|sd|search|searchpaths|seek|segments|seq|sequence|setdiff|setequal|setwd|shell|sign|signif|sin|single|sinh|sink|solve|sort|source|spline|splinefun|split|sprintf|sqrt|stack|stars|start|stderr|stdin|stdout|stem|step|stop|stopifnot|str|strftime|strheight|stripchart|strptime|strsplit|structure|strwidth|strwrap|sub|subset|substitute|substr|substring|sum|summary|sunflowerplot|svd|sweep|switch|symbols|symnum|system|t|table|tabulate|tan|tanh|tapply|tempfile|termplot|terms|tetragamma|text|time|title|tolower|toupper|trace|traceback|transform|trigamma|trunc|truncate|try|ts|tsp|typeof|unclass|undebug|union|unique|uniroot|unix|unlink|unlist|unname|unsplit|unstack|untrace|unz|update|upgrade|url|vector|version|vi|warning|warnings|weekdays|weights|which|window|windows|with|write|xedit|xemacs|xfig|xinch|xor|xtabs|xyinch|yinch|zapsmall|confint|vcov)\b");
+                @"\b(function|if|break|next|repeat|else|for|return|switch|while|in|invisible)\b");
+            e.ChangedRange.SetStyle(FunctionArgument, @"\b.*=");
+            e.ChangedRange.SetStyle(Constant, @"\b(logical|numeric|character|complex|matrix|array|list|factor|T|F|TRUE|FALSE|NULL|NA|Inf|NaN)\b");
+            e.ChangedRange.SetStyle(LibraryFunction, @"\b(real|print|abs|matrix|pi|letters|LETTERS|month\.name|month\.abb)\b");
             e.ChangedRange.SetStyle(Number, @"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
+            e.ChangedRange.ClearFoldingMarkers();
+            e.ChangedRange.SetFoldingMarkers(@"{", @"}");
         }
 
         private void LaTeXSyntaxHighlight(TextChangedEventArgs e)
@@ -2104,15 +2090,12 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.ClearStyle(Comment, String, Keyword, Constant, Number);
             e.ChangedRange.SetStyle(String, @"""""|''|"".*?[^\\]""|'.*?[^\\]'");
             e.ChangedRange.SetStyle(Comment, @"--.*$", RegexOptions.Multiline);
-            e.ChangedRange.tb.Range.SetStyle(Comment,
-                new Regex(@"({\-.*?\-})|({\-.*)", RegexOptions.Singleline | RegexCompiledOption));
-            e.ChangedRange.tb.Range.SetStyle(Comment, @"({\-.*?\-})|(.*\-})");
-            e.ChangedRange.SetStyle(Keyword,
-                new Regex(
-                    @"\b(where|in|do|if|then|else|case|of|module|import|export|instance|class|deriving|primitive|data|type|newtype|infix|infixr|infixl)\b"));
-            e.ChangedRange.SetStyle(Constant,
-                new Regex(
-                    @"\b(Eq|Ord|Enum|Bounded|Num|Ix|Real|Integral|RealFrac|RealFloat|Floating|Fractional|Read|Show|Functor|Monad|True|False|Bool|Char|String|Int|Integer|Float|Double|IO|Maybe|Either|Ordering)\b"));
+            e.ChangedRange.tb.Range.SetStyle(Comment, new Regex(@"({\-.*?\-})|({\-.*)", RegexOptions.Singleline | RegexCompiledOption));
+            e.ChangedRange.tb.Range.SetStyle(Comment, @"({\-.*?\-})|(.*\-})", RegexOptions.RightToLeft | RegexOptions.Singleline | RegexCompiledOption);
+            e.ChangedRange.SetStyle(Keyword, @"\b(class|instance|qualified|as|hiding|deriving|where|data|type|case|of|let|in|newtype|default|infix|do|if|then|else|module)\b");
+            e.ChangedRange.SetStyle(Constant, @"\b(Just|Nothing|Left|Right|True|False|LT|EQ|GT|LANGUAGE|UNPACK|INLINE)\b");
+            e.ChangedRange.SetStyle(LibraryClass, @"\b(Integer|Int|Maybe|Either|Bool|Float|Double|Char|String|Ordering|ShowS|ReadS|FilePath|IO|Monad|Functor|Eq|Ord|Read|Show|Num|(Frac|Ra)tional|Enum|Bounded|Real(Frac|Float)?|Integral|Floating)\b");
+            e.ChangedRange.SetStyle(LibraryFunction, @"\b(abs|acos|acosh|all|and|any|appendFile|applyM|asTypeOf|asin|asinh|atan|atan2|atanh|break|catch|ceiling|compare|concat|concatMap|const|cos|cosh|curry|cycle|decodeFloat|div|divMod|drop|dropWhile|elem|encodeFloat|enumFrom|enumFromThen|enumFromThenTo|enumFromTo|error|even|exp|exponent|fail|filter|flip|floatDigits|floatRadix|floatRange|floor|fmap|foldl|foldl1|foldr|foldr1|fromEnum|fromInteger|fromIntegral|fromRational|fst|gcd|getChar|getContents|getLine|head|id|init|interact|ioError|isDenormalized|isIEEE|isInfinite|isNaN|isNegativeZero|iterate|last|lcm|length|lex|lines|log|logBase|lookup|map|mapM|mapM_|max|maxBound|maximum|maybe|min|minBound|minimum|mod|negate|not|notElem|null|odd|or|otherwise|pi|pred|print|product|properFraction|putChar|putStr|putStrLn|quot|quotRem|read|readFile|readIO|readList|readLn|readParen|reads|readsPrec|realToFrac|recip|rem|repeat|replicate|return|reverse|round|scaleFloat|scanl|scanl1|scanr|scanr1|seq|sequence|sequence_|show|showChar|showList|showParen|showString|shows|showsPrec|significand|signum|sin|sinh|snd|span|splitAt|sqrt|subtract|succ|sum|tail|take|takeWhile|tan|tanh|toEnum|toInteger|toRational|truncate|uncurry|undefined|unlines|until|unwords|unzip|unzip3|userError|words|writeFile|zip|zip3|zipWith|zipWith3)\b");
             e.ChangedRange.SetStyle(Number, @"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
         }
 
@@ -2126,11 +2109,10 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.ClearStyle(Comment, String, Keyword, Constant, Number);
             e.ChangedRange.SetStyle(Comment, @"%.*$", RegexOptions.Multiline);
             e.ChangedRange.SetStyle(String, @"""""|''|"".*?[^\\]""|'.*?[^\\]'");
-            e.ChangedRange.SetStyle(Keyword,
-                @"\b(function|global|persistent|break|case|catch|else|elseif|end|for|if|otherwise|return|switch|try|while)\b");
+            e.ChangedRange.SetStyle(Keyword, @"\b(function|global|persistent|break|case|catch|else|elseif|end|for|if|otherwise|return|switch|try|while)\b");
             e.ChangedRange.SetStyle(Number, @"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
             e.ChangedRange.ClearFoldingMarkers();
-            e.ChangedRange.SetFoldingMarkers("function", "end");
+            e.ChangedRange.SetFoldingMarkers(@"\bfunction\b", @"\bend\b");
         }
 
         private void CoffeeScriptSyntaxHighlight(TextChangedEventArgs e)
@@ -2141,18 +2123,19 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.RightBracket = ')';
             e.ChangedRange.tb.RightBracket2 = ']';
             e.ChangedRange.tb.Range.ClearStyle(Comment);
-            e.ChangedRange.ClearStyle(Comment, String, Keyword, Constant, Number);
+            e.ChangedRange.ClearStyle(Constant, String, ClassName, FunctionName, Keyword, Constant, LibraryClass, LibraryFunction, Number);
             e.ChangedRange.SetStyle(Comment, "#.*$", RegexOptions.Multiline);
             e.ChangedRange.tb.Range.SetStyle(Comment,
                 new Regex(@"(###.*?\###)|(###.*)", RegexOptions.Singleline | RegexCompiledOption));
             e.ChangedRange.tb.Range.SetStyle(Comment, new Regex(@"(###.*?###)|(.*###)"));
-            e.ChangedRange.SetStyle(Keyword,
-                @"\b(in|when|is|isnt|of|not|unless|until|super|object|class|print|break|by|catch|continue|else|finally|for|in|of|if|return|switch|then|throw|try|unless|when|while|until|loop|do)\b");
-            e.ChangedRange.SetStyle(Constant,
-                @"\b(undefined|yes|on|no|off|apply|call|concat|every|filter|forEach|from|hasOwnProperty|indexOf|isPrototypeOf|join|lastIndexOf|map|of|pop|propertyIsEnumerable|push|reduce|reverse|shift|slice|some|sort|splice|String|unshift|valueOf)\b");
+            e.ChangedRange.SetStyle(String, @"""""|''|"".*?[^\\]""|'.*?[^\\]'");
             e.ChangedRange.SetStyle(ClassName, @"\b(class)\s+(?<range>\w+?)\b");
             e.ChangedRange.SetStyle(FunctionName, @".*(?==)=|.*(?=:):");
-            e.ChangedRange.SetStyle(String, @"""""|''|"".*?[^\\]""|'.*?[^\\]'");
+            e.ChangedRange.SetStyle(Keyword, @"\b(instanceof|new|delete|debugger|typeof|and|or|is|isnt|not|super|class|this|extends|break|by|catch|continue|else|finally|for|in|of|if|return|switch|then|throw|try|unless|when|while|until|loop|do)\b");
+            e.ChangedRange.SetStyle(Constant, @"\b(true|on|yes|false|off|no|null)\b");
+            e.ChangedRange.SetStyle(LibraryClass, @"\b(Array|ArrayBuffer|Blob|Boolean|Date|document|Function||Int(8|16|32|64)Array|Math|Map|Number|Object|Proxy|RegExp|Set|String|WeakMap|window|Uint(8|16|32|64)Array|XMLHttpRequest)\b");
+            e.ChangedRange.SetStyle(LibraryFunction, @"\b(debug|warn|info|log|error|time|timeEnd|assert|decodeURI|encodeURI|eval|parse(Float|Int)|require|apply|call|concat|every|filter|forEach|from|hasOwnProperty|indexOf|isPrototypeOf|join|lastIndexOf|map|of|pop|propertyIsEnumerable|push|reduce|reverse|shift|slice|some|sort|splice|unshift|valueOf|create|definePropert(ies|y)|freeze|getOwnProperty(Descriptors|Names)|getProperty(Descriptor|Names)|getPrototypeOf|is(Extensible|Frozen|Sealed)|keys|preventExtensions|seal
+)\b");
             e.ChangedRange.SetStyle(Number, @"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
         }
 

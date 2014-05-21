@@ -23,8 +23,8 @@
     Font="Regular" />
   <Style
     Name="Storage"
-    Color="#F92672"
-    Font="Regular" />
+    Color="#66D9EF"
+    Font="Italic" />
   <Style
     Name="Constant"
     Color="#AE81FF"

@@ -90,4 +90,19 @@ Build 445
 Build 447
 
 -> Scala Finalized
-TODOL : C++ Macro Define Function Highlight
+TODOL : C++ Macro Define Function Highlight, C++ using namespace
+
+Build 454
+
+-> Shell Script Finalized
+-> R Finalized
+-> D Finalized
+-> Lisp Finalized
+-> Haskell Finalized
+-> MATLAB Finalized
+
+Build 463
+
+-> CoffeeScript Finalized
+-> Diff Finalized
+-> Objective C Finalized

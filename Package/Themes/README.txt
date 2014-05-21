@@ -10,3 +10,5 @@ Added New Styles-
 
 !Converted\ contains the themes which are not converted to YnoteTheme 1.1 and are
 incompatible with Ynote Classic 2.8.5 but not with 2.8
+
+Default.ynotetheme is partially converted. Please use Monokai or Cobalt
