@@ -283,7 +283,7 @@ public static class Settings
     private static void RestoreDefault()
     {
         IConfigSource source = new IniConfigSource(SettingsDir + "Settings.ini");
-        var config = source.AddConfig("Ynote");
+        IConfig config = source.AddConfig("Ynote");
         config.Set("ThemeFile", SettingsDir + @"\Themes\Default.ynotetheme");
         config.Set("ShowHiddenCharacters", false);
         config.Set("DocumentStyle", DocumentStyle.DockingMdi);

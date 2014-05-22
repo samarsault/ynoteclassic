@@ -29,7 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Editor));
             this.codebox = new FastColoredTextBoxNS.FastColoredTextBox();
+            this.contextmenu = new System.Windows.Forms.ContextMenu();
             this.tabcontext = new System.Windows.Forms.ContextMenu();
             this.miclose = new System.Windows.Forms.MenuItem();
             this.micloseallbutthis = new System.Windows.Forms.MenuItem();
@@ -38,13 +40,24 @@
             this.menuItem1 = new System.Windows.Forms.MenuItem();
             this.menuItem2 = new System.Windows.Forms.MenuItem();
             this.menuItem3 = new System.Windows.Forms.MenuItem();
-            this.contextmenu = new System.Windows.Forms.ContextMenu();
             ((System.ComponentModel.ISupportInitialize)(this.codebox)).BeginInit();
             this.SuspendLayout();
             // 
             // codebox
             // 
+            this.codebox.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.codebox.AutoCompleteBrackets = false;
+            this.codebox.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
             this.codebox.AutoScrollMinSize = new System.Drawing.Size(27, 14);
             this.codebox.BackBrush = null;
             this.codebox.CharHeight = 14;
@@ -52,15 +65,20 @@
             this.codebox.ContextMenu = this.contextmenu;
             this.codebox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.codebox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(180)))));
-            this.codebox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.codebox.Hotkeys = resources.GetString("codebox.Hotkeys");
             this.codebox.IsReplaceMode = false;
-            this.codebox.Location = new System.Drawing.Point(0, 0);
+            this.codebox.Location = new System.Drawing.Point(110, 0);
             this.codebox.Name = "codebox";
             this.codebox.Paddings = new System.Windows.Forms.Padding(0);
+            this.codebox.SameWordsStyle = null;
             this.codebox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.codebox.Size = new System.Drawing.Size(284, 262);
+            this.codebox.Size = new System.Drawing.Size(227, 255);
             this.codebox.TabIndex = 0;
             this.codebox.Zoom = 100;
+            // 
+            // contextmenu
+            // 
+            this.contextmenu.Popup += new System.EventHandler(this.contextmenu_Popup);
             // 
             // tabcontext
             // 
@@ -114,15 +132,11 @@
             this.menuItem3.Text = "Copy Full File Path to Clipboard";
             this.menuItem3.Click += new System.EventHandler(this.menuItem3_Click);
             // 
-            // contextmenu
-            // 
-            this.contextmenu.Popup += new System.EventHandler(this.contextmenu_Popup);
-            // 
             // Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(349, 254);
             this.Controls.Add(this.codebox);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

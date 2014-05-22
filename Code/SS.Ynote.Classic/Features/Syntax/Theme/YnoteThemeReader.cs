@@ -103,6 +103,8 @@ namespace SS.Ynote.Classic.Features.Syntax
 
         private static void InitStyle(string name, FontStyle style, Color color, SyntaxHighlighter sh)
         {
+            if (sh == null)
+                return;
             var tcstyle = new TextStyle(new SolidBrush(color), null, style);
             switch (name)
             {

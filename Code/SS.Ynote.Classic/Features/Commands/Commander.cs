@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 using AutocompleteMenuNS;
+using CSScriptLibrary;
+using SS.Ynote.Classic.Features.Extensibility;
 
 namespace SS.Ynote.Classic
 {
@@ -28,7 +32,7 @@ namespace SS.Ynote.Classic
             tbcommand.Focus();
             _ynote = host;
             LostFocus += (o, a) => Close();
-            Commands = new List<ICommand>
+            Commands = new List<ICommand>(GetCommands())
             {
                 new SetSyntaxCommand(),
                 new SetSyntaxFile(),
@@ -43,12 +47,44 @@ namespace SS.Ynote.Classic
                 new CodeFoldingCommand(),
                 new NavigateCommand(),
                 new GoogleCommand(),
-                new WikipediaCommand()
+                new WikipediaCommand(),
             };
             BuildAutoComplete();
         }
 
         public bool IsSnippetMode { get; set; }
+
+        private IEnumerable<ICommand> GetCommands()
+        {
+            var lst = new List<ICommand>();
+            foreach (var file in Directory.GetFiles(Settings.SettingsDir + "Commands", "*.ynotecommand"))
+                lst.Add(GetCommand(file, _ynote));
+            return lst;
+        }
+
+        private static ICommand GetCommand(string script, IYnote ynote)
+        {
+            string asm = script + "c";
+            try
+            {
+                // var helper =
+                //     new AsmHelper(CSScript.LoadMethod(File.ReadAllText(ysfile), GetReferences()));
+                // helper.Invoke("*.Run", ynote);
+                var assembly = !File.Exists(asm)
+                    ? CSScript.LoadMethod(File.ReadAllText(script), asm, false, YnoteScript.GetReferences())
+                    : Assembly.LoadFrom(asm);
+                using (var execManager = new AsmHelper(assembly))
+                {
+                    return (ICommand) (execManager.Invoke("*.GetCommand"));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("There was an Error running the script : \r\n" + ex.Message, "YnoteScript Host",
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return null;
+            }
+        }
 
         public void AddText(string text)
         {
@@ -62,8 +98,11 @@ namespace SS.Ynote.Classic
         {
             IList<AutocompleteItem> items = new List<AutocompleteItem>();
             foreach (var cmd in Commands)
-                foreach (var command in cmd.Commands)
-                    items.Add(new CommandAutocompleteItem(cmd.Key + ":" + command));
+                if (cmd == null)
+                    return;
+                else
+                    foreach (var command in cmd.Commands)
+                        items.Add(new CommandAutocompleteItem(cmd.Key + ":" + command));
             completemenu.SetAutocompleteMenu(tbcommand, completemenu);
             completemenu.SetAutocompleteItems(items);
         }

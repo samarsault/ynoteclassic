@@ -33,7 +33,7 @@ Screenshot
 
 Version
 ----
- 2.8.5 Build 484
+ 2.8.5 Build 520
 
 License
 ----

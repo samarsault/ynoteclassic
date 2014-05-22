@@ -843,6 +843,7 @@ namespace FastColoredTextBoxNS
             SetStyle(layer, regex);
         }
 
+
         /// <summary>
         ///     Set style for given regex pattern
         /// </summary>
@@ -1568,7 +1569,7 @@ namespace FastColoredTextBoxNS
                 End = new Place(End.iChar - 1, End.iLine);
         }
 
-        #endregion ColumnSelectionMode
+        #endregion
     }
 
     public struct RangeRect

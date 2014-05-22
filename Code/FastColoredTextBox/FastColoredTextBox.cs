@@ -4023,11 +4023,13 @@ namespace FastColoredTextBoxNS
             if (a.KeyCode == Keys.Tab && !AcceptsTab)
                 return false;
 
+
             if (macrosManager != null)
                 if (!HotkeysMapping.ContainsKey(keyData) ||
                     (HotkeysMapping[keyData] != FCTBAction.MacroExecute &&
                      HotkeysMapping[keyData] != FCTBAction.MacroRecord))
                     macrosManager.ProcessKey(keyData);
+
 
             if (HotkeysMapping.ContainsKey(keyData))
             {

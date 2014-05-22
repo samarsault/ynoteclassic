@@ -822,20 +822,6 @@ namespace SS.Ynote.Classic
             ActiveEditor.Tb.SelectedText = reversedCase;
         }
 
-        private void commentmenu_Popup(object sender, EventArgs e)
-        {
-            if (ActiveEditor != null && ActiveEditor.Tb.Text.Contains(ActiveEditor.Tb.CommentPrefix))
-            {
-                commentline.Enabled = false;
-                uncommentline.Enabled = true;
-            }
-            else
-            {
-                commentline.Enabled = true;
-                uncommentline.Enabled = false;
-            }
-        }
-
         private void Addbookmarkmenu_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null) ActiveEditor.Tb.Bookmarks.Add(ActiveEditor.Tb.Selection.Start.iLine);
@@ -937,15 +923,14 @@ namespace SS.Ynote.Classic
 
         private void mifullscreen_Click(object sender, EventArgs e)
         {
-            if (mifullscreen.Checked)
+            mifullscreen.Checked = !mifullscreen.Checked;
+            if (!mifullscreen.Checked)
             {
-                mifullscreen.Checked = false;
                 FormBorderStyle = FormBorderStyle.Sizable;
                 WindowState = FormWindowState.Normal;
             }
             else
             {
-                mifullscreen.Checked = true;
                 FormBorderStyle = FormBorderStyle.None;
                 WindowState = FormWindowState.Maximized;
             }
@@ -1826,7 +1811,6 @@ namespace SS.Ynote.Classic
             }
         }
 
-        #endregion
 
         private void misplitbelow_Click(object sender, EventArgs e)
         {
@@ -1872,14 +1856,16 @@ namespace SS.Ynote.Classic
         private void mimap_Click(object sender, EventArgs e)
         {
             mimap.Checked = !mimap.Checked;
-            foreach (DockContent content in dock.Documents)
-                if (content is Editor)
-                    (content as Editor).ShowDocumentMap = mimap.Checked;
+            foreach (Editor content in dock.Documents.OfType<Editor>())
+                content.ShowDocumentMap = mimap.Checked;
         }
 
         private void viewmenu_Select(object sender, EventArgs e)
         {
-            mimap.Checked = ActiveEditor.ShowDocumentMap;
+            if (ActiveEditor == null)
+                return;
+            mimap.Checked = Settings.ShowDocumentMap;
+            midistractionfree.Checked = ActiveEditor.DistractionFree;
         }
 
         private void menuItem5_Click(object sender, EventArgs e)
@@ -1888,5 +1874,31 @@ namespace SS.Ynote.Classic
             console.IsSnippetMode = true;
             console.ShowDialog(this);
         }
+
+        private void distractionfree_Click(object sender, EventArgs e)
+        {
+            if (Panel.ActiveDocument == null || !(Panel.ActiveDocument is Editor))
+                return;
+            // var dfree = new DistractionFree(ActiveEditor);
+            // dfree.Show(dock);
+            if (ActiveEditor.DistractionFree)
+            {
+                FormBorderStyle = FormBorderStyle.Sizable;
+                WindowState = FormWindowState.Normal;
+            }
+            else
+            {
+                FormBorderStyle = FormBorderStyle.None;
+                WindowState = FormWindowState.Maximized;
+            }
+            ActiveEditor.ToggleDistrationFreeMode();
+        }
+
+        private void commentmenu_Click(object sender, EventArgs e)
+        {
+            ActiveEditor.Tb.CommentSelected();
+        }
+
+        #endregion
     }
 }

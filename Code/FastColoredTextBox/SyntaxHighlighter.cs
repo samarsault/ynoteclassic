@@ -182,7 +182,6 @@ namespace FastColoredTextBoxNS
             if (Regex.IsMatch(e.LineText, @"^[^""']*\:"))
             {
                 e.ShiftNextLines = e.TabLength;
-                return;
             }
         }
     }

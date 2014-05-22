@@ -106,3 +106,15 @@ Build 463
 -> CoffeeScript Finalized
 -> Diff Finalized
 -> Objective C Finalized
+
+Build 508
+
+-> Added Distraction Free Mode
+
+Build 515
+
+-> Fixed Document Map Menu Checked Bug
+
+Build 521
+
+-> Added Extensible Commander Commands from $ynotedata\Commands Folder

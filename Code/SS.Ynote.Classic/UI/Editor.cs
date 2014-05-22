@@ -49,6 +49,7 @@ namespace SS.Ynote.Classic.UI
         {
             InitializeComponent();
             InitEvents();
+            codebox.Dock = DockStyle.Fill;
             Highlighter = new SyntaxHighlighter();
             YnoteThemeReader.ApplyTheme(Settings.ThemeFile, Highlighter, codebox);
             InitSettings();
@@ -71,12 +72,17 @@ namespace SS.Ynote.Classic.UI
             }
             set
             {
-                if (map == null) CreateDocumentMap();
+                if (value)
+                    if (map == null) CreateDocumentMap();
                 map.Visible = value;
                 Settings.ShowDocumentMap = value;
             }
         }
 
+        /// <summary>
+        ///     Whether the Current Document is in distractionfree mode or not
+        /// </summary>
+        public bool DistractionFree { get; set; }
 
         /// <summary>
         ///     Get the TB
@@ -225,6 +231,23 @@ namespace SS.Ynote.Classic.UI
                 autocomplete.Items.AddItem(new AutocompleteItem(word.Text));
             }
         }
+
+        public void ToggleDistrationFreeMode()
+        {
+            DistractionFree = !DistractionFree;
+            if (DistractionFree)
+            {
+                // etner distraction free
+                codebox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+                codebox.Height = Height;
+                codebox.Width = Width/2;
+                codebox.Dock = DockStyle.None;
+                BackColor = codebox.BackColor;
+            }
+            else
+                codebox.Dock = DockStyle.Fill;
+        }
+
 
         public void InsertSnippet(YnoteSnippet snippet)
         {

@@ -4,7 +4,7 @@
     ///     A Ynote Command which when executed
     ///     is stored in a YnoteCommand
     /// </summary>
-    internal interface ICommand
+    public interface ICommand
     {
         /// <summary>
         ///     Command Key eg : Macro
