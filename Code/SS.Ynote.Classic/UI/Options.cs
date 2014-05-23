@@ -54,6 +54,7 @@ namespace SS.Ynote.Classic.UI
             cbIME.Checked = Settings.IMEMode;
             cbBlockCursor.Checked = Settings.BlockCaret;
             cbTabs.Checked = Settings.UseTabs;
+            cbchangedline.Checked = Settings.ShowChangedLine;
             BuildEncodingList();
         }
 
@@ -339,6 +340,11 @@ namespace SS.Ynote.Classic.UI
 
             ynote.OpenFile(Settings.SettingsDir + "Settings.ini");
             Close();
+        }
+
+        private void cbchangedline_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.ShowChangedLine = cbchangedline.Checked;
         }
     }
 

@@ -177,6 +177,11 @@ public static class Settings
     internal static bool HighlightSameWords { get; set; }
 
     /// <summary>
+    ///     Whether to show Changed Line
+    /// </summary>
+    internal static bool ShowChangedLine { get; set; }
+
+    /// <summary>
     ///     Whether IME mode is on
     /// </summary>
     internal static bool IMEMode { get; set; }
@@ -222,6 +227,7 @@ public static class Settings
             ShowMenuBar = config.GetBoolean("MenuBar");
             BlockCaret = config.GetBoolean("BlockCaret");
             FontFamily = config.Get("FontFamily");
+            ShowChangedLine = config.GetBoolean("ChangedLine");
             WordWrap = config.GetBoolean("Wordwrap");
             FontSize = config.GetFloat("FontSize");
             HighlightSameWords = config.GetBoolean("HighlightSameWords");
@@ -262,6 +268,7 @@ public static class Settings
         config.Set("EnableVirtualSpace", EnableVirtualSpace);
         config.Set("HighlightFolding", HighlightFolding);
         config.Set("PaddingWidth", PaddingWidth);
+        config.Set("ChangedLine", ShowChangedLine);
         config.Set("LineInterval", LineInterval);
         config.Set("RecentFilesNo", RecentFileNumber);
         config.Set("StatusBar", ShowStatusBar);
@@ -299,6 +306,7 @@ public static class Settings
         config.Set("AutocompleteBrackets", true);
         config.Set("EnableVirtualSpace", false);
         config.Set("HighlightFolding", true);
+        config.Set("ChangedLine", false);
         config.Set("PaddingWidth", 18);
         config.Set("LineInterval", 0);
         config.Set("RecentFilesNo", 15);

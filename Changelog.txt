@@ -147,3 +147,7 @@ Build 588
 Build 590
 
 -> Fixed Ruby Auto Indent (else keyword)
+
+Build 605
+
+-> Added Option to show ChangedLine

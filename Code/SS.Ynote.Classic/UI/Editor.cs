@@ -51,7 +51,6 @@ namespace SS.Ynote.Classic.UI
             InitEvents();
             codebox.Dock = DockStyle.Fill;
             Highlighter = new SyntaxHighlighter();
-            YnoteThemeReader.ApplyTheme(Settings.ThemeFile, Highlighter, codebox);
             InitSettings();
             if (SyntaxHighlighter.LoadedSyntaxes.Any()) return;
             Highlighter.LoadAllSyntaxes();
@@ -132,6 +131,7 @@ namespace SS.Ynote.Classic.UI
 
         private void InitSettings()
         {
+            YnoteThemeReader.ApplyTheme(Settings.ThemeFile, Highlighter, codebox);
             codebox.AllowDrop = true;
             codebox.AutoCompleteBrackets = Settings.AutoCompleteBrackets;
             codebox.TabLength = Settings.TabSize;
@@ -152,6 +152,8 @@ namespace SS.Ynote.Classic.UI
             codebox.HotkeysMapping = HotkeysMapping.Parse(File.ReadAllText(Settings.SettingsDir + "User.ynotekeys"));
             if (Settings.IMEMode)
                 codebox.ImeMode = ImeMode.On;
+            if (Settings.ShowChangedLine)
+                codebox.ChangedLineColor = ControlPaint.LightLight(codebox.CurrentLineColor);
             if (Settings.ShowDocumentMap)
             {
                 CreateDocumentMap();

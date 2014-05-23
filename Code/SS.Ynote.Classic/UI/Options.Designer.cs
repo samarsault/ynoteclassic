@@ -121,6 +121,7 @@ namespace SS.Ynote.Classic.UI
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cbTabs = new System.Windows.Forms.CheckBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.cbchangedline = new System.Windows.Forms.CheckBox();
             this.tabcontrol.SuspendLayout();
             this.tabsettingpage.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -324,6 +325,7 @@ namespace SS.Ynote.Classic.UI
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.cbchangedline);
             this.groupBox7.Controls.Add(this.cbBlockCursor);
             this.groupBox7.Controls.Add(this.cbIME);
             this.groupBox7.Controls.Add(this.cbHighlightSameWords);
@@ -360,7 +362,7 @@ namespace SS.Ynote.Classic.UI
             // cbIME
             // 
             this.cbIME.AutoSize = true;
-            this.cbIME.Location = new System.Drawing.Point(193, 125);
+            this.cbIME.Location = new System.Drawing.Point(193, 149);
             this.cbIME.Name = "cbIME";
             this.cbIME.Size = new System.Drawing.Size(75, 17);
             this.cbIME.TabIndex = 23;
@@ -950,6 +952,17 @@ namespace SS.Ynote.Classic.UI
             this.linkLabel1.Text = "Edit Settings.ini File";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
+            // cbchangedline
+            // 
+            this.cbchangedline.AutoSize = true;
+            this.cbchangedline.Location = new System.Drawing.Point(193, 124);
+            this.cbchangedline.Name = "cbchangedline";
+            this.cbchangedline.Size = new System.Drawing.Size(136, 17);
+            this.cbchangedline.TabIndex = 25;
+            this.cbchangedline.Text = "Highlight Changed Line";
+            this.cbchangedline.UseVisualStyleBackColor = true;
+            this.cbchangedline.CheckedChanged += new System.EventHandler(this.cbchangedline_CheckedChanged);
+            // 
             // Options
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1084,5 +1097,6 @@ namespace SS.Ynote.Classic.UI
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.CheckBox cbTabs;
         private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.CheckBox cbchangedline;
     }
 }
