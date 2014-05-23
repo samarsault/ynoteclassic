@@ -6300,6 +6300,8 @@ namespace FastColoredTextBoxNS
         /// <returns></returns>
         private bool RemoveBrackets(Range sel)
         {
+            if (!AutoCompleteBrackets)
+                return false;
             for (int i = 1; i < autoCompleteBracketsList.Length; i += 2)
             {
                 if (sel.CharAfterStart == autoCompleteBracketsList[i] &&

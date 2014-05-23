@@ -286,7 +286,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                     break;
 
                 case Language.PHP:
-                    HighlightPHPHtml(args);
+                    HTMLPHPSyntaxHighlight(args);
                     break;
 
                 case Language.Lisp:
@@ -612,7 +612,8 @@ namespace SS.Ynote.Classic.Features.Syntax
         private Regex pyClassNameRegex;
 
         private Regex pyCommentRegex,
-            pyCommentRegex2;
+            pyCommentRegex2,
+            pyCommentRegex3;
 
         private Regex pyFunctionRegex;
 
@@ -975,12 +976,13 @@ namespace SS.Ynote.Classic.Features.Syntax
 
         private void InitPythonRegex()
         {
-            pyStringRegex = new Regex(@"""""|@""""|''|@"".*?""|(?<!@)(?<range>"".*?[^\\]"")|'.*?[^\\]'",
-                RegexCompiledOption);
             pyCommentRegex = new Regex(@"#.*$", RegexOptions.Multiline);
-            pyCommentRegex2 = new Regex(
-                "(\"\"\".*?\"\"\")|(.*\"\"\")|(\'\'\'.*?\'\'\')|(.*\'\'\')",
-                RegexOptions.Singleline | RegexOptions.RightToLeft | RegexOptions.Multiline);
+            pyCommentRegex2 = new Regex(@"("""""".*?"""""")|('''.*?''')|("""""".*)|('''.*)",
+                RegexOptions.Singleline | RegexCompiledOption);
+            pyCommentRegex3 = new Regex(@"("""""".*?"""""")|('''.*?''')|(.*"""""")|(.*''')",
+                RegexOptions.Singleline | RegexOptions.RightToLeft | RegexCompiledOption);
+
+            pyStringRegex = new Regex(@"""""|''|"".*?[^\\]""|'.*?[^\\]'", RegexCompiledOption);
             pyKeywordRegex =
                 new Regex(
                     @"\b(and|del|from|not|while|as|elif|global|or|with|assert|else|if|pass|yield|break|except|import|print|exec|in|raise|continue|finally|is|return|for|try)\b");
@@ -1005,11 +1007,12 @@ namespace SS.Ynote.Classic.Features.Syntax
             if (pyStringRegex == null)
                 InitPythonRegex();
             e.ChangedRange.tb.Range.ClearStyle(Comment, String);
-            e.ChangedRange.tb.Range.SetStyle(String, pyCommentRegex2);
-            e.ChangedRange.tb.Range.SetStyle(Comment, pyCommentRegex);
             e.ChangedRange.ClearStyle(String, ClassName, FunctionName, Keyword, Storage, Constant, LibraryClass,
-                LibraryFunction, Number, Punctuation);
-            e.ChangedRange.SetStyle(String, pyStringRegex);
+                LibraryFunction, Number);
+            e.ChangedRange.tb.Range.SetStyle(Comment, pyCommentRegex);
+            e.ChangedRange.tb.Range.SetStyle(String, pyStringRegex);
+            e.ChangedRange.tb.Range.SetStyle(String, pyCommentRegex2);
+            e.ChangedRange.tb.Range.SetStyle(String, pyCommentRegex3);
             e.ChangedRange.SetStyle(ClassName, pyClassNameRegex);
             e.ChangedRange.SetStyle(FunctionName, pyFunctionRegex);
             e.ChangedRange.SetStyle(Keyword, pyKeywordRegex);
@@ -1018,7 +1021,6 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.SetStyle(LibraryClass, pyLibClassName);
             e.ChangedRange.SetStyle(LibraryFunction, pyLibFunctionRegex);
             e.ChangedRange.SetStyle(Number, pyNumberRegex);
-            e.ChangedRange.SetStyle(Punctuation, @"\!|\:|\+|=|\-|\*|@|\.|\=");
             PythonFold(e.ChangedRange.tb);
         }
 
@@ -1166,7 +1168,7 @@ namespace SS.Ynote.Classic.Features.Syntax
                         ",
                 RegexOptions.ExplicitCapture | RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace |
                 RegexCompiledOption
-                )); //TODO: Add Def Keyword
+                ));
             e.ChangedRange.SetStyle(Variable, @"\$[a-zA-Z_\d]*\b|@[a-zA-Z_\d]*\b|\b(__(FILE|LINE)__|self)\b",
                 RegexCompiledOption);
             e.ChangedRange.SetStyle(Keyword,
@@ -1308,8 +1310,8 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.CommentPrefix = "//";
             e.ChangedRange.tb.LeftBracket = '(';
             e.ChangedRange.tb.RightBracket = ')';
-            e.ChangedRange.tb.LeftBracket2 = '[';
-            e.ChangedRange.tb.RightBracket2 = ']';
+            e.ChangedRange.tb.LeftBracket2 = '{';
+            e.ChangedRange.tb.RightBracket2 = '}';
             e.ChangedRange.tb.Range.ClearStyle(Comment);
             //clear style of changed range
             e.ChangedRange.ClearStyle(Number, Variable, Constant, Keyword, Storage, Punctuation, LibraryFunction);
@@ -1343,14 +1345,13 @@ namespace SS.Ynote.Classic.Features.Syntax
             // TODO : Add Class Name and Function Name Highlighting
         }
 
-        private void HighlightPHPHtml(TextChangedEventArgs e)
+        private void HTMLPHPSyntaxHighlight(TextChangedEventArgs e)
         {
-            //TODO: Bug when highlight file with only <? tag (opening) and not closing
             HTMLSyntaxHighlight(e);
-            foreach (var r in e.ChangedRange.tb.GetRanges(@"(<\?.*?.*?\?>)", RegexOptions.Singleline))
+            foreach (var r in e.ChangedRange.tb.GetRanges(@"(<\?.*?.*?\?>)|(<\?.*?.*)", RegexOptions.Singleline))
             {
                 //remove HTML highlighting from this fragment
-                r.ClearStyle(StyleIndex.All);
+                r.ClearStyle(TagName, TagBracket, AttributeName, AttributeValue, Comment, Constant);
                 //do PHP highlighting
                 PHPSyntaxHighlight(new TextChangedEventArgs(r));
             }
@@ -1362,18 +1363,16 @@ namespace SS.Ynote.Classic.Features.Syntax
             foreach (var range in e.ChangedRange.tb.GetRanges(@"(<style.*?>.*?</style>)", RegexOptions.Singleline))
             {
                 //remove HTML and JS from this fragment
-                range.ClearStyle(Comment, TagBracket, AttributeName, AttributeValue,
-                    Constant, String, Number, Keyword, ClassName, //TODO:Check if have to remove any other style
-                    FunctionName, Punctuation);
+                range.ClearStyle(Comment, TagBracket, AttributeName, AttributeValue, Keyword, Number, Constant, Storage,
+                    FunctionName, ClassName, LibraryClass, LibraryFunction, Punctuation);
                 //do CSS highlighting
                 CssHighlight(new TextChangedEventArgs(range));
             }
             foreach (var r in e.ChangedRange.tb.GetRanges(@"(<script.*?>.*?</script>)", RegexOptions.Singleline))
             {
                 //remove HTML and CSS highlighting from this fragment
-                r.ClearStyle(Comment, TagBracket,
-                    Constant, CSSProperty, CSSSelector, CSSPropertyValue,
-                    Number);
+                r.ClearStyle(Comment, TagBracket, AttributeName, AttributeValue, Number, Constant, CSSProperty,
+                    CSSPropertyValue, CSSSelector);
                 //do javascript highlighting
                 JScriptSyntaxHighlight(new TextChangedEventArgs(r));
             }
@@ -1562,7 +1561,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.SetStyle(Storage, @"\b(var|function)\b");
             e.ChangedRange.SetStyle(LibraryFunction, _jscriptLibraryFunction);
             e.ChangedRange.SetStyle(LibraryClass, _jScriptLibraryClass);
-            e.ChangedRange.SetStyle(Constant, @"\b(true|false|null)\b");
+            e.ChangedRange.SetStyle(Constant, @"\b(true|false|null|this)\b");
             e.ChangedRange.SetStyle(Punctuation, @"\;|\,|<|>|-|\$|=|\!|\.|\?|\*|\&|\#|\^");
             //clear folding markers
             e.ChangedRange.ClearFoldingMarkers();
@@ -1584,8 +1583,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.tb.RightBracket2 = ')';
             e.ChangedRange.tb.Range.ClearStyle(Comment);
             //clear style of changed range
-            e.ChangedRange.ClearStyle(Comment, TagBracket, TagName, AttributeName, AttributeValue,
-                Constant);
+            e.ChangedRange.ClearStyle(Comment, TagBracket, TagName, AttributeName, AttributeValue, Constant);
             //
             if (_htmlTagRegex == null)
                 InitHtmlRegex();
@@ -1615,6 +1613,7 @@ namespace SS.Ynote.Classic.Features.Syntax
             e.ChangedRange.SetFoldingMarkers("<div", "</div>", RegexOptions.IgnoreCase);
             e.ChangedRange.SetFoldingMarkers("<script", "</script>", RegexOptions.IgnoreCase);
             e.ChangedRange.SetFoldingMarkers("<tr", "</tr>", RegexOptions.IgnoreCase);
+            e.ChangedRange.SetFoldingMarkers("<style", "</style>", RegexOptions.IgnoreCase);
         }
 
         private void InitVBRegex()

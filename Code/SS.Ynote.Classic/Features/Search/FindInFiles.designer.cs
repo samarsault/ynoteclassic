@@ -31,7 +31,6 @@
             this.cbsubdir = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.tbReplace = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.cbCase = new System.Windows.Forms.CheckBox();
             this.cbRegex = new System.Windows.Forms.CheckBox();
@@ -42,7 +41,8 @@
             this.tbdir = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.tbFind = new System.Windows.Forms.TextBox();
+            this.tbFind = new System.Windows.Forms.ComboBox();
+            this.tbReplace = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // cbsubdir
@@ -78,15 +78,6 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // tbReplace
-            // 
-            this.tbReplace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbReplace.Location = new System.Drawing.Point(86, 60);
-            this.tbReplace.Name = "tbReplace";
-            this.tbReplace.Size = new System.Drawing.Size(280, 20);
-            this.tbReplace.TabIndex = 45;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -121,7 +112,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(35, 113);
+            this.label8.Location = new System.Drawing.Point(35, 120);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(38, 13);
             this.label8.TabIndex = 41;
@@ -131,7 +122,7 @@
             // 
             this.tbFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbFilter.Location = new System.Drawing.Point(86, 112);
+            this.tbFilter.Location = new System.Drawing.Point(86, 117);
             this.tbFilter.Name = "tbFilter";
             this.tbFilter.Size = new System.Drawing.Size(89, 20);
             this.tbFilter.TabIndex = 40;
@@ -151,7 +142,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(276, 84);
+            this.button1.Location = new System.Drawing.Point(276, 88);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(30, 23);
             this.button1.TabIndex = 38;
@@ -163,7 +154,7 @@
             // 
             this.tbdir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbdir.Location = new System.Drawing.Point(86, 86);
+            this.tbdir.Location = new System.Drawing.Point(86, 91);
             this.tbdir.Name = "tbdir";
             this.tbdir.Size = new System.Drawing.Size(184, 20);
             this.tbdir.TabIndex = 37;
@@ -172,7 +163,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(22, 89);
+            this.label5.Location = new System.Drawing.Point(22, 94);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(58, 13);
             this.label5.TabIndex = 36;
@@ -189,23 +180,31 @@
             // 
             // tbFind
             // 
-            this.tbFind.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbFind.Location = new System.Drawing.Point(86, 12);
+            this.tbFind.FormattingEnabled = true;
+            this.tbFind.Location = new System.Drawing.Point(86, 15);
             this.tbFind.Name = "tbFind";
-            this.tbFind.Size = new System.Drawing.Size(280, 20);
-            this.tbFind.TabIndex = 34;
+            this.tbFind.Size = new System.Drawing.Size(280, 21);
+            this.tbFind.TabIndex = 49;
             this.tbFind.KeyDown += tbFind_KeyDown;
+            // 
+            // tbReplace
+            // 
+            this.tbReplace.FormattingEnabled = true;
+            this.tbReplace.Location = new System.Drawing.Point(86, 61);
+            this.tbReplace.Name = "tbReplace";
+            this.tbReplace.Size = new System.Drawing.Size(280, 21);
+            this.tbReplace.TabIndex = 50;
             // 
             // FindInFiles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(413, 189);
+            this.Controls.Add(this.tbReplace);
+            this.Controls.Add(this.tbFind);
             this.Controls.Add(this.cbsubdir);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.tbReplace);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.cbCase);
             this.Controls.Add(this.cbRegex);
@@ -216,7 +215,6 @@
             this.Controls.Add(this.tbdir);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.tbFind);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FindInFiles";
             this.Text = "Find In Files";
@@ -231,7 +229,6 @@
         private System.Windows.Forms.CheckBox cbsubdir;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox tbReplace;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox cbCase;
         private System.Windows.Forms.CheckBox cbRegex;
@@ -242,7 +239,8 @@
         private System.Windows.Forms.TextBox tbdir;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox tbFind;
+        private System.Windows.Forms.ComboBox tbFind;
+        private System.Windows.Forms.ComboBox tbReplace;
 
     }
 }

@@ -447,15 +447,18 @@ namespace SS.Ynote.Classic
         {
             Settings.Load();
             if (!Settings.ShowMenuBar)
-            {
-                foreach (MenuItem menu in Menu.MenuItems)
-                    menu.Visible = false;
-            }
+                ToggleMenu(false);
             dock.DocumentStyle = Settings.DocumentStyle;
             dock.DocumentTabStripLocation = Settings.TabLocation;
             mihiddenchars.Checked = Settings.HiddenChars;
             status.Visible = statusbarmenuitem.Checked = Settings.ShowStatusBar;
-            toolBar.Visible = menuItem2.Checked = Settings.ShowToolBar;
+            toolBar.Visible = mitoolbar.Checked = Settings.ShowToolBar;
+        }
+
+        private void ToggleMenu(bool visible)
+        {
+            foreach (MenuItem menu in Menu.MenuItems)
+                menu.Visible = visible;
         }
 
         /// <summary>
@@ -528,6 +531,7 @@ namespace SS.Ynote.Classic
         protected override void OnClosing(CancelEventArgs e)
         {
             SaveRecentFiles();
+            Settings.Save();
 #if DEVBUILD
             File.WriteAllText(Application.StartupPath + "\\Build.number", Settings.BuildNumber.ToString());
 #endif
@@ -939,9 +943,10 @@ namespace SS.Ynote.Classic
         private void wordwrapmenu_Click(object sender, EventArgs e)
         {
             wordwrapmenu.Checked = !wordwrapmenu.Checked;
-            ActiveEditor.Tb.WordWrap = wordwrapmenu.Checked;
+            foreach (var document in dock.Documents)
+                if (document is Editor)
+                    (document as Editor).Tb.WordWrap = wordwrapmenu.Checked;
             Settings.WordWrap = wordwrapmenu.Checked;
-            Settings.Save();
         }
 
         private void aboutmenu_Click(object sender, EventArgs e)
@@ -1068,12 +1073,11 @@ namespace SS.Ynote.Classic
             }
         }
 
-        private void menuItem2_Click(object sender, EventArgs e)
+        private void mitoolbar_Click(object sender, EventArgs e)
         {
-            menuItem2.Checked = !menuItem2.Checked;
-            toolBar.Visible = menuItem2.Checked;
-            Settings.ShowToolBar = menuItem2.Checked;
-            Settings.Save();
+            mitoolbar.Checked = !mitoolbar.Checked;
+            toolBar.Visible = mitoolbar.Checked;
+            Settings.ShowToolBar = mitoolbar.Checked;
         }
 
         private void statusbarmenuitem_Click(object sender, EventArgs e)
@@ -1081,7 +1085,6 @@ namespace SS.Ynote.Classic
             status.Visible = !statusbarmenuitem.Checked;
             statusbarmenuitem.Checked = !statusbarmenuitem.Checked;
             Settings.ShowStatusBar = statusbarmenuitem.Checked;
-            Settings.Save();
         }
 
         private void incrementalsearchmenu_Click(object sender, EventArgs e)
@@ -1147,7 +1150,6 @@ namespace SS.Ynote.Classic
             if (m == null) return;
             m.Checked = true;
             Settings.ThemeFile = m.Name;
-            Settings.Save();
         }
 
         private void colorschememenu_Select(object sender, EventArgs e)
@@ -1388,7 +1390,6 @@ namespace SS.Ynote.Classic
         {
             mihiddenchars.Checked = !mihiddenchars.Checked;
             Settings.HiddenChars = mihiddenchars.Checked; // If hiddenchars is checked
-            Settings.Save();
         }
 
         private void removelinemenu_Click(object sender, EventArgs e)
@@ -1866,6 +1867,9 @@ namespace SS.Ynote.Classic
                 return;
             mimap.Checked = Settings.ShowDocumentMap;
             midistractionfree.Checked = ActiveEditor.DistractionFree;
+            wordwrapmenu.Checked = Settings.WordWrap;
+            mimenu.Checked = Settings.ShowMenuBar;
+            mihiddenchars.Checked = Settings.HiddenChars;
         }
 
         private void menuItem5_Click(object sender, EventArgs e)
@@ -1879,9 +1883,8 @@ namespace SS.Ynote.Classic
         {
             if (Panel.ActiveDocument == null || !(Panel.ActiveDocument is Editor))
                 return;
-            // var dfree = new DistractionFree(ActiveEditor);
-            // dfree.Show(dock);
-            if (ActiveEditor.DistractionFree)
+            ActiveEditor.ToggleDistrationFreeMode();
+            if (!ActiveEditor.DistractionFree)
             {
                 FormBorderStyle = FormBorderStyle.Sizable;
                 WindowState = FormWindowState.Normal;
@@ -1891,7 +1894,6 @@ namespace SS.Ynote.Classic
                 FormBorderStyle = FormBorderStyle.None;
                 WindowState = FormWindowState.Maximized;
             }
-            ActiveEditor.ToggleDistrationFreeMode();
         }
 
         private void commentmenu_Click(object sender, EventArgs e)
@@ -1900,5 +1902,12 @@ namespace SS.Ynote.Classic
         }
 
         #endregion
+
+        private void mimenu_Click(object sender, EventArgs e)
+        {
+            mimenu.Checked = !mimenu.Checked;
+            ToggleMenu(mimenu.Checked);
+            Settings.ShowMenuBar = mimenu.Checked;
+        }
     }
 }

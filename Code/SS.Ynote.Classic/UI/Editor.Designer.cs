@@ -67,7 +67,7 @@
             this.codebox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(180)))));
             this.codebox.Hotkeys = resources.GetString("codebox.Hotkeys");
             this.codebox.IsReplaceMode = false;
-            this.codebox.Location = new System.Drawing.Point(110, 0);
+            this.codebox.Location = new System.Drawing.Point(179, -1);
             this.codebox.Name = "codebox";
             this.codebox.Paddings = new System.Windows.Forms.Padding(0);
             this.codebox.SameWordsStyle = null;

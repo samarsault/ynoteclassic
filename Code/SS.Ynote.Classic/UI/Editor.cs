@@ -195,8 +195,6 @@ namespace SS.Ynote.Classic.UI
                     e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
             codebox.KeyDown += codebox_KeyDown;
             codebox.LanguageChanged += (sender, args) => LoadSnippets(codebox.Language);
-            // if (Settings.AutoCompleteBrackets)
-            //  codebox.AutoIndentNeeded += codebox_AutoIndentNeeded;
             if (Settings.HighlightSameWords)
                 codebox.SelectionChangedDelayed += codebox_SelectionChangedDelayed;
         }
@@ -314,10 +312,10 @@ namespace SS.Ynote.Classic.UI
         }
 
         /// <summary>
-        ///     Do MISC Formatting
+        ///     Highlights Invisble Characters
         /// </summary>
         /// <param name="r"></param>
-        private void DoFormatting(Range r)
+        private void HighlightInvisbleCharacters(Range r)
         {
             if (!Settings.HiddenChars) return;
             if (_invisibleCharsStyle == null)
@@ -332,7 +330,7 @@ namespace SS.Ynote.Classic.UI
                 Highlighter.HighlightSyntax(codebox.Language, e);
             else
                 Highlighter.HighlightSyntax(Syntax, e);
-            DoFormatting(e.ChangedRange);
+            HighlightInvisbleCharacters(e.ChangedRange);
             if (codebox.IsChanged && !Text.Contains("*"))
                 Text += "*";
         }

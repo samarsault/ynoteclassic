@@ -150,53 +150,6 @@ namespace FastColoredTextBoxNS
             ResetSerach();
         }
 
-        /*
-             private Range _originalSelection;
-          private void FindNextInSelection(string pattern)
-             {
-                 try
-                 {
-                     var opt = cbMatchCase.Checked ? RegexOptions.None : RegexOptions.IgnoreCase;
-                     if (!cbRegex.Checked)
-                         pattern = Regex.Escape(pattern);
-                     if (cbWholeWord.Checked)
-                         pattern = "\\b" + pattern + "\\b";
-                     //
-                     var range = tb.Selection;
-                     //
-                     if (_firstSearch)
-                     {
-                         _originalSelection = range;
-                         _startPlace = range.Start;
-                         _firstSearch = false;
-                     }
-                     else
-                     {
-                         range.Start = range.End;
-                         range.End = range.Start >= _startPlace ? new Place(tb.GetLineLength(tb.LinesCount - 1), tb.LinesCount - 1) : _startPlace;
-                     }
-                     foreach (var r in range.GetRanges(pattern, opt))
-                     {
-                         tb.Selection = r;
-                         tb.DoSelectionVisible();
-                         tb.Invalidate();
-                         return;
-                     }
-                     //
-                     if (range.Start >= _startPlace && _startPlace > Place.Empty)
-                     {
-                         tb.Selection = _originalSelection;
-                         FindNextInSelection(pattern);
-                         return;
-                     }
-                     MessageBox.Show("Not found");
-                 }
-                 catch (Exception ex)
-                 {
-                     MessageBox.Show(ex.Message);
-                 }
-             }*/
-
         private List<Range> FindAll(string pattern)
         {
             var opt = cbMatchCase.Checked ? RegexOptions.None : RegexOptions.IgnoreCase;
@@ -307,5 +260,56 @@ namespace FastColoredTextBoxNS
             }
             tb.Selection.EndUpdate();
         }
+
+        #region Find In Selection
+
+        /*
+             private Range _originalSelection;
+          private void FindNextInSelection(string pattern)
+             {
+                 try
+                 {
+                     var opt = cbMatchCase.Checked ? RegexOptions.None : RegexOptions.IgnoreCase;
+                     if (!cbRegex.Checked)
+                         pattern = Regex.Escape(pattern);
+                     if (cbWholeWord.Checked)
+                         pattern = "\\b" + pattern + "\\b";
+                     //
+                     var range = tb.Selection;
+                     //
+                     if (_firstSearch)
+                     {
+                         _originalSelection = range;
+                         _startPlace = range.Start;
+                         _firstSearch = false;
+                     }
+                     else
+                     {
+                         range.Start = range.End;
+                         range.End = range.Start >= _startPlace ? new Place(tb.GetLineLength(tb.LinesCount - 1), tb.LinesCount - 1) : _startPlace;
+                     }
+                     foreach (var r in range.GetRanges(pattern, opt))
+                     {
+                         tb.Selection = r;
+                         tb.DoSelectionVisible();
+                         tb.Invalidate();
+                         return;
+                     }
+                     //
+                     if (range.Start >= _startPlace && _startPlace > Place.Empty)
+                     {
+                         tb.Selection = _originalSelection;
+                         FindNextInSelection(pattern);
+                         return;
+                     }
+                     MessageBox.Show("Not found");
+                 }
+                 catch (Exception ex)
+                 {
+                     MessageBox.Show(ex.Message);
+                 }
+             }*/
+
+        #endregion
     }
 }

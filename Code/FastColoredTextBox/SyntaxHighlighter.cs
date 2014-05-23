@@ -5,7 +5,7 @@ namespace FastColoredTextBoxNS
     internal class SyntaxHighlighter
     {
         //styles
-        protected static readonly Platform platformType = PlatformType.GetOperationSystemPlatform();
+        private static readonly Platform platformType = PlatformType.GetOperationSystemPlatform();
 
         public static RegexOptions RegexCompiledOption
         {
@@ -50,13 +50,19 @@ namespace FastColoredTextBoxNS
                 case Language.Python:
                     PythonAutoIndentNeeded(sender, args);
                     break;
+                case Language.Ruby:
+                    RubyAutoIndentNeeded(sender, args);
+                    break;
+                case Language.Lua:
+                    LuaAutoIndentNeeded(sender, args);
+                    break;
                 default:
                     CSharpAutoIndentNeeded(sender, args);
                     break;
             }
         }
 
-        protected void PHPAutoIndentNeeded(object sender, AutoIndentEventArgs args)
+        private void PHPAutoIndentNeeded(object sender, AutoIndentEventArgs args)
         {
             /*
             FastColoredTextBox tb = sender as FastColoredTextBox;
@@ -85,19 +91,19 @@ namespace FastColoredTextBoxNS
                 }
         }
 
-        protected void SQLAutoIndentNeeded(object sender, AutoIndentEventArgs args)
+        private void SQLAutoIndentNeeded(object sender, AutoIndentEventArgs args)
         {
             var tb = sender as FastColoredTextBox;
             tb.CalcAutoIndentShiftByCodeFolding(sender, args);
         }
 
-        protected void HTMLAutoIndentNeeded(object sender, AutoIndentEventArgs args)
+        private void HTMLAutoIndentNeeded(object sender, AutoIndentEventArgs args)
         {
             var tb = sender as FastColoredTextBox;
             tb.CalcAutoIndentShiftByCodeFolding(sender, args);
         }
 
-        protected void VBAutoIndentNeeded(object sender, AutoIndentEventArgs args)
+        private void VBAutoIndentNeeded(object sender, AutoIndentEventArgs args)
         {
             //end of block
             if (Regex.IsMatch(args.LineText, @"^\s*(End|EndIf|Next|Loop)\b", RegexOptions.IgnoreCase))
@@ -138,7 +144,7 @@ namespace FastColoredTextBoxNS
             }
         }
 
-        protected void CSharpAutoIndentNeeded(object sender, AutoIndentEventArgs args)
+        private void CSharpAutoIndentNeeded(object sender, AutoIndentEventArgs args)
         {
             //block {}
             if (Regex.IsMatch(args.LineText, @"^[^""']*\{.*\}[^""']*$"))
@@ -177,11 +183,55 @@ namespace FastColoredTextBoxNS
                 }
         }
 
-        protected void PythonAutoIndentNeeded(object sender, AutoIndentEventArgs e)
+        private void PythonAutoIndentNeeded(object sender, AutoIndentEventArgs e)
         {
             if (Regex.IsMatch(e.LineText, @"^[^""']*\:"))
             {
                 e.ShiftNextLines = e.TabLength;
+            }
+        }
+
+        private void RubyAutoIndentNeeded(object sender, AutoIndentEventArgs args)
+        {
+            if (Regex.IsMatch(args.LineText, @"^\s*(end)\b"))
+            {
+                args.Shift = -args.TabLength;
+                args.ShiftNextLines = -args.TabLength;
+                return;
+            }
+            if (Regex.IsMatch(args.LineText, @"\b(then)\s*\S+"))
+                return;
+            if (Regex.IsMatch(args.LineText, @"^\s*(else|elsif)\b", RegexOptions.IgnoreCase))
+            {
+                args.Shift = -args.TabLength;
+                return;
+            }
+            if (Regex.IsMatch(args.LineText, @"\b(def|if|for|class|case|when)\b"))
+            {
+                args.ShiftNextLines = args.TabLength;
+            }
+        }
+
+        private void LuaAutoIndentNeeded(object sender, AutoIndentEventArgs args)
+        {
+            if (Regex.IsMatch(args.LineText, @"^\s*(end)\b"))
+            {
+                args.Shift = -args.TabLength;
+                args.ShiftNextLines = -args.TabLength;
+                return;
+            }
+
+            if (Regex.IsMatch(args.LineText, @"\b(then)\s*\S+"))
+                return;
+            //Statements else, elseif, case etc
+            if (Regex.IsMatch(args.LineText, @"^\s*(else|elseif)\b"))
+            {
+                args.Shift = -args.TabLength;
+                return;
+            }
+            if (Regex.IsMatch(args.LineText, @"\b(function|if|for|do)\b"))
+            {
+                args.ShiftNextLines = args.TabLength;
             }
         }
     }

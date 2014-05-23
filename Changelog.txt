@@ -118,3 +118,32 @@ Build 515
 Build 521
 
 -> Added Extensible Commander Commands from $ynotedata\Commands Folder
+
+Build 558
+
+-> Fixed Python String Bug
+
+Build 562
+
+-> Added Ruby Auto Indent
+
+Build 565
+
+-> Fixed Distraction Free mode Bug
+-> Code Alignment in more center
+
+Build 570
+
+-> Added Show Menu item From View Menu
+
+Build 585
+
+-> Fixed PHP Syntax Highlight only start tag ( '<?' ) bug
+
+Build 588
+
+-> Added Lua Auto indent
+
+Build 590
+
+-> Fixed Ruby Auto Indent (else keyword)
