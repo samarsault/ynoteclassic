@@ -188,6 +188,9 @@ namespace SS.Ynote.Classic.Features.Syntax
                 case "LibraryFunction":
                     sh.LibraryFunction = tcstyle;
                     break;
+                case "DoctypeDeclaration":
+                    sh.DoctypeDeclaration = tcstyle;
+                    break;
             }
         }
 

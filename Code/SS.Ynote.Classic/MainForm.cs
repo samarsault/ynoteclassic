@@ -1901,13 +1901,13 @@ namespace SS.Ynote.Classic
             ActiveEditor.Tb.CommentSelected();
         }
 
-        #endregion
-
         private void mimenu_Click(object sender, EventArgs e)
         {
             mimenu.Checked = !mimenu.Checked;
             ToggleMenu(mimenu.Checked);
             Settings.ShowMenuBar = mimenu.Checked;
         }
+
+        #endregion
     }
 }

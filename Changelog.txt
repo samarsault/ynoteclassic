@@ -151,3 +151,19 @@ Build 590
 Build 605
 
 -> Added Option to show ChangedLine
+
+Build 610
+
+-> Added HTML Doctype/Xml Highlight
+
+Build 615
+
+-> Added Tcl Highlighting
+
+Build 629
+
+-> Added Better C++ Highlighting
+
+Build 635
+
+-> Performance Improvements in Program.cs, Removed LINQ expression which took more time

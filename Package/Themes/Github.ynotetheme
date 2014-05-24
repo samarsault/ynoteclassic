@@ -38,6 +38,11 @@
     Color="#121289"
     Font="Regular" />
   <Style
+    Name="DoctypeDeclaration"
+    Color="#000000"
+    Font="Bold"
+  />
+  <Style
     Name="ClassName"
     Color="#445588"
     Font="Regular" />

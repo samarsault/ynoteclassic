@@ -9,6 +9,7 @@
   <Style Name="Constant" Color="#CF6A4C" Font="Regular" />
   <Style Name="Storage" Color="#F9EE98" Font="Regular" />
   <Style Name="TagBracket" Color="#F9EE98" Font="Regular" />
+  <Style Name="DoctypeDeclaration" Color="#CDA869" Font="Regular"/>
   <Style Name="TagName" Color="#F9EE98" Font="Regular" />
   <Style Name="ClassName" Color="#9B703F" Font="Bold" />
   <Style Name="FunctionName" Color="#9B703F" Font="Regular" />

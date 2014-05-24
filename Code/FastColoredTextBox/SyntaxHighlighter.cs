@@ -276,6 +276,7 @@ namespace FastColoredTextBoxNS
         Ruby,
         Scala,
         ShellScript,
+        Tcl,
         QBasic,
         VB,
         Xml,

@@ -1,4 +1,11 @@
+// =================================================
+//
+//  Ynote Classic Syntax Highlighter
+//  http://ynoteclassic.codeplex.com
+//
+// =================================================
 using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace SS.Ynote.Classic
@@ -13,7 +20,11 @@ namespace SS.Ynote.Classic
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(args.Length != 0 ? new MainForm(args[0]) : new MainForm(null));
+           // Application.Run(args.Length != 0 ? new MainForm(args[0]) : new MainForm(null));
+            if (args.Length == 0)
+                Application.Run(new MainForm(null));
+            else
+                Application.Run(new MainForm(args[0]));
         }
     }
 }

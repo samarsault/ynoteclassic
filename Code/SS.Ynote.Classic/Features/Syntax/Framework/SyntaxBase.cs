@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 namespace SS.Ynote.Classic.Features.Syntax
 {
@@ -21,6 +22,14 @@ namespace SS.Ynote.Classic.Features.Syntax
         {
             Rules = new List<SyntaxRule>();
             FoldingRules = new List<FoldingRule>();
+        }
+
+        /// <summary>
+        ///     Name of the Syntax
+        /// </summary>
+        internal string Name
+        {
+            get { return Path.GetFileNameWithoutExtension(SysPath); }
         }
 
         internal string SysPath { get; set; }

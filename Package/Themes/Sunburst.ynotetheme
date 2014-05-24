@@ -11,6 +11,10 @@
   <Style Name="Constant" Color="#3387CC" Font="Regular" />
   <Style Name="TagBracket" Color="#89BDFF" Font="Regular" />
   <Style Name="TagName" Color="#89BDFF" Font="Regular" />
+    <Style
+    Name="DoctypeDeclaration"
+    Color="E28964"
+    Font="Regular" />
   <Style Name="ClassName" Color="#89BDFF" Font="Regular" />
   <Style Name="FunctionName" Color="#89BDFF" Font="Regular" />
   <Style Name="FunctionArgument" Color="#9B5C2E" Font="Italic" />

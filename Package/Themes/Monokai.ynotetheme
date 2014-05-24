@@ -85,6 +85,10 @@
     Name="LibraryFunction"
     Color="#66D9EF"
     Font="Regular" />
+  <Style
+    Name="DoctypeDeclaration"
+    Color="#F92672"
+    Font="Regular" />
   <Key
     Name="Background"
     Value="#272822" />
