@@ -1,4 +1,5 @@
 ﻿#define Styles32
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -222,6 +223,11 @@ namespace FastColoredTextBoxNS
         {
             get { return autoCompleteBracketsList; }
             set { autoCompleteBracketsList = value; }
+        }
+
+        public Regex ClassNameRegex
+        {
+            get { return GetClassNameRegex(); }
         }
 
         /// <summary>
@@ -2253,6 +2259,79 @@ namespace FastColoredTextBoxNS
 
         #endregion Nested type: LineYComparer
 
+        private Regex GetClassNameRegex()
+        {
+            Regex re = null;
+            switch (Language)
+            {
+                case Language.CSharp:
+                    re = new Regex(@"\b(class|struct|enum|interface|void)\s+(?<range>\w+?)\b");
+                    break;
+
+                case Language.C:
+                    re = new Regex(@"\b(class|struct|enum|interface|void|int|bool)\s+(?<range>\w+?)\b");
+                    break;
+
+                case Language.CPP:
+                    re = new Regex(@"\b(class|struct|enum|interface|void|int|bool)\s+(?<range>\w+?)\b");
+                    break;
+
+                case Language.VB:
+                    re = new Regex(@"\b(Class|Sub|Interface)\s+(?<range>\w+?)\b", RegexOptions.IgnoreCase);
+                    break;
+
+                case Language.D:
+                    re = new Regex(@"\b(void|int)\s+(?<range>\w+?)\b");
+                    break;
+
+                case Language.Lua:
+                    re = new Regex(@"\b(function)\s+(?<range>\w+?)\b");
+                    break;
+
+                case Language.Python:
+                    re = new Regex(@"\b(class|def)\s+(?<range>\w+?)\b");
+                    break;
+
+                case Language.Ruby:
+                    re = new Regex(@"\b(class|def)\s+(?<range>\w+?)\b");
+                    break;
+
+                case Language.PHP:
+                    re = new Regex(@"\b(class|function)\s+(?<range>\w+?)\b");
+                    break;
+
+                case Language.Lisp:
+                    re = new Regex(@"\b(defun|defmethod|defmacro|defvar|defconst)\s+(?<range>\w+)\b");
+                    break;
+
+                case Language.Java:
+                    re = new Regex(@"\b(class|void|enum|interface)\s+(?<range>\w+?)\b");
+                    break;
+
+                case Language.Javascript:
+                    re = new Regex(@"\b(function|var)\s+(?<range>\w+?)\b");
+                    break;
+
+                case Language.FSharp:
+                    re = new Regex(@"\b(class|struct|enum|interface)\s+(?<range>\w+?)\b");
+                    break;
+
+                case Language.Xml:
+                    re = new Regex(@"<(?<range>[!\w:]+)");
+                    break;
+                case Language.Actionscript:
+                    re = new Regex(@"\b(function|class)\s+(?<range>\w+?)\b");
+                    break;
+                case Language.Pascal:
+                    re = new Regex(@"\b(function|procedure)\s+(?<range>\w+?)\b", RegexOptions.IgnoreCase);
+                    break;
+                case Language.Perl:
+                    re = new Regex(@"\b(sub|package)\s+(?<range>\w+?)\b");
+                    break;
+            }
+            return re;
+        }
+
         public event EventHandler LanguageChanged;
 
         /// <summary>
@@ -4023,13 +4102,11 @@ namespace FastColoredTextBoxNS
             if (a.KeyCode == Keys.Tab && !AcceptsTab)
                 return false;
 
-
             if (macrosManager != null)
                 if (!HotkeysMapping.ContainsKey(keyData) ||
                     (HotkeysMapping[keyData] != FCTBAction.MacroExecute &&
                      HotkeysMapping[keyData] != FCTBAction.MacroRecord))
                     macrosManager.ProcessKey(keyData);
-
 
             if (HotkeysMapping.ContainsKey(keyData))
             {
@@ -8292,6 +8369,7 @@ window.status = ""#print"";
     }
 
 #if Styles32
+
     /// <summary>
     ///     Style index mask (32 styles)
     /// </summary>
@@ -8335,6 +8413,7 @@ window.status = ""#print"";
 
         All = 0xffffffff
     }
+
 #else
 
     /// <summary>

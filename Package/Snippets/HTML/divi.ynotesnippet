@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<YnoteSnippet>
-  <name>Div Id</name>
-  <description>Inserts a Div Snippet with Id</description>
-  <content><![CDATA[<div id="^"></div>]]></content>
-  <tabTrigger>divi</tabTrigger>
-</YnoteSnippet>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+    <YnoteSnippet>
+        <name>on snippet for actionscript</name>
+        <description>Triggers the on snippet</description>
+        <tabTrigger>on</tabTrigger>
+        <content>on(^){$eol$eol}</content>
+        <scope>Actionscript</scope>
+    </YnoteSnippet>

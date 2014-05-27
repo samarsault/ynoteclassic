@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<YnoteSnippet>
+  <description>Inserts a Div Snippet with Class</description>
+  <content><![CDATA[<div class="^"></div>]]></content>
+  <tabTrigger>divc</tabTrigger>
+  <scope>HTML</scope>
+</YnoteSnippet>

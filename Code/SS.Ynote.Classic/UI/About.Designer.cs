@@ -70,7 +70,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(235, 34);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Copyright (C) 2014 Samarjeet Singh\nv" + System.Windows.Forms.Application.ProductVersion + " Build:" + Settings.BuildNumber;
+            this.label2.Text = "Copyright (C) 2014 Samarjeet Singh\nv" + System.Windows.Forms.Application.ProductVersion + " Build:" + YnoteSettings.BuildNumber;
             // 
             // textBox1
             // 

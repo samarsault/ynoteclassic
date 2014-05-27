@@ -78,7 +78,7 @@ namespace SS.Ynote.Classic.UI
                     break;
 
                 case InsertType.Splitter:
-                    Text = "Split Settings";
+                    Text = "Split YnoteSettings";
                     label1.Text = "Seperator";
                     button1.Text = "Split";
                     numericTextBox1.Visible = false;

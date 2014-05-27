@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<YnoteSnippet>
+    <name>Doctype</name>
+    <description>Doctype Snippet for html</description>
+    <content><![CDATA[<!Doctype html>$eol<html>$eol<head>$eol<title>^</title>$eol</head>$eol$eol<body>$eol$eol</body>$eol</html>]]></content>
+    <tabTrigger>doctype</tabTrigger>
+    <scope>HTML</scope>
+</YnoteSnippet>

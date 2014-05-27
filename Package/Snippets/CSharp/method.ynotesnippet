@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-    <YnoteSnippet>
-        <name>Property</name>
-        <description>C# Property Snippet</description>
-        <tabTrigger>void</tabTrigger>
-        <content>void ^ () {$eol$eol }</content>
-    </YnoteSnippet>

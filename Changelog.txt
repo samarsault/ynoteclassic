@@ -167,3 +167,39 @@ Build 629
 Build 635
 
 -> Performance Improvements in Program.cs, Removed LINQ expression which took more time
+
+Build 648
+
+-> New Settings format as .ynotesettings file
+
+Build 650
+
+-> Removed Diff which was not working correctly
+
+Build 656
+
+-> Improved Bookmark Navigation
+
+Build 661
+
+-> Added GoTo in Menu
+
+Build 668
+
+-> Resource Files can be loaded from anywhere in $ynotedata
+
+Build 672
+
+-> Added Go To Symbol ( Ctrl + R )
+
+Build 676
+
+-> Added Go To File from Selection
+
+Build 684
+
+-> Updated Ynote Project
+
+Build 693
+
+-> Added Project to main menu

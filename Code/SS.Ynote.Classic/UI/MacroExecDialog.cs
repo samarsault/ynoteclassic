@@ -5,6 +5,23 @@ using FastColoredTextBoxNS;
 
 namespace SS.Ynote.Classic.UI
 {
+    internal class MacroItem
+    {
+        internal string File;
+        internal string Name;
+
+        internal MacroItem(string name, string file)
+        {
+            Name = name;
+            File = file;
+        }
+
+        public override string ToString()
+        {
+            return Name;
+        }
+    }
+
     public partial class MacroExecDialog : Form
     {
         private readonly FastColoredTextBox fctb;
@@ -12,15 +29,19 @@ namespace SS.Ynote.Classic.UI
         public MacroExecDialog(FastColoredTextBox tb)
         {
             InitializeComponent();
-            foreach (var item in Directory.GetFiles(Settings.SettingsDir + @"\Macros", "*.ymc"))
-                cmbMacros.Items.Add(Path.GetFileNameWithoutExtension(item));
+            foreach (
+                var item in Directory.GetFiles(YnoteSettings.SettingsDir, "*.ynotemacro", SearchOption.AllDirectories))
+            {
+                var macroItem = new MacroItem(Path.GetFileNameWithoutExtension(item), item);
+                cmbMacros.Items.Add(macroItem);
+            }
             cmbMacros.SelectedIndex = 0;
             fctb = tb;
         }
 
         private void btnExec_Click(object sender, EventArgs e)
         {
-            var macro = Path.Combine(Settings.SettingsDir + @"\Macros", cmbMacros.Text + ".ymc");
+            var macro = (cmbMacros.SelectedItem as MacroItem).File;
             var i = 0;
             while (i < times.Value)
             {

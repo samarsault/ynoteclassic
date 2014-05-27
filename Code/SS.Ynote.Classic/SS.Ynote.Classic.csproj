@@ -79,90 +79,92 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Features\Commands\Commander.cs">
+    <Compile Include="Core\Commands\Commander.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Features\Commands\Commander.Designer.cs">
+    <Compile Include="Core\Commands\Commander.Designer.cs">
       <DependentUpon>Commander.cs</DependentUpon>
     </Compile>
-    <Compile Include="Features\Commands\InstalledCommands.cs" />
-    <Compile Include="Features\Commands\YnoteCommand.cs" />
-    <Compile Include="Features\Packages\AddPackageFile.cs">
+    <Compile Include="Core\Commands\InstalledCommands.cs" />
+    <Compile Include="Core\Commands\YnoteCommand.cs" />
+    <Compile Include="Core\Session\YnoteSession.cs" />
+    <Compile Include="Extensibility\Packages\AddPackageFile.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Features\Packages\AddPackageFile.Designer.cs">
+    <Compile Include="Extensibility\Packages\AddPackageFile.Designer.cs">
       <DependentUpon>AddPackageFile.cs</DependentUpon>
     </Compile>
-    <Compile Include="Features\Packages\PackageInstaller.cs">
+    <Compile Include="Extensibility\Packages\PackageInstaller.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Features\Packages\PackageInstaller.Designer.cs">
+    <Compile Include="Extensibility\Packages\PackageInstaller.Designer.cs">
       <DependentUpon>PackageInstaller.cs</DependentUpon>
     </Compile>
-    <Compile Include="Features\Packages\PackageManager.cs">
+    <Compile Include="Extensibility\Packages\PackageManager.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Features\Packages\PackageManager.Designer.cs">
+    <Compile Include="Extensibility\Packages\PackageManager.Designer.cs">
       <DependentUpon>PackageManager.cs</DependentUpon>
     </Compile>
-    <Compile Include="Features\Packages\PackageMaker.cs">
+    <Compile Include="Extensibility\Packages\PackageMaker.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Features\Packages\PackageMaker.Designer.cs">
+    <Compile Include="Extensibility\Packages\PackageMaker.Designer.cs">
       <DependentUpon>PackageMaker.cs</DependentUpon>
     </Compile>
-    <Compile Include="Features\Packages\YnotePackage.cs" />
-    <Compile Include="Features\Packages\YnotePackageManager.cs" />
-    <Compile Include="Features\Packages\ZipStorer.cs" />
-    <Compile Include="Features\Folder\Common.cs" />
-    <Compile Include="Features\Folder\FolderUtils.cs">
+    <Compile Include="Extensibility\Packages\YnotePackage.cs" />
+    <Compile Include="Extensibility\Packages\YnotePackageManager.cs" />
+    <Compile Include="Extensibility\Packages\ZipStorer.cs" />
+    <Compile Include="Core\Project\Common.cs" />
+    <Compile Include="Core\Project\FolderUtils.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Features\Folder\FolderUtils.Designer.cs">
+    <Compile Include="Core\Project\FolderUtils.Designer.cs">
       <DependentUpon>FolderUtils.cs</DependentUpon>
     </Compile>
-    <Compile Include="Features\RunScript\NewRun.cs">
+    <Compile Include="Core\Project\YnoteProject.cs" />
+    <Compile Include="Core\RunScript\NewRun.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Features\RunScript\NewRun.Designer.cs">
+    <Compile Include="Core\RunScript\NewRun.Designer.cs">
       <DependentUpon>NewRun.cs</DependentUpon>
     </Compile>
-    <Compile Include="Features\Search\FindInFiles.cs">
+    <Compile Include="Core\Search\FindInFiles.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Features\Search\FindInFiles.Designer.cs">
+    <Compile Include="Core\Search\FindInFiles.Designer.cs">
       <DependentUpon>FindInFiles.cs</DependentUpon>
     </Compile>
-    <Compile Include="Features\Snippets\YnoteSnippet.cs" />
-    <Compile Include="Features\Syntax\Framework\Rules.cs" />
-    <Compile Include="Features\Syntax\Framework\SyntaxBase.cs" />
-    <Compile Include="Features\Commands\ICommand.cs" />
-    <Compile Include="Features\Syntax\SyntaxDesc.cs" />
+    <Compile Include="Core\Snippets\YnoteSnippet.cs" />
+    <Compile Include="Core\Syntax\Framework\Rules.cs" />
+    <Compile Include="Core\Syntax\Framework\SyntaxBase.cs" />
+    <Compile Include="Core\Commands\ICommand.cs" />
+    <Compile Include="Core\Syntax\SyntaxDesc.cs" />
     <Compile Include="Helpers\Encryptor.cs" />
     <Compile Include="Helpers\FileTypes.cs" />
     <Compile Include="Helpers\NativeMethods.cs" />
     <Compile Include="Helpers\Extensions.cs" />
-    <Compile Include="Features\RunScript\RunScriptEditor.cs">
+    <Compile Include="Core\RunScript\RunScriptEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Features\RunScript\RunScriptEditor.Designer.cs">
+    <Compile Include="Core\RunScript\RunScriptEditor.Designer.cs">
       <DependentUpon>RunScriptEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\InvisibleCharStyle.cs" />
-    <Compile Include="Features\RunScript\RunConfigs.cs" />
-    <Compile Include="Features\Extensibility\YnoteScript.cs" />
-    <Compile Include="Features\Packages\YnotePackageMaker.cs" />
-    <Compile Include="Features\Folder\FolderPanel.cs">
+    <Compile Include="Core\RunScript\RunConfigs.cs" />
+    <Compile Include="Extensibility\Plugin\YnoteScript.cs" />
+    <Compile Include="Extensibility\Packages\YnotePackageMaker.cs" />
+    <Compile Include="Core\Project\ProjectPanel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Features\Folder\FolderPanel.Designer.cs">
-      <DependentUpon>FolderPanel.cs</DependentUpon>
+    <Compile Include="Core\Project\ProjectPanel.Designer.cs">
+      <DependentUpon>ProjectPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\Settings.cs" />
-    <Compile Include="Features\Syntax\SyntaxHighlighter.cs" />
-    <Compile Include="Features\Syntax\Theme\YnoteThemeReader.cs" />
-    <Compile Include="Features\Extensibility\YnotePlugin.cs" />
-    <Compile Include="Features\Extensibility\IYnote.cs" />
+    <Compile Include="Core\Settings\YnoteSettings.cs" />
+    <Compile Include="Core\Syntax\SyntaxHighlighter.cs" />
+    <Compile Include="Extensibility\Theme\YnoteThemeReader.cs" />
+    <Compile Include="Extensibility\Plugin\YnotePlugin.cs" />
+    <Compile Include="Extensibility\IYnote.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -171,13 +173,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\BookmarksInfos.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\BookmarksInfos.Designer.cs">
-      <DependentUpon>BookmarksInfos.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Features\Commands\CommandAutoCompleteItem.cs" />
+    <Compile Include="Core\Commands\CommandAutoCompleteItem.cs" />
     <Compile Include="UI\Controls\FolderBrowserEx.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -197,10 +193,10 @@
     <Compile Include="UI\Controls\GradientForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Features\Search\IncrementalSearcher.cs">
+    <Compile Include="Core\Search\IncrementalSearcher.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Features\Search\IncrementalSearcher.designer.cs">
+    <Compile Include="Core\Search\IncrementalSearcher.designer.cs">
       <DependentUpon>IncrementalSearcher.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\Controls\NumericTextBox.cs">
@@ -227,22 +223,16 @@
     <Compile Include="UI\CommandWindow.Designer.cs">
       <DependentUpon>CommandWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\Diff.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Diff.designer.cs">
-      <DependentUpon>Diff.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Editor.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Editor.Designer.cs">
       <DependentUpon>Editor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Features\Search\SearchResults.cs">
+    <Compile Include="Core\Search\SearchResults.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Features\Search\SearchResults.designer.cs">
+    <Compile Include="Core\Search\SearchResults.designer.cs">
       <DependentUpon>SearchResults.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\UtilDialog.cs">
@@ -257,40 +247,40 @@
     <Compile Include="UI\Options.Designer.cs">
       <DependentUpon>Options.cs</DependentUpon>
     </Compile>
-    <Compile Include="Features\RunScript\RunDialog.cs">
+    <Compile Include="Core\RunScript\RunDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <EmbeddedResource Include="Features\Commands\Commander.resx">
+    <EmbeddedResource Include="Core\Commands\Commander.resx">
       <DependentUpon>Commander.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Features\Packages\AddPackageFile.resx">
+    <EmbeddedResource Include="Extensibility\Packages\AddPackageFile.resx">
       <DependentUpon>AddPackageFile.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Features\Packages\PackageInstaller.resx">
+    <EmbeddedResource Include="Extensibility\Packages\PackageInstaller.resx">
       <DependentUpon>PackageInstaller.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Features\Packages\PackageManager.resx">
+    <EmbeddedResource Include="Extensibility\Packages\PackageManager.resx">
       <DependentUpon>PackageManager.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Features\Packages\PackageMaker.resx">
+    <EmbeddedResource Include="Extensibility\Packages\PackageMaker.resx">
       <DependentUpon>PackageMaker.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Features\Folder\FolderUtils.resx">
+    <EmbeddedResource Include="Core\Project\FolderUtils.resx">
       <DependentUpon>FolderUtils.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Features\RunScript\NewRun.resx">
+    <EmbeddedResource Include="Core\RunScript\NewRun.resx">
       <DependentUpon>NewRun.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Features\RunScript\RunScriptEditor.resx">
+    <EmbeddedResource Include="Core\RunScript\RunScriptEditor.resx">
       <DependentUpon>RunScriptEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Features\Folder\FolderPanel.resx">
-      <DependentUpon>FolderPanel.cs</DependentUpon>
+    <EmbeddedResource Include="Core\Project\ProjectPanel.resx">
+      <DependentUpon>ProjectPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Features\Search\FindInFiles.resx">
+    <EmbeddedResource Include="Core\Search\FindInFiles.resx">
       <DependentUpon>FindInFiles.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Features\Search\SearchResults.resx">
+    <EmbeddedResource Include="Core\Search\SearchResults.resx">
       <DependentUpon>SearchResults.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
@@ -321,7 +311,7 @@
     <EmbeddedResource Include="UI\UtilDialog.resx">
       <DependentUpon>UtilDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Features\RunScript\RunDialog.resx">
+    <EmbeddedResource Include="Core\RunScript\RunDialog.resx">
       <DependentUpon>RunDialog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

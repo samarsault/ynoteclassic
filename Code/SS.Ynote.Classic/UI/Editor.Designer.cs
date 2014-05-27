@@ -46,18 +46,7 @@
             // codebox
             // 
             this.codebox.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.codebox.AutoCompleteBrackets = false;
-            this.codebox.AutoCompleteBracketsList = new char[] {
-        '(',
-        ')',
-        '{',
-        '}',
-        '[',
-        ']',
-        '\"',
-        '\"',
-        '\'',
-        '\''};
+            this.codebox.AutoCompleteBracketsList = new char[] {'(', ')', '{', '}', '[', ']', '\"', '\"', '\'', '\''};
             this.codebox.AutoScrollMinSize = new System.Drawing.Size(27, 14);
             this.codebox.BackBrush = null;
             this.codebox.CharHeight = 14;

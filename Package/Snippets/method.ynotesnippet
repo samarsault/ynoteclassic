@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+    <YnoteSnippet>
+        <description>C# Method Snippet</description>
+        <tabTrigger>void</tabTrigger>
+        <content>void ^ () {$eol$eol }</content>
+        <scope>CSharp</scope>
+    </YnoteSnippet>

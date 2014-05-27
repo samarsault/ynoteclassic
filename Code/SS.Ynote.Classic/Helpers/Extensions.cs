@@ -49,4 +49,9 @@ internal static class Helpers
     {
         return Convert.ToInt32(str);
     }
+
+    public static bool ToBool(this object obj)
+    {
+        return Convert.ToBoolean(obj);
+    }
 }

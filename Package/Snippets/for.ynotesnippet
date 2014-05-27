@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+    <YnoteSnippet>
+        <description>C/C++ For Loop Snippet</description>
+        <tabTrigger>for</tabTrigger>
+        <content><![CDATA[for (int i = 0;i < ^;++i)$eol{$eol$eol}]]></content>
+        <scope>C</scope>
+    </YnoteSnippet>

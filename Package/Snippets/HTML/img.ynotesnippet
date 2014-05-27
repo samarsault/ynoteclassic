@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<YnoteSnippet>
-  <name>Image</name>
-  <description>Inserts Image from Local file System</description>
-  <content><![CDATA[<img src="^" alt=""/>]]></content>
-  <tabTrigger>img</tabTrigger>
-</YnoteSnippet>

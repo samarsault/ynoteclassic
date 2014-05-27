@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+    <YnoteSnippet>
+        <description>Xml Declaration Snippet</description>
+        <tabTrigger>xml</tabTrigger>
+        <content><![CDATA[<?xml version="1.0"?>^]]></content>
+        <scope>Xml</scope>
+    </YnoteSnippet>

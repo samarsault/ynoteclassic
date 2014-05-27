@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace SS.Ynote.Classic.Features.RunScript
+namespace SS.Ynote.Classic.UI
 {
     public partial class Shell : DockContent
     {

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+    <YnoteSnippet>
+        <description>C# Public Mehtod Snippet</description>
+        <tabTrigger>pvoid</tabTrigger>
+        <content>public void ^ () {$eol$eol }</content>
+        <scope>CSharp</scope>
+    </YnoteSnippet>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+    <YnoteSnippet>
+        <description>Class Snippet for Ynote</description>
+        <tabTrigger>class</tabTrigger>
+        <content>class ^ {$eol$eol}</content>
+        <scope>CSharp</scope>
+    </YnoteSnippet>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+	<YnoteSnippet>
+		<description>Include Header File</description>
+		<tabTrigger>Inc</tabTrigger>
+		<content><![CDATA[#include <^>]]></content>
+		<scope>C</scope>
+	</YnoteSnippet>

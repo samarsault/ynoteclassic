@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-    <YnoteSnippet>
-        <name>Class</name>
-        <description>Class Snippet for Ynote</description>
-        <tabTrigger>class</tabTrigger>
-        <content>class ^ {$eol$eol}</content>
-    </YnoteSnippet>

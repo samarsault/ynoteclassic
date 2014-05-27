@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+    <YnoteSnippet>
+        <description>C# Property Snippet</description>
+        <tabTrigger>prop</tabTrigger>
+        <content>public ^ { get; set; }</content>
+        <scope>CSharp</scope>
+    </YnoteSnippet>
