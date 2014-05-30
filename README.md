@@ -33,7 +33,7 @@ Screenshot
 
 Version
 ----
- 2.8.5 Build 639
+ 2.8.5 Build 720
 
 License
 ----

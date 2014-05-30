@@ -203,3 +203,11 @@ Build 684
 Build 693
 
 -> Added Project to main menu
+
+Build 710
+
+-> Added Recent Projects
+
+Build 718
+
+-> Added Quick Switch Project

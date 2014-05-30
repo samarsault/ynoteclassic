@@ -44,6 +44,11 @@ namespace SS.Ynote.Classic
         private Queue<string> _mru;
 
         /// <summary>
+        ///     Recent Project list
+        /// </summary>
+        private IList<string> _projs;
+
+        /// <summary>
         ///     The index of the Shell
         /// </summary>
         private int shell_num;
@@ -245,7 +250,7 @@ namespace SS.Ynote.Classic
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error Saving File !!" + ex.Message, null, MessageBoxButtons.OK,
+                MessageBox.Show("Error Saving File !!\n" + ex.Message, null, MessageBoxButtons.OK,
                     MessageBoxIcon.Exclamation);
             }
         }
@@ -262,13 +267,11 @@ namespace SS.Ynote.Classic
 
         #endregion FILE/IO
 
-        #region Recent File Handlers
+        #region Recent Handlers
 
         /// <summary>
         ///     Saves Recent File to List
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="recent"></param>
         private void SaveRecentFiles()
         {
             if (_mru == null)
@@ -327,6 +330,22 @@ namespace SS.Ynote.Classic
                 fileRecent.Click += (sender, args) => OpenFile(((MenuItem) (sender)).Text);
                 recentfilesmenu.MenuItems.Add(fileRecent); //add the menu to "recent" menu
             }
+        }
+
+        private void LoadRecentProjects()
+        {
+            _projs = new List<string>();
+            string file = YnoteSettings.SettingsDir + "Projects.ynote";
+            if (!File.Exists(file))
+                return;
+            foreach (var line in File.ReadAllLines(file))
+                _projs.Add(line);
+        }
+
+        private void SaveRecentProjects()
+        {
+            string file = YnoteSettings.SettingsDir + "Projects.ynote";
+            File.WriteAllLines(file, _projs.ToArray());
         }
 
         #endregion Recent File Handlers
@@ -509,13 +528,13 @@ namespace SS.Ynote.Classic
         private void LoadPlugins()
         {
             if (!Directory.Exists(YnoteSettings.SettingsDir + @"\Plugins"))
-                Directory.CreateDirectory(YnoteSettings.SettingsDir);
+                Directory.CreateDirectory(YnoteSettings.SettingsDir + @"Plugins");
             using (var dircatalog = new DirectoryCatalog(YnoteSettings.SettingsDir + @"\Plugins"))
             {
                 using (var container = new CompositionContainer(dircatalog))
                 {
                     var plugins = container.GetExportedValues<IYnotePlugin>();
-                    foreach (var plugin in plugins)
+                    foreach (IYnotePlugin plugin in plugins)
                         plugin.Main(this);
                 }
             }
@@ -530,6 +549,7 @@ namespace SS.Ynote.Classic
         protected override void OnClosing(CancelEventArgs e)
         {
             SaveRecentFiles();
+            SaveRecentProjects();
             YnoteSettings.Save();
 #if DEVBUILD
             File.WriteAllText(Application.StartupPath + "\\Build.number", YnoteSettings.BuildNumber.ToString());
@@ -1987,6 +2007,8 @@ namespace SS.Ynote.Classic
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     OpenProject(YnoteProject.Load(dlg.FileName));
+                    if (!_projs.Contains(dlg.FileName))
+                        _projs.Add(dlg.FileName);
                 }
             }
         }
@@ -2043,6 +2065,8 @@ namespace SS.Ynote.Classic
                                 proj.Save(dlg.FileName);
                                 proj.FilePath = dlg.FileName;
                                 (window as ProjectPanel).OpenProject(proj);
+                                if (!_projs.Contains(proj.FilePath))
+                                    _projs.Add(proj.FilePath);
                             }
                         }
                     }
@@ -2059,6 +2083,47 @@ namespace SS.Ynote.Classic
                 {
                     var proj = new YnoteProject();
                     proj.Path = browser.SelectedPath;
+                    OpenProject(proj);
+                }
+            }
+        }
+
+        private void miproject_Select(object sender, EventArgs e)
+        {
+            if (_projs == null)
+                LoadRecentProjects();
+            if (miopenrecent.MenuItems.Count == 0)
+                foreach (var item in _projs)
+                    miopenrecent.MenuItems.Add(new MenuItem(Path.GetFileNameWithoutExtension(item), openrecentproj_Click)
+                    {
+                        Name = item
+                    });
+        }
+
+        private void openrecentproj_Click(object sender, EventArgs e)
+        {
+            var menu = sender as MenuItem;
+            OpenProject(YnoteProject.Load(menu.Name));
+        }
+
+
+        private void miswitchproj_Click(object sender, EventArgs e)
+        {
+            var completemenu = new List<AutocompleteItem>();
+            foreach (MenuItem item in miopenrecent.MenuItems)
+                completemenu.Add(new FuzzyAutoCompleteItem(item.Text));
+            var cwindow = new CommandWindow(completemenu);
+            cwindow.ProcessCommand += cwindow_ProcessCommand;
+            cwindow.ShowDialog(this);
+        }
+
+        private void cwindow_ProcessCommand(object sender, CommandWindowEventArgs e)
+        {
+            foreach (MenuItem item in miopenrecent.MenuItems)
+            {
+                if (item.Text == e.Text)
+                {
+                    var proj = YnoteProject.Load(item.Name);
                     OpenProject(proj);
                 }
             }

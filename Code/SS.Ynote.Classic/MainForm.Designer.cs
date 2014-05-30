@@ -228,7 +228,7 @@
             this.colorschememenu = new System.Windows.Forms.MenuItem();
             this.seperator83 = new System.Windows.Forms.MenuItem();
             this.OptionsMenu = new System.Windows.Forms.MenuItem();
-            this.menuItem2 = new System.Windows.Forms.MenuItem();
+            this.miproject = new System.Windows.Forms.MenuItem();
             this.miopenproject = new System.Windows.Forms.MenuItem();
             this.miswitchproj = new System.Windows.Forms.MenuItem();
             this.miopenrecent = new System.Windows.Forms.MenuItem();
@@ -301,7 +301,7 @@
             this.viewmenu,
             this.menuItem5,
             this.toolsmenu,
-            this.menuItem2,
+            this.miproject,
             this.macrosmenu,
             this.helpmenu});
             // 
@@ -1260,7 +1260,7 @@
             // 
             this.miswitchfile.Index = 0;
             this.miswitchfile.Shortcut = System.Windows.Forms.Shortcut.CtrlT;
-            this.miswitchfile.Text = "Go To File";
+            this.miswitchfile.Text = "Go To Window";
             this.miswitchfile.Click += new System.EventHandler(this.menuItem84_Click);
             // 
             // migotofileinproject
@@ -1565,10 +1565,10 @@
             this.OptionsMenu.Text = "Options";
             this.OptionsMenu.Click += new System.EventHandler(this.OptionsMenu_Click);
             // 
-            // menuItem2
+            // miproject
             // 
-            this.menuItem2.Index = 5;
-            this.menuItem2.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.miproject.Index = 5;
+            this.miproject.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.miopenproject,
             this.miswitchproj,
             this.miopenrecent,
@@ -1579,7 +1579,8 @@
             this.menuItem15,
             this.miaddtoproj,
             this.mirefreshproj});
-            this.menuItem2.Text = "Project";
+            this.miproject.Text = "Project";
+            this.miproject.Select += new System.EventHandler(this.miproject_Select);
             // 
             // miopenproject
             // 
@@ -1590,7 +1591,9 @@
             // miswitchproj
             // 
             this.miswitchproj.Index = 1;
+            this.miswitchproj.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftL;
             this.miswitchproj.Text = "Quick Switch Project";
+            this.miswitchproj.Click += new System.EventHandler(this.miswitchproj_Click);
             // 
             // miopenrecent
             // 
@@ -2326,7 +2329,7 @@
         private MenuItem miselectedfile;
         private MenuItem migotofileinproject;
         private MenuItem menuItem8;
-        private MenuItem menuItem2;
+        private MenuItem miproject;
         private MenuItem miopenproject;
         private MenuItem miswitchproj;
         private MenuItem miopenrecent;
