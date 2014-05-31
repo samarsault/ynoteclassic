@@ -211,3 +211,16 @@ Build 710
 Build 718
 
 -> Added Quick Switch Project
+
+Build 721
+
+-> Fixed Recent Projects Null Bug
+
+Build 735
+
+-> Added Setting ShowScrollBars
+
+Build 738
+
+-> Load RunScripts from anywhere
+-> RunScripts Extension to .ynoterun

@@ -64,6 +64,8 @@ namespace SS.Ynote.Classic.UI
             this.tablocation = new System.Windows.Forms.ComboBox();
             this.GeneralPage = new System.Windows.Forms.TabPage();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.cbScrollBars = new System.Windows.Forms.CheckBox();
+            this.cbchangedline = new System.Windows.Forms.CheckBox();
             this.cbBlockCursor = new System.Windows.Forms.CheckBox();
             this.cbIME = new System.Windows.Forms.CheckBox();
             this.cbHighlightSameWords = new System.Windows.Forms.CheckBox();
@@ -121,7 +123,6 @@ namespace SS.Ynote.Classic.UI
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cbTabs = new System.Windows.Forms.CheckBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.cbchangedline = new System.Windows.Forms.CheckBox();
             this.tabcontrol.SuspendLayout();
             this.tabsettingpage.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -325,6 +326,7 @@ namespace SS.Ynote.Classic.UI
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.cbScrollBars);
             this.groupBox7.Controls.Add(this.cbchangedline);
             this.groupBox7.Controls.Add(this.cbBlockCursor);
             this.groupBox7.Controls.Add(this.cbIME);
@@ -347,6 +349,28 @@ namespace SS.Ynote.Classic.UI
             this.groupBox7.TabIndex = 3;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Text Editor";
+            // 
+            // cbScrollBars
+            // 
+            this.cbScrollBars.AutoSize = true;
+            this.cbScrollBars.Location = new System.Drawing.Point(20, 172);
+            this.cbScrollBars.Name = "cbScrollBars";
+            this.cbScrollBars.Size = new System.Drawing.Size(106, 17);
+            this.cbScrollBars.TabIndex = 26;
+            this.cbScrollBars.Text = "Show Scroll Bars";
+            this.cbScrollBars.UseVisualStyleBackColor = true;
+            this.cbScrollBars.CheckedChanged += new System.EventHandler(this.cbScrollBars_CheckedChanged);
+            // 
+            // cbchangedline
+            // 
+            this.cbchangedline.AutoSize = true;
+            this.cbchangedline.Location = new System.Drawing.Point(193, 124);
+            this.cbchangedline.Name = "cbchangedline";
+            this.cbchangedline.Size = new System.Drawing.Size(136, 17);
+            this.cbchangedline.TabIndex = 25;
+            this.cbchangedline.Text = "Highlight Changed Line";
+            this.cbchangedline.UseVisualStyleBackColor = true;
+            this.cbchangedline.CheckedChanged += new System.EventHandler(this.cbchangedline_CheckedChanged);
             // 
             // cbBlockCursor
             // 
@@ -449,7 +473,7 @@ namespace SS.Ynote.Classic.UI
             this.comboBox2.Items.AddRange(new object[] {
             "Inside",
             "Outside"});
-            this.comboBox2.Location = new System.Drawing.Point(162, 221);
+            this.comboBox2.Location = new System.Drawing.Point(162, 242);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(179, 21);
             this.comboBox2.TabIndex = 16;
@@ -458,7 +482,7 @@ namespace SS.Ynote.Classic.UI
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(17, 224);
+            this.label5.Location = new System.Drawing.Point(17, 245);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(139, 13);
             this.label5.TabIndex = 15;
@@ -471,7 +495,7 @@ namespace SS.Ynote.Classic.UI
             this.comboBox1.Items.AddRange(new object[] {
             "Strategy1",
             "Strategy2"});
-            this.comboBox1.Location = new System.Drawing.Point(125, 184);
+            this.comboBox1.Location = new System.Drawing.Point(125, 205);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(216, 21);
             this.comboBox1.TabIndex = 14;
@@ -480,7 +504,7 @@ namespace SS.Ynote.Classic.UI
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(17, 187);
+            this.label10.Location = new System.Drawing.Point(17, 208);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(92, 13);
             this.label10.TabIndex = 13;
@@ -946,22 +970,11 @@ namespace SS.Ynote.Classic.UI
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Location = new System.Drawing.Point(12, 332);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(98, 13);
+            this.linkLabel1.Size = new System.Drawing.Size(134, 13);
             this.linkLabel1.TabIndex = 6;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "Edit User.ynotesettings File";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-            // 
-            // cbchangedline
-            // 
-            this.cbchangedline.AutoSize = true;
-            this.cbchangedline.Location = new System.Drawing.Point(193, 124);
-            this.cbchangedline.Name = "cbchangedline";
-            this.cbchangedline.Size = new System.Drawing.Size(136, 17);
-            this.cbchangedline.TabIndex = 25;
-            this.cbchangedline.Text = "Highlight Changed Line";
-            this.cbchangedline.UseVisualStyleBackColor = true;
-            this.cbchangedline.CheckedChanged += new System.EventHandler(this.cbchangedline_CheckedChanged);
             // 
             // Options
             // 
@@ -1098,5 +1111,6 @@ namespace SS.Ynote.Classic.UI
         private System.Windows.Forms.CheckBox cbTabs;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.CheckBox cbchangedline;
+        private System.Windows.Forms.CheckBox cbScrollBars;
     }
 }

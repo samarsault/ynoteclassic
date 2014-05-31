@@ -4,20 +4,20 @@ using System.Xml;
 
 namespace SS.Ynote.Classic.Core.RunScript
 {
-    public sealed class RunConfiguration
+    public sealed class RunScript
     {
         /// <summary>
-        ///     Configuration Name
+        ///     Script Name
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        ///     Configuration Process
+        ///     Script Process
         /// </summary>
         public string Process { get; private set; }
 
         /// <summary>
-        ///     Configuration arguments
+        ///     Script arguments
         /// </summary>
         public string Arguments { get; private set; }
 
@@ -28,17 +28,17 @@ namespace SS.Ynote.Classic.Core.RunScript
 
         public static IEnumerable<string> GetConfigurations()
         {
-            return Directory.GetFiles(YnoteSettings.SettingsDir + @"RunScripts\");
+            return Directory.GetFiles(YnoteSettings.SettingsDir, "*.ynoterun", SearchOption.AllDirectories);
         }
 
-        public static RunConfiguration ToRunConfig(string file)
+        public static RunScript ToRunConfig(string file)
         {
             using (var reader = XmlReader.Create(file))
                 while (reader.Read())
                     if (reader.IsStartElement())
                         if (reader.Name == "Config")
                         {
-                            var config = new RunConfiguration
+                            var config = new RunScript
                             {
                                 Name = reader["Name"],
                                 Arguments = reader["Args"],

@@ -53,12 +53,12 @@ namespace SS.Ynote.Classic.UI
             codebox.Dock = DockStyle.Fill;
             Highlighter = new SyntaxHighlighter();
             InitSettings();
-            if (SyntaxHighlighter.LoadedSyntaxes.Any()) return;
-            Highlighter.LoadAllSyntaxes();
             var snipthread = new Thread(LoadSnippets);
             snipthread.SetApartmentState(ApartmentState.STA);
             snipthread.Start();
             snipthread.Join();
+            if (SyntaxHighlighter.LoadedSyntaxes.Any()) return;
+            Highlighter.LoadAllSyntaxes();
         }
 
         /// <summary>
@@ -130,13 +130,13 @@ namespace SS.Ynote.Classic.UI
             watch.Start();
 #endif
             Snippets = new List<YnoteSnippet>();
+            string[] snippets = Directory.GetFiles(YnoteSettings.SettingsDir, "*.ynotesnippet",
+                SearchOption.AllDirectories);
             Thread.Sleep(5);
-            foreach (
-                var snipfile in
-                    Directory.GetFiles(YnoteSettings.SettingsDir, "*.ynotesnippet", SearchOption.AllDirectories))
+            foreach (string snippet in snippets)
             {
-                YnoteSnippet snippet = YnoteSnippet.Read(snipfile);
-                Snippets.Add(snippet);
+                YnoteSnippet snip = YnoteSnippet.Read(snippet);
+                Snippets.Add(snip);
             }
 #if DEBUG
             watch.Stop();
@@ -148,7 +148,7 @@ namespace SS.Ynote.Classic.UI
         {
             YnoteThemeReader.ApplyTheme(YnoteSettings.ThemeFile, Highlighter, codebox);
             codebox.AllowDrop = true;
-            codebox.ShowScrollBars = false;
+            codebox.ShowScrollBars = YnoteSettings.ScrollBars;
             codebox.AutoCompleteBrackets = YnoteSettings.AutoCompleteBrackets;
             codebox.TabLength = YnoteSettings.TabSize;
             codebox.Font = new Font(YnoteSettings.FontFamily, YnoteSettings.FontSize);

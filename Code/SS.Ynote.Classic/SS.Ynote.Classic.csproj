@@ -151,7 +151,7 @@
       <DependentUpon>RunScriptEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\InvisibleCharStyle.cs" />
-    <Compile Include="Core\RunScript\RunConfigs.cs" />
+    <Compile Include="Core\RunScript\RunScript.cs" />
     <Compile Include="Extensibility\Plugin\YnoteScript.cs" />
     <Compile Include="Extensibility\Packages\YnotePackageMaker.cs" />
     <Compile Include="Core\Project\ProjectPanel.cs">
@@ -298,9 +298,6 @@
     </Compile>
     <EmbeddedResource Include="UI\Shell.resx">
       <DependentUpon>Shell.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Editor.resx">
-      <DependentUpon>Editor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Options.resx">
       <DependentUpon>Options.cs</DependentUpon>

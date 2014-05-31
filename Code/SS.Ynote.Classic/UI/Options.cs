@@ -57,6 +57,7 @@ namespace SS.Ynote.Classic.UI
             cbBlockCursor.Checked = YnoteSettings.BlockCaret;
             cbTabs.Checked = YnoteSettings.UseTabs;
             cbchangedline.Checked = YnoteSettings.ShowChangedLine;
+            cbScrollBars.Checked = YnoteSettings.ScrollBars;
             BuildEncodingList();
         }
 
@@ -202,7 +203,7 @@ namespace SS.Ynote.Classic.UI
                     "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                File.Delete(YnoteSettings.SettingsDir + "YnoteSettings.ini");
+                File.Delete(YnoteSettings.SettingsDir + "User.ynotesettings");
                 Application.Restart();
             }
         }
@@ -340,13 +341,18 @@ namespace SS.Ynote.Classic.UI
             if (ynote == null)
                 ynote = Application.OpenForms[0] as IYnote;
 
-            ynote.OpenFile(YnoteSettings.SettingsDir + "YnoteSettings.ini");
+            ynote.OpenFile(YnoteSettings.SettingsDir + "User.ynotesettings");
             Close();
         }
 
         private void cbchangedline_CheckedChanged(object sender, EventArgs e)
         {
             YnoteSettings.ShowChangedLine = cbchangedline.Checked;
+        }
+
+        private void cbScrollBars_CheckedChanged(object sender, EventArgs e)
+        {
+            YnoteSettings.ScrollBars = cbScrollBars.Checked;
         }
     }
 

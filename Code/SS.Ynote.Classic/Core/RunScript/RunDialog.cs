@@ -128,13 +128,13 @@ namespace SS.Ynote.Classic
 
         private void PopulateListItems()
         {
-            foreach (var file in RunConfiguration.GetConfigurations())
-                pgname.Items.Add(RunConfiguration.ToRunConfig(file));
+            foreach (var file in RunScript.GetConfigurations())
+                pgname.Items.Add(RunScript.ToRunConfig(file));
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            var item = pgname.SelectedItem as RunConfiguration;
+            var item = pgname.SelectedItem as RunScript;
             if (item == null) return;
             item.ProcessConfiguration(_file);
             var temp = Path.GetTempFileName() + ".bat";

@@ -1045,7 +1045,7 @@ namespace SS.Ynote.Classic.Core.Syntax
                     @"\b(dir|id|callable|dict|open|all|vars|iter|enumerate|sorted|super|classmethod|tuple|compile|basestring|map|self|range|lambda|ord|isinstance|long|float|format|str|type|hasattr|max|len|repr|getattr|list)\b");
             pyLibClassName =
                 new Regex(
-                    @"\b(self|bool|buffer|set|slice|unicode|property|staticmethod|enumerate|object|open|dict|int|tuple|basestring|long|float|type|list)\b");
+                    @"\b(self|bool|buffer|set|slice|unicode|property|staticmethod|enumerate|object|open|dict|int|tuple|basestring|long|float|type|list|RuntimeError)\b");
             pyClassNameRegex = new Regex(@"\b(class)\s+(?<range>\w+?)\b");
             pyFunctionRegex = new Regex(@"\b(def)\s+(?<range>\w+?)\b");
             pyNumberRegex = new Regex(@"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");

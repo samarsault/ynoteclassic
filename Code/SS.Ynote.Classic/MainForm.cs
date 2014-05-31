@@ -348,7 +348,7 @@ namespace SS.Ynote.Classic
             File.WriteAllLines(file, _projs.ToArray());
         }
 
-        #endregion Recent File Handlers
+        #endregion
 
         #region Menu Builders
 
@@ -445,7 +445,7 @@ namespace SS.Ynote.Classic
                 value.Length - removeFromEnd - removeFromStart);
         }
 
-        #endregion Menu Builders
+        #endregion
 
         #region MISC
 
@@ -549,8 +549,9 @@ namespace SS.Ynote.Classic
         protected override void OnClosing(CancelEventArgs e)
         {
             SaveRecentFiles();
-            SaveRecentProjects();
             YnoteSettings.Save();
+            if (_projs != null)
+                SaveRecentProjects();
 #if DEVBUILD
             File.WriteAllText(Application.StartupPath + "\\Build.number", YnoteSettings.BuildNumber.ToString());
 #endif
@@ -584,8 +585,7 @@ namespace SS.Ynote.Classic
             }
             base.OnResize(e);
         }
-
-        #endregion Overrides
+        #endregion
 
         #region Events
 
@@ -1948,9 +1948,12 @@ namespace SS.Ynote.Classic
                 {
                     var dir = Path.GetDirectoryName(ActiveEditor.Name);
                     string filename = ActiveEditor.Tb.SelectedText;
-                    foreach (var file in Directory.GetFiles(dir))
-                        if (Path.GetFileName(file) == filename || Path.GetFileNameWithoutExtension(file) == filename)
-                            OpenFile(file);
+                    if(Path.IsPathRooted(filename))
+                        OpenFile(ActiveEditor.Tb.SelectedText);
+                    else
+                        foreach (var file in Directory.GetFiles(dir))
+                            if (Path.GetFileName(file) == filename || Path.GetFileNameWithoutExtension(file) == filename)
+                                OpenFile(file);
                 }
             }
             catch (Exception ex)

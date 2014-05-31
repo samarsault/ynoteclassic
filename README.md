@@ -11,7 +11,7 @@ Features
   - Support for more than 40 languages with user defined language support
   - Powerful Search and Replace using Regular Expressions in document and multiple files
   - Clipboard History
-  - File Merge and Compare
+  - Function / Symbol List
   - Code Snippets Support
   - Automatic Encoding Detection with all codepages on the system supported
   - WYSWYIG Printing
@@ -33,7 +33,7 @@ Screenshot
 
 Version
 ----
- 2.8.5 Build 720
+ 2.8.5 Build 738
 
 License
 ----

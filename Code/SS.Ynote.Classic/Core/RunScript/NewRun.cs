@@ -11,7 +11,7 @@ namespace SS.Ynote.Classic.Features.RunScript
             InitializeComponent();
         }
 
-        public RunConfiguration Configuration { get; set; }
+        public Core.RunScript.RunScript Script { get; set; }
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -25,10 +25,10 @@ namespace SS.Ynote.Classic.Features.RunScript
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            var configuration = new RunConfiguration();
+            var configuration = new Core.RunScript.RunScript();
             configuration.EditConfig(tbName.Text, tbProcess.Text, tbArgs.Text,
                 tbCmdDir.Text);
-            Configuration = configuration;
+            Script = configuration;
             DialogResult = DialogResult.OK;
             Close();
         }

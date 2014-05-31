@@ -148,7 +148,7 @@ internal class RunScriptCommand : ICommand
     public void ProcessCommand(string val, IYnote ynote)
     {
         var edit = ynote.Panel.ActiveDocument as Editor;
-        var item = RunConfiguration.ToRunConfig(YnoteSettings.SettingsDir + @"RunScripts\" + val + ".run");
+        var item = RunScript.ToRunConfig(YnoteSettings.SettingsDir + @"RunScripts\" + val + ".run");
         if (item == null) return;
         if (edit != null) item.ProcessConfiguration(edit.Name);
         var temp = Path.GetTempFileName() + ".bat";

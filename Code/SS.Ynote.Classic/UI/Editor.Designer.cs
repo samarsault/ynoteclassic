@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Editor));
             this.codebox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.contextmenu = new System.Windows.Forms.ContextMenu();
             this.tabcontext = new System.Windows.Forms.ContextMenu();
@@ -54,7 +53,6 @@
             this.codebox.ContextMenu = this.contextmenu;
             this.codebox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.codebox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(180)))));
-            this.codebox.Hotkeys = resources.GetString("codebox.Hotkeys");
             this.codebox.IsReplaceMode = false;
             this.codebox.Location = new System.Drawing.Point(179, -1);
             this.codebox.Name = "codebox";

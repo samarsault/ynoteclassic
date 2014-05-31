@@ -193,6 +193,11 @@ public static class YnoteSettings
     internal static bool UseTabs { get; set; }
 
     /// <summary>
+    ///     Whether to show Scroll Bars
+    /// </summary>
+    internal static bool ScrollBars { get; set; }
+
+    /// <summary>
     ///     Loads YnoteSettings
     /// </summary>
     internal static void Load()
@@ -223,6 +228,7 @@ public static class YnoteSettings
             ShowMenuBar = config.GetBoolean("MenuBar");
             BlockCaret = config.GetBoolean("BlockCaret");
             FontFamily = config.Get("FontFamily");
+            ScrollBars = config.GetBoolean("ScrollBars");
             ShowChangedLine = config.GetBoolean("ChangedLine");
             WordWrap = config.GetBoolean("Wordwrap");
             FontSize = config.GetFloat("FontSize");
@@ -243,7 +249,7 @@ public static class YnoteSettings
     }
 
     /// <summary>
-    ///     Save Configuration
+    ///     Save Script
     /// </summary>
     public static void Save()
     {
@@ -268,6 +274,7 @@ public static class YnoteSettings
         config.Set("LineInterval", LineInterval);
         config.Set("RecentFilesNo", RecentFileNumber);
         config.Set("StatusBar", ShowStatusBar);
+        config.Set("ScrollBars", ScrollBars);
         config.Set("ToolBar", ShowToolBar);
         config.Set("HighlightSameWords", HighlightSameWords);
         config.Set("MenuBar", ShowMenuBar);
@@ -302,6 +309,7 @@ public static class YnoteSettings
         config.Set("AutocompleteBrackets", true);
         config.Set("EnableVirtualSpace", false);
         config.Set("HighlightFolding", true);
+        config.Set("ScrollBars", true);
         config.Set("ChangedLine", false);
         config.Set("PaddingWidth", 18);
         config.Set("LineInterval", 0);
