@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using SS.Ynote.Classic.Core.RunScript;
 
-namespace SS.Ynote.Classic.Features.RunScript
+namespace SS.Ynote.Classic.Core.RunScript
 {
     public partial class NewRun : Form
     {

@@ -1,7 +1,9 @@
 #define DEVBUILD
 
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Xml.Serialization;
 using FastColoredTextBoxNS;
 using Nini.Config;
 using WeifenLuo.WinFormsUI.Docking;
@@ -196,6 +198,10 @@ public static class YnoteSettings
     ///     Whether to show Scroll Bars
     /// </summary>
     internal static bool ScrollBars { get; set; }
+    /// <summary>
+    ///     Whether to Load Layout on Startup
+    /// </summary>
+    internal static bool LoadLayout { get; set; }
 
     /// <summary>
     ///     Loads YnoteSettings
@@ -238,6 +244,7 @@ public static class YnoteSettings
             MinimizeToTray = config.GetBoolean("MinimizeToTray");
             UseTabs = config.GetBoolean("UseTabs");
             IMEMode = config.GetBoolean("IMEMode");
+            LoadLayout = config.GetBoolean("LoadLayout");
             Zoom = config.GetInt("Zoom");
         }
         else
@@ -285,6 +292,7 @@ public static class YnoteSettings
         config.Set("Encoding", DefaultEncoding);
         config.Set("Wordwrap", WordWrap);
         config.Set("MinimizeToTray", MinimizeToTray);
+        config.Set("LoadLayout", LoadLayout);
         config.Set("IMEMode", IMEMode);
         config.Set("Zoom", Zoom);
         source.Save();
@@ -321,6 +329,7 @@ public static class YnoteSettings
         config.Set("HighlightSameWords", true);
         config.Set("Wordwrap", false);
         config.Set("IMEMode", false);
+        config.Set("LoadLayout", true);
         config.Set("UseTabs", false);
         config.Set("Encoding", Encoding.Default.CodePage);
         config.Set("FontFamily", "Consolas");

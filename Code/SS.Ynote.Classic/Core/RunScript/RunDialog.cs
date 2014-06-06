@@ -3,7 +3,6 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using SS.Ynote.Classic.Core.RunScript;
-using SS.Ynote.Classic.Features.RunScript;
 using SS.Ynote.Classic.UI;
 using WeifenLuo.WinFormsUI.Docking;
 

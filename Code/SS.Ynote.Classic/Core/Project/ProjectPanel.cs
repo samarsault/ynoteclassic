@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -54,10 +55,17 @@ namespace SS.Ynote.Classic.Core.Project
                 MessageBox.Show(string.Format("Error : Can't find directory : {0}", project.Path), "Folder Manager",
                     MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             else
-                BeginInvoke((MethodInvoker) (() => ListDirectory(projtree, project)));
+               ListDirectory(projtree, project);
             projtree.Tag = project;
+            Expand();
         }
 
+        void Expand()
+        {
+            foreach(TreeNode node in projtree.Nodes)
+                if (node.Level == 0)
+                    node.Expand();
+        }
         public void CloseProject()
         {
             projtree.Nodes.Clear();
@@ -216,8 +224,8 @@ namespace SS.Ynote.Classic.Core.Project
             {
                 tempfile.CopyTo(Path.Combine(strDestination, tempfile.Name));
             }
-            var dirctororys = dirInfo.GetDirectories();
-            foreach (var tempdir in dirctororys)
+            var directories = dirInfo.GetDirectories();
+            foreach (var tempdir in directories)
                 CopyDirectory(Path.Combine(strSource, tempdir.Name), Path.Combine(strDestination, tempdir.Name));
         }
 
@@ -259,6 +267,10 @@ namespace SS.Ynote.Classic.Core.Project
                    == FileAttributes.Directory;
         }
 
+        private Icon GetShellIcon(string path)
+        {
+            return Icon.ExtractAssociatedIcon(path);
+        }
         #endregion Methods
 
         #region Events
@@ -373,6 +385,11 @@ namespace SS.Ynote.Classic.Core.Project
             var node = projtree.SelectedNode;
             var directory = Path.GetDirectoryName(node.Name);
             Process.Start(directory);
+        }
+
+        protected override string GetPersistString()
+        {
+            return GetType() + "," + Project.FilePath;
         }
 
         #endregion

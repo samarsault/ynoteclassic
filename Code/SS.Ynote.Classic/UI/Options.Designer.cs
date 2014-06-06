@@ -123,6 +123,7 @@ namespace SS.Ynote.Classic.UI
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cbTabs = new System.Windows.Forms.CheckBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.tabcontrol.SuspendLayout();
             this.tabsettingpage.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -915,10 +916,11 @@ namespace SS.Ynote.Classic.UI
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.checkBox2);
             this.groupBox3.Controls.Add(this.cbSysTray);
-            this.groupBox3.Location = new System.Drawing.Point(101, 130);
+            this.groupBox3.Location = new System.Drawing.Point(88, 130);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(224, 100);
+            this.groupBox3.Size = new System.Drawing.Size(250, 110);
             this.groupBox3.TabIndex = 11;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "MISC";
@@ -975,6 +977,16 @@ namespace SS.Ynote.Classic.UI
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "Edit User.ynotesettings File";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(35, 65);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(194, 17);
+            this.checkBox2.TabIndex = 1;
+            this.checkBox2.Text = "Load Previous Workspace on Load";
+            this.checkBox2.UseVisualStyleBackColor = true;
             // 
             // Options
             // 
@@ -1112,5 +1124,6 @@ namespace SS.Ynote.Classic.UI
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.CheckBox cbchangedline;
         private System.Windows.Forms.CheckBox cbScrollBars;
+        private System.Windows.Forms.CheckBox checkBox2;
     }
 }

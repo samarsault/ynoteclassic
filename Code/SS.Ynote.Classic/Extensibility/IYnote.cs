@@ -33,4 +33,10 @@ public interface IYnote
     ///     Create New Document
     /// </summary>
     void CreateNewDoc();
+
+    /// <summary>
+    ///     Shows a message in the status bar
+    /// </summary>
+    /// <param name="message"></param>
+    void Trace(string message);
 }

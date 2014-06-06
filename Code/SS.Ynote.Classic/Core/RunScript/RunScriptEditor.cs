@@ -2,9 +2,8 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using SS.Ynote.Classic.Core.RunScript;
 
-namespace SS.Ynote.Classic.Features.RunScript
+namespace SS.Ynote.Classic.Core.RunScript
 {
     public partial class RunScriptEditor : Form
     {

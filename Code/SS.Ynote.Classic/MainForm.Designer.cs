@@ -159,7 +159,6 @@
             this.wordwrapmenu = new System.Windows.Forms.MenuItem();
             this.seperator24 = new System.Windows.Forms.MenuItem();
             this.midocinfo = new System.Windows.Forms.MenuItem();
-            this.mifoldermanager = new System.Windows.Forms.MenuItem();
             this.seperator26 = new System.Windows.Forms.MenuItem();
             this.menuItem6 = new System.Windows.Forms.MenuItem();
             this.misplitbelow = new System.Windows.Forms.MenuItem();
@@ -247,8 +246,6 @@
             this.status = new System.Windows.Forms.StatusStrip();
             this.mistats = new System.Windows.Forms.ToolStripStatusLabel();
             this.gapfiller2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.infolabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.gapfiller1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.langmenu = new System.Windows.Forms.ToolStripDropDownButton();
             this.lblEncoding = new System.Windows.Forms.ToolStripStatusLabel();
             this.zoom = new System.Windows.Forms.ToolStripDropDownButton();
@@ -1000,7 +997,6 @@
             this.wordwrapmenu,
             this.seperator24,
             this.midocinfo,
-            this.mifoldermanager,
             this.seperator26,
             this.menuItem6});
             this.viewmenu.Text = "View";
@@ -1176,21 +1172,14 @@
             this.midocinfo.Text = "Document Info";
             this.midocinfo.Click += new System.EventHandler(this.midocinfo_Click);
             // 
-            // mifoldermanager
-            // 
-            this.mifoldermanager.Index = 18;
-            this.mifoldermanager.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftU;
-            this.mifoldermanager.Text = "Project Manager";
-            this.mifoldermanager.Click += new System.EventHandler(this.mifoldermanager_Click);
-            // 
             // seperator26
             // 
-            this.seperator26.Index = 19;
+            this.seperator26.Index = 18;
             this.seperator26.Text = "-";
             // 
             // menuItem6
             // 
-            this.menuItem6.Index = 20;
+            this.menuItem6.Index = 19;
             this.menuItem6.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.misplitbelow,
             this.misplitbeside,
@@ -1764,8 +1753,6 @@
             this.status.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mistats,
             this.gapfiller2,
-            this.infolabel,
-            this.gapfiller1,
             this.langmenu,
             this.lblEncoding,
             this.zoom});
@@ -1783,20 +1770,8 @@
             // gapfiller2
             // 
             this.gapfiller2.Name = "gapfiller2";
-            this.gapfiller2.Size = new System.Drawing.Size(206, 17);
+            this.gapfiller2.Size = new System.Drawing.Size(309, 17);
             this.gapfiller2.Spring = true;
-            // 
-            // infolabel
-            // 
-            this.infolabel.Name = "infolabel";
-            this.infolabel.Size = new System.Drawing.Size(0, 17);
-            // 
-            // gapfiller1
-            // 
-            this.gapfiller1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.gapfiller1.Name = "gapfiller1";
-            this.gapfiller1.Size = new System.Drawing.Size(206, 17);
-            this.gapfiller1.Spring = true;
             // 
             // langmenu
             // 
@@ -1812,7 +1787,7 @@
             // 
             this.lblEncoding.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
             this.lblEncoding.Name = "lblEncoding";
-            this.lblEncoding.Size = new System.Drawing.Size(206, 17);
+            this.lblEncoding.Size = new System.Drawing.Size(309, 17);
             this.lblEncoding.Spring = true;
             // 
             // zoom
@@ -2141,8 +2116,6 @@
         private System.Windows.Forms.MenuItem commentmenu;
         private System.Windows.Forms.MenuItem doindent;
         private System.Windows.Forms.MenuItem swapcase;
-        private System.Windows.Forms.ToolStripStatusLabel infolabel;
-        private System.Windows.Forms.ToolStripStatusLabel gapfiller1;
         private System.Windows.Forms.ToolStripDropDownButton zoom;
         private System.Windows.Forms.ToolStripMenuItem mizoom500;
         private System.Windows.Forms.ToolStripMenuItem mizoom400;
@@ -2184,7 +2157,6 @@
         private System.Windows.Forms.MenuItem mifindnext;
         private System.Windows.Forms.MenuItem mitpunctuation;
         private System.Windows.Forms.MenuItem miconversions;
-        private System.Windows.Forms.MenuItem mifoldermanager;
         private System.Windows.Forms.MenuItem seperator26;
         private System.Windows.Forms.MenuItem mimacros;
         private System.Windows.Forms.MenuItem mikeymapeditor;

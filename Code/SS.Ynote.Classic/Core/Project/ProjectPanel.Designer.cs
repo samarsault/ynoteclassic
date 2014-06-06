@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
+using SS.Ynote.Classic.UI.Controls;
 
 namespace SS.Ynote.Classic.Core.Project
 {
@@ -55,14 +56,12 @@ namespace SS.Ynote.Classic.Core.Project
             // projtree
             // 
             this.projtree.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.projtree.FullRowSelect = true;
             this.projtree.ImageIndex = 0;
             this.projtree.ImageList = this.imageList1;
-            this.projtree.LabelEdit = true;
+            this.projtree.Indent = 20;
             this.projtree.Location = new System.Drawing.Point(0, 0);
             this.projtree.Name = "projtree";
             this.projtree.SelectedImageIndex = 0;
-            this.projtree.ShowLines = false;
             this.projtree.Size = new System.Drawing.Size(267, 367);
             this.projtree.TabIndex = 0;
             this.projtree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);

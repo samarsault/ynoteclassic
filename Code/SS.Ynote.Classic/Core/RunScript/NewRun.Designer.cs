@@ -1,4 +1,4 @@
-﻿namespace SS.Ynote.Classic.Features.RunScript
+﻿namespace SS.Ynote.Classic.Core.RunScript
 {
     partial class NewRun
     {

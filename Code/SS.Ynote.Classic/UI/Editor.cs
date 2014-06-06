@@ -288,7 +288,6 @@ namespace SS.Ynote.Classic.UI
             codebox.Selection.GoLeft(true);
             codebox.ClearSelected();
         }
-
         private void codebox_SelectionChangedDelayed(object sender, EventArgs e)
         {
             codebox.VisibleRange.ClearStyle(codebox.SameWordsStyle);
@@ -374,13 +373,12 @@ namespace SS.Ynote.Classic.UI
                 }
             }
             codebox.CloseBindingFile();
-            if (!e.Cancel)
-            {
-                if (DockPanel.Documents.Count() == 1)
-                    Application.Exit();
-                DockPanel = null;
-            }
             base.OnClosing(e);
+        }
+
+        protected override string GetPersistString()
+        {
+            return GetType() + "," + Name + "," + Text;
         }
 
         private void SaveFile()

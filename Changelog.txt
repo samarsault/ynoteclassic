@@ -224,3 +224,19 @@ Build 738
 
 -> Load RunScripts from anywhere
 -> RunScripts Extension to .ynoterun
+
+Build 740
+
+-> Updated Status Bar
+
+Build 745
+
+-> Show status for various operations
+
+Build 748
+
+-> Added Method Trace(message) in API
+
+Build 789
+
+-> Added Auto Loading of auto-saved layout
