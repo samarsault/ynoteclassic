@@ -33,7 +33,7 @@ Screenshot
 
 Version
 ----
- 2.8.5 Build 794
+ 2.8.5 PreAlpha Build 832
 
 License
 ----

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Core.Settings;
 
 namespace SS.Ynote.Classic.UI
 {
@@ -30,7 +31,7 @@ namespace SS.Ynote.Classic.UI
         {
             InitializeComponent();
             foreach (
-                var item in Directory.GetFiles(YnoteSettings.SettingsDir, "*.ynotemacro", SearchOption.AllDirectories))
+                var item in Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynotemacro", SearchOption.AllDirectories))
             {
                 var macroItem = new MacroItem(Path.GetFileNameWithoutExtension(item), item);
                 cmbMacros.Items.Add(macroItem);

@@ -17,6 +17,7 @@ using SS.Ynote.Classic.Core;
 using SS.Ynote.Classic.Core.Extensibility;
 using SS.Ynote.Classic.Core.Project;
 using SS.Ynote.Classic.Core.Search;
+using SS.Ynote.Classic.Core.Settings;
 using SS.Ynote.Classic.Core.Syntax;
 using SS.Ynote.Classic.Core.Syntax.Framework;
 using SS.Ynote.Classic.Extensibility;
@@ -84,6 +85,7 @@ namespace SS.Ynote.Classic
             var sp = new Stopwatch();
             sp.Start();
 #endif
+            Globals.Settings = GlobalSettings.Load(GlobalSettings.SettingsDir + "User.ynotesettings");
             InitializeComponent();
             InitSettings();
             Panel = dock;
@@ -91,16 +93,16 @@ namespace SS.Ynote.Classic
             LoadLayout();
             if(!string.IsNullOrEmpty(file))
                 OpenFile(file);
-            if (!YnoteSettings.LoadLayout)
+            if (!Globals.Settings.LoadLayout)
                 CreateNewDoc();
-            if (YnoteSettings.ShowStatusBar)
+            if (Globals.Settings.ShowStatusBar)
                 InitTimer();
 #if DEBUG
             sp.Stop();
             Debug.WriteLine(string.Format("Form Construction Time : {0} ms", sp.ElapsedMilliseconds));
 #if DEVBUILD
-            YnoteSettings.BuildNumber = File.ReadAllLines(Application.StartupPath + "\\Build.number")[0].ToInt();
-            YnoteSettings.BuildNumber++;
+            GlobalSettings.BuildNumber = File.ReadAllLines(Application.StartupPath + "\\Build.number")[0].ToInt();
+            GlobalSettings.BuildNumber++;
 #endif
 #endif
         }
@@ -116,9 +118,18 @@ namespace SS.Ynote.Classic
         /// </summary>
         public void CreateNewDoc()
         {
+#if DEBUG
+            var watch = new Stopwatch();
+            watch.Start();
+#endif
             var edit = new Editor();
             edit.Text = "untitled";
             edit.Show(Panel);
+
+#if DEBUG
+            watch.Stop();
+            Debug.WriteLine("CreateNewDoc()  - "+ watch.ElapsedMilliseconds + " ms");
+#endif
         }
 
         /// <summary>
@@ -128,7 +139,7 @@ namespace SS.Ynote.Classic
         public void OpenFile(string name)
         {
             Encoding encoding = EncodingDetector.DetectTextFileEncoding(name) ??
-                                Encoding.GetEncoding(YnoteSettings.DefaultEncoding);
+                                Encoding.GetEncoding(Globals.Settings.DefaultEncoding);
             OpenFile(name, encoding);
         }
 
@@ -138,7 +149,7 @@ namespace SS.Ynote.Classic
         /// <param name="edit"></param>
         public void SaveEditor(Editor edit)
         {
-            SaveEditor(edit, Encoding.GetEncoding(YnoteSettings.DefaultEncoding));
+            SaveEditor(edit, Encoding.GetEncoding(Globals.Settings.DefaultEncoding));
         }
 
         private Editor OpenEditor(string file)
@@ -151,7 +162,7 @@ namespace SS.Ynote.Classic
             edit.HighlightSyntax(lang);
             edit.Show(Panel);
             Encoding encoding = EncodingDetector.DetectTextFileEncoding(file) ??
-                                Encoding.GetEncoding(YnoteSettings.DefaultEncoding);
+                                Encoding.GetEncoding(Globals.Settings.DefaultEncoding);
             var info = new FileInfo(file);
             if (info.Length > 5242800) // if greather than approx 5mb
                 edit.Tb.OpenBindingFile(file, encoding);
@@ -255,7 +266,7 @@ namespace SS.Ynote.Classic
                 {
                     fileName = edit.Name;
                 }
-                if (YnoteSettings.UseTabs)
+                if (Globals.Settings.UseTabs)
                 {
                     string tabSpaces = new string(' ', edit.Tb.TabLength);
                     var tx = edit.Tb.Text;
@@ -299,11 +310,11 @@ namespace SS.Ynote.Classic
             if (_mru == null)
                 LoadRecentList();
             // LoadRecentList(); //load list from file
-            while (_mru.Count > Convert.ToInt32(YnoteSettings.RecentFileNumber))
+            while (_mru.Count > Convert.ToInt32(Globals.Settings.RecentFileNumber))
                 //keep list number not exceeded given value
                 _mru.Dequeue();
             //writing menu list to file
-            using (var stringToWrite = new StreamWriter(YnoteSettings.SettingsDir + "Recent.info"))
+            using (var stringToWrite = new StreamWriter(GlobalSettings.SettingsDir + "Recent.info"))
             {
                 //create file called "Recent.txt" located on app folder
                 foreach (var item in _mru)
@@ -318,9 +329,9 @@ namespace SS.Ynote.Classic
         /// </summary>
         private void LoadRecentList()
         {
-            var rfPath = YnoteSettings.SettingsDir + "Recent.info";
-            if (!Directory.Exists(YnoteSettings.SettingsDir))
-                Directory.CreateDirectory(YnoteSettings.SettingsDir);
+            var rfPath = GlobalSettings.SettingsDir + "Recent.info";
+            if (!Directory.Exists(GlobalSettings.SettingsDir))
+                Directory.CreateDirectory(GlobalSettings.SettingsDir);
             if (!File.Exists(rfPath))
                 File.WriteAllText(rfPath, string.Empty);
             _mru = new Queue<string>();
@@ -357,7 +368,7 @@ namespace SS.Ynote.Classic
         private void LoadRecentProjects()
         {
             _projs = new List<string>();
-            string file = YnoteSettings.SettingsDir + "Projects.ynote";
+            string file = GlobalSettings.SettingsDir + "Projects.ynote";
             if (!File.Exists(file))
                 return;
             foreach (var line in File.ReadAllLines(file))
@@ -366,7 +377,7 @@ namespace SS.Ynote.Classic
 
         private void SaveRecentProjects()
         {
-            string file = YnoteSettings.SettingsDir + "Projects.ynote";
+            string file = GlobalSettings.SettingsDir + "Projects.ynote";
             File.WriteAllLines(file, _projs.ToArray());
         }
 
@@ -460,7 +471,7 @@ namespace SS.Ynote.Classic
             if (removeFromStart == value.Length &&
                 removeFromEnd == value.Length)
             {
-                return "";
+                return string.Empty;
             }
             // Substring.
             return value.Substring(removeFromStart,
@@ -492,18 +503,17 @@ namespace SS.Ynote.Classic
         }
 
         /// <summary>
-        ///     Initialize YnoteSettings
+        ///     Initialize Globals.Globals.Settings
         /// </summary>
         private void InitSettings()
         {
-            YnoteSettings.Load();
-            if (!YnoteSettings.ShowMenuBar)
+            if (!Globals.Settings.ShowMenuBar)
                 ToggleMenu(false);
-            dock.DocumentStyle = YnoteSettings.DocumentStyle;
-            dock.DocumentTabStripLocation = YnoteSettings.TabLocation;
-            mihiddenchars.Checked = YnoteSettings.HiddenChars;
-            status.Visible = statusbarmenuitem.Checked = YnoteSettings.ShowStatusBar;
-            toolBar.Visible = mitoolbar.Checked = YnoteSettings.ShowToolBar;
+            dock.DocumentStyle = Globals.Settings.DocumentStyle;
+            dock.DocumentTabStripLocation = Globals.Settings.TabLocation;
+            mihiddenchars.Checked = Globals.Settings.HiddenChars;
+            status.Visible = statusbarmenuitem.Checked = Globals.Settings.ShowStatusBar;
+            toolBar.Visible = mitoolbar.Checked = Globals.Settings.ShowToolBar;
         }
 
         private void ToggleMenu(bool visible)
@@ -567,9 +577,9 @@ namespace SS.Ynote.Classic
         /// </summary>
         private void LoadPlugins()
         {
-            if (!Directory.Exists(YnoteSettings.SettingsDir + @"\Plugins"))
-                Directory.CreateDirectory(YnoteSettings.SettingsDir + @"Plugins");
-            using (var dircatalog = new DirectoryCatalog(YnoteSettings.SettingsDir + @"\Plugins"))
+            if (!Directory.Exists(GlobalSettings.SettingsDir + @"\Plugins"))
+                Directory.CreateDirectory(GlobalSettings.SettingsDir + @"Plugins");
+            using (var dircatalog = new DirectoryCatalog(GlobalSettings.SettingsDir + @"\Plugins"))
             {
                 using (var container = new CompositionContainer(dircatalog))
                 {
@@ -590,13 +600,18 @@ namespace SS.Ynote.Classic
 
             if (persistString == typeof (Shell).ToString())
                 return new Shell("cmd.exe", null);
-            else if (parsedStrings[0] == typeof (Editor).ToString())
+            if (parsedStrings[0] == typeof (Editor).ToString())
             {
+                if (parsedStrings[1] == "Editor")
+                    return null;
+                else
+                {
                     Editor edit = OpenEditor(parsedStrings[1]);
                     edit.Text = parsedStrings[2];
                     return edit;
+                }
             }
-            else if (parsedStrings[0] == typeof (ProjectPanel).ToString())
+            if (parsedStrings[0] == typeof (ProjectPanel).ToString())
             {
                     var projp = new ProjectPanel(this);
                     projp.OpenProject(YnoteProject.Load(parsedStrings[1]));
@@ -607,7 +622,7 @@ namespace SS.Ynote.Classic
 
         private void LoadLayout()
         {
-            if (!YnoteSettings.LoadLayout)
+            if (!Globals.Settings.LoadLayout)
                 return;
             dock.SuspendLayout(true);
             string filename = Application.StartupPath + "\\Dock.xml";
@@ -624,20 +639,20 @@ namespace SS.Ynote.Classic
         protected override void OnClosing(CancelEventArgs e)
         {
             SaveRecentFiles();
-            YnoteSettings.Save();
-            if(YnoteSettings.LoadLayout)
+            GlobalSettings.Save(Globals.Settings, GlobalSettings.SettingsDir + "User.ynotesettings");
+            if(Globals.Settings.LoadLayout)
                 dock.SaveAsXml("Dock.xml");
             if (_projs != null)
                 SaveRecentProjects();
 #if DEVBUILD
-            File.WriteAllText(Application.StartupPath + "\\Build.number", YnoteSettings.BuildNumber.ToString());
+            File.WriteAllText(Application.StartupPath + "\\Build.number", GlobalSettings.BuildNumber.ToString());
 #endif
             base.OnClosing(e);
         }
 
         protected override void OnResize(EventArgs e)
         {
-            if (YnoteSettings.MinimizeToTray)
+            if (Globals.Settings.MinimizeToTray)
             {
                 var nicon = new NotifyIcon();
                 nicon.Icon = Icon;
@@ -683,24 +698,6 @@ namespace SS.Ynote.Classic
                 {
                     OpenFileAsync(file);
                     AddRecentFile(file);
-                }
-            }
-        }
-
-        private void openFolderMenu_Click(object sender, EventArgs e)
-        {
-            using (var dlg = new FolderBrowserDialogEx())
-            {
-                dlg.ShowEditBox = true;
-                dlg.ShowFullPathInEditBox = true;
-                dlg.ShowNewFolderButton = true;
-                var result = dlg.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    var panel = new ProjectPanel(this);
-                    panel.Show(Panel, DockState.DockLeft);
-                    //TODO:Add Open Folder Method
-                    panel.OpenProject(new YnoteProject {Path = dlg.SelectedPath});
                 }
             }
         }
@@ -1035,7 +1032,7 @@ namespace SS.Ynote.Classic
             foreach (var document in dock.Documents)
                 if (document is Editor)
                     (document as Editor).Tb.WordWrap = wordwrapmenu.Checked;
-            YnoteSettings.WordWrap = wordwrapmenu.Checked;
+            Globals.Settings.WordWrap = wordwrapmenu.Checked;
         }
 
         private void aboutmenu_Click(object sender, EventArgs e)
@@ -1061,7 +1058,7 @@ namespace SS.Ynote.Classic
             var i = e.ClickedItem.Text.ToInt();
             if (ActiveEditor == null) return;
             ActiveEditor.Tb.Zoom = i;
-            YnoteSettings.Zoom = i;
+            Globals.Settings.Zoom = i;
         }
 
         private void pluginmanagermenu_Click(object sender, EventArgs e)
@@ -1084,7 +1081,7 @@ namespace SS.Ynote.Classic
             {
                 sf.Filter = BuildDialogFilter(ActiveEditor.Tb.Language, sf);
                 if (sf.ShowDialog() != DialogResult.OK) return;
-                ActiveEditor.Tb.SaveToFile(sf.FileName, Encoding.GetEncoding(YnoteSettings.DefaultEncoding));
+                ActiveEditor.Tb.SaveToFile(sf.FileName, Encoding.GetEncoding(Globals.Settings.DefaultEncoding));
                 ActiveEditor.Text = Path.GetFileName(sf.FileName);
                 ActiveEditor.Name = sf.FileName;
             }
@@ -1118,7 +1115,7 @@ namespace SS.Ynote.Classic
             using (var sf = new SaveFileDialog())
             {
                 sf.Filter = "Ynote Macro File(*.ynotemacro)|*.ynotemacro";
-                sf.InitialDirectory = YnoteSettings.SettingsDir + @"User\";
+                sf.InitialDirectory = GlobalSettings.SettingsDir + @"User\";
                 if (sf.ShowDialog() != DialogResult.OK)
                     return;
                 if (!ActiveEditor.Tb.MacrosManager.MacroIsEmpty)
@@ -1158,14 +1155,14 @@ namespace SS.Ynote.Classic
         {
             mitoolbar.Checked = !mitoolbar.Checked;
             toolBar.Visible = mitoolbar.Checked;
-            YnoteSettings.ShowToolBar = mitoolbar.Checked;
+            Globals.Settings.ShowToolBar = mitoolbar.Checked;
         }
 
         private void statusbarmenuitem_Click(object sender, EventArgs e)
         {
             status.Visible = !statusbarmenuitem.Checked;
             statusbarmenuitem.Checked = !statusbarmenuitem.Checked;
-            YnoteSettings.ShowStatusBar = statusbarmenuitem.Checked;
+            Globals.Settings.ShowStatusBar = statusbarmenuitem.Checked;
         }
 
         private void incrementalsearchmenu_Click(object sender, EventArgs e)
@@ -1230,7 +1227,7 @@ namespace SS.Ynote.Classic
                 item.Checked = false;
             if (m == null) return;
             m.Checked = true;
-            YnoteSettings.ThemeFile = m.Name;
+            Globals.Settings.ThemeFile = m.Name;
         }
 
         private void colorschememenu_Select(object sender, EventArgs e)
@@ -1238,7 +1235,7 @@ namespace SS.Ynote.Classic
             if (colorschememenu.MenuItems.Count != 0) return;
             foreach (
                 var menuitem in
-                    Directory.GetFiles(YnoteSettings.SettingsDir, "*.ynotetheme", SearchOption.AllDirectories)
+                    Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynotetheme", SearchOption.AllDirectories)
                         .Select(file => new MenuItem {Text = Path.GetFileNameWithoutExtension(file), Name = file}))
             {
                 menuitem.Click += colorschemeitem_Click;
@@ -1468,7 +1465,7 @@ namespace SS.Ynote.Classic
         private void mihiddenchars_Click(object sender, EventArgs e)
         {
             mihiddenchars.Checked = !mihiddenchars.Checked;
-            YnoteSettings.HiddenChars = mihiddenchars.Checked; // If hiddenchars is checked
+            Globals.Settings.HiddenChars = mihiddenchars.Checked; // If hiddenchars is checked
         }
 
         private void removelinemenu_Click(object sender, EventArgs e)
@@ -1503,7 +1500,7 @@ namespace SS.Ynote.Classic
             if (form.ShowDialog() == DialogResult.OK)
             {
                 fctb.HotkeysMapping = form.GetHotkeys();
-                File.WriteAllText(YnoteSettings.SettingsDir + "User.ynotekeys", form.GetHotkeys().ToString());
+                File.WriteAllText(GlobalSettings.SettingsDir + "User.ynotekeys", form.GetHotkeys().ToString());
             }
         }
 
@@ -1720,7 +1717,7 @@ namespace SS.Ynote.Classic
         private void minewsnippet_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null)
-                OpenFile(string.Format(@"{0}Snippets\{1}.ynotesnippet", YnoteSettings.SettingsDir,
+                OpenFile(string.Format(@"{0}Snippets\{1}.ynotesnippet", GlobalSettings.SettingsDir,
                     ActiveEditor.Tb.Language));
         }
 
@@ -1787,7 +1784,7 @@ namespace SS.Ynote.Classic
             var mnum = 0;
             foreach (
                 var item in
-                    Directory.GetFiles(YnoteSettings.SettingsDir, "*.ynotemacro", SearchOption.AllDirectories)
+                    Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynotemacro", SearchOption.AllDirectories)
                         .Select(
                             file => new MenuItem(Path.GetFileNameWithoutExtension(file), macroitem_click) {Name = file})
                 )
@@ -1801,7 +1798,7 @@ namespace SS.Ynote.Classic
             var si = 0;
             foreach (
                 var item in
-                    Directory.GetFiles(YnoteSettings.SettingsDir, "*.ys", SearchOption.AllDirectories)
+                    Directory.GetFiles(GlobalSettings.SettingsDir, "*.ys", SearchOption.AllDirectories)
                         .Select(
                             file =>
                                 new MenuItem(Path.GetFileNameWithoutExtension(file), scriptitem_clicked) {Name = file}))
@@ -1929,11 +1926,11 @@ namespace SS.Ynote.Classic
         {
             if (ActiveEditor == null)
                 return;
-            mimap.Checked = YnoteSettings.ShowDocumentMap;
+            mimap.Checked = Globals.Settings.ShowDocumentMap;
             midistractionfree.Checked = ActiveEditor.DistractionFree;
-            wordwrapmenu.Checked = YnoteSettings.WordWrap;
-            mimenu.Checked = YnoteSettings.ShowMenuBar;
-            mihiddenchars.Checked = YnoteSettings.HiddenChars;
+            wordwrapmenu.Checked = Globals.Settings.WordWrap;
+            mimenu.Checked = Globals.Settings.ShowMenuBar;
+            mihiddenchars.Checked = Globals.Settings.HiddenChars;
         }
 
         private void menuItem5_Click(object sender, EventArgs e)
@@ -1969,7 +1966,7 @@ namespace SS.Ynote.Classic
         {
             mimenu.Checked = !mimenu.Checked;
             ToggleMenu(mimenu.Checked);
-            YnoteSettings.ShowMenuBar = mimenu.Checked;
+            Globals.Settings.ShowMenuBar = mimenu.Checked;
         }
 
 
@@ -2109,9 +2106,12 @@ namespace SS.Ynote.Classic
 
         private void micloseproj_Click(object sender, EventArgs e)
         {
+            ProjectPanel proj = null;
             foreach (var window in dock.Contents)
                 if (window is ProjectPanel)
-                    (window as ProjectPanel).CloseProject();
+                    proj = window as ProjectPanel;
+            if(proj != null)
+                proj.CloseProject();
         }
 
         private void mieditproj_Click(object sender, EventArgs e)

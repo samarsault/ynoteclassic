@@ -54,28 +54,6 @@
     <Compile Include="Autocomplete\ITextBoxWrapper.cs" />
     <Compile Include="Autocomplete\Range.cs" />
     <Compile Include="Autocomplete\TextBoxWrapper.cs" />
-    <Compile Include="Configuration\AliasText.cs" />
-    <Compile Include="Configuration\ArgvConfigSource.cs" />
-    <Compile Include="Configuration\ConfigBase.cs" />
-    <Compile Include="Configuration\ConfigCollection.cs" />
-    <Compile Include="Configuration\ConfigSourceBase.cs" />
-    <Compile Include="Configuration\DotNetConfigSource.cs" />
-    <Compile Include="Configuration\IConfig.cs" />
-    <Compile Include="Configuration\IConfigSource.cs" />
-    <Compile Include="Configuration\IniConfig.cs" />
-    <Compile Include="Configuration\IniConfigSource.cs" />
-    <Compile Include="Configuration\Ini\IniDocument.cs" />
-    <Compile Include="Configuration\Ini\IniException.cs" />
-    <Compile Include="Configuration\Ini\IniItem.cs" />
-    <Compile Include="Configuration\Ini\IniReader.cs" />
-    <Compile Include="Configuration\Ini\IniSection.cs" />
-    <Compile Include="Configuration\Ini\IniSectionCollection.cs" />
-    <Compile Include="Configuration\Ini\IniWriter.cs" />
-    <Compile Include="Configuration\RegistryConfigSource.cs" />
-    <Compile Include="Configuration\Util\ArgvParser.cs" />
-    <Compile Include="Configuration\Util\OrderedList.cs" />
-    <Compile Include="Configuration\Util\OrderedListEnumerator.cs" />
-    <Compile Include="Configuration\XmlConfigSource.cs" />
     <Compile Include="Process\Control\ConsoleControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

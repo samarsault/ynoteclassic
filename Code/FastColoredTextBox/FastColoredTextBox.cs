@@ -7673,12 +7673,13 @@ namespace FastColoredTextBoxNS
 
         private void InitializeComponent()
         {
-            SuspendLayout();
-            //
+            this.SuspendLayout();
+            // 
             // FastColoredTextBox
-            //
-            Name = "FastColoredTextBox";
-            ResumeLayout(false);
+            // 
+            this.Name = "FastColoredTextBox";
+            this.ResumeLayout(false);
+
         }
 
         /// <summary>

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Xml;
 using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Core.Settings;
 using SS.Ynote.Classic.Core.Syntax;
 
 internal static class FileTypes
@@ -11,7 +12,7 @@ internal static class FileTypes
     internal static void BuildDictionary()
     {
         FileTypesDictionary = new Dictionary<IEnumerable<string>, Language>();
-        using (var reader = XmlReader.Create(YnoteSettings.SettingsDir + "Extensions.xml"))
+        using (var reader = XmlReader.Create(GlobalSettings.SettingsDir + "Extensions.xml"))
         {
             while (reader.Read())
             {

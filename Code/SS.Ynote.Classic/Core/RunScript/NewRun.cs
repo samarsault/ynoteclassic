@@ -10,7 +10,7 @@ namespace SS.Ynote.Classic.Core.RunScript
             InitializeComponent();
         }
 
-        public Core.RunScript.RunScript Script { get; set; }
+        public RunScript Script { get; set; }
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -24,7 +24,7 @@ namespace SS.Ynote.Classic.Core.RunScript
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            var configuration = new Core.RunScript.RunScript();
+            var configuration = new RunScript();
             configuration.EditConfig(tbName.Text, tbProcess.Text, tbArgs.Text,
                 tbCmdDir.Text);
             Script = configuration;

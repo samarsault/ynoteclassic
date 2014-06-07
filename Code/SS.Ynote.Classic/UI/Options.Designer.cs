@@ -118,12 +118,12 @@ namespace SS.Ynote.Classic.UI
             this.cbtool = new System.Windows.Forms.CheckBox();
             this.cbmenu = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.cbSysTray = new System.Windows.Forms.CheckBox();
             this.savingfile = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cbTabs = new System.Windows.Forms.CheckBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.tabcontrol.SuspendLayout();
             this.tabsettingpage.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -925,6 +925,17 @@ namespace SS.Ynote.Classic.UI
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "MISC";
             // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(35, 65);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(194, 17);
+            this.checkBox2.TabIndex = 1;
+            this.checkBox2.Text = "Load Previous Workspace on Load";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            // 
             // cbSysTray
             // 
             this.cbSysTray.AutoSize = true;
@@ -966,6 +977,7 @@ namespace SS.Ynote.Classic.UI
             this.cbTabs.TabIndex = 0;
             this.cbTabs.Text = "Use Tabs instead\r\nof Spaces";
             this.cbTabs.UseVisualStyleBackColor = true;
+            this.cbTabs.CheckedChanged += new System.EventHandler(this.cbTabs_CheckedChanged);
             // 
             // linkLabel1
             // 
@@ -977,16 +989,6 @@ namespace SS.Ynote.Classic.UI
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "Edit User.ynotesettings File";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(35, 65);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(194, 17);
-            this.checkBox2.TabIndex = 1;
-            this.checkBox2.Text = "Load Previous Workspace on Load";
-            this.checkBox2.UseVisualStyleBackColor = true;
             // 
             // Options
             // 

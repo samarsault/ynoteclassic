@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Core.Settings;
 using SS.Ynote.Classic.Core.Syntax;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -17,47 +18,48 @@ namespace SS.Ynote.Classic.UI
         public Options()
         {
             InitializeComponent();
-            if (!Directory.Exists(YnoteSettings.SettingsDir))
-                Directory.CreateDirectory(YnoteSettings.SettingsDir);
+            if (!Directory.Exists(GlobalSettings.SettingsDir))
+                Directory.CreateDirectory(GlobalSettings.SettingsDir);
             tvBrowser.ExpandAll();
-            InitYnoteSettings();
+            InitSettings();
             BuildLangList();
             tvBrowser.SelectedNode = tvBrowser.Nodes["TabsNode"];
         }
 
         /// <summary>
-        ///     Initialize YnoteSettings
+        ///     Initialize Globals.Settings
         /// </summary>
-        private void InitYnoteSettings()
+        private void InitSettings()
         {
-            cbdockstyle.Text = YnoteSettings.DocumentStyle.ToString();
-            comboBox2.Text = YnoteSettings.BracketsStrategy == BracketsHighlightStrategy.Strategy2
+            cbdockstyle.Text = Globals.Settings.DocumentStyle.ToString();
+            comboBox2.Text = Globals.Settings.BracketsStrategy == BracketsHighlightStrategy.Strategy2
                 ? "Inside"
                 : "Outside";
-            tablocation.Text = YnoteSettings.TabLocation.ToString();
-            checkBox1.Checked = YnoteSettings.ShowDocumentMap;
-            cbBrackets.Checked = YnoteSettings.AutoCompleteBrackets;
-            ShowLineNumber.Checked = YnoteSettings.ShowLineNumbers;
-            showcaret.Checked = YnoteSettings.ShowCaret;
-            showfoldinglines.Checked = YnoteSettings.ShowFoldingLines;
-            virtualspace.Checked = YnoteSettings.EnableVirtualSpace;
-            highlightfoliding.Checked = YnoteSettings.HighlightFolding;
-            tbpaddingwidth.Text = YnoteSettings.PaddingWidth.ToString();
-            tblineinterval.Text = YnoteSettings.LineInterval.ToString();
-            comboBox1.Text = YnoteSettings.FoldingStrategy.ToString();
-            tabsize.Value = YnoteSettings.TabSize;
-            cbruler.Checked = YnoteSettings.ShowRuler;
-            numrecent.Value = YnoteSettings.RecentFileNumber;
-            cbSysTray.Checked = YnoteSettings.MinimizeToTray;
-            cbmenu.Checked = YnoteSettings.ShowMenuBar;
-            cbtool.Checked = YnoteSettings.ShowToolBar;
-            cbstatus.Checked = YnoteSettings.ShowStatusBar;
-            cbHighlightSameWords.Checked = YnoteSettings.HighlightSameWords;
-            cbIME.Checked = YnoteSettings.IMEMode;
-            cbBlockCursor.Checked = YnoteSettings.BlockCaret;
-            cbTabs.Checked = YnoteSettings.UseTabs;
-            cbchangedline.Checked = YnoteSettings.ShowChangedLine;
-            cbScrollBars.Checked = YnoteSettings.ScrollBars;
+            tablocation.Text = Globals.Settings.TabLocation.ToString();
+            checkBox1.Checked = Globals.Settings.ShowDocumentMap;
+            checkBox2.Checked = Globals.Settings.LoadLayout;
+            cbBrackets.Checked = Globals.Settings.AutoCompleteBrackets;
+            ShowLineNumber.Checked = Globals.Settings.ShowLineNumbers;
+            showcaret.Checked = Globals.Settings.ShowCaret;
+            showfoldinglines.Checked = Globals.Settings.ShowFoldingLines;
+            virtualspace.Checked = Globals.Settings.EnableVirtualSpace;
+            highlightfoliding.Checked = Globals.Settings.HighlightFolding;
+            tbpaddingwidth.Text = Globals.Settings.PaddingWidth.ToString();
+            tblineinterval.Text = Globals.Settings.LineInterval.ToString();
+            comboBox1.Text = Globals.Settings.FoldingStrategy.ToString();
+            tabsize.Value = Globals.Settings.TabSize;
+            cbruler.Checked = Globals.Settings.ShowRuler;
+            numrecent.Value = Globals.Settings.RecentFileNumber;
+            cbSysTray.Checked = Globals.Settings.MinimizeToTray;
+            cbmenu.Checked = Globals.Settings.ShowMenuBar;
+            cbtool.Checked = Globals.Settings.ShowToolBar;
+            cbstatus.Checked = Globals.Settings.ShowStatusBar;
+            cbHighlightSameWords.Checked = Globals.Settings.HighlightSameWords;
+            cbIME.Checked = Globals.Settings.ImeMode;
+            cbBlockCursor.Checked = Globals.Settings.BlockCaret;
+            cbTabs.Checked = Globals.Settings.UseTabs;
+            cbchangedline.Checked = Globals.Settings.ShowChangedLine;
+            cbScrollBars.Checked = Globals.Settings.ScrollBars;
             BuildEncodingList();
         }
 
@@ -65,7 +67,7 @@ namespace SS.Ynote.Classic.UI
         {
             foreach (var encoding in Encoding.GetEncodings())
             {
-                if (encoding.CodePage == Encoding.GetEncoding(YnoteSettings.DefaultEncoding).CodePage)
+                if (encoding.CodePage == Encoding.GetEncoding(Globals.Settings.DefaultEncoding).CodePage)
                     lblencoding.Text = encoding.DisplayName;
                 lstencs.Items.Add(new EncodingItem(encoding));
             }
@@ -103,7 +105,7 @@ namespace SS.Ynote.Classic.UI
                     tabcontrol.SelectTab(ClearPage);
                     break;
 
-                case "Save YnoteSettings":
+                case "Save Settings":
                     tabcontrol.SelectTab(savingfile);
                     break;
             }
@@ -113,7 +115,7 @@ namespace SS.Ynote.Classic.UI
         {
             try
             {
-                YnoteSettings.TabLocation = tablocation.Text.ToEnum<DocumentTabStripLocation>();
+                Globals.Settings.TabLocation = tablocation.Text.ToEnum<DocumentTabStripLocation>();
             }
             catch
             {
@@ -124,7 +126,7 @@ namespace SS.Ynote.Classic.UI
         {
             try
             {
-                YnoteSettings.DocumentStyle = cbdockstyle.Text.ToEnum<DocumentStyle>();
+                Globals.Settings.DocumentStyle = cbdockstyle.Text.ToEnum<DocumentStyle>();
             }
             catch
             {
@@ -133,44 +135,44 @@ namespace SS.Ynote.Classic.UI
 
         private void showfoldinglines_CheckedChanged(object sender, EventArgs e)
         {
-            YnoteSettings.ShowFoldingLines = showfoldinglines.Checked;
+            Globals.Settings.ShowFoldingLines = showfoldinglines.Checked;
         }
 
         private void showcaret_CheckedChanged(object sender, EventArgs e)
         {
-            YnoteSettings.ShowCaret = showcaret.Checked;
+            Globals.Settings.ShowCaret = showcaret.Checked;
         }
 
         private void ShowLineNumber_CheckedChanged(object sender, EventArgs e)
         {
-            YnoteSettings.ShowLineNumbers = ShowLineNumber.Checked;
+            Globals.Settings.ShowLineNumbers = ShowLineNumber.Checked;
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            YnoteSettings.ShowDocumentMap = checkBox1.Checked;
+            Globals.Settings.ShowDocumentMap = checkBox1.Checked;
         }
 
         private void highlightfoliding_CheckedChanged(object sender, EventArgs e)
         {
-            YnoteSettings.HighlightFolding = highlightfoliding.Checked;
+            Globals.Settings.HighlightFolding = highlightfoliding.Checked;
         }
 
         private void virtualspace_CheckedChanged(object sender, EventArgs e)
         {
-            YnoteSettings.EnableVirtualSpace = virtualspace.Checked;
+            Globals.Settings.EnableVirtualSpace = virtualspace.Checked;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            YnoteSettings.FoldingStrategy = comboBox1.Text.ToEnum<FindEndOfFoldingBlockStrategy>();
+            Globals.Settings.FoldingStrategy = comboBox1.Text.ToEnum<FindEndOfFoldingBlockStrategy>();
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
-                YnoteSettings.BracketsStrategy = comboBox2.Text == "Inside"
+                Globals.Settings.BracketsStrategy = comboBox2.Text == "Inside"
                     ? BracketsHighlightStrategy.Strategy2
                     : BracketsHighlightStrategy.Strategy1;
             }
@@ -182,11 +184,11 @@ namespace SS.Ynote.Classic.UI
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            YnoteSettings.PaddingWidth = tbpaddingwidth.IntValue;
-            YnoteSettings.LineInterval = tblineinterval.IntValue;
-            YnoteSettings.TabSize = Convert.ToInt32(tabsize.Value);
-            YnoteSettings.RecentFileNumber = Convert.ToInt32(numrecent.Value);
-            YnoteSettings.Save();
+            Globals.Settings.PaddingWidth = tbpaddingwidth.IntValue;
+            Globals.Settings.LineInterval = tblineinterval.IntValue;
+            Globals.Settings.TabSize = Convert.ToInt32(tabsize.Value);
+            Globals.Settings.RecentFileNumber = Convert.ToInt32(numrecent.Value);
+            GlobalSettings.Save(Globals.Settings, GlobalSettings.SettingsDir + "User.ynotesettings");
             Close();
         }
 
@@ -203,25 +205,25 @@ namespace SS.Ynote.Classic.UI
                     "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                File.Delete(YnoteSettings.SettingsDir + "User.ynotesettings");
+                File.Delete(GlobalSettings.SettingsDir + "User.ynotesettings");
                 Application.Restart();
             }
         }
 
         private void cbruler_CheckedChanged(object sender, EventArgs e)
         {
-            YnoteSettings.ShowRuler = cbruler.Checked;
+            Globals.Settings.ShowRuler = cbruler.Checked;
         }
 
         private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(YnoteSettings.SettingsDir + "Extensions.xml");
+            Process.Start(GlobalSettings.SettingsDir + "Extensions.xml");
         }
 
         private static IDictionary<string, string[]> BuildReverseDictionary()
         {
             var dic = new Dictionary<string, string[]>();
-            using (var reader = XmlReader.Create(YnoteSettings.SettingsDir + "Extensions.xml"))
+            using (var reader = XmlReader.Create(GlobalSettings.SettingsDir + "Extensions.xml"))
             {
                 while (reader.Read())
                 {
@@ -258,14 +260,14 @@ namespace SS.Ynote.Classic.UI
 
         private void cbBrackets_CheckedChanged(object sender, EventArgs e)
         {
-            YnoteSettings.AutoCompleteBrackets = cbBrackets.Checked;
+            Globals.Settings.AutoCompleteBrackets = cbBrackets.Checked;
         }
 
         private void btnScriptCache_Click(object sender, EventArgs e)
         {
             try
             {
-                foreach (var file in Directory.GetFiles(YnoteSettings.SettingsDir + @"Scripts\", "*.ysc"))
+                foreach (var file in Directory.GetFiles(GlobalSettings.SettingsDir + @"Scripts\", "*.ysc"))
                     File.Delete(file);
                 MessageBox.Show("Script Cache Successfully Cleared !", "Ynote Classic", MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
@@ -281,7 +283,7 @@ namespace SS.Ynote.Classic.UI
         {
             try
             {
-                File.Delete(YnoteSettings.SettingsDir + "Recent.info");
+                File.Delete(GlobalSettings.SettingsDir + "Recent.info");
                 MessageBox.Show("Recent Files Successfully cleared. Changes will take place after restart.", null,
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -296,63 +298,73 @@ namespace SS.Ynote.Classic.UI
         {
             if (lstencs.SelectedItem == null) return;
             var item = lstencs.SelectedItem as EncodingItem;
-            YnoteSettings.DefaultEncoding = item.EncodingInfo.CodePage;
+            Globals.Settings.DefaultEncoding = item.EncodingInfo.CodePage;
             lblencoding.Text = item.EncodingInfo.DisplayName;
         }
 
         private void cbSysTray_CheckedChanged(object sender, EventArgs e)
         {
-            YnoteSettings.MinimizeToTray = cbSysTray.Checked;
+            Globals.Settings.MinimizeToTray = cbSysTray.Checked;
         }
 
         private void cbHighlightSameWords_CheckedChanged(object sender, EventArgs e)
         {
-            YnoteSettings.HighlightSameWords = cbHighlightSameWords.Checked;
+            Globals.Settings.HighlightSameWords = cbHighlightSameWords.Checked;
         }
 
         private void cbIME_CheckedChanged(object sender, EventArgs e)
         {
-            YnoteSettings.IMEMode = cbIME.Checked;
+            Globals.Settings.ImeMode = cbIME.Checked;
         }
 
         private void cbBlockCursor_CheckedChanged(object sender, EventArgs e)
         {
-            YnoteSettings.BlockCaret = cbBlockCursor.Checked;
+            Globals.Settings.BlockCaret = cbBlockCursor.Checked;
         }
 
         private void cbmenu_CheckedChanged(object sender, EventArgs e)
         {
-            YnoteSettings.ShowMenuBar = cbmenu.Checked;
+            Globals.Settings.ShowMenuBar = cbmenu.Checked;
         }
 
         private void cbtool_CheckedChanged(object sender, EventArgs e)
         {
-            YnoteSettings.ShowToolBar = cbmenu.Checked;
+            Globals.Settings.ShowToolBar = cbmenu.Checked;
         }
 
         private void cbstatus_CheckedChanged(object sender, EventArgs e)
         {
-            YnoteSettings.ShowStatusBar = cbmenu.Checked;
+            Globals.Settings.ShowStatusBar = cbmenu.Checked;
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var ynote = Application.OpenForms[1] as IYnote;
+            var ynote = Application.OpenForms[0] as IYnote;
             if (ynote == null)
-                ynote = Application.OpenForms[0] as IYnote;
+                ynote = Application.OpenForms[1] as IYnote;
 
-            ynote.OpenFile(YnoteSettings.SettingsDir + "User.ynotesettings");
+            ynote.OpenFile(GlobalSettings.SettingsDir + "User.ynotesettings");
             Close();
         }
 
         private void cbchangedline_CheckedChanged(object sender, EventArgs e)
         {
-            YnoteSettings.ShowChangedLine = cbchangedline.Checked;
+            Globals.Settings.ShowChangedLine = cbchangedline.Checked;
         }
 
         private void cbScrollBars_CheckedChanged(object sender, EventArgs e)
         {
-            YnoteSettings.ScrollBars = cbScrollBars.Checked;
+            Globals.Settings.ScrollBars = cbScrollBars.Checked;
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.Settings.LoadLayout = checkBox2.Checked;
+        }
+
+        private void cbTabs_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.Settings.UseTabs = cbTabs.Checked;
         }
     }
 

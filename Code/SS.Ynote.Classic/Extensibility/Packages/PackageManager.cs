@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using SS.Ynote.Classic.Core.Settings;
 
 namespace SS.Ynote.Classic.Extensibility.Packages
 {
@@ -21,7 +22,7 @@ namespace SS.Ynote.Classic.Extensibility.Packages
 
         private void PopulatePackageList()
         {
-            foreach (var file in Directory.GetFiles(YnoteSettings.SettingsDir + "Packages"))
+            foreach (var file in Directory.GetFiles(GlobalSettings.SettingsDir + "Packages"))
                 listView1.Items.Add(new ListViewItem(new[] {Path.GetFileNameWithoutExtension(file), file}));
         }
 

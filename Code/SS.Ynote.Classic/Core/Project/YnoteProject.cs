@@ -1,4 +1,7 @@
-﻿using System.Xml;
+﻿using System.IO;
+using System.Xml;
+using Newtonsoft.Json;
+using Formatting = Newtonsoft.Json.Formatting;
 
 namespace SS.Ynote.Classic.Core.Project
 {
@@ -10,11 +13,12 @@ namespace SS.Ynote.Classic.Core.Project
         /// <summary>
         ///     Checks whether the project has been saved
         /// </summary>
+        [JsonIgnore]
         public bool IsSaved
         {
             get { return FilePath != null; }
         }
-
+        [JsonIgnore]
         public string FilePath { get; set; }
 
         /// <summary>
@@ -30,12 +34,12 @@ namespace SS.Ynote.Classic.Core.Project
         /// <summary>
         ///     Files to Exclude
         /// </summary>
-        public string[] ExcludeFileTypes { get; private set; }
+        public string[] ExcludeFileTypes { get;  set; }
 
         /// <summary>
         ///     Directory to Exclude
         /// </summary>
-        public string[] ExcludeDirectories { get; private set; }
+        public string[] ExcludeDirectories { get;  set; }
 
         /// <summary>
         ///     Loads a Project
@@ -43,33 +47,10 @@ namespace SS.Ynote.Classic.Core.Project
         /// <returns></returns>
         public static YnoteProject Load(string file)
         {
-            var project = new YnoteProject();
-            project.FilePath = file;
-            using (var reader = XmlReader.Create(file))
-            {
-                while (reader.Read())
-                {
-                    if (reader.IsStartElement())
-                    {
-                        switch (reader.Name)
-                        {
-                            case "Name":
-                                project.Name = reader.ReadElementContentAsString();
-                                break;
-                            case "Path":
-                                project.Path = reader.ReadElementContentAsString();
-                                break;
-                            case "ExcludeFiles":
-                                project.ExcludeFileTypes = reader.ReadElementContentAsString().Split(',');
-                                break;
-                            case "ExcludeDirectory":
-                                project.ExcludeDirectories = reader.ReadElementContentAsString().Split(',');
-                                break;
-                        }
-                    }
-                }
-            }
-            return project;
+            string json = File.ReadAllText(file);
+            var proj =JsonConvert.DeserializeObject<YnoteProject>(json);
+            proj.FilePath = file;
+            return proj;
         }
 
         /// <summary>
@@ -77,18 +58,8 @@ namespace SS.Ynote.Classic.Core.Project
         /// </summary>
         public void Save(string file)
         {
-            using (var writer = XmlWriter.Create(file, new XmlWriterSettings {Indent = true, NewLineChars = "\r\n"}))
-            {
-                writer.WriteStartElement("YnoteProject");
-                writer.WriteElementString("Name", Name);
-                writer.WriteElementString("Path", Path);
-                if (ExcludeFileTypes != null)
-                    writer.WriteElementString("ExcludeFiles", string.Join(",", ExcludeFileTypes));
-                if (ExcludeDirectories != null)
-                    writer.WriteElementString("ExcludeDirectory", string.Join(",", ExcludeDirectories));
-                writer.WriteEndElement();
-                writer.Close();
-            }
+            string json = JsonConvert.SerializeObject(this, Formatting.Indented);
+            File.WriteAllText(file,json);
         }
     }
 }

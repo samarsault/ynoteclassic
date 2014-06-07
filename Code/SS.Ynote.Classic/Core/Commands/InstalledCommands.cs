@@ -10,6 +10,7 @@ using FastColoredTextBoxNS;
 using SS.Ynote.Classic;
 using SS.Ynote.Classic.Core.Extensibility;
 using SS.Ynote.Classic.Core.RunScript;
+using SS.Ynote.Classic.Core.Settings;
 using SS.Ynote.Classic.Core.Snippets;
 using SS.Ynote.Classic.Core.Syntax;
 using SS.Ynote.Classic.UI;
@@ -53,7 +54,7 @@ internal class SetSyntaxFile : ICommand
     {
         get
         {
-            return Directory.GetFiles(YnoteSettings.SettingsDir + "Syntaxes", "*.ynotesyntax")
+            return Directory.GetFiles(GlobalSettings.SettingsDir + "Syntaxes", "*.ynotesyntax")
                 .Select(Path.GetFileNameWithoutExtension)
                 .ToArray();
         }
@@ -65,7 +66,7 @@ internal class SetSyntaxFile : ICommand
         foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes.Where(syntax => syntax.SysPath ==
                                                                                 string.Format(
                                                                                     "{0}\\Syntaxes\\{1}.xml",
-                                                                                    YnoteSettings.SettingsDir,
+                                                                                    GlobalSettings.SettingsDir,
                                                                                     val)))
         {
             ActiveEditor.Highlighter.HighlightSyntax(syntax, new TextChangedEventArgs(ActiveEditor.Tb.Range));
@@ -86,7 +87,7 @@ internal class MacroCommand : ICommand
         get
         {
             return
-                Directory.GetFiles(YnoteSettings.SettingsDir, "*.ynotemacro", SearchOption.AllDirectories)
+                Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynotemacro", SearchOption.AllDirectories)
                     .Select(directory => "Macro:" + Path.GetFileNameWithoutExtension(directory))
                     .ToArray();
         }
@@ -95,7 +96,7 @@ internal class MacroCommand : ICommand
     public void ProcessCommand(string val, IYnote ynote)
     {
         var edit = ynote.Panel.ActiveDocument as Editor;
-        foreach (var file in Directory.GetFiles(YnoteSettings.SettingsDir, "*.ynotemacro", SearchOption.AllDirectories))
+        foreach (var file in Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynotemacro", SearchOption.AllDirectories))
             if (Path.GetFileName(file) == val + ".ynotemacro")
                 edit.Tb.MacrosManager.ExecuteMacros(file);
     }
@@ -113,7 +114,7 @@ internal class ScriptCommand : ICommand
         get
         {
             return
-                Directory.GetFiles(YnoteSettings.SettingsDir, "*.ys", SearchOption.AllDirectories)
+                Directory.GetFiles(GlobalSettings.SettingsDir, "*.ys", SearchOption.AllDirectories)
                     .Select(Path.GetFileNameWithoutExtension)
                     .ToArray();
         }
@@ -121,7 +122,7 @@ internal class ScriptCommand : ICommand
 
     public void ProcessCommand(string val, IYnote ynote)
     {
-        foreach (var file in Directory.GetFiles(YnoteSettings.SettingsDir, "*.ys", SearchOption.AllDirectories))
+        foreach (var file in Directory.GetFiles(GlobalSettings.SettingsDir, "*.ys", SearchOption.AllDirectories))
             if (Path.GetFileName(file) == val + ".ys")
                 YnoteScript.RunScript(ynote, file);
     }
@@ -139,7 +140,7 @@ internal class RunScriptCommand : ICommand
         get
         {
             return
-                Directory.GetFiles(YnoteSettings.SettingsDir + "RunScripts", "*.run")
+                Directory.GetFiles(GlobalSettings.SettingsDir + "RunScripts", "*.run")
                     .Select(Path.GetFileNameWithoutExtension)
                     .ToArray();
         }
@@ -148,7 +149,7 @@ internal class RunScriptCommand : ICommand
     public void ProcessCommand(string val, IYnote ynote)
     {
         var edit = ynote.Panel.ActiveDocument as Editor;
-        var item = RunScript.ToRunConfig(YnoteSettings.SettingsDir + @"RunScripts\" + val + ".run");
+        var item = RunScript.ToRunConfig(GlobalSettings.SettingsDir + @"RunScripts\" + val + ".run");
         if (item == null) return;
         if (edit != null) item.ProcessConfiguration(edit.Name);
         var temp = Path.GetTempFileName() + ".bat";
@@ -517,9 +518,9 @@ internal class SnippetCommand : ICommand
     public void ProcessCommand(string val, IYnote ynote)
     {
         var edit = ynote.Panel.ActiveDocument as Editor;
-        string file = Path.Combine(YnoteSettings.SettingsDir, val + ".ynotesnippet");
+        string file = Path.Combine(GlobalSettings.SettingsDir, val + ".ynotesnippet");
         foreach (
-            var snippet in Directory.GetFiles(YnoteSettings.SettingsDir, "*.ynotesnippet", SearchOption.AllDirectories))
+            var snippet in Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynotesnippet", SearchOption.AllDirectories))
             if (Path.GetFileNameWithoutExtension(snippet) == "val")
                 edit.InsertSnippet(YnoteSnippet.Read(file));
     }
@@ -527,7 +528,7 @@ internal class SnippetCommand : ICommand
     public string[] GetCommands()
     {
         int index = 0;
-        if ((Application.OpenForms[index] as IYnote) == null)
+        while ((Application.OpenForms[index] as IYnote) == null)
             index++;
         IYnote ynote = Application.OpenForms[index] as IYnote;
         if (ynote.Panel.ActiveDocument == null
@@ -536,7 +537,7 @@ internal class SnippetCommand : ICommand
         var items = new List<string>();
         var lang = (ynote.Panel.ActiveDocument as Editor).Tb.Language;
         foreach (
-            var file in Directory.GetFiles(YnoteSettings.SettingsDir, "*.ynotesnippet", SearchOption.AllDirectories))
+            var file in Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynotesnippet", SearchOption.AllDirectories))
             items.Add(Path.GetFileNameWithoutExtension(file));
         return items.ToArray();
     }

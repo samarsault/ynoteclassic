@@ -240,3 +240,7 @@ Build 748
 Build 789
 
 -> Added Auto Loading of auto-saved layout
+
+Build 830
+
+-> Changed Settings and Projects to JSON

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using SS.Ynote.Classic.Core.Settings;
 
 namespace SS.Ynote.Classic.Extensibility.Packages
 {
@@ -15,7 +16,7 @@ namespace SS.Ynote.Classic.Extensibility.Packages
                 var command in
                     lines.Select(
                         line =>
-                            YnoteCommand.FromString(line.Replace("$ynotedata", YnoteSettings.SettingsDir)
+                            YnoteCommand.FromString(line.Replace("$ynotedata", GlobalSettings.SettingsDir)
                                 .Replace("$ynotedir", Application.StartupPath))))
                 dic.Add(command.Key, command.Value);
             //foreach (var line in lines)

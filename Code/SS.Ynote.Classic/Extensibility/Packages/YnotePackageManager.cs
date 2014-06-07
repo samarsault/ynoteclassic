@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using SS.Ynote.Classic.Core.Settings;
 
 namespace SS.Ynote.Classic.Extensibility.Packages
 {
@@ -40,10 +41,10 @@ namespace SS.Ynote.Classic.Extensibility.Packages
                             }
                         }
                     }
-                    if (!Directory.Exists(YnoteSettings.SettingsDir + "Packages"))
-                        Directory.CreateDirectory(YnoteSettings.SettingsDir + "Packages");
+                    if (!Directory.Exists(GlobalSettings.SettingsDir + "Packages"))
+                        Directory.CreateDirectory(GlobalSettings.SettingsDir + "Packages");
                     File.Copy(pack,
-                        string.Format("{0}\\Packages\\{1}", YnoteSettings.SettingsDir, Path.GetFileName(pack)), true);
+                        string.Format("{0}\\Packages\\{1}", GlobalSettings.SettingsDir, Path.GetFileName(pack)), true);
                     return true;
                 }
             }
@@ -120,7 +121,7 @@ namespace SS.Ynote.Classic.Extensibility.Packages
             return
                 dic.Values.Select(
                     item =>
-                        item.Replace("$ynotedata", YnoteSettings.SettingsDir)
+                        item.Replace("$ynotedata", GlobalSettings.SettingsDir)
                             .Replace("$ynotedir", Application.StartupPath)).ToArray();
         }
 

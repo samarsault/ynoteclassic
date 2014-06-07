@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using AutocompleteMenuNS;
 using SS.Ynote.Classic.Core.Extensibility;
+using SS.Ynote.Classic.Core.Settings;
 
 namespace SS.Ynote.Classic.Core
 {
@@ -57,7 +58,7 @@ namespace SS.Ynote.Classic.Core
             var lst = new List<ICommand>();
             foreach (
                 var file in Directory.GetFiles(
-                    YnoteSettings.SettingsDir, "*.ynotecommand", SearchOption.AllDirectories)
+                    GlobalSettings.SettingsDir, "*.ynotecommand", SearchOption.AllDirectories)
                 )
                 lst.Add(GetCommand(file, _ynote));
             return lst;

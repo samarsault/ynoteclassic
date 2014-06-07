@@ -69,6 +69,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\CSScriptLibrary.v3.5.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\..\Desktop\Json60r3\Bin\Net35\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition">
       <HintPath>..\Dependencies\System.ComponentModel.Composition.dll</HintPath>
@@ -88,6 +91,8 @@
     <Compile Include="Core\Commands\InstalledCommands.cs" />
     <Compile Include="Core\Commands\YnoteCommand.cs" />
     <Compile Include="Core\Session\YnoteSession.cs" />
+    <Compile Include="Core\Settings\GlobalProperties.cs" />
+    <Compile Include="Core\Settings\GlobalSettings.cs" />
     <Compile Include="Extensibility\Packages\AddPackageFile.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,6 +145,7 @@
     <Compile Include="Core\Syntax\Framework\SyntaxBase.cs" />
     <Compile Include="Core\Commands\ICommand.cs" />
     <Compile Include="Core\Syntax\SyntaxDesc.cs" />
+    <Compile Include="Globals.cs" />
     <Compile Include="Helpers\Encryptor.cs" />
     <Compile Include="Helpers\FileTypes.cs" />
     <Compile Include="Helpers\NativeMethods.cs" />
@@ -160,7 +166,6 @@
     <Compile Include="Core\Project\ProjectPanel.Designer.cs">
       <DependentUpon>ProjectPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Core\Settings\YnoteSettings.cs" />
     <Compile Include="Core\Syntax\SyntaxHighlighter.cs" />
     <Compile Include="Extensibility\Theme\YnoteThemeReader.cs" />
     <Compile Include="Extensibility\Plugin\YnotePlugin.cs" />

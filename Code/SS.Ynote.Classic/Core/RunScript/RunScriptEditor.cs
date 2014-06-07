@@ -18,8 +18,8 @@ namespace SS.Ynote.Classic.Core.RunScript
             var node = new TreeNode("Configurations");
             foreach (
                 var tn in
-                    Core.RunScript.RunScript.GetConfigurations()
-                        .Select(Core.RunScript.RunScript.ToRunConfig)
+                    RunScript.GetConfigurations()
+                        .Select(RunScript.ToRunConfig)
                         .Select(config => new TreeNode(config.Name) {Tag = config}))
                 node.Nodes.Add(tn);
             configTree.Nodes.Add(node);
@@ -30,7 +30,7 @@ namespace SS.Ynote.Classic.Core.RunScript
         {
             try
             {
-                var selectedconfig = e.Node.Tag as Core.RunScript.RunScript;
+                var selectedconfig = e.Node.Tag as RunScript;
                 if (selectedconfig == null) return;
                 tbName.Text = selectedconfig.Name;
                 tbName.Text = e.Node.Text;
@@ -47,7 +47,7 @@ namespace SS.Ynote.Classic.Core.RunScript
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var sNode = configTree.SelectedNode.Tag as Core.RunScript.RunScript;
+            var sNode = configTree.SelectedNode.Tag as RunScript;
             if (sNode != null && sNode.Name != null)
                 sNode.EditConfig(tbName.Text, tbProcess.Text, tbArgs.Text, tbCmdDir.Text);
             else
@@ -58,7 +58,7 @@ namespace SS.Ynote.Classic.Core.RunScript
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             var item = configTree.SelectedNode;
-            var tag = item.Tag as Core.RunScript.RunScript;
+            var tag = item.Tag as RunScript;
             if (tag != null) File.Delete(tag.GetPath());
             configTree.Nodes.Remove(item);
         }

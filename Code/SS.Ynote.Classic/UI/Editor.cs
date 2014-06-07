@@ -10,6 +10,7 @@ using System.Threading;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
 using SS.Ynote.Classic.Core.Extensibility;
+using SS.Ynote.Classic.Core.Settings;
 using SS.Ynote.Classic.Core.Snippets;
 using SS.Ynote.Classic.Core.Syntax;
 using SS.Ynote.Classic.Core.Syntax.Framework;
@@ -79,7 +80,7 @@ namespace SS.Ynote.Classic.UI
                 if (value)
                     if (map == null) CreateDocumentMap();
                 map.Visible = value;
-                YnoteSettings.ShowDocumentMap = value;
+                Globals.Settings.ShowDocumentMap = value;
             }
         }
 
@@ -130,7 +131,7 @@ namespace SS.Ynote.Classic.UI
             watch.Start();
 #endif
             Snippets = new List<YnoteSnippet>();
-            string[] snippets = Directory.GetFiles(YnoteSettings.SettingsDir, "*.ynotesnippet",
+            string[] snippets = Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynotesnippet",
                 SearchOption.AllDirectories);
             Thread.Sleep(5);
             foreach (string snippet in snippets)
@@ -146,35 +147,35 @@ namespace SS.Ynote.Classic.UI
 
         private void InitSettings()
         {
-            YnoteThemeReader.ApplyTheme(YnoteSettings.ThemeFile, Highlighter, codebox);
+            YnoteThemeReader.ApplyTheme(Globals.Settings.ThemeFile, Highlighter, codebox);
             codebox.AllowDrop = true;
-            codebox.ShowScrollBars = YnoteSettings.ScrollBars;
-            codebox.AutoCompleteBrackets = YnoteSettings.AutoCompleteBrackets;
-            codebox.TabLength = YnoteSettings.TabSize;
-            codebox.Font = new Font(YnoteSettings.FontFamily, YnoteSettings.FontSize);
-            codebox.ShowFoldingLines = YnoteSettings.ShowFoldingLines;
-            codebox.ShowLineNumbers = YnoteSettings.ShowLineNumbers;
-            codebox.HighlightFoldingIndicator = YnoteSettings.HighlightFolding;
-            codebox.FindEndOfFoldingBlockStrategy = YnoteSettings.FoldingStrategy;
-            codebox.BracketsHighlightStrategy = YnoteSettings.BracketsStrategy;
-            codebox.CaretVisible = YnoteSettings.ShowCaret;
-            codebox.ShowFoldingLines = YnoteSettings.ShowFoldingLines;
-            codebox.LineInterval = YnoteSettings.LineInterval;
-            codebox.LeftPadding = YnoteSettings.PaddingWidth;
-            codebox.VirtualSpace = YnoteSettings.EnableVirtualSpace;
-            codebox.WideCaret = YnoteSettings.BlockCaret;
-            codebox.WordWrap = YnoteSettings.WordWrap;
-            codebox.Zoom = YnoteSettings.Zoom;
-            codebox.HotkeysMapping = HotkeysMapping.Parse(File.ReadAllText(YnoteSettings.SettingsDir + "User.ynotekeys"));
-            if (YnoteSettings.IMEMode)
+            codebox.ShowScrollBars = Globals.Settings.ScrollBars;
+            codebox.AutoCompleteBrackets = Globals.Settings.AutoCompleteBrackets;
+            codebox.TabLength = Globals.Settings.TabSize;
+            codebox.Font = new Font(Globals.Settings.FontFamily, Globals.Settings.FontSize);
+            codebox.ShowFoldingLines = Globals.Settings.ShowFoldingLines;
+            codebox.ShowLineNumbers = Globals.Settings.ShowLineNumbers;
+            codebox.HighlightFoldingIndicator = Globals.Settings.HighlightFolding;
+            codebox.FindEndOfFoldingBlockStrategy = Globals.Settings.FoldingStrategy;
+            codebox.BracketsHighlightStrategy = Globals.Settings.BracketsStrategy;
+            codebox.CaretVisible = Globals.Settings.ShowCaret;
+            codebox.ShowFoldingLines = Globals.Settings.ShowFoldingLines;
+            codebox.LineInterval = Globals.Settings.LineInterval;
+            codebox.LeftPadding = Globals.Settings.PaddingWidth;
+            codebox.VirtualSpace = Globals.Settings.EnableVirtualSpace;
+            codebox.WideCaret = Globals.Settings.BlockCaret;
+            codebox.WordWrap = Globals.Settings.WordWrap;
+            codebox.Zoom = Globals.Settings.Zoom;
+            codebox.HotkeysMapping = HotkeysMapping.Parse(File.ReadAllText(GlobalSettings.SettingsDir + "User.ynotekeys"));
+            if (Globals.Settings.ImeMode)
                 codebox.ImeMode = ImeMode.On;
-            if (YnoteSettings.ShowChangedLine)
+            if (Globals.Settings.ShowChangedLine)
                 codebox.ChangedLineColor = ControlPaint.LightLight(codebox.CurrentLineColor);
-            if (YnoteSettings.ShowDocumentMap)
+            if (Globals.Settings.ShowDocumentMap)
             {
                 CreateDocumentMap();
             }
-            if (!YnoteSettings.ShowRuler) return;
+            if (!Globals.Settings.ShowRuler) return;
             var ruler = new Ruler
             {
                 Dock = DockStyle.Top,
@@ -212,7 +213,7 @@ namespace SS.Ynote.Classic.UI
                 (sender, e) =>
                     e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
             codebox.KeyDown += codebox_KeyDown;
-            if (YnoteSettings.HighlightSameWords)
+            if (Globals.Settings.HighlightSameWords)
                 codebox.SelectionChangedDelayed += codebox_SelectionChangedDelayed;
         }
 
@@ -322,9 +323,9 @@ namespace SS.Ynote.Classic.UI
 
         private void OpenFile(string file)
         {
-            IYnote ynote = Application.OpenForms[1] as IYnote;
+            IYnote ynote = Application.OpenForms[0] as IYnote;
             if (ynote == null)
-                ynote = Application.OpenForms[0] as IYnote;
+                ynote = Application.OpenForms[1] as IYnote;
             ynote.OpenFile(file);
         }
 
@@ -334,7 +335,7 @@ namespace SS.Ynote.Classic.UI
         /// <param name="r"></param>
         private void HighlightInvisbleCharacters(Range r)
         {
-            if (!YnoteSettings.HiddenChars) return;
+            if (!Globals.Settings.HiddenChars) return;
             if (_invisibleCharsStyle == null)
                 _invisibleCharsStyle = new InvisibleCharsRenderer(Pens.Gray);
             r.ClearStyle(_invisibleCharsStyle);
@@ -446,7 +447,7 @@ namespace SS.Ynote.Classic.UI
 
         private void BuildContextMenu()
         {
-            string file = YnoteSettings.SettingsDir + "ContextMenu.ysr";
+            string file = GlobalSettings.SettingsDir + "ContextMenu.ysr";
             contextmenu.MenuItems.AddRange(YnoteScript.Get<MenuItem[]>(codebox, file, "*.BuildContextMenu"));
         }
 

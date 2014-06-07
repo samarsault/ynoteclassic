@@ -4,6 +4,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml;
 using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Core.Settings;
 using SS.Ynote.Classic.Core.Syntax.Framework;
 
 namespace SS.Ynote.Classic.Core.Syntax
@@ -244,7 +245,7 @@ namespace SS.Ynote.Classic.Core.Syntax
                     break;
 
                 case Language.PowerShell:
-                    PowerShellSyntaxHighligt(args);
+                    PowerShellSyntaxHighlight(args);
                     break;
 
                 case Language.R:
@@ -348,7 +349,7 @@ namespace SS.Ynote.Classic.Core.Syntax
         {
             foreach (
                 var file in
-                    Directory.GetFiles(string.Format(@"{0}\Syntaxes\", YnoteSettings.SettingsDir), "*.ynotesyntax"))
+                    Directory.GetFiles(string.Format(@"{0}\Syntaxes\", GlobalSettings.SettingsDir), "*.ynotesyntax"))
                 LoadedSyntaxes.Add(GenerateBase(file));
         }
 
@@ -2077,16 +2078,17 @@ namespace SS.Ynote.Classic.Core.Syntax
             e.ChangedRange.SetStyle(Storage, @"(?<=@)(.*?)(?=@)|@|@", RegexOptions.Multiline);
         }
 
-        private void PowerShellSyntaxHighligt(TextChangedEventArgs e)
+        private void PowerShellSyntaxHighlight(TextChangedEventArgs e)
         {
             e.ChangedRange.tb.CommentPrefix = "#";
             e.ChangedRange.tb.LeftBracket = '(';
             e.ChangedRange.tb.RightBracket = ')';
-            e.ChangedRange.ClearStyle(Comment, String, Keyword, LibraryFunction, Number);
+            e.ChangedRange.ClearStyle(Comment, String, Keyword,Variable, LibraryFunction, Number);
             e.ChangedRange.SetStyle(Comment, @"#.*$", RegexOptions.Multiline);
             e.ChangedRange.SetStyle(String, @"""""|''|"".*?[^\\]""|'.*?[^\\]'");
+            e.ChangedRange.SetStyle(Variable, @"\$[a-zA-Z_\d]*\b", RegexCompiledOption);
             e.ChangedRange.SetStyle(Keyword,
-                @"\b(at|break|continue|do|else|elseif|filter|for|foreach|if|in|return|until|where|while)\b");
+                @"\b(at|break|continue|do|else|elseif|filter|for|foreach|if|in|return|until|where|while|function)\b");
             e.ChangedRange.SetStyle(LibraryFunction,
                 @"\b(cat|cd|chdir|cls|copy|date|del|diff|dir|echo|erase|exit|fc|find|findstr|format|get|goto|h|history|select|kill|label|lp|ls|md|mkdir|mode|mount|move|new|param|path|pause|popd|print|prompt|ps|pushd|pwd|r|rd|rm|recover|rem|ren|rename|replace|restore|rmdir|set|setlocal|shift|sleep|sort|start|subst|tee|throw|time|title|trap|tree|type|ver|verify|vol|write|xcopy)\b");
             e.ChangedRange.SetStyle(Number, @"\b\d+[\.]?\d*([eE]\-?\d+)?[lLdDfF]?\b|\b0x[a-fA-F\d]+\b");
