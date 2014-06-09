@@ -140,7 +140,7 @@ internal class RunScriptCommand : ICommand
         get
         {
             return
-                Directory.GetFiles(GlobalSettings.SettingsDir + "RunScripts", "*.run")
+                Directory.GetFiles(GlobalSettings.SettingsDir + "RunScripts", "*.ynoterun")
                     .Select(Path.GetFileNameWithoutExtension)
                     .ToArray();
         }
@@ -149,13 +149,10 @@ internal class RunScriptCommand : ICommand
     public void ProcessCommand(string val, IYnote ynote)
     {
         var edit = ynote.Panel.ActiveDocument as Editor;
-        var item = RunScript.ToRunConfig(GlobalSettings.SettingsDir + @"RunScripts\" + val + ".run");
+        var item = RunScript.Get(GlobalSettings.SettingsDir + @"RunScripts\" + val + ".ynoterun");
         if (item == null) return;
-        if (edit != null) item.ProcessConfiguration(edit.Name);
-        var temp = Path.GetTempFileName() + ".bat";
-        File.WriteAllText(temp, item.ToBatch());
-        var console = new Shell("cmd.exe", "/k " + temp);
-        console.Show(ynote.Panel, DockState.DockBottom);
+        if (edit != null) // item.ProcessConfiguration(edit.Name);
+            item.Run();
     }
 }
 

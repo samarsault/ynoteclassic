@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace SS.Ynote.Classic.Core.RunScript
@@ -15,6 +13,7 @@ namespace SS.Ynote.Classic.Core.RunScript
 
         private void PopulateTree()
         {
+/*
             var node = new TreeNode("Configurations");
             foreach (
                 var tn in
@@ -23,11 +22,12 @@ namespace SS.Ynote.Classic.Core.RunScript
                         .Select(config => new TreeNode(config.Name) {Tag = config}))
                 node.Nodes.Add(tn);
             configTree.Nodes.Add(node);
-            configTree.ExpandAll();
+            configTree.ExpandAll();*/
         }
 
         private void configTree_AfterSelect(object sender, TreeViewEventArgs e)
         {
+/*
             try
             {
                 var selectedconfig = e.Node.Tag as RunScript;
@@ -42,25 +42,27 @@ namespace SS.Ynote.Classic.Core.RunScript
             {
                 MessageBox.Show("There was an error processing your request\r\nReport : " + ex, "Ynote Classic",
                     MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            }
+            }*/
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+/*
             var sNode = configTree.SelectedNode.Tag as RunScript;
             if (sNode != null && sNode.Name != null)
                 sNode.EditConfig(tbName.Text, tbProcess.Text, tbArgs.Text, tbCmdDir.Text);
             else
                 MessageBox.Show("Error Processing Request : Nothing Selected", "Ynote Classic", MessageBoxButtons.OK,
-                    MessageBoxIcon.Exclamation);
+                    MessageBoxIcon.Exclamation);*/
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
+/*
             var item = configTree.SelectedNode;
             var tag = item.Tag as RunScript;
-            if (tag != null) File.Delete(tag.GetPath());
-            configTree.Nodes.Remove(item);
+            if (tag != null) File.Delete(tag.LocalPath);
+            configTree.Nodes.Remove(item);*/
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)

@@ -1,9 +1,7 @@
 using System;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 using SS.Ynote.Classic.Core.RunScript;
-using SS.Ynote.Classic.UI;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace SS.Ynote.Classic
@@ -128,18 +126,14 @@ namespace SS.Ynote.Classic
         private void PopulateListItems()
         {
             foreach (var file in RunScript.GetConfigurations())
-                pgname.Items.Add(RunScript.ToRunConfig(file));
+                pgname.Items.Add(RunScript.Get(file));
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             var item = pgname.SelectedItem as RunScript;
             if (item == null) return;
-            item.ProcessConfiguration(_file);
-            var temp = Path.GetTempFileName() + ".bat";
-            File.WriteAllText(temp, item.ToBatch());
-            var console = new Shell("cmd.exe", "/k " + temp);
-            console.Show(_panel, DockState.DockBottom);
+            item.Run();
             Close();
         }
 

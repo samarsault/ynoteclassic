@@ -1,85 +1,88 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Xml;
+using Newtonsoft.Json;
+using SS.Ynote.Classic.Core.Extensibility;
 using SS.Ynote.Classic.Core.Settings;
 
 namespace SS.Ynote.Classic.Core.RunScript
 {
-    public sealed class RunScript
+    public class RunScript
     {
         /// <summary>
-        ///     Script Name
+        ///     Series of Commands
+        /// </summary>
+        private IDictionary<string, string[]> Tasks = new Dictionary<string, string[]>();
+
+        /// <summary>
+        ///     Name of the Script
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        ///     Script Process
+        ///     Scope of the Script
         /// </summary>
-        public string Process { get; private set; }
+        public string Scope { get; set; }
 
         /// <summary>
-        ///     Script arguments
+        ///     Local Path of the RunScript
         /// </summary>
-        public string Arguments { get; private set; }
+        [JsonIgnore]
+        public string LocalPath { get; set; }
+
+        public static RunScript Get(string file)
+        {
+            string json = File.ReadAllText(file);
+            var dic = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(json);
+            var runsc = new RunScript();
+            runsc.Tasks = dic;
+            AddName(dic, runsc);
+            runsc.LocalPath = file;
+            return runsc;
+        }
+
+        private static void AddName(Dictionary<string, string[]> dic, RunScript script)
+        {
+            foreach (var item in dic)
+            {
+                if (item.Key == "Name")
+                    script.Name = item.Value[0];
+                if (item.Key == "Scope")
+                    script.Name = item.Value[0];
+            }
+        }
+
+        public void Save(string file)
+        {
+            var serialized = JsonConvert.SerializeObject(Tasks, Formatting.Indented);
+            File.WriteAllText(file, serialized);
+        }
 
         /// <summary>
-        ///     Active Command Line Directory
+        ///     Runs the Script
         /// </summary>
-        public string CmdDir { get; private set; }
+        public void Run()
+        {
+            foreach (var task in Tasks)
+            {
+                if (task.Key != "Name")
+                {
+                    if (task.Key != "Scope")
+                    {
+                        string ys = GlobalSettings.SettingsDir + task.Key + ".runtask";
+                        // expand all abbreviations eg - $source_path, $project_path
+                        for (int i = 0; i < task.Value.Length; i++)
+                        {
+                            task.Value[i] = Globals.ExpandAbbr(task.Value[i], Globals.Ynote);
+                        }
+                        YnoteScript.InvokeScript(task.Value, ys, "*.RunTask");
+                    }
+                }
+            }
+        }
 
         public static IEnumerable<string> GetConfigurations()
         {
             return Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynoterun", SearchOption.AllDirectories);
-        }
-
-        public static RunScript ToRunConfig(string file)
-        {
-            using (var reader = XmlReader.Create(file))
-                while (reader.Read())
-                    if (reader.IsStartElement())
-                        if (reader.Name == "Config")
-                        {
-                            var config = new RunScript
-                            {
-                                Name = reader["Name"],
-                                Arguments = reader["Args"],
-                                CmdDir = reader["CmdDir"],
-                                Process = reader["Process"]
-                            };
-                            return config;
-                        }
-            return null;
-        }
-
-        public string GetPath()
-        {
-            return string.Format(@"{0}\RunScripts\{1}.run", GlobalSettings.SettingsDir, Name);
-        }
-
-        internal void ProcessConfiguration(string filename)
-        {
-            Arguments = Arguments.Replace("$source", filename).Replace("$source_dir", Path.GetDirectoryName(filename));
-        }
-
-        internal void EditConfig(string name, string proc, string args, string dir)
-        {
-            var str =
-                string.Format(
-                    "<?xml version=\"1.0\"?>\r\n\t<YnoteRun>\r\n\t\t<Config Name=\"{3}\" Process=\"{0}\" Args=\"{1}\" Directory=\"{2}\"/>\r\n\t</YnoteRun>",
-                    proc, args, dir, name);
-            Name = name;
-            Arguments = args;
-            CmdDir = dir;
-            Process = proc;
-            File.WriteAllText(string.Format("{0}\\RunScripts\\{1}.run", GlobalSettings.SettingsDir, name), str);
-        }
-
-        internal string ToBatch()
-        {
-            if (!string.IsNullOrEmpty(CmdDir))
-                return string.Format("@echo off\r\necho {0} Run Script\r\ncd {1}\r\n{2} {3}", Name, CmdDir, Process,
-                    Arguments);
-            return string.Format("@echo off\r\necho {0} Run Script\r\n{1} {2}", Name, Process, Arguments);
         }
 
         public override string ToString()

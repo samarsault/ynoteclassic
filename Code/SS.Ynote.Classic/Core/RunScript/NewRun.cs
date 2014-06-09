@@ -24,12 +24,13 @@ namespace SS.Ynote.Classic.Core.RunScript
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+/*
             var configuration = new RunScript();
             configuration.EditConfig(tbName.Text, tbProcess.Text, tbArgs.Text,
                 tbCmdDir.Text);
             Script = configuration;
             DialogResult = DialogResult.OK;
-            Close();
+            Close();*/
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

@@ -90,6 +90,18 @@
     </Compile>
     <Compile Include="Core\Commands\InstalledCommands.cs" />
     <Compile Include="Core\Commands\YnoteCommand.cs" />
+    <Compile Include="Core\RunScript\NewRun.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Core\RunScript\NewRun.Designer.cs" />
+    <Compile Include="Core\RunScript\RunDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Core\RunScript\RunScript.cs" />
+    <Compile Include="Core\RunScript\RunScriptEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Core\RunScript\RunScriptEditor.Designer.cs" />
     <Compile Include="Core\Session\YnoteSession.cs" />
     <Compile Include="Core\Settings\GlobalProperties.cs" />
     <Compile Include="Core\Settings\GlobalSettings.cs" />
@@ -128,12 +140,6 @@
       <DependentUpon>FolderUtils.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\Project\YnoteProject.cs" />
-    <Compile Include="Core\RunScript\NewRun.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Core\RunScript\NewRun.Designer.cs">
-      <DependentUpon>NewRun.cs</DependentUpon>
-    </Compile>
     <Compile Include="Core\Search\FindInFiles.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -150,14 +156,7 @@
     <Compile Include="Helpers\FileTypes.cs" />
     <Compile Include="Helpers\NativeMethods.cs" />
     <Compile Include="Helpers\Extensions.cs" />
-    <Compile Include="Core\RunScript\RunScriptEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Core\RunScript\RunScriptEditor.Designer.cs">
-      <DependentUpon>RunScriptEditor.cs</DependentUpon>
-    </Compile>
     <Compile Include="Helpers\InvisibleCharStyle.cs" />
-    <Compile Include="Core\RunScript\RunScript.cs" />
     <Compile Include="Extensibility\Plugin\YnoteScript.cs" />
     <Compile Include="Extensibility\Packages\YnotePackageMaker.cs" />
     <Compile Include="Core\Project\ProjectPanel.cs">
@@ -252,12 +251,12 @@
     <Compile Include="UI\Options.Designer.cs">
       <DependentUpon>Options.cs</DependentUpon>
     </Compile>
-    <Compile Include="Core\RunScript\RunDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <EmbeddedResource Include="Core\Commands\Commander.resx">
       <DependentUpon>Commander.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Core\RunScript\NewRun.resx" />
+    <EmbeddedResource Include="Core\RunScript\RunDialog.resx" />
+    <EmbeddedResource Include="Core\RunScript\RunScriptEditor.resx" />
     <EmbeddedResource Include="Extensibility\Packages\AddPackageFile.resx">
       <DependentUpon>AddPackageFile.cs</DependentUpon>
     </EmbeddedResource>
@@ -272,12 +271,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Core\Project\FolderUtils.resx">
       <DependentUpon>FolderUtils.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Core\RunScript\NewRun.resx">
-      <DependentUpon>NewRun.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Core\RunScript\RunScriptEditor.resx">
-      <DependentUpon>RunScriptEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Core\Project\ProjectPanel.resx">
       <DependentUpon>ProjectPanel.cs</DependentUpon>
@@ -312,9 +305,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\UtilDialog.resx">
       <DependentUpon>UtilDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Core\RunScript\RunDialog.resx">
-      <DependentUpon>RunDialog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

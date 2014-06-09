@@ -97,6 +97,7 @@ namespace SS.Ynote.Classic
                 CreateNewDoc();
             if (Globals.Settings.ShowStatusBar)
                 InitTimer();
+            Globals.Ynote = this;
 #if DEBUG
             sp.Stop();
             Debug.WriteLine(string.Format("Form Construction Time : {0} ms", sp.ElapsedMilliseconds));

@@ -1,0 +1,22 @@
+using System.Diagnostics;
+
+// Cmd Run Script Task
+public void RunTask(string[] arguments)
+{
+    if(arguments.Length == 0)
+        return;
+    string process = arguments[0];
+    string args = arguments[1];
+    string workingdir = null;
+    if(arguments.Length > 2)
+        workingdir = arguments[2];
+    var processInfo = new ProcessStartInfo();
+    processInfo.FileName = process;
+    processInfo.Arguments = args;
+    if(workingdir != null)
+        processInfo.WorkingDirectory = workingdir;
+    Process.Start(processInfo);
+}
+void CreateShellWindow(){
+    // --- native code --
+}

@@ -1,0 +1,16 @@
+// Run Script to Start Notepad
+{
+  // Name of the Run Script
+  "Name": [
+    "Notepad"
+  ],
+  // Scope of the RunScript
+  "Scope": [
+    "Global"
+  ],
+  // Path of the task and arguments (task specefic)
+  "RunScripts\\Tasks\\Cmd": [
+    "notepad.exe",
+    "$source"
+  ]
+}

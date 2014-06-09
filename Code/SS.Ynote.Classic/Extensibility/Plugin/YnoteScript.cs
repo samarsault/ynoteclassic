@@ -48,6 +48,24 @@ namespace SS.Ynote.Classic.Core.Extensibility
             //}
         }
 
+        public static void InvokeScript(object reference, string ys, string method)
+        {
+            var assemblyFileName = ys + "c";
+            CSScript.GlobalSettings.TargetFramework = "v3.5";
+            //try
+            //{
+            // var helper =
+            //     new AsmHelper(CSScript.LoadMethod(File.ReadAllText(ysfile), GetReferences()));
+            // helper.Invoke("*.Run", ynote);
+            var assembly = !File.Exists(assemblyFileName)
+                ? CSScript.LoadMethod(File.ReadAllText(ys), assemblyFileName, false, GetReferences())
+                : Assembly.LoadFrom(assemblyFileName);
+            using (var execManager = new AsmHelper(assembly))
+            {
+                execManager.Invoke(method, reference);
+            }
+        }
+
         /// <summary>
         ///     Gets a property from a script's main method
         /// </summary>
@@ -71,7 +89,7 @@ namespace SS.Ynote.Classic.Core.Extensibility
                 : Assembly.LoadFrom(assemblyFileName);
             using (var execManager = new AsmHelper(assembly))
             {
-                val = (T) (execManager.Invoke(method, reference));
+                val = (T)(execManager.Invoke(method, reference));
             }
             return val;
         }
