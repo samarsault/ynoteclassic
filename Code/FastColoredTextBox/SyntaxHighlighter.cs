@@ -20,40 +20,40 @@ namespace FastColoredTextBoxNS
         public virtual void AutoIndentNeeded(object sender, AutoIndentEventArgs args)
         {
             var tb = (sender as FastColoredTextBox);
-            Language language = tb.Language;
-            switch (language)
+            switch (tb.Language)
+
             {
-                case Language.CSharp:
+                case "CSharp":
                     CSharpAutoIndentNeeded(sender, args);
                     break;
 
-                case Language.VB:
+                case "VB":
                     VBAutoIndentNeeded(sender, args);
                     break;
 
-                case Language.HTML:
+                case "HTML":
                     HTMLAutoIndentNeeded(sender, args);
                     break;
 
-                case Language.Xml:
+                case "Xml":
                     HTMLAutoIndentNeeded(sender, args);
                     break;
 
-                case Language.SQL:
+                case "SQL":
                     SQLAutoIndentNeeded(sender, args);
                     break;
 
-                case Language.PHP:
+                case "PHP":
                     PHPAutoIndentNeeded(sender, args);
                     break;
 
-                case Language.Python:
+                case "Python":
                     PythonAutoIndentNeeded(sender, args);
                     break;
-                case Language.Ruby:
+                case "Ruby":
                     RubyAutoIndentNeeded(sender, args);
                     break;
-                case Language.Lua:
+                case "Lua":
                     LuaAutoIndentNeeded(sender, args);
                     break;
                 default:
@@ -234,52 +234,5 @@ namespace FastColoredTextBoxNS
                 args.ShiftNextLines = args.TabLength;
             }
         }
-    }
-
-    /// <summary>
-    ///     Language
-    /// </summary>
-    public enum Language
-    {
-        Text,
-        HTML,
-        ASP,
-        Javascript,
-        CSS,
-        PHP,
-        SQL,
-        Batch,
-        INI,
-        JSON,
-        Actionscript,
-        Antlr,
-        C,
-        CPP,
-        CoffeeScript,
-        CSharp,
-        D,
-        Diff,
-        FSharp,
-        Haskell,
-        Java,
-        LaTeX,
-        Lua,
-        Lisp,
-        Makefile,
-        MATLAB,
-        Objective_C,
-        Pascal,
-        Perl,
-        PowerShell,
-        Python,
-        R,
-        Ruby,
-        Scala,
-        ShellScript,
-        Tcl,
-        QBasic,
-        VB,
-        Xml,
-        Yaml,
     }
 }

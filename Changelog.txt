@@ -253,3 +253,7 @@ Build 857
 Build 865
 
 -> Added RunScripts Abbreviations
+
+Build 874
+
+-> Revised Syntax Highlight Design

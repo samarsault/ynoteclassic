@@ -27,8 +27,7 @@ internal class SetSyntaxCommand : ICommand
     {
         get
         {
-            return
-                (from object language in Enum.GetValues(typeof (Language)) select language.ToString()).ToArray();
+            return SyntaxHighlighter.Scopes.ToArray();
         }
     }
 
@@ -36,42 +35,8 @@ internal class SetSyntaxCommand : ICommand
     {
         var ae = ynote.Panel.ActiveDocument as Editor;
         if (ae == null) return;
-        ae.Highlighter.HighlightSyntax(val.ToEnum<Language>(),
-            new TextChangedEventArgs(ae.Tb.Range));
-        ae.Tb.Language = val.ToEnum<Language>();
-        ae.Syntax = null;
-    }
-}
-
-internal class SetSyntaxFile : ICommand
-{
-    public string Key
-    {
-        get { return "SetSyntaxFile"; }
-    }
-
-    public string[] Commands
-    {
-        get
-        {
-            return Directory.GetFiles(GlobalSettings.SettingsDir + "Syntaxes", "*.ynotesyntax")
-                .Select(Path.GetFileNameWithoutExtension)
-                .ToArray();
-        }
-    }
-
-    public void ProcessCommand(string val, IYnote ynote)
-    {
-        var ActiveEditor = ynote.Panel.ActiveDocument as Editor;
-        foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes.Where(syntax => syntax.SysPath ==
-                                                                                string.Format(
-                                                                                    "{0}\\Syntaxes\\{1}.xml",
-                                                                                    GlobalSettings.SettingsDir,
-                                                                                    val)))
-        {
-            ActiveEditor.Highlighter.HighlightSyntax(syntax, new TextChangedEventArgs(ActiveEditor.Tb.Range));
-            ActiveEditor.Syntax = syntax;
-        }
+        ae.Highlighter.HighlightSyntax(val, new TextChangedEventArgs(ae.Tb.Range));
+        ae.Tb.Language = val;
     }
 }
 
@@ -234,7 +199,7 @@ internal class IndentCommand : ICommand
                 break;
 
             case "Do":
-                if (edit.Tb.Language == Language.Xml)
+                if (edit.Tb.Language == "Xml")
                     edit.Tb.Text = PrettyXml(edit.Tb.Text);
                 else
                     edit.Tb.DoAutoIndent();

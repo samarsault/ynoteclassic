@@ -150,7 +150,6 @@
     <Compile Include="Core\Syntax\Framework\Rules.cs" />
     <Compile Include="Core\Syntax\Framework\SyntaxBase.cs" />
     <Compile Include="Core\Commands\ICommand.cs" />
-    <Compile Include="Core\Syntax\SyntaxDesc.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Helpers\Encryptor.cs" />
     <Compile Include="Helpers\FileTypes.cs" />

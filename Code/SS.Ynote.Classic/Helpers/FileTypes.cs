@@ -7,40 +7,39 @@ using SS.Ynote.Classic.Core.Syntax;
 
 internal static class FileTypes
 {
-    internal static IDictionary<IEnumerable<string>, Language> FileTypesDictionary { get; private set; }
+    internal static IDictionary<IEnumerable<string>, string> FileTypesDictionary { get; private set; }
 
     internal static void BuildDictionary()
     {
-        FileTypesDictionary = new Dictionary<IEnumerable<string>, Language>();
+        FileTypesDictionary = new Dictionary<IEnumerable<string>, string>();
         using (var reader = XmlReader.Create(GlobalSettings.SettingsDir + "Extensions.xml"))
         {
             while (reader.Read())
             {
                 if (reader.IsStartElement() && reader.Name == "Key")
-                    FileTypesDictionary.Add(reader["Extensions"].Split('|'), reader["Language"].ToEnum<Language>());
+                    FileTypesDictionary.Add(reader["Extensions"].Split('|'), reader["Language"]);
             }
         }
     }
 
-    internal static SyntaxDesc GetLanguage(IDictionary<IEnumerable<string>, Language> dic, string extension)
+    internal static string GetLanguage(IDictionary<IEnumerable<string>, string> dic, string extension)
     {
-        var desc = new SyntaxDesc();
-        Language lang;
-        foreach (var key in dic.Keys)
+        string lang = "";
+        foreach (var item in dic)
         {
-            if (key.Contains(extension))
+            if (item.Key.Contains(extension))
             {
-                dic.TryGetValue(key, out lang);
-                desc.Language = lang;
+                lang = item.Value;
+                break;
             }
             else
             {
                 foreach (
                     var syntax in
                         SyntaxHighlighter.LoadedSyntaxes.Where(syntax => syntax.Extensions.Contains(extension)))
-                    desc.SyntaxBase = syntax;
+                    lang = syntax.Name;
             }
         }
-        return desc;
+        return lang;
     }
 }

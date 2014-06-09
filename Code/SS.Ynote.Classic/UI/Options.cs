@@ -217,7 +217,8 @@ namespace SS.Ynote.Classic.UI
 
         private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(GlobalSettings.SettingsDir + "Extensions.xml");
+            Close();
+            Globals.Ynote.OpenFile(GlobalSettings.SettingsDir + "Extensions.xml");
         }
 
         private static IDictionary<string, string[]> BuildReverseDictionary()
@@ -238,10 +239,8 @@ namespace SS.Ynote.Classic.UI
 
         private void BuildLangList()
         {
-            foreach (var language in Enum.GetValues(typeof (Language)))
+            foreach (var language in SyntaxHighlighter.Scopes)
                 lstlang.Items.Add(language);
-            foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes.Where(syntax => syntax.SysPath != null))
-                lstlang.Items.Add(Path.GetFileNameWithoutExtension(syntax.SysPath));
             lstlang.SelectedIndexChanged += lstlang_SelectedIndexChanged;
             lstlang.SelectedIndex = 0;
         }

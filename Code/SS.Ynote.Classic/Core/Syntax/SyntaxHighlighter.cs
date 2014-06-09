@@ -149,9 +149,9 @@ namespace SS.Ynote.Classic.Core.Syntax
         /// </summary>
         /// <param name="syntax"></param>
         /// <param name="e"></param>
-        public void HighlightSyntax(SyntaxBase syntax, TextChangedEventArgs e)
+        private void HighlightSyntaxFromFile(SyntaxBase syntax, TextChangedEventArgs e)
         {
-            e.ChangedRange.tb.Language = Language.Text;
+            e.ChangedRange.tb.Language = syntax.Name;
             e.ChangedRange.tb.LeftBracket = syntax.LeftBracket;
             e.ChangedRange.tb.RightBracket = syntax.RightBracket;
             e.ChangedRange.tb.LeftBracket2 = syntax.LeftBracket2;
@@ -172,163 +172,168 @@ namespace SS.Ynote.Classic.Core.Syntax
         /// </summary>
         /// <param name="language"></param>
         /// <param name="range"></param>
-        public void HighlightSyntax(Language language, TextChangedEventArgs args)
+        public void HighlightSyntax(string language, TextChangedEventArgs args)
         {
             switch (language)
             {
-                case Language.Actionscript:
+                case "Actionscript":
                     ActionscriptSyntaxHighlight(args);
                     break;
 
-                case Language.Antlr:
+                case "Antlr":
                     AntlrSyntaxHighlight(args);
                     break;
 
-                case Language.ASP:
+                case "ASP":
                     HTMLSyntaxHighlight(args);
                     break;
 
-                case Language.Objective_C:
+                case "Objective_C":
                     ObjectiveCHighlight(args);
                     break;
 
-                case Language.Batch:
+                case "Batch":
                     BatchSyntaxHighlight(args);
                     break;
 
-                case Language.C:
+                case "C":
                     CSyntaxHighlight(args);
                     break;
 
-                case Language.CPP:
+                case "CPP":
                     CppSyntaxHighlight(args);
                     break;
 
-                case Language.CSS:
+                case "CSS":
                     CssHighlight(args);
                     break;
 
-                case Language.CSharp:
+                case "CSharp":
                     CSharpSyntaxHighlight(args);
                     break;
 
-                case Language.CoffeeScript:
+                case "CoffeeScript":
                     CoffeeScriptSyntaxHighlight(args);
                     break;
 
-                case Language.D:
+                case "D":
                     DSyntaxHighlight(args);
                     break;
 
-                case Language.Diff:
+                case "Diff":
                     DiffSyntaxHighlight(args);
                     break;
 
-                case Language.Java:
+                case "Java":
                     JavaSyntaxHighlight(args);
                     break;
 
-                case Language.Lua:
+                case "Lua":
                     LuaSyntaxHighlight(args);
                     break;
 
-                case Language.Python:
+                case "Python":
                     PythonSyntaxHighlight(args);
                     break;
 
-                case Language.QBasic:
+                case "QBasic":
                     QBasicHighlight(args);
                     break;
 
-                case Language.Perl:
+                case "Perl":
                     PerlSyntaxHighlight(args);
                     break;
 
-                case Language.PowerShell:
+                case "PowerShell":
                     PowerShellSyntaxHighlight(args);
                     break;
 
-                case Language.R:
+                case "R":
                     RSyntaxHighlight(args);
                     break;
 
-                case Language.Ruby:
+                case "Ruby":
                     RubySyntaxHighlight(args);
                     break;
 
-                case Language.Xml:
+                case "Xml":
                     XmlSyntaxHighlight(args);
                     break;
 
-                case Language.INI:
+                case "INI":
                     IniSyntaxHighlight(args);
                     break;
 
-                case Language.Makefile:
+                case "Makefile":
                     MakeFileSyntaxHighlight(args);
                     break;
 
-                case Language.JSON:
+                case "JSON":
                     JsonSyntaxHighlight(args);
                     break;
 
-                case Language.VB:
+                case "VB":
                     VBSyntaxHighlight(args);
                     break;
 
-                case Language.HTML:
+                case "HTML":
                     HtmlSyntaxHighlight(args);
                     break;
 
-                case Language.Javascript:
+                case "Javascript":
                     JScriptSyntaxHighlight(args);
                     break;
 
-                case Language.SQL:
+                case "SQL":
                     SqlSyntaxHighlight(args);
                     break;
 
-                case Language.ShellScript:
+                case "ShellScript":
                     ShellSyntaxHighlight(args);
                     break;
 
-                case Language.PHP:
+                case "PHP":
                     HTMLPHPSyntaxHighlight(args);
                     break;
 
-                case Language.Lisp:
+                case "Lisp":
                     LispSyntaxHighlight(args);
                     break;
 
-                case Language.FSharp:
+                case "FSharp":
                     FSharpSyntaxHighlight(args);
                     break;
 
-                case Language.Pascal:
+                case "Pascal":
                     PascalSyntaxHighlight(args);
                     break;
 
-                case Language.Scala:
+                case "Scala":
                     ScalaSyntaxHighlight(args);
                     break;
 
-                case Language.Yaml:
+                case "Yaml":
                     YamlSyntaxHighlight(args);
                     break;
 
-                case Language.LaTeX:
+                case "LaTeX":
                     LaTeXSyntaxHighlight(args);
                     break;
 
-                case Language.Haskell:
+                case "Haskell":
                     HaskellSyntaxHighlight(args);
                     break;
 
-                case Language.MATLAB:
+                case "MATLAB":
                     MATLABSyntaxHighlight(args);
                     break;
-                case Language.Tcl:
+                case "Tcl":
                     TclSyntaxHighlight(args);
+                    break;
+                default :
+                    foreach(var syntax in LoadedSyntaxes)
+                        if(syntax.Name == language)
+                            HighlightSyntaxFromFile(syntax, args);
                     break;
             }
         }
@@ -338,19 +343,71 @@ namespace SS.Ynote.Classic.Core.Syntax
         #region From File
 
         /// <summary>
+        /// List of Scopes Installed
+        /// </summary>
+        public static IList<string> Scopes;
+        /// <summary>
         ///     Loaded Syntaxes
         /// </summary>
-        public static IList<SyntaxBase> LoadedSyntaxes = new List<SyntaxBase>();
+        internal static IList<SyntaxBase> LoadedSyntaxes = new List<SyntaxBase>();
 
         /// <summary>
         ///     Loads All Syntaxes from File
         /// </summary>
         public void LoadAllSyntaxes()
         {
+            Scopes = new List<string>()
+            {
+                "Text",
+                "HTML",
+                "ASP",
+                "Javascript",
+                "CSS",
+                "PHP",
+                "SQL",
+                "Batch",
+                "INI",
+                "JSON",
+                "Actionscript",
+                "Antlr",
+                "C",
+                "CPP",
+                "CoffeeScript",
+                "CSharp",
+                "D",
+                "Diff",
+                "FSharp",
+                "Haskell",
+                "Java",
+                "LaTeX",
+                "Lua",
+                "Lisp",
+                "Makefile",
+                "MATLAB",
+                "Objective_C",
+                "Pascal",
+                "Perl",
+                "PowerShell",
+                "Python",
+                "R",
+                "Ruby",
+                "Scala",
+                "ShellScript",
+                "Tcl",
+                "QBasic",
+                "VB",
+                "Xml",
+                "Yaml",
+            };
             foreach (
                 var file in
                     Directory.GetFiles(string.Format(@"{0}\Syntaxes\", GlobalSettings.SettingsDir), "*.ynotesyntax"))
-                LoadedSyntaxes.Add(GenerateBase(file));
+            {
+                var synbase = GenerateBase(file);
+                LoadedSyntaxes.Add(synbase);
+                Scopes.Add(synbase.Name);
+            }
+
         }
 
         /// <summary>

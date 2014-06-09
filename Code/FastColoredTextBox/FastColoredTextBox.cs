@@ -78,7 +78,7 @@ namespace FastColoredTextBoxNS
         private bool isChanged;
         private bool isLineSelect;
         private bool isReplaceMode;
-        private Language language;
+        private string language;
         private Keys lastModifiers;
         private Point lastMouseCoord;
         private DateTime lastNavigatedDateTime;
@@ -174,7 +174,7 @@ namespace FastColoredTextBoxNS
             LeftBracket2 = '\x0';
             RightBracket2 = '\x0';
             SyntaxHighlighter = new SyntaxHighlighter();
-            language = Language.Text;
+            language = "Text";
             PreferredLineWidth = 0;
             needRecalc = true;
             lastNavigatedDateTime = DateTime.Now;
@@ -986,9 +986,9 @@ namespace FastColoredTextBoxNS
         ///     Language for highlighting by built-in highlighter.
         /// </summary>
         [Browsable(true)]
-        [DefaultValue(typeof (Language), "Text")]
+        [DefaultValue(typeof (string), "Text")]
         [Description("Language of the built-in highlighter")]
-        public Language Language
+        public string Language
         {
             get { return language; }
             set
@@ -2264,68 +2264,68 @@ namespace FastColoredTextBoxNS
             Regex re = null;
             switch (Language)
             {
-                case Language.CSharp:
+                case "CSharp":
                     re = new Regex(@"\b(class|struct|enum|interface|void)\s+(?<range>\w+?)\b");
                     break;
 
-                case Language.C:
+                case "C":
                     re = new Regex(@"\b(class|struct|enum|interface|void|int|bool)\s+(?<range>\w+?)\b");
                     break;
 
-                case Language.CPP:
+                case "CPP":
                     re = new Regex(@"\b(class|struct|enum|interface|void|int|bool)\s+(?<range>\w+?)\b");
                     break;
 
-                case Language.VB:
+                case "VB":
                     re = new Regex(@"\b(Class|Sub|Interface)\s+(?<range>\w+?)\b", RegexOptions.IgnoreCase);
                     break;
 
-                case Language.D:
+                case "D":
                     re = new Regex(@"\b(void|int)\s+(?<range>\w+?)\b");
                     break;
 
-                case Language.Lua:
+                case "Lua":
                     re = new Regex(@"\b(function)\s+(?<range>\w+?)\b");
                     break;
 
-                case Language.Python:
+                case "Python":
                     re = new Regex(@"\b(class|def)\s+(?<range>\w+?)\b");
                     break;
 
-                case Language.Ruby:
+                case "Ruby":
                     re = new Regex(@"\b(class|def)\s+(?<range>\w+?)\b");
                     break;
 
-                case Language.PHP:
+                case "PHP":
                     re = new Regex(@"\b(class|function)\s+(?<range>\w+?)\b");
                     break;
 
-                case Language.Lisp:
+                case "Lisp":
                     re = new Regex(@"\b(defun|defmethod|defmacro|defvar|defconst)\s+(?<range>\w+)\b");
                     break;
 
-                case Language.Java:
+                case "Java":
                     re = new Regex(@"\b(class|void|enum|interface)\s+(?<range>\w+?)\b");
                     break;
 
-                case Language.Javascript:
+                case "Javascript":
                     re = new Regex(@"\b(function|var)\s+(?<range>\w+?)\b");
                     break;
 
-                case Language.FSharp:
+                case "FSharp":
                     re = new Regex(@"\b(class|struct|enum|interface)\s+(?<range>\w+?)\b");
                     break;
 
-                case Language.Xml:
+                case "Xml":
                     re = new Regex(@"<(?<range>[!\w:]+)");
                     break;
-                case Language.Actionscript:
+                case "Actionscript":
                     re = new Regex(@"\b(function|class)\s+(?<range>\w+?)\b");
                     break;
-                case Language.Pascal:
+                case "Pascal":
                     re = new Regex(@"\b(function|procedure)\s+(?<range>\w+?)\b", RegexOptions.IgnoreCase);
                     break;
-                case Language.Perl:
+                case "Perl":
                     re = new Regex(@"\b(sub|package)\s+(?<range>\w+?)\b");
                     break;
             }
@@ -4986,7 +4986,7 @@ namespace FastColoredTextBoxNS
                     return true;
                 }
             }
-            if (c == ':' && Language == Language.CSS)
+            if (c == ':' && Language =="CSS")
             {
                 InsertText(":;");
                 Selection.GoLeft();
@@ -5227,7 +5227,7 @@ namespace FastColoredTextBoxNS
 
             EventHandler<AutoIndentEventArgs> calculator = AutoIndentNeeded;
             if (calculator == null)
-                if (Language != Language.Text && SyntaxHighlighter != null)
+                if (Language != "Text" && SyntaxHighlighter != null)
                     calculator = SyntaxHighlighter.AutoIndentNeeded;
                 else
                     calculator = CalcAutoIndentShiftByCodeFolding;

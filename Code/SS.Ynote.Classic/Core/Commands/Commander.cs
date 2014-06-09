@@ -34,7 +34,6 @@ namespace SS.Ynote.Classic.Core
             Commands = new List<ICommand>(GetCommands())
             {
                 new SetSyntaxCommand(),
-                new SetSyntaxFile(),
                 new MacroCommand(),
                 new ScriptCommand(),
                 new SnippetCommand(),

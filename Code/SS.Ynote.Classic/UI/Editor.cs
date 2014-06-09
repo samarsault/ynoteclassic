@@ -32,11 +32,6 @@ namespace SS.Ynote.Classic.UI
         private IList<YnoteSnippet> Snippets;
 
         /// <summary>
-        ///     Syntax
-        /// </summary>
-        public SyntaxBase Syntax;
-
-        /// <summary>
         ///     Invisible Char Style
         /// </summary>
         private Style _invisibleCharsStyle;
@@ -109,19 +104,9 @@ namespace SS.Ynote.Classic.UI
         ///     Highlights Syntax
         /// </summary>
         /// <param name="syntax"></param>
-        public void HighlightSyntax(SyntaxDesc syntax)
+        public void HighlightSyntax(string lang)
         {
-            var args = new TextChangedEventArgs(codebox.Range);
-            if (syntax.SyntaxBase == null)
-            {
-                Highlighter.HighlightSyntax(syntax.Language, args);
-                codebox.Language = syntax.Language;
-            }
-            else
-            {
-                Highlighter.HighlightSyntax(syntax.SyntaxBase, args);
-                Syntax = syntax.SyntaxBase;
-            }
+            Highlighter.HighlightSyntax(lang, new TextChangedEventArgs(codebox.Range));
         }
 
         private void LoadSnippets()
@@ -344,10 +329,7 @@ namespace SS.Ynote.Classic.UI
 
         private void codebox_TextChangedDelayed(object sender, TextChangedEventArgs e)
         {
-            if (Syntax == null)
-                Highlighter.HighlightSyntax(codebox.Language, e);
-            else
-                Highlighter.HighlightSyntax(Syntax, e);
+            HighlightSyntax(codebox.Language);
             HighlightInvisbleCharacters(e.ChangedRange);
             if (codebox.IsChanged && !Text.Contains("*"))
                 Text += "*";

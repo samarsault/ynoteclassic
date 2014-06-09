@@ -160,6 +160,7 @@ namespace SS.Ynote.Classic
             if (FileTypes.FileTypesDictionary == null)
                 FileTypes.BuildDictionary();
             var lang = FileTypes.GetLanguage(FileTypes.FileTypesDictionary, Path.GetExtension(file));
+            edit.Tb.Language = lang;
             edit.HighlightSyntax(lang);
             edit.Show(Panel);
             Encoding encoding = EncodingDetector.DetectTextFileEncoding(file) ??
@@ -204,6 +205,7 @@ namespace SS.Ynote.Classic
                 if (FileTypes.FileTypesDictionary == null)
                     FileTypes.BuildDictionary();
                 var lang = FileTypes.GetLanguage(FileTypes.FileTypesDictionary, Path.GetExtension(file));
+                edit.Tb.Language = lang;
                 edit.HighlightSyntax(lang);
                 edit.Show(Panel);
                 var info = new FileInfo(file);
@@ -221,7 +223,7 @@ namespace SS.Ynote.Classic
             BeginInvoke((MethodInvoker) (() => OpenFile(name)));
         }
 
-        private static string BuildDialogFilter(Language lang, FileDialog dlg)
+        private static string BuildDialogFilter(string lang, FileDialog dlg)
         {
             var builder = new StringBuilder();
             builder.Append("All Files (*.*)|*.*|Text Files (*.txt)|*.txt");
@@ -387,13 +389,11 @@ namespace SS.Ynote.Classic
         #region Menu Builders
 
         /// <summary>
-        ///     Builds the Language Menu -View->SyntaxH Highlighter->{Language(enumeration)}
+        ///     Builds the Language Menu -View->Syntax Highlighter->{Language(enumeration)}
         /// </summary>
         private void BuildLangMenu()
         {
-            var menus = Enum.GetValues(typeof (Language)).Cast<Language>();
-
-            foreach (var m in menus.Select(lang => new MenuItem(lang.ToString())))
+            foreach (var m in SyntaxHighlighter.Scopes.Select(lang => new MenuItem(lang)))
             {
                 m.Click += LangMenuItemClicked;
                 milanguage.MenuItems.Add(m);
@@ -418,19 +418,9 @@ namespace SS.Ynote.Classic
                 t.Checked = false;
             item.Checked = true;
             if (ActiveEditor == null) return;
-            if (item.Tag == null)
-            {
-                var lang = item.Text.ToEnum<Language>();
+                var lang = item.Text;
                 ActiveEditor.Highlighter.HighlightSyntax(lang, new TextChangedEventArgs(ActiveEditor.Tb.Range));
                 ActiveEditor.Tb.Language = lang;
-                ActiveEditor.Syntax = null;
-            }
-            else
-            {
-                var syntax = item.Tag as SyntaxBase;
-                ActiveEditor.Highlighter.HighlightSyntax(syntax, new TextChangedEventArgs(ActiveEditor.Tb.Range));
-                ActiveEditor.Syntax = syntax;
-            }
             langmenu.Text = item.Text;
         }
 
@@ -1263,11 +1253,7 @@ namespace SS.Ynote.Classic
             foreach (MenuItem menu in milanguage.MenuItems)
                 menu.Checked = false;
             if (ActiveEditor == null) return;
-            if (ActiveEditor.Syntax == null)
-                milanguage.GetMenuByName(ActiveEditor.Tb.Language.ToString()).Checked = true;
-            else
-                milanguage.GetMenuByName(Path.GetFileNameWithoutExtension(ActiveEditor.Syntax.SysPath)).Checked
-                    = true;
+            milanguage.GetMenuByName(ActiveEditor.Tb.Language.ToString()).Checked = true;
         }
 
         private void menuItem65_Click(object sender, EventArgs e)
@@ -1521,9 +1507,9 @@ namespace SS.Ynote.Classic
         private void langmenu_MouseEnter(object sender, EventArgs e)
         {
             if (langmenu.DropDownItems.Count != 0) return;
-            var menus = Enum.GetValues(typeof (Language)).Cast<Language>();
-
-            foreach (var m in menus.Select(lang => new ToolStripMenuItem(lang.ToString())))
+            if (SyntaxHighlighter.Scopes == null)
+                return;
+            foreach (var m in SyntaxHighlighter.Scopes.Select(lang => new ToolStripMenuItem(lang.ToString())))
             {
                 m.Click += langitem_Click;
                 langmenu.DropDownItems.Add(m);
@@ -1539,20 +1525,10 @@ namespace SS.Ynote.Classic
         private void langitem_Click(object sender, EventArgs e)
         {
             var item = sender as ToolStripMenuItem;
-            if (item.Tag == null)
-            {
-                var lang = item.Text.ToEnum<Language>();
-                ActiveEditor.Tb.Language = lang;
-                ActiveEditor.Highlighter.HighlightSyntax(ActiveEditor.Tb.Language,
-                    new TextChangedEventArgs(ActiveEditor.Tb.Range));
-                ActiveEditor.Syntax = null;
-            }
-            else
-            {
-                var synbase = item.Tag as SyntaxBase;
-                ActiveEditor.Syntax = synbase;
-                ActiveEditor.Highlighter.HighlightSyntax(synbase, new TextChangedEventArgs(ActiveEditor.Tb.Range));
-            }
+            var lang = item.Text;
+            ActiveEditor.Tb.Language = lang;
+            ActiveEditor.Highlighter.HighlightSyntax(ActiveEditor.Tb.Language,
+                new TextChangedEventArgs(ActiveEditor.Tb.Range));
             langmenu.Text = item.Text;
         }
 
@@ -1579,9 +1555,7 @@ namespace SS.Ynote.Classic
         private void dock_ActiveDocumentChanged(object sender, EventArgs e)
         {
             if (ActiveEditor == null) return;
-            langmenu.Text = ActiveEditor.Syntax == null
-                ? ActiveEditor.Tb.Language.ToString()
-                : Path.GetFileNameWithoutExtension(ActiveEditor.Syntax.SysPath);
+            langmenu.Text = ActiveEditor.Tb.Language;
             if (_incrementalSearcher != null && _incrementalSearcher.Visible) _incrementalSearcher.Tb = ActiveEditor.Tb;
         }
 
@@ -1711,8 +1685,8 @@ namespace SS.Ynote.Classic
             ActiveEditor.Text = "Script";
             ActiveEditor.Tb.Text =
                 "using SS.Ynote.Classic;\r\n\r\nstatic void Run(IYnote ynote)\r\n{\r\n// your code\r\n}";
-            ActiveEditor.Highlighter.HighlightSyntax(Language.CSharp, new TextChangedEventArgs(ActiveEditor.Tb.Range));
-            ActiveEditor.Tb.Language = Language.CSharp;
+            ActiveEditor.Highlighter.HighlightSyntax("CSharp", new TextChangedEventArgs(ActiveEditor.Tb.Range));
+            ActiveEditor.Tb.Language = "CSharp";
         }
 
         private void minewsnippet_Click(object sender, EventArgs e)
@@ -1857,8 +1831,8 @@ namespace SS.Ynote.Classic
             ActiveEditor.Text = "SyntaxFile";
             ActiveEditor.Tb.Text =
                 "<?xml version=\"1.0\"?>\r\n\t<YnoteSyntax>\r\n\t\t<Syntax CommentPrefix=\"\" Extensions=\"\"/>\r\n\t\t<Brackets Left=\"\" Right=\"\"/>\r\n\t\t<Rule Type=\"\" Regex=\"\"/>\r\n\t\t<Folding Start=\"\" End=\"\"/>\r\n\t</YnoteSyntax>";
-            ActiveEditor.Highlighter.HighlightSyntax(Language.Xml, new TextChangedEventArgs(ActiveEditor.Tb.Range));
-            ActiveEditor.Tb.Language = Language.Xml;
+            ActiveEditor.Highlighter.HighlightSyntax("Xml", new TextChangedEventArgs(ActiveEditor.Tb.Range));
+            ActiveEditor.Tb.Language = "Xml";
         }
 
         private void miinscliphis_Click(object sender, EventArgs e)
