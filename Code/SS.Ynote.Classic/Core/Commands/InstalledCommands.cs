@@ -181,7 +181,7 @@ internal class IndentCommand : ICommand
 
     public string[] Commands
     {
-        get { return new[] {"Increase", "Decrease", "Do"}; }
+        get { return new[] {"Increase", "Decrease", "Format"}; }
     }
 
     public void ProcessCommand(string value, IYnote ynote)
@@ -198,7 +198,7 @@ internal class IndentCommand : ICommand
                 edit.Tb.DecreaseIndent();
                 break;
 
-            case "Do":
+            case "Format":
                 if (edit.Tb.Language == "Xml")
                     edit.Tb.Text = PrettyXml(edit.Tb.Text);
                 else

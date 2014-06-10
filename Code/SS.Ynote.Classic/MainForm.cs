@@ -843,6 +843,15 @@ namespace SS.Ynote.Classic
             }
         }
 
+        private void mifindinproj_Click(object sender, EventArgs e)
+        {
+            using (var findinfiles = new FindInFiles())
+            {
+                findinfiles.Directory = Globals.ActiveProject.Path;
+                findinfiles.StartPosition = FormStartPosition.CenterParent;
+                findinfiles.ShowDialog(this);
+            }
+        }
         private void movelineup_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null) ActiveEditor.Tb.MoveSelectedLinesUp();
@@ -1919,8 +1928,7 @@ namespace SS.Ynote.Classic
         {
             if (Panel.ActiveDocument == null || !(Panel.ActiveDocument is Editor))
                 return;
-            ActiveEditor.ToggleDistrationFreeMode();
-            if (!ActiveEditor.DistractionFree)
+            if (ActiveEditor.DistractionFree)
             {
                 FormBorderStyle = FormBorderStyle.Sizable;
                 WindowState = FormWindowState.Normal;
@@ -1930,6 +1938,10 @@ namespace SS.Ynote.Classic
                 FormBorderStyle = FormBorderStyle.None;
                 WindowState = FormWindowState.Maximized;
             }
+            foreach(DockContent edit in dock.Contents)
+                if(edit is Editor)
+                    ((Editor)(edit)).ToggleDistrationFreeMode();
+            Globals.DistractionFree = ActiveEditor.DistractionFree;
         }
 
         private void commentmenu_Click(object sender, EventArgs e)
@@ -2015,15 +2027,9 @@ namespace SS.Ynote.Classic
         private void migotofileinproject_Click(object sender, EventArgs e)
         {
             var autocompletelist = new List<AutocompleteItem>();
-            foreach (var win in dock.Contents)
-            {
-                if (win is ProjectPanel)
-                {
-                    var proj = (win as ProjectPanel).Project;
-                    foreach (var file in Directory.GetFiles(proj.Path, "*.*", SearchOption.AllDirectories))
-                        autocompletelist.Add(new FuzzyAutoCompleteItem(Path.GetFileName(file)) {Tag = file});
-                }
-            }
+            var files = Directory.GetFiles(Globals.ActiveProject.Path, "*.*", SearchOption.AllDirectories);
+            foreach (var file in files)
+                autocompletelist.Add(new FuzzyAutoCompleteItem(Path.GetFileName(file)));
             var commandwindow = new CommandWindow(autocompletelist);
             commandwindow.ProcessCommand += commandwindow_ProcessCommand;
             commandwindow.ShowDialog(this);
@@ -2031,23 +2037,15 @@ namespace SS.Ynote.Classic
 
         private void commandwindow_ProcessCommand(object sender, CommandWindowEventArgs e)
         {
-            foreach (var window in dock.Contents)
-            {
-                if (window is ProjectPanel)
-                {
-                    foreach (
-                        var file in
-                            Directory.GetFiles((window as ProjectPanel).Project.Path, "*.*", SearchOption.AllDirectories)
-                        )
-                    {
-                        if (Path.GetFileName(file) == e.Text)
-                        {
-                            OpenFile(file);
-                            return;
-                        }
-                    }
-                }
-            }
+            var files = Directory.GetFiles(Globals.ActiveProject.Path, "*.*", SearchOption.AllDirectories);
+             foreach (var file in files)
+             {
+                 if (Path.GetFileName(file) == e.Text)
+                 {
+                     OpenFile(file);
+                     return;
+                 }
+             }
         }
 
 
@@ -2091,41 +2089,36 @@ namespace SS.Ynote.Classic
 
         private void mieditproj_Click(object sender, EventArgs e)
         {
-            foreach (var window in dock.Contents)
-                if (window is ProjectPanel)
-                {
-                    var proj = window as ProjectPanel;
-                    if (proj.Project.FilePath == null)
-                        return;
-                    OpenFile(proj.Project.FilePath);
-                    return;
-                }
+           if (string.IsNullOrEmpty(Globals.ActiveProject.FilePath))
+               return;
+           OpenFile(Globals.ActiveProject.FilePath);
         }
 
         private void misaveproj_Click(object sender, EventArgs e)
         {
-            foreach (var window in dock.Contents)
-                if (window is ProjectPanel)
+            var proj = Globals.ActiveProject;
+            if (proj == null)
+                return;
+            if (!proj.IsSaved)
+            {
+                using (var dlg = new SaveFileDialog())
                 {
-                    var proj = (window as ProjectPanel).Project;
-                    if (!proj.IsSaved)
+                    dlg.Filter = "Ynote Project Files (*.ynoteproject)|*.ynoteproject";
+                    var result = dlg.ShowDialog();
+                    if (result == DialogResult.OK)
                     {
-                        using (var dlg = new SaveFileDialog())
-                        {
-                            dlg.Filter = "Ynote Project Files (*.ynoteproject)|*.ynoteproject";
-                            var result = dlg.ShowDialog();
-                            if (result == DialogResult.OK)
-                            {
-                                proj.Name = Path.GetFileNameWithoutExtension(dlg.FileName);
-                                proj.Save(dlg.FileName);
-                                proj.FilePath = dlg.FileName;
-                                (window as ProjectPanel).OpenProject(proj);
-                                if (!_projs.Contains(proj.FilePath))
-                                    _projs.Add(proj.FilePath);
-                            }
-                        }
+                        proj.Name = Path.GetFileNameWithoutExtension(dlg.FileName);
+                        proj.Save(dlg.FileName);
+                        proj.FilePath = dlg.FileName;
+                        foreach(DockContent content in dock.Contents)
+                            if(content is ProjectPanel)
+                                (content as ProjectPanel).OpenProject(proj);
+                        if (!_projs.Contains(proj.FilePath))
+                            _projs.Add(proj.FilePath);
                     }
                 }
+            }
+                
         }
 
         private void miaddtoproj_Click(object sender, EventArgs e)
@@ -2185,14 +2178,5 @@ namespace SS.Ynote.Classic
         }
 
         #endregion
-
-        private void menuItem2_Click(object sender, EventArgs e)
-        {
-            foreach (DockContent doc in dock.Documents.ToList())
-                doc.Close();
-            dock.SuspendLayout(true);
-            LoadLayout();
-            dock.ResumeLayout(true, true);
-        }
     }
 }

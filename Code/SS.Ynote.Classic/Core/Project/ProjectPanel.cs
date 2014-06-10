@@ -57,6 +57,7 @@ namespace SS.Ynote.Classic.Core.Project
             else
                ListDirectory(projtree, project);
             projtree.Tag = project;
+            Globals.ActiveProject = project;
             Expand();
         }
 

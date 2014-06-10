@@ -8,6 +8,11 @@ namespace SS.Ynote.Classic
 {
     internal static class Globals
     {
+        public static bool DistractionFree { get; set; }
+        /// <summary>
+        /// Gets the Active Project
+        /// </summary>
+        public static YnoteProject ActiveProject { get; set; }
         /// <summary>
         ///     The running instance of Ynote
         /// </summary>

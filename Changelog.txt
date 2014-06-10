@@ -257,3 +257,8 @@ Build 865
 Build 874
 
 -> Revised Syntax Highlight Design
+
+Build 893
+
+-> Distraction Free Fixes
+-> Added Project in Globals
