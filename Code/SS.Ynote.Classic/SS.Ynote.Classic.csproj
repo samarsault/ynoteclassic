@@ -90,18 +90,10 @@
     </Compile>
     <Compile Include="Core\Commands\InstalledCommands.cs" />
     <Compile Include="Core\Commands\YnoteCommand.cs" />
-    <Compile Include="Core\RunScript\NewRun.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Core\RunScript\NewRun.Designer.cs" />
     <Compile Include="Core\RunScript\RunDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Core\RunScript\RunScript.cs" />
-    <Compile Include="Core\RunScript\RunScriptEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Core\RunScript\RunScriptEditor.Designer.cs" />
     <Compile Include="Core\Session\YnoteSession.cs" />
     <Compile Include="Core\Settings\GlobalProperties.cs" />
     <Compile Include="Core\Settings\GlobalSettings.cs" />
@@ -253,9 +245,9 @@
     <EmbeddedResource Include="Core\Commands\Commander.resx">
       <DependentUpon>Commander.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Core\RunScript\NewRun.resx" />
-    <EmbeddedResource Include="Core\RunScript\RunDialog.resx" />
-    <EmbeddedResource Include="Core\RunScript\RunScriptEditor.resx" />
+    <EmbeddedResource Include="Core\RunScript\RunDialog.resx">
+      <DependentUpon>RunDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Extensibility\Packages\AddPackageFile.resx">
       <DependentUpon>AddPackageFile.cs</DependentUpon>
     </EmbeddedResource>
@@ -293,9 +285,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="UI\Editor.resx">
-      <DependentUpon>Editor.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\Shell.resx">
       <DependentUpon>Shell.cs</DependentUpon>
     </EmbeddedResource>

@@ -14,7 +14,6 @@ using SS.Ynote.Classic.Core.Settings;
 using SS.Ynote.Classic.Core.Snippets;
 using SS.Ynote.Classic.Core.Syntax;
 using SS.Ynote.Classic.UI;
-using WeifenLuo.WinFormsUI.Docking;
 
 internal class SetSyntaxCommand : ICommand
 {
@@ -35,7 +34,7 @@ internal class SetSyntaxCommand : ICommand
     {
         var ae = ynote.Panel.ActiveDocument as Editor;
         if (ae == null) return;
-        ae.Highlighter.HighlightSyntax(val, new TextChangedEventArgs(ae.Tb.Range));
+        ae.HighlightSyntax(val);
         ae.Tb.Language = val;
     }
 }

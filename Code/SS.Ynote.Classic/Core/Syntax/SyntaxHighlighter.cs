@@ -174,167 +174,170 @@ namespace SS.Ynote.Classic.Core.Syntax
         /// <param name="range"></param>
         public void HighlightSyntax(string language, TextChangedEventArgs args)
         {
-            switch (language)
+            if (Scopes.Contains(language))
             {
-                case "Actionscript":
-                    ActionscriptSyntaxHighlight(args);
-                    break;
+                switch (language)
+                {
+                    case "Actionscript":
+                        ActionscriptSyntaxHighlight(args);
+                        break;
 
-                case "Antlr":
-                    AntlrSyntaxHighlight(args);
-                    break;
+                    case "Antlr":
+                        AntlrSyntaxHighlight(args);
+                        break;
 
-                case "ASP":
-                    HTMLSyntaxHighlight(args);
-                    break;
+                    case "ASP":
+                        HTMLSyntaxHighlight(args);
+                        break;
 
-                case "Objective_C":
-                    ObjectiveCHighlight(args);
-                    break;
+                    case "Objective_C":
+                        ObjectiveCHighlight(args);
+                        break;
 
-                case "Batch":
-                    BatchSyntaxHighlight(args);
-                    break;
+                    case "Batch":
+                        BatchSyntaxHighlight(args);
+                        break;
 
-                case "C":
-                    CSyntaxHighlight(args);
-                    break;
+                    case "C":
+                        CSyntaxHighlight(args);
+                        break;
 
-                case "CPP":
-                    CppSyntaxHighlight(args);
-                    break;
+                    case "C++":
+                        CppSyntaxHighlight(args);
+                        break;
 
-                case "CSS":
-                    CssHighlight(args);
-                    break;
+                    case "CSS":
+                        CssHighlight(args);
+                        break;
 
-                case "CSharp":
-                    CSharpSyntaxHighlight(args);
-                    break;
+                    case "CSharp":
+                        CSharpSyntaxHighlight(args);
+                        break;
 
-                case "CoffeeScript":
-                    CoffeeScriptSyntaxHighlight(args);
-                    break;
+                    case "CoffeeScript":
+                        CoffeeScriptSyntaxHighlight(args);
+                        break;
 
-                case "D":
-                    DSyntaxHighlight(args);
-                    break;
+                    case "D":
+                        DSyntaxHighlight(args);
+                        break;
 
-                case "Diff":
-                    DiffSyntaxHighlight(args);
-                    break;
+                    case "Diff":
+                        DiffSyntaxHighlight(args);
+                        break;
 
-                case "Java":
-                    JavaSyntaxHighlight(args);
-                    break;
+                    case "Java":
+                        JavaSyntaxHighlight(args);
+                        break;
 
-                case "Lua":
-                    LuaSyntaxHighlight(args);
-                    break;
+                    case "Lua":
+                        LuaSyntaxHighlight(args);
+                        break;
 
-                case "Python":
-                    PythonSyntaxHighlight(args);
-                    break;
+                    case "Python":
+                        PythonSyntaxHighlight(args);
+                        break;
 
-                case "QBasic":
-                    QBasicHighlight(args);
-                    break;
+                    case "QBasic":
+                        QBasicHighlight(args);
+                        break;
 
-                case "Perl":
-                    PerlSyntaxHighlight(args);
-                    break;
+                    case "Perl":
+                        PerlSyntaxHighlight(args);
+                        break;
 
-                case "PowerShell":
-                    PowerShellSyntaxHighlight(args);
-                    break;
+                    case "PowerShell":
+                        PowerShellSyntaxHighlight(args);
+                        break;
 
-                case "R":
-                    RSyntaxHighlight(args);
-                    break;
+                    case "R":
+                        RSyntaxHighlight(args);
+                        break;
 
-                case "Ruby":
-                    RubySyntaxHighlight(args);
-                    break;
+                    case "Ruby":
+                        RubySyntaxHighlight(args);
+                        break;
 
-                case "Xml":
-                    XmlSyntaxHighlight(args);
-                    break;
+                    case "Xml":
+                        XmlSyntaxHighlight(args);
+                        break;
 
-                case "INI":
-                    IniSyntaxHighlight(args);
-                    break;
+                    case "INI":
+                        IniSyntaxHighlight(args);
+                        break;
 
-                case "Makefile":
-                    MakeFileSyntaxHighlight(args);
-                    break;
+                    case "Makefile":
+                        MakeFileSyntaxHighlight(args);
+                        break;
 
-                case "JSON":
-                    JsonSyntaxHighlight(args);
-                    break;
+                    case "JSON":
+                        JsonSyntaxHighlight(args);
+                        break;
 
-                case "VB":
-                    VBSyntaxHighlight(args);
-                    break;
+                    case "VB":
+                        VBSyntaxHighlight(args);
+                        break;
 
-                case "HTML":
-                    HtmlSyntaxHighlight(args);
-                    break;
+                    case "HTML":
+                        HtmlSyntaxHighlight(args);
+                        break;
 
-                case "Javascript":
-                    JScriptSyntaxHighlight(args);
-                    break;
+                    case "Javascript":
+                        JScriptSyntaxHighlight(args);
+                        break;
 
-                case "SQL":
-                    SqlSyntaxHighlight(args);
-                    break;
+                    case "SQL":
+                        SqlSyntaxHighlight(args);
+                        break;
 
-                case "ShellScript":
-                    ShellSyntaxHighlight(args);
-                    break;
+                    case "ShellScript":
+                        ShellSyntaxHighlight(args);
+                        break;
 
-                case "PHP":
-                    HTMLPHPSyntaxHighlight(args);
-                    break;
+                    case "PHP":
+                        HTMLPHPSyntaxHighlight(args);
+                        break;
 
-                case "Lisp":
-                    LispSyntaxHighlight(args);
-                    break;
+                    case "Lisp":
+                        LispSyntaxHighlight(args);
+                        break;
 
-                case "FSharp":
-                    FSharpSyntaxHighlight(args);
-                    break;
+                    case "FSharp":
+                        FSharpSyntaxHighlight(args);
+                        break;
 
-                case "Pascal":
-                    PascalSyntaxHighlight(args);
-                    break;
+                    case "Pascal":
+                        PascalSyntaxHighlight(args);
+                        break;
 
-                case "Scala":
-                    ScalaSyntaxHighlight(args);
-                    break;
+                    case "Scala":
+                        ScalaSyntaxHighlight(args);
+                        break;
 
-                case "Yaml":
-                    YamlSyntaxHighlight(args);
-                    break;
+                    case "Yaml":
+                        YamlSyntaxHighlight(args);
+                        break;
 
-                case "LaTeX":
-                    LaTeXSyntaxHighlight(args);
-                    break;
+                    case "LaTeX":
+                        LaTeXSyntaxHighlight(args);
+                        break;
 
-                case "Haskell":
-                    HaskellSyntaxHighlight(args);
-                    break;
+                    case "Haskell":
+                        HaskellSyntaxHighlight(args);
+                        break;
 
-                case "MATLAB":
-                    MATLABSyntaxHighlight(args);
-                    break;
-                case "Tcl":
-                    TclSyntaxHighlight(args);
-                    break;
-                default :
-                    foreach(var syntax in LoadedSyntaxes)
-                        if(syntax.Name == language)
-                            HighlightSyntaxFromFile(syntax, args);
-                    break;
+                    case "MATLAB":
+                        MATLABSyntaxHighlight(args);
+                        break;
+                    case "Tcl":
+                        TclSyntaxHighlight(args);
+                        break;
+                    default:
+                        foreach (var syntax in LoadedSyntaxes)
+                            if (syntax.Name == language)
+                                HighlightSyntaxFromFile(syntax, args);
+                        break;
+                }
             }
         }
 
@@ -371,7 +374,7 @@ namespace SS.Ynote.Classic.Core.Syntax
                 "Actionscript",
                 "Antlr",
                 "C",
-                "CPP",
+                "C++",
                 "CoffeeScript",
                 "CSharp",
                 "D",

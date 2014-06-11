@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
+using System.Security;
 using System.Windows.Forms;
 
 namespace SS.Ynote.Classic.Core.Project
@@ -55,13 +56,17 @@ namespace SS.Ynote.Classic.Core.Project
             // 
             // projtree
             // 
+            this.projtree.BackColor = System.Drawing.SystemColors.Control;
             this.projtree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.projtree.FullRowSelect = true;
             this.projtree.ImageIndex = 0;
             this.projtree.ImageList = this.imageList1;
             this.projtree.Indent = 20;
             this.projtree.Location = new System.Drawing.Point(0, 0);
             this.projtree.Name = "projtree";
+            this.projtree.Scrollable = false;
             this.projtree.SelectedImageIndex = 0;
+            this.projtree.ShowLines = false;
             this.projtree.Size = new System.Drawing.Size(267, 367);
             this.projtree.TabIndex = 0;
             this.projtree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);
@@ -71,9 +76,8 @@ namespace SS.Ynote.Classic.Core.Project
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "folder.png");
-            this.imageList1.Images.SetKeyName(1, "page_white_code.png");
-            this.imageList1.Images.SetKeyName(2, "application.png");
+            this.imageList1.Images.SetKeyName(0, "folder_icon&16.png");
+            this.imageList1.Images.SetKeyName(1, "doc_empty_icon&16.png");
             // 
             // folderMenu
             // 
@@ -188,22 +192,22 @@ namespace SS.Ynote.Classic.Core.Project
 
         #endregion
 
-        private TreeView projtree;
-        private ImageList imageList1;
-        private ContextMenu folderMenu;
-        private MenuItem menuItem1;
-        private MenuItem menuItem2;
-        private MenuItem menuItem9;
-        private MenuItem menuItem7;
-        private MenuItem menuItem6;
-        private MenuItem menuItem5;
-        private MenuItem menuItem10;
-        private MenuItem menuItem11;
-        private ContextMenu fileMenu;
-        private MenuItem menuItem15;
-        private MenuItem menuItem13;
-        private MenuItem menuItem16;
-        private MenuItem menuItem14;
-        private MenuItem menuItem3;
+        private System.Windows.Forms.TreeView projtree;
+        private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.ContextMenu folderMenu;
+        private System.Windows.Forms.MenuItem menuItem1;
+        private System.Windows.Forms.MenuItem menuItem2;
+        private System.Windows.Forms.MenuItem menuItem9;
+        private System.Windows.Forms.MenuItem menuItem7;
+        private System.Windows.Forms.MenuItem menuItem6;
+        private System.Windows.Forms.MenuItem menuItem5;
+        private System.Windows.Forms.MenuItem menuItem10;
+        private System.Windows.Forms.MenuItem menuItem11;
+        private System.Windows.Forms.ContextMenu fileMenu;
+        private System.Windows.Forms.MenuItem menuItem15;
+        private System.Windows.Forms.MenuItem menuItem13;
+        private System.Windows.Forms.MenuItem menuItem16;
+        private System.Windows.Forms.MenuItem menuItem14;
+        private System.Windows.Forms.MenuItem menuItem3;
     }
 }

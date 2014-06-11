@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-namespace FastColoredTextBoxNS
+﻿namespace FastColoredTextBoxNS
 {
     partial class FindForm
     {
@@ -54,6 +52,7 @@ namespace FastColoredTextBoxNS
             this.btReplaceAll.TabIndex = 28;
             this.btReplaceAll.Text = "Replace all";
             this.btReplaceAll.UseVisualStyleBackColor = true;
+            this.btReplaceAll.Click += new System.EventHandler(this.btReplaceAll_Click);
             // 
             // btReplace
             // 
@@ -63,6 +62,7 @@ namespace FastColoredTextBoxNS
             this.btReplace.TabIndex = 27;
             this.btReplace.Text = "Replace";
             this.btReplace.UseVisualStyleBackColor = true;
+            this.btReplace.Click += new System.EventHandler(this.btReplace_Click);
             // 
             // btHighlightAll
             // 
@@ -91,6 +91,7 @@ namespace FastColoredTextBoxNS
             this.btFindNext.TabIndex = 22;
             this.btFindNext.Text = "Find next";
             this.btFindNext.UseVisualStyleBackColor = true;
+            this.btFindNext.Click += new System.EventHandler(btFindNext_Click);
             // 
             // btClose
             // 
@@ -123,7 +124,7 @@ namespace FastColoredTextBoxNS
             this.cbMatchCase.TabIndex = 10;
             this.cbMatchCase.Text = "Match case";
             this.cbMatchCase.UseVisualStyleBackColor = true;
-            this.cbMatchCase.CheckedChanged += cbMatchCase_CheckedChanged;
+            this.cbMatchCase.CheckedChanged += new System.EventHandler(cbMatchCase_CheckedChanged);
             // 
             // cbWholeWord
             // 
@@ -161,7 +162,7 @@ namespace FastColoredTextBoxNS
             this.tbFind.Name = "tbFind";
             this.tbFind.Size = new System.Drawing.Size(306, 21);
             this.tbFind.TabIndex = 31;
-            this.tbFind.KeyPress += tbFind_KeyPress;
+            this.tbFind.KeyPress += new System.Windows.Forms.KeyPressEventHandler(tbFind_KeyPress);
             // 
             // tbReplace
             // 
@@ -170,7 +171,7 @@ namespace FastColoredTextBoxNS
             this.tbReplace.Name = "tbReplace";
             this.tbReplace.Size = new System.Drawing.Size(306, 21);
             this.tbReplace.TabIndex = 32;
-            this.tbReplace.KeyPress += tbReplace_KeyPress;
+            this.tbReplace.KeyPress += new System.Windows.Forms.KeyPressEventHandler(tbReplace_KeyPress);
             // 
             // FindForm
             // 
@@ -205,19 +206,19 @@ namespace FastColoredTextBoxNS
 
         #endregion
 
-        private Button btReplaceAll;
-        private Button btReplace;
-        private Button btHighlightAll;
-        private Label label1;
-        private Button btFindNext;
-        private Button btClose;
-        private GroupBox groupBox1;
-        private CheckBox cbMatchCase;
-        private CheckBox cbWholeWord;
-        private CheckBox cbRegex;
-        private Label label2;
-        public ComboBox tbFind;
-        private ComboBox tbReplace;
+        private System.Windows.Forms.Button btReplaceAll;
+        private System.Windows.Forms.Button btReplace;
+        private System.Windows.Forms.Button btHighlightAll;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btFindNext;
+        private System.Windows.Forms.Button btClose;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.CheckBox cbMatchCase;
+        private System.Windows.Forms.CheckBox cbWholeWord;
+        private System.Windows.Forms.CheckBox cbRegex;
+        private System.Windows.Forms.Label label2;
+        public  System.Windows.Forms.ComboBox tbFind;
+        private System.Windows.Forms.ComboBox tbReplace;
 
 
     }

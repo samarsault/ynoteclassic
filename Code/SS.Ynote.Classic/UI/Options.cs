@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -338,11 +337,7 @@ namespace SS.Ynote.Classic.UI
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var ynote = Application.OpenForms[0] as IYnote;
-            if (ynote == null)
-                ynote = Application.OpenForms[1] as IYnote;
-
-            ynote.OpenFile(GlobalSettings.SettingsDir + "User.ynotesettings");
+            Globals.Ynote.OpenFile(GlobalSettings.SettingsDir + "User.ynotesettings");
             Close();
         }
 

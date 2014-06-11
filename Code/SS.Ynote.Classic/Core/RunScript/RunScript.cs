@@ -47,7 +47,7 @@ namespace SS.Ynote.Classic.Core.RunScript
                 if (item.Key == "Name")
                     script.Name = item.Value[0];
                 if (item.Key == "Scope")
-                    script.Name = item.Value[0];
+                    script.Scope = item.Value[0];
             }
         }
 

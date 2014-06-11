@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using SS.Ynote.Classic.Core.RunScript;
 using WeifenLuo.WinFormsUI.Docking;
@@ -11,7 +10,6 @@ namespace SS.Ynote.Classic
         #region Designer
 
         private Label _label1;
-        private Button button1;
         private Button button2;
         private Button button3;
         private GroupBox groupBox1;
@@ -19,90 +17,79 @@ namespace SS.Ynote.Classic
 
         private void InitializeComponent()
         {
-            _label1 = new Label();
-            groupBox1 = new GroupBox();
-            pgname = new ComboBox();
-            button2 = new Button();
-            button3 = new Button();
-            button1 = new Button();
-            groupBox1.SuspendLayout();
-            SuspendLayout();
-            //
+            this._label1 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pgname = new System.Windows.Forms.ComboBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.groupBox1.SuspendLayout();
+            this.SuspendLayout();
+            // 
             // _label1
-            //
-            _label1.AutoSize = true;
-            _label1.Location = new Point(22, 38);
-            _label1.Name = "_label1";
-            _label1.Size = new Size(43, 13);
-            _label1.TabIndex = 1;
-            _label1.Text = "Script : ";
-            //
+            // 
+            this._label1.AutoSize = true;
+            this._label1.Location = new System.Drawing.Point(22, 38);
+            this._label1.Name = "_label1";
+            this._label1.Size = new System.Drawing.Size(43, 13);
+            this._label1.TabIndex = 1;
+            this._label1.Text = "Script : ";
+            // 
             // groupBox1
-            //
-            groupBox1.Controls.Add(pgname);
-            groupBox1.Controls.Add(_label1);
-            groupBox1.Location = new Point(12, 12);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(329, 90);
-            groupBox1.TabIndex = 3;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Run";
-            //
+            // 
+            this.groupBox1.Controls.Add(this.pgname);
+            this.groupBox1.Controls.Add(this._label1);
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(329, 90);
+            this.groupBox1.TabIndex = 3;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Run";
+            // 
             // pgname
-            //
-            pgname.AutoCompleteMode = AutoCompleteMode.Suggest;
-            pgname.AutoCompleteSource = AutoCompleteSource.ListItems;
-            pgname.DropDownStyle = ComboBoxStyle.DropDownList;
-            pgname.FormattingEnabled = true;
-            pgname.Location = new Point(71, 33);
-            pgname.Name = "pgname";
-            pgname.Size = new Size(248, 21);
-            pgname.TabIndex = 3;
-            //
+            // 
+            this.pgname.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.pgname.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.pgname.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.pgname.FormattingEnabled = true;
+            this.pgname.Location = new System.Drawing.Point(71, 33);
+            this.pgname.Name = "pgname";
+            this.pgname.Size = new System.Drawing.Size(248, 21);
+            this.pgname.TabIndex = 3;
+            // 
             // button2
-            //
-            button2.Location = new Point(67, 118);
-            button2.Name = "button2";
-            button2.Size = new Size(82, 22);
-            button2.TabIndex = 4;
-            button2.Text = "Run";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
-            //
+            // 
+            this.button2.Location = new System.Drawing.Point(157, 117);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(82, 22);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "Run";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += button2_Click;
+            // 
             // button3
-            //
-            button3.Location = new Point(257, 117);
-            button3.Name = "button3";
-            button3.Size = new Size(82, 22);
-            button3.TabIndex = 5;
-            button3.Text = "Cancel";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
-            //
-            // button1
-            //
-            button1.Location = new Point(155, 117);
-            button1.Name = "button1";
-            button1.Size = new Size(96, 23);
-            button1.TabIndex = 6;
-            button1.Text = "Editor";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click_1;
-            //
+            // 
+            this.button3.Location = new System.Drawing.Point(257, 117);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(82, 22);
+            this.button3.TabIndex = 5;
+            this.button3.Text = "Cancel";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += button3_Click;
+            // 
             // RunDialog
-            //
-            ClientSize = new Size(363, 170);
-            Controls.Add(button1);
-            Controls.Add(button3);
-            Controls.Add(button2);
-            Controls.Add(groupBox1);
-            FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            Name = "RunDialog";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "Run";
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
-            ResumeLayout(false);
+            // 
+            this.ClientSize = new System.Drawing.Size(363, 170);
+            this.FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.groupBox1);
+            this.Name = "RunDialog";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Run";
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.ResumeLayout(false);
+
         }
 
         #endregion Designer
@@ -136,14 +123,6 @@ namespace SS.Ynote.Classic
             item.Run();
             Close();
         }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            var form = new RunScriptEditor {StartPosition = FormStartPosition.CenterScreen};
-            form.ShowDialog();
-            Close();
-        }
-
         private void button3_Click(object sender, EventArgs e)
         {
             Close();

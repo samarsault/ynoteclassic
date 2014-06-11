@@ -19,9 +19,7 @@ namespace SS.Ynote.Classic.Core.Search
 
         private void btnFind_Click(object sender, EventArgs e)
         {
-            var ynote = Application.OpenForms[1] as IYnote;
-            if (ynote == null)
-                ynote = Application.OpenForms[0] as IYnote;
+            var ynote = Globals.Ynote;
             var results = new SearchResults(ynote);
             results.Show(ynote.Panel, DockState.DockBottom);
             results.FindAll(tbdir.Text, cbRegex.Checked, cbCase.Checked, tbFind.Text, tbFilter.Text, cbsubdir.Checked);

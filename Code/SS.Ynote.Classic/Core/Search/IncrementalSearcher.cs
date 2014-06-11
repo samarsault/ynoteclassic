@@ -123,7 +123,6 @@ namespace SS.Ynote.Classic.Core.Search
         //    tbFind.Focus();
         //    ResetSerach();
         //}
-
         internal void Exit()
         {
             Tb.Range.ClearStyle(_style);

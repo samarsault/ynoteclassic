@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -15,11 +14,6 @@ namespace SS.Ynote.Classic.Core.Project
     {
         #region Private Variables
 
-        /// <summary>
-        ///     Ynote Reference to the Object
-        /// </summary>
-        private readonly IYnote _ynote;
-
         #endregion
 
         #region Constructor
@@ -28,10 +22,9 @@ namespace SS.Ynote.Classic.Core.Project
         ///     Default Constructor
         /// </summary>
         /// <param name="ynote">Reference to Ynote</param>
-        public ProjectPanel(IYnote ynote)
+        public ProjectPanel()
         {
             InitializeComponent();
-            _ynote = ynote;
         }
 
         public YnoteProject Project
@@ -46,9 +39,14 @@ namespace SS.Ynote.Classic.Core.Project
         /// <summary>
         ///     Opens a Project
         /// </summary>
-        /// <param name="file"></param>
+        /// <param name="project"></param>
         public void OpenProject(YnoteProject project)
         {
+            if (project == null)
+            {
+                Close();
+                return;
+            }
             projtree.Nodes.Clear();
             // initialize the node
             if (!Directory.Exists(project.Path))
@@ -267,11 +265,6 @@ namespace SS.Ynote.Classic.Core.Project
             return (File.GetAttributes(input) & FileAttributes.Directory)
                    == FileAttributes.Directory;
         }
-
-        private Icon GetShellIcon(string path)
-        {
-            return Icon.ExtractAssociatedIcon(path);
-        }
         #endregion Methods
 
         #region Events
@@ -282,7 +275,7 @@ namespace SS.Ynote.Classic.Core.Project
             var n = e.Node as ExTreeNode;
             if (n.Type == FolderNodeType.Folder)
                 return;
-            _ynote.OpenFile(node);
+            Globals.Ynote.OpenFile(node);
         }
 
         private void menuItem1_Click(object sender, EventArgs e)
@@ -331,7 +324,7 @@ namespace SS.Ynote.Classic.Core.Project
 
         private void menuItem13_Click(object sender, EventArgs e)
         {
-            _ynote.OpenFile(projtree.SelectedNode.Name);
+            Globals.Ynote.OpenFile(projtree.SelectedNode.Name);
         }
 
         private void menuItem7_Click(object sender, EventArgs e)
@@ -392,7 +385,13 @@ namespace SS.Ynote.Classic.Core.Project
         {
             return GetType() + "," + Project.FilePath;
         }
-
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            if (e.Cancel)
+                return;
+            Globals.ActiveProject = null;
+            base.OnClosing(e);
+        }
         #endregion
     }
 }

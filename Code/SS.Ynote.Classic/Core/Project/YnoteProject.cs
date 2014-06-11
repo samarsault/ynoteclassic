@@ -1,7 +1,6 @@
 ﻿using System.IO;
-using System.Xml;
+using System.Windows.Forms;
 using Newtonsoft.Json;
-using Formatting = Newtonsoft.Json.Formatting;
 
 namespace SS.Ynote.Classic.Core.Project
 {
@@ -10,6 +9,8 @@ namespace SS.Ynote.Classic.Core.Project
     /// </summary>
     public class YnoteProject
     {
+        [JsonIgnore]
+        public string LayoutFile { get { return string.Format(@"{0}\{1}.xml", System.IO.Path.GetDirectoryName(FilePath), Name); } }
         /// <summary>
         ///     Checks whether the project has been saved
         /// </summary>
@@ -47,6 +48,11 @@ namespace SS.Ynote.Classic.Core.Project
         /// <returns></returns>
         public static YnoteProject Load(string file)
         {
+            if (!File.Exists(file))
+            {
+                MessageBox.Show("Cannot Read Project \n" + file, null, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
             string json = File.ReadAllText(file);
             var proj =JsonConvert.DeserializeObject<YnoteProject>(json);
             proj.FilePath = file;

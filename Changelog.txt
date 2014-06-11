@@ -262,3 +262,22 @@ Build 893
 
 -> Distraction Free Fixes
 -> Added Project in Globals
+
+Build 906
+
+-> Added timeout in Trace(string, int) API method
+
+Build 938
+
+-> Fixed Bugs with Find Dialog and Find In Files Dialog
+Build 958
+
+-> Customized TreeView
+
+Build 964
+
+-> Fixed RunScripts Scope Bug
+
+Build 975
+
+-> Added Project-Specefic Layouts

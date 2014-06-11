@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Windows.Forms;
 using SS.Ynote.Classic.Core.Project;
 using SS.Ynote.Classic.Core.Settings;

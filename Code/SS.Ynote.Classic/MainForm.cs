@@ -19,10 +19,8 @@ using SS.Ynote.Classic.Core.Project;
 using SS.Ynote.Classic.Core.Search;
 using SS.Ynote.Classic.Core.Settings;
 using SS.Ynote.Classic.Core.Syntax;
-using SS.Ynote.Classic.Core.Syntax.Framework;
 using SS.Ynote.Classic.Extensibility;
 using SS.Ynote.Classic.Extensibility.Packages;
-using SS.Ynote.Classic.Core.RunScript;
 using SS.Ynote.Classic.UI;
 using WeifenLuo.WinFormsUI.Docking;
 using AutocompleteItem = AutocompleteMenuNS.AutocompleteItem;
@@ -90,11 +88,7 @@ namespace SS.Ynote.Classic
             InitSettings();
             Panel = dock;
             LoadPlugins();
-            LoadLayout();
-            if(!string.IsNullOrEmpty(file))
-                OpenFile(file);
-            if (!Globals.Settings.LoadLayout)
-                CreateNewDoc();
+            LoadLayout(file);
             if (Globals.Settings.ShowStatusBar)
                 InitTimer();
             Globals.Ynote = this;
@@ -153,7 +147,7 @@ namespace SS.Ynote.Classic
             SaveEditor(edit, Encoding.GetEncoding(Globals.Settings.DefaultEncoding));
         }
 
-        private Editor OpenEditor(string file)
+        static Editor OpenEditor(string file)
         {
             var edit = new Editor();
             edit.Name = file;
@@ -162,7 +156,6 @@ namespace SS.Ynote.Classic
             var lang = FileTypes.GetLanguage(FileTypes.FileTypesDictionary, Path.GetExtension(file));
             edit.Tb.Language = lang;
             edit.HighlightSyntax(lang);
-            edit.Show(Panel);
             Encoding encoding = EncodingDetector.DetectTextFileEncoding(file) ??
                                 Encoding.GetEncoding(Globals.Settings.DefaultEncoding);
             var info = new FileInfo(file);
@@ -398,9 +391,6 @@ namespace SS.Ynote.Classic
                 m.Click += LangMenuItemClicked;
                 milanguage.MenuItems.Add(m);
             }
-            foreach (var item in SyntaxHighlighter.LoadedSyntaxes)
-                milanguage.MenuItems.Add(new MenuItem(Path.GetFileNameWithoutExtension(item.SysPath),
-                    LangMenuItemClicked) {Tag = item});
             milanguage.GetMenuByName("Text").Checked = true;
         }
 
@@ -418,9 +408,9 @@ namespace SS.Ynote.Classic
                 t.Checked = false;
             item.Checked = true;
             if (ActiveEditor == null) return;
-                var lang = item.Text;
-                ActiveEditor.Highlighter.HighlightSyntax(lang, new TextChangedEventArgs(ActiveEditor.Tb.Range));
-                ActiveEditor.Tb.Language = lang;
+            var lang = item.Text;
+            ActiveEditor.HighlightSyntax(lang);
+            ActiveEditor.Tb.Language = lang;
             langmenu.Text = item.Text;
         }
 
@@ -480,7 +470,7 @@ namespace SS.Ynote.Classic
                 mistats.Text = message;
                 status.Invalidate();
                 // UpdateDocumentInfo();
-                Thread.Sleep(2000);
+                Thread.Sleep(10000);
             });
         }
 
@@ -604,22 +594,32 @@ namespace SS.Ynote.Classic
             }
             if (parsedStrings[0] == typeof (ProjectPanel).ToString())
             {
-                    var projp = new ProjectPanel(this);
+                    var projp = new ProjectPanel();
                     projp.OpenProject(YnoteProject.Load(parsedStrings[1]));
                     return projp;
             }
             return null;
         }
 
-        private void LoadLayout()
+        private void LoadLayout(string file)
         {
             if (!Globals.Settings.LoadLayout)
-                return;
-            dock.SuspendLayout(true);
-            string filename = Application.StartupPath + "\\Dock.xml";
-            if (File.Exists(filename))
-                dock.LoadFromXml(filename, GetContentFromPersistString);
-            dock.ResumeLayout(true, true);
+            {
+                if (string.IsNullOrEmpty(file))
+                    CreateNewDoc();
+                else
+                    OpenFile(file);
+            }
+            else
+            {
+                dock.SuspendLayout(true);
+                string filename = Application.StartupPath + "\\Dock.xml";
+                if (File.Exists(filename))
+                    dock.LoadFromXml(filename, GetContentFromPersistString);
+                else
+                    CreateNewDoc();
+                dock.ResumeLayout(true, true);
+            }
         }
         #endregion
 
@@ -635,6 +635,8 @@ namespace SS.Ynote.Classic
                 dock.SaveAsXml("Dock.xml");
             if (_projs != null)
                 SaveRecentProjects();
+            if(Globals.ActiveProject != null)
+                dock.SaveAsXml(Globals.ActiveProject.LayoutFile);
 #if DEVBUILD
             File.WriteAllText(Application.StartupPath + "\\Build.number", GlobalSettings.BuildNumber.ToString());
 #endif
@@ -1469,12 +1471,6 @@ namespace SS.Ynote.Classic
             ActiveEditor.Tb.ClearCurrentLine();
         }
 
-        private void mifoldermanager_Click(object sender, EventArgs e)
-        {
-            var manager = new ProjectPanel(this);
-            manager.Show(dock, DockState.DockLeft);
-        }
-
         private void macroitem_click(object sender, EventArgs e)
         {
             var item = sender as MenuItem;
@@ -1523,12 +1519,6 @@ namespace SS.Ynote.Classic
                 m.Click += langitem_Click;
                 langmenu.DropDownItems.Add(m);
             }
-            foreach (var item in SyntaxHighlighter.LoadedSyntaxes)
-                langmenu.DropDownItems.Add(new ToolStripMenuItem(Path.GetFileNameWithoutExtension(item.SysPath), null,
-                    langitem_Click)
-                {
-                    Tag = item
-                });
         }
 
         private void langitem_Click(object sender, EventArgs e)
@@ -1536,12 +1526,10 @@ namespace SS.Ynote.Classic
             var item = sender as ToolStripMenuItem;
             var lang = item.Text;
             ActiveEditor.Tb.Language = lang;
-            ActiveEditor.Highlighter.HighlightSyntax(ActiveEditor.Tb.Language,
-                new TextChangedEventArgs(ActiveEditor.Tb.Range));
+            ActiveEditor.HighlightSyntax(ActiveEditor.Tb.Language);
             langmenu.Text = item.Text;
         }
-
-        private void mirun_Click(object sender, EventArgs e)
+        private void mirunscripts_Click(object sender, EventArgs e)
         {
             if (ActiveEditor == null) return;
             if (ActiveEditor.IsSaved)
@@ -1554,13 +1542,6 @@ namespace SS.Ynote.Classic
                 MessageBox.Show("Please Save the Current Document before proceeding!", "RunScript Executor");
             }
         }
-
-        private void miruneditor_Click(object sender, EventArgs e)
-        {
-            var editor = new RunScriptEditor {StartPosition = FormStartPosition.CenterParent};
-            editor.ShowDialog(this);
-        }
-
         private void dock_ActiveDocumentChanged(object sender, EventArgs e)
         {
             if (ActiveEditor == null) return;
@@ -1632,24 +1613,6 @@ namespace SS.Ynote.Classic
             if (ActiveEditor != null && ActiveEditor.autocomplete != null)
                 ActiveEditor.autocomplete.Show(true);
         }
-
-        private void miseltohex_Click(object sender, EventArgs e)
-        {
-            if (ActiveEditor == null) return;
-            var selected = ActiveEditor.Tb.SelectedText;
-            var bytes = Encoding.Default.GetBytes(selected);
-            ActiveEditor.Tb.SelectedText = BitConverter.ToString(bytes).Replace("-", "");
-        }
-
-        private void miseltoASCII_Click(object sender, EventArgs e)
-        {
-            var asciiBytes = Encoding.ASCII.GetBytes(ActiveEditor.Tb.SelectedText);
-            var builder = new StringBuilder();
-            foreach (var b in asciiBytes)
-                builder.Append(b + " ");
-            ActiveEditor.Tb.SelectedText = builder.ToString();
-        }
-
         private void miupdates_Click(object sender, EventArgs e)
         {
             try
@@ -1693,16 +1656,21 @@ namespace SS.Ynote.Classic
             CreateNewDoc();
             ActiveEditor.Text = "Script";
             ActiveEditor.Tb.Text =
-                "using SS.Ynote.Classic;\r\n\r\nstatic void Run(IYnote ynote)\r\n{\r\n// your code\r\n}";
-            ActiveEditor.Highlighter.HighlightSyntax("CSharp", new TextChangedEventArgs(ActiveEditor.Tb.Range));
+            "using SS.Ynote.Classic;\r\n\r\nstatic void Main(IYnote ynote)\r\n{\r\n// your code\r\n}";
+            ActiveEditor.HighlightSyntax("CSharp");
             ActiveEditor.Tb.Language = "CSharp";
+            ActiveEditor.Tb.DoAutoIndent();
         }
 
         private void minewsnippet_Click(object sender, EventArgs e)
         {
-            if (ActiveEditor != null)
-                OpenFile(string.Format(@"{0}Snippets\{1}.ynotesnippet", GlobalSettings.SettingsDir,
-                    ActiveEditor.Tb.Language));
+            CreateNewDoc();
+            ActiveEditor.Text = "Snippet";
+            ActiveEditor.Tb.Text =
+            "<?xml version=\"1.0\"?>\n<YnoteSnippet>\n<description></description>\n<content><!-- content of your snippet --></content>\n<tabTrigger><!-- text to trigger the snippet --></tabTrigger>\n<scope><!-- the scope of the snippet --></scope>\n</YnoteSnippet>";
+            ActiveEditor.HighlightSyntax("Xml");
+            ActiveEditor.Tb.Language = "Xml"; 
+            ActiveEditor.Tb.DoAutoIndent();
         }
 
         private void midocinfo_Click(object sender, EventArgs e)
@@ -1840,7 +1808,7 @@ namespace SS.Ynote.Classic
             ActiveEditor.Text = "SyntaxFile";
             ActiveEditor.Tb.Text =
                 "<?xml version=\"1.0\"?>\r\n\t<YnoteSyntax>\r\n\t\t<Syntax CommentPrefix=\"\" Extensions=\"\"/>\r\n\t\t<Brackets Left=\"\" Right=\"\"/>\r\n\t\t<Rule Type=\"\" Regex=\"\"/>\r\n\t\t<Folding Start=\"\" End=\"\"/>\r\n\t</YnoteSyntax>";
-            ActiveEditor.Highlighter.HighlightSyntax("Xml", new TextChangedEventArgs(ActiveEditor.Tb.Range));
+            ActiveEditor.HighlightSyntax("Xml");
             ActiveEditor.Tb.Language = "Xml";
         }
 
@@ -2065,16 +2033,29 @@ namespace SS.Ynote.Classic
 
         private void OpenProject(YnoteProject project)
         {
+            if (Globals.ActiveProject == project || project == null)
+                return;
             ProjectPanel panel = null;
-            foreach (var window in dock.Contents)
+            if (File.Exists(project.LayoutFile))
             {
-                if (window is ProjectPanel)
-                    panel = window as ProjectPanel;
+                foreach (DockContent item in dock.Contents.ToArray())
+                    item.Close();
+                panel = new ProjectPanel();
+                //       dock.SuspendLayout(true);
+                dock.LoadFromXml(project.LayoutFile, GetContentFromPersistString);
+                panel.Show(dock, DockState.DockLeft);
+                panel.OpenProject(project);
+                //      dock.ResumeLayout(true,true);
             }
-            if (panel == null)
-                panel = new ProjectPanel(this);
-            panel.Show(dock, DockState.DockLeft);
-            panel.OpenProject(project);
+            else
+            {
+                foreach (DockContent content in dock.Contents)
+                    if (content is ProjectPanel)
+                        panel = content as ProjectPanel;
+                panel.Show(dock, DockState.DockLeft);
+                panel.OpenProject(project);
+            }
+            this.Text = project.Name + " - Ynote Classic";
         }
 
         private void micloseproj_Click(object sender, EventArgs e)
@@ -2083,8 +2064,12 @@ namespace SS.Ynote.Classic
             foreach (var window in dock.Contents)
                 if (window is ProjectPanel)
                     proj = window as ProjectPanel;
-            if(proj != null)
+            if (proj != null)
+            {
                 proj.CloseProject();
+                Globals.ActiveProject = null;
+                this.Text = "Ynote Classic";
+            }
         }
 
         private void mieditproj_Click(object sender, EventArgs e)
@@ -2157,6 +2142,8 @@ namespace SS.Ynote.Classic
 
         private void miswitchproj_Click(object sender, EventArgs e)
         {
+            if(miopenrecent.MenuItems.Count == 0)
+                miproject_Select(null,null);
             var completemenu = new List<AutocompleteItem>();
             foreach (MenuItem item in miopenrecent.MenuItems)
                 completemenu.Add(new FuzzyAutoCompleteItem(item.Text));
@@ -2177,6 +2164,27 @@ namespace SS.Ynote.Classic
             }
         }
 
+        private void toolBar_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            if (e.ClickedItem.Name == "newToolStripButton")
+                CreateNewDoc();
+            else if (e.ClickedItem.Name == "openToolStripButton")
+                OpenMenuItem.PerformClick();
+            else if (e.ClickedItem.Name == "saveToolStripButton")
+                SaveEditor(ActiveEditor);
+            else if (e.ClickedItem.Name == "cutToolStripButton")
+                CutMenuItem.PerformClick();
+            else if (e.ClickedItem.Name == "copyToolStripButton")
+                CopyMenuItem.PerformClick();
+            else if (e.ClickedItem.Name == "pasteToolStripButton")
+                PasteMenuItem.PerformClick();
+            else if (e.ClickedItem.Name == "addbookmark")
+                Addbookmarkmenu.PerformClick();
+            else if (e.ClickedItem.Name == "removebookmark")
+                removebookmarkmenu.PerformClick();
+            else if (e.ClickedItem.Name == "helpToolStripButton")
+                miwiki.PerformClick();
+        }
         #endregion
     }
 }

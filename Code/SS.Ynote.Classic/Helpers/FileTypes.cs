@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using FastColoredTextBoxNS;
 using SS.Ynote.Classic.Core.Settings;
 using SS.Ynote.Classic.Core.Syntax;
 
@@ -24,7 +23,7 @@ internal static class FileTypes
 
     internal static string GetLanguage(IDictionary<IEnumerable<string>, string> dic, string extension)
     {
-        string lang = "";
+        string lang = "Text";
         foreach (var item in dic)
         {
             if (item.Key.Contains(extension))

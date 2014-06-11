@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
@@ -24,7 +23,7 @@ namespace SS.Ynote.Classic.UI
         /// <summary>
         ///     Syntax Highligher
         /// </summary>
-        public readonly SyntaxHighlighter Highlighter;
+        private readonly SyntaxHighlighter Highlighter;
 
         /// <summary>
         ///     Ynote Snippets

@@ -1,7 +1,5 @@
 ﻿namespace SS.Ynote.Classic
 {
-    using System.Windows.Forms;
-
     partial class MainForm
     {
         /// <summary>
@@ -31,6 +29,21 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            WeifenLuo.WinFormsUI.Docking.DockPanelSkin dockPanelSkin2 = new WeifenLuo.WinFormsUI.Docking.DockPanelSkin();
+            WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin autoHideStripSkin2 = new WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin();
+            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient4 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient8 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.DockPaneStripSkin dockPaneStripSkin2 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripSkin();
+            WeifenLuo.WinFormsUI.Docking.DockPaneStripGradient dockPaneStripGradient2 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient9 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient5 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient10 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.DockPaneStripToolWindowGradient dockPaneStripToolWindowGradient2 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripToolWindowGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient11 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient12 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient6 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient13 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient14 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.MenuStrip = new System.Windows.Forms.MainMenu(this.components);
             this.filemenu = new System.Windows.Forms.MenuItem();
@@ -128,9 +141,6 @@
             this.caselowermenu = new System.Windows.Forms.MenuItem();
             this.casetitlemenu = new System.Windows.Forms.MenuItem();
             this.swapcase = new System.Windows.Forms.MenuItem();
-            this.miconversions = new System.Windows.Forms.MenuItem();
-            this.miselectiontohex = new System.Windows.Forms.MenuItem();
-            this.miselectiontoascii = new System.Windows.Forms.MenuItem();
             this.viewmenu = new System.Windows.Forms.MenuItem();
             this.mimenu = new System.Windows.Forms.MenuItem();
             this.mitoolbar = new System.Windows.Forms.MenuItem();
@@ -165,7 +175,6 @@
             this.menuItem4 = new System.Windows.Forms.MenuItem();
             this.menuItem5 = new System.Windows.Forms.MenuItem();
             this.miswitchfile = new System.Windows.Forms.MenuItem();
-            this.migotofileinproject = new System.Windows.Forms.MenuItem();
             this.miselectedfile = new System.Windows.Forms.MenuItem();
             this.menuItem8 = new System.Windows.Forms.MenuItem();
             this.migotosymbol = new System.Windows.Forms.MenuItem();
@@ -201,8 +210,6 @@
             this.miwiki = new System.Windows.Forms.MenuItem();
             this.miexecfile = new System.Windows.Forms.MenuItem();
             this.mirunscripts = new System.Windows.Forms.MenuItem();
-            this.mirun = new System.Windows.Forms.MenuItem();
-            this.mieditor = new System.Windows.Forms.MenuItem();
             this.seperator7 = new System.Windows.Forms.MenuItem();
             this.menuItem1 = new System.Windows.Forms.MenuItem();
             this.minewsnippet = new System.Windows.Forms.MenuItem();
@@ -270,6 +277,7 @@
             this.removebookmark = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.migotofileinproject = new System.Windows.Forms.MenuItem();
             this.status.SuspendLayout();
             this.toolBar.SuspendLayout();
             this.SuspendLayout();
@@ -472,8 +480,7 @@
             this.miline,
             this.mifolding,
             this.miblankops,
-            this.micase,
-            this.miconversions});
+            this.micase});
             this.editmenu.Text = "Edit";
             // 
             // UndoMenuItem
@@ -953,26 +960,6 @@
             this.swapcase.Text = "Swap Case";
             this.swapcase.Click += new System.EventHandler(this.swapcase_Click);
             // 
-            // miconversions
-            // 
-            this.miconversions.Index = 19;
-            this.miconversions.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.miselectiontohex,
-            this.miselectiontoascii});
-            this.miconversions.Text = "Conversions";
-            // 
-            // miselectiontohex
-            // 
-            this.miselectiontohex.Index = 0;
-            this.miselectiontohex.Text = "Selection to Hex";
-            this.miselectiontohex.Click += new System.EventHandler(this.miseltohex_Click);
-            // 
-            // miselectiontoascii
-            // 
-            this.miselectiontoascii.Index = 1;
-            this.miselectiontoascii.Text = "Selection to ASCII";
-            this.miselectiontoascii.Click += new System.EventHandler(this.miseltoASCII_Click);
-            // 
             // viewmenu
             // 
             this.viewmenu.Index = 2;
@@ -1226,14 +1213,8 @@
             // 
             this.miswitchfile.Index = 0;
             this.miswitchfile.Shortcut = System.Windows.Forms.Shortcut.CtrlT;
-            this.miswitchfile.Text = "Go To Window";
+            this.miswitchfile.Text = "Go To File";
             this.miswitchfile.Click += new System.EventHandler(this.menuItem84_Click);
-            // 
-            // migotofileinproject
-            // 
-            this.migotofileinproject.Index = 1;
-            this.migotofileinproject.Text = "Go To File In Project";
-            this.migotofileinproject.Click += new System.EventHandler(this.migotofileinproject_Click);
             // 
             // miselectedfile
             // 
@@ -1465,22 +1446,8 @@
             // mirunscripts
             // 
             this.mirunscripts.Index = 9;
-            this.mirunscripts.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.mirun,
-            this.mieditor});
-            this.mirunscripts.Text = "External Tools";
-            // 
-            // mirun
-            // 
-            this.mirun.Index = 0;
-            this.mirun.Text = "Run";
-            this.mirun.Click += new System.EventHandler(this.mirun_Click);
-            // 
-            // mieditor
-            // 
-            this.mieditor.Index = 1;
-            this.mieditor.Text = "Editor";
-            this.mieditor.Click += new System.EventHandler(this.miruneditor_Click);
+            this.mirunscripts.Text = "Execute RunScript";
+            this.mirunscripts.Click += new System.EventHandler(this.mirunscripts_Click);
             // 
             // seperator7
             // 
@@ -1847,6 +1814,52 @@
             this.dock.Location = new System.Drawing.Point(0, 25);
             this.dock.Name = "dock";
             this.dock.Size = new System.Drawing.Size(767, 313);
+            dockPanelGradient4.EndColor = System.Drawing.SystemColors.ControlLight;
+            dockPanelGradient4.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            autoHideStripSkin2.DockStripGradient = dockPanelGradient4;
+            tabGradient8.EndColor = System.Drawing.SystemColors.Control;
+            tabGradient8.StartColor = System.Drawing.SystemColors.Control;
+            tabGradient8.TextColor = System.Drawing.SystemColors.ControlDarkDark;
+            autoHideStripSkin2.TabGradient = tabGradient8;
+            autoHideStripSkin2.TextFont = new System.Drawing.Font("Segoe UI", 9F);
+            dockPanelSkin2.AutoHideStripSkin = autoHideStripSkin2;
+            tabGradient9.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(206)))), ((int)(((byte)(219)))));
+            tabGradient9.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            tabGradient9.TextColor = System.Drawing.Color.White;
+            dockPaneStripGradient2.ActiveTabGradient = tabGradient9;
+            dockPanelGradient5.EndColor = System.Drawing.SystemColors.Control;
+            dockPanelGradient5.StartColor = System.Drawing.SystemColors.Control;
+            dockPaneStripGradient2.DockStripGradient = dockPanelGradient5;
+            tabGradient10.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(151)))), ((int)(((byte)(234)))));
+            tabGradient10.StartColor = System.Drawing.SystemColors.Control;
+            tabGradient10.TextColor = System.Drawing.Color.Black;
+            dockPaneStripGradient2.InactiveTabGradient = tabGradient10;
+            dockPaneStripSkin2.DocumentGradient = dockPaneStripGradient2;
+            dockPaneStripSkin2.TextFont = new System.Drawing.Font("Segoe UI", 9F);
+            tabGradient11.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(170)))), ((int)(((byte)(220)))));
+            tabGradient11.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            tabGradient11.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            tabGradient11.TextColor = System.Drawing.Color.White;
+            dockPaneStripToolWindowGradient2.ActiveCaptionGradient = tabGradient11;
+            tabGradient12.EndColor = System.Drawing.SystemColors.ControlLightLight;
+            tabGradient12.StartColor = System.Drawing.SystemColors.ControlLightLight;
+            tabGradient12.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            dockPaneStripToolWindowGradient2.ActiveTabGradient = tabGradient12;
+            dockPanelGradient6.EndColor = System.Drawing.SystemColors.Control;
+            dockPanelGradient6.StartColor = System.Drawing.SystemColors.Control;
+            dockPaneStripToolWindowGradient2.DockStripGradient = dockPanelGradient6;
+            tabGradient13.EndColor = System.Drawing.SystemColors.ControlDark;
+            tabGradient13.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            tabGradient13.StartColor = System.Drawing.SystemColors.Control;
+            tabGradient13.TextColor = System.Drawing.SystemColors.GrayText;
+            dockPaneStripToolWindowGradient2.InactiveCaptionGradient = tabGradient13;
+            tabGradient14.EndColor = System.Drawing.SystemColors.Control;
+            tabGradient14.StartColor = System.Drawing.SystemColors.Control;
+            tabGradient14.TextColor = System.Drawing.SystemColors.GrayText;
+            dockPaneStripToolWindowGradient2.InactiveTabGradient = tabGradient14;
+            dockPaneStripSkin2.ToolWindowGradient = dockPaneStripToolWindowGradient2;
+            dockPanelSkin2.DockPaneStripSkin = dockPaneStripSkin2;
+            this.dock.Skin = dockPanelSkin2;
             this.dock.TabIndex = 0;
             this.dock.ActiveDocumentChanged += new System.EventHandler(this.dock_ActiveDocumentChanged);
             // 
@@ -1866,12 +1879,14 @@
             this.removebookmark,
             this.toolStripSeparator2,
             this.helpToolStripButton});
+            this.toolBar.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.toolBar.Location = new System.Drawing.Point(0, 0);
             this.toolBar.Name = "toolBar";
             this.toolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.toolBar.Size = new System.Drawing.Size(767, 25);
             this.toolBar.TabIndex = 5;
             this.toolBar.Text = "ToolBar";
+            this.toolBar.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolBar_ItemClicked);
             // 
             // newToolStripButton
             // 
@@ -1979,6 +1994,12 @@
             this.helpToolStripButton.Name = "helpToolStripButton";
             this.helpToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.helpToolStripButton.Text = "He&lp";
+            // 
+            // migotofileinproject
+            // 
+            this.migotofileinproject.Index = 1;
+            this.migotofileinproject.Text = "Go To File In Project";
+            this.migotofileinproject.Click += new System.EventHandler(this.migotofileinproject_Click);
             // 
             // MainForm
             // 
@@ -2148,14 +2169,11 @@
         private System.Windows.Forms.MenuItem miswitchfile;
         private System.Windows.Forms.MenuItem mifindnext;
         private System.Windows.Forms.MenuItem mitpunctuation;
-        private System.Windows.Forms.MenuItem miconversions;
         private System.Windows.Forms.MenuItem mimacros;
         private System.Windows.Forms.MenuItem mikeymapeditor;
         private System.Windows.Forms.ToolStripStatusLabel mistats;
         private System.Windows.Forms.MenuItem miscripts;
         private System.Windows.Forms.ToolStripStatusLabel lblEncoding;
-        private System.Windows.Forms.MenuItem mirun;
-        private System.Windows.Forms.MenuItem mieditor;
         private System.Windows.Forms.ToolStripDropDownButton langmenu;
         private System.Windows.Forms.MenuItem seperator18;
         private System.Windows.Forms.MenuItem seperator16;
@@ -2173,8 +2191,6 @@
         private System.Windows.Forms.MenuItem seperator28;
         private System.Windows.Forms.MenuItem misnippets;
         private System.Windows.Forms.MenuItem seperator29;
-        private System.Windows.Forms.MenuItem miselectiontohex;
-        private System.Windows.Forms.MenuItem miselectiontoascii;
         private System.Windows.Forms.MenuItem miupdates;
         private System.Windows.Forms.MenuItem miwebsearch;
         private System.Windows.Forms.MenuItem migoogle;
@@ -2193,55 +2209,55 @@
         private System.Windows.Forms.MenuItem mibugreport;
         private System.Windows.Forms.MenuItem miforum;
         private WeifenLuo.WinFormsUI.Docking.DockPanel dock;
-        private ToolStrip toolBar;
-        private ToolStripButton newToolStripButton;
-        private ToolStripButton openToolStripButton;
-        private ToolStripButton saveToolStripButton;
-        private ToolStripButton printToolStripButton;
-        private ToolStripSeparator toolStripSeparator;
-        private ToolStripButton cutToolStripButton;
-        private ToolStripButton copyToolStripButton;
-        private ToolStripButton pasteToolStripButton;
-        private ToolStripSeparator toolStripSeparator1;
-        private ToolStripButton helpToolStripButton;
-        private MenuItem mitoolbar;
-        private MenuItem miprotector;
-        private MenuItem miprotectfile;
-        private MenuItem midecryptfile;
-        private MenuItem minewsyntax;
-        private MenuItem miinscliphis;
-        private ToolStripButton addbookmark;
-        private ToolStripButton removebookmark;
-        private ToolStripSeparator toolStripSeparator2;
-        private MenuItem menuItem3;
-        private MenuItem menuItem6;
-        private MenuItem misplitbelow;
-        private MenuItem misplitbeside;
-        private MenuItem menuItem4;
-        private MenuItem mimap;
-        private MenuItem misnippet;
-        private MenuItem midistractionfree;
-        private MenuItem mimenu;
-        private MenuItem mireindentline;
-        private MenuItem menuItem5;
-        private MenuItem menuItem7;
-        private MenuItem migotosymbol;
-        private MenuItem miclearbookmarks;
-        private MenuItem miselectedfile;
-        private MenuItem migotofileinproject;
-        private MenuItem menuItem8;
-        private MenuItem miproject;
-        private MenuItem miopenproject;
-        private MenuItem miswitchproj;
-        private MenuItem miopenrecent;
-        private MenuItem menuItem12;
-        private MenuItem misaveproj;
-        private MenuItem mieditproj;
-        private MenuItem micloseproj;
-        private MenuItem menuItem15;
-        private MenuItem mirefreshproj;
-        private MenuItem miaddtoproj;
-        private MenuItem mifindinproj;
+        private System.Windows.Forms.ToolStrip toolBar;
+        private System.Windows.Forms.ToolStripButton newToolStripButton;
+        private System.Windows.Forms.ToolStripButton openToolStripButton;
+        private System.Windows.Forms.ToolStripButton saveToolStripButton;
+        private System.Windows.Forms.ToolStripButton printToolStripButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
+        private System.Windows.Forms.ToolStripButton cutToolStripButton;
+        private System.Windows.Forms.ToolStripButton copyToolStripButton;
+        private System.Windows.Forms.ToolStripButton pasteToolStripButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton helpToolStripButton;
+        private System.Windows.Forms.MenuItem mitoolbar;
+        private System.Windows.Forms.MenuItem miprotector;
+        private System.Windows.Forms.MenuItem miprotectfile;
+        private System.Windows.Forms.MenuItem midecryptfile;
+        private System.Windows.Forms.MenuItem minewsyntax;
+        private System.Windows.Forms.MenuItem miinscliphis;
+        private System.Windows.Forms.ToolStripButton addbookmark;
+        private System.Windows.Forms.ToolStripButton removebookmark;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.MenuItem menuItem3;
+        private System.Windows.Forms.MenuItem menuItem6;
+        private System.Windows.Forms.MenuItem misplitbelow;
+        private System.Windows.Forms.MenuItem misplitbeside;
+        private System.Windows.Forms.MenuItem menuItem4;
+        private System.Windows.Forms.MenuItem mimap;
+        private System.Windows.Forms.MenuItem misnippet;
+        private System.Windows.Forms.MenuItem midistractionfree;
+        private System.Windows.Forms.MenuItem mimenu;
+        private System.Windows.Forms.MenuItem mireindentline;
+        private System.Windows.Forms.MenuItem menuItem5;
+        private System.Windows.Forms.MenuItem menuItem7;
+        private System.Windows.Forms.MenuItem migotosymbol;
+        private System.Windows.Forms.MenuItem miclearbookmarks;
+        private System.Windows.Forms.MenuItem miselectedfile;
+        private System.Windows.Forms.MenuItem menuItem8;
+        private System.Windows.Forms.MenuItem miproject;
+        private System.Windows.Forms.MenuItem miopenproject;
+        private System.Windows.Forms.MenuItem miswitchproj;
+        private System.Windows.Forms.MenuItem miopenrecent;
+        private System.Windows.Forms.MenuItem menuItem12;
+        private System.Windows.Forms.MenuItem misaveproj;
+        private System.Windows.Forms.MenuItem mieditproj;
+        private System.Windows.Forms.MenuItem micloseproj;
+        private System.Windows.Forms.MenuItem menuItem15;
+        private System.Windows.Forms.MenuItem mirefreshproj;
+        private System.Windows.Forms.MenuItem miaddtoproj;
+        private System.Windows.Forms.MenuItem mifindinproj;
+        private System.Windows.Forms.MenuItem migotofileinproject;
     }
 }
 

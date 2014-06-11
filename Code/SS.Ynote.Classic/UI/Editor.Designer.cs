@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Editor));
             this.codebox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.contextmenu = new System.Windows.Forms.ContextMenu();
             this.tabcontext = new System.Windows.Forms.ContextMenu();
