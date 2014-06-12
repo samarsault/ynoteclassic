@@ -21,6 +21,6 @@ public class CommandAutocompleteItem : AutocompleteItem
         var text = Text.Split(':')[1];
         if (text == fragmentText || text.StartsWith(fragmentText, StringComparison.InvariantCultureIgnoreCase))
             return CompareResult.VisibleAndSelected;
-        return CompareResult.Hidden;
+        return CompareResult.Visible;
     }
 }

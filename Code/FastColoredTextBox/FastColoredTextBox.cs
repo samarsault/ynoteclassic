@@ -45,7 +45,7 @@ namespace FastColoredTextBoxNS
         };
 
         public readonly List<LineInfo> LineInfos = new List<LineInfo>();
-        private readonly IList<string> clipHistory;
+        private readonly List<string> clipHistory;
         private readonly MacrosManager macrosManager;
         private readonly Range selection;
         private readonly Timer timer = new Timer();
@@ -2331,9 +2331,14 @@ namespace FastColoredTextBoxNS
             }
             return re;
         }
-
+        /// <summary>
+        /// Occurs when Language is Changed
+        /// </summary>
         public event EventHandler LanguageChanged;
-
+        /// <summary>
+        /// Occurs when it needs to show a message
+        /// </summary>
+        public event EventHandler TraceMessage;
         /// <summary>
         ///     On Language Changed - Overridable
         /// </summary>
@@ -2345,6 +2350,12 @@ namespace FastColoredTextBoxNS
                 handler(this, e);
         }
 
+        public virtual void OnTrace(string message)
+        {
+            var handle = TraceMessage;
+            if (handle != null)
+                handle(message, EventArgs.Empty);
+        }
         private void SetFont(Font newFont)
         {
             BaseFont = newFont;
@@ -3122,7 +3133,9 @@ namespace FastColoredTextBoxNS
                 data.SetData(DataFormats.Html, PrepareHtmlForClipboard(html));
                 data.SetData(DataFormats.Rtf, new ExportToRTF().GetRtf(Selection.Clone()));
                 //Add To Clipboard History list
-                clipHistory.Add(data.GetText());
+                string text = data.GetText();
+                clipHistory.Add(text);
+                OnTrace("Copied" + text.Length + " Characters");
                 //
                 var thread = new Thread(() => SetClipboard(data));
                 thread.SetApartmentState(ApartmentState.STA);
@@ -3229,7 +3242,7 @@ namespace FastColoredTextBoxNS
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
             thread.Join();
-
+            OnTrace("Paste " + text.Length + " Characters");
             if (Pasting != null)
             {
                 var args = new TextChangingEventArgs
@@ -7885,7 +7898,6 @@ window.status = ""#print"";
             {
                 InitTextSource(ts);
                 Text = File.ReadAllText(fileName, enc);
-                ClearUndo();
                 IsChanged = false;
                 OnVisibleRangeChanged();
             }

@@ -281,3 +281,15 @@ Build 964
 Build 975
 
 -> Added Project-Specefic Layouts
+
+Build 989
+
+-> Added Trace() to text editor
+
+Build 1015
+
+-> Added Syntax-Specefic Settings
+
+Build 1016
+
+-> Fixed JSON Comment Bug

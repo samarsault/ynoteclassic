@@ -38,5 +38,5 @@ public interface IYnote
     ///     Shows a message in the status bar
     /// </summary>
     /// <param name="message"></param>
-    void Trace(string message);
+    void Trace(string message, int timeout);
 }

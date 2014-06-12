@@ -489,9 +489,7 @@ internal class SnippetCommand : ICommand
     public string[] GetCommands()
     {
         int index = 0;
-        while ((Application.OpenForms[index] as IYnote) == null)
-            index++;
-        IYnote ynote = Application.OpenForms[index] as IYnote;
+        var ynote = Globals.Ynote;
         if (ynote.Panel.ActiveDocument == null
             || !(ynote.Panel.ActiveDocument is Editor))
             return null;

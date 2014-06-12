@@ -171,7 +171,7 @@ namespace SS.Ynote.Classic.Core.Syntax
         ///     Highlight Syntax
         /// </summary>
         /// <param name="language"></param>
-        /// <param name="range"></param>
+        /// <param name="args"></param>
         public void HighlightSyntax(string language, TextChangedEventArgs args)
         {
             if (Scopes.Contains(language))
@@ -1303,7 +1303,7 @@ namespace SS.Ynote.Classic.Core.Syntax
             e.ChangedRange.tb.LeftBracket2 = '{';
             e.ChangedRange.tb.RightBracket2 = '}';
             e.ChangedRange.ClearStyle(Comment, String, Number, Constant, Punctuation);
-            e.ChangedRange.SetStyle(Comment, new Regex(@"//.*$"));
+            e.ChangedRange.SetStyle(Comment, new Regex(@"//.*$", RegexOptions.Multiline));
             e.ChangedRange.SetStyle(String, "\".*?[^\\\\]\"|\"\"|\'.*?[^\\\\]\'|\'\'");
             e.ChangedRange.SetStyle(Constant, @"\b(true|false|null)\b", RegexOptions.IgnoreCase);
             e.ChangedRange.SetStyle(Number, @"\b\d+[\.]?\d*([eE]\-?\d+)?\b");
@@ -1661,6 +1661,7 @@ namespace SS.Ynote.Classic.Core.Syntax
                 InitJScriptRegex();
             //string highlighting
             e.ChangedRange.SetStyle(String, _jScriptStringRegex);
+            e.ChangedRange.SetStyle(String, @"//|/.*?[^\\]/");
             //comment highlighting
             e.ChangedRange.tb.Range.SetStyle(Comment, _jScriptCommentRegex1);
             e.ChangedRange.tb.Range.SetStyle(Comment, _jScriptCommentRegex2);

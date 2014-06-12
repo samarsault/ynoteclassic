@@ -5,9 +5,11 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
+using Newtonsoft.Json.Linq;
 using SS.Ynote.Classic.Core.Extensibility;
 using SS.Ynote.Classic.Core.Settings;
 using SS.Ynote.Classic.Core.Snippets;
@@ -24,11 +26,6 @@ namespace SS.Ynote.Classic.UI
         ///     Syntax Highligher
         /// </summary>
         private readonly SyntaxHighlighter Highlighter;
-
-        /// <summary>
-        ///     Ynote Snippets
-        /// </summary>
-        private IList<YnoteSnippet> Snippets;
 
         /// <summary>
         ///     Invisible Char Style
@@ -59,9 +56,12 @@ namespace SS.Ynote.Classic.UI
             Highlighter = new SyntaxHighlighter();
             InitSettings();
             var snipthread = new Thread(LoadSnippets);
-            snipthread.SetApartmentState(ApartmentState.STA);
-            snipthread.Start();
-            snipthread.Join();
+            if (Globals.Snippets == null)
+            {
+                snipthread.SetApartmentState(ApartmentState.STA);
+                snipthread.Start();
+                snipthread.Join();
+            }
             if (SyntaxHighlighter.LoadedSyntaxes.Any()) return;
             Highlighter.LoadAllSyntaxes();
         }
@@ -140,24 +140,53 @@ namespace SS.Ynote.Classic.UI
             var watch = new Stopwatch();
             watch.Start();
 #endif
-            Snippets = new List<YnoteSnippet>();
+            Globals.Snippets = new List<YnoteSnippet>();
             string[] snippets = Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynotesnippet",
                 SearchOption.AllDirectories);
             Thread.Sleep(5);
             foreach (string snippet in snippets)
             {
                 YnoteSnippet snip = YnoteSnippet.Read(snippet);
-                Snippets.Add(snip);
+                Globals.Snippets.Add(snip);
             }
 #if DEBUG
             watch.Stop();
-            Debug.WriteLine(string.Format("Loaded {0} Snippets in {1} ms", Snippets.Count, watch.ElapsedMilliseconds));
+            Debug.WriteLine(string.Format("Loaded {0} Snippets in {1} ms", Globals.Snippets.Count, watch.ElapsedMilliseconds));
 #endif
         }
-
+        private void LoadEditorSettings(string file)
+        {
+            var settings = GlobalSettings.Load(file);
+            if (settings.ThemeFile != null)
+                YnoteThemeReader.ApplyTheme((string)settings.ThemeFile, Highlighter, codebox);
+            codebox.ShowScrollBars = settings.ScrollBars;
+            codebox.AutoCompleteBrackets = settings.AutoCompleteBrackets;
+            if(settings.TabSize != 0)
+                codebox.TabLength = settings.TabSize;
+            codebox.Font = new Font(settings.FontFamily, settings.FontSize);
+            codebox.ShowFoldingLines = settings.ShowFoldingLines;
+            codebox.ShowLineNumbers = settings.ShowLineNumbers;
+            codebox.HighlightFoldingIndicator = settings.HighlightFolding;
+            codebox.FindEndOfFoldingBlockStrategy = settings.FoldingStrategy;
+            codebox.BracketsHighlightStrategy = settings.BracketsStrategy;
+            codebox.CaretVisible = settings.ShowCaret;
+            codebox.ShowFoldingLines = settings.ShowFoldingLines;
+            codebox.LineInterval = settings.LineInterval;
+            codebox.LeftPadding = settings.PaddingWidth;
+            codebox.VirtualSpace = settings.EnableVirtualSpace;
+            codebox.WideCaret = settings.BlockCaret;
+            codebox.WordWrap = settings.WordWrap;
+            if(codebox.Zoom != 0)
+                codebox.Zoom = settings.Zoom;
+            if (settings.ImeMode)
+                codebox.ImeMode = ImeMode.On;
+            if (settings.ShowChangedLine)
+                codebox.ChangedLineColor = ControlPaint.LightLight(codebox.CurrentLineColor);
+        }
         private void InitSettings()
         {
-            YnoteThemeReader.ApplyTheme(Globals.Settings.ThemeFile, Highlighter, codebox);
+            if(Globals.Settings.ThemeFile != null)
+                YnoteThemeReader.ApplyTheme(Globals.Settings.ThemeFile, Highlighter, codebox);
             codebox.AllowDrop = true;
             codebox.ShowScrollBars = Globals.Settings.ScrollBars;
             codebox.AutoCompleteBrackets = Globals.Settings.AutoCompleteBrackets;
@@ -218,14 +247,27 @@ namespace SS.Ynote.Classic.UI
         private void InitEvents()
         {
             codebox.TextChangedDelayed += codebox_TextChangedDelayed;
+            codebox.LanguageChanged += (sender, args) => CheckForSpeceficSettings(codebox.Language);
             codebox.DragDrop += codebox_DragDrop;
-            codebox.DragEnter +=
-                (sender, e) =>
-                    e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
+            codebox.TraceMessage += (sender, args) => Globals.Ynote.Trace(sender as string, 100000);
+            codebox.DragEnter += (sender, e) => e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
             codebox.KeyDown += codebox_KeyDown;
             if (Globals.Settings.HighlightSameWords)
                 codebox.SelectionChangedDelayed += codebox_SelectionChangedDelayed;
         }
+
+        private void CheckForSpeceficSettings(string str)
+        {
+            var settings = str + ".ynotesettings";
+            foreach (
+                var file in
+                    Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynotesettings", SearchOption.AllDirectories))
+                if (Path.GetFileName(file) == settings)
+                {
+                    LoadEditorSettings(file);
+                }
+        }
+
         /// <summary>
         /// Open File
         /// </summary>
@@ -324,15 +366,15 @@ namespace SS.Ynote.Classic.UI
             if (e.KeyCode == Keys.Tab)
             {
                 var fragment = Tb.Selection.GetFragment(@"\w");
-                foreach (var snippet in Snippets)
+                foreach (var snippet in Globals.Snippets)
                 {
-                    if (snippet.Scope == codebox.Language.ToString())
+                    if (snippet.Scope == codebox.Language || string.IsNullOrEmpty(snippet.Scope))
                     {
                         if (snippet.Tab == fragment.Text)
                         {
+                            e.Handled = true;
                             codebox.BeginUpdate();
                             codebox.Selection.BeginUpdate();
-                            e.Handled = true;
                             codebox.Selection = fragment;
                             codebox.ClearSelected();
                             InsertSnippet(snippet);

@@ -1,13 +1,22 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using SS.Ynote.Classic.Core.Project;
 using SS.Ynote.Classic.Core.Settings;
+using SS.Ynote.Classic.Core.Snippets;
 using SS.Ynote.Classic.UI;
 
 namespace SS.Ynote.Classic
 {
     internal static class Globals
     {
+        /// <summary>
+        /// Snippets
+        /// </summary>
+        public static List<YnoteSnippet> Snippets { get; set; }
+        /// <summary>
+        /// Distraction Free Mode is On
+        /// </summary>
         public static bool DistractionFree { get; set; }
         /// <summary>
         /// Gets the Active Project
@@ -42,13 +51,9 @@ namespace SS.Ynote.Classic
             }
             if (expanded.Contains("$project"))
             {
-                ProjectPanel panel = null;
-                foreach (var form in Application.OpenForms)
-                    if (form is ProjectPanel)
-                        panel = form as ProjectPanel;
-                if (panel != null)
-                    expanded = expanded.Replace("$project_dir", panel.Project.Path)
-                        .Replace("$project_name", panel.Project.Name);
+                if(ActiveProject != null)
+                    expanded = expanded.Replace("$project_dir", ActiveProject.Path)
+                        .Replace("$project_name", ActiveProject.Name);
             }
             return expanded;
         }

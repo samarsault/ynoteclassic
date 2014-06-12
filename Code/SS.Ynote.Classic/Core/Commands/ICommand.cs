@@ -7,7 +7,7 @@
     public interface ICommand
     {
         /// <summary>
-        ///     Command Key eg : Macro
+        /// Command Key
         /// </summary>
         string Key { get; }
 

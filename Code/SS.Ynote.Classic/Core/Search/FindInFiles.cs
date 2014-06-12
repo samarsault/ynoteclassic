@@ -28,11 +28,8 @@ namespace SS.Ynote.Classic.Core.Search
 
         private void button2_Click(object sender, EventArgs e)
         {
-            var ynote = Application.OpenForms[1] as IYnote;
-            if (ynote == null)
-                ynote = Application.OpenForms[0] as IYnote;
-            var results = new SearchResults(ynote);
-            results.Show(ynote.Panel, DockState.DockBottom);
+            var results = new SearchResults(Globals.Ynote);
+            results.Show(Globals.Ynote.Panel, DockState.DockBottom);
             results.ReplaceAll(tbdir.Text, tbFilter.Text, cbRegex.Checked, cbCase.Checked, tbFind.Text, tbReplace.Text,
                 cbsubdir.Checked);
             Close();

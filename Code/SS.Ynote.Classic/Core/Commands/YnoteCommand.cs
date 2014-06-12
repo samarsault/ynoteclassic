@@ -1,8 +1,14 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 public class YnoteCommand
 {
+    public YnoteCommand(string key, string value)
+    {
+        this.Key = key;
+        this.Value = value;
+    }
     /// <summary>
     ///     Key of the Command
     /// </summary>
@@ -27,17 +33,12 @@ public class YnoteCommand
     {
         try
         {
-            var cmd = new YnoteCommand();
-            var l = command.IndexOf(":");
-            if (l > 0)
-                cmd.Key = command.Substring(0, l);
-            var result = command.Substring(command.LastIndexOf(':') + 1);
-            cmd.Value = result;
-            return cmd;
+            var l = command.Split(':');
+            return new YnoteCommand(l[0],l[1]);
         }
-        catch (Exception ex)
+        catch 
         {
-            MessageBox.Show("Parse Error : " + ex.Message, "Error");
+            MessageBox.Show("Parse Error : ", "Error");
             return null;
         }
     }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using AutocompleteMenuNS;
@@ -15,21 +16,19 @@ namespace SS.Ynote.Classic.Core
         /// </summary>
         private static IList<ICommand> Commands;
 
-        /// <summary>
-        ///     IYnote interface
-        /// </summary>
-        private readonly IYnote _ynote;
-
         internal ToolStripDropDownButton LangMenu;
 
         private bool _addedText;
 
-        public Commander(IYnote host)
+        public Commander()
         {
+#if DEBUG
+            var watch = new Stopwatch();
+            watch.Start();
+#endif
             InitializeComponent();
             completemenu.AllowsTabKey = true;
             tbcommand.Focus();
-            _ynote = host;
             LostFocus += (o, a) => Close();
             Commands = new List<ICommand>(GetCommands())
             {
@@ -48,6 +47,10 @@ namespace SS.Ynote.Classic.Core
                 new WikipediaCommand(),
             };
             BuildAutoComplete();
+#if DEBUG
+            watch.Stop();
+            Debug.WriteLine(watch.ElapsedMilliseconds + "ms Commander.ctor()");
+#endif
         }
 
         public bool IsSnippetMode { get; set; }
@@ -59,7 +62,7 @@ namespace SS.Ynote.Classic.Core
                 var file in Directory.GetFiles(
                     GlobalSettings.SettingsDir, "*.ynotecommand", SearchOption.AllDirectories)
                 )
-                lst.Add(GetCommand(file, _ynote));
+                lst.Add(GetCommand(file, Globals.Ynote));
             return lst;
         }
 
@@ -134,7 +137,7 @@ namespace SS.Ynote.Classic.Core
             {
                 foreach (var command in Commands)
                     if (command.Key == c.Key)
-                        command.ProcessCommand(c.Value, _ynote);
+                        command.ProcessCommand(c.Value, Globals.Ynote);
                 if (c.Key == "SetSyntax" || c.Key == "SetSyntaxFile")
                     LangMenu.Text = c.Value;
                 completemenu.Items = null;
@@ -144,6 +147,8 @@ namespace SS.Ynote.Classic.Core
             catch
             {
                 MessageBox.Show("Error Running Command!");
+                if(!IsDisposed)
+                    Close();
             }
         }
 

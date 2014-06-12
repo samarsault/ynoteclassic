@@ -88,17 +88,17 @@ namespace SS.Ynote.Classic
             InitSettings();
             Panel = dock;
             LoadPlugins();
-            LoadLayout(file);
             if (Globals.Settings.ShowStatusBar)
                 InitTimer();
             Globals.Ynote = this;
+            LoadLayout(file);
 #if DEBUG
             sp.Stop();
             Debug.WriteLine(string.Format("Form Construction Time : {0} ms", sp.ElapsedMilliseconds));
-#if DEVBUILD
+    #if DEVBUILD
             GlobalSettings.BuildNumber = File.ReadAllLines(Application.StartupPath + "\\Build.number")[0].ToInt();
             GlobalSettings.BuildNumber++;
-#endif
+    #endif
 #endif
         }
 
@@ -180,18 +180,14 @@ namespace SS.Ynote.Classic
                     File.WriteAllText(file, null);
                     continue;
                 }
-                if (dock.Documents.Cast<DockContent>().Any(doc => dock.Name == file))
+                foreach (DockContent doc in dock.Documents)
                 {
-                    dock.Show();
-                    return;
+                    if (doc.Name == file)
+                    {
+                        doc.Show();
+                        return;
+                    }
                 }
-                // ! LINQ
-                // foreach (DockContent doc in dock.Documents)
-                //     if (dock.Name == file)
-                //     {
-                //         dock.Show();
-                //         return;
-                //     }
                 var edit = new Editor();
                 edit.Text = Path.GetFileName(file);
                 edit.Name = file;
@@ -206,8 +202,6 @@ namespace SS.Ynote.Classic
                     edit.Tb.OpenBindingFile(file, encoding);
                 else
                     edit.Tb.OpenFile(file, encoding);
-                edit.Tb.ReadOnly = info.IsReadOnly;
-                break;
             }
         }
 
@@ -275,7 +269,7 @@ namespace SS.Ynote.Classic
                 }
                 edit.Text = Path.GetFileName(fileName);
                 edit.Name = fileName;
-                Trace("Saved File to " + fileName);
+                Trace("Saved File to " + fileName, 100000);
             }
             catch (Exception ex)
             {
@@ -463,14 +457,14 @@ namespace SS.Ynote.Classic
 
         #region MISC
 
-        public void Trace(string message)
+        public void Trace(string message, int timeout)
         {
             ThreadPool.QueueUserWorkItem(delegate
             {
                 mistats.Text = message;
                 status.Invalidate();
                 // UpdateDocumentInfo();
-                Thread.Sleep(10000);
+                Thread.Sleep(timeout);
             });
         }
 
@@ -595,7 +589,8 @@ namespace SS.Ynote.Classic
             if (parsedStrings[0] == typeof (ProjectPanel).ToString())
             {
                     var projp = new ProjectPanel();
-                    projp.OpenProject(YnoteProject.Load(parsedStrings[1]));
+                    if(parsedStrings[1] != "ProjectPanel")
+                        projp.OpenProject(YnoteProject.Load(parsedStrings[1]));
                     return projp;
             }
             return null;
@@ -629,13 +624,13 @@ namespace SS.Ynote.Classic
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            SaveRecentFiles();
+            SaveRecentFiles(); 
             GlobalSettings.Save(Globals.Settings, GlobalSettings.SettingsDir + "User.ynotesettings");
             if(Globals.Settings.LoadLayout)
                 dock.SaveAsXml("Dock.xml");
             if (_projs != null)
                 SaveRecentProjects();
-            if(Globals.ActiveProject != null)
+            if(Globals.ActiveProject != null && Globals.ActiveProject.IsSaved)
                 dock.SaveAsXml(Globals.ActiveProject.LayoutFile);
 #if DEVBUILD
             File.WriteAllText(Application.StartupPath + "\\Build.number", GlobalSettings.BuildNumber.ToString());
@@ -735,7 +730,7 @@ namespace SS.Ynote.Classic
             shell.Show(dock, DockState.DockBottom);
         }
 
-        private void findmenu_Click(object sender, EventArgs e)
+        private void mifind_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null) ActiveEditor.Tb.ShowFindDialog();
         }
@@ -836,7 +831,7 @@ namespace SS.Ynote.Classic
             if (ActiveEditor != null) ActiveEditor.Tb.InsertText(ActiveEditor.Name);
         }
 
-        private void findinfilesmenu_Click(object sender, EventArgs e)
+        private void mifindinfiles_Click(object sender, EventArgs e)
         {
             using (var findinfiles = new FindInFiles())
             {
@@ -845,7 +840,7 @@ namespace SS.Ynote.Classic
             }
         }
 
-        private void mifindinproj_Click(object sender, EventArgs e)
+        private void mifindinproject_Click(object sender, EventArgs e)
         {
             using (var findinfiles = new FindInFiles())
             {
@@ -854,6 +849,13 @@ namespace SS.Ynote.Classic
                 findinfiles.ShowDialog(this);
             }
         }
+
+        private void mifindchar_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Press Alt+F+{char} you want to find", "Ynote Classic", MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+        }
+
         private void movelineup_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null) ActiveEditor.Tb.MoveSelectedLinesUp();
@@ -1167,7 +1169,7 @@ namespace SS.Ynote.Classic
             Globals.Settings.ShowStatusBar = statusbarmenuitem.Checked;
         }
 
-        private void incrementalsearchmenu_Click(object sender, EventArgs e)
+        private void mincrementalsearch_Click(object sender, EventArgs e)
         {
             if (ActiveEditor == null) return;
             if (_incrementalSearcher == null)
@@ -1333,9 +1335,8 @@ namespace SS.Ynote.Classic
 
         private void commanderMenu_Click(object sender, EventArgs e)
         {
-            using (var console = new Commander(this))
+            using (var console = new Commander())
             {
-                console.StartPosition = FormStartPosition.CenterParent;
                 console.LangMenu = langmenu;
                 console.ShowDialog(this);
             }
@@ -1629,14 +1630,14 @@ namespace SS.Ynote.Classic
 
         private void migoogle_Click(object sender, EventArgs e)
         {
-            var console = new Commander(this) {StartPosition = FormStartPosition.CenterParent};
+            var console = new Commander();
             console.AddText("Google:");
             console.ShowDialog(this);
         }
 
         private void miwiki_Click(object sender, EventArgs e)
         {
-            var console = new Commander(this) {StartPosition = FormStartPosition.CenterParent};
+            var console = new Commander();
             console.AddText("Wikipedia:");
             console.ShowDialog(this);
         }
@@ -1887,7 +1888,7 @@ namespace SS.Ynote.Classic
 
         private void menuItem5_Click(object sender, EventArgs e)
         {
-            var console = new Commander(this) {StartPosition = FormStartPosition.CenterParent};
+            var console = new Commander();
             console.IsSnippetMode = true;
             console.ShowDialog(this);
         }
@@ -2052,6 +2053,8 @@ namespace SS.Ynote.Classic
                 foreach (DockContent content in dock.Contents)
                     if (content is ProjectPanel)
                         panel = content as ProjectPanel;
+                if (panel == null)
+                    panel = new ProjectPanel();
                 panel.Show(dock, DockState.DockLeft);
                 panel.OpenProject(project);
             }

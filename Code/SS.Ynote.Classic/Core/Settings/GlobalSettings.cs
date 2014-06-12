@@ -23,14 +23,15 @@ namespace SS.Ynote.Classic.Core.Settings
         /// <param name="file"></param>
         public static GlobalProperties Load(string file)
         {
-            while (true)
+            if (File.Exists(file))
             {
-                if (File.Exists(file))
-                {
-                    string json = File.ReadAllText(file);
-                    return JsonConvert.DeserializeObject<GlobalProperties>(json);
-                }
+                string json = File.ReadAllText(file);
+                return JsonConvert.DeserializeObject<GlobalProperties>(json);
+            }
+            else
+            {
                 RestoreDefault(file);
+                return Load(file);
             }
         }
 
