@@ -1,6 +1,8 @@
 ﻿#define DEVBUILD
 
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using SS.Ynote.Classic.UI;
@@ -80,9 +82,9 @@ namespace SS.Ynote.Classic.Core.Snippets
             return snippet;
         }
 
-        public void SubstituteContent(Editor edit)
+        public string GetSubstitutedContent(Editor edit)
         {
-            Content = Content.Replace("$selection", edit.Tb.SelectedText)
+            string content = Content.Replace("$selection", edit.Tb.SelectedText)
                 .Replace("$current_line", edit.Tb[edit.Tb.Selection.Start.iLine].Text)
                 .Replace("$file_name_extension", edit.Text)
                 .Replace("$file_name", Path.GetFileNameWithoutExtension(edit.Text))
@@ -96,6 +98,7 @@ namespace SS.Ynote.Classic.Core.Snippets
                         Content = Content.Replace("$choose_file", dlg.FileName);
                 }
             }
+            return content;
         }
     }
 }

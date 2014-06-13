@@ -130,12 +130,11 @@ namespace SS.Ynote.Classic
         /// <summary>
         ///     Opens a File
         /// </summary>
-        /// <param name="name"></param>
-        public void OpenFile(string name)
+        /// <param name="file"></param>
+        public void OpenFile(string file)
         {
-            Encoding encoding = EncodingDetector.DetectTextFileEncoding(name) ??
-                                Encoding.GetEncoding(Globals.Settings.DefaultEncoding);
-            OpenFile(name, encoding);
+            var edit = OpenEditor(file);
+            edit.Show(dock, DockState.Document);
         }
 
         /// <summary>
@@ -149,11 +148,22 @@ namespace SS.Ynote.Classic
 
         static Editor OpenEditor(string file)
         {
+            if (!File.Exists(file))
+            {
+                DialogResult result = MessageBox.Show("Cannot find File " + file + "\nWould you like to create it ?", "Ynote Classic",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    File.Create(file).Dispose();
+                    OpenEditor(file);
+                }
+            }
             var edit = new Editor();
             edit.Name = file;
             if (FileTypes.FileTypesDictionary == null)
                 FileTypes.BuildDictionary();
             var lang = FileTypes.GetLanguage(FileTypes.FileTypesDictionary, Path.GetExtension(file));
+            edit.Text = Path.GetFileName(file);
             edit.Tb.Language = lang;
             edit.HighlightSyntax(lang);
             Encoding encoding = EncodingDetector.DetectTextFileEncoding(file) ??
@@ -165,44 +175,6 @@ namespace SS.Ynote.Classic
                 edit.Tb.OpenFile(file, encoding);
             edit.Tb.ReadOnly = info.IsReadOnly;
             return edit;
-        }
-        private void OpenFile(string file, Encoding encoding)
-        {
-            while (true)
-            {
-                if (!File.Exists(file))
-                {
-                    var result =
-                        MessageBox.Show(
-                            string.Format("The File {0} does not exist.\r\nWould you like to create it ?", file),
-                            "Ynote Classic", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (result != DialogResult.Yes) return;
-                    File.WriteAllText(file, null);
-                    continue;
-                }
-                foreach (DockContent doc in dock.Documents)
-                {
-                    if (doc.Name == file)
-                    {
-                        doc.Show();
-                        return;
-                    }
-                }
-                var edit = new Editor();
-                edit.Text = Path.GetFileName(file);
-                edit.Name = file;
-                if (FileTypes.FileTypesDictionary == null)
-                    FileTypes.BuildDictionary();
-                var lang = FileTypes.GetLanguage(FileTypes.FileTypesDictionary, Path.GetExtension(file));
-                edit.Tb.Language = lang;
-                edit.HighlightSyntax(lang);
-                edit.Show(Panel);
-                var info = new FileInfo(file);
-                if (info.Length > 5242800) // if greather than approx 5mb
-                    edit.Tb.OpenBindingFile(file, encoding);
-                else
-                    edit.Tb.OpenFile(file, encoding);
-            }
         }
 
         private void OpenFileAsync(string name)
@@ -582,7 +554,6 @@ namespace SS.Ynote.Classic
                 else
                 {
                     Editor edit = OpenEditor(parsedStrings[1]);
-                    edit.Text = parsedStrings[2];
                     return edit;
                 }
             }
@@ -1611,8 +1582,7 @@ namespace SS.Ynote.Classic
 
         private void misnippets_Click(object sender, EventArgs e)
         {
-            if (ActiveEditor != null && ActiveEditor.autocomplete != null)
-                ActiveEditor.autocomplete.Show(true);
+            ActiveEditor.ForceAutoComplete();
         }
         private void miupdates_Click(object sender, EventArgs e)
         {
@@ -2187,6 +2157,11 @@ namespace SS.Ynote.Classic
                 removebookmarkmenu.PerformClick();
             else if (e.ClickedItem.Name == "helpToolStripButton")
                 miwiki.PerformClick();
+        }
+        private void mirefreshproj_Click(object sender, EventArgs e)
+        {
+            if (Globals.ActiveProject != null)
+                OpenProject(Globals.ActiveProject);
         }
         #endregion
     }

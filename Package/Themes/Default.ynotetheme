@@ -6,14 +6,14 @@
     <Style Name="String" Color="#A52828" Font="Regular" />
     <Style Name="Number" Color="#FF00FE" Font="Regular" />
     <Style Name="Variable" Color="#619B9D" Font="Regular" />
-    <Style Name="Keyword" Color="#0000FF" Font="Regular" />
+    <Style Name="Keyword" Color="#0000FF" Font="Bold" />
     <Style Name="Storage" Color="#0000FF" Font="Regular" />
-    <Style Name="Constant" Color="#B955D3" Font="Regular" />
+    <Style Name="Constant" Color="#73B1B7" Font="Regular" />
     <Style Name="TagBracket" Color="#0000FF" Font="Regular" />
     <Style Name="TagName" Color="#800000" Font="Regular" />
     <Style Name="ClassName" Color="#000000" Font="Bold" />
     <Style Name="FunctionName" Color="#4681B4" Font="Regular" />
-    <Style Name="FunctionArgument" Color="" Font="Regular" />
+    <Style Name="FunctionArgument" Color="#7093DB" Font="Regular" />
     <Style Name="Punctuation" Color="#000226" Font="Regular" />
     <Style Name="AttributeName" Color="#FF0000" Font="Regular" />
     <Style Name="AttributeValue" Color="#0000FF" Font="Regular" />

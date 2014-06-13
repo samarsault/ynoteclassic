@@ -908,10 +908,10 @@ namespace SS.Ynote.Classic.Core.Syntax
             // initialize the regexes if they are null
             if (_cCommentRegex1 == null)
                 InitCRegex();
-            e.ChangedRange.SetStyle(String, _cStringRegex);
             e.ChangedRange.tb.Range.SetStyle(Comment, _cCommentRegex1);
             e.ChangedRange.tb.Range.SetStyle(Comment, _cCommentRegex2);
             e.ChangedRange.tb.Range.SetStyle(Comment, _commentRegex3);
+            e.ChangedRange.SetStyle(String, _cStringRegex);
             // string higlighting between <>
             e.ChangedRange.SetStyle(String, @"(?<=\<)(.*?)(?=\>)|\<|\>");
             // preprocessor highlighting
@@ -930,7 +930,7 @@ namespace SS.Ynote.Classic.Core.Syntax
             e.ChangedRange.SetStyle(LibraryClass,
                 @"\b(u_char|u_short|u_int|u_long|ushort|uint|u_quad_t|quad_t|qaddr_t|caddr_t|daddr_t|dev_t|fixpt_t|blkcnt_t|blksize_t|gid_t|in_addr_t|in_port_t|ino_t|key_t|mode_t|nlink_t|id_t|pid_t|off_t|segsz_t|swblk_t|uid_t|id_t|clock_t|size_t|ssize_t|time_t|useconds_t|suseconds_t|pthread_attr_t|pthread_cond_t|pthread_condattr_t|pthread_mutex_t|pthread_mutexattr_t|pthread_once_t|pthread_rwlock_t|pthread_rwlockattr_t|pthread_t|pthread_key_t|int8_t|int16_t|int32_t|int64_t|uint8_t|uint16_t|uint32_t|uint64_t|int_least8_t|int_least16_t|int_least32_t|int_least64_t|uint_least8_t|uint_least16_t|uint_least32_t|uint_least64_t|int_fast8_t|int_fast16_t|int_fast32_t|int_fast64_t|uint_fast8_t|uint_fast16_t|uint_fast32_t|uint_fast64_t|intptr_t|uintptr_t|intmax_t|intmax_t|uintmax_t|uintmax_t|AbsoluteTime|Boolean|Byte|ByteCount|ByteOffset|BytePtr|CompTimeValue|ConstLogicalAddress|ConstStrFileNameParam|ConstStringPtr|Duration|Fixed|FixedPtr|Float32|Float32Point|Float64|Float80|Float96|FourCharCode|Fract|FractPtr|Handle|ItemCount|LogicalAddress|OptionBits|OSErr|OSStatus|OSType|OSTypePtr|PhysicalAddress|ProcessSerialNumber|ProcessSerialNumberPtr|ProcHandle|Ptr|ResType|ResTypePtr|ShortFixed|ShortFixedPtr|SignedByte|SInt16|SInt32|SInt64|SInt8|Size|StrFileName|StringHandle|StringPtr|TimeBase|TimeRecord|TimeScale|TimeValue|TimeValue64|UInt16|UInt32|UInt64|UInt8|UniChar|UniCharCount|UniCharCountPtr|UniCharPtr|UnicodeScalarValue|UniversalProcHandle|UniversalProcPtr|UnsignedFixed|UnsignedFixedPtr|UnsignedWide|UTF16Char|UTF32Char|UTF8Char)\b");
             e.ChangedRange.SetStyle(Number, _cNumberRegex);
-            e.ChangedRange.SetStyle(Punctuation, @"\W_");
+            e.ChangedRange.SetStyle(Punctuation, @"[^\w\s.]");
             e.ChangedRange.ClearFoldingMarkers();
             e.ChangedRange.SetFoldingMarkers("{", "}", RegexOptions.IgnoreCase);
             e.ChangedRange.SetFoldingMarkers(@"#if", @"#end");
@@ -954,10 +954,10 @@ namespace SS.Ynote.Classic.Core.Syntax
             // initialize the regexes if they are null
             if (_cCommentRegex1 == null)
                 InitCRegex();
-            e.ChangedRange.SetStyle(String, _cStringRegex);
             e.ChangedRange.tb.Range.SetStyle(Comment, _cCommentRegex1);
             e.ChangedRange.tb.Range.SetStyle(Comment, _cCommentRegex2);
             e.ChangedRange.tb.Range.SetStyle(Comment, _commentRegex3);
+            e.ChangedRange.SetStyle(String, _cStringRegex);
             // string higlighting between <>
             e.ChangedRange.SetStyle(String, @"(?<=\<)(.*?)(?=\>)|\<|\>");
             // preprocessor highlighting
@@ -1559,12 +1559,12 @@ namespace SS.Ynote.Classic.Core.Syntax
             //
             if (_cSharpStringRegex == null)
                 InitCSharpRegex();
-            //string highlighting
-            e.ChangedRange.SetStyle(String, _cSharpStringRegex);
             //comment highlighting
             e.ChangedRange.tb.Range.SetStyle(Comment, _cSharpCommentRegex1);
             e.ChangedRange.tb.Range.SetStyle(Comment, _cSharpCommentRegex2);
             e.ChangedRange.tb.Range.SetStyle(Comment, _cSharpCommentRegex3);
+            //string highlighting
+            e.ChangedRange.SetStyle(String, _cSharpStringRegex);
             //attribute highlighting
             e.ChangedRange.SetStyle(AttributeName, _cSharpAttributeRegex);
             //class name highlighting
@@ -1655,17 +1655,16 @@ namespace SS.Ynote.Classic.Core.Syntax
             e.ChangedRange.tb.Range.ClearStyle(Comment);
             //clear style of changed range
             e.ChangedRange.ClearStyle(String, Number, Keyword, Storage, LibraryClass, ClassName,
-                FunctionName, Punctuation, LibraryFunction);
+                FunctionName, Punctuation,FunctionArgument, LibraryFunction);
 
             if (_jScriptStringRegex == null)
                 InitJScriptRegex();
-            //string highlighting
-            e.ChangedRange.SetStyle(String, _jScriptStringRegex);
-            e.ChangedRange.SetStyle(String, @"//|/.*?[^\\]/");
             //comment highlighting
             e.ChangedRange.tb.Range.SetStyle(Comment, _jScriptCommentRegex1);
             e.ChangedRange.tb.Range.SetStyle(Comment, _jScriptCommentRegex2);
             e.ChangedRange.tb.Range.SetStyle(Comment, _jScriptCommentRegex3);
+            // string highlighting
+            e.ChangedRange.SetStyle(String, _jScriptStringRegex);
             //number highlighting
             e.ChangedRange.SetStyle(Number, _jScriptNumberRegex);
             e.ChangedRange.SetStyle(ClassName, _jScriptFunctionRegex);
@@ -1678,7 +1677,8 @@ namespace SS.Ynote.Classic.Core.Syntax
             e.ChangedRange.SetStyle(LibraryFunction, _jscriptLibraryFunction);
             e.ChangedRange.SetStyle(LibraryClass, _jScriptLibraryClass);
             e.ChangedRange.SetStyle(Constant, @"\b(true|false|null|this)\b");
-            e.ChangedRange.SetStyle(Punctuation, @"\;|\,|<|>|-|\$|=|\!|\.|\?|\*|\&|\#|\^");
+            e.ChangedRange.SetStyle(Punctuation, @"\(|\)|\+|\-|\*|\/");
+            e.ChangedRange.SetStyle(FunctionArgument, @"\b(function\s|function\b|(?<=\bfunction\s)(\w+))\((.*?)\)");
             //clear folding markers
             e.ChangedRange.ClearFoldingMarkers();
             //set folding markers

@@ -1,3 +1,5 @@
+Build 200
+
 -> Added Extensible Context Menu
 -> Added Clipboard History
 -> Added File Protector
@@ -13,12 +15,16 @@
 -> Added @ ruby variable highlighting
 -> Fixed syntax highlight on file_open when text changes error
 -> Added word auto-completion
+
 Build 343
+
 -> Extended Snippets with TabTrigger, Description and much more.
 -> Added MultiSelect in OpenFile
 -> UI Improvements in Commander
 -> Added CommandWindow and removed ClipboardHistory and SwitchFile
+
 Build 355
+
 -> Improved Snippet Insertion and Brace Completion with Auto-Indentation
 -> Script Loading From Asm Fixed
 -> Changed Ynote Script Cache File to ysc ( Ynote Script Compiled ) file.
@@ -293,3 +299,12 @@ Build 1015
 Build 1016
 
 -> Fixed JSON Comment Bug
+
+Build 1038
+
+-> Commander Performance Improvements
+
+Build 1048
+
+-> Fixed Javascript Highlighting Bug
+-> Added Javascript Function Parameter Highlighting

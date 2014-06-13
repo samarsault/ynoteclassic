@@ -5,11 +5,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
-using Newtonsoft.Json.Linq;
 using SS.Ynote.Classic.Core.Extensibility;
 using SS.Ynote.Classic.Core.Settings;
 using SS.Ynote.Classic.Core.Snippets;
@@ -35,11 +33,16 @@ namespace SS.Ynote.Classic.UI
         /// <summary>
         /// Auto Complete Menu
         /// </summary>
-        internal AutocompleteMenu autocomplete;
+        private AutocompleteMenu _autocomplete;
+
         /// <summary>
         /// Document Map
         /// </summary>
         private DocumentMap map;
+        /// <summary>
+        /// Whether settings have been changed (syntax - specefic)
+        /// </summary>
+        private bool settingsChanged;
 
         #endregion
 
@@ -154,16 +157,19 @@ namespace SS.Ynote.Classic.UI
             Debug.WriteLine(string.Format("Loaded {0} Snippets in {1} ms", Globals.Snippets.Count, watch.ElapsedMilliseconds));
 #endif
         }
-        private void LoadEditorSettings(string file)
+
+        public void ForceAutoComplete()
         {
-            var settings = GlobalSettings.Load(file);
-            if (settings.ThemeFile != null)
-                YnoteThemeReader.ApplyTheme((string)settings.ThemeFile, Highlighter, codebox);
+            _autocomplete.Show(true);
+        }
+        private void LoadEditorSettings(GlobalProperties settings)
+        {
             codebox.ShowScrollBars = settings.ScrollBars;
             codebox.AutoCompleteBrackets = settings.AutoCompleteBrackets;
-            if(settings.TabSize != 0)
+            if (settings.TabSize != 0)
                 codebox.TabLength = settings.TabSize;
-            codebox.Font = new Font(settings.FontFamily, settings.FontSize);
+            if(!string.IsNullOrEmpty(settings.FontFamily) && settings.FontSize != 0.0)
+                codebox.Font = new Font(settings.FontFamily, settings.FontSize);
             codebox.ShowFoldingLines = settings.ShowFoldingLines;
             codebox.ShowLineNumbers = settings.ShowLineNumbers;
             codebox.HighlightFoldingIndicator = settings.HighlightFolding;
@@ -171,13 +177,10 @@ namespace SS.Ynote.Classic.UI
             codebox.BracketsHighlightStrategy = settings.BracketsStrategy;
             codebox.CaretVisible = settings.ShowCaret;
             codebox.ShowFoldingLines = settings.ShowFoldingLines;
-            codebox.LineInterval = settings.LineInterval;
             codebox.LeftPadding = settings.PaddingWidth;
             codebox.VirtualSpace = settings.EnableVirtualSpace;
             codebox.WideCaret = settings.BlockCaret;
             codebox.WordWrap = settings.WordWrap;
-            if(codebox.Zoom != 0)
-                codebox.Zoom = settings.Zoom;
             if (settings.ImeMode)
                 codebox.ImeMode = ImeMode.On;
             if (settings.ShowChangedLine)
@@ -238,7 +241,7 @@ namespace SS.Ynote.Classic.UI
             map.TabIndex = 2;
             map.Visible = true;
             map.Target = codebox;
-            Controls.Add(map);
+            this.Controls.Add(map);
         }
 
         /// <summary>
@@ -258,23 +261,19 @@ namespace SS.Ynote.Classic.UI
 
         private void CheckForSpeceficSettings(string str)
         {
+            bool hasSettings = false;
             var settings = str + ".ynotesettings";
             foreach (
                 var file in
-                    Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynotesettings", SearchOption.AllDirectories))
+                    Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynotesettings"))
                 if (Path.GetFileName(file) == settings)
                 {
-                    LoadEditorSettings(file);
+                    settingsChanged = true;
+                    hasSettings = true;
+                    LoadEditorSettings(GlobalSettings.Load(file));
                 }
-        }
-
-        /// <summary>
-        /// Open File
-        /// </summary>
-        /// <param name="file"></param>
-        private void OpenFile(string file)
-        {
-            Globals.Ynote.OpenFile(file);
+            if (settingsChanged && !hasSettings)
+                LoadEditorSettings(Globals.Settings);
         }
         /// <summary>
         /// Builds Context Menu
@@ -302,9 +301,9 @@ namespace SS.Ynote.Classic.UI
         /// </summary>
         private void CreateAutoCompleteMenu()
         {
-            autocomplete = new AutocompleteMenu(codebox);
-            autocomplete.AppearInterval = 50;
-            autocomplete.AllowTabKey = true;
+            _autocomplete = new AutocompleteMenu(codebox);
+            _autocomplete.AppearInterval = 50;
+            _autocomplete.AllowTabKey = true;
         }
 
         public void DistractionFreeDimensions()
@@ -332,17 +331,25 @@ namespace SS.Ynote.Classic.UI
         /// <param name="snippet"></param>
         public void InsertSnippet(YnoteSnippet snippet)
         {
+#if DEBUG
+            var watch = new Stopwatch();
+            watch.Start();
+#endif
             var selection = codebox.Selection.Clone();
-            snippet.SubstituteContent(this);
-            codebox.InsertText(snippet.Content);
+            var content = snippet.GetSubstitutedContent(this);
+            codebox.InsertText(content);
             var nselection = codebox.Selection.Clone();
             for (int i = selection.Start.iLine; i <= nselection.Start.iLine; i++)
             {
                 codebox.Selection.Start = new Place(0, i);
                 codebox.DoAutoIndent(i);
             }
-            codebox.GoEnd();
+            codebox.Selection = nselection;
             PositionCaretTo('^');
+#if DEBUG
+            watch.Stop();
+            Debug.WriteLine(watch.Elapsed + " ms InsertSnippet()");
+#endif
         }
         /// <summary>
         /// Position Charet to c
@@ -384,12 +391,13 @@ namespace SS.Ynote.Classic.UI
                     }
                 }
             }
-            if (e.KeyCode == Keys.Space)
+            if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter)
             {
-                if (autocomplete == null)
+                if (_autocomplete == null)
                     CreateAutoCompleteMenu();
                 var word = codebox.Selection.GetFragment(@"\w");
-                autocomplete.Items.AddItem(new AutocompleteItem(word.Text));
+                if(!string.IsNullOrEmpty(word.Text))
+                    _autocomplete.Items.AddItem(new AutocompleteItem(word.Text));
             }
         }
         private void codebox_SelectionChangedDelayed(object sender, EventArgs e)
@@ -414,7 +422,7 @@ namespace SS.Ynote.Classic.UI
         {
             var fileList = (string[]) e.Data.GetData(DataFormats.FileDrop, false);
             foreach (var file in fileList)
-                BeginInvoke((MethodInvoker) (() => OpenFile(file)));
+                BeginInvoke((MethodInvoker) (() => Globals.Ynote.OpenFile(file)));
         }
 
         private void codebox_TextChangedDelayed(object sender, TextChangedEventArgs e)
@@ -444,7 +452,7 @@ namespace SS.Ynote.Classic.UI
             }
             else
             {
-                for (var i = 0; i < dockPanel.DocumentsToArray().Length; i++)
+                for (int i = 0; i < dockPanel.DocumentsToArray().Length; i++)
                 {
                     var document = dockPanel.DocumentsToArray()[i];
                     if (!document.DockHandler.IsActivated)
@@ -455,7 +463,7 @@ namespace SS.Ynote.Classic.UI
 
         private void menuItem12_Click(object sender, EventArgs e)
         {
-            foreach (Editor doc in DockPanel.Documents.ToList())
+            foreach (Editor doc in DockPanel.Documents.ToArray())
                 doc.Close();
         }
 
@@ -516,10 +524,10 @@ namespace SS.Ynote.Classic.UI
             codebox.CloseBindingFile();
             base.OnClosing(e);
         }
-
+        
         protected override string GetPersistString()
         {
-            return GetType() + "," + Name + "," + Text;
+            return GetType() + "," + Name;
         }
 
         #endregion

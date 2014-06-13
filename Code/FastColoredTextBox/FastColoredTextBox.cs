@@ -43,7 +43,6 @@ namespace FastColoredTextBoxNS
             {FCTBAction.ZoomIn, true},
             {FCTBAction.ZoomNormal, true}
         };
-
         public readonly List<LineInfo> LineInfos = new List<LineInfo>();
         private readonly List<string> clipHistory;
         private readonly MacrosManager macrosManager;
@@ -206,7 +205,7 @@ namespace FastColoredTextBoxNS
             textAreaBorderColor = Color.Black;
             macrosManager = new MacrosManager(this);
             HotkeysMapping = new HotkeysMapping();
-            HotkeysMapping.InitDefault();
+       //     HotkeysMapping.InitDefault();
             WordWrapAutoIndent = true;
             FoldedBlocks = new Dictionary<int, int>();
             AutoCompleteBrackets = true;
@@ -5648,7 +5647,6 @@ namespace FastColoredTextBoxNS
                 m.Draw(e.Graphics, servicePen);
             //draw caret
             Point car = PlaceToPoint(Selection.Start);
-
             if ((Focused || IsDragDrop) && car.X >= LeftIndent && CaretVisible)
             {
                 int carWidth = (IsReplaceMode || WideCaret) ? CharWidth : 1;

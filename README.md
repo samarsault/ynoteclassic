@@ -33,7 +33,9 @@ Screenshot
 
 Version
 ----
- 2.8.5 PreAlpha Build 1022License
+ 2.8.5 PreAlpha Build 1057
+
+License
 ----
 
 GNU GPL v2

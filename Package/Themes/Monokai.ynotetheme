@@ -40,7 +40,7 @@
   <Style
     Name="ClassName"
     Color="#A6E22E"
-    Font="Underline" />
+    Font="Bold" />
   <Style
     Name="FunctionName"
     Color="#A6E22E"
@@ -63,7 +63,7 @@
     Font="Regular" />
   <Style
     Name="CSSProperty"
-    Color="#31C8C8"
+    Color="#66D9EF"
     Font="Regular" />
   <Style
     Name="CSSSelector"
@@ -97,7 +97,7 @@
     Value="#F7F7F2" />
   <Key
     Name="LineNumber"
-    Value="#FFFFFF" />
+    Value="#91918b" />
   <Key
     Name="LineNumberPadding"
     Value="#272822" />
@@ -115,7 +115,7 @@
     Value="#49483E" />
   <Key
     Name="ServicesLine"
-    Value="#404040" />
+    Value="#49483e" />
   <Key
     Name="Bookmark"
     Value="#808080" />
