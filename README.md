@@ -29,7 +29,7 @@ See Building.txt for more information
 
 Screenshot
 ----
-![Ynote](http://download-codeplex.sec.s-msft.com/Download?ProjectName=ynoteclassic&DownloadId=826766 "Ynote Classic")
+![Ynote](https://raw.githubusercontent.com/samarjeet27/ynoteclassic/master/SCREEN.PNG "Ynote Classic")
 
 Version
 ----
