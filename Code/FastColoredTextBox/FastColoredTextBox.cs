@@ -1366,7 +1366,7 @@ namespace FastColoredTextBoxNS
 
             set
             {
-                if (value == Text)
+                if (value == Text && value != "")
                     return;
 
                 SetAsCurrentTB();
@@ -4987,7 +4987,7 @@ namespace FastColoredTextBoxNS
                 // insert { bracket
                 if (Selection.CharBeforeStart == '{' && Selection.CharAfterStart == '}')
                 {
-                    int currentLevelIndent = CalcAutoIndent(Selection.Start.iLine);
+                    int currentLevelIndent = Math.Abs(CalcAutoIndent(Selection.Start.iLine));
                     string indent = new string(' ', currentLevelIndent);
                     string indent2 = new string(' ', currentLevelIndent + TabLength);
                     Selection.GoRight(true);
@@ -5650,18 +5650,31 @@ namespace FastColoredTextBoxNS
             if ((Focused || IsDragDrop) && car.X >= LeftIndent && CaretVisible)
             {
                 int carWidth = (IsReplaceMode || WideCaret) ? CharWidth : 1;
-                CreateCaret(Handle, 0, carWidth, CharHeight + 1);
-                SetCaretPos(car.X, car.Y);
-                ShowCaret(Handle);
                 if (WideCaret)
-                    using (var brush = new SolidBrush(Color.FromArgb(100, CaretColor)))
+                {
+                    using (var brush = new SolidBrush(CaretColor))
                         e.Graphics.FillRectangle(brush, car.X, car.Y, carWidth, CharHeight + 1);
+                }
                 else
                     using (var pen = new Pen(CaretColor))
                         e.Graphics.DrawLine(pen, car.X, car.Y, car.X, car.Y + CharHeight);
+
+                var caretRect = new Rectangle(HorizontalScroll.Value + car.X, VerticalScroll.Value + car.Y, carWidth, charHeight + 1);
+
+                if (prevCaretRect != caretRect)
+                {
+                    CreateCaret(Handle, 0, carWidth, CharHeight + 1);
+                    SetCaretPos(car.X, car.Y);
+                    ShowCaret(Handle);
+                }
+
+                prevCaretRect = caretRect;
             }
             else
+            {
                 HideCaret(Handle);
+                prevCaretRect = Rectangle.Empty;
+            }
 
             //draw disabled mask
             if (!Enabled)
@@ -5688,6 +5701,7 @@ namespace FastColoredTextBoxNS
             //
             base.OnPaint(e);
         }
+        private Rectangle prevCaretRect;
 
         private void DrawRecordingHint(Graphics graphics)
         {
