@@ -345,7 +345,8 @@ namespace SS.Ynote.Classic.UI
                 codebox.DoAutoIndent(i);
             }
             codebox.Selection = nselection;
-            PositionCaretTo('^');
+            if (snippet.Scope.Contains('^'))
+                PositionCaretTo('^');
 #if DEBUG
             watch.Stop();
             Debug.WriteLine(watch.Elapsed + " ms InsertSnippet()");

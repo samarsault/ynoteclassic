@@ -5151,7 +5151,6 @@ namespace FastColoredTextBoxNS
 
             return true;
         }
-
         /// <summary>
         ///     Finds given char after current caret position, moves the caret to found pos.
         /// </summary>

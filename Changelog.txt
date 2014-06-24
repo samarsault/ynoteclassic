@@ -308,3 +308,27 @@ Build 1048
 
 -> Fixed Javascript Highlighting Bug
 -> Added Javascript Function Parameter Highlighting
+
+Build 1070
+
+-> Updated to latest fastcoloredtextbox
+
+Build 1076
+
+-> Layout Fixes
+
+Build 1094
+
+-> Made Status Bar Thread Safe
+
+Build 1101
+
+-> Enhanced Lua Auto Indent
+
+Build 1110
+
+-> Switched to LCS for Fuzzy Search
+
+Build 1113
+
+-> Fixed Open File on startup  Bug

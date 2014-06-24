@@ -1,8 +1,6 @@
 ﻿#define DEVBUILD
 
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using SS.Ynote.Classic.UI;
@@ -11,6 +9,7 @@ namespace SS.Ynote.Classic.Core.Snippets
 {
     public class YnoteSnippet
     {
+        public string File { get; private set; }
         /// <summary>
         ///     Description of the Snippet
         /// </summary>
@@ -45,7 +44,6 @@ namespace SS.Ynote.Classic.Core.Snippets
          ----------------------
           <?xml version="1.0"?>
            <YnoteSnippet Version="1.0">
-               <name></name>
                <description></description>
                <tabTrigger></tabTrigger>
                <content></content>
@@ -55,6 +53,7 @@ namespace SS.Ynote.Classic.Core.Snippets
         public static YnoteSnippet Read(string snippetfile)
         {
             var snippet = new YnoteSnippet();
+            snippet.File = snippetfile;
             using (var reader = XmlReader.Create(snippetfile))
             {
                 while (reader.Read())

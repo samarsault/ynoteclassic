@@ -1,4 +1,5 @@
 ﻿#define DEVBUILD
+
 using System;
 using System.IO;
 using FastColoredTextBoxNS;

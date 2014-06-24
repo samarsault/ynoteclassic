@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
 using SS.Ynote.Classic.Core.Project;
 using SS.Ynote.Classic.Core.Settings;
 using SS.Ynote.Classic.Core.Snippets;

@@ -167,7 +167,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Core\Commands\CommandAutoCompleteItem.cs" />
     <Compile Include="UI\Controls\FolderBrowserEx.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -96,7 +96,7 @@ namespace SS.Ynote.Classic.Core
                     return;
                 else
                     foreach (var command in cmd.Commands)
-                        items.Add(new CommandAutocompleteItem(cmd.Key + ":" + command));
+                        items.Add(new FuzzyAutoCompleteItem(cmd.Key + ":" + command));
             completemenu.SetAutocompleteMenu(tbcommand, completemenu);
             completemenu.SetAutocompleteItems(items);
         }

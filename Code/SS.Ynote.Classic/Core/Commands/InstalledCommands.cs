@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-using FastColoredTextBoxNS;
 using SS.Ynote.Classic;
 using SS.Ynote.Classic.Core.Extensibility;
 using SS.Ynote.Classic.Core.RunScript;
 using SS.Ynote.Classic.Core.Settings;
-using SS.Ynote.Classic.Core.Snippets;
 using SS.Ynote.Classic.Core.Syntax;
 using SS.Ynote.Classic.UI;
 
@@ -479,25 +477,18 @@ internal class SnippetCommand : ICommand
     public void ProcessCommand(string val, IYnote ynote)
     {
         var edit = ynote.Panel.ActiveDocument as Editor;
-        string file = Path.Combine(GlobalSettings.SettingsDir, val + ".ynotesnippet");
-        foreach (
-            var snippet in Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynotesnippet", SearchOption.AllDirectories))
-            if (Path.GetFileNameWithoutExtension(snippet) == "val")
-                edit.InsertSnippet(YnoteSnippet.Read(file));
+        foreach(var snippet in Globals.Snippets)
+            if(Path.GetFileNameWithoutExtension(snippet.File) == val)
+                edit.InsertSnippet(snippet);
     }
 
     public string[] GetCommands()
     {
-        int index = 0;
-        var ynote = Globals.Ynote;
-        if (ynote.Panel.ActiveDocument == null
-            || !(ynote.Panel.ActiveDocument is Editor))
-            return null;
-        var items = new List<string>();
-        var lang = (ynote.Panel.ActiveDocument as Editor).Tb.Language;
-        foreach (
-            var file in Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynotesnippet", SearchOption.AllDirectories))
-            items.Add(Path.GetFileNameWithoutExtension(file));
+        var items = new Collection<string>();
+        var edit = Globals.Ynote.Panel.ActiveDocument as Editor;
+        foreach(var snippet in Globals.Snippets)
+            if(snippet.Scope == edit.Tb.Language)
+                items.Add(Path.GetFileNameWithoutExtension(snippet.File));
         return items.ToArray();
     }
 }

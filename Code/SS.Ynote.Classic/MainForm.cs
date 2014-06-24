@@ -157,6 +157,8 @@ namespace SS.Ynote.Classic
                     File.Create(file).Dispose();
                     OpenEditor(file);
                 }
+                else
+                    return null;
             }
             var edit = new Editor();
             edit.Name = file;
@@ -260,7 +262,7 @@ namespace SS.Ynote.Classic
             ActiveEditor.Text = Path.GetFileName(ActiveEditor.Name);
         }
 
-        #endregion FILE/IO
+        #endregion
 
         #region Recent Handlers
 
@@ -485,7 +487,7 @@ namespace SS.Ynote.Classic
         /// </summary>
         private void UpdateDocumentInfo()
         {
-            BeginInvoke((MethodInvoker) (() =>
+            ThreadPool.QueueUserWorkItem(delegate
             {
                 if (!(dock.ActiveDocument is Editor) || ActiveEditor == null) return;
                 if (ActiveEditor.Tb.Selection.IsEmpty)
@@ -498,7 +500,7 @@ namespace SS.Ynote.Classic
                 {
                     mistats.Text = string.Format("{0} Characters Selected", ActiveEditor.Tb.SelectedText.Length);
                 }
-            }));
+            });
         }
 
         /// <summary>
@@ -578,15 +580,19 @@ namespace SS.Ynote.Classic
             }
             else
             {
-                dock.SuspendLayout(true);
-                string filename = Application.StartupPath + "\\Dock.xml";
+                string filename = Application.StartupPath + "\\Last.ynotelayout";
                 if (File.Exists(filename))
                     dock.LoadFromXml(filename, GetContentFromPersistString);
                 else
-                    CreateNewDoc();
-                dock.ResumeLayout(true, true);
+                {
+                    if (string.IsNullOrEmpty(file))
+                        CreateNewDoc();
+                    else
+                        OpenFile(file);
+                }
             }
         }
+
         #endregion
 
         #endregion
@@ -595,10 +601,10 @@ namespace SS.Ynote.Classic
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            SaveRecentFiles(); 
+            SaveRecentFiles();
             GlobalSettings.Save(Globals.Settings, GlobalSettings.SettingsDir + "User.ynotesettings");
-            if(Globals.Settings.LoadLayout)
-                dock.SaveAsXml("Dock.xml");
+            if(Globals.Settings.LoadLayout && dock.Contents.Count != 0)
+                dock.SaveAsXml("Last.ynotelayout");
             if (_projs != null)
                 SaveRecentProjects();
             if(Globals.ActiveProject != null && Globals.ActiveProject.IsSaved)
@@ -1259,7 +1265,7 @@ namespace SS.Ynote.Classic
             var items = new List<AutocompleteItem>();
             foreach (var bookmark in ActiveEditor.Tb.Bookmarks)
                 items.Add(
-                    new CommandAutocompleteItem(bookmark.LineIndex + 1 + ":" + ActiveEditor.Tb[bookmark.LineIndex].Text));
+                    new FuzzyAutoCompleteItem(bookmark.LineIndex + 1 + ":" + ActiveEditor.Tb[bookmark.LineIndex].Text));
             var bookmarkwindow = new CommandWindow(items);
             bookmarkwindow.ProcessCommand += bookmarkwindow_ProcessCommand;
             bookmarkwindow.ShowDialog(this);
@@ -2002,30 +2008,39 @@ namespace SS.Ynote.Classic
             }
         }
 
+        private ProjectPanel GetProjectPanel()
+        {
+            ProjectPanel panel = null;
+            foreach (DockContent content in dock.Contents)
+                if (content is ProjectPanel)
+                    panel = content as ProjectPanel;
+            return panel;
+        }
         private void OpenProject(YnoteProject project)
         {
             if (Globals.ActiveProject == project || project == null)
                 return;
-            ProjectPanel panel = null;
-            if (File.Exists(project.LayoutFile))
+            ProjectPanel panel = GetProjectPanel();
+            if (panel == null)
             {
-                foreach (DockContent item in dock.Contents.ToArray())
-                    item.Close();
                 panel = new ProjectPanel();
-                //       dock.SuspendLayout(true);
-                dock.LoadFromXml(project.LayoutFile, GetContentFromPersistString);
                 panel.Show(dock, DockState.DockLeft);
+            }
+            if (File.Exists(project.LayoutFile)){
+                if (dock.Contents.Count != 0)
+                {
+                    var contents = dock.Contents;
+                    // close all contents
+                    for (int i = 0; i < contents.Count; i++)
+                    {
+                        contents[i].DockHandler.Close();
+                    }
+                }
+                dock.LoadFromXml(project.LayoutFile, GetContentFromPersistString);
                 panel.OpenProject(project);
-                //      dock.ResumeLayout(true,true);
             }
             else
             {
-                foreach (DockContent content in dock.Contents)
-                    if (content is ProjectPanel)
-                        panel = content as ProjectPanel;
-                if (panel == null)
-                    panel = new ProjectPanel();
-                panel.Show(dock, DockState.DockLeft);
                 panel.OpenProject(project);
             }
             this.Text = project.Name + " - Ynote Classic";

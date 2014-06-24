@@ -10,4 +10,5 @@
         /// </summary>
         void Main(IYnote ynote);
     }
+
 }

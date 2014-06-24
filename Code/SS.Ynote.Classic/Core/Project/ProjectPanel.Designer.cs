@@ -1,7 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Drawing;
-using System.Security;
-using System.Windows.Forms;
 
 namespace SS.Ynote.Classic.Core.Project
 {
