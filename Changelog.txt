@@ -332,3 +332,7 @@ Build 1110
 Build 1113
 
 -> Fixed Open File on startup  Bug
+
+Build 1115
+
+-> Build Autocomplete Menu from opened file

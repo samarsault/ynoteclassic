@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
@@ -400,6 +401,16 @@ namespace SS.Ynote.Classic.UI
                 if(!string.IsNullOrEmpty(word.Text))
                     _autocomplete.Items.AddItem(new AutocompleteItem(word.Text));
             }
+        }
+
+        public void RebuildAutocompleteMenu()
+        {
+            if (_autocomplete == null)
+                CreateAutoCompleteMenu();
+            if (string.IsNullOrEmpty(codebox.Text))
+                return;
+            foreach (var matches in codebox.GetRanges(@"\w+"))
+                _autocomplete.Items.AddItem(new AutocompleteItem(matches.Text));
         }
         private void codebox_SelectionChangedDelayed(object sender, EventArgs e)
         {

@@ -176,6 +176,7 @@ namespace SS.Ynote.Classic
             else
                 edit.Tb.OpenFile(file, encoding);
             edit.Tb.ReadOnly = info.IsReadOnly;
+            edit.RebuildAutocompleteMenu();
             return edit;
         }
 
