@@ -7,17 +7,18 @@ http://ynoteclassic.codeplex.com
 Features
 ----
   - Multi-Level Undo/Redo
-  - Syntax Highlighting, Code Folding, Indentation
+  - Syntax Highlighting, Code Folding, Automatic Indentation
   - Support for more than 40 languages with user defined language support
-  - Powerful Search and Replace using Regular Expressions in document and multiple files
-  - Clipboard History
+  - Powerful Find and Replace using Regular Expressions in document and multiple files
+  - Commander and Powerful Key Bindings to perform quick tasks while staying on the keyboard
+  - Minimap / Document Map and
   - Function / Symbol List
-  - Code Snippets Support
-  - Automatic Encoding Detection with all codepages on the system supported
-  - WYSWYIG Printing
-  - Split Screen
-  - MDI and SDI
-  - Extensible with Plugins, Macros, Color Schemes, Syntax Files, Scripts and much more.
+  - Code Snippets and Macros to ease your tasks
+  - Automatic Encoding Detection with all codepages
+  - WYSIWYG (WHAT YOU SEE IS WHAT YOU GET) Printing
+  - Split Screen , Full Screen and Distraction Free Editing
+  - MDI (Multiple Document Interface ) and SDI ( Single Document Interface ) with Dockable Windows
+  - Extensible with Plugins, Color Schemes, Syntax Files, Scripts and much more.
 
 Building
 ----
@@ -31,12 +32,7 @@ Screenshot
 ----
 ![Ynote](https://raw.githubusercontent.com/samarjeet27/ynoteclassic/master/SCREEN.PNG "Ynote Classic")
 
-Version
-----
- 2.8.5 PreAlpha Build 1115
-
 License
 ----
 
 GNU GPL v2
-
