@@ -134,7 +134,8 @@ namespace SS.Ynote.Classic
         public void OpenFile(string file)
         {
             var edit = OpenEditor(file);
-            edit.Show(dock, DockState.Document);
+            if(edit != null)
+                edit.Show(dock, DockState.Document);
         }
 
         /// <summary>
@@ -146,7 +147,7 @@ namespace SS.Ynote.Classic
             SaveEditor(edit, Encoding.GetEncoding(Globals.Settings.DefaultEncoding));
         }
 
-        static Editor OpenEditor(string file)
+        private Editor OpenEditor(string file)
         {
             if (!File.Exists(file))
             {
@@ -158,6 +159,11 @@ namespace SS.Ynote.Classic
                     OpenEditor(file);
                 }
                 else
+                    return null;
+            }
+            foreach (DockContent content in dock.Contents)
+            {
+                if (content.Name == file)
                     return null;
             }
             var edit = new Editor();
@@ -546,26 +552,25 @@ namespace SS.Ynote.Classic
 
         private IDockContent GetContentFromPersistString(string persistString)
         {
-            string[] parsedStrings = persistString.Split(new[] { ',' });
+            string[] parsedStrings = persistString.Split(new[] {','});
 
             if (persistString == typeof (Shell).ToString())
                 return new Shell("cmd.exe", null);
-            if (parsedStrings[0] == typeof (Editor).ToString())
+            if (parsedStrings[0] == typeof (ProjectPanel).ToString())
+            {
+                var projp = new ProjectPanel();
+                if (parsedStrings[1] != "ProjectPanel")
+                    projp.OpenProject(YnoteProject.Load(parsedStrings[1]));
+                return projp;
+            }
+            else if (parsedStrings[0] == typeof (Editor).ToString())
             {
                 if (parsedStrings[1] == "Editor")
                     return null;
                 else
                 {
-                    Editor edit = OpenEditor(parsedStrings[1]);
-                    return edit;
+                    return OpenEditor(parsedStrings[1]);
                 }
-            }
-            if (parsedStrings[0] == typeof (ProjectPanel).ToString())
-            {
-                    var projp = new ProjectPanel();
-                    if(parsedStrings[1] != "ProjectPanel")
-                        projp.OpenProject(YnoteProject.Load(parsedStrings[1]));
-                    return projp;
             }
             return null;
         }
@@ -583,10 +588,14 @@ namespace SS.Ynote.Classic
             {
                 string filename = Application.StartupPath + "\\Last.ynotelayout";
                 if (File.Exists(filename))
+                {
                     dock.LoadFromXml(filename, GetContentFromPersistString);
+                    if(!string.IsNullOrEmpty(file))
+                        OpenFile(file);
+                }
                 else
                 {
-                    if (string.IsNullOrEmpty(file))
+                    if(string.IsNullOrEmpty(file))
                         CreateNewDoc();
                     else
                         OpenFile(file);
@@ -2023,10 +2032,7 @@ namespace SS.Ynote.Classic
                 return;
             ProjectPanel panel = GetProjectPanel();
             if (panel == null)
-            {
                 panel = new ProjectPanel();
-                panel.Show(dock, DockState.DockLeft);
-            }
             if (File.Exists(project.LayoutFile)){
                 if (dock.Contents.Count != 0)
                 {
@@ -2034,15 +2040,15 @@ namespace SS.Ynote.Classic
                     // close all contents
                     for (int i = 0; i < contents.Count; i++)
                     {
-                        contents[i].DockHandler.Close();
+                        dock.Contents[i].DockHandler.Close();
                     }
                 }
                 dock.LoadFromXml(project.LayoutFile, GetContentFromPersistString);
-                panel.OpenProject(project);
             }
             else
             {
                 panel.OpenProject(project);
+                panel.Show(dock, DockState.DockLeft);
             }
             this.Text = project.Name + " - Ynote Classic";
         }

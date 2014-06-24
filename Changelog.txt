@@ -336,3 +336,7 @@ Build 1113
 Build 1115
 
 -> Build Autocomplete Menu from opened file
+
+Build 1129
+
+-> Fixed Layout and Open File associated bugs
