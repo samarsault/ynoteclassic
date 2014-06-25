@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using AutocompleteMenuNS;
 
 /// <summary>
@@ -58,6 +59,10 @@ public class FuzzyAutoCompleteItem : AutocompleteItem
         }
         if (Text == Parent.Items[index])
             return CompareResult.VisibleAndSelected;
-        return CompareResult.Visible;
+        if (Text.Contains(fragmentText))
+            return CompareResult.Visible;
+        if (string.IsNullOrEmpty(fragmentText))
+            return CompareResult.Visible;
+        return CompareResult.Hidden;
     }
 }

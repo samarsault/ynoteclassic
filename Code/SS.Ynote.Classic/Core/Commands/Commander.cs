@@ -57,7 +57,7 @@ namespace SS.Ynote.Classic.Core
                 new WikipediaCommand(),
             };
         }
-        public bool IsSnippetMode { get; set; }
+        public bool IsRunMode { get; set; }
 
         static IEnumerable<ICommand> GetCommands()
         {
@@ -107,10 +107,10 @@ namespace SS.Ynote.Classic.Core
 
         protected override void OnShown(EventArgs e)
         {
-            if (IsSnippetMode)
+            if (IsRunMode)
             {
-                tbcommand.Text = "Snippet:";
-                tbcommand.Select("Snippet:".Length, 0);
+                tbcommand.Text = "Run:";
+                tbcommand.Select("Run:".Length, 0);
             }
             if (_addedText) return;
             completemenu.Show(tbcommand, true);

@@ -50,7 +50,7 @@ internal class MacroCommand : ICommand
         {
             return
                 Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynotemacro", SearchOption.AllDirectories)
-                    .Select(directory => "Macro:" + Path.GetFileNameWithoutExtension(directory))
+                    .Select(Path.GetFileNameWithoutExtension)
                     .ToArray();
         }
     }

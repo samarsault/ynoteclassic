@@ -1530,8 +1530,9 @@ namespace SS.Ynote.Classic
             if (ActiveEditor == null) return;
             if (ActiveEditor.IsSaved)
             {
-                var run = new RunDialog(ActiveEditor.Name, dock);
-                run.Show();
+                var cwin = new Commander();
+                cwin.IsRunMode = true;
+                cwin.ShowDialog(this);
             }
             else
             {
@@ -1728,31 +1729,15 @@ namespace SS.Ynote.Classic
         private void macrosmenu_Select(object sender, EventArgs e)
         {
             mimacros.MenuItems.Clear();
-            var mnum = 0;
-            foreach (
-                var item in
-                    Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynotemacro", SearchOption.AllDirectories)
-                        .Select(
-                            file => new MenuItem(Path.GetFileNameWithoutExtension(file), macroitem_click) {Name = file})
-                )
+            string[] files = Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynotemacro", SearchOption.AllDirectories);
+            foreach (var item in files.Select(file => new MenuItem(Path.GetFileNameWithoutExtension(file), macroitem_click) { Name = file }))
             {
-                if (mnum < 10)
-                    item.Shortcut = ("Alt" + mnum).ToEnum<Shortcut>();
-                mnum++;
                 mimacros.MenuItems.Add(item);
             }
             if (miscripts.MenuItems.Count != 0) return;
-            var si = 0;
-            foreach (
-                var item in
-                    Directory.GetFiles(GlobalSettings.SettingsDir, "*.ys", SearchOption.AllDirectories)
-                        .Select(
-                            file =>
-                                new MenuItem(Path.GetFileNameWithoutExtension(file), scriptitem_clicked) {Name = file}))
+            string[] scripts = Directory.GetFiles(GlobalSettings.SettingsDir, "*.ys", SearchOption.AllDirectories);
+            foreach (var item in scripts.Select(file =>new MenuItem(Path.GetFileNameWithoutExtension(file), scriptitem_clicked) {Name = file}))            
             {
-                if (si < 10)
-                    item.Shortcut = ("Ctrl" + si).ToEnum<Shortcut>();
-                si++;
                 miscripts.MenuItems.Add(item);
             }
         }
@@ -1879,14 +1864,6 @@ namespace SS.Ynote.Classic
             mimenu.Checked = Globals.Settings.ShowMenuBar;
             mihiddenchars.Checked = Globals.Settings.HiddenChars;
         }
-
-        private void menuItem5_Click(object sender, EventArgs e)
-        {
-            var console = new Commander();
-            console.IsSnippetMode = true;
-            console.ShowDialog(this);
-        }
-
         private void distractionfree_Click(object sender, EventArgs e)
         {
             if (Panel.ActiveDocument == null || !(Panel.ActiveDocument is Editor))
@@ -1986,11 +1963,25 @@ namespace SS.Ynote.Classic
             }
         }
 
-
+        private string path;
         private void migotofileinproject_Click(object sender, EventArgs e)
         {
+            if (Globals.ActiveProject != null)
+            {
+                path = Globals.ActiveProject.Path;
+            }
+            else
+            {
+                if (ActiveEditor.IsSaved)
+                    path = Path.GetDirectoryName(ActiveEditor.Name);
+                else
+                {
+                    MessageBox.Show("Please Open a Project First!");
+                    return;
+                }
+            }
             var autocompletelist = new List<AutocompleteItem>();
-            var files = Directory.GetFiles(Globals.ActiveProject.Path, "*.*", SearchOption.AllDirectories);
+            var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
             foreach (var file in files)
                 autocompletelist.Add(new FuzzyAutoCompleteItem(Path.GetFileName(file)));
             var commandwindow = new CommandWindow(autocompletelist);
@@ -2000,7 +1991,7 @@ namespace SS.Ynote.Classic
 
         private void commandwindow_ProcessCommand(object sender, CommandWindowEventArgs e)
         {
-            var files = Directory.GetFiles(Globals.ActiveProject.Path, "*.*", SearchOption.AllDirectories);
+            var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
              foreach (var file in files)
              {
                  if (Path.GetFileName(file) == e.Text)

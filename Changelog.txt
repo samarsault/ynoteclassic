@@ -364,3 +364,15 @@ Build 1150
 Build 1154
 
 -> Fixed Custom Command-Based Shortcuts Bug
+
+Build 1156
+
+-> Fixed Shortcut Conflicts
+
+Build 1157
+
+-> Fuzzy Search Hide Item
+
+Build 1159
+
+-> Go To Project Searches File's Folder if project is not opened

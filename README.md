@@ -1,6 +1,7 @@
 Ynote Classic 
 ============
 
+
 Ynote Classic Ynote Classic is an easy to use, open and versatile Text and Source Code Editor. It can deal with a variety of tasks ranging from writing to programming. It makes editing a more easier and comfortable task with it's powerful editing operations, syntax highlighting, code folding, indentation, autocompletion and plugins.
 http://ynoteclassic.codeplex.com
 
@@ -35,7 +36,7 @@ Screenshot
 Version
 ----
 
-2.8.5 Pre Alpha Build 1155
+2.8.5 Pre Alpha Build 1160
 
 License
 ----
