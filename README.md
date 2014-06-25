@@ -32,6 +32,11 @@ Screenshot
 ----
 ![Ynote](https://raw.githubusercontent.com/samarjeet27/ynoteclassic/master/SCREEN.PNG "Ynote Classic")
 
+Version
+----
+
+2.8.5 Pre Alpha Build 1155
+
 License
 ----
 

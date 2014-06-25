@@ -233,8 +233,8 @@
             this.miprojpage = new System.Windows.Forms.MenuItem();
             this.miforum = new System.Windows.Forms.MenuItem();
             this.mibugreport = new System.Windows.Forms.MenuItem();
-            this.mifb = new System.Windows.Forms.MenuItem();
             this.seperator30 = new System.Windows.Forms.MenuItem();
+            this.mifb = new System.Windows.Forms.MenuItem();
             this.aboutmenu = new System.Windows.Forms.MenuItem();
             this.status = new System.Windows.Forms.StatusStrip();
             this.mistats = new System.Windows.Forms.ToolStripStatusLabel();
@@ -264,6 +264,7 @@
             this.removebookmark = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.migotoword = new System.Windows.Forms.MenuItem();
             this.status.SuspendLayout();
             this.toolBar.SuspendLayout();
             this.SuspendLayout();
@@ -1185,6 +1186,7 @@
             this.miselectedfile,
             this.menuItem8,
             this.migotosymbol,
+            this.migotoword,
             this.migotol,
             this.seperator18,
             this.gotofirstlinemenu,
@@ -1234,77 +1236,77 @@
             // 
             // migotol
             // 
-            this.migotol.Index = 5;
+            this.migotol.Index = 6;
             this.migotol.Shortcut = System.Windows.Forms.Shortcut.CtrlG;
             this.migotol.Text = "Go To Line / Column";
             this.migotol.Click += new System.EventHandler(this.migotoline_Click);
             // 
             // seperator18
             // 
-            this.seperator18.Index = 6;
+            this.seperator18.Index = 7;
             this.seperator18.Text = "-";
             // 
             // gotofirstlinemenu
             // 
-            this.gotofirstlinemenu.Index = 7;
+            this.gotofirstlinemenu.Index = 8;
             this.gotofirstlinemenu.Text = "Go to First Line";
             this.gotofirstlinemenu.Click += new System.EventHandler(this.gotofirstlinemenu_Click);
             // 
             // gotoendmenu
             // 
-            this.gotoendmenu.Index = 8;
+            this.gotoendmenu.Index = 9;
             this.gotoendmenu.Text = "Go to the End";
             this.gotoendmenu.Click += new System.EventHandler(this.gotoendmenu_Click);
             // 
             // seperator17
             // 
-            this.seperator17.Index = 9;
+            this.seperator17.Index = 10;
             this.seperator17.Text = "-";
             // 
             // navforwardmenu
             // 
-            this.navforwardmenu.Index = 10;
+            this.navforwardmenu.Index = 11;
             this.navforwardmenu.Text = "Go Forward";
             this.navforwardmenu.Click += new System.EventHandler(this.navforwardmenu_Click);
             // 
             // navbackwardmenu
             // 
-            this.navbackwardmenu.Index = 11;
+            this.navbackwardmenu.Index = 12;
             this.navbackwardmenu.Text = "Go Back";
             this.navbackwardmenu.Click += new System.EventHandler(this.navbackwardmenu_Click);
             // 
             // seperator16
             // 
-            this.seperator16.Index = 12;
+            this.seperator16.Index = 13;
             this.seperator16.Text = "-";
             // 
             // migotoleftbracket
             // 
-            this.migotoleftbracket.Index = 13;
+            this.migotoleftbracket.Index = 14;
             this.migotoleftbracket.Text = "Go to Left Bracket";
             this.migotoleftbracket.Click += new System.EventHandler(this.migoleftbracket_Click);
             // 
             // migotorightbracket
             // 
-            this.migotorightbracket.Index = 14;
+            this.migotorightbracket.Index = 15;
             this.migotorightbracket.Text = "Go to Right Bracket";
             this.migotorightbracket.Click += new System.EventHandler(this.migorightbracket_Click);
             // 
             // menuItem7
             // 
-            this.menuItem7.Index = 15;
+            this.menuItem7.Index = 16;
             this.menuItem7.Text = "-";
             // 
             // gotobookmark
             // 
-            this.gotobookmark.Index = 16;
+            this.gotobookmark.Index = 17;
             this.gotobookmark.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftG;
             this.gotobookmark.Text = "Go To Bookmark";
             this.gotobookmark.Click += new System.EventHandler(this.gotobookmark_Click);
             // 
             // mibookmarks
             // 
-            this.mibookmarks.Index = 17;
+            this.mibookmarks.Index = 18;
             this.mibookmarks.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.Addbookmarkmenu,
             this.removebookmarkmenu,
@@ -1646,8 +1648,8 @@
             this.miprojpage,
             this.miforum,
             this.mibugreport,
-            this.mifb,
             this.seperator30,
+            this.mifb,
             this.aboutmenu});
             this.helpmenu.Text = "Help";
             // 
@@ -1678,7 +1680,7 @@
             // miforum
             // 
             this.miforum.Index = 4;
-            this.miforum.Text = "Forum";
+            this.miforum.Text = "Feature Request";
             this.miforum.Click += new System.EventHandler(this.miforum_Click);
             // 
             // mibugreport
@@ -1687,16 +1689,16 @@
             this.mibugreport.Text = "Bug Report";
             this.mibugreport.Click += new System.EventHandler(this.mibugreport_Click);
             // 
-            // mifb
-            // 
-            this.mifb.Index = 6;
-            this.mifb.Text = "Facebook";
-            this.mifb.Click += new System.EventHandler(this.mifb_Click);
-            // 
             // seperator30
             // 
-            this.seperator30.Index = 7;
+            this.seperator30.Index = 6;
             this.seperator30.Text = "-";
+            // 
+            // mifb
+            // 
+            this.mifb.Index = 7;
+            this.mifb.Text = "@ynoteclassic";
+            this.mifb.Click += new System.EventHandler(this.mifb_Click);
             // 
             // aboutmenu
             // 
@@ -1946,6 +1948,12 @@
             this.helpToolStripButton.Name = "helpToolStripButton";
             this.helpToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.helpToolStripButton.Text = "He&lp";
+            // 
+            // migotoword
+            // 
+            this.migotoword.Index = 5;
+            this.migotoword.Text = "Go To Word";
+            this.migotoword.Click += new System.EventHandler(this.migotoword_Click);
             // 
             // MainForm
             // 
@@ -2205,6 +2213,7 @@
         private System.Windows.Forms.MenuItem menuItem16;
         private System.Windows.Forms.MenuItem mifindinfiles;
         private System.Windows.Forms.MenuItem mifindinproject;
+        private System.Windows.Forms.MenuItem migotoword;
     }
 }
 

@@ -361,6 +361,7 @@ internal class FileCommand : ICommand
                 "New",
                 "Open",
                 "Save",
+                "SaveAll",
                 "Revert",
                 "Delete",
                 "Properties",
@@ -391,7 +392,10 @@ internal class FileCommand : ICommand
             case "Save":
                 ynote.SaveEditor(ynote.Panel.ActiveDocument as Editor);
                 break;
-
+            case "SaveAll":
+                foreach (Editor item in ynote.Panel.Documents.OfType<Editor>())
+                    ynote.SaveEditor(item as Editor);
+                break;
             case "Properties":
                 if (edit.IsSaved)
                     NativeMethods.ShowFileProperties(edit.Name);

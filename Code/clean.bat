@@ -5,18 +5,19 @@ del Build\*.pdb
 del Build\*.txt
 del Build\*.config
 del Build\*.xml
+del Build\Last.ynotelayout
 echo Cleared Build\
-del FastColoredTextBox\bin\*.*
-del FastColoredTextBox\obj\*.*
+del /F /Q FastColoredTextBox\bin
+del /F /Q FastColoredTextBox\obj
 echo Cleared FastColoredTextBox
-del Docking\bin\*.*
-del Docking\obj\*.*
+del /F /Q Docking\bin
+del /F /Q Docking\obj
 echo Cleared Docking\
-del SS.Ynote.Classic\bin\*.*
-del SS.Ynote.Classic\obj\*.*
+del /F /Q SS.Ynote.Classic\bin
+del /F /Q SS.Ynote.Classic\obj
 echo Cleared SS.Ynote.Classic
-del Utilities\bin\*.*
-del Utilities\obj\*.*
+del /F /Q Utilities\bin
+del /F /Q Utilities\obj
 echo Cleared Utilities\
 
 echo Cleaning Successfull

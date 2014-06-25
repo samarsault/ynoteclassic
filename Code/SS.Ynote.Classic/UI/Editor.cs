@@ -5,10 +5,10 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Core;
 using SS.Ynote.Classic.Core.Extensibility;
 using SS.Ynote.Classic.Core.Settings;
 using SS.Ynote.Classic.Core.Snippets;
@@ -21,6 +21,8 @@ namespace SS.Ynote.Classic.UI
     public partial class Editor : DockContent
     {
         #region Fields
+
+        private Dictionary<Keys, string> Shortcuts; 
         /// <summary>
         ///     Syntax Highligher
         /// </summary>
@@ -66,6 +68,7 @@ namespace SS.Ynote.Classic.UI
                 snipthread.Start();
                 snipthread.Join();
             }
+            ThreadPool.QueueUserWorkItem(delegate { Shortcuts = GetDictionary(); });
             if (SyntaxHighlighter.LoadedSyntaxes.Any()) return;
             Highlighter.LoadAllSyntaxes();
         }
@@ -209,7 +212,7 @@ namespace SS.Ynote.Classic.UI
             codebox.WideCaret = Globals.Settings.BlockCaret;
             codebox.WordWrap = Globals.Settings.WordWrap;
             codebox.Zoom = Globals.Settings.Zoom;
-            codebox.HotkeysMapping = HotkeysMapping.Parse(File.ReadAllText(GlobalSettings.SettingsDir + "User.ynotekeys"));
+            codebox.HotkeysMapping = HotkeysMapping.Parse(File.ReadAllText(GlobalSettings.SettingsDir + "Editor.ynotekeys"));
             if (Globals.Settings.ImeMode)
                 codebox.ImeMode = ImeMode.On;
             if (Globals.Settings.ShowChangedLine)
@@ -307,10 +310,10 @@ namespace SS.Ynote.Classic.UI
             _autocomplete.AllowTabKey = true;
         }
 
-        public void DistractionFreeDimensions()
+        private void DistractionFreeDimensions()
         {
             codebox.Anchor = AnchorStyles.None;
-            Debug.WriteLine(string.Format("Name : {4} \nHeight : {0} * {1}\n, Width : {2} * {3}\n", Height, codebox.Height, Width, codebox.Width, Text));
+            // Debug.WriteLine(string.Format("Name : {4} \nHeight : {0} * {1}\n, Width : {2} * {3}\n", Height, codebox.Height, Width, codebox.Width, Text));
             codebox.Height = Height;
             codebox.Width = Width / 2;
             codebox.Left = (this.ClientSize.Width - codebox.Width) / 2;
@@ -346,7 +349,7 @@ namespace SS.Ynote.Classic.UI
                 codebox.DoAutoIndent(i);
             }
             codebox.Selection = nselection;
-            if (snippet.Scope.Contains('^'))
+            if (snippet.Content.Contains('^'))
                 PositionCaretTo('^');
 #if DEBUG
             watch.Stop();
@@ -401,6 +404,38 @@ namespace SS.Ynote.Classic.UI
                 if(!string.IsNullOrEmpty(word.Text))
                     _autocomplete.Items.AddItem(new AutocompleteItem(word.Text));
             }
+            if(Shortcuts != null)
+                ProcessShortcuts(e);
+        }
+
+        void ProcessShortcuts(KeyEventArgs e)
+        {
+            foreach (var item in Shortcuts)
+            {
+                if (item.Key == e.KeyData)
+                {
+                    e.Handled = true;
+                    Commander.RunCommand(Globals.Ynote, item.Value);
+                }
+            }
+        }
+        static Dictionary<Keys, string> GetDictionary()
+        {
+            string file = GlobalSettings.SettingsDir + "User.ynotekeys";
+            if (File.Exists(file))
+            {
+                Dictionary<Keys, string> dictionary = new Dictionary<Keys, string>();
+                var converter = new KeysConverter();
+                string[] lines = File.ReadAllLines(file);
+                foreach (string line in lines)
+                {
+                    string[] items = line.Split('=');
+                    var keys = (Keys) converter.ConvertFromString(items[0]);
+                    dictionary.Add(keys, items[1]);
+                }
+                return dictionary;
+            }
+            return null;
         }
 
         public void RebuildAutocompleteMenu()

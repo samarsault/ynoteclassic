@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using AutocompleteMenuNS;
 
 /// <summary>
@@ -50,7 +49,7 @@ public class FuzzyAutoCompleteItem : AutocompleteItem
         int index = 0;
         foreach (var item in Parent.Items)
         {
-            int x = LCS(fragmentText, item, 0, 0);
+            int x = LCS(fragmentText.ToLower(), item.ToLower(), 0, 0);
             if (x > max)
             {
                 max = x;

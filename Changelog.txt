@@ -340,3 +340,27 @@ Build 1115
 Build 1129
 
 -> Fixed Layout and Open File associated bugs
+
+Build 1141
+
+-> Added Shortcut - Support for Macros, Scripts and RunScripts or any Commander Command.
+
+Build 1145
+
+-> Fixed Snippet Caret Positioning Bug
+
+Build 1147
+
+-> Improved Fuzzy Matching
+
+Build 1148
+
+-> Added Go To Word
+
+Build 1150
+
+-> Fixed Project Layout Bug
+
+Build 1154
+
+-> Fixed Custom Command-Based Shortcuts Bug

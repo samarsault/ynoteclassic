@@ -609,12 +609,20 @@ namespace SS.Ynote.Classic
 
         #region Overrides
 
+
         protected override void OnClosing(CancelEventArgs e)
         {
             SaveRecentFiles();
             GlobalSettings.Save(Globals.Settings, GlobalSettings.SettingsDir + "User.ynotesettings");
-            if(Globals.Settings.LoadLayout && dock.Contents.Count != 0)
-                dock.SaveAsXml("Last.ynotelayout");
+            if (dock.Contents.Count == 0 || !ActiveEditor.IsSaved)
+            {
+                if (File.Exists("Last.ynotelayout"))
+                    File.Delete("Last.ynotelayout");
+            }
+            else{
+                if(Globals.Settings.LoadLayout)
+                    dock.SaveAsXml("Last.ynotelayout");
+            }
             if (_projs != null)
                 SaveRecentProjects();
             if(Globals.ActiveProject != null && Globals.ActiveProject.IsSaved)
@@ -1036,7 +1044,7 @@ namespace SS.Ynote.Classic
 
         private void mifb_Click(object sender, EventArgs e)
         {
-            Process.Start("http://facebook.com/sscorpscom");
+            Process.Start("http://twitter.com/ynoteclassic");
         }
 
         private void miwikimenu_Click(object sender, EventArgs e)
@@ -1480,7 +1488,7 @@ namespace SS.Ynote.Classic
             if (form.ShowDialog() == DialogResult.OK)
             {
                 fctb.HotkeysMapping = form.GetHotkeys();
-                File.WriteAllText(GlobalSettings.SettingsDir + "User.ynotekeys", form.GetHotkeys().ToString());
+                File.WriteAllText(GlobalSettings.SettingsDir + "Editor.ynotekeys", form.GetHotkeys().ToString());
             }
         }
 
@@ -2033,14 +2041,15 @@ namespace SS.Ynote.Classic
             ProjectPanel panel = GetProjectPanel();
             if (panel == null)
                 panel = new ProjectPanel();
-            if (File.Exists(project.LayoutFile)){
+            if (File.Exists(project.LayoutFile))
+            {
                 if (dock.Contents.Count != 0)
                 {
-                    var contents = dock.Contents;
-                    // close all contents
-                    for (int i = 0; i < contents.Count; i++)
+                    var docs = dock.Contents.ToArray();
+                    for (int i = 0; i < docs.Length; i++)
                     {
-                        dock.Contents[i].DockHandler.Close();
+                        var document = docs[i];
+                        document.DockHandler.Close();
                     }
                 }
                 dock.LoadFromXml(project.LayoutFile, GetContentFromPersistString);
@@ -2184,6 +2193,32 @@ namespace SS.Ynote.Classic
         {
             if (Globals.ActiveProject != null)
                 OpenProject(Globals.ActiveProject);
+        }
+
+
+        private IEnumerable<Range> words;
+
+        private void migotoword_Click(object sender, EventArgs e)
+        {
+            var items = new List<AutocompleteItem>();
+            words = ActiveEditor.Tb.GetRanges(@"\w+");
+            foreach (var range in words)
+                items.Add(new FuzzyAutoCompleteItem(range.Text));
+            var cmd = new CommandWindow(items);
+            cmd.ProcessCommand += cmd_ProcessCommand;
+            cmd.ShowDialog(this);
+        }
+
+        void cmd_ProcessCommand(object sender, CommandWindowEventArgs e)
+        {
+            foreach (var word in words)
+            {
+                if (e.Text == word.Text)
+                {
+                    ActiveEditor.Tb.Selection.Start = new Place(word.Start.iChar, word.Start.iLine);
+                    ActiveEditor.Tb.Selection.End = new Place(word.End.iChar, word.End.iLine);
+                }
+            }
         }
         #endregion
     }

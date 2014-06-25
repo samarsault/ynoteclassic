@@ -30,6 +30,16 @@ namespace SS.Ynote.Classic.Core
             completemenu.AllowsTabKey = true;
             tbcommand.Focus();
             LostFocus += (o, a) => Close();
+            ReloadCommands();
+            BuildAutoComplete();
+#if DEBUG
+            watch.Stop();
+            Debug.WriteLine(watch.ElapsedMilliseconds + "ms Commander.ctor()");
+#endif
+        }
+
+        static void ReloadCommands()
+        {
             Commands = new List<ICommand>(GetCommands())
             {
                 new SetSyntaxCommand(),
@@ -46,16 +56,10 @@ namespace SS.Ynote.Classic.Core
                 new GoogleCommand(),
                 new WikipediaCommand(),
             };
-            BuildAutoComplete();
-#if DEBUG
-            watch.Stop();
-            Debug.WriteLine(watch.ElapsedMilliseconds + "ms Commander.ctor()");
-#endif
         }
-
         public bool IsSnippetMode { get; set; }
 
-        private IEnumerable<ICommand> GetCommands()
+        static IEnumerable<ICommand> GetCommands()
         {
             var lst = new List<ICommand>();
             foreach (
@@ -155,9 +159,16 @@ namespace SS.Ynote.Classic.Core
         public static void RunCommand(IYnote ynote, string commandstr)
         {
             var command = YnoteCommand.FromString(commandstr);
+            if(Commands == null)
+                ReloadCommands();
             foreach (var cmd in Commands)
+            {
                 if (cmd.Key == command.Key)
+                {
                     cmd.ProcessCommand(command.Value, ynote);
+                    break;
+                }
+            }
         }
     }
 }
