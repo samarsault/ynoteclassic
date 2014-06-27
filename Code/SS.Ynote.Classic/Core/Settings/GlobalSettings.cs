@@ -8,18 +8,20 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace SS.Ynote.Classic.Core.Settings
 {
-    class GlobalSettings
+    internal class GlobalSettings
     {
 #if !PORTABLE
-        internal static readonly string SettingsDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Ynote Classic\";
+        internal static readonly string SettingsDir =
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Ynote Classic\";
 #else
         internal static readonly string SettingsDir = Application.StartupPath + @"\Package\";
 #endif
 #if DEVBUILD
         public static int BuildNumber;
 #endif
+
         /// <summary>
-        /// Loads Properties
+        ///     Loads Properties
         /// </summary>
         /// <param name="file"></param>
         public static GlobalProperties Load(string file)
@@ -29,14 +31,11 @@ namespace SS.Ynote.Classic.Core.Settings
                 string json = File.ReadAllText(file);
                 return JsonConvert.DeserializeObject<GlobalProperties>(json);
             }
-            else
-            {
-                RestoreDefault(file);
-                return Load(file);
-            }
+            RestoreDefault(file);
+            return Load(file);
         }
 
-        static void RestoreDefault(string file)
+        private static void RestoreDefault(string file)
         {
             var prop = new GlobalProperties();
             prop.AutoCompleteBrackets = true;
@@ -75,10 +74,11 @@ namespace SS.Ynote.Classic.Core.Settings
             File.WriteAllText(file, SerializeProperties(prop));
         }
 
-        static string SerializeProperties(GlobalProperties properties)
+        private static string SerializeProperties(GlobalProperties properties)
         {
             return JsonConvert.SerializeObject(properties, Formatting.Indented);
         }
+
         public static void Save(GlobalProperties properties, string file)
         {
             string serialized = SerializeProperties(properties);

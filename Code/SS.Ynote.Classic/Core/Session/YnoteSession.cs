@@ -44,6 +44,7 @@
         ///     Recent Files
         /// </summary>
         public string[] RecentFiles { get; set; }
+
         /// <summary>
         ///     Recent projects
         /// </summary>

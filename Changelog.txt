@@ -376,3 +376,7 @@ Build 1157
 Build 1159
 
 -> Go To Project Searches File's Folder if project is not opened
+
+Build 1201
+
+-> Package Manager can download remote packages

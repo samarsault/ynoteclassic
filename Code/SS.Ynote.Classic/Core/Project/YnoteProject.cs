@@ -10,7 +10,11 @@ namespace SS.Ynote.Classic.Core.Project
     public class YnoteProject
     {
         [JsonIgnore]
-        public string LayoutFile { get { return string.Format(@"{0}\{1}.ynotelayout", System.IO.Path.GetDirectoryName(FilePath), Name); } }
+        public string LayoutFile
+        {
+            get { return string.Format(@"{0}\{1}.ynotelayout", System.IO.Path.GetDirectoryName(FilePath), Name); }
+        }
+
         /// <summary>
         ///     Checks whether the project has been saved
         /// </summary>
@@ -19,6 +23,7 @@ namespace SS.Ynote.Classic.Core.Project
         {
             get { return FilePath != null; }
         }
+
         [JsonIgnore]
         public string FilePath { get; set; }
 
@@ -35,16 +40,18 @@ namespace SS.Ynote.Classic.Core.Project
         /// <summary>
         ///     Files to Exclude
         /// </summary>
-        public string[] ExcludeFileTypes { get;  set; }
+        public string[] ExcludeFileTypes { get; set; }
 
         /// <summary>
         ///     Directory to Exclude
         /// </summary>
-        public string[] ExcludeDirectories { get;  set; }
+        public string[] ExcludeDirectories { get; set; }
+
         /// <summary>
-        /// Extra ( for plugins ) some arguments
+        ///     Extra ( for plugins ) some arguments
         /// </summary>
         public string[] Arguments { get; set; }
+
         /// <summary>
         ///     Loads a Project
         /// </summary>
@@ -57,7 +64,7 @@ namespace SS.Ynote.Classic.Core.Project
                 return null;
             }
             string json = File.ReadAllText(file);
-            var proj =JsonConvert.DeserializeObject<YnoteProject>(json);
+            var proj = JsonConvert.DeserializeObject<YnoteProject>(json);
             proj.FilePath = file;
             return proj;
         }
@@ -68,7 +75,7 @@ namespace SS.Ynote.Classic.Core.Project
         public void Save(string file)
         {
             string json = JsonConvert.SerializeObject(this, Formatting.Indented);
-            File.WriteAllText(file,json);
+            File.WriteAllText(file, json);
         }
     }
 }

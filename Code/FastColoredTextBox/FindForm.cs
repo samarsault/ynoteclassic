@@ -20,7 +20,7 @@ namespace FastColoredTextBoxNS
         {
             InitializeComponent();
             this.tb = tb;
-            tbFind.Select(0,1);
+            tbFind.Select(0, 1);
         }
 
         private void btClose_Click(object sender, EventArgs e)
@@ -261,6 +261,7 @@ namespace FastColoredTextBoxNS
             }
             tb.Selection.EndUpdate();
         }
+
         #region Find In Selection
 
         /*

@@ -22,7 +22,7 @@ namespace SS.Ynote.Classic.Extensibility.Packages
         {
             using (var s = new SaveFileDialog())
             {
-                s.Filter = "Ynote Package File (*.ypk)|*.ypk";
+                s.Filter = "Ynote Package File (*.ynotepackage)|*.ynotepackage";
                 s.ShowDialog();
                 if (s.FileName == null) return;
                 txtoutfile.Text = s.FileName;

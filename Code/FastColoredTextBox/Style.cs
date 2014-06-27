@@ -288,7 +288,6 @@ namespace FastColoredTextBoxNS
 
         public override void Draw(Graphics gr, Point position, Range range)
         {
-            
             //draw background
             if (BackgroundBrush != null)
             {

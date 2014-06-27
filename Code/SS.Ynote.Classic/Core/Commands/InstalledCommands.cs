@@ -22,10 +22,7 @@ internal class SetSyntaxCommand : ICommand
 
     public string[] Commands
     {
-        get
-        {
-            return SyntaxHighlighter.Scopes.ToArray();
-        }
+        get { return SyntaxHighlighter.Scopes.ToArray(); }
     }
 
     public void ProcessCommand(string val, IYnote ynote)
@@ -58,7 +55,8 @@ internal class MacroCommand : ICommand
     public void ProcessCommand(string val, IYnote ynote)
     {
         var edit = ynote.Panel.ActiveDocument as Editor;
-        foreach (var file in Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynotemacro", SearchOption.AllDirectories))
+        foreach (var file in Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynotemacro", SearchOption.AllDirectories)
+            )
             if (Path.GetFileName(file) == val + ".ynotemacro")
                 edit.Tb.MacrosManager.ExecuteMacros(file);
     }
@@ -394,7 +392,7 @@ internal class FileCommand : ICommand
                 break;
             case "SaveAll":
                 foreach (Editor item in ynote.Panel.Documents.OfType<Editor>())
-                    ynote.SaveEditor(item as Editor);
+                    ynote.SaveEditor(item);
                 break;
             case "Properties":
                 if (edit.IsSaved)
@@ -481,8 +479,8 @@ internal class SnippetCommand : ICommand
     public void ProcessCommand(string val, IYnote ynote)
     {
         var edit = ynote.Panel.ActiveDocument as Editor;
-        foreach(var snippet in Globals.Snippets)
-            if(Path.GetFileNameWithoutExtension(snippet.File) == val)
+        foreach (var snippet in Globals.Snippets)
+            if (Path.GetFileNameWithoutExtension(snippet.File) == val)
                 edit.InsertSnippet(snippet);
     }
 
@@ -490,8 +488,8 @@ internal class SnippetCommand : ICommand
     {
         var items = new Collection<string>();
         var edit = Globals.Ynote.Panel.ActiveDocument as Editor;
-        foreach(var snippet in Globals.Snippets)
-            if(snippet.Scope == edit.Tb.Language)
+        foreach (var snippet in Globals.Snippets)
+            if (snippet.Scope == edit.Tb.Language)
                 items.Add(Path.GetFileNameWithoutExtension(snippet.File));
         return items.ToArray();
     }

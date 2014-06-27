@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using SS.Ynote.Classic.Core.Project;
 using SS.Ynote.Classic.Core.Settings;
 using SS.Ynote.Classic.Core.Snippets;
@@ -10,17 +11,20 @@ namespace SS.Ynote.Classic
     internal static class Globals
     {
         /// <summary>
-        /// Snippets
+        ///     Snippets
         /// </summary>
         public static List<YnoteSnippet> Snippets { get; set; }
+
         /// <summary>
-        /// Distraction Free Mode is On
+        ///     Distraction Free Mode is On
         /// </summary>
         public static bool DistractionFree { get; set; }
+
         /// <summary>
-        /// Gets the Active Project
+        ///     Gets the Active Project
         /// </summary>
         public static YnoteProject ActiveProject { get; set; }
+
         /// <summary>
         ///     The running instance of Ynote
         /// </summary>
@@ -43,14 +47,14 @@ namespace SS.Ynote.Classic
             var edit = ynote.Panel.ActiveDocument as Editor;
             if (abbr.Contains("$source"))
             {
-                expanded = expanded.Replace("$source", edit.Name);
                 expanded = expanded.Replace("$source_dir", Path.GetDirectoryName(edit.Name));
                 expanded = expanded.Replace("$source_extension", Path.GetExtension(edit.Name));
-                expanded = expanded.Replace("$source_name", edit.Text).Replace("$source", edit.Name);
+                expanded = expanded.Replace("$source_name", edit.Text.Substring(0, edit.Text.LastIndexOf('.')));
+                expanded = expanded.Replace("$source", edit.Name);
             }
             if (expanded.Contains("$project"))
             {
-                if(ActiveProject != null)
+                if (ActiveProject != null)
                     expanded = expanded.Replace("$project_dir", ActiveProject.Path)
                         .Replace("$project_name", ActiveProject.Name);
             }

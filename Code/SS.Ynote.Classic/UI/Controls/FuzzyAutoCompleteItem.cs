@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Windows.Forms;
 using AutocompleteMenuNS;
 
 /// <summary>
-/// Fuzzy Auto Complete using LCS ( Longest Common Subsequence )
+///     Fuzzy Auto Complete using LCS ( Longest Common Subsequence )
 /// </summary>
 public class FuzzyAutoCompleteItem : AutocompleteItem
 {
@@ -11,15 +10,16 @@ public class FuzzyAutoCompleteItem : AutocompleteItem
         : base(text)
     {
     }
+
     /// <summary>
-    /// LCS Algorithm
+    ///     LCS Algorithm
     /// </summary>
     /// <param name="A"></param>
     /// <param name="B"></param>
     /// <param name="index1"></param>
     /// <param name="index2"></param>
     /// <returns></returns>
-    static int LCS(string a, string b, int index1, int index2)
+    private static int LCS(string a, string b, int index1, int index2)
     {
         int max = 0;
         if (index1 == a.Length)
@@ -37,11 +37,9 @@ public class FuzzyAutoCompleteItem : AutocompleteItem
                 {
                     max = x;
                 }
-
             }
         }
         return max;
-
     }
 
     public override CompareResult Compare(string fragmentText)
@@ -61,8 +59,6 @@ public class FuzzyAutoCompleteItem : AutocompleteItem
             return CompareResult.VisibleAndSelected;
         if (Text.Contains(fragmentText))
             return CompareResult.Visible;
-        if (string.IsNullOrEmpty(fragmentText))
-            return CompareResult.Visible;
-        return CompareResult.Hidden;
+        return CompareResult.Visible;
     }
 }

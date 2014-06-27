@@ -97,7 +97,8 @@ namespace SS.Ynote.Classic.Extensibility
                     break;
 
                 case "SameWords":
-                    tb.SameWordsStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(60,keyval)));// new MarkerStyle(new SolidBrush(Color.FromArgb(40, keyval)));
+                    tb.SameWordsStyle = new MarkerStyle(new SolidBrush(Color.FromArgb(60, keyval)));
+                    // new MarkerStyle(new SolidBrush(Color.FromArgb(40, keyval)));
                     break;
             }
         }

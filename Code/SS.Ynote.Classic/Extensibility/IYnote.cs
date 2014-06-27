@@ -1,4 +1,5 @@
 using System.Windows.Forms;
+using SS.Ynote.Classic.Core.Project;
 using SS.Ynote.Classic.UI;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -39,4 +40,10 @@ public interface IYnote
     /// </summary>
     /// <param name="message"></param>
     void Trace(string message, int timeout);
+
+    /// <summary>
+    ///     Get the Active Project
+    /// </summary>
+    /// <returns></returns>
+    YnoteProject GetActiveProject();
 }

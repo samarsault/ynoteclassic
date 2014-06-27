@@ -57,9 +57,11 @@ namespace SS.Ynote.Classic.Core.Extensibility
             // var helper =
             //     new AsmHelper(CSScript.LoadMethod(File.ReadAllText(ysfile), GetReferences()));
             // helper.Invoke("*.Run", ynote);
-            var assembly = !File.Exists(assemblyFileName)
-                ? CSScript.LoadMethod(File.ReadAllText(ys), assemblyFileName, false, GetReferences())
-                : Assembly.LoadFrom(assemblyFileName);
+            Assembly assembly;
+            if (!File.Exists(assemblyFileName))
+                assembly = CSScript.LoadMethod(File.ReadAllText(ys), assemblyFileName, false, GetReferences());
+            else
+                assembly = Assembly.LoadFrom(assemblyFileName);
             using (var execManager = new AsmHelper(assembly))
             {
                 execManager.Invoke(method, reference);
@@ -85,11 +87,11 @@ namespace SS.Ynote.Classic.Core.Extensibility
             //     new AsmHelper(CSScript.LoadMethod(File.ReadAllText(ysfile), GetReferences()));
             // helper.Invoke("*.Run", ynote);
             var assembly = !File.Exists(assemblyFileName)
-                ? CSScript.LoadMethod(File.ReadAllText(ysfile), assemblyFileName, false, GetReferences())
+                ? CSScript.LoadMethod(File.ReadAllText(ysfile), assemblyFileName, true, GetReferences())
                 : Assembly.LoadFrom(assemblyFileName);
             using (var execManager = new AsmHelper(assembly))
             {
-                val = (T)(execManager.Invoke(method, reference));
+                val = (T) (execManager.Invoke(method, reference));
             }
             return val;
         }

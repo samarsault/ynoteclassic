@@ -346,9 +346,10 @@ namespace SS.Ynote.Classic.Core.Syntax
         #region From File
 
         /// <summary>
-        /// List of Scopes Installed
+        ///     List of Scopes Installed
         /// </summary>
         public static IList<string> Scopes;
+
         /// <summary>
         ///     Loaded Syntaxes
         /// </summary>
@@ -359,7 +360,7 @@ namespace SS.Ynote.Classic.Core.Syntax
         /// </summary>
         public void LoadAllSyntaxes()
         {
-            Scopes = new List<string>()
+            Scopes = new List<string>
             {
                 "Text",
                 "HTML",
@@ -410,7 +411,6 @@ namespace SS.Ynote.Classic.Core.Syntax
                 LoadedSyntaxes.Add(synbase);
                 Scopes.Add(synbase.Name);
             }
-
         }
 
         /// <summary>
@@ -1655,7 +1655,7 @@ namespace SS.Ynote.Classic.Core.Syntax
             e.ChangedRange.tb.Range.ClearStyle(Comment);
             //clear style of changed range
             e.ChangedRange.ClearStyle(String, Number, Keyword, Storage, LibraryClass, ClassName,
-                FunctionName, Punctuation,FunctionArgument, LibraryFunction);
+                FunctionName, Punctuation, FunctionArgument, LibraryFunction);
 
             if (_jScriptStringRegex == null)
                 InitJScriptRegex();
@@ -2144,7 +2144,7 @@ namespace SS.Ynote.Classic.Core.Syntax
             e.ChangedRange.tb.CommentPrefix = "#";
             e.ChangedRange.tb.LeftBracket = '(';
             e.ChangedRange.tb.RightBracket = ')';
-            e.ChangedRange.ClearStyle(Comment, String, Keyword,Variable, LibraryFunction, Number);
+            e.ChangedRange.ClearStyle(Comment, String, Keyword, Variable, LibraryFunction, Number);
             e.ChangedRange.SetStyle(Comment, @"#.*$", RegexOptions.Multiline);
             e.ChangedRange.SetStyle(String, @"""""|''|"".*?[^\\]""|'.*?[^\\]'");
             e.ChangedRange.SetStyle(Variable, @"\$[a-zA-Z_\d]*\b", RegexCompiledOption);

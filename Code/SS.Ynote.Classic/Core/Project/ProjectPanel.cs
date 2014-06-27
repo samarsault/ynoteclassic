@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -53,18 +54,19 @@ namespace SS.Ynote.Classic.Core.Project
                 MessageBox.Show(string.Format("Error : Can't find directory : {0}", project.Path), "Folder Manager",
                     MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             else
-               ListDirectory(projtree, project);
+                ListDirectory(projtree, project);
             projtree.Tag = project;
             Globals.ActiveProject = project;
             Expand();
         }
 
-        void Expand()
+        private void Expand()
         {
-            foreach(TreeNode node in projtree.Nodes)
+            foreach (TreeNode node in projtree.Nodes)
                 if (node.Level == 0)
                     node.Expand();
         }
+
         public void CloseProject()
         {
             projtree.Nodes.Clear();
@@ -265,6 +267,7 @@ namespace SS.Ynote.Classic.Core.Project
             return (File.GetAttributes(input) & FileAttributes.Directory)
                    == FileAttributes.Directory;
         }
+
         #endregion Methods
 
         #region Events
@@ -385,13 +388,15 @@ namespace SS.Ynote.Classic.Core.Project
         {
             return GetType() + "," + Project.FilePath;
         }
-        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+
+        protected override void OnClosing(CancelEventArgs e)
         {
             if (e.Cancel)
                 return;
             Globals.ActiveProject = null;
             base.OnClosing(e);
         }
+
         #endregion
     }
 }

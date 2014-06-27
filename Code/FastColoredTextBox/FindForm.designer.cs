@@ -39,8 +39,8 @@
             this.cbWholeWord = new System.Windows.Forms.CheckBox();
             this.cbRegex = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.tbFind = new System.Windows.Forms.ComboBox();
-            this.tbReplace = new System.Windows.Forms.ComboBox();
+            this.tbFind = new System.Windows.Forms.TextBox();
+            this.tbReplace = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -157,7 +157,6 @@
             // 
             // tbFind
             // 
-            this.tbFind.FormattingEnabled = true;
             this.tbFind.Location = new System.Drawing.Point(63, 23);
             this.tbFind.Name = "tbFind";
             this.tbFind.Size = new System.Drawing.Size(306, 21);
@@ -166,7 +165,6 @@
             // 
             // tbReplace
             // 
-            this.tbReplace.FormattingEnabled = true;
             this.tbReplace.Location = new System.Drawing.Point(63, 55);
             this.tbReplace.Name = "tbReplace";
             this.tbReplace.Size = new System.Drawing.Size(306, 21);
@@ -217,8 +215,8 @@
         private System.Windows.Forms.CheckBox cbWholeWord;
         private System.Windows.Forms.CheckBox cbRegex;
         private System.Windows.Forms.Label label2;
-        public  System.Windows.Forms.ComboBox tbFind;
-        private System.Windows.Forms.ComboBox tbReplace;
+        public  System.Windows.Forms.TextBox tbFind;
+        private System.Windows.Forms.TextBox tbReplace;
 
 
     }

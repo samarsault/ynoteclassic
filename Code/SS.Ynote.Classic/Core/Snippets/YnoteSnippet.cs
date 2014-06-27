@@ -1,5 +1,6 @@
 ﻿#define DEVBUILD
 
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
@@ -10,6 +11,7 @@ namespace SS.Ynote.Classic.Core.Snippets
     public class YnoteSnippet
     {
         public string File { get; private set; }
+
         /// <summary>
         ///     Description of the Snippet
         /// </summary>

@@ -213,7 +213,8 @@ namespace FastColoredTextBoxNS
         }
 
         private void LuaAutoIndentNeeded(object sender, AutoIndentEventArgs args)
-        {  //end of block
+        {
+            //end of block
             if (Regex.IsMatch(args.LineText, @"^\s*(end|until)\b"))
             {
                 args.Shift = -args.TabLength;
@@ -234,7 +235,6 @@ namespace FastColoredTextBoxNS
             if (Regex.IsMatch(args.LineText, @"^\s*(else|elseif)\b", RegexOptions.IgnoreCase))
             {
                 args.Shift = -args.TabLength;
-                return;
             }
         }
     }

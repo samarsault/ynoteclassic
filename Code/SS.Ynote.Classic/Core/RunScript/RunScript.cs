@@ -19,11 +19,6 @@ namespace SS.Ynote.Classic.Core.RunScript
         public string Name { get; set; }
 
         /// <summary>
-        ///     Scope of the Script
-        /// </summary>
-        public string Scope { get; set; }
-
-        /// <summary>
         ///     Local Path of the RunScript
         /// </summary>
         [JsonIgnore]
@@ -45,9 +40,10 @@ namespace SS.Ynote.Classic.Core.RunScript
             foreach (var item in dic)
             {
                 if (item.Key == "Name")
+                {
                     script.Name = item.Value[0];
-                if (item.Key == "Scope")
-                    script.Scope = item.Value[0];
+                    break;
+                }
             }
         }
 
@@ -66,23 +62,15 @@ namespace SS.Ynote.Classic.Core.RunScript
             {
                 if (task.Key != "Name")
                 {
-                    if (task.Key != "Scope")
+                    string ys = GlobalSettings.SettingsDir + task.Key + ".runtask";
+                    // expand all abbreviations eg - $source_path, $project_path
+                    for (int i = 0; i < task.Value.Length; i++)
                     {
-                        string ys = GlobalSettings.SettingsDir + task.Key + ".runtask";
-                        // expand all abbreviations eg - $source_path, $project_path
-                        for (int i = 0; i < task.Value.Length; i++)
-                        {
-                            task.Value[i] = Globals.ExpandAbbr(task.Value[i], Globals.Ynote);
-                        }
-                        YnoteScript.InvokeScript(task.Value, ys, "*.RunTask");
+                        task.Value[i] = Globals.ExpandAbbr(task.Value[i], Globals.Ynote);
                     }
+                    YnoteScript.InvokeScript(task.Value, ys, "*.RunTask");
                 }
             }
-        }
-
-        public static IEnumerable<string> GetConfigurations()
-        {
-            return Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynoterun", SearchOption.AllDirectories);
         }
 
         public override string ToString()

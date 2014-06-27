@@ -360,6 +360,19 @@ namespace SS.Ynote.Classic.UI
         {
             Globals.Settings.UseTabs = cbTabs.Checked;
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                File.Delete("Last.ynotelayout");
+                MessageBox.Show("File Deleted.");
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error");
+            }
+        }
     }
 
     internal class EncodingItem

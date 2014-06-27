@@ -43,6 +43,7 @@ namespace FastColoredTextBoxNS
             {FCTBAction.ZoomIn, true},
             {FCTBAction.ZoomNormal, true}
         };
+
         public readonly List<LineInfo> LineInfos = new List<LineInfo>();
         private readonly List<string> clipHistory;
         private readonly MacrosManager macrosManager;
@@ -53,6 +54,7 @@ namespace FastColoredTextBoxNS
         private readonly Dictionary<Timer, Timer> timersToReset = new Dictionary<Timer, Timer>();
         private readonly List<VisualMarker> visibleMarkers = new List<VisualMarker>();
         public int TextHeight;
+        private bool _completedBrace;
         internal bool allowInsertRemoveLines = true;
         private char[] autoCompleteBracketsList = {'(', ')', '{', '}', '[', ']', '"', '"', '\'', '\''};
         private Brush backBrush;
@@ -105,6 +107,7 @@ namespace FastColoredTextBoxNS
         private Font originalFont;
         private Color paddingBackColor;
         private int preferredLineWidth;
+        private Rectangle prevCaretRect;
         private int reservedCountOfLineNumberChars = 1;
         private Range rightBracketPosition;
         private Range rightBracketPosition2;
@@ -205,7 +208,7 @@ namespace FastColoredTextBoxNS
             textAreaBorderColor = Color.Black;
             macrosManager = new MacrosManager(this);
             HotkeysMapping = new HotkeysMapping();
-       //     HotkeysMapping.InitDefault();
+            //     HotkeysMapping.InitDefault();
             WordWrapAutoIndent = true;
             FoldedBlocks = new Dictionary<int, int>();
             AutoCompleteBrackets = true;
@@ -2330,14 +2333,17 @@ namespace FastColoredTextBoxNS
             }
             return re;
         }
+
         /// <summary>
-        /// Occurs when Language is Changed
+        ///     Occurs when Language is Changed
         /// </summary>
         public event EventHandler LanguageChanged;
+
         /// <summary>
-        /// Occurs when it needs to show a message
+        ///     Occurs when it needs to show a message
         /// </summary>
         public event EventHandler TraceMessage;
+
         /// <summary>
         ///     On Language Changed - Overridable
         /// </summary>
@@ -2355,6 +2361,7 @@ namespace FastColoredTextBoxNS
             if (handle != null)
                 handle(message, EventArgs.Empty);
         }
+
         private void SetFont(Font newFont)
         {
             BaseFont = newFont;
@@ -4982,23 +4989,19 @@ namespace FastColoredTextBoxNS
         /// </summary>
         public virtual bool ProcessKey(char c, Keys modifiers)
         {
-            if (c == '\r')
+            if (Selection.CharAfterStart == '}' && Selection.CharBeforeStart == '{' && c == '\r')
             {
-                // insert { bracket
-                if (Selection.CharBeforeStart == '{' && Selection.CharAfterStart == '}')
-                {
-                    int currentLevelIndent = Math.Abs(CalcAutoIndent(Selection.Start.iLine));
-                    string indent = new string(' ', currentLevelIndent);
-                    string indent2 = new string(' ', currentLevelIndent + TabLength);
-                    Selection.GoRight(true);
-                    ClearSelected();
-                    InsertText(string.Format("\n\n{0}}}", indent));
-                    Selection.GoUp(false);
-                    InsertText(indent2);
-                    return true;
-                }
+                int currentLevelIndent = Math.Abs(CalcAutoIndent(Selection.Start.iLine));
+                string indent = new string(' ', currentLevelIndent);
+                string indent2 = new string(' ', currentLevelIndent + TabLength);
+                Selection.GoRight(true);
+                ClearSelected();
+                InsertText(string.Format("\n\n{0}}}", indent));
+                Selection.GoUp(false);
+                InsertText(indent2);
+                return true;
             }
-            if (c == ':' && Language =="CSS")
+            if (c == ':' && Language == "CSS")
             {
                 InsertText(":;");
                 Selection.GoLeft();
@@ -5151,6 +5154,7 @@ namespace FastColoredTextBoxNS
 
             return true;
         }
+
         /// <summary>
         ///     Finds given char after current caret position, moves the caret to found pos.
         /// </summary>
@@ -5658,7 +5662,8 @@ namespace FastColoredTextBoxNS
                     using (var pen = new Pen(CaretColor))
                         e.Graphics.DrawLine(pen, car.X, car.Y, car.X, car.Y + CharHeight);
 
-                var caretRect = new Rectangle(HorizontalScroll.Value + car.X, VerticalScroll.Value + car.Y, carWidth, charHeight + 1);
+                var caretRect = new Rectangle(HorizontalScroll.Value + car.X, VerticalScroll.Value + car.Y, carWidth,
+                    charHeight + 1);
 
                 if (prevCaretRect != caretRect)
                 {
@@ -5700,7 +5705,6 @@ namespace FastColoredTextBoxNS
             //
             base.OnPaint(e);
         }
-        private Rectangle prevCaretRect;
 
         private void DrawRecordingHint(Graphics graphics)
         {
@@ -7697,13 +7701,12 @@ namespace FastColoredTextBoxNS
 
         private void InitializeComponent()
         {
-            this.SuspendLayout();
+            SuspendLayout();
             // 
             // FastColoredTextBox
             // 
-            this.Name = "FastColoredTextBox";
-            this.ResumeLayout(false);
-
+            Name = "FastColoredTextBox";
+            ResumeLayout(false);
         }
 
         /// <summary>
@@ -7910,6 +7913,7 @@ window.status = ""#print"";
                 InitTextSource(ts);
                 Text = File.ReadAllText(fileName, enc);
                 IsChanged = false;
+                ClearUndo();
                 OnVisibleRangeChanged();
             }
             catch
@@ -7958,6 +7962,7 @@ window.status = ""#print"";
                 InitTextSource(fts);
                 fts.OpenFile(fileName, enc);
                 IsChanged = false;
+                ClearUndo();
                 OnVisibleRangeChanged();
             }
             catch

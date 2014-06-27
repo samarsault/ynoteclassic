@@ -63,8 +63,8 @@
             this.ClientSize = new System.Drawing.Size(501, 29);
             this.Controls.Add(this.tbcommand);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Name = "Commander";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Console";
             this.ResumeLayout(false);
             this.PerformLayout();

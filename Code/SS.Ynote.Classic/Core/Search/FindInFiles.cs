@@ -10,6 +10,7 @@ namespace SS.Ynote.Classic.Core.Search
         {
             InitializeComponent();
         }
+
         public string Directory { get; set; }
 
         private void button3_Click(object sender, EventArgs e)
@@ -56,6 +57,7 @@ namespace SS.Ynote.Classic.Core.Search
                 Close();
             }
         }
+
         protected override void OnLoad(EventArgs e)
         {
             if (!string.IsNullOrEmpty(Directory))

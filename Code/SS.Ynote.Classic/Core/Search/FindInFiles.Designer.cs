@@ -41,8 +41,8 @@
             this.tbdir = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.tbFind = new System.Windows.Forms.ComboBox();
-            this.tbReplace = new System.Windows.Forms.ComboBox();
+            this.tbFind = new System.Windows.Forms.TextBox();
+            this.tbReplace = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // cbsubdir
@@ -180,7 +180,6 @@
             // 
             // tbFind
             // 
-            this.tbFind.FormattingEnabled = true;
             this.tbFind.Location = new System.Drawing.Point(86, 15);
             this.tbFind.Name = "tbFind";
             this.tbFind.Size = new System.Drawing.Size(280, 21);
@@ -189,7 +188,6 @@
             // 
             // tbReplace
             // 
-            this.tbReplace.FormattingEnabled = true;
             this.tbReplace.Location = new System.Drawing.Point(86, 61);
             this.tbReplace.Name = "tbReplace";
             this.tbReplace.Size = new System.Drawing.Size(280, 21);
@@ -239,8 +237,8 @@
         private System.Windows.Forms.TextBox tbdir;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox tbFind;
-        private System.Windows.Forms.ComboBox tbReplace;
+        private System.Windows.Forms.TextBox tbFind;
+        private System.Windows.Forms.TextBox tbReplace;
 
     }
 }

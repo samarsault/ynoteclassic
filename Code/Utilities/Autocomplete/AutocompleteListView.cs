@@ -185,9 +185,9 @@ namespace AutocompleteMenuNS
             startI = Math.Max(startI, 0);
             finishI = Math.Min(finishI, VisibleItems.Count);
 
-            for (var i = startI; i < finishI; i++)
+            for (int i = startI; i < finishI; i++)
             {
-                var y = i*ItemHeight - VerticalScroll.Value;
+                int y = i*ItemHeight - VerticalScroll.Value;
                 /*
                 if (ImageList != null && VisibleItems[i].ImageIndex >= 0)
                     if (rtl)

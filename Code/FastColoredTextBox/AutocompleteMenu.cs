@@ -723,7 +723,7 @@ namespace FastColoredTextBoxNS
 
         public void AddItem(AutocompleteItem item)
         {
-            foreach(var i in sourceItems)
+            foreach (var i in sourceItems)
                 if (i.Text == item.Text)
                     return;
             sourceItems.Add(item);

@@ -22,11 +22,17 @@ namespace SS.Ynote.Classic.UI
     {
         #region Fields
 
-        private Dictionary<Keys, string> Shortcuts; 
         /// <summary>
         ///     Syntax Highligher
         /// </summary>
         private readonly SyntaxHighlighter Highlighter;
+
+        private Dictionary<Keys, string> Shortcuts;
+
+        /// <summary>
+        ///     Auto Complete Menu
+        /// </summary>
+        private AutocompleteMenu _autocomplete;
 
         /// <summary>
         ///     Invisible Char Style
@@ -34,16 +40,12 @@ namespace SS.Ynote.Classic.UI
         private Style _invisibleCharsStyle;
 
         /// <summary>
-        /// Auto Complete Menu
-        /// </summary>
-        private AutocompleteMenu _autocomplete;
-
-        /// <summary>
-        /// Document Map
+        ///     Document Map
         /// </summary>
         private DocumentMap map;
+
         /// <summary>
-        /// Whether settings have been changed (syntax - specefic)
+        ///     Whether settings have been changed (syntax - specefic)
         /// </summary>
         private bool settingsChanged;
 
@@ -76,6 +78,7 @@ namespace SS.Ynote.Classic.UI
         #endregion
 
         #region Properties
+
         /// <summary>
         ///     Whether to Show Document Map
         /// </summary>
@@ -122,6 +125,7 @@ namespace SS.Ynote.Classic.UI
         #endregion
 
         #region Methods
+
         /// <summary>
         ///     Highlights Syntax
         /// </summary>
@@ -135,11 +139,12 @@ namespace SS.Ynote.Classic.UI
             Highlighter.HighlightSyntax(lang, new TextChangedEventArgs(codebox.Range));
 #if DEBUG
             watch.Stop();
-            Debug.WriteLine("HighlightSyntax(" + lang + ") - " + watch.ElapsedMilliseconds + " ms") ;
+            Debug.WriteLine("HighlightSyntax(" + lang + ") - " + watch.ElapsedMilliseconds + " ms");
 #endif
         }
+
         /// <summary>
-        /// Loads Snippets
+        ///     Loads Snippets
         /// </summary>
         private void LoadSnippets()
         {
@@ -158,7 +163,8 @@ namespace SS.Ynote.Classic.UI
             }
 #if DEBUG
             watch.Stop();
-            Debug.WriteLine(string.Format("Loaded {0} Snippets in {1} ms", Globals.Snippets.Count, watch.ElapsedMilliseconds));
+            Debug.WriteLine(string.Format("Loaded {0} Snippets in {1} ms", Globals.Snippets.Count,
+                watch.ElapsedMilliseconds));
 #endif
         }
 
@@ -166,13 +172,14 @@ namespace SS.Ynote.Classic.UI
         {
             _autocomplete.Show(true);
         }
+
         private void LoadEditorSettings(GlobalProperties settings)
         {
             codebox.ShowScrollBars = settings.ScrollBars;
             codebox.AutoCompleteBrackets = settings.AutoCompleteBrackets;
             if (settings.TabSize != 0)
                 codebox.TabLength = settings.TabSize;
-            if(!string.IsNullOrEmpty(settings.FontFamily) && settings.FontSize != 0.0)
+            if (!string.IsNullOrEmpty(settings.FontFamily) && settings.FontSize != 0.0)
                 codebox.Font = new Font(settings.FontFamily, settings.FontSize);
             codebox.ShowFoldingLines = settings.ShowFoldingLines;
             codebox.ShowLineNumbers = settings.ShowLineNumbers;
@@ -190,9 +197,10 @@ namespace SS.Ynote.Classic.UI
             if (settings.ShowChangedLine)
                 codebox.ChangedLineColor = ControlPaint.LightLight(codebox.CurrentLineColor);
         }
+
         private void InitSettings()
         {
-            if(Globals.Settings.ThemeFile != null)
+            if (Globals.Settings.ThemeFile != null)
                 YnoteThemeReader.ApplyTheme(Globals.Settings.ThemeFile, Highlighter, codebox);
             codebox.AllowDrop = true;
             codebox.ShowScrollBars = Globals.Settings.ScrollBars;
@@ -212,7 +220,8 @@ namespace SS.Ynote.Classic.UI
             codebox.WideCaret = Globals.Settings.BlockCaret;
             codebox.WordWrap = Globals.Settings.WordWrap;
             codebox.Zoom = Globals.Settings.Zoom;
-            codebox.HotkeysMapping = HotkeysMapping.Parse(File.ReadAllText(GlobalSettings.SettingsDir + "Editor.ynotekeys"));
+            codebox.HotkeysMapping =
+                HotkeysMapping.Parse(File.ReadAllText(GlobalSettings.SettingsDir + "Editor.ynotekeys"));
             if (Globals.Settings.ImeMode)
                 codebox.ImeMode = ImeMode.On;
             if (Globals.Settings.ShowChangedLine)
@@ -245,7 +254,7 @@ namespace SS.Ynote.Classic.UI
             map.TabIndex = 2;
             map.Visible = true;
             map.Target = codebox;
-            this.Controls.Add(map);
+            Controls.Add(map);
         }
 
         /// <summary>
@@ -257,7 +266,9 @@ namespace SS.Ynote.Classic.UI
             codebox.LanguageChanged += (sender, args) => CheckForSpeceficSettings(codebox.Language);
             codebox.DragDrop += codebox_DragDrop;
             codebox.TraceMessage += (sender, args) => Globals.Ynote.Trace(sender as string, 100000);
-            codebox.DragEnter += (sender, e) => e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
+            codebox.DragEnter +=
+                (sender, e) =>
+                    e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
             codebox.KeyDown += codebox_KeyDown;
             if (Globals.Settings.HighlightSameWords)
                 codebox.SelectionChangedDelayed += codebox_SelectionChangedDelayed;
@@ -279,8 +290,9 @@ namespace SS.Ynote.Classic.UI
             if (settingsChanged && !hasSettings)
                 LoadEditorSettings(Globals.Settings);
         }
+
         /// <summary>
-        /// Builds Context Menu
+        ///     Builds Context Menu
         /// </summary>
         private void BuildContextMenu()
         {
@@ -300,8 +312,9 @@ namespace SS.Ynote.Classic.UI
             r.ClearStyle(_invisibleCharsStyle);
             r.SetStyle(_invisibleCharsStyle, @".$|.\r\n|\s");
         }
+
         /// <summary>
-        /// Initializes AutoComplteMenu
+        ///     Initializes AutoComplteMenu
         /// </summary>
         private void CreateAutoCompleteMenu()
         {
@@ -315,11 +328,12 @@ namespace SS.Ynote.Classic.UI
             codebox.Anchor = AnchorStyles.None;
             // Debug.WriteLine(string.Format("Name : {4} \nHeight : {0} * {1}\n, Width : {2} * {3}\n", Height, codebox.Height, Width, codebox.Width, Text));
             codebox.Height = Height;
-            codebox.Width = Width / 2;
-            codebox.Left = (this.ClientSize.Width - codebox.Width) / 2;
+            codebox.Width = Width/2;
+            codebox.Left = (ClientSize.Width - codebox.Width)/2;
             codebox.Dock = DockStyle.None;
             BackColor = codebox.BackColor;
         }
+
         public void ToggleDistrationFreeMode()
         {
             DistractionFree = !DistractionFree;
@@ -330,7 +344,7 @@ namespace SS.Ynote.Classic.UI
         }
 
         /// <summary>
-        /// Insert a Snippet
+        ///     Insert a Snippet
         /// </summary>
         /// <param name="snippet"></param>
         public void InsertSnippet(YnoteSnippet snippet)
@@ -356,8 +370,9 @@ namespace SS.Ynote.Classic.UI
             Debug.WriteLine(watch.Elapsed + " ms InsertSnippet()");
 #endif
         }
+
         /// <summary>
-        /// Position Charet to c
+        ///     Position Charet to c
         /// </summary>
         /// <param name="c"></param>
         private void PositionCaretTo(char c)
@@ -401,14 +416,14 @@ namespace SS.Ynote.Classic.UI
                 if (_autocomplete == null)
                     CreateAutoCompleteMenu();
                 var word = codebox.Selection.GetFragment(@"\w");
-                if(!string.IsNullOrEmpty(word.Text))
+                if (!string.IsNullOrEmpty(word.Text))
                     _autocomplete.Items.AddItem(new AutocompleteItem(word.Text));
             }
-            if(Shortcuts != null)
+            if (Shortcuts != null)
                 ProcessShortcuts(e);
         }
 
-        void ProcessShortcuts(KeyEventArgs e)
+        private void ProcessShortcuts(KeyEventArgs e)
         {
             foreach (var item in Shortcuts)
             {
@@ -419,7 +434,8 @@ namespace SS.Ynote.Classic.UI
                 }
             }
         }
-        static Dictionary<Keys, string> GetDictionary()
+
+        private static Dictionary<Keys, string> GetDictionary()
         {
             string file = GlobalSettings.SettingsDir + "User.ynotekeys";
             if (File.Exists(file))
@@ -447,6 +463,7 @@ namespace SS.Ynote.Classic.UI
             foreach (var matches in codebox.GetRanges(@"\w+"))
                 _autocomplete.Items.AddItem(new AutocompleteItem(matches.Text));
         }
+
         private void codebox_SelectionChangedDelayed(object sender, EventArgs e)
         {
             codebox.VisibleRange.ClearStyle(codebox.SameWordsStyle);
@@ -464,7 +481,7 @@ namespace SS.Ynote.Classic.UI
                 foreach (var r in ranges)
                     r.SetStyle(codebox.SameWordsStyle);
         }
-    
+
         private void codebox_DragDrop(object sender, DragEventArgs e)
         {
             var fileList = (string[]) e.Data.GetData(DataFormats.FileDrop, false);
@@ -537,6 +554,7 @@ namespace SS.Ynote.Classic.UI
             else
                 MessageBox.Show("File Not Saved ! ", "Ynote Classic", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
+
         #endregion
 
         #region Overrides
@@ -571,7 +589,7 @@ namespace SS.Ynote.Classic.UI
             codebox.CloseBindingFile();
             base.OnClosing(e);
         }
-        
+
         protected override string GetPersistString()
         {
             return GetType() + "," + Name;

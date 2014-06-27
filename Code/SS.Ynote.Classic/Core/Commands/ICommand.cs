@@ -7,7 +7,7 @@
     public interface ICommand
     {
         /// <summary>
-        /// Command Key
+        ///     Command Key
         /// </summary>
         string Key { get; }
 
@@ -20,6 +20,7 @@
         ///     Processes Command
         /// </summary>
         /// <param name="val"></param>
+        /// <param name="ynote"></param>
         void ProcessCommand(string val, IYnote ynote);
     }
 }

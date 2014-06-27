@@ -4,9 +4,10 @@ public class YnoteCommand
 {
     public YnoteCommand(string key, string value)
     {
-        this.Key = key;
-        this.Value = value;
+        Key = key;
+        Value = value;
     }
+
     /// <summary>
     ///     Key of the Command
     /// </summary>
@@ -32,9 +33,9 @@ public class YnoteCommand
         try
         {
             var l = command.Split(':');
-            return new YnoteCommand(l[0],l[1]);
+            return new YnoteCommand(l[0], l[1]);
         }
-        catch 
+        catch
         {
             MessageBox.Show("Parse Error : ", "Error");
             return null;

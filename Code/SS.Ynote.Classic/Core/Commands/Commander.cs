@@ -18,8 +18,6 @@ namespace SS.Ynote.Classic.Core
 
         internal ToolStripDropDownButton LangMenu;
 
-        private bool _addedText;
-
         public Commander()
         {
 #if DEBUG
@@ -38,7 +36,7 @@ namespace SS.Ynote.Classic.Core
 #endif
         }
 
-        static void ReloadCommands()
+        private static void ReloadCommands()
         {
             Commands = new List<ICommand>(GetCommands())
             {
@@ -57,9 +55,8 @@ namespace SS.Ynote.Classic.Core
                 new WikipediaCommand(),
             };
         }
-        public bool IsRunMode { get; set; }
 
-        static IEnumerable<ICommand> GetCommands()
+        private static IEnumerable<ICommand> GetCommands()
         {
             var lst = new List<ICommand>();
             foreach (
@@ -88,7 +85,6 @@ namespace SS.Ynote.Classic.Core
         {
             tbcommand.Text = text;
             tbcommand.Select(tbcommand.Text.Length, 0);
-            _addedText = true;
             completemenu.Show(tbcommand, true);
         }
 
@@ -107,12 +103,6 @@ namespace SS.Ynote.Classic.Core
 
         protected override void OnShown(EventArgs e)
         {
-            if (IsRunMode)
-            {
-                tbcommand.Text = "Run:";
-                tbcommand.Select("Run:".Length, 0);
-            }
-            if (_addedText) return;
             completemenu.Show(tbcommand, true);
             base.OnShown(e);
         }
@@ -144,22 +134,20 @@ namespace SS.Ynote.Classic.Core
                         command.ProcessCommand(c.Value, Globals.Ynote);
                 if (c.Key == "SetSyntax" || c.Key == "SetSyntaxFile")
                     LangMenu.Text = c.Value;
-                completemenu.Items = null;
-                if (!IsDisposed)
-                    Close();
             }
-            catch
+            catch(Exception ex)
             {
-                MessageBox.Show("Error Running Command!");
-                if(!IsDisposed)
-                    Close();
-            }
+                MessageBox.Show("Error Running Command!\n"+ex.Message);
+            } 
+            completemenu.Items = null;
+            if (!IsDisposed)
+                Close();
         }
 
         public static void RunCommand(IYnote ynote, string commandstr)
         {
             var command = YnoteCommand.FromString(commandstr);
-            if(Commands == null)
+            if (Commands == null)
                 ReloadCommands();
             foreach (var cmd in Commands)
             {
