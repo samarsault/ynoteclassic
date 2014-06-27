@@ -1,0 +1,11 @@
+using SS.Ynote.Classic.Core.Extensibility
+using System.Windows.Forms;
+
+static void RunTask(string[] args){
+	if(args.Length != 2){
+		MessageBox.Show("Invalid Task Arguments!");
+		return;
+	}
+	var script = args[0];
+	YnoteScript.InvokeScript(args, script, "*." + args[1]);
+}

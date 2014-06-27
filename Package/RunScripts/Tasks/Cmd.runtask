@@ -1,22 +1,46 @@
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 using System.Diagnostics;
 
-// Cmd Run Script Task
+// Run Script Task to execute from command line
 public void RunTask(string[] arguments)
 {
+    // arguments
+    string args = "";
+    // workingdir
+    string workingdir = "";
+    // check for length
     if(arguments.Length == 0)
         return;
+    // the process (required)
     string process = arguments[0];
-    string args = arguments[1];
-    string workingdir = null;
+    // check if arguments is available
+    if(arguments.Length > 1)
+        args = arguments[1];
+    // check if working directory is available
     if(arguments.Length > 2)
         workingdir = arguments[2];
     var processInfo = new ProcessStartInfo();
+    process = Environment.ExpandEnvironmentVariables(process);
+    if(!File.Exists(process)){
+        MessageBox.Show("Can't locate file : " + process);
+        return;
+    }
     processInfo.FileName = process;
-    processInfo.Arguments = args;
-    if(workingdir != null)
+    if(!string.IsNullOrEmpty(args))
+        processInfo.Arguments = args;
+    if(!string.IsNullOrEmpty(workingdir))
         processInfo.WorkingDirectory = workingdir;
     Process.Start(processInfo);
+    if(arguments.Length > 3){
+        var array = SubArray(arguments,3,arguments.Length - 3);
+        RunTask(array);
+    }
 }
-void CreateShellWindow(){
-    // --- native code --
+public static string[] SubArray(string[] data, int index, int length)
+{
+    string[] result = new string[length];
+    Array.Copy(data, index, result, 0, length);
+    return result;
 }
