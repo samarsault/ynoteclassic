@@ -12,7 +12,8 @@ Features
   - Support for more than 40 languages with user defined language support
   - Powerful Find and Replace using Regular Expressions in document and multiple files
   - Commander and Powerful Key Bindings to perform quick tasks while staying on the keyboard
-  - Minimap / Document Map and
+  - Minimap / Document Map and Ruler
+  - Killer navigation features and navigation history
   - Function / Symbol List
   - Code Snippets and Macros to ease your tasks
   - Automatic Encoding Detection with all codepages
@@ -32,6 +33,11 @@ See Building.txt for more information
 Screenshot
 ----
 ![Ynote](https://raw.githubusercontent.com/samarjeet27/ynoteclassic/master/SCREEN.PNG "Ynote Classic")
+
+Follow
+----
+Blog - http://ynoteclassic.wordpress.com
+Twitter - [@ynoteclassic](http://twitter.com/ynoteclassic "@ynoteclassic on twitter")
 
 Version
 ----
