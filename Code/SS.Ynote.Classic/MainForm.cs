@@ -1245,6 +1245,10 @@ namespace SS.Ynote.Classic
             if (m == null) return;
             m.Checked = true;
             Globals.Settings.ThemeFile = m.Name;
+            foreach (var content in dock.Documents.OfType<Editor>())
+            {
+                content.RePaintTheme();
+            }
         }
 
         private void colorschememenu_Select(object sender, EventArgs e)
@@ -1926,7 +1930,7 @@ namespace SS.Ynote.Classic
         private void migotosymbol_Click(object sender, EventArgs e)
         {
             if (ActiveEditor == null)
-                return;
+                return; /*
             var lst = new List<AutocompleteItem>();
             Regex regex = ActiveEditor.Tb.ClassNameRegex;
             if (regex == null)
@@ -1936,10 +1940,11 @@ namespace SS.Ynote.Classic
             {
                 var capture = match.Captures[0];
                 lst.Add(new FuzzyAutoCompleteItem(capture.Value) {Tag = capture.Index});
-            }
-            var cwin = new CommandWindow(lst);
+            }*/
+            var symbols = SymbolList.GetPlaces(ActiveEditor);
+            var cwin = new CommandWindow(symbols);
             cwin.ProcessCommand += cwin_ProcessCommand;
-            cwin.Tag = lst;
+            cwin.Tag = symbols;
             cwin.ShowDialog(this);
         }
 
@@ -2232,6 +2237,22 @@ namespace SS.Ynote.Classic
                     ActiveEditor.Tb.Selection.Start = new Place(word.Start.iChar, word.Start.iLine);
                     ActiveEditor.Tb.Selection.End = new Place(word.End.iChar, word.End.iLine);
                 }
+            }
+        }
+
+        private void minewview_Click(object sender, EventArgs e)
+        {
+            if (ActiveEditor.IsSaved)
+            {
+                var edit = new Editor();
+                edit.Text = ActiveEditor.Text;
+                edit.Name = ActiveEditor.Name;
+                edit.Tb.SourceTextBox = ActiveEditor.Tb;
+                edit.Show(dock);
+            }
+            else
+            {
+                MessageBox.Show("File Not Saved!");
             }
         }
 

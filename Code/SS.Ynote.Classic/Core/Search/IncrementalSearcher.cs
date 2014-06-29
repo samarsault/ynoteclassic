@@ -134,7 +134,8 @@ namespace SS.Ynote.Classic.Core.Search
         /// <summary>
         ///     This style will drawing ellipse around of the word
         /// </summary>
-        internal class HighlightMatchStyle : Style
+        
+     * HighlightMatchStyle : Style
         {
             private Color PenColor { get; set; }
 

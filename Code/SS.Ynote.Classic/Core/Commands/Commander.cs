@@ -135,10 +135,10 @@ namespace SS.Ynote.Classic.Core
                 if (c.Key == "SetSyntax" || c.Key == "SetSyntaxFile")
                     LangMenu.Text = c.Value;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show("Error Running Command!\n"+ex.Message);
-            } 
+                MessageBox.Show("Error Running Command!\n" + ex.Message);
+            }
             completemenu.Items = null;
             if (!IsDisposed)
                 Close();

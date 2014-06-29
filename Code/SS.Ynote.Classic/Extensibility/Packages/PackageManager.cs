@@ -19,21 +19,23 @@ namespace SS.Ynote.Classic.Extensibility.Packages
             PopulatePackageList();
         }
 
-        void LoadPackages(string url)
+        private void LoadPackages(string url)
         {
             var client = new WebClient();
             client.DownloadStringCompleted += (sender, args) => LoadInfo(args.Result);
             client.DownloadStringAsync(new Uri(url));
         }
 
-        void LoadInfo(string json)
+        private void LoadInfo(string json)
         {
+            lbld.Hide();
             packages = JsonConvert.DeserializeObject<string[]>(json);
             if (packages.Length == 0)
                 return;
             foreach (var pack in packages)
                 AddItem(pack);
         }
+
         private void button2_Click(object sender, EventArgs e)
         {
             Close();
@@ -41,20 +43,21 @@ namespace SS.Ynote.Classic.Extensibility.Packages
 
         private void PopulatePackageList()
         {
-            foreach (var file in Directory.GetFiles(GlobalSettings.SettingsDir + "Packages"))
+            foreach (var file in Directory.GetFiles(GlobalSettings.SettingsDir + "Packages", "*.ynotepackage"))
                 lstPackages.Items.Add(new ListViewItem(new[] {Path.GetFileNameWithoutExtension(file), file}));
         }
 
-        void AddItem(string arg)
+        private void AddItem(string arg)
         {
             string[] args = arg.Split(',');
-            if (args.Length != 3)
+            if (args.Length < 3)
             {
                 MessageBox.Show("Invalid Package Metadata!");
                 return;
             }
-            lstwebpackages.Items.Add(new ListViewItem(new[] { args[0], args[1] }) { Tag = args[2] });
+            lstwebpackages.Items.Add(new ListViewItem(new[] {args[0], args[1]}) {Tag = args[2]});
         }
+
         private void button1_Click(object sender, EventArgs e)
         {
             using (var ofd = new OpenFileDialog())
@@ -110,11 +113,14 @@ namespace SS.Ynote.Classic.Extensibility.Packages
         private void button6_Click(object sender, EventArgs e)
         {
             var item = lstwebpackages.SelectedItems[0];
-            string url = item.Tag as string;
-            var result = MessageBox.Show("Are you sure you want to download " + item.Text + " Package ?","",MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            string url = (string) item.Tag;
+
+            var result = MessageBox.Show("Are you sure you want to download " + item.Text + " Package ?", "",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                var downloader = new PackageDownloader(url, Path.Combine(Path.GetTempPath(), item.Text + ".ynotepackage"));
+                var downloader = new PackageDownloader(url,
+                    Path.Combine(Path.GetTempPath(), item.Text + ".ynotepackage"));
                 downloader.ShowDialog(this);
             }
         }

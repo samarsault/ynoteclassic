@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using SS.Ynote.Classic.Core.Settings;
 
@@ -12,18 +11,14 @@ namespace SS.Ynote.Classic.Extensibility.Packages
         {
             IDictionary<string, string> dic = new Dictionary<string, string>();
             var lines = File.ReadAllLines(manifest);
-            foreach (
-                var command in
-                    lines.Select(
-                        line =>
-                            YnoteCommand.FromString(line.Replace("$ynotedata", GlobalSettings.SettingsDir)
-                                .Replace("$ynotedir", Application.StartupPath))))
+            foreach (var line in lines)
+            {
+                var command = YnoteCommand.FromString(line);
+                command.Value = command.Value.Replace("$ynotedata", GlobalSettings.SettingsDir);
+                if (command.Value.IndexOf("$ynotedir") != -1)
+                    command.Value = command.Value.Replace("$ynotedir", Application.StartupPath);
                 dic.Add(command.Key, command.Value);
-            //foreach (var line in lines)
-            //{
-            //    var command = Parse(line.Replace("$ynotedir", Application.StartupPath));
-            //    dic.Add(command.Key, command.Value);
-            //}
+            }
             return dic;
         }
     }

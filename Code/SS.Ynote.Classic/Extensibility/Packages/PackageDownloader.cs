@@ -56,6 +56,7 @@ namespace SS.Ynote.Classic.Extensibility.Packages
         {
             client.CancelAsync();
         }
+
         protected override void OnShown(EventArgs e)
         {
             BeginDownload();

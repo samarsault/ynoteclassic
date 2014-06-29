@@ -6,7 +6,7 @@ using SS.Ynote.Classic.Core.Settings;
 
 namespace SS.Ynote.Classic.UI
 {
-    internal class MacroItem
+    class MacroItem
     {
         internal string File;
         internal string Name;

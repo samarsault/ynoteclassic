@@ -375,7 +375,7 @@ namespace SS.Ynote.Classic.UI
         }
     }
 
-    internal class EncodingItem
+    class EncodingItem
     {
         internal EncodingItem(EncodingInfo info)
         {

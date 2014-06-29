@@ -1,0 +1,66 @@
+{
+  "CSharp": {
+    "Pattern": "\\b(class|struct|enum|interface|void)\\s+(?<range>\\w+?)\\b",
+    "Options": 0
+  },
+  "C": {
+    "Pattern": "\\b(class|struct|enum|interface|void|int|bool)\\s+(?<range>\\w+?)\\b",
+    "Options": 0
+  },
+  "CPP": {
+    "Pattern": "\\b(class|struct|enum|interface|void|int|bool)\\s+(?<range>\\w+?)\\b",
+    "Options": 0
+  },
+  "VB": {
+    "Pattern": "\\b(Class|Sub|Interface)\\s+(?<range>\\w+?)\\b",
+    "Options": 0
+  },
+  "D": {
+    "Pattern": "\\b(void|int)\\s+(?<range>\\w+?)\\b",
+    "Options": 0
+  },
+  "Lua": {
+    "Pattern": "\\b(function)\\s+(?<range>\\w+?)\\b",
+    "Options": 0
+  },
+  "Python": {
+    "Pattern": "\\b(class|def)\\s+(?<range>\\w+?)\\b",
+    "Options": 0
+  },
+  "Ruby": {
+    "Pattern": "\\b(class|def)\\s+(?<range>\\w+?)\\b",
+    "Options": 0
+  },
+  "PHP": {
+    "Pattern": "\\b(class|function)\\s+(?<range>\\w+?)\\b",
+    "Options": 0
+  },
+  "Lisp": {
+    "Pattern": "\\b(defun|defmethod|defmacro|defvar|defconst)\\s+(?<range>\\w+)\\b",
+    "Options": 0
+  },
+  "Java": {
+    "Pattern": "\\b(class|void|enum|interface)\\s+(?<range>\\w+?)\\b",
+    "Options": 0
+  },
+  "Javascript": {
+    "Pattern": "\\b(function|var)\\s+(?<range>\\w+?)\\b",
+    "Options": 0
+  },
+  "FSharp": {
+    "Pattern": "\\b(class|struct|enum|interface)\\s+(?<range>\\w+?)\\b",
+    "Options": 0
+  },
+  "Actionscript": {
+    "Pattern": "\\b(function|class)\\s+(?<range>\\w+?)\\b",
+    "Options": 0
+  },
+  "Pascal": {
+    "Pattern": "\\b(function|procedure)\\s+(?<range>\\w+?)\\b",
+    "Options": 0
+  },
+  "Perl": {
+    "Pattern": "\\b(sub|package)\\s+(?<range>\\w+?)\\b",
+    "Options": 0
+  }
+}

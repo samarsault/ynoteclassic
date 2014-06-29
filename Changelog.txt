@@ -380,3 +380,15 @@ Build 1159
 Build 1201
 
 -> Package Manager can download remote packages
+
+Build 1205
+
+-> Package Installer Fixes
+
+Build 1218
+
+-> Enhanced Symbol List
+
+Build 1223
+
+-> Theme Change Immediately after selecting

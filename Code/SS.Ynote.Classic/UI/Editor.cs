@@ -44,11 +44,6 @@ namespace SS.Ynote.Classic.UI
         /// </summary>
         private DocumentMap map;
 
-        /// <summary>
-        ///     Whether settings have been changed (syntax - specefic)
-        /// </summary>
-        private bool settingsChanged;
-
         #endregion
 
         #region Constructor
@@ -132,15 +127,7 @@ namespace SS.Ynote.Classic.UI
         /// <param name="lang"></param>
         public void HighlightSyntax(string lang)
         {
-#if DEBUG
-            var watch = new Stopwatch();
-            watch.Start();
-#endif
             Highlighter.HighlightSyntax(lang, new TextChangedEventArgs(codebox.Range));
-#if DEBUG
-            watch.Stop();
-            Debug.WriteLine("HighlightSyntax(" + lang + ") - " + watch.ElapsedMilliseconds + " ms");
-#endif
         }
 
         /// <summary>
@@ -148,10 +135,6 @@ namespace SS.Ynote.Classic.UI
         /// </summary>
         private void LoadSnippets()
         {
-#if DEBUG
-            var watch = new Stopwatch();
-            watch.Start();
-#endif
             Globals.Snippets = new List<YnoteSnippet>();
             string[] snippets = Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynotesnippet",
                 SearchOption.AllDirectories);
@@ -161,11 +144,6 @@ namespace SS.Ynote.Classic.UI
                 YnoteSnippet snip = YnoteSnippet.Read(snippet);
                 Globals.Snippets.Add(snip);
             }
-#if DEBUG
-            watch.Stop();
-            Debug.WriteLine(string.Format("Loaded {0} Snippets in {1} ms", Globals.Snippets.Count,
-                watch.ElapsedMilliseconds));
-#endif
         }
 
         public void ForceAutoComplete()
@@ -173,35 +151,18 @@ namespace SS.Ynote.Classic.UI
             _autocomplete.Show(true);
         }
 
-        private void LoadEditorSettings(GlobalProperties settings)
-        {
-            codebox.ShowScrollBars = settings.ScrollBars;
-            codebox.AutoCompleteBrackets = settings.AutoCompleteBrackets;
-            if (settings.TabSize != 0)
-                codebox.TabLength = settings.TabSize;
-            if (!string.IsNullOrEmpty(settings.FontFamily) && settings.FontSize != 0.0)
-                codebox.Font = new Font(settings.FontFamily, settings.FontSize);
-            codebox.ShowFoldingLines = settings.ShowFoldingLines;
-            codebox.ShowLineNumbers = settings.ShowLineNumbers;
-            codebox.HighlightFoldingIndicator = settings.HighlightFolding;
-            codebox.FindEndOfFoldingBlockStrategy = settings.FoldingStrategy;
-            codebox.BracketsHighlightStrategy = settings.BracketsStrategy;
-            codebox.CaretVisible = settings.ShowCaret;
-            codebox.ShowFoldingLines = settings.ShowFoldingLines;
-            codebox.LeftPadding = settings.PaddingWidth;
-            codebox.VirtualSpace = settings.EnableVirtualSpace;
-            codebox.WideCaret = settings.BlockCaret;
-            codebox.WordWrap = settings.WordWrap;
-            if (settings.ImeMode)
-                codebox.ImeMode = ImeMode.On;
-            if (settings.ShowChangedLine)
-                codebox.ChangedLineColor = ControlPaint.LightLight(codebox.CurrentLineColor);
-        }
-
-        private void InitSettings()
+        public void RePaintTheme()
         {
             if (Globals.Settings.ThemeFile != null)
                 YnoteThemeReader.ApplyTheme(Globals.Settings.ThemeFile, Highlighter, codebox);
+            codebox.ClearStyle(StyleIndex.All);
+            Highlighter.HighlightSyntax(codebox.Language, new TextChangedEventArgs(codebox.Range));
+            if(ShowDocumentMap)
+                ThemifyDocumentMap();
+        }
+        private void InitSettings()
+        {
+            YnoteThemeReader.ApplyTheme(Globals.Settings.ThemeFile, Highlighter, codebox);
             codebox.AllowDrop = true;
             codebox.ShowScrollBars = Globals.Settings.ScrollBars;
             codebox.AutoCompleteBrackets = Globals.Settings.AutoCompleteBrackets;
@@ -246,8 +207,7 @@ namespace SS.Ynote.Classic.UI
         {
             map = new DocumentMap();
             map.Dock = DockStyle.Right;
-            map.BackColor = codebox.BackColor;
-            map.ForeColor = codebox.SelectionColor;
+            ThemifyDocumentMap();
             map.Location = new Point(144, 0);
             map.ScrollbarVisible = false;
             map.Size = new Size(140, 262);
@@ -257,13 +217,18 @@ namespace SS.Ynote.Classic.UI
             Controls.Add(map);
         }
 
+        private void ThemifyDocumentMap()
+        {
+            map.BackColor = codebox.BackColor;
+            map.ForeColor = codebox.SelectionColor;
+        }
+
         /// <summary>
         ///     Initialize Events
         /// </summary>
         private void InitEvents()
         {
             codebox.TextChangedDelayed += codebox_TextChangedDelayed;
-            codebox.LanguageChanged += (sender, args) => CheckForSpeceficSettings(codebox.Language);
             codebox.DragDrop += codebox_DragDrop;
             codebox.TraceMessage += (sender, args) => Globals.Ynote.Trace(sender as string, 100000);
             codebox.DragEnter +=
@@ -274,22 +239,6 @@ namespace SS.Ynote.Classic.UI
                 codebox.SelectionChangedDelayed += codebox_SelectionChangedDelayed;
         }
 
-        private void CheckForSpeceficSettings(string str)
-        {
-            bool hasSettings = false;
-            var settings = str + ".ynotesettings";
-            foreach (
-                var file in
-                    Directory.GetFiles(GlobalSettings.SettingsDir, "*.ynotesettings"))
-                if (Path.GetFileName(file) == settings)
-                {
-                    settingsChanged = true;
-                    hasSettings = true;
-                    LoadEditorSettings(GlobalSettings.Load(file));
-                }
-            if (settingsChanged && !hasSettings)
-                LoadEditorSettings(Globals.Settings);
-        }
 
         /// <summary>
         ///     Builds Context Menu

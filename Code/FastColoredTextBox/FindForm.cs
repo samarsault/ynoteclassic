@@ -20,7 +20,7 @@ namespace FastColoredTextBoxNS
         {
             InitializeComponent();
             this.tb = tb;
-            tbFind.Select(0, 1);
+            tbFind.Focus();
         }
 
         private void btClose_Click(object sender, EventArgs e)

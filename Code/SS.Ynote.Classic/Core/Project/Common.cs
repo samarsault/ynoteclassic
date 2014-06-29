@@ -24,11 +24,7 @@ namespace SS.Ynote.Classic.Core.Project
     public class ExTreeNode : TreeNode
     {
         /// <summary>
-        /// Check Whether the Node contents been loaded
-        /// </summary>
-        public bool Loaded { get; set; }
-        /// <summary>
-        /// Default Constructor
+        ///     Default Constructor
         /// </summary>
         /// <param name="text"></param>
         /// <param name="name"></param>
@@ -39,12 +35,17 @@ namespace SS.Ynote.Classic.Core.Project
             int imageIndex, int selimageindex,
             FolderNodeType projectNodeType)
         {
-            this.Text = text;
-            this.Name = name;
-            this.Type = projectNodeType;
-            this.ImageIndex = imageIndex;
-            this.SelectedImageIndex = selimageindex;
+            Text = text;
+            Name = name;
+            Type = projectNodeType;
+            ImageIndex = imageIndex;
+            SelectedImageIndex = selimageindex;
         }
+
+        /// <summary>
+        ///     Check Whether the Node contents been loaded
+        /// </summary>
+        public bool Loaded { get; set; }
 
         /// <summary>
         ///     The Node Type
