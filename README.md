@@ -36,8 +36,8 @@ Screenshot
 
 Follow
 ----
-Blog - http://ynoteclassic.wordpress.com
-Twitter - [@ynoteclassic](http://twitter.com/ynoteclassic "@ynoteclassic on twitter")
+  -Blog - http://ynoteclassic.wordpress.com
+  -Twitter - [@ynoteclassic](http://twitter.com/ynoteclassic "@ynoteclassic on twitter")
 
 Version
 ----
