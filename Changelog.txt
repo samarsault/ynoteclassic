@@ -392,3 +392,7 @@ Build 1218
 Build 1223
 
 -> Theme Change Immediately after selecting
+
+Build 1231
+
+-> Better Character Auto-Completion

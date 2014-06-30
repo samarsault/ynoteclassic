@@ -1,6 +1,11 @@
-﻿#define DEVBUILD
+﻿//#define PORTABLE
+#define DEVBUILD
 
-using System;
+#if PORTABLE
+    using System.Windows.Forms;
+#else
+    using System;
+#endif
 using System.IO;
 using FastColoredTextBoxNS;
 using Newtonsoft.Json;
@@ -41,7 +46,7 @@ namespace SS.Ynote.Classic.Core.Settings
             prop.AutoCompleteBrackets = true;
             prop.EnableVirtualSpace = false;
             prop.FontFamily = "Consolas";
-            prop.FontSize = 9f;
+            prop.FontSize = 9.75f;
             prop.DefaultEncoding = 1251;
             prop.DocumentStyle = DocumentStyle.DockingMdi;
             prop.TabLocation = DocumentTabStripLocation.Top;

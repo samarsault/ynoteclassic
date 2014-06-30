@@ -1305,7 +1305,8 @@ namespace FastColoredTextBoxNS
 
         [Browsable(false)]
         public FindForm findForm { get; private set; }
-
+        [Browsable(false)]
+        public ReplaceForm replaceForm { get; private set; }
         /// <summary>
         ///     Do not change this property
         /// </summary>
@@ -3064,12 +3065,14 @@ namespace FastColoredTextBoxNS
         {
             if (findForm == null)
                 findForm = new FindForm(this);
+
             if (findText != null)
                 findForm.tbFind.Text = findText;
             else if (!Selection.IsEmpty && Selection.Start.iLine == Selection.End.iLine)
                 findForm.tbFind.Text = Selection.Text;
+
             findForm.tbFind.SelectAll();
-            findForm.ShowDialog(this);
+            findForm.Show();
         }
 
         /// <summary>
@@ -3087,9 +3090,16 @@ namespace FastColoredTextBoxNS
         {
             if (ReadOnly)
                 return;
-            if (findForm == null)
-                findForm = new FindForm(this) {StartPosition = FormStartPosition.CenterParent};
-            findForm.ShowDialog(this);
+            if (replaceForm == null)
+                replaceForm = new ReplaceForm(this);
+
+            if (findText != null)
+                replaceForm.tbFind.Text = findText;
+            else if (!Selection.IsEmpty && Selection.Start.iLine == Selection.End.iLine)
+                replaceForm.tbFind.Text = Selection.Text;
+
+            replaceForm.tbFind.SelectAll();
+            replaceForm.Show();
         }
 
         /// <summary>
@@ -4917,11 +4927,13 @@ namespace FastColoredTextBoxNS
             if (string.IsNullOrEmpty(commentPrefix))
                 return;
             Selection.Normalize();
-            bool isCommented = lines[Selection.Start.iLine].Text.TrimStart().StartsWith(commentPrefix);
-            if (isCommented)
-                RemoveLinePrefix(commentPrefix);
-            else
-                InsertLinePrefix(commentPrefix);
+            {
+                bool isCommented = lines[Selection.Start.iLine].Text.TrimStart().StartsWith(commentPrefix);
+                if (isCommented)
+                    RemoveLinePrefix(commentPrefix);
+                else
+                    InsertLinePrefix(commentPrefix);
+            }
         }
 
         /*
@@ -5102,6 +5114,10 @@ namespace FastColoredTextBoxNS
         {
             if (AutoCompleteBrackets)
             {
+                char start = Selection.CharAfterStart;
+                if (start != '\n')
+                    if (Array.IndexOf(autoCompleteBracketsList, start) == -1)
+                        return false;
                 if (!Selection.ColumnSelectionMode)
                     for (int i = 1; i < autoCompleteBracketsList.Length; i += 2)
                         if (c == autoCompleteBracketsList[i] && c == Selection.CharAfterStart)

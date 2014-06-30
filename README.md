@@ -42,7 +42,7 @@ Follow
 Version
 ----
 
-2.8.5 Pre Alpha Build 1224
+2.8.5 Alpha Build 1241
 
 License
 ----

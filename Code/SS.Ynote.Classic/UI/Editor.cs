@@ -148,14 +148,15 @@ namespace SS.Ynote.Classic.UI
 
         public void ForceAutoComplete()
         {
-            _autocomplete.Show(true);
+            if(_autocomplete != null)
+                _autocomplete.Show(true);
         }
 
         public void RePaintTheme()
         {
+            codebox.ClearStyle(StyleIndex.All);
             if (Globals.Settings.ThemeFile != null)
                 YnoteThemeReader.ApplyTheme(Globals.Settings.ThemeFile, Highlighter, codebox);
-            codebox.ClearStyle(StyleIndex.All);
             Highlighter.HighlightSyntax(codebox.Language, new TextChangedEventArgs(codebox.Range));
             if(ShowDocumentMap)
                 ThemifyDocumentMap();
@@ -231,9 +232,7 @@ namespace SS.Ynote.Classic.UI
             codebox.TextChangedDelayed += codebox_TextChangedDelayed;
             codebox.DragDrop += codebox_DragDrop;
             codebox.TraceMessage += (sender, args) => Globals.Ynote.Trace(sender as string, 100000);
-            codebox.DragEnter +=
-                (sender, e) =>
-                    e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
+            codebox.DragEnter += (sender, e) => e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
             codebox.KeyDown += codebox_KeyDown;
             if (Globals.Settings.HighlightSameWords)
                 codebox.SelectionChangedDelayed += codebox_SelectionChangedDelayed;

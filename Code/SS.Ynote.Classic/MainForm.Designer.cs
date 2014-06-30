@@ -29,21 +29,21 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            WeifenLuo.WinFormsUI.Docking.DockPanelSkin dockPanelSkin1 = new WeifenLuo.WinFormsUI.Docking.DockPanelSkin();
-            WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin autoHideStripSkin1 = new WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin();
-            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient1 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient1 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.DockPaneStripSkin dockPaneStripSkin1 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripSkin();
-            WeifenLuo.WinFormsUI.Docking.DockPaneStripGradient dockPaneStripGradient1 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient2 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient2 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient3 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.DockPaneStripToolWindowGradient dockPaneStripToolWindowGradient1 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripToolWindowGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient4 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient5 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient3 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient6 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
-            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient7 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.DockPanelSkin dockPanelSkin2 = new WeifenLuo.WinFormsUI.Docking.DockPanelSkin();
+            WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin autoHideStripSkin2 = new WeifenLuo.WinFormsUI.Docking.AutoHideStripSkin();
+            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient4 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient8 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.DockPaneStripSkin dockPaneStripSkin2 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripSkin();
+            WeifenLuo.WinFormsUI.Docking.DockPaneStripGradient dockPaneStripGradient2 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient9 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient5 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient10 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.DockPaneStripToolWindowGradient dockPaneStripToolWindowGradient2 = new WeifenLuo.WinFormsUI.Docking.DockPaneStripToolWindowGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient11 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient12 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.DockPanelGradient dockPanelGradient6 = new WeifenLuo.WinFormsUI.Docking.DockPanelGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient13 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
+            WeifenLuo.WinFormsUI.Docking.TabGradient tabGradient14 = new WeifenLuo.WinFormsUI.Docking.TabGradient();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.MenuStrip = new System.Windows.Forms.MainMenu(this.components);
             this.filemenu = new System.Windows.Forms.MenuItem();
@@ -96,8 +96,8 @@
             this.menuItem3 = new System.Windows.Forms.MenuItem();
             this.menuItem2 = new System.Windows.Forms.MenuItem();
             this.mifind = new System.Windows.Forms.MenuItem();
-            this.menuItem10 = new System.Windows.Forms.MenuItem();
-            this.menuItem11 = new System.Windows.Forms.MenuItem();
+            this.mifindnext = new System.Windows.Forms.MenuItem();
+            this.replacemenu = new System.Windows.Forms.MenuItem();
             this.menuItem13 = new System.Windows.Forms.MenuItem();
             this.mifindchar = new System.Windows.Forms.MenuItem();
             this.mincrementalsearch = new System.Windows.Forms.MenuItem();
@@ -208,9 +208,6 @@
             this.miprotector = new System.Windows.Forms.MenuItem();
             this.miprotectfile = new System.Windows.Forms.MenuItem();
             this.midecryptfile = new System.Windows.Forms.MenuItem();
-            this.miwebsearch = new System.Windows.Forms.MenuItem();
-            this.migoogle = new System.Windows.Forms.MenuItem();
-            this.miwiki = new System.Windows.Forms.MenuItem();
             this.miexecfile = new System.Windows.Forms.MenuItem();
             this.mirunscripts = new System.Windows.Forms.MenuItem();
             this.seperator7 = new System.Windows.Forms.MenuItem();
@@ -243,7 +240,7 @@
             this.mimacros = new System.Windows.Forms.MenuItem();
             this.miscripts = new System.Windows.Forms.MenuItem();
             this.helpmenu = new System.Windows.Forms.MenuItem();
-            this.miwikimenu = new System.Windows.Forms.MenuItem();
+            this.midocs = new System.Windows.Forms.MenuItem();
             this.miupdates = new System.Windows.Forms.MenuItem();
             this.seperator62 = new System.Windows.Forms.MenuItem();
             this.miprojpage = new System.Windows.Forms.MenuItem();
@@ -644,8 +641,8 @@
             this.menuItem2.Index = 12;
             this.menuItem2.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.mifind,
-            this.menuItem10,
-            this.menuItem11,
+            this.mifindnext,
+            this.replacemenu,
             this.menuItem13,
             this.mifindchar,
             this.mincrementalsearch,
@@ -660,15 +657,17 @@
             this.mifind.Text = "Find";
             this.mifind.Click += new System.EventHandler(this.mifind_Click);
             // 
-            // menuItem10
+            // mifindnext
             // 
-            this.menuItem10.Index = 1;
-            this.menuItem10.Text = "Find Next";
+            this.mifindnext.Index = 1;
+            this.mifindnext.Text = "Find Next";
+            this.mifindnext.Click += new System.EventHandler(this.mifindNext_Click);
             // 
-            // menuItem11
+            // replacemenu
             // 
-            this.menuItem11.Index = 2;
-            this.menuItem11.Text = "Replace";
+            this.replacemenu.Index = 2;
+            this.replacemenu.Text = "Replace";
+            this.replacemenu.Click += new System.EventHandler(this.replacemenu_Click);
             // 
             // menuItem13
             // 
@@ -1196,7 +1195,7 @@
             // menuItem4
             // 
             this.menuItem4.Index = 2;
-            this.menuItem4.Text = "Split Synchronized";
+            this.menuItem4.Text = "Split Synchronized Scroll";
             this.menuItem4.Click += new System.EventHandler(this.menuItem4_Click);
             // 
             // menuItem5
@@ -1260,7 +1259,7 @@
             // migotoword
             // 
             this.migotoword.Index = 5;
-            this.migotoword.Shortcut = System.Windows.Forms.Shortcut.CtrlH;
+            this.migotoword.Shortcut = System.Windows.Forms.Shortcut.CtrlQ;
             this.migotoword.Text = "Go To Word";
             this.migotoword.Click += new System.EventHandler(this.migotoword_Click);
             // 
@@ -1378,7 +1377,6 @@
             this.mishell,
             this.seperator8,
             this.miprotector,
-            this.miwebsearch,
             this.miexecfile,
             this.mirunscripts,
             this.seperator7,
@@ -1438,47 +1436,27 @@
             this.midecryptfile.Text = "Decrypt This File";
             this.midecryptfile.Click += new System.EventHandler(this.midecryptfile_Click);
             // 
-            // miwebsearch
-            // 
-            this.miwebsearch.Index = 6;
-            this.miwebsearch.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.migoogle,
-            this.miwiki});
-            this.miwebsearch.Text = "Web Search";
-            // 
-            // migoogle
-            // 
-            this.migoogle.Index = 0;
-            this.migoogle.Text = "Google";
-            this.migoogle.Click += new System.EventHandler(this.migoogle_Click);
-            // 
-            // miwiki
-            // 
-            this.miwiki.Index = 1;
-            this.miwiki.Text = "Wikipedia";
-            this.miwiki.Click += new System.EventHandler(this.miwiki_Click);
-            // 
             // miexecfile
             // 
-            this.miexecfile.Index = 7;
+            this.miexecfile.Index = 6;
             this.miexecfile.Shortcut = System.Windows.Forms.Shortcut.F5;
             this.miexecfile.Text = "Execute File";
             this.miexecfile.Click += new System.EventHandler(this.menuItem30_Click);
             // 
             // mirunscripts
             // 
-            this.mirunscripts.Index = 8;
+            this.mirunscripts.Index = 7;
             this.mirunscripts.Text = "Execute RunScript";
             this.mirunscripts.Click += new System.EventHandler(this.mirunscripts_Click);
             // 
             // seperator7
             // 
-            this.seperator7.Index = 9;
+            this.seperator7.Index = 8;
             this.seperator7.Text = "-";
             // 
             // menuItem1
             // 
-            this.menuItem1.Index = 10;
+            this.menuItem1.Index = 9;
             this.menuItem1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.minewsnippet,
             this.minewscript,
@@ -1505,18 +1483,18 @@
             // 
             // colorschememenu
             // 
-            this.colorschememenu.Index = 11;
+            this.colorschememenu.Index = 10;
             this.colorschememenu.Text = "Color Scheme";
             this.colorschememenu.Select += new System.EventHandler(this.colorschememenu_Select);
             // 
             // seperator83
             // 
-            this.seperator83.Index = 12;
+            this.seperator83.Index = 11;
             this.seperator83.Text = "-";
             // 
             // OptionsMenu
             // 
-            this.OptionsMenu.Index = 13;
+            this.OptionsMenu.Index = 12;
             this.OptionsMenu.Text = "Options";
             this.OptionsMenu.Click += new System.EventHandler(this.OptionsMenu_Click);
             // 
@@ -1665,7 +1643,7 @@
             // 
             this.helpmenu.Index = 7;
             this.helpmenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.miwikimenu,
+            this.midocs,
             this.miupdates,
             this.seperator62,
             this.miprojpage,
@@ -1676,12 +1654,12 @@
             this.aboutmenu});
             this.helpmenu.Text = "Help";
             // 
-            // miwikimenu
+            // midocs
             // 
-            this.miwikimenu.Index = 0;
-            this.miwikimenu.Shortcut = System.Windows.Forms.Shortcut.F1;
-            this.miwikimenu.Text = "Wiki";
-            this.miwikimenu.Click += new System.EventHandler(this.miwikimenu_Click);
+            this.midocs.Index = 0;
+            this.midocs.Shortcut = System.Windows.Forms.Shortcut.F1;
+            this.midocs.Text = "Docs";
+            this.midocs.Click += new System.EventHandler(this.miwikimenu_Click);
             // 
             // miupdates
             // 
@@ -1837,52 +1815,52 @@
             this.dock.Location = new System.Drawing.Point(0, 25);
             this.dock.Name = "dock";
             this.dock.Size = new System.Drawing.Size(767, 313);
-            dockPanelGradient1.EndColor = System.Drawing.SystemColors.ControlLight;
-            dockPanelGradient1.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
-            autoHideStripSkin1.DockStripGradient = dockPanelGradient1;
-            tabGradient1.EndColor = System.Drawing.SystemColors.Control;
-            tabGradient1.StartColor = System.Drawing.SystemColors.Control;
-            tabGradient1.TextColor = System.Drawing.SystemColors.ControlDarkDark;
-            autoHideStripSkin1.TabGradient = tabGradient1;
-            autoHideStripSkin1.TextFont = new System.Drawing.Font("Segoe UI", 9F);
-            dockPanelSkin1.AutoHideStripSkin = autoHideStripSkin1;
-            tabGradient2.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(206)))), ((int)(((byte)(219)))));
-            tabGradient2.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
-            tabGradient2.TextColor = System.Drawing.Color.White;
-            dockPaneStripGradient1.ActiveTabGradient = tabGradient2;
-            dockPanelGradient2.EndColor = System.Drawing.SystemColors.Control;
-            dockPanelGradient2.StartColor = System.Drawing.SystemColors.Control;
-            dockPaneStripGradient1.DockStripGradient = dockPanelGradient2;
-            tabGradient3.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(151)))), ((int)(((byte)(234)))));
-            tabGradient3.StartColor = System.Drawing.SystemColors.Control;
-            tabGradient3.TextColor = System.Drawing.Color.Black;
-            dockPaneStripGradient1.InactiveTabGradient = tabGradient3;
-            dockPaneStripSkin1.DocumentGradient = dockPaneStripGradient1;
-            dockPaneStripSkin1.TextFont = new System.Drawing.Font("Segoe UI", 9F);
-            tabGradient4.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(170)))), ((int)(((byte)(220)))));
-            tabGradient4.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            tabGradient4.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
-            tabGradient4.TextColor = System.Drawing.Color.White;
-            dockPaneStripToolWindowGradient1.ActiveCaptionGradient = tabGradient4;
-            tabGradient5.EndColor = System.Drawing.SystemColors.ControlLightLight;
-            tabGradient5.StartColor = System.Drawing.SystemColors.ControlLightLight;
-            tabGradient5.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
-            dockPaneStripToolWindowGradient1.ActiveTabGradient = tabGradient5;
-            dockPanelGradient3.EndColor = System.Drawing.SystemColors.Control;
-            dockPanelGradient3.StartColor = System.Drawing.SystemColors.Control;
-            dockPaneStripToolWindowGradient1.DockStripGradient = dockPanelGradient3;
-            tabGradient6.EndColor = System.Drawing.SystemColors.ControlDark;
-            tabGradient6.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            tabGradient6.StartColor = System.Drawing.SystemColors.Control;
-            tabGradient6.TextColor = System.Drawing.SystemColors.GrayText;
-            dockPaneStripToolWindowGradient1.InactiveCaptionGradient = tabGradient6;
-            tabGradient7.EndColor = System.Drawing.SystemColors.Control;
-            tabGradient7.StartColor = System.Drawing.SystemColors.Control;
-            tabGradient7.TextColor = System.Drawing.SystemColors.GrayText;
-            dockPaneStripToolWindowGradient1.InactiveTabGradient = tabGradient7;
-            dockPaneStripSkin1.ToolWindowGradient = dockPaneStripToolWindowGradient1;
-            dockPanelSkin1.DockPaneStripSkin = dockPaneStripSkin1;
-            this.dock.Skin = dockPanelSkin1;
+            dockPanelGradient4.EndColor = System.Drawing.SystemColors.ControlLight;
+            dockPanelGradient4.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            autoHideStripSkin2.DockStripGradient = dockPanelGradient4;
+            tabGradient8.EndColor = System.Drawing.SystemColors.Control;
+            tabGradient8.StartColor = System.Drawing.SystemColors.Control;
+            tabGradient8.TextColor = System.Drawing.SystemColors.ControlDarkDark;
+            autoHideStripSkin2.TabGradient = tabGradient8;
+            autoHideStripSkin2.TextFont = new System.Drawing.Font("Segoe UI", 9F);
+            dockPanelSkin2.AutoHideStripSkin = autoHideStripSkin2;
+            tabGradient9.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(206)))), ((int)(((byte)(219)))));
+            tabGradient9.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            tabGradient9.TextColor = System.Drawing.Color.White;
+            dockPaneStripGradient2.ActiveTabGradient = tabGradient9;
+            dockPanelGradient5.EndColor = System.Drawing.SystemColors.Control;
+            dockPanelGradient5.StartColor = System.Drawing.SystemColors.Control;
+            dockPaneStripGradient2.DockStripGradient = dockPanelGradient5;
+            tabGradient10.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(151)))), ((int)(((byte)(234)))));
+            tabGradient10.StartColor = System.Drawing.SystemColors.Control;
+            tabGradient10.TextColor = System.Drawing.Color.Black;
+            dockPaneStripGradient2.InactiveTabGradient = tabGradient10;
+            dockPaneStripSkin2.DocumentGradient = dockPaneStripGradient2;
+            dockPaneStripSkin2.TextFont = new System.Drawing.Font("Segoe UI", 9F);
+            tabGradient11.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(170)))), ((int)(((byte)(220)))));
+            tabGradient11.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            tabGradient11.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            tabGradient11.TextColor = System.Drawing.Color.White;
+            dockPaneStripToolWindowGradient2.ActiveCaptionGradient = tabGradient11;
+            tabGradient12.EndColor = System.Drawing.SystemColors.ControlLightLight;
+            tabGradient12.StartColor = System.Drawing.SystemColors.ControlLightLight;
+            tabGradient12.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            dockPaneStripToolWindowGradient2.ActiveTabGradient = tabGradient12;
+            dockPanelGradient6.EndColor = System.Drawing.SystemColors.Control;
+            dockPanelGradient6.StartColor = System.Drawing.SystemColors.Control;
+            dockPaneStripToolWindowGradient2.DockStripGradient = dockPanelGradient6;
+            tabGradient13.EndColor = System.Drawing.SystemColors.ControlDark;
+            tabGradient13.LinearGradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            tabGradient13.StartColor = System.Drawing.SystemColors.Control;
+            tabGradient13.TextColor = System.Drawing.SystemColors.GrayText;
+            dockPaneStripToolWindowGradient2.InactiveCaptionGradient = tabGradient13;
+            tabGradient14.EndColor = System.Drawing.SystemColors.Control;
+            tabGradient14.StartColor = System.Drawing.SystemColors.Control;
+            tabGradient14.TextColor = System.Drawing.SystemColors.GrayText;
+            dockPaneStripToolWindowGradient2.InactiveTabGradient = tabGradient14;
+            dockPaneStripSkin2.ToolWindowGradient = dockPaneStripToolWindowGradient2;
+            dockPanelSkin2.DockPaneStripSkin = dockPaneStripSkin2;
+            this.dock.Skin = dockPanelSkin2;
             this.dock.TabIndex = 0;
             this.dock.ActiveDocumentChanged += new System.EventHandler(this.dock_ActiveDocumentChanged);
             // 
@@ -2062,7 +2040,7 @@
         private System.Windows.Forms.MenuItem misaveas;
         private System.Windows.Forms.MenuItem statusbarmenuitem;
         private System.Windows.Forms.StatusStrip status;
-        private System.Windows.Forms.MenuItem miwikimenu;
+        private System.Windows.Forms.MenuItem midocs;
         private System.Windows.Forms.MenuItem seperator30;
         private System.Windows.Forms.MenuItem revertMenu;
         private System.Windows.Forms.MenuItem seperator20;
@@ -2201,9 +2179,6 @@
         private System.Windows.Forms.MenuItem misnippets;
         private System.Windows.Forms.MenuItem seperator29;
         private System.Windows.Forms.MenuItem miupdates;
-        private System.Windows.Forms.MenuItem miwebsearch;
-        private System.Windows.Forms.MenuItem migoogle;
-        private System.Windows.Forms.MenuItem miwiki;
         private System.Windows.Forms.ToolStripStatusLabel gapfiller2;
         private System.Windows.Forms.MenuItem seperator7;
         private System.Windows.Forms.MenuItem micopyas;
@@ -2267,8 +2242,8 @@
         private System.Windows.Forms.MenuItem migotofileinproject;
         private System.Windows.Forms.MenuItem menuItem2;
         private System.Windows.Forms.MenuItem mifind;
-        private System.Windows.Forms.MenuItem menuItem10;
-        private System.Windows.Forms.MenuItem menuItem11;
+        private System.Windows.Forms.MenuItem mifindnext;
+        private System.Windows.Forms.MenuItem replacemenu;
         private System.Windows.Forms.MenuItem menuItem13;
         private System.Windows.Forms.MenuItem mifindchar;
         private System.Windows.Forms.MenuItem mincrementalsearch;

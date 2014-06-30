@@ -80,14 +80,6 @@ namespace SS.Ynote.Classic.Core
                 return null;
             }
         }
-
-        public void AddText(string text)
-        {
-            tbcommand.Text = text;
-            tbcommand.Select(tbcommand.Text.Length, 0);
-            completemenu.Show(tbcommand, true);
-        }
-
         private void BuildAutoComplete()
         {
             IList<AutocompleteItem> items = new List<AutocompleteItem>();

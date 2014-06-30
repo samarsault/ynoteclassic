@@ -1,4 +1,5 @@
-﻿using SS.Ynote.Classic.Core.Settings;
+﻿#define DEVBUILD
+using SS.Ynote.Classic.Core.Settings;
 
 namespace SS.Ynote.Classic.UI
 {
@@ -72,7 +73,12 @@ namespace SS.Ynote.Classic.UI
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(235, 34);
             this.label2.TabIndex = 3;
+#if DEVBUILD
             this.label2.Text = "Copyright (C) 2014 Samarjeet Singh\nv" + System.Windows.Forms.Application.ProductVersion + " Build:" + GlobalSettings.BuildNumber;
+#else
+            this.label2.Text = "Copyright (C) 2014 Samarjeet Singh\n v 2.8.5 Alpha Build 1250";
+#endif
+            
             // 
             // textBox1
             // 

@@ -1677,7 +1677,7 @@ namespace SS.Ynote.Classic.Core.Syntax
             e.ChangedRange.SetStyle(LibraryFunction, _jscriptLibraryFunction);
             e.ChangedRange.SetStyle(LibraryClass, _jScriptLibraryClass);
             e.ChangedRange.SetStyle(Constant, @"\b(true|false|null|this)\b");
-            e.ChangedRange.SetStyle(Punctuation, @"\(|\)|\+|\-|\*|\/");
+            e.ChangedRange.SetStyle(Punctuation, @"\(|\)|\+|\-|\*|\/|\$");
             e.ChangedRange.SetStyle(FunctionArgument, @"\b(function\s|function\b|(?<=\bfunction\s)(\w+))\((.*?)\)");
             //clear folding markers
             e.ChangedRange.ClearFoldingMarkers();
@@ -1692,7 +1692,7 @@ namespace SS.Ynote.Classic.Core.Syntax
         /// <param name="e"></param>
         private void HTMLSyntaxHighlight(TextChangedEventArgs e)
         {
-            e.ChangedRange.tb.CommentPrefix = "<!--";
+            e.ChangedRange.tb.CommentPrefix = "<!--^-->";
             e.ChangedRange.tb.LeftBracket = '<';
             e.ChangedRange.tb.RightBracket = '>';
             e.ChangedRange.tb.LeftBracket2 = '(';

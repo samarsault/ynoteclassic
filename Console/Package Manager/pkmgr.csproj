@@ -35,7 +35,7 @@
   <ItemGroup>
     <Reference Include="SS.Ynote.Classic, Version=2.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Desktop\Ynote Classic 2.7\SS.Ynote.Classic.exe</HintPath>
+      <HintPath>..\..\..\..\..\Desktop\Ynote 2.8.5\SS.Ynote.Classic.exe</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>

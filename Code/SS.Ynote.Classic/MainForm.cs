@@ -534,17 +534,21 @@ namespace SS.Ynote.Classic
         /// </summary>
         private void LoadPlugins()
         {
-            if (!Directory.Exists(GlobalSettings.SettingsDir + @"\Plugins"))
-                Directory.CreateDirectory(GlobalSettings.SettingsDir + @"Plugins");
-            using (var dircatalog = new DirectoryCatalog(GlobalSettings.SettingsDir + @"\Plugins"))
+            ThreadPool.QueueUserWorkItem(delegate
             {
-                using (var container = new CompositionContainer(dircatalog))
+                string directory = GlobalSettings.SettingsDir + @"\Plugins";
+                if (!Directory.Exists(directory))
+                    Directory.CreateDirectory(directory);
+                using (var dircatalog = new DirectoryCatalog(directory))
                 {
-                    var plugins = container.GetExportedValues<IYnotePlugin>();
-                    foreach (IYnotePlugin plugin in plugins)
-                        plugin.Main(this);
+                    using (var container = new CompositionContainer(dircatalog))
+                    {
+                        IEnumerable<IYnotePlugin> plugins = container.GetExportedValues<IYnotePlugin>();
+                        foreach (IYnotePlugin plugin in plugins)
+                            plugin.Main(this);
+                    }
                 }
-            }
+            });
         }
 
         #endregion Plugins
@@ -611,15 +615,18 @@ namespace SS.Ynote.Classic
         {
             SaveRecentFiles();
             GlobalSettings.Save(Globals.Settings, GlobalSettings.SettingsDir + "User.ynotesettings");
-            if (dock.Contents.Count == 0 || !ActiveEditor.IsSaved)
+            if (ActiveEditor != null)
             {
-                if (File.Exists("Last.ynotelayout"))
-                    File.Delete("Last.ynotelayout");
-            }
-            else
-            {
-                if (Globals.Settings.LoadLayout)
-                    dock.SaveAsXml("Last.ynotelayout");
+                if (dock.Contents.Count == 0 || !ActiveEditor.IsSaved)
+                {
+                    if (File.Exists("Last.ynotelayout"))
+                        File.Delete("Last.ynotelayout");
+                }
+                else
+                {
+                    if (Globals.Settings.LoadLayout)
+                        dock.SaveAsXml("Last.ynotelayout");
+                }
             }
             if (_projs != null)
                 SaveRecentProjects();
@@ -1636,28 +1643,14 @@ namespace SS.Ynote.Classic
         {
             try
             {
-                Process.Start(Application.StartupPath + "\\sup.exe",
-                    Application.StartupPath + @"\Config\AppFiles.xml http://updateServer.com/UpdateFiles.xml " +
+                Process.Start(Application.StartupPath + "\\Config\\sup.exe",
+                    Application.StartupPath + @"\Config\AppFiles.xml https://raw.githubusercontent.com/samarjeet27/ynoteclassic/master/Updates.xml" +
                     Application.ProductVersion);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error : " + ex.Message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void migoogle_Click(object sender, EventArgs e)
-        {
-            var console = new Commander();
-            console.AddText("Google:");
-            console.ShowDialog(this);
-        }
-
-        private void miwiki_Click(object sender, EventArgs e)
-        {
-            var console = new Commander();
-            console.AddText("Wikipedia:");
-            console.ShowDialog(this);
         }
 
         private void micopyhtml_Click(object sender, EventArgs e)
@@ -2010,7 +2003,7 @@ namespace SS.Ynote.Classic
                 }
             }
             var autocompletelist = new List<AutocompleteItem>();
-            var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(path, "*.*", SearchOption.TopDirectoryOnly);
             foreach (var file in files)
                 autocompletelist.Add(new FuzzyAutoCompleteItem(Path.GetFileName(file)));
             var commandwindow = new CommandWindow(autocompletelist);
@@ -2207,7 +2200,7 @@ namespace SS.Ynote.Classic
             else if (e.ClickedItem.Name == "removebookmark")
                 removebookmarkmenu.PerformClick();
             else if (e.ClickedItem.Name == "helpToolStripButton")
-                miwiki.PerformClick();
+                midocs.PerformClick();
         }
 
         private void mirefreshproj_Click(object sender, EventArgs e)
@@ -2236,6 +2229,7 @@ namespace SS.Ynote.Classic
                 {
                     ActiveEditor.Tb.Selection.Start = new Place(word.Start.iChar, word.Start.iLine);
                     ActiveEditor.Tb.Selection.End = new Place(word.End.iChar, word.End.iLine);
+                    ActiveEditor.Tb.DoSelectionVisible();
                 }
             }
         }

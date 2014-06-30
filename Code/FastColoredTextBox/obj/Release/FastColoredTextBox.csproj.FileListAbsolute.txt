@@ -1,0 +1,11 @@
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\FastColoredTextBox\bin\Release\FastColoredTextBox.dll
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\FastColoredTextBox\bin\Release\FastColoredTextBox.pdb
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\FastColoredTextBox\obj\Release\FastColoredTextBox.csprojResolveAssemblyReference.cache
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\FastColoredTextBox\obj\Release\FastColoredTextBoxNS.FastColoredTextBox.resources
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\FastColoredTextBox\obj\Release\FastColoredTextBoxNS.FindForm.resources
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\FastColoredTextBox\obj\Release\FastColoredTextBoxNS.GoToForm.resources
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\FastColoredTextBox\obj\Release\FastColoredTextBoxNS.HotkeysEditorForm.resources
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\FastColoredTextBox\obj\Release\FastColoredTextBoxNS.ReplaceForm.resources
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\FastColoredTextBox\obj\Release\FastColoredTextBox.csproj.GenerateResource.Cache
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\FastColoredTextBox\obj\Release\FastColoredTextBox.dll
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\FastColoredTextBox\obj\Release\FastColoredTextBox.pdb

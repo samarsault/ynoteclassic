@@ -6,13 +6,15 @@ using SUP.Tester;
 
 namespace SUP.Console
 {
-    internal static class Program
+    static class Program
     {
         private static ConsoleAppUpdate uphost;
         
-        private static void Main(string[] args)
+        static void Main(string[] args)
         {
-            if (args.Length == 0)
+            Console.WriteLine("SUP Updater");
+            Console.WriteLine("Copyright (c) 2014 Samarjeet Singh");
+            if (args.Length < 3)
             {
                 ShowHelp();
                 return;
