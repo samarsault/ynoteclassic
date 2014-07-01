@@ -170,10 +170,9 @@ namespace SS.Ynote.Classic.Core.Settings
         ///     Whether to show Scroll Bars
         /// </summary>
         public bool ScrollBars { get; set; }
-
         /// <summary>
-        ///     Whether to Load Layout on Startup
+        ///     Word Wrap Width
         /// </summary>
-        public bool LoadLayout { get; set; }
+        public int WrapWidth { get; set; }
     }
 }

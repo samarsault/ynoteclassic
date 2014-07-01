@@ -3044,7 +3044,8 @@ namespace FastColoredTextBoxNS
 
             i++;
             if (i >= Styles.Length)
-                throw new Exception("Maximum count of Styles is exceeded.");
+                ClearStylesBuffer();
+                //throw new Exception("Maximum count of Styles is exceeded.");
 
             Styles[i] = style;
             return i;
@@ -4248,7 +4249,7 @@ namespace FastColoredTextBoxNS
 
                 case FCTBAction.FindNext:
                     if (findForm == null || findForm.tbFind.Text == "")
-                        ShowFindDialog();
+                        ShowFindDialog(SelectedText);
                     else
                         findForm.FindNext(findForm.tbFind.Text);
                     break;
@@ -4922,17 +4923,37 @@ namespace FastColoredTextBoxNS
         /// <summary>
         ///     Insert/remove comment prefix into selected lines
         /// </summary>
-        public void CommentSelected(string commentPrefix)
+        private void CommentSelected(string commentPrefix)
         {
             if (string.IsNullOrEmpty(commentPrefix))
                 return;
-            Selection.Normalize();
+
+            if (!commentPrefix.Contains("^"))
             {
-                bool isCommented = lines[Selection.Start.iLine].Text.TrimStart().StartsWith(commentPrefix);
-                if (isCommented)
-                    RemoveLinePrefix(commentPrefix);
-                else
-                    InsertLinePrefix(commentPrefix);
+                Selection.Normalize();
+                {
+                    bool isCommented = lines[Selection.Start.iLine].Text.TrimStart().StartsWith(commentPrefix);
+                    if (isCommented)
+                        RemoveLinePrefix(commentPrefix);
+                    else
+                        InsertLinePrefix(commentPrefix);
+                }
+                return;
+            }
+
+            var parts = commentPrefix.Split('^');
+
+            Selection.Normalize();
+            if (Selection.IsEmpty)
+                Selection.Expand();
+            var text = SelectedText;
+            if (text.Contains(parts[0]))
+                InsertText(text.Replace(parts[0], "").Replace(parts[1], ""));
+            else
+            {
+                var trimmedText = text.TrimStart();
+                var spaces = text.Length - trimmedText.Length;
+                InsertText(new string(' ', spaces) + parts[0] + trimmedText + parts[1]);
             }
         }
 
@@ -5114,10 +5135,13 @@ namespace FastColoredTextBoxNS
         {
             if (AutoCompleteBrackets)
             {
-                char start = Selection.CharAfterStart;
-                if (start != '\n')
-                    if (Array.IndexOf(autoCompleteBracketsList, start) == -1)
-                        return false;
+                if (Selection.IsEmpty)
+                {
+                    char start = Selection.CharAfterStart;
+                    if (start != '\n')
+                        if (Array.IndexOf(autoCompleteBracketsList, start) == -1)
+                            return false;
+                }
                 if (!Selection.ColumnSelectionMode)
                     for (int i = 1; i < autoCompleteBracketsList.Length; i += 2)
                         if (c == autoCompleteBracketsList[i] && c == Selection.CharAfterStart)

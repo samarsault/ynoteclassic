@@ -29,7 +29,7 @@ namespace SS.Ynote.Classic.Core.Snippets
         /// <summary>
         ///     The Scope of the Snippet
         /// </summary>
-        public string Scope { get; set; }
+        public string[] Scope { get; set; }
 
         /* YnoteSnippet File Documentation
            ----------------------
@@ -73,7 +73,7 @@ namespace SS.Ynote.Classic.Core.Snippets
                                 snippet.Content = reader.ReadElementContentAsString();
                                 break;
                             case "scope":
-                                snippet.Scope = reader.ReadElementContentAsString();
+                                snippet.Scope = reader.ReadElementContentAsString().Split(',');
                                 break;
                         }
                     }

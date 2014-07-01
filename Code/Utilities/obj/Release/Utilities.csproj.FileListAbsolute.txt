@@ -1,7 +1,0 @@
-C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Utilities\bin\Release\YnoteUtils.dll
-C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Utilities\bin\Release\YnoteUtils.pdb
-C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Utilities\obj\Release\AutocompleteMenuNS.AutocompleteMenu.resources
-C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Utilities\obj\Release\ConsoleControl.ConsoleControl.resources
-C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Utilities\obj\Release\Utilities.csproj.GenerateResource.Cache
-C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Utilities\obj\Release\YnoteUtils.dll
-C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Utilities\obj\Release\YnoteUtils.pdb

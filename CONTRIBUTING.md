@@ -6,7 +6,7 @@ We encourage the community to contribute to Ynote to make it more productive , e
 Hosting
 ---
 
-Ynote is hosted jointly on Github and Codeplex. The Binary releases and old source code is all available on Codeplex and the latest releases. The Dev Build and Source Code is hosted on Github.s
+Ynote is hosted jointly on Github and Codeplex. The Binary releases and old source code is all available on Codeplex. The Dev Build and Latest Source Code is hosted on Github.
 
 Pull Requests
 ---
@@ -16,9 +16,10 @@ Pull Requests are actively welcomed
 2. Update Changelog.txt
 3. Update the Documentation
 
-Resource Files
+Packages
 ---
-The various resource files used by Yntoe are -
+Packages are collections of Resource Files used by ynote.
+The various resource files used by Ynote are -
 
 1. Color Schemes
 2. Snippets
@@ -28,3 +29,4 @@ The various resource files used by Yntoe are -
 6. Commands (.ynotecommand)
 
 Users are encouraged to share their color schemes, snippets etc.
+See http://github.com/samarjeet27/ynotepackages to share your package

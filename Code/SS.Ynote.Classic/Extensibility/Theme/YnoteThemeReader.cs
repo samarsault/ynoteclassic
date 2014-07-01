@@ -1,7 +1,9 @@
 using System;
 using System.Drawing;
+using System.IO;
 using System.Xml;
 using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Core.Settings;
 using SS.Ynote.Classic.Core.Syntax;
 
 namespace SS.Ynote.Classic.Extensibility
@@ -13,6 +15,7 @@ namespace SS.Ynote.Classic.Extensibility
     {
         public static void ApplyTheme(string source, SyntaxHighlighter highlighter, FastColoredTextBox tb)
         {
+            source = Path.Combine(GlobalSettings.SettingsDir, source);
             using (var reader = XmlReader.Create(source))
             {
                 while (reader.Read())

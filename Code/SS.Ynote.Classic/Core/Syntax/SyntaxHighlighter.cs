@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -721,7 +722,7 @@ namespace SS.Ynote.Classic.Core.Syntax
         /// <param name="e"></param>
         private void CssHighlight(TextChangedEventArgs e)
         {
-            e.ChangedRange.tb.CommentPrefix = "/*";
+            e.ChangedRange.tb.CommentPrefix = "/*^*/";
             e.ChangedRange.ClearStyle(CSSProperty, CSSSelector, CSSPropertyValue,
                 Number);
             e.ChangedRange.tb.Range.ClearStyle(Comment);
@@ -753,7 +754,7 @@ namespace SS.Ynote.Classic.Core.Syntax
             e.ChangedRange.SetStyle(Comment, @"rem .*$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
             e.ChangedRange.SetStyle(String, @"""""|@""""|''|@"".*?""|(?<!@)(?<range>"".*?[^\\]"")|'.*?[^\\]'");
             e.ChangedRange.SetStyle(Keyword,
-                @"\b(title|set|call|copy|exists|cut|cd|@|nul|choice|do|shift|sgn|errorlevel|con|prn|lpt1|echo|off|for|in|do|goto|if|then|else|not|end)\b",
+                @"\b(append|assoc|at|attrib|break|cacls|cd|chcp|chdir|chkdsk|chkntfs|cls|cmd|color|comp|goto|call|exit|if|not|exists|defined|errorlevel|else|for|compact|convert|copy|date|del|dir|diskcomp|diskcopy|doskey|echo|endlocal|erase|fc|find|findstr|format|ftype|graftabl|help|keyb|label|md|mkdir|mode|more|move|path|pause|popd|print|prompt|pushd|rd|recover|rem|ren|rename|replace|restore|rmdir|set|setlocal|shift|sort|start|subst|time|title|tree|type|ver|verify|vol|xcopy)\b",
                 RegexOptions.IgnoreCase);
             e.ChangedRange.SetStyle(Constant, @"%.*?[^\\]%", RegexOptions.Multiline);
             e.ChangedRange.SetStyle(Punctuation, @"\;|-|>|<|=|\+|\,|\$|\^|\[|\]|\$|:|\!");
@@ -1004,7 +1005,7 @@ namespace SS.Ynote.Classic.Core.Syntax
         /// <param name="e"></param>
         private void XmlSyntaxHighlight(TextChangedEventArgs e)
         {
-            e.ChangedRange.tb.CommentPrefix = "<!--";
+            e.ChangedRange.tb.CommentPrefix = "<!--^-->";
             e.ChangedRange.tb.LeftBracket = '<';
             e.ChangedRange.tb.RightBracket = '>';
             e.ChangedRange.tb.LeftBracket2 = '(';
@@ -1478,15 +1479,15 @@ namespace SS.Ynote.Classic.Core.Syntax
             foreach (var range in e.ChangedRange.tb.GetRanges(@"(<style.*?>.*?</style>)", RegexOptions.Singleline))
             {
                 //remove HTML and JS from this fragment
-                range.ClearStyle(Comment, TagBracket, AttributeName, AttributeValue, Keyword, Number, Constant, Storage,
+                range.ClearStyle(Comment, TagBracket, Keyword, Number, Constant, Storage,
                     FunctionName, ClassName, LibraryClass, LibraryFunction, Punctuation);
                 //do CSS highlighting
                 CssHighlight(new TextChangedEventArgs(range));
             }
-            foreach (var r in e.ChangedRange.tb.GetRanges(@"(<script.*?>.*?</script>)", RegexOptions.Singleline))
+            foreach (var r in e.ChangedRange.tb.GetRanges(@"<script.*?>.*?</script>", RegexOptions.Singleline))
             {
                 //remove HTML and CSS highlighting from this fragment
-                r.ClearStyle(Comment, TagBracket, AttributeName, AttributeValue, Number, Constant, CSSProperty,
+                r.ClearStyle(Comment, Number, Constant, CSSProperty,
                     CSSPropertyValue, CSSSelector);
                 //do javascript highlighting
                 JScriptSyntaxHighlight(new TextChangedEventArgs(r));

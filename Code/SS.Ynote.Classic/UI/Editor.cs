@@ -154,7 +154,7 @@ namespace SS.Ynote.Classic.UI
 
         public void RePaintTheme()
         {
-            codebox.ClearStyle(StyleIndex.All);
+            codebox.ClearStylesBuffer();
             if (Globals.Settings.ThemeFile != null)
                 YnoteThemeReader.ApplyTheme(Globals.Settings.ThemeFile, Highlighter, codebox);
             Highlighter.HighlightSyntax(codebox.Language, new TextChangedEventArgs(codebox.Range));
@@ -191,6 +191,11 @@ namespace SS.Ynote.Classic.UI
             if (Globals.Settings.ShowDocumentMap)
             {
                 CreateDocumentMap();
+            }
+            if (Globals.Settings.WrapWidth > 0)
+            {
+                codebox.WordWrapMode = WordWrapMode.WordWrapPreferredWidth;
+                codebox.PreferredLineWidth = Globals.Settings.WrapWidth;
             }
             if (!Globals.Settings.ShowRuler) return;
             var ruler = new Ruler
@@ -343,19 +348,16 @@ namespace SS.Ynote.Classic.UI
                 var fragment = Tb.Selection.GetFragment(@"\w");
                 foreach (var snippet in Globals.Snippets)
                 {
-                    if (snippet.Scope == codebox.Language || string.IsNullOrEmpty(snippet.Scope))
+                    if (snippet.Scope.Contains(codebox.Language) && snippet.Tab==fragment.Text)
                     {
-                        if (snippet.Tab == fragment.Text)
-                        {
-                            e.Handled = true;
-                            codebox.BeginUpdate();
-                            codebox.Selection.BeginUpdate();
-                            codebox.Selection = fragment;
-                            codebox.ClearSelected();
-                            InsertSnippet(snippet);
-                            codebox.Selection.EndUpdate();
-                            codebox.EndUpdate();
-                        }
+                       e.Handled = true;
+                       codebox.BeginUpdate();
+                       codebox.Selection.BeginUpdate();
+                       codebox.Selection = fragment;
+                       codebox.ClearSelected();
+                       InsertSnippet(snippet);
+                       codebox.Selection.EndUpdate();
+                       codebox.EndUpdate();
                     }
                 }
             }
@@ -406,10 +408,13 @@ namespace SS.Ynote.Classic.UI
         {
             if (_autocomplete == null)
                 CreateAutoCompleteMenu();
-            if (string.IsNullOrEmpty(codebox.Text))
-                return;
-            foreach (var matches in codebox.GetRanges(@"\w+"))
-                _autocomplete.Items.AddItem(new AutocompleteItem(matches.Text));
+            ThreadPool.QueueUserWorkItem(delegate
+            {
+                if (string.IsNullOrEmpty(codebox.Text))
+                    return;
+                foreach (var matches in codebox.GetRanges(@"\w+"))
+                    _autocomplete.Items.AddItem(new AutocompleteItem(matches.Text));
+            });
         }
 
         private void codebox_SelectionChangedDelayed(object sender, EventArgs e)

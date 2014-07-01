@@ -1,9 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.Composition.Hosting;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using SS.Ynote.Classic.Core.Settings;
+using SS.Ynote.Classic.Extensibility;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace SS.Ynote.Classic.Core.Project
@@ -59,7 +63,6 @@ namespace SS.Ynote.Classic.Core.Project
             Globals.ActiveProject = project;
             Expand();
         }
-
         private void Expand()
         {
             foreach (TreeNode node in projtree.Nodes)

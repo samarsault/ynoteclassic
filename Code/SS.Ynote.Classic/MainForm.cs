@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition.Hosting;
+using System.ComponentModel.Composition.Primitives;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -91,18 +92,20 @@ namespace SS.Ynote.Classic
             if (Globals.Settings.ShowStatusBar)
                 InitTimer();
             Globals.Ynote = this;
-            LoadLayout(file);
-#if DEBUG
+
+            if (string.IsNullOrEmpty(file))
+                CreateNewDoc();
+            else
+                OpenFile(file);
+#if DEBUG && DEVBUILD
             sp.Stop();
             Debug.WriteLine(string.Format("Form Construction Time : {0} ms", sp.ElapsedMilliseconds));
-#if DEVBUILD
             GlobalSettings.BuildNumber = File.ReadAllLines(Application.StartupPath + "\\Build.number")[0].ToInt();
             GlobalSettings.BuildNumber++;
 #endif
-#endif
         }
 
-        #endregion Constructor
+        #endregion
 
         #region Methods
 
@@ -534,21 +537,18 @@ namespace SS.Ynote.Classic
         /// </summary>
         private void LoadPlugins()
         {
-            ThreadPool.QueueUserWorkItem(delegate
+            string directory = GlobalSettings.SettingsDir + @"\Plugins";
+            if (!Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+            using (var dircatalog = new DirectoryCatalog(directory, "*.dll"))
             {
-                string directory = GlobalSettings.SettingsDir + @"\Plugins";
-                if (!Directory.Exists(directory))
-                    Directory.CreateDirectory(directory);
-                using (var dircatalog = new DirectoryCatalog(directory))
+                using (var container = new CompositionContainer(dircatalog))
                 {
-                    using (var container = new CompositionContainer(dircatalog))
-                    {
-                        IEnumerable<IYnotePlugin> plugins = container.GetExportedValues<IYnotePlugin>();
-                        foreach (IYnotePlugin plugin in plugins)
-                            plugin.Main(this);
-                    }
+                    IEnumerable<IYnotePlugin> plugins = container.GetExportedValues<IYnotePlugin>();
+                    foreach (IYnotePlugin plugin in plugins)
+                        plugin.Main(this);
                 }
-            });
+            }
         }
 
         #endregion Plugins
@@ -577,34 +577,6 @@ namespace SS.Ynote.Classic
             return null;
         }
 
-        private void LoadLayout(string file)
-        {
-            if (!Globals.Settings.LoadLayout)
-            {
-                if (string.IsNullOrEmpty(file))
-                    CreateNewDoc();
-                else
-                    OpenFile(file);
-            }
-            else
-            {
-                string filename = Application.StartupPath + "\\Last.ynotelayout";
-                if (File.Exists(filename))
-                {
-                    dock.LoadFromXml(filename, GetContentFromPersistString);
-                    if (!string.IsNullOrEmpty(file))
-                        OpenFile(file);
-                }
-                else
-                {
-                    if (string.IsNullOrEmpty(file))
-                        CreateNewDoc();
-                    else
-                        OpenFile(file);
-                }
-            }
-        }
-
         #endregion
 
         #endregion
@@ -615,19 +587,6 @@ namespace SS.Ynote.Classic
         {
             SaveRecentFiles();
             GlobalSettings.Save(Globals.Settings, GlobalSettings.SettingsDir + "User.ynotesettings");
-            if (ActiveEditor != null)
-            {
-                if (dock.Contents.Count == 0 || !ActiveEditor.IsSaved)
-                {
-                    if (File.Exists("Last.ynotelayout"))
-                        File.Delete("Last.ynotelayout");
-                }
-                else
-                {
-                    if (Globals.Settings.LoadLayout)
-                        dock.SaveAsXml("Last.ynotelayout");
-                }
-            }
             if (_projs != null)
                 SaveRecentProjects();
             if (Globals.ActiveProject != null && Globals.ActiveProject.IsSaved)

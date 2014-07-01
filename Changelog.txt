@@ -396,3 +396,7 @@ Build 1223
 Build 1231
 
 -> Better Character Auto-Completion
+
+Build 1245
+
+-> Improved Comments

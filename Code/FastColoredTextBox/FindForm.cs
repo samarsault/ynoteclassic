@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
-using System.Collections.Generic;
 
 namespace FastColoredTextBoxNS
 {
@@ -52,7 +51,7 @@ namespace FastColoredTextBoxNS
                 else
                     range.End = startPlace;
                 //
-                foreach (var r in range.GetRangesByLines(pattern, opt))
+                foreach (var r in range.GetRanges(pattern, opt))
                 {
                     tb.Selection = r;
                     tb.DoSelectionVisible();

@@ -489,7 +489,7 @@ internal class SnippetCommand : ICommand
         var items = new Collection<string>();
         var edit = Globals.Ynote.Panel.ActiveDocument as Editor;
         foreach (var snippet in Globals.Snippets)
-            if (snippet.Scope == edit.Tb.Language)
+            if (snippet.Scope.Contains(edit.Tb.Language))
                 items.Add(Path.GetFileNameWithoutExtension(snippet.File));
         return items.ToArray();
     }

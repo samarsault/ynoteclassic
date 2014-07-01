@@ -118,13 +118,14 @@ namespace SS.Ynote.Classic.UI
             this.cbtool = new System.Windows.Forms.CheckBox();
             this.cbmenu = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.cbSysTray = new System.Windows.Forms.CheckBox();
             this.savingfile = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cbTabs = new System.Windows.Forms.CheckBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.tbwrap = new SS.Ynote.Classic.UI.Controls.NumericTextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.tabcontrol.SuspendLayout();
             this.tabsettingpage.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -592,6 +593,9 @@ namespace SS.Ynote.Classic.UI
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.tbwrap);
+            this.groupBox10.Controls.Add(this.label11);
+            this.groupBox10.Controls.Add(this.label12);
             this.groupBox10.Controls.Add(this.tabsize);
             this.groupBox10.Controls.Add(this.label8);
             this.groupBox10.Controls.Add(this.label3);
@@ -628,9 +632,9 @@ namespace SS.Ynote.Classic.UI
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(157, 45);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(33, 13);
+            this.label3.Size = new System.Drawing.Size(18, 13);
             this.label3.TabIndex = 3;
-            this.label3.Text = "pixels";
+            this.label3.Text = "px";
             // 
             // tblineinterval
             // 
@@ -653,9 +657,9 @@ namespace SS.Ynote.Classic.UI
             this.label17.AutoSize = true;
             this.label17.Location = new System.Drawing.Point(155, 78);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(33, 13);
+            this.label17.Size = new System.Drawing.Size(18, 13);
             this.label17.TabIndex = 2;
-            this.label17.Text = "pixels";
+            this.label17.Text = "px";
             // 
             // label14
             // 
@@ -758,7 +762,6 @@ namespace SS.Ynote.Classic.UI
             // 
             // groupBox14
             // 
-            this.groupBox14.Controls.Add(this.button1);
             this.groupBox14.Controls.Add(this.btnScriptCache);
             this.groupBox14.Controls.Add(this.button6);
             this.groupBox14.Controls.Add(this.button5);
@@ -918,7 +921,6 @@ namespace SS.Ynote.Classic.UI
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.checkBox2);
             this.groupBox3.Controls.Add(this.cbSysTray);
             this.groupBox3.Location = new System.Drawing.Point(88, 130);
             this.groupBox3.Name = "groupBox3";
@@ -926,17 +928,6 @@ namespace SS.Ynote.Classic.UI
             this.groupBox3.TabIndex = 11;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "MISC";
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(35, 65);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(194, 17);
-            this.checkBox2.TabIndex = 1;
-            this.checkBox2.Text = "Load Previous Workspace on Load";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // cbSysTray
             // 
@@ -992,15 +983,32 @@ namespace SS.Ynote.Classic.UI
             this.linkLabel1.Text = "Edit User.ynotesettings File";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
-            // button1
+            // tbwrap
             // 
-            this.button1.Location = new System.Drawing.Point(12, 93);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(185, 50);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Delete Layout File";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.tbwrap.AllowSpace = false;
+            this.tbwrap.Location = new System.Drawing.Point(295, 75);
+            this.tbwrap.Name = "tbwrap";
+            this.tbwrap.Size = new System.Drawing.Size(43, 20);
+            this.tbwrap.TabIndex = 8;
+            this.tbwrap.Enter += new System.EventHandler(this.tbwrap_Enter);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(344, 79);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(18, 13);
+            this.label11.TabIndex = 7;
+            this.label11.Text = "px";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(212, 79);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(77, 13);
+            this.label12.TabIndex = 6;
+            this.label12.Text = "Wrap Column :";
             // 
             // Options
             // 
@@ -1138,7 +1146,8 @@ namespace SS.Ynote.Classic.UI
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.CheckBox cbchangedline;
         private System.Windows.Forms.CheckBox cbScrollBars;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.Button button1;
+        private NumericTextBox tbwrap;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
     }
 }

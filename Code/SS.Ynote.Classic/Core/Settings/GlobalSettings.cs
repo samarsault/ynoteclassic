@@ -61,11 +61,10 @@ namespace SS.Ynote.Classic.Core.Settings
             prop.ShowToolBar = false;
             prop.ShowStatusBar = true;
             prop.ShowMenuBar = true;
-            prop.ThemeFile = SettingsDir + "User\\Themes\\Default.ynotetheme";
+            prop.ThemeFile = "User\\Themes\\Default.ynotetheme";
             prop.HighlightFolding = true;
             prop.ShowFoldingLines = true;
             prop.ShowCaret = true;
-            prop.LoadLayout = true;
             prop.UseTabs = false;
             prop.Zoom = 100;
             prop.WordWrap = false;

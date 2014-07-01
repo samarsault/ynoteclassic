@@ -36,7 +36,6 @@ namespace SS.Ynote.Classic.UI
                 : "Outside";
             tablocation.Text = Globals.Settings.TabLocation.ToString();
             checkBox1.Checked = Globals.Settings.ShowDocumentMap;
-            checkBox2.Checked = Globals.Settings.LoadLayout;
             cbBrackets.Checked = Globals.Settings.AutoCompleteBrackets;
             ShowLineNumber.Checked = Globals.Settings.ShowLineNumbers;
             showcaret.Checked = Globals.Settings.ShowCaret;
@@ -59,6 +58,7 @@ namespace SS.Ynote.Classic.UI
             cbTabs.Checked = Globals.Settings.UseTabs;
             cbchangedline.Checked = Globals.Settings.ShowChangedLine;
             cbScrollBars.Checked = Globals.Settings.ScrollBars;
+            tbwrap.Text = Globals.Settings.WrapWidth.ToString();
             BuildEncodingList();
         }
 
@@ -185,6 +185,7 @@ namespace SS.Ynote.Classic.UI
         {
             Globals.Settings.PaddingWidth = tbpaddingwidth.IntValue;
             Globals.Settings.LineInterval = tblineinterval.IntValue;
+            Globals.Settings.WrapWidth = tbwrap.IntValue;
             Globals.Settings.TabSize = Convert.ToInt32(tabsize.Value);
             Globals.Settings.RecentFileNumber = Convert.ToInt32(numrecent.Value);
             GlobalSettings.Save(Globals.Settings, GlobalSettings.SettingsDir + "User.ynotesettings");
@@ -351,28 +352,18 @@ namespace SS.Ynote.Classic.UI
             Globals.Settings.ScrollBars = cbScrollBars.Checked;
         }
 
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.Settings.LoadLayout = checkBox2.Checked;
-        }
-
         private void cbTabs_CheckedChanged(object sender, EventArgs e)
         {
             Globals.Settings.UseTabs = cbTabs.Checked;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void tbwrap_Enter(object sender, EventArgs e)
         {
-            try
-            {
-                File.Delete("Last.ynotelayout");
-                MessageBox.Show("File Deleted.");
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Error");
-            }
+            int visible = 1000;
+            ToolTip tip = new ToolTip();
+            tip.Show("Leave it 0 for automatic adjustment",tbwrap,0,-10,visible);
         }
+
     }
 
     class EncodingItem
