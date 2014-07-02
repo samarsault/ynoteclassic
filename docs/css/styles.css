@@ -1,0 +1,52 @@
+#article {
+    position: fixed; 
+    top: 0;
+    left: 300px; /*Set left value to WidthOfLeftFrameDiv*/
+    /* right: 150px; Set right value to WidthOfRightFrameDiv*/
+    bottom: 0;
+    overflow: auto; 
+    background: #fff;
+}
+#sidebar {
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 300px; /*Width of left frame div*/
+    height: 100%;
+    overflow: hidden; /*Disable scrollbars. Set to "scroll" to enable*/
+    background-color: #2980b9;
+    color: white;
+}
+.inner{
+    margin: 15px;
+}
+.content {
+    position:relative;
+    background-color: #4e4a4a;
+    border-radius:5px;
+    color:#b3b3b3;
+    padding:5px 10px 5px 10px;
+    left:-3px;
+    width:95%;
+    margin-top:5px;
+    text-align:center;
+}
+.content:hover{
+    background-color:#404040;
+    cursor:pointer;
+}
+#search {
+    width:90%;
+    display:inline-block;
+    border-radius:50px;
+    padding:5px 10px 6px 12px;
+    margin-bottom:10px;
+}
+#heading {
+    text-align:center;
+    color:#fcfcfc;
+    font-size:19px;
+    padding:4px 6px;
+    margin-bottom:10px;
+    text-decoration:none;
+}
