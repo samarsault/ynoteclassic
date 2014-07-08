@@ -33,6 +33,3 @@ function loadDoc(f)
     xmlhttp.open("GET","res/"+f,true);
     xmlhttp.send();
 }
-function Highlight(code){
-
-}

@@ -21,7 +21,10 @@ You can use **Alt+F+{char}** key to find a character in the document. It is full
 Incremental Search
 ---
 Use **Ctrl+I** or Edit->Search->Incremental Search to show the Incremental Searcher.
-![Ynote Classic Incremental Search](images/IncrementalSearcher.png "Incremental Searcher")
+
+
+![Ynote Classic Incremental Search](images/IncrementalSearcher.PNG "Incremental Searcher")
+
 *Searching for string values with regex Incrementally in ynote*
 Replace
 ---

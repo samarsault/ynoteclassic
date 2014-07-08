@@ -6,4 +6,6 @@ Split Editing is the best way to make use of your wide-screen monitor. Ynote sup
 - **View -> Split -> Split Beside** - Splits the document beside the active document
 - **View -> Split -> Split Synchronized Scroll** - Splits the document synchronizing the scrolling
 
+![Ynote Split Editing](images/Split.PNG "Split Editing")
+
 *TIP : You can position the windows in any way after spliting by dragging the window.*

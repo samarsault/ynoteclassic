@@ -12,8 +12,7 @@
 <body>
     <div id="sidebar">
         <div class="inner">
-            <a href="http://ynoteclassic.codeplex.com"><p id="heading">Ynote Classic</p></a></h2>
-            <input type="text" placeholder="Search Documentation" id="search"></input>
+            <a href="http://ynoteclassic.codeplex.com"><p id="heading">Contents</p></a></h2>
             <div link="GETTINGSTARTED.md" class="content">Getting Started</div>
             <div link="SEARCH.md"class="content">Search and Replace</div>
             <div link="AUTOCOMPLETION.md"class="content">Autocompletion</div>
@@ -25,20 +24,13 @@
             <div link="THEMES.md"class="content">Themes</div>
             <div link="SNIPPETS.md"class="content">Snippets</div>
             <div link="RUNSCRIPTS.md"class="content">Runscripts(Build System)</div>
-            <div link="TIPS.md"class="content">Tips</div>
         </div>
     </div>
     <div id="article">
         <div class="inner"></div>
     </div>
     <script type="text/javascript">
-   // loadDoc('Welcome')
-    var input = $('search');
-    input.onkeydown=function(e){
-        if(e.which == 13){
-            loadDoc(input.value.toUpperCase() + ".md")
-        }
-    }
+    loadDoc('WELCOME.md')
     var contents = document.getElementsByClassName('content');
     // occurs when a content is clicked
     for(var i=0;i < contents.length;i++){

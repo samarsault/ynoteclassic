@@ -7,7 +7,7 @@ Column Selection
 ---
 Use Alt+Mouse Drag or Alt+Shift+Arrow Keys to select a Vertical Block of Text.
 ** See Image Below **
-![Ynote Column Selection](images/ColumnSelection.png "Column Selection Mode")
+![Ynote Column Selection](images/ColumnSelection.PNG "Column Selection Mode")
 
 Commander
 ---
