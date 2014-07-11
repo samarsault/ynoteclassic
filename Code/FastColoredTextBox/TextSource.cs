@@ -37,7 +37,7 @@ namespace FastColoredTextBoxNS
             InitDefaultStyle();
         }
 
-        public CommandManager Manager { get; protected set; }
+        public CommandManager Manager { get; set; }
 
         /// <summary>
         ///     Current focused FastColoredTextBox

@@ -11,10 +11,6 @@ namespace SS.Ynote.Classic.Core
 {
     public partial class Commander : Form
     {
-        /// <summary>
-        ///     Installed Commands
-        /// </summary>
-        private static IList<ICommand> Commands;
 
         internal ToolStripDropDownButton LangMenu;
 
@@ -38,7 +34,9 @@ namespace SS.Ynote.Classic.Core
 
         private static void ReloadCommands()
         {
-            Commands = new List<ICommand>(GetCommands())
+            if (Globals.Commands != null)
+                return;
+            Globals.Commands = new List<ICommand>(GetCommands())
             {
                 new SetSyntaxCommand(),
                 new MacroCommand(),
@@ -83,7 +81,7 @@ namespace SS.Ynote.Classic.Core
         private void BuildAutoComplete()
         {
             IList<AutocompleteItem> items = new List<AutocompleteItem>();
-            foreach (var cmd in Commands)
+            foreach (var cmd in Globals.Commands)
                 if (cmd == null)
                     return;
                 else
@@ -121,7 +119,7 @@ namespace SS.Ynote.Classic.Core
         {
             try
             {
-                foreach (var command in Commands)
+                foreach (var command in Globals.Commands)
                     if (command.Key == c.Key)
                         command.ProcessCommand(c.Value, Globals.Ynote);
                 if (c.Key == "SetSyntax" || c.Key == "SetSyntaxFile")
@@ -139,9 +137,9 @@ namespace SS.Ynote.Classic.Core
         public static void RunCommand(IYnote ynote, string commandstr)
         {
             var command = YnoteCommand.FromString(commandstr);
-            if (Commands == null)
+            if (Globals.Commands == null)
                 ReloadCommands();
-            foreach (var cmd in Commands)
+            foreach (var cmd in Globals.Commands)
             {
                 if (cmd.Key == command.Key)
                 {

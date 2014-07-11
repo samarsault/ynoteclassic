@@ -400,3 +400,7 @@ Build 1231
 Build 1245
 
 -> Improved Comments
+
+Build 1275
+
+-> Added Multiple-Caret and Multiple-Selections support

@@ -15,7 +15,7 @@ namespace SS.Ynote.Classic.Core.Snippets
         ///     Description of the Snippet
         /// </summary>
         public string Description { get; set; }
-
+        
         /// <summary>
         ///     Tab Trigger of the Snippet
         /// </summary>

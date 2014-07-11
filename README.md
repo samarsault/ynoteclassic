@@ -13,6 +13,7 @@ Features
   - Powerful Find and Replace using Regular Expressions in document and multiple files
   - Commander and Powerful Key Bindings to perform quick tasks while staying on the keyboard
   - Minimap / Document Map and Ruler
+  - Column Selection, Multi-Edit and Multiple Selections
   - Killer navigation features and navigation history
   - Function / Symbol List
   - Code Snippets and Macros to ease your tasks
@@ -42,7 +43,7 @@ Follow
 Version
 ----
 
-2.8.5 Alpha Build 1253
+2.8.5 Alpha Build 1275
 
 License
 ----

@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System;
 
 namespace FastColoredTextBoxNS
 {
     public class CommandManager
     {
-        private readonly LimitedStack<UndoableCommand> history;
-        private readonly int maxHistoryLength = 200;
-        private readonly Stack<UndoableCommand> redoStack = new Stack<UndoableCommand>();
-        private int autoUndoCommands;
-        private int disabledCommands;
+        readonly int maxHistoryLength = 200;
+        LimitedStack<UndoableCommand> history;
+        Stack<UndoableCommand> redoStack = new Stack<UndoableCommand>();
+        public TextSource TextSource{ get; private set; }
+        public bool UndoRedoStackIsEnabled { get; set; }
 
         public CommandManager(TextSource ts)
         {
@@ -18,29 +18,16 @@ namespace FastColoredTextBoxNS
             UndoRedoStackIsEnabled = true;
         }
 
-        public TextSource TextSource { get; private set; }
-        public bool UndoRedoStackIsEnabled { get; set; }
-
-        public bool UndoEnabled
-        {
-            get { return history.Count > 0; }
-        }
-
-        public bool RedoEnabled
-        {
-            get { return redoStack.Count > 0; }
-        }
-
-        public void ExecuteCommand(Command cmd)
+        public virtual void ExecuteCommand(Command cmd)
         {
             if (disabledCommands > 0)
                 return;
 
             //multirange ?
             if (cmd.ts.CurrentTB.Selection.ColumnSelectionMode)
-                if (cmd is UndoableCommand)
-                    //make wrapper
-                    cmd = new MultiRangeCommand((UndoableCommand) cmd);
+            if (cmd is UndoableCommand)
+                //make wrapper
+                cmd = new MultiRangeCommand((UndoableCommand)cmd);
 
 
             if (cmd is UndoableCommand)
@@ -75,7 +62,7 @@ namespace FastColoredTextBoxNS
             {
                 var cmd = history.Pop();
                 //
-                BeginDisableCommands(); //prevent text changing into handlers
+                BeginDisableCommands();//prevent text changing into handlers
                 try
                 {
                     cmd.Undo();
@@ -98,6 +85,8 @@ namespace FastColoredTextBoxNS
             TextSource.CurrentTB.OnUndoRedoStateChanged();
         }
 
+        protected int disabledCommands = 0;
+
         private void EndDisableCommands()
         {
             disabledCommands--;
@@ -107,6 +96,8 @@ namespace FastColoredTextBoxNS
         {
             disabledCommands++;
         }
+
+        int autoUndoCommands = 0;
 
         public void EndAutoUndoCommands()
         {
@@ -133,7 +124,7 @@ namespace FastColoredTextBoxNS
             if (redoStack.Count == 0)
                 return;
             UndoableCommand cmd;
-            BeginDisableCommands(); //prevent text changing into handlers
+            BeginDisableCommands();//prevent text changing into handlers
             try
             {
                 cmd = redoStack.Pop();
@@ -155,24 +146,40 @@ namespace FastColoredTextBoxNS
 
             TextSource.CurrentTB.OnUndoRedoStateChanged();
         }
+
+        public bool UndoEnabled 
+        { 
+            get
+            {
+                return history.Count > 0;
+            }
+        }
+
+        public bool RedoEnabled
+        {
+            get
+            {
+                return redoStack.Count > 0;
+            }
+        }
     }
 
     public abstract class Command
     {
-        internal TextSource ts;
+        public TextSource ts;
         public abstract void Execute();
     }
 
     internal class RangeInfo
     {
+        public Place Start { get; set; }
+        public Place End { get; set; }
+
         public RangeInfo(Range r)
         {
             Start = r.Start;
             End = r.End;
         }
-
-        public Place Start { get; set; }
-        public Place End { get; set; }
 
         internal int FromX
         {
@@ -187,9 +194,9 @@ namespace FastColoredTextBoxNS
 
     public abstract class UndoableCommand : Command
     {
-        internal bool autoUndo;
-        internal RangeInfo lastSel;
         internal RangeInfo sel;
+        internal RangeInfo lastSel;
+        internal bool autoUndo;
 
         public UndoableCommand(TextSource ts)
         {

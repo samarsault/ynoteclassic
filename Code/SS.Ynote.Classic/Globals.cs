@@ -9,6 +9,7 @@ namespace SS.Ynote.Classic
 {
     internal static class Globals
     {
+        public static IEnumerable<ICommand> Commands; 
         /// <summary>
         ///     Snippets
         /// </summary>

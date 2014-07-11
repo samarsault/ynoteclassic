@@ -35,6 +35,7 @@
             this.cbMatchCase = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cbWholeWord = new System.Windows.Forms.CheckBox();
+            this.btFindAll = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btClose
@@ -49,7 +50,7 @@
             // 
             // btFindNext
             // 
-            this.btFindNext.Location = new System.Drawing.Point(192, 73);
+            this.btFindNext.Location = new System.Drawing.Point(105, 73);
             this.btFindNext.Name = "btFindNext";
             this.btFindNext.Size = new System.Drawing.Size(75, 23);
             this.btFindNext.TabIndex = 4;
@@ -108,11 +109,22 @@
             this.cbWholeWord.UseVisualStyleBackColor = true;
             this.cbWholeWord.CheckedChanged += new System.EventHandler(this.cbMatchCase_CheckedChanged);
             // 
+            // btFindAll
+            // 
+            this.btFindAll.Location = new System.Drawing.Point(192, 73);
+            this.btFindAll.Name = "btFindAll";
+            this.btFindAll.Size = new System.Drawing.Size(75, 23);
+            this.btFindAll.TabIndex = 6;
+            this.btFindAll.Text = "Find All";
+            this.btFindAll.UseVisualStyleBackColor = true;
+            this.btFindAll.Click += new System.EventHandler(this.btFindAll_Click);
+            // 
             // FindForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(360, 108);
+            this.Controls.Add(this.btFindAll);
             this.Controls.Add(this.cbWholeWord);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cbMatchCase);
@@ -142,5 +154,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox cbWholeWord;
         public System.Windows.Forms.TextBox tbFind;
+        private System.Windows.Forms.Button btFindAll;
     }
 }

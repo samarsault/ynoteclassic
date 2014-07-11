@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Xml;
 using AutocompleteMenuNS;
 
 /// <summary>
@@ -61,4 +65,5 @@ public class FuzzyAutoCompleteItem : AutocompleteItem
             return CompareResult.Visible;
         return CompareResult.Visible;
     }
+
 }

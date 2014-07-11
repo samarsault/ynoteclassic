@@ -124,5 +124,14 @@ namespace FastColoredTextBoxNS
         {
             ResetSerach();
         }
+
+        private void btFindAll_Click(object sender, EventArgs e)
+        {
+            string re = tbFind.Text;
+            if (cbWholeWord.Checked)
+                re = "\b" + re + "\b";
+            tb.AddMultipleSelections(re, !cbMatchCase.Checked);
+            Close();
+        }
     }
 }
