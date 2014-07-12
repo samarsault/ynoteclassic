@@ -233,7 +233,8 @@ namespace SS.Ynote.Classic.UI
                 }
             }
             foreach (var syntax in SyntaxHighlighter.LoadedSyntaxes.Where(syntax => syntax.SysPath != null))
-                dic.Add(Path.GetFileNameWithoutExtension(syntax.SysPath), syntax.Extensions);
+                if(!dic.ContainsKey(syntax.Name))
+                    dic.Add(Path.GetFileNameWithoutExtension(syntax.SysPath), syntax.Extensions);
             return dic;
         }
 

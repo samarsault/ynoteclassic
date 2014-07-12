@@ -2331,8 +2331,11 @@ namespace FastColoredTextBoxNS
 
             i++;
             if (i >= Styles.Length)
+            {
                 ClearStylesBuffer();
-                //throw new Exception("Maximum count of Styles is exceeded.");
+                i = 0;
+            }
+            //throw new Exception("Maximum count of Styles is exceeded.");
 
             Styles[i] = style;
             return i;
@@ -5328,22 +5331,16 @@ namespace FastColoredTextBoxNS
                 ranges = GetRanges(re, RegexOptions.IgnoreCase);
             else
                 ranges = GetRanges(re);
-            Range r = null;
-            foreach(Range range in ranges)
+            foreach (var range in ranges)
             {
-                // add the first caret as refernce point
                 if (Selection.IsEmpty)
-                {
-                    r = range;
                     Selection = range;
-                    DoSelectionVisible();
-                }
                 else
-                {
-                    AddedCarets.Add(new Place(r.Start.iChar-range.Start.iChar, r.Start.iLine-range.Start.iLine));
-                }
+                    AddedCarets.Add(new Place(range.Start.iChar - Selection.Start.iChar,
+                        range.Start.iLine - Selection.Start.iLine));
             }
             Invalidate();
+            DoSelectionVisible();
         }
          /// <summary>
         /// Returns Range for additional caret
@@ -5752,12 +5749,57 @@ namespace FastColoredTextBoxNS
         {
             return PlaceToPosition(PointToPlace(point));
         }
+        /// <summary>
+        ///     Remove Brackets
+        /// </summary>
+        /// <param name="sel"></param>
+        /// <returns></returns>
+        private bool RemoveBrackets(Range sel)
+        {
+            if (!AutoCompleteBrackets)
+                return false;
+            for (int i = 1; i < autoCompleteBracketsList.Length; i += 2)
+            {
+                if (sel.CharAfterStart == autoCompleteBracketsList[i] &&
+                    sel.CharBeforeStart == autoCompleteBracketsList[i - 1])
+                {
+                    BeginInvoke((MethodInvoker)(() =>
+                    {
+                        Selection = sel;
+                        Selection.GoLeft();
+                        Selection.GoRight(true);
+                        Selection.GoRight(true);
+                        ClearSelected();
+                    }));
+                    return true;
+                }
+            }
+            return false;
+        }
 
         /// <summary>
         /// Fires TextChanging event
         /// </summary>
         public virtual void OnTextChanging(ref string text)
         {
+            if (text == "\0") //deleting
+            {
+                var sel = Selection.Clone();
+                sel.GoRight();
+                if (RemoveBrackets(sel))
+                {
+                    text = "";
+                    return;
+                }
+            }
+            if (text == "\b") //backspace
+            {
+                if (RemoveBrackets(Selection))
+                {
+                    text = "";
+                    return;
+                }
+            }
             ClearBracketsPositions();
 
             if (TextChanging != null)

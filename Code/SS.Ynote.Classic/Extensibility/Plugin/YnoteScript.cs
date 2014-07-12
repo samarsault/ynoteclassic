@@ -69,7 +69,7 @@ namespace SS.Ynote.Classic.Core.Extensibility
         }
 
         /// <summary>
-        ///     Gets a property from a script's main method
+        ///     Gets a interface/class/value from a script's main method
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="reference"></param>

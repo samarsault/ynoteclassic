@@ -1,8 +1,11 @@
 ﻿#define DEVBUILD
 
+using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
+using FastColoredTextBoxNS;
 using SS.Ynote.Classic.UI;
 
 namespace SS.Ynote.Classic.Core.Snippets

@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition.Hosting;
-using System.ComponentModel.Composition.Primitives;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -630,6 +629,7 @@ namespace SS.Ynote.Classic
         #region Events
 
         private string path;
+
         private IEnumerable<Range> words;
 
         /// <summary>
@@ -805,13 +805,8 @@ namespace SS.Ynote.Classic
 
         private void mifindinfiles_Click(object sender, EventArgs e)
         {
-            string dir = "";
-            if (ActiveEditor.IsSaved)
-                dir = Path.GetDirectoryName(ActiveEditor.Name);
             using (var findinfiles = new FindInFiles())
             {
-                if (!string.IsNullOrEmpty(dir))
-                    findinfiles.Directory = dir;
                 findinfiles.StartPosition = FormStartPosition.CenterParent;
                 findinfiles.ShowDialog(this);
             }

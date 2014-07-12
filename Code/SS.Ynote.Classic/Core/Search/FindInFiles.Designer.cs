@@ -1,4 +1,6 @@
-﻿namespace SS.Ynote.Classic.Core.Search
+﻿using System.Security.AccessControl;
+
+namespace SS.Ynote.Classic.Core.Search
 {
     partial class FindInFiles
     {
@@ -158,7 +160,6 @@
             this.tbdir.Name = "tbdir";
             this.tbdir.Size = new System.Drawing.Size(184, 20);
             this.tbdir.TabIndex = 37;
-            this.tbdir.Text = "$Open_Files";
             // 
             // label5
             // 
@@ -182,15 +183,15 @@
             // 
             this.tbFind.Location = new System.Drawing.Point(86, 15);
             this.tbFind.Name = "tbFind";
-            this.tbFind.Size = new System.Drawing.Size(280, 21);
+            this.tbFind.Size = new System.Drawing.Size(280, 20);
             this.tbFind.TabIndex = 49;
-            this.tbFind.KeyDown += tbFind_KeyDown;
+            this.tbFind.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbFind_KeyDown);
             // 
             // tbReplace
             // 
             this.tbReplace.Location = new System.Drawing.Point(86, 61);
             this.tbReplace.Name = "tbReplace";
-            this.tbReplace.Size = new System.Drawing.Size(280, 21);
+            this.tbReplace.Size = new System.Drawing.Size(280, 20);
             this.tbReplace.TabIndex = 50;
             // 
             // FindInFiles

@@ -50,7 +50,7 @@
             // 
             // btFindNext
             // 
-            this.btFindNext.Location = new System.Drawing.Point(105, 73);
+            this.btFindNext.Location = new System.Drawing.Point(111, 73);
             this.btFindNext.Name = "btFindNext";
             this.btFindNext.Size = new System.Drawing.Size(75, 23);
             this.btFindNext.TabIndex = 4;
@@ -70,7 +70,7 @@
             // cbRegex
             // 
             this.cbRegex.AutoSize = true;
-            this.cbRegex.Location = new System.Drawing.Point(249, 38);
+            this.cbRegex.Location = new System.Drawing.Point(291, 38);
             this.cbRegex.Name = "cbRegex";
             this.cbRegex.Size = new System.Drawing.Size(57, 17);
             this.cbRegex.TabIndex = 3;
@@ -81,7 +81,7 @@
             // cbMatchCase
             // 
             this.cbMatchCase.AutoSize = true;
-            this.cbMatchCase.Location = new System.Drawing.Point(42, 38);
+            this.cbMatchCase.Location = new System.Drawing.Point(84, 38);
             this.cbMatchCase.Name = "cbMatchCase";
             this.cbMatchCase.Size = new System.Drawing.Size(82, 17);
             this.cbMatchCase.TabIndex = 1;
@@ -101,7 +101,7 @@
             // cbWholeWord
             // 
             this.cbWholeWord.AutoSize = true;
-            this.cbWholeWord.Location = new System.Drawing.Point(130, 38);
+            this.cbWholeWord.Location = new System.Drawing.Point(172, 38);
             this.cbWholeWord.Name = "cbWholeWord";
             this.cbWholeWord.Size = new System.Drawing.Size(113, 17);
             this.cbWholeWord.TabIndex = 2;

@@ -24,7 +24,7 @@ namespace SS.Ynote.Classic.Core.Search
             try
             {
                 lvresults.Items.Clear();
-                if (dir == "$docs")
+                if (dir == string.Empty)
                 {
                     var files =
                         (from Editor doc in _ynote.Panel.Documents where doc.IsSaved select doc.Name).ToArray();
@@ -129,7 +129,7 @@ namespace SS.Ynote.Classic.Core.Search
         private void FindReferences(string searchPath, string searchString,
             string searchpattern, SearchOption option)
         {
-            if (searchPath != "$docs" && Directory.Exists(searchPath))
+            if (searchPath != string.Empty && Directory.Exists(searchPath))
             {
                 //searchpattern = "*.*";
                 var files = Directory.GetFiles(searchPath, searchpattern, option);
@@ -160,7 +160,7 @@ namespace SS.Ynote.Classic.Core.Search
         private void FindReferencesWithRegex(string searchPath, string regex,
             string searchpattern, SearchOption option)
         {
-            if (searchPath != "$docs" && Directory.Exists(searchPath))
+            if (searchPath != string.Empty && Directory.Exists(searchPath))
             {
                 //searchpattern = "*.*";
                 var files = Directory.GetFiles(searchPath, searchpattern, option);
@@ -282,7 +282,7 @@ namespace SS.Ynote.Classic.Core.Search
                         "Ynote Classic", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
-                var files = dir == "$docs"
+                var files = dir == string.Empty
                     ? (from Editor doc in _ynote.Panel.Documents where doc.IsSaved select doc.Name).ToArray()
                     : Directory.GetFiles(dir, filter, GetOption(subdirs));
                 BeginInvoke((MethodInvoker) (() =>
