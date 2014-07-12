@@ -1,6 +1,6 @@
 using SS.Ynote.Classic.Core.RunScripts;
 
-static void RunTask(string[] args){
-	var script = RunScript.Get(args[0]);
-	run.Run();
+static void RunTask(string[] args,IYnote ynote){
+    var script = RunScript.Get(args[0]);
+    run.Run();
 }

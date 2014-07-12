@@ -11,7 +11,7 @@ namespace SS.Ynote.Classic.Core.Extensibility
     public static class YnoteScript
     {
         /// <summary>
-        ///     Gets the required assembly references
+        ///     Gets the required assembly references for ynote
         /// </summary>
         /// <returns></returns>
         private static string[] GetReferences()
@@ -48,7 +48,7 @@ namespace SS.Ynote.Classic.Core.Extensibility
             //}
         }
 
-        public static void InvokeScript(object reference, string ys, string method)
+        public static void InvokeScript(string ys, string method,params object[] references)
         {
             var assemblyFileName = ys + "c";
             CSScript.GlobalSettings.TargetFramework = "v3.5";
@@ -64,7 +64,7 @@ namespace SS.Ynote.Classic.Core.Extensibility
                 assembly = Assembly.LoadFrom(assemblyFileName);
             using (var execManager = new AsmHelper(assembly))
             {
-                execManager.Invoke(method, reference);
+                execManager.Invoke(method, references);
             }
         }
 

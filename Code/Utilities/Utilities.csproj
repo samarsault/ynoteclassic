@@ -54,26 +54,12 @@
     <Compile Include="Autocomplete\ITextBoxWrapper.cs" />
     <Compile Include="Autocomplete\Range.cs" />
     <Compile Include="Autocomplete\TextBoxWrapper.cs" />
-    <Compile Include="Process\Control\ConsoleControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Process\Control\ConsoleControl.designer.cs">
-      <DependentUpon>ConsoleControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Process\Control\ConsoleEventArgs.cs" />
-    <Compile Include="Process\Control\KeyMapping.cs" />
-    <Compile Include="Process\Imports.cs" />
-    <Compile Include="Process\ProcessEventArgs.cs" />
-    <Compile Include="Process\ProcessInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Autocomplete\AutocompleteMenu.resx">
       <DependentUpon>AutocompleteMenu.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Process\Control\ConsoleControl.resx">
-      <DependentUpon>ConsoleControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

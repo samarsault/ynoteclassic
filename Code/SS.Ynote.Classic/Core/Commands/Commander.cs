@@ -122,7 +122,7 @@ namespace SS.Ynote.Classic.Core
                 foreach (var command in Globals.Commands)
                     if (command.Key == c.Key)
                         command.ProcessCommand(c.Value, Globals.Ynote);
-                if (c.Key == "SetSyntax" || c.Key == "SetSyntaxFile")
+                if (c.Key == "SetSyntax")
                     LangMenu.Text = c.Value;
             }
             catch (Exception ex)

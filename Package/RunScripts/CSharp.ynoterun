@@ -1,0 +1,8 @@
+// Run Script to compile CSharp Code
+{
+  // Path of the task and arguments (task specefic)
+  "RunScripts\\Tasks\\Cmd": [
+    "C:\\Windows\\Microsoft.NET\\Framework\\v3.5\\csc.exe",
+    "/out:$source_dir\\$source_name.exe $source"
+  ]
+}

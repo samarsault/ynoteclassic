@@ -47,11 +47,6 @@ namespace SS.Ynote.Classic
         /// </summary>
         private IList<string> _projs;
 
-        /// <summary>
-        ///     The index of the Shell
-        /// </summary>
-        private int shell_num;
-
         #endregion Private Fields
 
         #region Properties
@@ -557,9 +552,6 @@ namespace SS.Ynote.Classic
         private IDockContent GetContentFromPersistString(string persistString)
         {
             string[] parsedStrings = persistString.Split(new[] {','});
-
-            if (persistString == typeof (Shell).ToString())
-                return new Shell("cmd.exe", null);
             if (parsedStrings[0] == typeof (ProjectPanel).ToString())
             {
                 var projp = new ProjectPanel();
@@ -685,21 +677,6 @@ namespace SS.Ynote.Classic
         private void PasteMenuItem_Click(object sender, EventArgs e)
         {
             if (ActiveEditor != null) ActiveEditor.Tb.Paste();
-        }
-
-        private void CommandPrompt_Click(object sender, EventArgs e)
-        {
-            Shell shell;
-            shell_num++;
-            if (dock.ActiveDocument is Editor)
-                shell = ActiveEditor.Name == "Editor"
-                    ? new Shell("cmd.exe", null)
-                    : new Shell("cmd.exe", "/k cd " + Path.GetDirectoryName(ActiveEditor.Name));
-            else
-                shell = new Shell("cmd.exe", null);
-
-            shell.Text = "Shell" + shell_num;
-            shell.Show(dock, DockState.DockBottom);
         }
 
         private void mifind_Click(object sender, EventArgs e)

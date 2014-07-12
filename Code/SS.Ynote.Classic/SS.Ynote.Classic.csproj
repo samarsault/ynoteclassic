@@ -172,16 +172,16 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\BuildOutput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\BuildOutput.Designer.cs">
+      <DependentUpon>BuildOutput.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Controls\FolderBrowserEx.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\FuzzyAutoCompleteItem.cs" />
-    <Compile Include="UI\Shell.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Shell.Designer.cs">
-      <DependentUpon>Shell.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\About.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -288,11 +288,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UI\BuildOutput.resx">
+      <DependentUpon>BuildOutput.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Editor.resx">
       <DependentUpon>Editor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Shell.resx">
-      <DependentUpon>Shell.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Options.resx">
       <DependentUpon>Options.cs</DependentUpon>

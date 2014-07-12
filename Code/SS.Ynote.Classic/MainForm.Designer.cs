@@ -203,7 +203,6 @@
             this.commandermenu = new System.Windows.Forms.MenuItem();
             this.pluginmanagermenu = new System.Windows.Forms.MenuItem();
             this.mikeymapeditor = new System.Windows.Forms.MenuItem();
-            this.mishell = new System.Windows.Forms.MenuItem();
             this.seperator8 = new System.Windows.Forms.MenuItem();
             this.miprotector = new System.Windows.Forms.MenuItem();
             this.miprotectfile = new System.Windows.Forms.MenuItem();
@@ -1374,7 +1373,6 @@
             this.commandermenu,
             this.pluginmanagermenu,
             this.mikeymapeditor,
-            this.mishell,
             this.seperator8,
             this.miprotector,
             this.miexecfile,
@@ -1405,20 +1403,14 @@
             this.mikeymapeditor.Text = "Hotkeys Editor";
             this.mikeymapeditor.Click += new System.EventHandler(this.menuItem100_Click);
             // 
-            // mishell
-            // 
-            this.mishell.Index = 3;
-            this.mishell.Text = "Shell";
-            this.mishell.Click += new System.EventHandler(this.CommandPrompt_Click);
-            // 
             // seperator8
             // 
-            this.seperator8.Index = 4;
+            this.seperator8.Index = 3;
             this.seperator8.Text = "-";
             // 
             // miprotector
             // 
-            this.miprotector.Index = 5;
+            this.miprotector.Index = 4;
             this.miprotector.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.miprotectfile,
             this.midecryptfile});
@@ -1438,25 +1430,25 @@
             // 
             // miexecfile
             // 
-            this.miexecfile.Index = 6;
+            this.miexecfile.Index = 5;
             this.miexecfile.Shortcut = System.Windows.Forms.Shortcut.F5;
             this.miexecfile.Text = "Execute File";
             this.miexecfile.Click += new System.EventHandler(this.menuItem30_Click);
             // 
             // mirunscripts
             // 
-            this.mirunscripts.Index = 7;
+            this.mirunscripts.Index = 6;
             this.mirunscripts.Text = "Execute RunScript";
             this.mirunscripts.Click += new System.EventHandler(this.mirunscripts_Click);
             // 
             // seperator7
             // 
-            this.seperator7.Index = 8;
+            this.seperator7.Index = 7;
             this.seperator7.Text = "-";
             // 
             // menuItem1
             // 
-            this.menuItem1.Index = 9;
+            this.menuItem1.Index = 8;
             this.menuItem1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.minewsnippet,
             this.minewscript,
@@ -1483,18 +1475,18 @@
             // 
             // colorschememenu
             // 
-            this.colorschememenu.Index = 10;
+            this.colorschememenu.Index = 9;
             this.colorschememenu.Text = "Color Scheme";
             this.colorschememenu.Select += new System.EventHandler(this.colorschememenu_Select);
             // 
             // seperator83
             // 
-            this.seperator83.Index = 11;
+            this.seperator83.Index = 10;
             this.seperator83.Text = "-";
             // 
             // OptionsMenu
             // 
-            this.OptionsMenu.Index = 12;
+            this.OptionsMenu.Index = 11;
             this.OptionsMenu.Text = "Options";
             this.OptionsMenu.Click += new System.EventHandler(this.OptionsMenu_Click);
             // 
@@ -2076,7 +2068,6 @@
         private System.Windows.Forms.MenuItem miindent;
         private System.Windows.Forms.MenuItem increaseindent;
         private System.Windows.Forms.MenuItem decreaseindent;
-        private System.Windows.Forms.MenuItem mishell;
         private System.Windows.Forms.MenuItem pluginmanagermenu;
         private System.Windows.Forms.MenuItem OptionsMenu;
         private System.Windows.Forms.MenuItem seperator62;

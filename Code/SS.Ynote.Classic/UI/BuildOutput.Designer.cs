@@ -1,6 +1,6 @@
 ﻿namespace SS.Ynote.Classic.UI
 {
-    partial class Shell
+    partial class BuildOutput
     {
         /// <summary>
         /// Required designer variable.
@@ -28,38 +28,38 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.shellControl = new ConsoleControl.ConsoleControl();
+            this.tbout = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // shellControl
+            // tbout
             // 
-            this.shellControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.shellControl.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.shellControl.IsInputEnabled = true;
-            this.shellControl.Location = new System.Drawing.Point(0, 0);
-            this.shellControl.Name = "shellControl";
-            this.shellControl.SendKeyboardCommandsToProcess = false;
-            this.shellControl.ShowDiagnostics = false;
-            this.shellControl.Size = new System.Drawing.Size(571, 311);
-            this.shellControl.TabIndex = 0;
-            this.shellControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.consoleControl1_KeyDown);
+            this.tbout.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tbout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbout.Font = new System.Drawing.Font("Consolas", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbout.Location = new System.Drawing.Point(0, 0);
+            this.tbout.Multiline = true;
+            this.tbout.Name = "tbout";
+            this.tbout.ReadOnly = true;
+            this.tbout.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.tbout.Size = new System.Drawing.Size(529, 202);
+            this.tbout.TabIndex = 0;
             // 
-            // Shell
+            // BuildOutput
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(571, 311);
-            this.Controls.Add(this.shellControl);
+            this.ClientSize = new System.Drawing.Size(529, 202);
+            this.Controls.Add(this.tbout);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Shell";
-            this.Text = "Shell";
+            this.Name = "BuildOutput";
+            this.Text = "Build Output";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private ConsoleControl.ConsoleControl shellControl;
+        private System.Windows.Forms.TextBox tbout;
     }
 }

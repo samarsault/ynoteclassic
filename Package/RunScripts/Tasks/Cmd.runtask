@@ -1,46 +1,49 @@
+using SS.Ynote.Classic.UI;
+using System.Diagnostics;
+using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using System.Diagnostics;
 
-// Run Script Task to execute from command line
-public void RunTask(string[] arguments)
-{
-    // arguments
-    string args = "";
-    // workingdir
-    string workingdir = "";
-    // check for length
-    if(arguments.Length == 0)
-        return;
-    // the process (required)
-    string process = arguments[0];
-    // check if arguments is available
-    if(arguments.Length > 1)
-        args = arguments[1];
-    // check if working directory is available
-    if(arguments.Length > 2)
-        workingdir = arguments[2];
-    var processInfo = new ProcessStartInfo();
-    process = Environment.ExpandEnvironmentVariables(process);
-    if(!File.Exists(process)){
-        MessageBox.Show("Can't locate file : " + process);
-        return;
+static class CmdBuild{
+    // Run Script Task to execute from command line
+    public static void RunTask(string[] arguments, IYnote ynote)
+    {
+        var watch = new Stopwatch();
+        watch.Start();
+        if(arguments.Length < 2)
+            return;
+        var info = new ProcessStartInfo(arguments[0],arguments[1]);
+        info.CreateNoWindow = true;
+        info.WindowStyle = ProcessWindowStyle.Hidden;
+        info.RedirectStandardOutput = true;
+        info.RedirectStandardError = true;
+        info.UseShellExecute = false;
+        var proc = Process.Start(info);
+        string output = "";
+        string error = "";
+        using(var reader = proc.StandardOutput){
+            output = reader.ReadToEnd(); 
+        }
+        using(var erReader = proc.StandardError){
+            error = erReader.ReadToEnd();
+        }
+        watch.Stop();
+        string message = string.Format("[Finished in {0} ms]\r\n", watch.ElapsedMilliseconds/1000);
+        if(string.IsNullOrEmpty(error))
+            ShowOutput(message+output, ynote.Panel);
+        else
+            ShowOutput(message+error,ynote.Panel);
     }
-    processInfo.FileName = process;
-    if(!string.IsNullOrEmpty(args))
-        processInfo.Arguments = args;
-    if(!string.IsNullOrEmpty(workingdir))
-        processInfo.WorkingDirectory = workingdir;
-    Process.Start(processInfo);
-    if(arguments.Length > 3){
-        var array = SubArray(arguments,3,arguments.Length - 3);
-        RunTask(array);
+    static void ShowOutput(string message, DockPanel panel){
+        BuildOutput buildOutput=null;
+        var docs = panel.Contents.OfType<BuildOutput>();
+        if(docs.Count() > 0)
+            buildOutput = docs.First();
+        else
+            buildOutput = new BuildOutput();
+        buildOutput.AddOutput(message);
+        buildOutput.Show(panel, DockState.DockBottom);
+        buildOutput.GoToEnd();
     }
-}
-public static string[] SubArray(string[] data, int index, int length)
-{
-    string[] result = new string[length];
-    Array.Copy(data, index, result, 0, length);
-    return result;
 }

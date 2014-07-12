@@ -412,3 +412,7 @@ Build 1280
 Build 1285
 
 -> Fixed RemoveBrackets
+
+Build 1299
+
+-> Improved RunScripts Result

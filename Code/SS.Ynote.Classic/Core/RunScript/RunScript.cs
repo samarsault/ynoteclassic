@@ -14,14 +14,8 @@ namespace SS.Ynote.Classic.Core.RunScript
         private IDictionary<string, string[]> Tasks = new Dictionary<string, string[]>();
 
         /// <summary>
-        ///     Name of the Script
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
         ///     Local Path of the RunScript
         /// </summary>
-        [JsonIgnore]
         public string LocalPath { get; set; }
 
         public static RunScript Get(string file)
@@ -30,21 +24,8 @@ namespace SS.Ynote.Classic.Core.RunScript
             var dic = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(json);
             var runsc = new RunScript();
             runsc.Tasks = dic;
-            AddName(dic, runsc);
             runsc.LocalPath = file;
             return runsc;
-        }
-
-        private static void AddName(Dictionary<string, string[]> dic, RunScript script)
-        {
-            foreach (var item in dic)
-            {
-                if (item.Key == "Name")
-                {
-                    script.Name = item.Value[0];
-                    break;
-                }
-            }
         }
 
         public void Save(string file)
@@ -60,22 +41,14 @@ namespace SS.Ynote.Classic.Core.RunScript
         {
             foreach (var task in Tasks)
             {
-                if (task.Key != "Name")
+                string ys = GlobalSettings.SettingsDir + task.Key + ".runtask";
+                // expand all abbreviations eg - $source_path, $project_path
+                for (int i = 0; i < task.Value.Length; i++)
                 {
-                    string ys = GlobalSettings.SettingsDir + task.Key + ".runtask";
-                    // expand all abbreviations eg - $source_path, $project_path
-                    for (int i = 0; i < task.Value.Length; i++)
-                    {
-                        task.Value[i] = Globals.ExpandAbbr(task.Value[i], Globals.Ynote);
-                    }
-                    YnoteScript.InvokeScript(task.Value, ys, "*.RunTask");
+                    task.Value[i] = Globals.ExpandAbbr(task.Value[i], Globals.Ynote);
                 }
+                YnoteScript.InvokeScript(ys, "*.RunTask", task.Value, Globals.Ynote);
             }
-        }
-
-        public override string ToString()
-        {
-            return Name;
         }
     }
 }
