@@ -1,0 +1,6 @@
+// runscript to run local html file using Web Task
+{
+    "RunScripts\\Tasks\\Web":[
+        "\"$source\""
+    ]
+}

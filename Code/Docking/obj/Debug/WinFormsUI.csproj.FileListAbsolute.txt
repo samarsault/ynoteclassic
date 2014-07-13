@@ -1,0 +1,11 @@
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Docking\bin\Debug\license.txt
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Docking\bin\Debug\WeifenLuo.WinFormsUI.Docking.dll
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Docking\bin\Debug\WeifenLuo.WinFormsUI.Docking.pdb
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Docking\obj\Debug\WinFormsUI.csprojResolveAssemblyReference.cache
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Docking\obj\Debug\WeifenLuo.WinFormsUI.Docking.Resources.resources
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Docking\obj\Debug\WeifenLuo.WinFormsUI.Docking.ResourcesVS2003.resources
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Docking\obj\Debug\WeifenLuo.WinFormsUI.Docking.Strings.resources
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Docking\obj\Debug\WeifenLuo.WinFormsUI.Docking.StringsVS2003.resources
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Docking\obj\Debug\WinFormsUI.csproj.GenerateResource.Cache
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Docking\obj\Debug\WeifenLuo.WinFormsUI.Docking.dll
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Docking\obj\Debug\WeifenLuo.WinFormsUI.Docking.pdb

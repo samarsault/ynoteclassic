@@ -1,0 +1,9 @@
+// RunScript Task to Open a web page
+using System.Diagnostics;
+
+public static void RunTask(string[] arguments, IYnote ynote)
+{
+    if(arguments.Length == 0)
+        return;
+    Process.Start(arguments[0]);
+}

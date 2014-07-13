@@ -1,0 +1,7 @@
+// ruby runscript
+{
+    "RunScripts\\Tasks\\Cmd":[
+        "ruby",
+        "\"$source\""
+    ]
+}

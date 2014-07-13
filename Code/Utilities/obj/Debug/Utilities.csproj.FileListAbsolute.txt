@@ -1,0 +1,7 @@
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Utilities\bin\Debug\YnoteUtils.dll
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Utilities\bin\Debug\YnoteUtils.pdb
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Utilities\obj\Debug\Utilities.csprojResolveAssemblyReference.cache
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Utilities\obj\Debug\AutocompleteMenuNS.AutocompleteMenu.resources
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Utilities\obj\Debug\Utilities.csproj.GenerateResource.Cache
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Utilities\obj\Debug\YnoteUtils.dll
+C:\Users\Samarjeet\Documents\GitHub\ynoteclassic\Code\Utilities\obj\Debug\YnoteUtils.pdb

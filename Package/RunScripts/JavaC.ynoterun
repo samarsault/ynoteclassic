@@ -1,0 +1,6 @@
+{
+	"RunScripts\\Tasks\\Cmd":[
+		"javac",
+		"$source"
+	]
+}
