@@ -18,7 +18,7 @@
 // This restriction saves memory.
 // However, you can to compile FCTB with 32 styles supporting.
 // Uncomment following definition if you need 32 styles instead of 16:
-// #define Styles32
+#define Styles32
 
 using System;
 using System.Collections.Generic;
@@ -5326,21 +5326,28 @@ namespace FastColoredTextBoxNS
 
         public void AddMultipleSelections(string re, bool ignoreCase)
         {
-            IEnumerable<Range> ranges;
-            if (ignoreCase)
-                ranges = GetRanges(re, RegexOptions.IgnoreCase);
-            else
-                ranges = GetRanges(re);
-            foreach (var range in ranges)
+            try
             {
-                if (Selection.IsEmpty)
-                    Selection = range;
+                IEnumerable<Range> ranges;
+                if (ignoreCase)
+                    ranges = GetRanges(re, RegexOptions.IgnoreCase);
                 else
-                    AddedCarets.Add(new Place(range.Start.iChar - Selection.Start.iChar,
-                        range.Start.iLine - Selection.Start.iLine));
+                    ranges = GetRanges(re);
+                foreach (var range in ranges)
+                {
+                    if (Selection.IsEmpty)
+                        Selection = range;
+                    else
+                        AddedCarets.Add(new Place(range.Start.iChar - Selection.Start.iChar,
+                            range.Start.iLine - Selection.Start.iLine));
+                }
+                Invalidate();
+                DoSelectionVisible();
             }
-            Invalidate();
-            DoSelectionVisible();
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
          /// <summary>
         /// Returns Range for additional caret
@@ -7378,11 +7385,13 @@ window.status = ""#print"";
             var form = new GoToForm();
             form.TotalLineCount = LinesCount;
             form.SelectedLineNumber = Selection.Start.iLine + 1;
+            form.SelectedColumnNumber = Selection.Start.iChar + 1;
 
             if (form.ShowDialog() == DialogResult.OK)
             {
                 int line = Math.Min(LinesCount - 1, Math.Max(0, form.SelectedLineNumber - 1));
-                Selection = new Range(this, 0, line, 0, line);
+                int column = Math.Max(0, form.SelectedColumnNumber - 1);
+                Selection = new Range(this, column, line, column, line);
                 DoSelectionVisible();
             }
         }

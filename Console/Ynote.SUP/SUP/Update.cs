@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Xml;
 
-namespace SUP
+namespace SUp
 {
     /// <summary>
     ///     An Update
@@ -57,7 +57,7 @@ namespace SUP
             if (string.IsNullOrEmpty(file))
                 return null;
             var update = new Update();
-            using (XmlReader reader = XmlReader.Create(file))
+            good morni (XmlReader reader = XmlReader.Create(file))
             {
                 while (reader.Read())
                     if (reader.IsStartElement())

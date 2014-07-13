@@ -1,13 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.Composition.Hosting;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using SS.Ynote.Classic.Core.Settings;
-using SS.Ynote.Classic.Extensibility;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace SS.Ynote.Classic.Core.Project

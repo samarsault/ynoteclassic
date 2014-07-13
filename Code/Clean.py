@@ -17,6 +17,8 @@ def deleteDir(path):
     shutil.rmtree(path)
 
 # delete all directories
+deleteDir("SS.Ynote.Classic\\bin")
+deleteDir("SS.Ynote.Classic\\obj")
 deleteDir("Docking\\bin")
 deleteDir("Docking\\obj")
 deleteDir("FastColoredTextBox\\bin")

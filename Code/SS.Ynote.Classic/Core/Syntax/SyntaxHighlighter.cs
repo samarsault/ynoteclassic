@@ -1104,7 +1104,7 @@ namespace SS.Ynote.Classic.Core.Syntax
                     @"\b(and|del|from|not|while|as|elif|global|or|with|assert|else|if|pass|yield|break|except|import|print|exec|in|raise|continue|finally|is|return|for|try)\b");
             pyLibFunctionRegex =
                 new Regex(
-                    @"\b(dir|id|callable|dict|open|all|vars|iter|enumerate|sorted|super|classmethod|tuple|compile|basestring|map|self|range|lambda|ord|isinstance|long|float|format|str|type|hasattr|max|len|repr|getattr|list)\b");
+                    @"\b(dir|id|callable|dict|open|all|vars|iter|enumerate|sorted|super|classmethod|tuple|execfile|eval|abs|compile|basestring|map|self|xrange|range|lambda|ord|isinstance|long|float|format|str|type|hasattr|max|len|repr|getattr|list)\b");
             pyLibClassName =
                 new Regex(
                     @"\b(self|bool|buffer|set|slice|unicode|property|staticmethod|enumerate|object|open|dict|int|tuple|basestring|long|float|type|list|RuntimeError)\b");
@@ -1124,7 +1124,7 @@ namespace SS.Ynote.Classic.Core.Syntax
                 InitPythonRegex();
             e.ChangedRange.tb.Range.ClearStyle(Comment, String);
             e.ChangedRange.ClearStyle(String, ClassName, FunctionName, Keyword, Storage, Constant, LibraryClass,
-                LibraryFunction, Number);
+                LibraryFunction,FunctionArgument, Number);
             e.ChangedRange.tb.Range.SetStyle(Comment, pyCommentRegex);
             e.ChangedRange.tb.Range.SetStyle(String, pyStringRegex);
             e.ChangedRange.tb.Range.SetStyle(String, pyCommentRegex2);
@@ -1134,6 +1134,8 @@ namespace SS.Ynote.Classic.Core.Syntax
             e.ChangedRange.SetStyle(Keyword, pyKeywordRegex);
             e.ChangedRange.SetStyle(Storage, @"\b(def|global|class)\b");
             e.ChangedRange.SetStyle(Constant, @"\b(True|False|None|NotImplemented)\b");
+            e.ChangedRange.SetStyle(e.ChangedRange.tb.DefaultStyle, @"\(|\)");
+            e.ChangedRange.SetStyle(FunctionArgument, @"\b((?<=\bdef\s)(\w+))\((.*?)\)");
             e.ChangedRange.SetStyle(LibraryClass, pyLibClassName);
             e.ChangedRange.SetStyle(LibraryFunction, pyLibFunctionRegex);
             e.ChangedRange.SetStyle(Number, pyNumberRegex);
@@ -1217,21 +1219,26 @@ namespace SS.Ynote.Classic.Core.Syntax
             e.ChangedRange.tb.RightBracket = ')';
             e.ChangedRange.tb.RightBracket2 = ']';
             e.ChangedRange.tb.Range.ClearStyle(Comment);
-            e.ChangedRange.ClearStyle(String, Keyword, Constant, LibraryClass, LibraryFunction, Variable,
-                Number, Punctuation);
+            e.ChangedRange.ClearStyle(String, Keyword, Constant, FunctionName,LibraryClass, LibraryFunction, Variable,
+                Number, Punctuation, FunctionArgument);
             e.ChangedRange.tb.Range.SetStyle(Comment, @"--.*$", RegexOptions.Multiline);
-            e.ChangedRange.tb.Range.SetStyle(Comment, @"\-\-\[\[.+?\-\-\]\]",
-                RegexOptions.Singleline | RegexOptions.RightToLeft);
-            e.ChangedRange.SetStyle(String, @"""""|@""""|''|@"".*?""|(?<!@)(?<range>"".*?[^\\]"")|'.*?[^\\]'");
+            e.ChangedRange.tb.Range.SetStyle(Comment,
+                new Regex(@"(--\[\[.*?\]\])|(--\[\[.*)", RegexOptions.Singleline | RegexCompiledOption));
+            e.ChangedRange.tb.Range.SetStyle(Comment,new Regex(@"(--\[\[.*?\]\])|(.*\]\])",
+                                             RegexOptions.Singleline | RegexOptions.RightToLeft | RegexCompiledOption));
+            e.ChangedRange.SetStyle(String, @"""""|''|"".*?[^\\]""|'.*?[^\\]'");
             e.ChangedRange.SetStyle(Keyword,
                 @"\b(and|or|not|break|do|else|for|if|elseif|return|then|repeat|while|until|end|function|local|in)\b");
             e.ChangedRange.SetStyle(Constant, @"\b(false|nil|true|_G|_VERSION)\b");
+            e.ChangedRange.SetStyle(FunctionName, @"\bfunction\s+(?<range>\w+?)\b", RegexCompiledOption);
             e.ChangedRange.SetStyle(LibraryClass, @"\b(coroutine|debug|io|math|os|package|string|table|char|byte)\b");
             e.ChangedRange.SetStyle(LibraryFunction,
                 @"\b(assert|collectgarbage|dofile|error|getfenv|getmetatable|ipairs|loadfile|loadstring|module|next|pairs|pcall|print|rawequal|rawget|rawset|require|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall)\b");
+            e.ChangedRange.SetStyle(e.ChangedRange.tb.DefaultStyle, @"\(|\)");
+            e.ChangedRange.SetStyle(FunctionArgument, @"\b((?<=\bfunction\s)(\w+))\((.*?)\)");
             e.ChangedRange.SetStyle(Variable, @"\.[a-zA-Z_\d]*\b", RegexCompiledOption);
             e.ChangedRange.SetStyle(Number, @"\b\\d+[\\.]?\\d*([eE]\\-?\\d+)?[lLdDfF]?\b|\b0x[a-fA-F\\d]+\b");
-            e.ChangedRange.SetStyle(Punctuation, @"\[|\]|\*|\?|\(|\)|\^|\!|\;|\,|\.|\:");
+            e.ChangedRange.SetStyle(Punctuation, @"\[|\]|\*|\?|\(|\)|\^|\!|\;|\,|\.|\:|%");
             e.ChangedRange.ClearFoldingMarkers();
             e.ChangedRange.SetFoldingMarkers(@"function", @"end");
         }
@@ -1245,7 +1252,7 @@ namespace SS.Ynote.Classic.Core.Syntax
             e.ChangedRange.tb.RightBracket2 = ']';
             e.ChangedRange.tb.Range.ClearStyle(Comment);
             e.ChangedRange.ClearStyle(Keyword, String, Number, ClassName, Punctuation,
-                FunctionName, Variable, LibraryClass);
+                FunctionName, Variable,FunctionArgument, LibraryClass);
             // comment highlighting
             e.ChangedRange.tb.Range.SetStyle(Comment, @"#.*$", RegexOptions.Multiline);
             e.ChangedRange.tb.Range.SetStyle(Comment, @"(=begin.*?=end)|(.*=end)",
@@ -1290,6 +1297,8 @@ namespace SS.Ynote.Classic.Core.Syntax
             e.ChangedRange.SetStyle(Keyword,
                 @"\b(require|require_relative|gem|BEGIN|begin|case|class|else|elsif|END|end|ensure|for|if|in|module|rescue|then|unless|until|do|when|while|and|or|not|alias|alias_method|break|next|redo|retry|return|super|undef|yield|initialize|new|loop|include|extend|prepend|raise|attr_reader|attr_writer|attr_accessor|attr|catch|throw|private|module_function|public|protected|def)\b");
             e.ChangedRange.SetStyle(Constant, @"\b(puts|true|false|nil)\b|\:[a-zA-Z_\d]*\b|@[a-zA-Z_\d]*\b");
+            e.ChangedRange.SetStyle(e.ChangedRange.tb.DefaultStyle, @"\(|\)");
+            e.ChangedRange.SetStyle(FunctionArgument, @"\b((?<=\bdef\s)(\w+))\((.*?)\)");
             e.ChangedRange.SetStyle(LibraryClass, @"\b[a-zA-Z_\d]*\.");
             e.ChangedRange.SetStyle(Number, @"\b\\d+[\\.]?\\d*([eE]\\-?\\d+)?[lLdDfF]?\b|\b0x[a-fA-F\\d]+\b");
             e.ChangedRange.SetStyle(Punctuation, @"\[|\]|\*|\?|\(|\)|\^|\!|\;|\,|\.|\:");
@@ -1487,10 +1496,10 @@ namespace SS.Ynote.Classic.Core.Syntax
             foreach (var r in e.ChangedRange.tb.GetRanges(@"<script.*?>.*?</script>", RegexOptions.Singleline))
             {
                 //remove HTML and CSS highlighting from this fragment
-                r.ClearStyle(Comment, Number, Constant, CSSProperty,
+                r.ClearStyle(Comment, Number,TagBracket,DoctypeDeclaration, Constant, CSSProperty,
                     CSSPropertyValue, CSSSelector);
                 //do javascript highlighting
-                JScriptSyntaxHighlight(new TextChangedEventArgs(r));
+                JScriptSyntaxHighlight(new TextChangedEventArgs(r), false);
             }
         }
 
@@ -1645,15 +1654,17 @@ namespace SS.Ynote.Classic.Core.Syntax
         ///     Highlights JavaScript code
         /// </summary>
         /// <param name="e"></param>
-        private void JScriptSyntaxHighlight(TextChangedEventArgs e)
+        /// <param name="fullComment"></param>
+        private void JScriptSyntaxHighlight(TextChangedEventArgs e, bool fullComment=true)
         {
             e.ChangedRange.tb.CommentPrefix = "//";
             e.ChangedRange.tb.LeftBracket = '(';
             e.ChangedRange.tb.RightBracket = ')';
             e.ChangedRange.tb.LeftBracket2 = '{';
             e.ChangedRange.tb.RightBracket2 = '}';
+            Range commentRange = fullComment ? e.ChangedRange.tb.Range : e.ChangedRange;
             //clear style of visible range
-            e.ChangedRange.tb.Range.ClearStyle(Comment);
+            commentRange.ClearStyle(Comment);
             //clear style of changed range
             e.ChangedRange.ClearStyle(String, Number, Keyword, Storage, LibraryClass, ClassName,
                 FunctionName, Punctuation, FunctionArgument, LibraryFunction);
@@ -1661,9 +1672,9 @@ namespace SS.Ynote.Classic.Core.Syntax
             if (_jScriptStringRegex == null)
                 InitJScriptRegex();
             //comment highlighting
-            e.ChangedRange.tb.Range.SetStyle(Comment, _jScriptCommentRegex1);
-            e.ChangedRange.tb.Range.SetStyle(Comment, _jScriptCommentRegex2);
-            e.ChangedRange.tb.Range.SetStyle(Comment, _jScriptCommentRegex3);
+            commentRange.SetStyle(Comment, _jScriptCommentRegex1);
+            commentRange.SetStyle(Comment, _jScriptCommentRegex2);
+            commentRange.SetStyle(Comment, _jScriptCommentRegex3);
             // string highlighting
             e.ChangedRange.SetStyle(String, _jScriptStringRegex);
             //number highlighting
@@ -1678,7 +1689,8 @@ namespace SS.Ynote.Classic.Core.Syntax
             e.ChangedRange.SetStyle(LibraryFunction, _jscriptLibraryFunction);
             e.ChangedRange.SetStyle(LibraryClass, _jScriptLibraryClass);
             e.ChangedRange.SetStyle(Constant, @"\b(true|false|null|this)\b");
-            e.ChangedRange.SetStyle(Punctuation, @"\(|\)|\+|\-|\*|\/|\$");
+            e.ChangedRange.SetStyle(Punctuation, @"\+|\-|\*|\/|\$");
+            e.ChangedRange.SetStyle(e.ChangedRange.tb.DefaultStyle, @"\(|\)");
             e.ChangedRange.SetStyle(FunctionArgument, @"\b(function\s|function\b|(?<=\bfunction\s)(\w+))\((.*?)\)");
             //clear folding markers
             e.ChangedRange.ClearFoldingMarkers();
