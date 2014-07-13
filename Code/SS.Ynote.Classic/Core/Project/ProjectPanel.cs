@@ -83,7 +83,7 @@ namespace SS.Ynote.Classic.Core.Project
         private static ExTreeNode CreateDirectoryNode(DirectoryInfo directoryInfo, string[] excludedir,
             string[] excludefile)
         {
-            var directoryNode = new ExTreeNode(directoryInfo.Name, directoryInfo.FullName, 0, 0, FolderNodeType.Folder);
+            var directoryNode = new ExTreeNode(directoryInfo.Name, directoryInfo.FullName, ProjectNodeType.Folder);
             foreach (var directory in directoryInfo.GetDirectories())
             {
                 if (excludedir == null)
@@ -97,11 +97,11 @@ namespace SS.Ynote.Classic.Core.Project
             foreach (var file in directoryInfo.GetFiles())
             {
                 if (excludefile == null)
-                    directoryNode.Nodes.Add(new ExTreeNode(file.Name, file.FullName, 1, 1, FolderNodeType.File));
+                    directoryNode.Nodes.Add(new ExTreeNode(file.Name, file.FullName, ProjectNodeType.File));
                 else
                 {
                     if (!excludefile.Contains(Path.GetExtension(file.FullName)))
-                        directoryNode.Nodes.Add(new ExTreeNode(file.Name, file.FullName, 1, 1, FolderNodeType.File));
+                        directoryNode.Nodes.Add(new ExTreeNode(file.Name, file.FullName, ProjectNodeType.File));
                 }
             }
             return directoryNode;
@@ -113,13 +113,13 @@ namespace SS.Ynote.Classic.Core.Project
         private void AddNewFolder()
         {
             var path = projtree.SelectedNode as ExTreeNode;
-            if (path != null && path.Type == FolderNodeType.Folder)
+            if (path != null && path.Type == ProjectNodeType.Folder)
             {
                 using (var util = new FolderUtils())
                 {
                     if (util.ShowDialog(this) != DialogResult.OK) return;
                     var dir = Path.Combine(path.Name, util.FileName);
-                    var node = new ExTreeNode(util.FileName, dir, 0, 0, FolderNodeType.Folder);
+                    var node = new ExTreeNode(util.FileName, dir, ProjectNodeType.Folder);
                     Directory.CreateDirectory(dir);
                     projtree.SelectedNode.Nodes.Add(node);
                 }
@@ -198,9 +198,9 @@ namespace SS.Ynote.Classic.Core.Project
                 var result = dlg.ShowDialog() == DialogResult.OK;
                 if (result)
                 {
-                    if (node.Type == FolderNodeType.Folder)
+                    if (node.Type == ProjectNodeType.Folder)
                         RenameDirectory(filename, dir + @"\" + dlg.FileName, node);
-                    else if (node.Type == FolderNodeType.File)
+                    else if (node.Type == ProjectNodeType.File)
                         RenameFile(filename, dir + @"\" + dlg.FileName, node);
                     node.Text = dlg.FileName;
                 }
@@ -237,13 +237,13 @@ namespace SS.Ynote.Classic.Core.Project
             try
             {
                 var path = projtree.SelectedNode as ExTreeNode;
-                if (path != null && path.Type == FolderNodeType.Folder)
+                if (path != null && path.Type == ProjectNodeType.Folder)
                 {
                     using (var util = new FolderUtils())
                     {
                         if (util.ShowDialog(this) != DialogResult.OK) return;
                         var file = Path.Combine(path.Name, util.FileName);
-                        var node = new ExTreeNode(util.FileName, file, 1, 1, FolderNodeType.File);
+                        var node = new ExTreeNode(util.FileName, file, ProjectNodeType.File);
                         File.WriteAllText(file, "");
                         projtree.SelectedNode.Nodes.Add(node);
                     }
@@ -275,7 +275,7 @@ namespace SS.Ynote.Classic.Core.Project
         {
             var node = e.Node.Name;
             var n = e.Node as ExTreeNode;
-            if (n.Type == FolderNodeType.Folder)
+            if (n.Type == ProjectNodeType.Folder)
                 return;
             Globals.Ynote.OpenFile(node);
         }
@@ -320,8 +320,8 @@ namespace SS.Ynote.Classic.Core.Project
             var fileName = Path.ChangeExtension(path, "") + "-Copy" + Path.GetExtension(path);
             File.Copy(path, fileName);
             var parent = selected.Parent as ExTreeNode;
-            if (parent != null && parent.Type == FolderNodeType.Folder)
-                parent.Nodes.Add(new ExTreeNode(Path.GetFileName(fileName), fileName, 1, 1, FolderNodeType.File));
+            if (parent != null && parent.Type == ProjectNodeType.Folder)
+                parent.Nodes.Add(new ExTreeNode(Path.GetFileName(fileName), fileName, ProjectNodeType.File));
         }
 
         private void menuItem13_Click(object sender, EventArgs e)
@@ -342,8 +342,7 @@ namespace SS.Ynote.Classic.Core.Project
                     var dir = selectedNode.Name;
                     var newfile = Path.Combine(dir, Path.GetFileName(dlg.FileName));
                     File.Copy(dlg.FileName, newfile);
-                    selectedNode.Nodes.Add(new ExTreeNode(Path.GetFileName(dlg.FileName), newfile, 1, 1,
-                        FolderNodeType.File));
+                    selectedNode.Nodes.Add(new ExTreeNode(Path.GetFileName(dlg.FileName), newfile, ProjectNodeType.File));
                 }
             }
             catch (Exception ex)
@@ -368,9 +367,9 @@ namespace SS.Ynote.Classic.Core.Project
                 if (projtree.SelectedNode != null)
                 {
                     var node = projtree.SelectedNode as ExTreeNode;
-                    if (node.Type == FolderNodeType.File)
+                    if (node.Type == ProjectNodeType.File)
                         fileMenu.Show(projtree, e.Location);
-                    else if (node.Type == FolderNodeType.Folder)
+                    else if (node.Type == ProjectNodeType.Folder)
                         folderMenu.Show(projtree, e.Location);
                 }
             }

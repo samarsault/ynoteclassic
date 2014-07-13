@@ -91,7 +91,6 @@
     <Compile Include="Core\Commands\InstalledCommands.cs" />
     <Compile Include="Core\Commands\YnoteCommand.cs" />
     <Compile Include="Core\RunScript\RunScript.cs" />
-    <Compile Include="Core\Session\YnoteSession.cs" />
     <Compile Include="Core\Settings\GlobalProperties.cs" />
     <Compile Include="Core\Settings\GlobalSettings.cs" />
     <Compile Include="Core\SymbolList.cs" />

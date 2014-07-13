@@ -5,7 +5,7 @@ namespace SS.Ynote.Classic.Core.Project
     /// <summary>
     ///     ProjectNodeType
     /// </summary>
-    public enum FolderNodeType
+    public enum ProjectNodeType
     {
         /// <summary>
         ///     The Node Type is a Folder
@@ -32,24 +32,21 @@ namespace SS.Ynote.Classic.Core.Project
         /// <param name="selimageindex"></param>
         /// <param name="projectNodeType"></param>
         public ExTreeNode(string text, string name,
-            int imageIndex, int selimageindex,
-            FolderNodeType projectNodeType)
+            ProjectNodeType projectNodeType)
         {
             Text = text;
             Name = name;
             Type = projectNodeType;
-            ImageIndex = imageIndex;
-            SelectedImageIndex = selimageindex;
+            int i = 0;
+            if (projectNodeType == ProjectNodeType.File)
+                i = 1;
+            ImageIndex = i;
+            SelectedImageIndex = i;
         }
-
-        /// <summary>
-        ///     Check Whether the Node contents been loaded
-        /// </summary>
-        public bool Loaded { get; set; }
 
         /// <summary>
         ///     The Node Type
         /// </summary>
-        public FolderNodeType Type { get; private set; }
+        public ProjectNodeType Type { get; private set; }
     }
 }
