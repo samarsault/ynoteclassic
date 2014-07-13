@@ -1,7 +1,7 @@
-// RunScript to Run Python Scripts
+// python runscript
 {
     "RunScripts\\Tasks\\Cmd":[
        "python.exe",
-       "$source"
+       "\"$source\""
     ]
 }

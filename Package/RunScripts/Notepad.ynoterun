@@ -3,6 +3,7 @@
   // Path of the task and arguments (task specefic)
   "RunScripts\\Tasks\\Cmd": [
     "notepad.exe",
-    "$source"
+    "$source",
+    "false"
   ]
 }
