@@ -1,3 +1,4 @@
+using System;
 using System.Windows.Forms;
 using SS.Ynote.Classic.Core.Project;
 using SS.Ynote.Classic.UI;
@@ -46,4 +47,10 @@ public interface IYnote
     /// </summary>
     /// <returns></returns>
     YnoteProject GetActiveProject();
+    /// <summary>
+    /// Ask user for an input
+    /// </summary>
+    /// <param name="caption"></param>
+    /// <param name="OnEnter">When the Input has been entered</param>
+    void AskInput(string caption, EventHandler OnEnter);
 }

@@ -440,3 +440,11 @@ Build 1325
 Build 1330
 
 -> Minor Fixes
+
+Build 1350
+
+-> Added Shell Command
+
+Build 1355
+
+-> Added AskInput(label,function) method in API

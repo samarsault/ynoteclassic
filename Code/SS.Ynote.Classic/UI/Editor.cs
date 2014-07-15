@@ -1,3 +1,10 @@
+using FastColoredTextBoxNS;
+using SS.Ynote.Classic.Core;
+using SS.Ynote.Classic.Core.Extensibility;
+using SS.Ynote.Classic.Core.Settings;
+using SS.Ynote.Classic.Core.Snippets;
+using SS.Ynote.Classic.Core.Syntax;
+using SS.Ynote.Classic.Extensibility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,13 +14,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using FastColoredTextBoxNS;
-using SS.Ynote.Classic.Core;
-using SS.Ynote.Classic.Core.Extensibility;
-using SS.Ynote.Classic.Core.Settings;
-using SS.Ynote.Classic.Core.Snippets;
-using SS.Ynote.Classic.Core.Syntax;
-using SS.Ynote.Classic.Extensibility;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace SS.Ynote.Classic.UI
@@ -44,7 +44,7 @@ namespace SS.Ynote.Classic.UI
         /// </summary>
         private DocumentMap map;
 
-        #endregion
+        #endregion Fields
 
         #region Constructor
 
@@ -70,7 +70,7 @@ namespace SS.Ynote.Classic.UI
             Highlighter.LoadAllSyntaxes();
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Properties
 
@@ -117,7 +117,7 @@ namespace SS.Ynote.Classic.UI
             get { return Name != "Editor"; }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Methods
 
@@ -148,7 +148,7 @@ namespace SS.Ynote.Classic.UI
 
         public void ForceAutoComplete()
         {
-            if(_autocomplete != null)
+            if (_autocomplete != null)
                 _autocomplete.Show(true);
         }
 
@@ -158,9 +158,10 @@ namespace SS.Ynote.Classic.UI
             if (Globals.Settings.ThemeFile != null)
                 YnoteThemeReader.ApplyTheme(Globals.Settings.ThemeFile, Highlighter, codebox);
             Highlighter.HighlightSyntax(codebox.Language, new TextChangedEventArgs(codebox.Range));
-            if(ShowDocumentMap)
+            if (ShowDocumentMap)
                 ThemifyDocumentMap();
         }
+
         private void InitSettings()
         {
             YnoteThemeReader.ApplyTheme(Globals.Settings.ThemeFile, Highlighter, codebox);
@@ -243,7 +244,6 @@ namespace SS.Ynote.Classic.UI
                 codebox.SelectionChangedDelayed += codebox_SelectionChangedDelayed;
         }
 
-
         /// <summary>
         ///     Builds Context Menu
         /// </summary>
@@ -281,8 +281,8 @@ namespace SS.Ynote.Classic.UI
             codebox.Anchor = AnchorStyles.None;
             // Debug.WriteLine(string.Format("Name : {4} \nHeight : {0} * {1}\n, Width : {2} * {3}\n", Height, codebox.Height, Width, codebox.Width, Text));
             codebox.Height = Height;
-            codebox.Width = Width/2;
-            codebox.Left = (ClientSize.Width - codebox.Width)/2;
+            codebox.Width = Width / 2;
+            codebox.Left = (ClientSize.Width - codebox.Width) / 2;
             codebox.Dock = DockStyle.None;
             BackColor = codebox.BackColor;
         }
@@ -320,7 +320,7 @@ namespace SS.Ynote.Classic.UI
                 PositionCaretTo('^');
 #if DEBUG
             watch.Stop();
-            Debug.WriteLine(watch.Elapsed + " ms InsertSnippet()");
+            Debug.WriteLine(watch.ElapsedMilliseconds + " ms InsertSnippet()");
 #endif
         }
 
@@ -337,7 +337,7 @@ namespace SS.Ynote.Classic.UI
             codebox.ClearSelected();
         }
 
-        #endregion
+        #endregion Methods
 
         #region Events
 
@@ -348,16 +348,16 @@ namespace SS.Ynote.Classic.UI
                 var fragment = Tb.Selection.GetFragment(@"\w");
                 foreach (var snippet in Globals.Snippets)
                 {
-                    if (snippet.Scope.Contains(codebox.Language) && snippet.Tab==fragment.Text)
+                    if (snippet.Scope.Contains(codebox.Language) && snippet.Tab == fragment.Text)
                     {
-                       e.Handled = true;
-                       codebox.BeginUpdate();
-                       codebox.Selection.BeginUpdate();
-                       codebox.Selection = fragment;
-                       codebox.ClearSelected();
-                       InsertSnippet(snippet);
-                       codebox.Selection.EndUpdate();
-                       codebox.EndUpdate();
+                        e.Handled = true;
+                        codebox.BeginUpdate();
+                        codebox.Selection.BeginUpdate();
+                        codebox.Selection = fragment;
+                        codebox.ClearSelected();
+                        InsertSnippet(snippet);
+                        codebox.Selection.EndUpdate();
+                        codebox.EndUpdate();
                     }
                 }
             }
@@ -396,7 +396,7 @@ namespace SS.Ynote.Classic.UI
                 foreach (string line in lines)
                 {
                     string[] items = line.Split('=');
-                    var keys = (Keys) converter.ConvertFromString(items[0]);
+                    var keys = (Keys)converter.ConvertFromString(items[0]);
                     dictionary.Add(keys, items[1]);
                 }
                 return dictionary;
@@ -437,9 +437,9 @@ namespace SS.Ynote.Classic.UI
 
         private void codebox_DragDrop(object sender, DragEventArgs e)
         {
-            var fileList = (string[]) e.Data.GetData(DataFormats.FileDrop, false);
+            var fileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             foreach (var file in fileList)
-                BeginInvoke((MethodInvoker) (() => Globals.Ynote.OpenFile(file)));
+                BeginInvoke((MethodInvoker)(() => Globals.Ynote.OpenFile(file)));
         }
 
         private void codebox_TextChangedDelayed(object sender, TextChangedEventArgs e)
@@ -508,7 +508,7 @@ namespace SS.Ynote.Classic.UI
                 MessageBox.Show("File Not Saved ! ", "Ynote Classic", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
 
-        #endregion
+        #endregion Events
 
         #region Overrides
 
@@ -548,6 +548,6 @@ namespace SS.Ynote.Classic.UI
             return GetType() + "," + Name;
         }
 
-        #endregion
+        #endregion Overrides
     }
 }

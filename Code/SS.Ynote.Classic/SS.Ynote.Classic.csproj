@@ -196,6 +196,12 @@
     <Compile Include="Core\Search\IncrementalSearcher.designer.cs">
       <DependentUpon>IncrementalSearcher.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\Controls\InputWindow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\InputWindow.Designer.cs">
+      <DependentUpon>InputWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Controls\NumericTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -289,6 +295,9 @@
     </Compile>
     <EmbeddedResource Include="UI\BuildOutput.resx">
       <DependentUpon>BuildOutput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\InputWindow.resx">
+      <DependentUpon>InputWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Editor.resx">
       <DependentUpon>Editor.cs</DependentUpon>

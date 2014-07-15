@@ -32,6 +32,7 @@ namespace SS.Ynote.Classic
     {
         #region Private Fields
 
+        private InputWindow input;
         /// <summary>
         ///     Incremental Searcher
         /// </summary>
@@ -458,6 +459,25 @@ namespace SS.Ynote.Classic
             }
         }
 
+        public void AskInput(string caption,EventHandler EnterInput)
+        {
+            if (input == null)
+            {
+                input = new InputWindow();
+                input.Dock = DockStyle.Bottom;
+                this.Controls.Add(input);
+                input.BringToFront();
+            }
+            if (!input.Visible)
+            {
+                input.Visible = true;
+                input.BringToFront();
+            }
+            if(!string.IsNullOrEmpty(caption))
+                input.AddCaptionBlock(caption);
+            input.InputEntered += EnterInput;
+            input.Focus();
+        }
         /// <summary>
         ///     Initialize Globals.Globals.Settings
         /// </summary>
@@ -497,16 +517,23 @@ namespace SS.Ynote.Classic
         {
             ThreadPool.QueueUserWorkItem(delegate
             {
-                if (!(dock.ActiveDocument is Editor) || ActiveEditor == null) return;
-                if (ActiveEditor.Tb.Selection.IsEmpty)
+                try
                 {
-                    int nCol = ActiveEditor.Tb.Selection.Start.iChar + 1;
-                    int line = ActiveEditor.Tb.Selection.Start.iLine + 1;
-                    mistats.Text = string.Format("Line {0}, Column {1}", line, nCol);
+                    if (!(dock.ActiveDocument is Editor) || ActiveEditor == null) return;
+                    if (ActiveEditor.Tb.Selection.IsEmpty)
+                    {
+                        int nCol = ActiveEditor.Tb.Selection.Start.iChar + 1;
+                        int line = ActiveEditor.Tb.Selection.Start.iLine + 1;
+                        mistats.Text = string.Format("Line {0}, Column {1}", line, nCol);
+                    }
+                    else
+                    {
+                        mistats.Text = string.Format("{0} Characters Selected", ActiveEditor.Tb.SelectedText.Length);
+                    }
                 }
-                else
+                catch
                 {
-                    mistats.Text = string.Format("{0} Characters Selected", ActiveEditor.Tb.SelectedText.Length);
+                    // supress exception
                 }
             });
         }
@@ -2186,6 +2213,53 @@ namespace SS.Ynote.Classic
             }
         }
 
+        private void mishellcmd_Click(object sender, EventArgs e)
+        {
+            AskInput("Shell:",(o, args) => ExecShellCommand((o as InputWindow).InputValue));
+        }
+
+        private void ExecShellCommand(string command)
+        {
+            command = command.Split(':')[1];
+            BuildOutput output;
+            var contents = dock.Contents.OfType<BuildOutput>();
+            if (contents.Any())
+                output = contents.First();
+            else
+            {
+                output = new BuildOutput();
+                output.Show(dock, DockState.DockBottom);
+            }
+            var info = new ProcessStartInfo("cmd.exe", "/k " + command);
+            info.CreateNoWindow = true;
+            info.WindowStyle = ProcessWindowStyle.Hidden;
+            info.RedirectStandardOutput = true;
+            info.RedirectStandardError = true;
+            info.UseShellExecute = false;
+            if (Globals.ActiveProject == null)
+            {
+                if (ActiveEditor.IsSaved)
+                    info.WorkingDirectory = Path.GetDirectoryName(ActiveEditor.Name);
+            }
+            else
+                info.WorkingDirectory = Globals.ActiveProject.Path;
+            var proc = Process.Start(info);
+            string out_msg;
+            string error_msg;
+            using (var reader = proc.StandardOutput)
+            {
+                out_msg = reader.ReadToEnd();
+            }
+            using (var erReader = proc.StandardError)
+            {
+                error_msg = erReader.ReadToEnd();
+            }
+            if (out_msg != string.Empty)
+                output.AddOutput(out_msg);
+            else
+                output.AddOutput(error_msg);
+        }
         #endregion
+
     }
 }
