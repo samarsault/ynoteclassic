@@ -68,6 +68,20 @@ namespace SS.Ynote.Classic.Core.Extensibility
             }
         }
 
+        public static void RunCode(string code)
+        {
+            CSScript.GlobalSettings.TargetFramework = "v3.5";
+            //try
+            //{
+            // var helper =
+            //     new AsmHelper(CSScript.LoadMethod(File.ReadAllText(ysfile), GetReferences()));
+            // helper.Invoke("*.Run", ynote);
+            var assembly = CSScript.LoadCode(code, GetReferences());
+            using (var execManager = new AsmHelper(assembly))
+            {
+                execManager.Invoke("*.Main", Globals.Ynote);
+            }
+        }
         /// <summary>
         ///     Gets a interface/class/value from a script's main method
         /// </summary>

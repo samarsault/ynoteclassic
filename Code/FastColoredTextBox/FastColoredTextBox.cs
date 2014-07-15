@@ -27,6 +27,7 @@ using System.Drawing;
 using System.Drawing.Design;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -5323,7 +5324,6 @@ namespace FastColoredTextBoxNS
                 Invalidate();
             }
         }
-
         public void AddMultipleSelections(string re, bool ignoreCase)
         {
             try

@@ -432,3 +432,11 @@ Build 1318
 Build 1320
 
 -> Added Ruby Function Argument Highlighting
+
+Build 1325
+
+-> Better Trace Messages
+
+Build 1330
+
+-> Minor Fixes

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Xml;
 using AutocompleteMenuNS;
 
 /// <summary>
@@ -45,12 +42,11 @@ public class FuzzyAutoCompleteItem : AutocompleteItem
         }
         return max;
     }
-
     public override CompareResult Compare(string fragmentText)
     {
         int max = 0;
         int index = 0;
-        foreach (var item in Parent.Items)
+        foreach (string item in Parent.Items)
         {
             int x = LCS(fragmentText.ToLower(), item.ToLower(), 0, 0);
             if (x > max)
@@ -59,10 +55,10 @@ public class FuzzyAutoCompleteItem : AutocompleteItem
                 index = Array.IndexOf(Parent.Items, item);
             }
         }
+        if (Text == fragmentText)
+            return CompareResult.Visible;
         if (Text == Parent.Items[index])
             return CompareResult.VisibleAndSelected;
-        if (Text.Contains(fragmentText))
-            return CompareResult.Visible;
         return CompareResult.Visible;
     }
 

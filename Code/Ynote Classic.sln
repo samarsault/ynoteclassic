@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SS.Ynote.Classic", "SS.Ynote.Classic\SS.Ynote.Classic.csproj", "{B141123B-C436-45C9-BEE2-B9FEE4352F8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Utilities.csproj", "{08C5FE8E-A1AE-407E-A243-36F6D4EDC5E5}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1A6CA80C-83EB-4699-BECB-93F623DF2CE5}"
 	ProjectSection(SolutionItems) = preProject
 		..\Changelog.txt = ..\Changelog.txt
@@ -24,10 +22,6 @@ Global
 		{B141123B-C436-45C9-BEE2-B9FEE4352F8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B141123B-C436-45C9-BEE2-B9FEE4352F8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B141123B-C436-45C9-BEE2-B9FEE4352F8B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{08C5FE8E-A1AE-407E-A243-36F6D4EDC5E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08C5FE8E-A1AE-407E-A243-36F6D4EDC5E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08C5FE8E-A1AE-407E-A243-36F6D4EDC5E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08C5FE8E-A1AE-407E-A243-36F6D4EDC5E5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6DD14A85-CCFC-4774-BD26-0F5772512319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6DD14A85-CCFC-4774-BD26-0F5772512319}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DD14A85-CCFC-4774-BD26-0F5772512319}.Release|Any CPU.ActiveCfg = Release|Any CPU

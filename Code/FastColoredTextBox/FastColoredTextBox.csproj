@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FastColoredTextBoxNS</RootNamespace>
     <AssemblyName>FastColoredTextBox</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -44,6 +44,22 @@
     <Compile Include="AutocompleteMenu.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Autocomplete\AutocompleteItem.cs" />
+    <Compile Include="Autocomplete\AutocompleteItems.cs" />
+    <Compile Include="Autocomplete\AutocompleteListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Autocomplete\AutocompleteMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Autocomplete\AutocompleteMenuHost.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Autocomplete\EventArgs.cs" />
+    <Compile Include="Autocomplete\IAutocompleteListView.cs" />
+    <Compile Include="Autocomplete\ITextBoxWrapper.cs" />
+    <Compile Include="Autocomplete\Range.cs" />
+    <Compile Include="Autocomplete\TextBoxWrapper.cs" />
     <Compile Include="Bookmarks.cs" />
     <Compile Include="Char.cs" />
     <Compile Include="DocumentMap.cs">
@@ -109,6 +125,9 @@
     <Compile Include="VisualMarker.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Autocomplete\AutocompleteMenu.resx">
+      <DependentUpon>AutocompleteMenu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FastColoredTextBox.resx">
       <DependentUpon>FastColoredTextBox.cs</DependentUpon>
     </EmbeddedResource>

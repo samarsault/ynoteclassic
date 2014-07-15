@@ -438,6 +438,7 @@ namespace SS.Ynote.Classic
 
         public void Trace(string message, int timeout)
         {
+            infotimer.Stop();
             ThreadPool.QueueUserWorkItem(delegate
             {
                 mistats.Text = message;
@@ -445,6 +446,7 @@ namespace SS.Ynote.Classic
                 // UpdateDocumentInfo();
                 Thread.Sleep(timeout);
             });
+            infotimer.Start();
         }
 
         private static string ConvertToText(string rtf)
@@ -476,12 +478,13 @@ namespace SS.Ynote.Classic
                 menu.Visible = visible;
         }
 
+        private Timer infotimer;
         /// <summary>
-        ///     Initializes Custom Controls
+        ///     Initialize Status Bar Timer
         /// </summary>
         private void InitTimer()
         {
-            var infotimer = new Timer();
+            infotimer = new Timer();
             infotimer.Interval = 500;
             infotimer.Tick += (sender, args) => UpdateDocumentInfo();
             infotimer.Start();
@@ -1130,17 +1133,19 @@ namespace SS.Ynote.Classic
                 _incrementalSearcher.Tb = ActiveEditor.Tb;
                 _incrementalSearcher.tbFind.Text = ActiveEditor.Tb.SelectedText;
                 _incrementalSearcher.FocusTextBox();
+                _incrementalSearcher.BringToFront();
             }
             else
             {
-                if (_incrementalSearcher != null
-                    && _incrementalSearcher.Visible) _incrementalSearcher.Exit();
+                if (_incrementalSearcher.Visible)
+                    _incrementalSearcher.Exit();
                 else
                 {
                     _incrementalSearcher.Tb = ActiveEditor.Tb;
                     _incrementalSearcher.tbFind.Text = ActiveEditor.Tb.SelectedText;
                     _incrementalSearcher.Visible = true;
                     _incrementalSearcher.FocusTextBox();
+                    _incrementalSearcher.BringToFront();
                 }
             }
         }
