@@ -39,7 +39,10 @@ namespace SS.Ynote.Classic.Core.Settings
             RestoreDefault(file);
             return Load(file);
         }
-
+        /// <summary>
+        /// Restore Default Properties
+        /// </summary>
+        /// <param name="file"></param>
         private static void RestoreDefault(string file)
         {
             var prop = new GlobalProperties();

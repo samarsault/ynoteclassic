@@ -29,7 +29,7 @@ namespace SS.Ynote.Classic.Core
             {
                 var symbol = match.Value;
                 symbol = symbol.Substring(symbol.LastIndexOf(' ')).Trim();
-                lst.Add(new FuzzyAutoCompleteItem(symbol) {Tag = match.Index});
+                lst.Add(new FuzzyAutoCompleteItem(symbol) {Tag = match.Groups[1].Index});
             }
             return lst;
         }

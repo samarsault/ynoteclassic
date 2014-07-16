@@ -7,6 +7,18 @@ namespace SS.Ynote.Classic.UI
 {
     public partial class InputWindow : UserControl
     {
+        public delegate void GotInputEventHandler(object sender, InputEventArgs e);
+        /// <summary>
+        /// Occurs when user has got an input
+        /// </summary>
+        public event GotInputEventHandler GotInput;
+        /// <summary>
+        /// Read Only Style
+        /// </summary>
+        private readonly Style ReadOnlyStyle;
+        /// <summary>
+        /// Style of the label
+        /// </summary>
         private readonly Style LabelStyle;
         /// <summary>
         /// The value of the input
@@ -16,20 +28,14 @@ namespace SS.Ynote.Classic.UI
             get { return tbInput.Text; }
         }
         /// <summary>
-        /// The label text
-        /// </summary>
-        /// <summary>
-        /// Occurs when the user presses enter
-        /// </summary>
-        public event EventHandler InputEntered;
-        /// <summary>
         /// Default Constructor
         /// </summary>
         public InputWindow()
         {
             InitializeComponent();
             tbInput.KeyDown += tbInput_KeyDown;
-            LabelStyle=new TextStyle(Brushes.Blue,null,FontStyle.Bold);
+            LabelStyle=new TextStyle(Brushes.Blue,null,FontStyle.Regular);
+            ReadOnlyStyle = new ReadOnlyStyle();
             tbInput.WideCaret = true;
         }
 
@@ -37,7 +43,7 @@ namespace SS.Ynote.Classic.UI
         {
             if (e.KeyCode == Keys.Enter)
             {
-                OnInputEntered(EventArgs.Empty);
+                OnInputEntered(new InputEventArgs(InputValue));
                 Hide();
                 e.Handled = true;
             }
@@ -50,23 +56,30 @@ namespace SS.Ynote.Classic.UI
         /// Add a caption
         /// </summary>
         /// <param name="text"></param>
-        public void AddCaptionBlock(string text)
+        public void InitInput(string text, GotInputEventHandler handler)
         {
             var splits = tbInput.Text.Split(':');
             if (splits[0] + ":" == text)
             {
-                if (splits[1] == string.Empty) return; else { tbInput.GoEnd();
-                    while (tbInput.Selection.CharBeforeStart != ':') tbInput.Selection.GoLeft(true);
+                if (splits[1] == string.Empty) 
                     return;
-                }
+                tbInput.GoEnd();
+                while (tbInput.Selection.CharBeforeStart != ':') 
+                    tbInput.Selection.GoLeft(true);
+                return;
             }
             tbInput.Text = text;
             tbInput.GoEnd();
-            tbInput.Range.SetStyle(new ReadOnlyStyle(), @"\b.*:");tbInput.Range.SetStyle(LabelStyle, @"\b.*:");
+            tbInput.Range.ClearStyle();
+            tbInput.Range.ClearStyle(ReadOnlyStyle,LabelStyle);
+            tbInput.Range.SetStyle(ReadOnlyStyle, @"\b.*:");
+            tbInput.Range.SetStyle(LabelStyle, @"\b.*:");
+            this.GotInput = null;
+            GotInput = handler;
         }
-        public virtual void OnInputEntered(EventArgs e)
+        public virtual void OnInputEntered(InputEventArgs e)
         {
-            var handler = InputEntered;
+            var handler = GotInput;
             if(handler != null)
                 handler(this,e);
         }
@@ -74,6 +87,28 @@ namespace SS.Ynote.Classic.UI
         public void Focus()
         {
             tbInput.Focus();
+        }
+    }
+    public class InputEventArgs : EventArgs
+    {
+        /// <summary>
+        /// The vale of the Input
+        /// </summary>
+        public string InputValue;
+        /// <summary>
+        /// Gets a formatted input seperated by :
+        /// </summary>
+        /// <returns></returns>
+        public string GetFormattedInput()
+        {
+            return InputValue.Split(':')[1];
+        }
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
+        public InputEventArgs(string val)
+        {
+            this.InputValue = val;
         }
     }
 }

@@ -52,5 +52,5 @@ public interface IYnote
     /// </summary>
     /// <param name="caption"></param>
     /// <param name="OnEnter">When the Input has been entered</param>
-    void AskInput(string caption, EventHandler OnEnter);
+    void AskInput(string caption, InputWindow.GotInputEventHandler OnEnter);
 }

@@ -96,6 +96,7 @@ namespace FastColoredTextBoxNS
             this[KEYS.Alt | KEYS.Delete] = FCTBAction.DeleteCurrentLine;
             this[KEYS.Alt | KEYS.Left] = FCTBAction.GoLeftBracket;
             this[KEYS.Alt | KEYS.Right] = FCTBAction.GoRightBracket;
+            this[KEYS.Control | KEYS.F3] = FCTBAction.SelectFindNext;
         }
 
         public override string ToString()
@@ -125,7 +126,7 @@ namespace FastColoredTextBoxNS
 
             var kc = new KeysConverter();
 
-            foreach (var p in s.Split(','))
+            foreach (var p in s.Split('\n'))
             {
                 var pp = p.Split('=');
                 var k = (Keys) kc.ConvertFromString(pp[0].Trim());
@@ -157,6 +158,7 @@ namespace FastColoredTextBoxNS
         FindChar,
         FindDialog,
         FindNext,
+        SelectFindNext,
         GoDown,
         GoDownWithSelection,
         GoDown_ColumnSelectionMode,
@@ -216,7 +218,6 @@ namespace FastColoredTextBoxNS
         DeleteCurrentLine,
         GoLeftBracket,
         GoRightBracket,
-        CustomAction7,
         CustomAction8,
         CustomAction9,
         CustomAction10,

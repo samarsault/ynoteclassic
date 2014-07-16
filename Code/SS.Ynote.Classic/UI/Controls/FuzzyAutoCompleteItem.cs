@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using AutocompleteMenuNS;
 
 /// <summary>
@@ -56,7 +55,7 @@ public class FuzzyAutoCompleteItem : AutocompleteItem
             }
         }
         if (Text == fragmentText)
-            return CompareResult.Visible;
+            return CompareResult.VisibleAndSelected;
         if (Text == Parent.Items[index])
             return CompareResult.VisibleAndSelected;
         return CompareResult.Visible;

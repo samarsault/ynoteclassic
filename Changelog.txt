@@ -448,3 +448,27 @@ Build 1350
 Build 1355
 
 -> Added AskInput(label,function) method in API
+
+Build 1372
+
+-> Shell Command Fixes and UI Improvements
+
+Build 1380
+
+-> Added Select and Find Next
+
+Build  1382
+
+-> Added Web Search
+
+Build 1393
+
+-> Similarized User.ynotekeys and Editor.ynotekeys syntax
+
+Build 1401
+
+-> Split Line uses AskInput instead of dialog
+
+Build 1405
+
+-> Deleted UtilDialog, uses AskInput() instead

@@ -97,6 +97,8 @@
             this.menuItem2 = new System.Windows.Forms.MenuItem();
             this.mifind = new System.Windows.Forms.MenuItem();
             this.mifindnext = new System.Windows.Forms.MenuItem();
+            this.miselectfindNext = new System.Windows.Forms.MenuItem();
+            this.menuItem11 = new System.Windows.Forms.MenuItem();
             this.replacemenu = new System.Windows.Forms.MenuItem();
             this.menuItem13 = new System.Windows.Forms.MenuItem();
             this.mifindchar = new System.Windows.Forms.MenuItem();
@@ -210,6 +212,9 @@
             this.miprotector = new System.Windows.Forms.MenuItem();
             this.miprotectfile = new System.Windows.Forms.MenuItem();
             this.midecryptfile = new System.Windows.Forms.MenuItem();
+            this.menuItem9 = new System.Windows.Forms.MenuItem();
+            this.migoogle = new System.Windows.Forms.MenuItem();
+            this.miwikipedia = new System.Windows.Forms.MenuItem();
             this.seperator7 = new System.Windows.Forms.MenuItem();
             this.menuItem1 = new System.Windows.Forms.MenuItem();
             this.minewsnippet = new System.Windows.Forms.MenuItem();
@@ -642,6 +647,8 @@
             this.menuItem2.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.mifind,
             this.mifindnext,
+            this.miselectfindNext,
+            this.menuItem11,
             this.replacemenu,
             this.menuItem13,
             this.mifindchar,
@@ -663,45 +670,56 @@
             this.mifindnext.Text = "Find Next";
             this.mifindnext.Click += new System.EventHandler(this.mifindNext_Click);
             // 
+            // miselectfindNext
+            // 
+            this.miselectfindNext.Index = 2;
+            this.miselectfindNext.Text = "Select Find Next";
+            this.miselectfindNext.Click += new System.EventHandler(this.miselectfindNext_Click);
+            // 
+            // menuItem11
+            // 
+            this.menuItem11.Index = 3;
+            this.menuItem11.Text = "-";
+            // 
             // replacemenu
             // 
-            this.replacemenu.Index = 2;
+            this.replacemenu.Index = 4;
             this.replacemenu.Text = "Replace";
             this.replacemenu.Click += new System.EventHandler(this.replacemenu_Click);
             // 
             // menuItem13
             // 
-            this.menuItem13.Index = 3;
+            this.menuItem13.Index = 5;
             this.menuItem13.Text = "-";
             // 
             // mifindchar
             // 
-            this.mifindchar.Index = 4;
+            this.mifindchar.Index = 6;
             this.mifindchar.Text = "Find Character";
             this.mifindchar.Click += new System.EventHandler(this.mifindchar_Click);
             // 
             // mincrementalsearch
             // 
-            this.mincrementalsearch.Index = 5;
+            this.mincrementalsearch.Index = 7;
             this.mincrementalsearch.Shortcut = System.Windows.Forms.Shortcut.CtrlI;
             this.mincrementalsearch.Text = "Incremental Search";
             this.mincrementalsearch.Click += new System.EventHandler(this.mincrementalsearch_Click);
             // 
             // menuItem16
             // 
-            this.menuItem16.Index = 6;
+            this.menuItem16.Index = 8;
             this.menuItem16.Text = "-";
             // 
             // mifindinfiles
             // 
-            this.mifindinfiles.Index = 7;
+            this.mifindinfiles.Index = 9;
             this.mifindinfiles.Shortcut = System.Windows.Forms.Shortcut.CtrlShiftF;
             this.mifindinfiles.Text = "Find In Files";
             this.mifindinfiles.Click += new System.EventHandler(this.mifindinfiles_Click);
             // 
             // mifindinproject
             // 
-            this.mifindinproject.Index = 8;
+            this.mifindinproject.Index = 10;
             this.mifindinproject.Text = "Find In Project";
             this.mifindinproject.Click += new System.EventHandler(this.mifindinproject_Click);
             // 
@@ -1379,6 +1397,7 @@
             this.miexecfile,
             this.mirunscripts,
             this.miprotector,
+            this.menuItem9,
             this.seperator7,
             this.menuItem1,
             this.colorschememenu,
@@ -1450,14 +1469,34 @@
             this.midecryptfile.Text = "Decrypt This File";
             this.midecryptfile.Click += new System.EventHandler(this.midecryptfile_Click);
             // 
+            // menuItem9
+            // 
+            this.menuItem9.Index = 8;
+            this.menuItem9.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.migoogle,
+            this.miwikipedia});
+            this.menuItem9.Text = "Web Search";
+            // 
+            // migoogle
+            // 
+            this.migoogle.Index = 0;
+            this.migoogle.Text = "Google";
+            this.migoogle.Click += new System.EventHandler(this.migoogle_Click);
+            // 
+            // miwikipedia
+            // 
+            this.miwikipedia.Index = 1;
+            this.miwikipedia.Text = "Wikipedia";
+            this.miwikipedia.Click += new System.EventHandler(this.miwikipedia_Click);
+            // 
             // seperator7
             // 
-            this.seperator7.Index = 8;
+            this.seperator7.Index = 9;
             this.seperator7.Text = "-";
             // 
             // menuItem1
             // 
-            this.menuItem1.Index = 9;
+            this.menuItem1.Index = 10;
             this.menuItem1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.minewsnippet,
             this.minewscript,
@@ -1484,18 +1523,18 @@
             // 
             // colorschememenu
             // 
-            this.colorschememenu.Index = 10;
+            this.colorschememenu.Index = 11;
             this.colorschememenu.Text = "Color Scheme";
             this.colorschememenu.Select += new System.EventHandler(this.colorschememenu_Select);
             // 
             // seperator83
             // 
-            this.seperator83.Index = 11;
+            this.seperator83.Index = 12;
             this.seperator83.Text = "-";
             // 
             // OptionsMenu
             // 
-            this.OptionsMenu.Index = 12;
+            this.OptionsMenu.Index = 13;
             this.OptionsMenu.Text = "Options";
             this.OptionsMenu.Click += new System.EventHandler(this.OptionsMenu_Click);
             // 
@@ -2253,6 +2292,11 @@
         private System.Windows.Forms.MenuItem migotoword;
         private System.Windows.Forms.MenuItem minewview;
         private System.Windows.Forms.MenuItem mishellcmd;
+        private System.Windows.Forms.MenuItem menuItem9;
+        private System.Windows.Forms.MenuItem migoogle;
+        private System.Windows.Forms.MenuItem miwikipedia;
+        private System.Windows.Forms.MenuItem menuItem11;
+        private System.Windows.Forms.MenuItem miselectfindNext;
     }
 }
 

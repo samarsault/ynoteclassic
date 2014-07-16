@@ -238,12 +238,6 @@
     <Compile Include="Core\Search\SearchResults.designer.cs">
       <DependentUpon>SearchResults.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\UtilDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\UtilDialog.designer.cs">
-      <DependentUpon>UtilDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Options.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -296,9 +290,6 @@
     <EmbeddedResource Include="UI\BuildOutput.resx">
       <DependentUpon>BuildOutput.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Controls\InputWindow.resx">
-      <DependentUpon>InputWindow.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\Editor.resx">
       <DependentUpon>Editor.cs</DependentUpon>
     </EmbeddedResource>
@@ -307,9 +298,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\CommandWindow.resx">
       <DependentUpon>CommandWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\UtilDialog.resx">
-      <DependentUpon>UtilDialog.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

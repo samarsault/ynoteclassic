@@ -459,7 +459,7 @@ namespace SS.Ynote.Classic
             }
         }
 
-        public void AskInput(string caption,EventHandler EnterInput)
+        public void AskInput(string caption,InputWindow.GotInputEventHandler EnterInput)
         {
             if (input == null)
             {
@@ -473,9 +473,7 @@ namespace SS.Ynote.Classic
                 input.Visible = true;
                 input.BringToFront();
             }
-            if(!string.IsNullOrEmpty(caption))
-                input.AddCaptionBlock(caption);
-            input.InputEntered += EnterInput;
+            input.InitInput(caption,EnterInput);
             input.Focus();
         }
         /// <summary>
@@ -651,8 +649,6 @@ namespace SS.Ynote.Classic
         #region Events
 
         private string path;
-
-        private IEnumerable<Range> words;
 
         /// <summary>
         ///     Gets the Active Project
@@ -1295,22 +1291,45 @@ namespace SS.Ynote.Classic
             Process.Start("charmap.exe");
         }
 
+        private void Split(int iLine, FastColoredTextBox tb, string s)
+        {
+            string[] sep = s.Split(':');
+            tb.Selection.Start = new Place(0, iLine);
+            tb.Selection.Expand();
+            string seperator;
+            if (sep.Length == 3 && sep[1] == string.Empty)
+                seperator = ":";
+            else
+                seperator = sep[1];
+            var lines = tb.SelectedText.Split(seperator.ToCharArray());
+            tb.ClearSelected();
+            foreach (string line in lines)
+            {
+                tb.InsertText(line+"\n");
+            }
+            tb.ClearCurrentLine();
+        }
         private void splitlinemenu_Click(object sender, EventArgs e)
         {
-            var splitline = new UtilDialog(ActiveEditor.Tb, InsertType.Splitter);
-            splitline.Show();
+            AskInput("Seperator:", (o,args)=>Split(ActiveEditor.Tb.Selection.Start.iLine,ActiveEditor.Tb,args.InputValue));
         }
 
+        private void InsertCharacters(int times, string character)
+        {
+            while (times > 0)
+            {
+                ActiveEditor.Tb.InsertText(character);
+                times--;
+            }
+        }
         private void emptycolumns_Click(object sender, EventArgs e)
         {
-            var emptycols = new UtilDialog(ActiveEditor.Tb, InsertType.Column);
-            emptycols.ShowDialog(this);
+            AskInput("Number:", (o, args) => InsertCharacters(args.GetFormattedInput().ToInt(), " "));
         }
 
         private void emptylines_Click(object sender, EventArgs e)
         {
-            var utilDialog = new UtilDialog(ActiveEditor.Tb, InsertType.Line);
-            utilDialog.ShowDialog(this);
+            AskInput("Number:", (o, args) => InsertCharacters(args.GetFormattedInput().ToInt(), "\n"));
         }
 
         private void mimultimacro_Click(object sender, EventArgs e)
@@ -2173,6 +2192,8 @@ namespace SS.Ynote.Classic
         }
 
 
+        private IEnumerable<Range> words;
+
         private void migotoword_Click(object sender, EventArgs e)
         {
             var items = new List<AutocompleteItem>();
@@ -2215,12 +2236,16 @@ namespace SS.Ynote.Classic
 
         private void mishellcmd_Click(object sender, EventArgs e)
         {
-            AskInput("Shell:",(o, args) => ExecShellCommand((o as InputWindow).InputValue));
+            AskInput("Shell:",(o, args) => ExecShellCommand(args.InputValue));
         }
 
         private void ExecShellCommand(string command)
         {
-            command = command.Split(':')[1];
+            ThreadPool.QueueUserWorkItem(delegate { });
+            var splits = command.Split(':');
+            if (splits[0] != "Shell")
+                return;
+            command = splits[1];
             BuildOutput output;
             var contents = dock.Contents.OfType<BuildOutput>();
             if (contents.Any())
@@ -2238,7 +2263,7 @@ namespace SS.Ynote.Classic
             info.UseShellExecute = false;
             if (Globals.ActiveProject == null)
             {
-                if (ActiveEditor.IsSaved)
+                if (ActiveEditor != null &&ActiveEditor.IsSaved)
                     info.WorkingDirectory = Path.GetDirectoryName(ActiveEditor.Name);
             }
             else
@@ -2259,6 +2284,23 @@ namespace SS.Ynote.Classic
             else
                 output.AddOutput(error_msg);
         }
+
+        private void migoogle_Click(object sender, EventArgs e)
+        {
+            AskInput("Google:", (o, args) => Process.Start("http://www.google.com/search?q=" + args.GetFormattedInput()));
+        }
+
+        private void miwikipedia_Click(object sender, EventArgs e)
+        {
+            AskInput("Wikipedia:", (o, args) => Process.Start("http://en.wikipedia.org/w/index.php?search=" + args.GetFormattedInput()));
+        }
+
+        private void miselectfindNext_Click(object sender, EventArgs e)
+        {
+            if (ActiveEditor != null)
+                ActiveEditor.Tb.SelectAndFindNext();
+        }
+
         #endregion
 
     }

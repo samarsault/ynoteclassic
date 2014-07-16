@@ -3883,7 +3883,9 @@ namespace FastColoredTextBoxNS
                 case FCTBAction.GoRightBracket:
                     GoRightBracket();
                     break;
-                case FCTBAction.CustomAction7 :
+                case FCTBAction.SelectFindNext :
+                    SelectAndFindNext();
+                    break;
                 case FCTBAction.CustomAction8 :
                 case FCTBAction.CustomAction9 :
                 case FCTBAction.CustomAction10:
@@ -3900,6 +3902,18 @@ namespace FastColoredTextBoxNS
                     OnCustomAction(new CustomActionEventArgs(action));
                     break;
             }
+        }
+
+        public void SelectAndFindNext()
+        {
+            if (Selection.IsEmpty)
+                SelectWord(Selection.Start);
+            string pattern = SelectedText;
+            if (findForm == null)
+            {
+                findForm = new FindForm(this);
+            }
+            findForm.FindNext(pattern);
         }
         /// <summary>
         ///     Go's to the right of bracket
@@ -5646,7 +5660,7 @@ namespace FastColoredTextBoxNS
                 OnMarkerDoubleClick(m);
         }
 
-        private void SelectWord(Place p)
+        public void SelectWord(Place p)
         {
             int fromX = p.iChar;
             int toX = p.iChar;
