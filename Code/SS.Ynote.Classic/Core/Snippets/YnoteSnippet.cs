@@ -1,18 +1,16 @@
 ﻿#define DEVBUILD
 
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
-using FastColoredTextBoxNS;
 using SS.Ynote.Classic.UI;
 
 namespace SS.Ynote.Classic.Core.Snippets
 {
     public class YnoteSnippet
     {
+        #region Properties
+
         public string File { get; private set; }
 
         /// <summary>
@@ -31,7 +29,7 @@ namespace SS.Ynote.Classic.Core.Snippets
         public string Content { get; set; }
 
         /// <summary>
-        ///     The Scope of the Snippet
+        ///     The Scope(s) of the Snippet
         /// </summary>
         public string[] Scope { get; set; }
 
@@ -54,6 +52,8 @@ namespace SS.Ynote.Classic.Core.Snippets
                <content></content>
            </YnoteSnippet>
         */
+
+        #endregion
 
         public static YnoteSnippet Read(string snippetfile)
         {
@@ -85,7 +85,6 @@ namespace SS.Ynote.Classic.Core.Snippets
             }
             return snippet;
         }
-
         public string GetSubstitutedContent(Editor edit)
         {
             string content = Content.Replace("$selection", edit.Tb.SelectedText)

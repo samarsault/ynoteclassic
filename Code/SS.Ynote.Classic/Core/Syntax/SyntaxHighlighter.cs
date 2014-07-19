@@ -916,7 +916,7 @@ namespace SS.Ynote.Classic.Core.Syntax
             // string higlighting between <>
             e.ChangedRange.SetStyle(String, @"(?<=\<)(.*?)(?=\>)|\<|\>");
             // preprocessor highlighting
-            e.ChangedRange.SetStyle(Preprocessor, @"#[a-zA-Z_\d]*\b");
+            e.ChangedRange.SetStyle(Preprocessor, @"#[a-zA-Z_\d]*\b", RegexOptions.Multiline);
             // class name highlight
             e.ChangedRange.SetStyle(ClassName, _cClassNameRegex);
             // function name highlight
@@ -962,7 +962,7 @@ namespace SS.Ynote.Classic.Core.Syntax
             // string higlighting between <>
             e.ChangedRange.SetStyle(String, @"(?<=\<)(.*?)(?=\>)|\<|\>");
             // preprocessor highlighting
-            e.ChangedRange.SetStyle(Preprocessor, @"#[a-zA-Z_\d]*\b");
+            e.ChangedRange.SetStyle(Preprocessor, @"#[a-zA-Z_\d]*\b", RegexOptions.Multiline);
             // class name highlight
             e.ChangedRange.SetStyle(ClassName, _cClassNameRegex);
             // function name highlight

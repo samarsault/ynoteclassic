@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using FastColoredTextBoxNS;
 using SS.Ynote.Classic.Core;
 using SS.Ynote.Classic.Core.Extensibility;
@@ -295,7 +296,6 @@ namespace SS.Ynote.Classic.UI
             else
                 codebox.Dock = DockStyle.Fill;
         }
-
         /// <summary>
         ///     Insert a Snippet
         /// </summary>
@@ -323,11 +323,6 @@ namespace SS.Ynote.Classic.UI
             Debug.WriteLine(watch.ElapsedMilliseconds + " ms InsertSnippet()");
 #endif
         }
-
-        /// <summary>
-        ///     Position Charet to c
-        /// </summary>
-        /// <param name="c"></param>
         private void PositionCaretTo(char c)
         {
             while (codebox.Selection.CharBeforeStart != c)
@@ -336,8 +331,7 @@ namespace SS.Ynote.Classic.UI
             codebox.Selection.GoLeft(true);
             codebox.ClearSelected();
         }
-
-        #endregion Methods
+        #endregion
 
         #region Events
 
@@ -358,6 +352,7 @@ namespace SS.Ynote.Classic.UI
                         InsertSnippet(snippet);
                         codebox.Selection.EndUpdate();
                         codebox.EndUpdate();
+                        break;
                     }
                 }
             }

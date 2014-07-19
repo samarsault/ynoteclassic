@@ -38,7 +38,7 @@
             // 
             this.tbInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbInput.AutoScrollMinSize = new System.Drawing.Size(22, 18);
+            this.tbInput.AutoScrollMinSize = new System.Drawing.Size(6, 18);
             this.tbInput.BackBrush = null;
             this.tbInput.CaretColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.tbInput.CharHeight = 16;
@@ -55,6 +55,7 @@
             this.tbInput.SameWordsStyle = null;
             this.tbInput.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.tbInput.ShowLineNumbers = false;
+            this.tbInput.ShowScrollBars = false;
             this.tbInput.Size = new System.Drawing.Size(585, 20);
             this.tbInput.TabIndex = 2;
             this.tbInput.TextAreaBorder = FastColoredTextBoxNS.TextAreaBorderType.Shadow;

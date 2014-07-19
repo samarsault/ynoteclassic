@@ -32,6 +32,8 @@ namespace SS.Ynote.Classic
     {
         #region Private Fields
 
+        private ProjectPanel projectPanel;
+
         private InputWindow input;
         /// <summary>
         ///     Incremental Searcher
@@ -467,6 +469,7 @@ namespace SS.Ynote.Classic
                 input.Dock = DockStyle.Bottom;
                 this.Controls.Add(input);
                 input.BringToFront();
+                dock.BringToFront();
             }
             if (!input.Visible)
             {
@@ -1157,6 +1160,7 @@ namespace SS.Ynote.Classic
                 _incrementalSearcher.tbFind.Text = ActiveEditor.Tb.SelectedText;
                 _incrementalSearcher.FocusTextBox();
                 _incrementalSearcher.BringToFront();
+                dock.BringToFront();
             }
             else
             {
@@ -1168,7 +1172,6 @@ namespace SS.Ynote.Classic
                     _incrementalSearcher.tbFind.Text = ActiveEditor.Tb.SelectedText;
                     _incrementalSearcher.Visible = true;
                     _incrementalSearcher.FocusTextBox();
-                    _incrementalSearcher.BringToFront();
                 }
             }
         }
@@ -2021,22 +2024,12 @@ namespace SS.Ynote.Classic
             }
         }
 
-        private ProjectPanel GetProjectPanel()
-        {
-            ProjectPanel panel = null;
-            foreach (DockContent content in dock.Contents)
-                if (content is ProjectPanel)
-                    panel = content as ProjectPanel;
-            return panel;
-        }
-
         private void OpenProject(YnoteProject project)
         {
             if (Globals.ActiveProject == project || project == null)
                 return;
-            ProjectPanel panel = GetProjectPanel();
-            if (panel == null)
-                panel = new ProjectPanel();
+            if (projectPanel == null)
+                projectPanel = new ProjectPanel();
             if (File.Exists(project.LayoutFile))
             {
                 if (dock.Contents.Count != 0)
@@ -2052,8 +2045,8 @@ namespace SS.Ynote.Classic
             }
             else
             {
-                panel.OpenProject(project);
-                panel.Show(dock, DockState.DockLeft);
+                projectPanel.OpenProject(project);
+                projectPanel.Show(dock, DockState.DockLeft);
             }
             Text = project.Name + " - Ynote Classic";
         }
@@ -2074,7 +2067,7 @@ namespace SS.Ynote.Classic
 
         private void mieditproj_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(Globals.ActiveProject.FilePath))
+            if (Globals.ActiveProject == null && string.IsNullOrEmpty(Globals.ActiveProject.FilePath))
                 return;
             OpenFile(Globals.ActiveProject.FilePath);
         }
@@ -2300,8 +2293,24 @@ namespace SS.Ynote.Classic
             if (ActiveEditor != null)
                 ActiveEditor.Tb.SelectAndFindNext();
         }
+        private void miscriptconsole_Click(object sender, EventArgs e)
+        {
+            AskInput("Function:", EvaluateFunction);
+        }
 
+        private void EvaluateFunction(object sender, InputEventArgs args)
+        {
+            string s = args.InputValue.Substring(9, args.InputValue.Length - "Function:".Length);
+            if (!s.Contains(";"))
+                s += ";";
+            string code = string.Format(@"//css_include {0}\Installed\YnoteCommons.ysr
+        using System.Windows.Forms;
+        using System.IO;
+        
+        public static void Main(IYnote yn){{
+            var ynote = new YnoteCommons(yn);{1}}}", GlobalSettings.SettingsDir, s);
+            YnoteScript.RunCode(code);
+        }
         #endregion
-
     }
 }

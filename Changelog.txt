@@ -472,3 +472,19 @@ Build 1401
 Build 1405
 
 -> Deleted UtilDialog, uses AskInput() instead
+
+Build 1419
+
+-> Install Downloaded Packages as Administrator to handle C:\Program Files Directory for Plugin references
+
+Build 1427
+
+-> Added Ynote Script Function Evaluator
+
+Build 1455
+
+-> Upgraded to .NET 4
+
+Build 1460
+
+-> Mac Line Endings (\r / CR) support

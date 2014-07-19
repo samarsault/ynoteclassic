@@ -21,9 +21,18 @@ namespace SS.Ynote.Classic.Extensibility.Packages
 
         private void LoadPackages(string url)
         {
-            var client = new WebClient();
-            client.DownloadStringCompleted += (sender, args) => LoadInfo(args.Result);
-            client.DownloadStringAsync(new Uri(url));
+            try
+            {
+                var client = new WebClient();
+                client.DownloadStringCompleted += (sender, args) => LoadInfo(args.Result);
+                client.DownloadStringAsync(new Uri(url));
+            }
+            catch (Exception ex)
+            {
+                var result = MessageBox.Show("Error : " + ex.Message, null, MessageBoxButtons.RetryCancel, MessageBoxIcon.Exclamation);
+                if(result == DialogResult.Retry)
+                    LoadPackages(url);
+            }
         }
 
         private void LoadInfo(string json)

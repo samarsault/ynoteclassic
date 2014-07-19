@@ -9,6 +9,9 @@
 //------------------------------------------------------------------------------
 
 namespace SS.Ynote.Classic.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -30,10 +33,7 @@ namespace SS.Ynote.Classic.Properties {
         }
         
         /// <summary>
-        ///   Returns the cache
-        /// 
-        /// 
-        /// d ResourceManager instance used by this class.
+        ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static global::System.Resources.ResourceManager ResourceManager {

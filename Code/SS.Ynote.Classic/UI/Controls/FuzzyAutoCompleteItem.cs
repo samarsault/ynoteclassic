@@ -43,22 +43,16 @@ public class FuzzyAutoCompleteItem : AutocompleteItem
     }
     public override CompareResult Compare(string fragmentText)
     {
-        int max = 0;
-        int index = 0;
-        foreach (string item in Parent.Items)
-        {
-            int x = LCS(fragmentText.ToLower(), item.ToLower(), 0, 0);
-            if (x > max)
-            {
-                max = x;
-                index = Array.IndexOf(Parent.Items, item);
-            }
-        }
+        int x = LCS(fragmentText.ToLower(), Text.ToLower(), 0, 0);
         if (Text == fragmentText)
             return CompareResult.VisibleAndSelected;
-        if (Text == Parent.Items[index])
+        if (x == fragmentText.Length || x > Text.Length - fragmentText.Length)
             return CompareResult.VisibleAndSelected;
-        return CompareResult.Visible;
+        if (x > 0)
+            return CompareResult.Visible;
+        if (string.IsNullOrEmpty(fragmentText))
+            return CompareResult.Visible;
+        return CompareResult.Hidden;
     }
 
 }

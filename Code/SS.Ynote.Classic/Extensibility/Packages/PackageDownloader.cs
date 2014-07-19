@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Net;
 using System.Windows.Forms;
 
@@ -33,9 +34,15 @@ namespace SS.Ynote.Classic.Extensibility.Packages
 
         private void InstallPackage(string file)
         {
+            // var installer = new PackageInstaller(file);
+            // installer.ShowDialog(this);
+            var info = new ProcessStartInfo(Application.StartupPath + @"\pkmgr.exe",file);
+            info.Verb = "runas";
+            Process.Start(info);
+            DialogResult result=MessageBox.Show("Package Successfully Installed. Restart now to make changes ?","",MessageBoxButtons.YesNo,MessageBoxIcon.Information);
+            if (result == DialogResult.Yes)
+                Application.Restart();
             Close();
-            var installer = new PackageInstaller(file);
-            installer.ShowDialog(this);
         }
 
         private void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)

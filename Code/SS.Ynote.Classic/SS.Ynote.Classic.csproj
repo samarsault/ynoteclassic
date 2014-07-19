@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SS.Ynote.Classic</RootNamespace>
     <AssemblyName>SS.Ynote.Classic</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetFrameworkProfile />
@@ -73,10 +73,7 @@
       <HintPath>..\Dependencies\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition">
-      <HintPath>..\Dependencies\System.ComponentModel.Composition.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
@@ -289,6 +286,9 @@
     </Compile>
     <EmbeddedResource Include="UI\BuildOutput.resx">
       <DependentUpon>BuildOutput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Controls\InputWindow.resx">
+      <DependentUpon>InputWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Editor.resx">
       <DependentUpon>Editor.cs</DependentUpon>

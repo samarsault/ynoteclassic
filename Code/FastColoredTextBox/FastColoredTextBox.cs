@@ -5342,6 +5342,8 @@ namespace FastColoredTextBoxNS
         {
             try
             {
+                if(!Selection.IsEmpty)
+                    Selection.GoLeft();
                 IEnumerable<Range> ranges;
                 if (ignoreCase)
                     ranges = GetRanges(re, RegexOptions.IgnoreCase);
@@ -6547,6 +6549,7 @@ namespace FastColoredTextBoxNS
             {
                 if (!Selection.ReadOnly)
                 {
+                    Selection.Start = new Place(this[Selection.Start.iLine].StartSpacesCount, Selection.Start.iLine);
                     //insert tab as spaces
                     int spaces = TabLength - (Selection.Start.iChar % TabLength);
                     //replace mode? select forward chars
@@ -6696,7 +6699,28 @@ namespace FastColoredTextBoxNS
             EndUpdate();
             Invalidate();
         }
-
+         /// <summary>
+         /// Selectes next fragment for given regex.
+         /// </summary>
+         public bool SelectNext(string regexPattern, bool backward = false, RegexOptions options = RegexOptions.None)
+         {
+             var sel = Selection.Clone();
+             sel.Normalize();
+             var range1 = backward ? new Range(this, Range.Start, sel.Start) : new Range(this, sel.End, Range.End);
+ 
+             Range res = null;
+             foreach(var r in range1.GetRanges(regexPattern, options))
+             {
+                 res = r;
+                 if (!backward) break;
+             }
+ 
+             if (res == null) return false;
+             Selection = res;
+             Invalidate();
+             return true;
+         }
+ 
         /*
         private void DecreaseIndentOfSingleLine()
         {
