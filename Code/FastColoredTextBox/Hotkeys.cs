@@ -97,6 +97,7 @@ namespace FastColoredTextBoxNS
             this[KEYS.Alt | KEYS.Left] = FCTBAction.GoLeftBracket;
             this[KEYS.Alt | KEYS.Right] = FCTBAction.GoRightBracket;
             this[KEYS.Control | KEYS.F3] = FCTBAction.SelectFindNext;
+            this[KEYS.Shift | KEYS.F3] = FCTBAction.FindPrevious;
         }
 
         public override string ToString()
@@ -218,7 +219,7 @@ namespace FastColoredTextBoxNS
         DeleteCurrentLine,
         GoLeftBracket,
         GoRightBracket,
-        CustomAction8,
+        FindPrevious,
         CustomAction9,
         CustomAction10,
         CustomAction11,

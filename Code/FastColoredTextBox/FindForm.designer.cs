@@ -36,13 +36,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cbWholeWord = new System.Windows.Forms.CheckBox();
             this.btFindAll = new System.Windows.Forms.Button();
+            this.btFindPrevious = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btClose
             // 
-            this.btClose.Location = new System.Drawing.Point(273, 73);
+            this.btClose.Location = new System.Drawing.Point(350, 96);
             this.btClose.Name = "btClose";
-            this.btClose.Size = new System.Drawing.Size(75, 23);
+            this.btClose.Size = new System.Drawing.Size(84, 23);
             this.btClose.TabIndex = 5;
             this.btClose.Text = "Close";
             this.btClose.UseVisualStyleBackColor = true;
@@ -50,9 +51,9 @@
             // 
             // btFindNext
             // 
-            this.btFindNext.Location = new System.Drawing.Point(111, 73);
+            this.btFindNext.Location = new System.Drawing.Point(350, 9);
             this.btFindNext.Name = "btFindNext";
-            this.btFindNext.Size = new System.Drawing.Size(75, 23);
+            this.btFindNext.Size = new System.Drawing.Size(84, 23);
             this.btFindNext.TabIndex = 4;
             this.btFindNext.Text = "Find next";
             this.btFindNext.UseVisualStyleBackColor = true;
@@ -62,7 +63,7 @@
             // 
             this.tbFind.Location = new System.Drawing.Point(42, 12);
             this.tbFind.Name = "tbFind";
-            this.tbFind.Size = new System.Drawing.Size(306, 20);
+            this.tbFind.Size = new System.Drawing.Size(302, 20);
             this.tbFind.TabIndex = 0;
             this.tbFind.TextChanged += new System.EventHandler(this.cbMatchCase_CheckedChanged);
             this.tbFind.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbFind_KeyPress);
@@ -70,7 +71,7 @@
             // cbRegex
             // 
             this.cbRegex.AutoSize = true;
-            this.cbRegex.Location = new System.Drawing.Point(291, 38);
+            this.cbRegex.Location = new System.Drawing.Point(42, 84);
             this.cbRegex.Name = "cbRegex";
             this.cbRegex.Size = new System.Drawing.Size(57, 17);
             this.cbRegex.TabIndex = 3;
@@ -81,7 +82,7 @@
             // cbMatchCase
             // 
             this.cbMatchCase.AutoSize = true;
-            this.cbMatchCase.Location = new System.Drawing.Point(84, 38);
+            this.cbMatchCase.Location = new System.Drawing.Point(42, 38);
             this.cbMatchCase.Name = "cbMatchCase";
             this.cbMatchCase.Size = new System.Drawing.Size(82, 17);
             this.cbMatchCase.TabIndex = 1;
@@ -101,7 +102,7 @@
             // cbWholeWord
             // 
             this.cbWholeWord.AutoSize = true;
-            this.cbWholeWord.Location = new System.Drawing.Point(172, 38);
+            this.cbWholeWord.Location = new System.Drawing.Point(42, 61);
             this.cbWholeWord.Name = "cbWholeWord";
             this.cbWholeWord.Size = new System.Drawing.Size(113, 17);
             this.cbWholeWord.TabIndex = 2;
@@ -111,19 +112,30 @@
             // 
             // btFindAll
             // 
-            this.btFindAll.Location = new System.Drawing.Point(192, 73);
+            this.btFindAll.Location = new System.Drawing.Point(350, 67);
             this.btFindAll.Name = "btFindAll";
-            this.btFindAll.Size = new System.Drawing.Size(75, 23);
+            this.btFindAll.Size = new System.Drawing.Size(84, 23);
             this.btFindAll.TabIndex = 6;
             this.btFindAll.Text = "Find All";
             this.btFindAll.UseVisualStyleBackColor = true;
             this.btFindAll.Click += new System.EventHandler(this.btFindAll_Click);
             // 
+            // btFindPrevious
+            // 
+            this.btFindPrevious.Location = new System.Drawing.Point(350, 38);
+            this.btFindPrevious.Name = "btFindPrevious";
+            this.btFindPrevious.Size = new System.Drawing.Size(84, 23);
+            this.btFindPrevious.TabIndex = 7;
+            this.btFindPrevious.Text = "Find previous";
+            this.btFindPrevious.UseVisualStyleBackColor = true;
+            this.btFindPrevious.Click += new System.EventHandler(this.btFindPrevious_Click);
+            // 
             // FindForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(360, 108);
+            this.ClientSize = new System.Drawing.Size(437, 121);
+            this.Controls.Add(this.btFindPrevious);
             this.Controls.Add(this.btFindAll);
             this.Controls.Add(this.cbWholeWord);
             this.Controls.Add(this.label1);
@@ -155,5 +167,6 @@
         private System.Windows.Forms.CheckBox cbWholeWord;
         public System.Windows.Forms.TextBox tbFind;
         private System.Windows.Forms.Button btFindAll;
+        private System.Windows.Forms.Button btFindPrevious;
     }
 }

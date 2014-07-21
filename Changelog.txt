@@ -488,3 +488,11 @@ Build 1455
 Build 1460
 
 -> Mac Line Endings (\r / CR) support
+
+Build 1465
+
+-> Mac Line Endings in Lazy Loading (Latest FCTB)
+
+Build 1471
+
+-> Added Find Previous

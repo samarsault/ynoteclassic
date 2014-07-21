@@ -302,10 +302,10 @@ namespace SS.Ynote.Classic.UI
         /// <param name="snippet"></param>
         public void InsertSnippet(YnoteSnippet snippet)
         {
-#if DEBUG
+/*#if DEBUG
             var watch = new Stopwatch();
             watch.Start();
-#endif
+#endif*/
             var selection = codebox.Selection.Clone();
             var content = snippet.GetSubstitutedContent(this);
             codebox.InsertText(content);
@@ -315,13 +315,12 @@ namespace SS.Ynote.Classic.UI
                 codebox.Selection.Start = new Place(0, i);
                 codebox.DoAutoIndent(i);
             }
-            codebox.Selection = nselection;
             if (snippet.Content.Contains('^'))
                 PositionCaretTo('^');
-#if DEBUG
+/*#if DEBUG
             watch.Stop();
             Debug.WriteLine(watch.ElapsedMilliseconds + " ms InsertSnippet()");
-#endif
+#endif*/
         }
         private void PositionCaretTo(char c)
         {
@@ -339,7 +338,9 @@ namespace SS.Ynote.Classic.UI
         {
             if (e.KeyCode == Keys.Tab)
             {
-                var fragment = Tb.Selection.GetFragment(@"\w");
+                var fragment = Tb.Selection.GetFragment(@"\w+");
+                if(string.IsNullOrEmpty(fragment.Text))
+                    return;
                 foreach (var snippet in Globals.Snippets)
                 {
                     if (snippet.Scope.Contains(codebox.Language) && snippet.Tab == fragment.Text)

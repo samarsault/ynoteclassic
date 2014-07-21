@@ -480,7 +480,7 @@ namespace SS.Ynote.Classic
             input.Focus();
         }
         /// <summary>
-        ///     Initialize Globals.Globals.Settings
+        ///     Initialize Settings
         /// </summary>
         private void InitSettings()
         {
@@ -2310,6 +2310,32 @@ namespace SS.Ynote.Classic
         public static void Main(IYnote yn){{
             var ynote = new YnoteCommons(yn);{1}}}", GlobalSettings.SettingsDir, s);
             YnoteScript.RunCode(code);
+        }
+
+        private void miuserkeys_Click(object sender, EventArgs e)
+        {
+            string file = Path.Combine(GlobalSettings.SettingsDir, "User.ynotekeys");
+            FileInfo info = new FileInfo(file);
+            if (info.Exists)
+            {
+                OpenFileAsync(file);
+            }
+            else
+            {
+                var result = MessageBox.Show("User.ynotekeys doesn't exist.\n Create it ?", "Ynote Clasic",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    File.Create(file).Close();
+                    OpenFileAsync(file);
+                }
+            }
+        }
+
+        private void mifindprev_Click(object sender, EventArgs e)
+        {
+            if (ActiveEditor == null) return;
+            ActiveEditor.Tb.findForm.FindPrevious(ActiveEditor.Tb.findForm.Text);
         }
         #endregion
     }

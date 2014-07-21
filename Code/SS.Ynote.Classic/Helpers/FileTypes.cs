@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Xml;
 using System.Linq;
-using System.Xml;
+using System.Collections.Generic;
 using SS.Ynote.Classic.Core.Settings;
 using SS.Ynote.Classic.Core.Syntax;
 

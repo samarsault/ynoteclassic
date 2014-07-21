@@ -3886,7 +3886,9 @@ namespace FastColoredTextBoxNS
                 case FCTBAction.SelectFindNext :
                     SelectAndFindNext();
                     break;
-                case FCTBAction.CustomAction8 :
+                case FCTBAction.FindPrevious :
+                    this.findForm.FindPrevious(findForm.tbFind.Text);
+                    break;
                 case FCTBAction.CustomAction9 :
                 case FCTBAction.CustomAction10:
                 case FCTBAction.CustomAction11:

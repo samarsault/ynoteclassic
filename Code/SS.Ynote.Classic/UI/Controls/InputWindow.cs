@@ -43,7 +43,7 @@ namespace SS.Ynote.Classic.UI
         {
             if (e.KeyCode == Keys.Enter)
             {
-                OnInputEntered(new InputEventArgs(InputValue));
+                OnInputEntered(new InputEventArgs(InputValue, CaptionText));
                 Hide();
                 e.Handled = true;
             }
@@ -52,12 +52,15 @@ namespace SS.Ynote.Classic.UI
                 Hide();
             }
         }
+
+        private string CaptionText;
         /// <summary>
         /// Add a caption
         /// </summary>
         /// <param name="text"></param>
         public void InitInput(string text, GotInputEventHandler handler)
         {
+            CaptionText = text;
             var splits = tbInput.Text.Split(':');
             if (splits[0] + ":" == text)
             {
@@ -83,7 +86,6 @@ namespace SS.Ynote.Classic.UI
             if(handler != null)
                 handler(this,e);
         }
-
         public void Focus()
         {
             tbInput.Focus();
@@ -91,6 +93,7 @@ namespace SS.Ynote.Classic.UI
     }
     public class InputEventArgs : EventArgs
     {
+        public string Caption;
         /// <summary>
         /// The vale of the Input
         /// </summary>
@@ -101,14 +104,17 @@ namespace SS.Ynote.Classic.UI
         /// <returns></returns>
         public string GetFormattedInput()
         {
-            return InputValue.Split(':')[1];
+            if (string.IsNullOrEmpty(Caption))
+                return InputValue.Split(':')[1];
+            return InputValue.Substring(Caption.Length, InputValue.Length - Caption.Length);
         }
         /// <summary>
         /// Default Constructor
         /// </summary>
-        public InputEventArgs(string val)
+        public InputEventArgs(string val, string caption=null)
         {
             this.InputValue = val;
+            this.Caption = caption;
         }
     }
 }
