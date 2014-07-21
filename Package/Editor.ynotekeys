@@ -70,3 +70,4 @@ Alt+Shift+Up=GoUp_ColumnSelectionMode
 Alt+Shift+Right=GoRight_ColumnSelectionMode
 Alt+Shift+Down=GoDown_ColumnSelectionMode
 Ctrl+F3=SelectFindNext
+Shift+F3=FindPrevious
