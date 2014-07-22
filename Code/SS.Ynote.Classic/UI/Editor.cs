@@ -1,21 +1,20 @@
-using System.Text.RegularExpressions;
-using FastColoredTextBoxNS;
-using SS.Ynote.Classic.Core;
-using SS.Ynote.Classic.Core.Extensibility;
-using SS.Ynote.Classic.Core.Settings;
-using SS.Ynote.Classic.Core.Snippets;
-using SS.Ynote.Classic.Core.Syntax;
-using SS.Ynote.Classic.Extensibility;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Drawing;
 using System.Threading;
+using System.Diagnostics;
+using FastColoredTextBoxNS;
 using System.Windows.Forms;
+using SS.Ynote.Classic.Core;
+using System.ComponentModel;
+using System.Collections.Generic;
+using SS.Ynote.Classic.Core.Syntax;
 using WeifenLuo.WinFormsUI.Docking;
+using SS.Ynote.Classic.Core.Settings;
+using SS.Ynote.Classic.Core.Snippets;
+using SS.Ynote.Classic.Extensibility;
+using SS.Ynote.Classic.Core.Extensibility;
 
 namespace SS.Ynote.Classic.UI
 {
@@ -315,6 +314,7 @@ namespace SS.Ynote.Classic.UI
                 codebox.Selection.Start = new Place(0, i);
                 codebox.DoAutoIndent(i);
             }
+            codebox.Selection = nselection;
             if (snippet.Content.Contains('^'))
                 PositionCaretTo('^');
 /*#if DEBUG

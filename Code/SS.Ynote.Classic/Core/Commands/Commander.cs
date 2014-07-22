@@ -48,9 +48,7 @@ namespace SS.Ynote.Classic.Core
                 new IndentCommand(),
                 new FileCommand(),
                 new CodeFoldingCommand(),
-                new NavigateCommand(),
-                new GoogleCommand(),
-                new WikipediaCommand(),
+                new NavigateCommand()
             };
         }
 
@@ -120,8 +118,13 @@ namespace SS.Ynote.Classic.Core
             try
             {
                 foreach (var command in Globals.Commands)
+                {
                     if (command.Key == c.Key)
+                    {
                         command.ProcessCommand(c.Value, Globals.Ynote);
+                        break;
+                    }
+                }
                 if (c.Key == "SetSyntax")
                     LangMenu.Text = c.Value;
             }

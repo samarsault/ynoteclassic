@@ -496,3 +496,7 @@ Build 1465
 Build 1471
 
 -> Added Find Previous
+
+Build 1483
+
+- Minor Fixes

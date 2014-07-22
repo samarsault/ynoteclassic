@@ -32,9 +32,12 @@ namespace SS.Ynote.Classic
     {
         #region Private Fields
 
+        private ToolStrip toolBar;
+
         private ProjectPanel projectPanel;
 
         private InputWindow input;
+
         /// <summary>
         ///     Incremental Searcher
         /// </summary>
@@ -490,7 +493,21 @@ namespace SS.Ynote.Classic
             dock.DocumentTabStripLocation = Globals.Settings.TabLocation;
             mihiddenchars.Checked = Globals.Settings.HiddenChars;
             status.Visible = statusbarmenuitem.Checked = Globals.Settings.ShowStatusBar;
-            toolBar.Visible = mitoolbar.Checked = Globals.Settings.ShowToolBar;
+            if (Globals.Settings.ShowToolBar)
+            {
+                toolBar = new ToolStrip();
+                toolBar.Dock = DockStyle.Top;
+                if (YnoteToolbar.ToolBarExists())
+                {
+                    YnoteToolbar.AddItems(toolBar);
+                    Controls.Add(toolBar);
+                    mitoolbar.Checked = true;
+                }
+                else
+                {
+                    MessageBox.Show("Can't Find ToolBar File. Please Download a Tool bar Package to use it");
+                }
+            }
         }
 
         private void ToggleMenu(bool visible)
@@ -1137,9 +1154,12 @@ namespace SS.Ynote.Classic
 
         private void mitoolbar_Click(object sender, EventArgs e)
         {
-            mitoolbar.Checked = !mitoolbar.Checked;
-            toolBar.Visible = mitoolbar.Checked;
-            Globals.Settings.ShowToolBar = mitoolbar.Checked;
+            if (toolBar != null && toolBar.Items.Count > 0)
+            {
+                toolBar.Visible = mitoolbar.Checked;
+                mitoolbar.Checked = !mitoolbar.Checked;
+                Globals.Settings.ShowToolBar = mitoolbar.Checked;
+            }
         }
 
         private void statusbarmenuitem_Click(object sender, EventArgs e)

@@ -91,6 +91,7 @@
     <Compile Include="Core\Settings\GlobalProperties.cs" />
     <Compile Include="Core\Settings\GlobalSettings.cs" />
     <Compile Include="Core\SymbolList.cs" />
+    <Compile Include="Core\YnoteToolbar.cs" />
     <Compile Include="Extensibility\Packages\AddPackageFile.cs">
       <SubType>Form</SubType>
     </Compile>

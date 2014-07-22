@@ -428,42 +428,6 @@ internal class FileCommand : ICommand
     }
 }
 
-internal class GoogleCommand : ICommand
-{
-    public string Key
-    {
-        get { return "Google"; }
-    }
-
-    public string[] Commands
-    {
-        get { return new[] {""}; }
-    }
-
-    public void ProcessCommand(string val, IYnote ynote)
-    {
-        Process.Start("http://google.com/search?q=" + val);
-    }
-}
-
-internal class WikipediaCommand : ICommand
-{
-    public string Key
-    {
-        get { return "Wikipedia"; }
-    }
-
-    public string[] Commands
-    {
-        get { return new[] {""}; }
-    }
-
-    public void ProcessCommand(string val, IYnote ynote)
-    {
-        Process.Start("http://en.wikipedia.org/w/index.php?search=" + val);
-    }
-}
-
 internal class SnippetCommand : ICommand
 {
     public string Key
