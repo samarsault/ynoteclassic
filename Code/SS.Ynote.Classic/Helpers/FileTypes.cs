@@ -34,7 +34,10 @@ internal static class FileTypes
             foreach (
                 var syntax in
                     SyntaxHighlighter.LoadedSyntaxes.Where(syntax => syntax.Extensions.Contains(extension)))
+            {
                 lang = syntax.Name;
+                break;
+            }
         }
         return lang;
     }

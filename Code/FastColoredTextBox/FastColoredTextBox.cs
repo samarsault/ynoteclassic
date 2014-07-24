@@ -5357,6 +5357,8 @@ namespace FastColoredTextBoxNS
             {
                 //add new caret
                 var p = PointToPlace(e.Location);
+                if (Selection.Start.iLine == p.iLine)
+                    return;
                 //calc relative place
                 var relativePlace = new Place(p.iChar - Selection.Start.iChar, p.iLine - Selection.Start.iLine);
                 AddedCarets.Add(relativePlace);

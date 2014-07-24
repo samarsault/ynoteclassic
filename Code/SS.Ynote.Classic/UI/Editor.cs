@@ -130,6 +130,10 @@ namespace SS.Ynote.Classic.UI
             Highlighter.HighlightSyntax(lang, new TextChangedEventArgs(codebox.Range));
         }
 
+        private void HighlightSyntax(string lang, Range r)
+        {
+            Highlighter.HighlightSyntax(lang, new TextChangedEventArgs(r));
+        }
         /// <summary>
         ///     Loads Snippets
         /// </summary>
@@ -357,14 +361,14 @@ namespace SS.Ynote.Classic.UI
                     }
                 }
             }
-            if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter)
+          /*  if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter)
             {
                 if (_autocomplete == null)
                     CreateAutoCompleteMenu();
                 var word = codebox.Selection.GetFragment(@"\w");
                 if (!string.IsNullOrEmpty(word.Text))
                     _autocomplete.Items.AddItem(new AutocompleteItem(word.Text));
-            }
+            }*/
             if (Shortcuts != null)
                 ProcessShortcuts(e);
         }
@@ -440,7 +444,7 @@ namespace SS.Ynote.Classic.UI
 
         private void codebox_TextChangedDelayed(object sender, TextChangedEventArgs e)
         {
-            HighlightSyntax(codebox.Language);
+            HighlightSyntax(codebox.Language, e.ChangedRange);
             HighlightInvisbleCharacters(e.ChangedRange);
             if (codebox.IsChanged && !Text.Contains("*"))
                 Text += "*";

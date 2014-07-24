@@ -435,7 +435,6 @@ namespace FastColoredTextBoxNS
         private void tb_KeyDown(object sender, KeyEventArgs e)
         {
             var tb = sender as FastColoredTextBox;
-
             if (Menu.Visible)
                 if (ProcessKey(e.KeyCode, e.Modifiers))
                     e.Handled = true;

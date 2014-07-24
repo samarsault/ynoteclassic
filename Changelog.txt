@@ -500,3 +500,12 @@ Build 1471
 Build 1483
 
 - Minor Fixes
+- Added ToolBar
+
+Build 1489
+
+-> Updated to Latest FastColoredTextBoxs
+
+Build 1490
+
+-> Added Highlight ChangedRange, huge performance improvement

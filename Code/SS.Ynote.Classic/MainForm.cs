@@ -160,10 +160,9 @@ namespace SS.Ynote.Classic
                 if (result == DialogResult.Yes)
                 {
                     File.Create(file).Dispose();
-                    OpenEditor(file);
+                    return OpenEditor(file);
                 }
-                else
-                    return null;
+                return null;
             }
             foreach (DockContent content in dock.Contents)
             {
@@ -181,7 +180,7 @@ namespace SS.Ynote.Classic
             Encoding encoding = EncodingDetector.DetectTextFileEncoding(file) ??
                                 Encoding.GetEncoding(Globals.Settings.DefaultEncoding);
             var info = new FileInfo(file);
-            if (info.Length > 5242800) // if greather than approx 5mb
+            if (info.Length > 1024 * 5 * 1024) // if greather than approx 5mb
                 edit.Tb.OpenBindingFile(file, encoding);
             else
                 edit.Tb.OpenFile(file, encoding);
@@ -2202,33 +2201,6 @@ namespace SS.Ynote.Classic
         {
             if (Globals.ActiveProject != null)
                 OpenProject(Globals.ActiveProject);
-        }
-
-
-        private IEnumerable<Range> words;
-
-        private void migotoword_Click(object sender, EventArgs e)
-        {
-            var items = new List<AutocompleteItem>();
-            words = ActiveEditor.Tb.GetRanges(@"\w+");
-            foreach (var range in words)
-                items.Add(new FuzzyAutoCompleteItem(range.Text));
-            var cmd = new CommandWindow(items);
-            cmd.ProcessCommand += cmd_ProcessCommand;
-            cmd.ShowDialog(this);
-        }
-
-        private void cmd_ProcessCommand(object sender, CommandWindowEventArgs e)
-        {
-            foreach (var word in words)
-            {
-                if (e.Text == word.Text)
-                {
-                    ActiveEditor.Tb.Selection.Start = new Place(word.Start.iChar, word.Start.iLine);
-                    ActiveEditor.Tb.Selection.End = new Place(word.End.iChar, word.End.iLine);
-                    ActiveEditor.Tb.DoSelectionVisible();
-                }
-            }
         }
 
         private void minewview_Click(object sender, EventArgs e)
