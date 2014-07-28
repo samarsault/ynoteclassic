@@ -1,4 +1,4 @@
-﻿#define DEVBUILD
+﻿//#define DEVBUILD
 
 using System.IO;
 using System.Windows.Forms;
@@ -12,11 +12,6 @@ namespace SS.Ynote.Classic.Core.Snippets
         #region Properties
 
         public string File { get; private set; }
-
-        /// <summary>
-        ///     Description of the Snippet
-        /// </summary>
-        public string Description { get; set; }
         
         /// <summary>
         ///     Tab Trigger of the Snippet
@@ -67,9 +62,6 @@ namespace SS.Ynote.Classic.Core.Snippets
                     {
                         switch (reader.Name)
                         {
-                            case "description":
-                                snippet.Description = reader.ReadElementContentAsString();
-                                break;
                             case "tabTrigger":
                                 snippet.Tab = reader.ReadElementContentAsString();
                                 break;

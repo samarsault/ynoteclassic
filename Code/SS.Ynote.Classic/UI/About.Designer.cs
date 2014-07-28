@@ -1,5 +1,4 @@
-﻿#define DEVBUILD
-using SS.Ynote.Classic.Core.Settings;
+﻿using SS.Ynote.Classic.Core.Settings;
 
 namespace SS.Ynote.Classic.UI
 {
@@ -76,7 +75,7 @@ namespace SS.Ynote.Classic.UI
 #if DEVBUILD
             this.label2.Text = "Copyright (C) 2014 Samarjeet Singh\nv" + System.Windows.Forms.Application.ProductVersion + " Build:" + GlobalSettings.BuildNumber;
 #else
-            this.label2.Text = "Copyright (C) 2014 Samarjeet Singh\n v 2.8.5 Alpha Build 1250";
+            this.label2.Text = "Copyright (C) 2014 Samarjeet Singh\n v 2.8.5 Beta Build 1540";
 #endif
             
             // 

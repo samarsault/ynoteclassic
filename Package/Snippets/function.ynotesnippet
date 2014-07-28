@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+    <YnoteSnippet>
+        <description>function snipppet</description>
+        <tabTrigger>on</tabTrigger>
+        <content>function ^ (){$eol$eol}</content>
+        <scope>Javascript</scope>
+    </YnoteSnippet>

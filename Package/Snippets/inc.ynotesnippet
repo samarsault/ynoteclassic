@@ -3,5 +3,5 @@
 		<description>Include Header File</description>
 		<tabTrigger>inc</tabTrigger>
 		<content><![CDATA[#include "^"]]></content>
-		<scope>C</scope>
+		<scope>C,C++</scope>
 	</YnoteSnippet>

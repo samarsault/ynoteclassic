@@ -3,5 +3,5 @@
         <description>Main Method for C/C++</description>
         <tabTrigger>main</tabTrigger>
         <content><![CDATA[int main(int argc, char const *argv[])$eol{$eol^$eolreturn 0;$eol}]]></content>
-        <scope>C</scope>
+        <scope>C,C++</scope>
     </YnoteSnippet>

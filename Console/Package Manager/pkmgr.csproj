@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>pkmgr</RootNamespace>
     <AssemblyName>pkmgr</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -33,9 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SS.Ynote.Classic, Version=2.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Desktop\Ynote 2.8.5\SS.Ynote.Classic.exe</HintPath>
+    <Reference Include="SS.Ynote.Classic">
+      <HintPath>..\..\..\..\..\Desktop\2.8.5 Beta\SS.Ynote.Classic.exe</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>

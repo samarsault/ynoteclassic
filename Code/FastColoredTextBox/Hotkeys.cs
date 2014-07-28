@@ -108,7 +108,7 @@ namespace FastColoredTextBoxNS
             var kc = new KeysConverter();
             foreach (var pair in this)
             {
-                sb.AppendFormat("{0}={1}, ", kc.ConvertToString(pair.Key), pair.Value);
+                sb.AppendFormat("{0}={1}\r\n ", kc.ConvertToString(pair.Key), pair.Value);
             }
 
             if (sb.Length > 1)

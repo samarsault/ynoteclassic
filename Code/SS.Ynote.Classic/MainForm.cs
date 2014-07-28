@@ -1,4 +1,4 @@
-#define DEVBUILD
+//#define DEVBUILD
 
 using System;
 using System.Collections.Generic;
@@ -462,7 +462,6 @@ namespace SS.Ynote.Classic
                 return rtb.Text;
             }
         }
-
         public void AskInput(string caption,InputWindow.GotInputEventHandler EnterInput)
         {
             if (input == null)
@@ -2330,5 +2329,10 @@ namespace SS.Ynote.Classic
             ActiveEditor.Tb.findForm.FindPrevious(ActiveEditor.Tb.findForm.Text);
         }
         #endregion
+
+        private void milasttab_Click(object sender, EventArgs e)
+        {
+            dock.Contents[dock.Contents.Count - 1].DockHandler.Show(dock, DockState.Document);
+        }
     }
 }

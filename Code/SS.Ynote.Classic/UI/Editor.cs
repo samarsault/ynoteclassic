@@ -22,6 +22,9 @@ namespace SS.Ynote.Classic.UI
     {
         #region Fields
 
+        private Style markerStyle;
+
+        private bool textHasField;
         /// <summary>
         ///     Syntax Highligher
         /// </summary>
@@ -299,16 +302,8 @@ namespace SS.Ynote.Classic.UI
             else
                 codebox.Dock = DockStyle.Fill;
         }
-        /// <summary>
-        ///     Insert a Snippet
-        /// </summary>
-        /// <param name="snippet"></param>
         public void InsertSnippet(YnoteSnippet snippet)
         {
-/*#if DEBUG
-            var watch = new Stopwatch();
-            watch.Start();
-#endif*/
             var selection = codebox.Selection.Clone();
             var content = snippet.GetSubstitutedContent(this);
             codebox.InsertText(content);
@@ -318,13 +313,8 @@ namespace SS.Ynote.Classic.UI
                 codebox.Selection.Start = new Place(0, i);
                 codebox.DoAutoIndent(i);
             }
-            codebox.Selection = nselection;
             if (snippet.Content.Contains('^'))
                 PositionCaretTo('^');
-/*#if DEBUG
-            watch.Stop();
-            Debug.WriteLine(watch.ElapsedMilliseconds + " ms InsertSnippet()");
-#endif*/
         }
         private void PositionCaretTo(char c)
         {
@@ -342,33 +332,33 @@ namespace SS.Ynote.Classic.UI
         {
             if (e.KeyCode == Keys.Tab)
             {
-                var fragment = Tb.Selection.GetFragment(@"\w+");
-                if(string.IsNullOrEmpty(fragment.Text))
-                    return;
-                foreach (var snippet in Globals.Snippets)
-                {
-                    if (snippet.Scope.Contains(codebox.Language) && snippet.Tab == fragment.Text)
-                    {
-                        e.Handled = true;
-                        codebox.BeginUpdate();
-                        codebox.Selection.BeginUpdate();
-                        codebox.Selection = fragment;
-                        codebox.ClearSelected();
-                        InsertSnippet(snippet);
-                        codebox.Selection.EndUpdate();
-                        codebox.EndUpdate();
-                        break;
-                    }
-                }
+               var fragment = Tb.Selection.GetFragment(@"\w+");
+               if (string.IsNullOrEmpty(fragment.Text))
+                   return;
+               foreach (var snippet in Globals.Snippets)
+               {
+                   if (snippet.Scope.Contains(codebox.Language) && snippet.Tab == fragment.Text)
+                   {
+                       e.Handled = true;
+                       codebox.BeginUpdate();
+                       codebox.Selection.BeginUpdate();
+                       codebox.Selection = fragment;
+                       codebox.ClearSelected();
+                       InsertSnippet(snippet);
+                       codebox.Selection.EndUpdate();
+                       codebox.EndUpdate();
+                       break;
+                   }
+               }
             }
-          /*  if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter)
             {
                 if (_autocomplete == null)
                     CreateAutoCompleteMenu();
                 var word = codebox.Selection.GetFragment(@"\w");
                 if (!string.IsNullOrEmpty(word.Text))
                     _autocomplete.Items.AddItem(new AutocompleteItem(word.Text));
-            }*/
+            }
             if (Shortcuts != null)
                 ProcessShortcuts(e);
         }
