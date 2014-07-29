@@ -22,8 +22,9 @@ namespace SS.Ynote.Classic.Core
             if (items == null) return;
             foreach (var item in items)
             {
-                Image img = Image.FromFile(item.IconFile);
-                var button = new ToolStripButton(item.Text,img,(sender, args) => Commander.RunCommand(Globals.Ynote,item.Command));
+                Image img = Image.FromFile(Path.Combine(GlobalSettings.SettingsDir, item.IconFile));
+                var button = new ToolStripButton(item.Text,img, (sender, args) => Commander.RunCommand(Globals.Ynote, item.Command));
+                button.DisplayStyle = ToolStripItemDisplayStyle.Image;
                 tool.Items.Add(button);
             }
         }
@@ -32,7 +33,7 @@ namespace SS.Ynote.Classic.Core
             try
             {
                 string file = Path.Combine(GlobalSettings.SettingsDir, "Toolbar.json");
-                return JsonConvert.DeserializeObject<List<ToolBarItem>>(file);
+                return JsonConvert.DeserializeObject<List<ToolBarItem>>(File.ReadAllText(file));
             }
             catch (Exception ex)
             {

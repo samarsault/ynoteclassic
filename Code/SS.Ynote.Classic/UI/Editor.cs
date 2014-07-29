@@ -313,6 +313,7 @@ namespace SS.Ynote.Classic.UI
                 codebox.Selection.Start = new Place(0, i);
                 codebox.DoAutoIndent(i);
             }
+            codebox.Selection.Start = new Place(nselection.End.iChar, nselection.End.iLine);
             if (snippet.Content.Contains('^'))
                 PositionCaretTo('^');
         }

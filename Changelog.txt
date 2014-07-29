@@ -509,3 +509,11 @@ Build 1489
 Build 1490
 
 -> Added Highlight ChangedRange, huge performance improvement
+
+Build 1500
+
+-> Fixed Snippet Bug
+
+Build 1501
+
+-> Fixed ToolBar Bug

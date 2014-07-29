@@ -494,6 +494,7 @@ namespace SS.Ynote.Classic
             if (Globals.Settings.ShowToolBar)
             {
                 toolBar = new ToolStrip();
+                toolBar.RenderMode = ToolStripRenderMode.System;
                 toolBar.Dock = DockStyle.Top;
                 if (YnoteToolbar.ToolBarExists())
                 {
@@ -1157,6 +1158,29 @@ namespace SS.Ynote.Classic
                 toolBar.Visible = mitoolbar.Checked;
                 mitoolbar.Checked = !mitoolbar.Checked;
                 Globals.Settings.ShowToolBar = mitoolbar.Checked;
+            }
+            else
+            {
+                if (!YnoteToolbar.ToolBarExists())
+                    MessageBox.Show("You do not have any toolbars installed.\nPlease Download a ToolBar Package");
+                else
+                {
+
+                    toolBar = new ToolStrip();
+                    toolBar.RenderMode = ToolStripRenderMode.System;
+                    toolBar.Dock = DockStyle.Top;
+                    if (YnoteToolbar.ToolBarExists())
+                    {
+                        YnoteToolbar.AddItems(toolBar);
+                        Controls.Add(toolBar);
+                        mitoolbar.Checked = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Can't Find ToolBar File. Please Download a Tool bar Package to use it");
+                    }
+                }
+                
             }
         }
 
@@ -2173,29 +2197,6 @@ namespace SS.Ynote.Classic
                 }
             }
         }
-
-        private void toolBar_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-            if (e.ClickedItem.Name == "newToolStripButton")
-                CreateNewDoc();
-            else if (e.ClickedItem.Name == "openToolStripButton")
-                OpenMenuItem.PerformClick();
-            else if (e.ClickedItem.Name == "saveToolStripButton")
-                SaveEditor(ActiveEditor);
-            else if (e.ClickedItem.Name == "cutToolStripButton")
-                CutMenuItem.PerformClick();
-            else if (e.ClickedItem.Name == "copyToolStripButton")
-                CopyMenuItem.PerformClick();
-            else if (e.ClickedItem.Name == "pasteToolStripButton")
-                PasteMenuItem.PerformClick();
-            else if (e.ClickedItem.Name == "addbookmark")
-                Addbookmarkmenu.PerformClick();
-            else if (e.ClickedItem.Name == "removebookmark")
-                removebookmarkmenu.PerformClick();
-            else if (e.ClickedItem.Name == "helpToolStripButton")
-                midocs.PerformClick();
-        }
-
         private void mirefreshproj_Click(object sender, EventArgs e)
         {
             if (Globals.ActiveProject != null)

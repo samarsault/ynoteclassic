@@ -87,7 +87,7 @@ namespace SS.Ynote.Classic.Extensibility.Packages
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if (lstPackages.SelectedItems[0] == null)
+            if (lstPackages.SelectedItems.Count == 0)
                 return;
             var package = lstPackages.SelectedItems[0].SubItems[1].Text;
             YnotePackageManager.UninstallPackage(package);

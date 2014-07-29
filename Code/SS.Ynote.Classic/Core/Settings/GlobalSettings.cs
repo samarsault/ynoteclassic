@@ -1,4 +1,4 @@
-﻿#define PORTABLE
+﻿//#define PORTABLE
 #if PORTABLE
     using System.Windows.Forms;
 #else
