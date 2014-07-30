@@ -64,7 +64,7 @@ namespace SS.Ynote.Classic.Extensibility.Packages
                 MessageBox.Show("Invalid Package Metadata!");
                 return;
             }
-            lstwebpackages.Items.Add(new ListViewItem(new[] {args[0], args[1]}) {Tag = args[2]});
+            lstwebpackages.Items.Add(new ListViewItem(new[] {args[0], args[1]}) {Tag = args});
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -110,7 +110,7 @@ namespace SS.Ynote.Classic.Extensibility.Packages
 
         private void PackageManager_HelpButtonClicked(object sender, CancelEventArgs e)
         {
-            Process.Start("http://ynoteclassic.codeplex.com/wikipage?title=Ynote%20Packages");
+            Process.Start("http://samarjeet27.github.io/ynoteclassic/docs/index.html");
         }
 
         protected override void OnShown(EventArgs e)
@@ -122,14 +122,15 @@ namespace SS.Ynote.Classic.Extensibility.Packages
         private void button6_Click(object sender, EventArgs e)
         {
             var item = lstwebpackages.SelectedItems[0];
-            string url = (string) item.Tag;
-
+            string[] items = (string[]) item.Tag;
+            string url = items[2];
             var result = MessageBox.Show("Are you sure you want to download " + item.Text + " Package ?", "",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
+                bool admin = items.Length > 4 && items[3] == "admin";
                 var downloader = new PackageDownloader(url,
-                    Path.Combine(Path.GetTempPath(), item.Text + ".ynotepackage"));
+                    Path.Combine(Path.GetTempPath(), item.Text + ".ynotepackage"),admin);
                 downloader.ShowDialog(this);
             }
         }

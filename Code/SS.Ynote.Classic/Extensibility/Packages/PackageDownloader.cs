@@ -11,12 +11,14 @@ namespace SS.Ynote.Classic.Extensibility.Packages
         private readonly string _file;
         private readonly string localFile;
         private WebClient client;
+        private bool admin;
 
-        public PackageDownloader(string file, string outfile)
+        public PackageDownloader(string file, string outfile, bool admin=false)
         {
             InitializeComponent();
             _file = file;
             localFile = outfile;
+            this.admin = admin;
         }
 
         private void BeginDownload()
@@ -36,13 +38,20 @@ namespace SS.Ynote.Classic.Extensibility.Packages
         {
             // var installer = new PackageInstaller(file);
             // installer.ShowDialog(this);
-            var info = new ProcessStartInfo(Application.StartupPath + @"\pkmgr.exe",file);
-            info.Verb = "runas";
-            Process.Start(info);
-            DialogResult result=MessageBox.Show("Package Successfully Installed. Restart now to make changes ?","",MessageBoxButtons.YesNo,MessageBoxIcon.Information);
-            if (result == DialogResult.Yes)
-                Application.Restart();
-            Close();
+            if (admin)
+            {
+                var info = new ProcessStartInfo(Application.StartupPath + @"\pkmgr.exe", file);
+                info.Verb = "runas";
+                Process.Start(info);
+                DialogResult result = MessageBox.Show("Package Successfully Installed. Restart now to make changes ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if (result == DialogResult.Yes)
+                    Application.Restart();
+                Close();
+            }
+            else
+            {
+                new PackageInstaller(file).Show(this);
+            }
         }
 
         private void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
