@@ -14,10 +14,12 @@ for file in files_to_delete:
     os.remove("Build\\"+file)
 """ Deletes a directory along with all it's contents"""
 def deleteDir(path):
-    shutil.rmtree(path)
+    if(os.path.isdir(path)):
+        shutil.rmtree(path)
+    else:
+        print("Directory Deosn't exist")
 
 # delete all directories
-deleteDir("SS.Ynote.Classic\\bin")
 deleteDir("SS.Ynote.Classic\\obj")
 deleteDir("Docking\\bin")
 deleteDir("Docking\\obj")
