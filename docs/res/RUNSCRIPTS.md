@@ -14,9 +14,8 @@ A Runscript is a JSON file containing a name and a list of tasks to be executed 
 **Example RunScript**
 ```JSON
 {
-    // name of the runscript
-    "Name":["Notepad"],
     // executes Cmd.runtask with the given arguments
+    // you can include many tasks the path of the task should be from $yntoedata
     "RunScripts\\Tasks\Cmd":[
         "%windir%\notepad.exe",
         "$source"
@@ -61,3 +60,4 @@ Ynote contains some preinstalled RunTasks -
 - mkdir - Makes a directory. Arguments - "directory"
 - scriptexec - Execute a YnoteScript. Arguments - "scriptFile","mainMethod"
 - runexec - Execute another runscript. Arguments - "runscript_file"
+- WebPage - Run's a file in the default browser
