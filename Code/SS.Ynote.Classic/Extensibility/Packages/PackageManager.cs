@@ -130,7 +130,7 @@ namespace SS.Ynote.Classic.Extensibility.Packages
             {
                 bool admin = items.Length > 4 && items[3] == "admin";
                 var downloader = new PackageDownloader(url,
-                    Path.Combine(Path.GetTempPath(), item.Text + ".ynotepackage");
+                    Path.Combine(Path.GetTempPath(), item.Text + ".ynotepackage"),admin);
                 downloader.ShowDialog(this);
             }
         }
