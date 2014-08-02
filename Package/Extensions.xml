@@ -6,7 +6,7 @@
   <Key Language="Assembly" Extensions=".asm|.s" />
   <Key Language="Batch" Extensions=".bat|.cmd|.BAT" />
   <Key Language="C" Extensions=".c|.C" />
-  <Key Language="CPP" Extensions=".cpp|.h|.H|.CPP|.cc|.CC" />
+  <Key Language="C++" Extensions=".cpp|.h|.H|.CPP|.cc|.CC" />
   <Key Language="CSharp" Extensions=".cs|.CS|.ys" />
   <Key Language="CoffeeScript" Extensions=".coffee"/>
   <Key Language="CSS" Extensions=".css|.CSS" />
