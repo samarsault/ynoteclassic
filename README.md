@@ -49,3 +49,8 @@ License
 ----
 
 GNU GPL v2
+
+Contribution
+----
+See CONTRIBUTING.md
+If you would like to look into a **'developing'** version, you can contribute to http://github.com/samarjeet27/ynoteclassic3, which is completely re-written
