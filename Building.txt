@@ -3,7 +3,7 @@ _____________
 Step 1:
 
 Build using Visual Studio or the Command Line(MSBuild)
-Target .NET Framework 3.5
+Target .NET Framework 4
 
 Step 2
 
@@ -14,9 +14,9 @@ _____________
 
 Step 1
 
-Add '#define PORTABLE' to SettingsBase.cs
+Add '#define PORTABLE' to Code/SS.Ynote.Classic/Core/Settings/GlobalSettings.cs
 Build using VS/Cmd (MsBuild) or Nant
 
 Step 2
 
-COpy Package\ Directory (files only ) to $ynotedir\User
+Copy Package\ Directory (files only ) to $ynotedir\User
